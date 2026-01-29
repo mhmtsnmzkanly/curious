@@ -1,11 +1,9 @@
 ## src/main.rs
 ```
 use curious::{
-    action::Action,
-    cell::Cell,
     map::Map,
-    position::Position,
     world::{World, WorldView},
+    world_types::{Action, Cell, Position},
 };
 
 fn main() {
@@ -17,12 +15,10 @@ fn main() {
 ## src/lib.rs
 ```
 // Modülü dahil et
-pub mod action;
-pub mod cell;
 pub mod entity;
 pub mod map;
-pub mod position;
 pub mod world;
+pub mod world_types;
 
 // Modülü kullan
 //pub use action::Action;
@@ -30,62 +26,9 @@ pub mod world;
 
 ```
 
-## src/position.rs
-```
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
-pub struct Position {
-    pub x: usize,
-    pub y: usize,
-}
-
-impl Position {
-    pub fn new(x: usize, y: usize) -> Self {
-        Self { x, y }
-    }
-
-    pub fn offset(&self, dx: i32, dy: i32) -> Option<Self> {
-        let nx = self.x as i32 + dx;
-        let ny = self.y as i32 + dy;
-
-        if nx < 0 || ny < 0 {
-            None
-        } else {
-            Some(Self {
-                x: nx as usize,
-                y: ny as usize,
-            })
-        }
-    }
-}
-
-```
-
-## src/action.rs
-```
-pub enum Action {
-    Move { dx: i32, dy: i32 },
-    Eat,
-    Attack { target_id: usize },
-    Flee { dx: i32, dy: i32 },
-    Idle,
-}
-
-```
-
-## src/cell.rs
-```
-#[derive(Debug, Clone)]
-pub enum Cell {
-    Empty,
-    Food { amount: u32 },
-    Water { amount: u32 },
-}
-
-```
-
 ## src/map.rs
 ```
-use crate::{cell::Cell, position::Position};
+use crate::world_types::{Cell, Position};
 
 pub struct Map {
     pub width: usize,
@@ -115,7 +58,7 @@ impl Map {
 
 ## src/world.rs
 ```
-use crate::{action::Action, entity::Entity, map::Map};
+use crate::{entity::Entity, map::Map, world_types::Action};
 
 pub struct WorldView<'a> {
     pub map: &'a Map,
@@ -146,54 +89,240 @@ impl World {
 
 ```
 
-## src/entity.rs
+## src/world_types.rs
 ```
-use crate::{action::Action, position::Position, world::WorldView};
-
-pub trait Entity {
-    // Canlı Bilgisi
-    fn id(&self) -> usize; // benzersiz kimlik
-    fn species(&self) -> Species; //tüketim türü (etçil-otçul-hepçil)
-    fn position(&self) -> Position; // bulunduğu konum
-    fn life(&self) -> &LifeState; // yaşam durumu
-    fn life_mut(&mut self) -> &mut LifeState; // değiştirilebilir yaşam durumu
-    fn movement(&self) -> &Movement; // Hareket kabiliyeti
-    fn movement_mut(&mut self) -> &mut Movement; // değiştirilebilir Hareket kabiliyeti
-
-    // Canlı
-    fn think(&self, ctx: &WorldView) -> Action; // Karar verme mekanizması
-    fn apply(&mut self, action: Action); // Kararı işleme koy
-}
-
-// Canlının tüketim türü
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
-pub enum Species {
-    Herbivore,
-    Carnivore,
-    Omnivore,
-}
-
-// Çiftleşme döngüsü
 #[derive(Debug, Clone)]
-pub struct ReproductionState {
-    pub mature: bool,  // biyolojik olgunluk
-    pub cooldown: u32, // son çiftleşmeden sonra bekleme süresi
+pub enum Cell {
+    Empty,
+    Food { amount: u32 },
+    Water { amount: u32 },
 }
 
-// Canlılın yaşam döngüsü
+#[derive(Debug, Clone, Copy)]
+pub enum Direction {
+    Up,
+    Down,
+    Left,
+    Right,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub struct Position {
+    pub x: usize,
+    pub y: usize,
+}
+
+impl Position {
+    pub fn new(x: usize, y: usize) -> Self {
+        Self { x, y }
+    }
+
+    /// Negatif yön kullanmadan hareket:
+    /// Taşma olursa None döner (harita sınırı kontrolü dışarıda yapılır)
+    pub fn move_dir(&self, dir: Direction, amount: usize) -> Option<Self> {
+        match dir {
+            Direction::Up => self.y.checked_sub(amount).map(|y| Self { x: self.x, y }),
+            Direction::Down => Some(Self {
+                x: self.x,
+                y: self.y + amount,
+            }),
+            Direction::Left => self.x.checked_sub(amount).map(|x| Self { x, y: self.y }),
+            Direction::Right => Some(Self {
+                x: self.x + amount,
+                y: self.y,
+            }),
+        }
+    }
+}
+
+pub enum Action {
+    Move(Direction),
+    Eat,
+    Attack { target_id: usize },
+    Flee(Direction),
+    Idle,
+}
+
+```
+
+## src/entity/lifestate.rs
+```
+/// ===============================
+/// YAŞAM DURUMU
+/// ===============================
+///
+/// Bu struct hem:
+/// - genetik (sabit) bilgileri
+/// - dinamik (tick ile değişen) bilgileri
+/// birlikte tutar.
+/// Ayrım yorumlar ve yardımcı fonksiyonlarla yapılır.
 #[derive(Debug, Clone)]
 pub struct LifeState {
-    pub age: u32,                        // Canlının yaşı
-    pub energy: i32,                     // Enerji (yorgunluk)
-    pub alive: bool,                     // Yaşıyor mu?
-    pub reproduction: ReproductionState, // Çiftleşebilme kabiliyeti
+    // -------- GENETİK (SABİT) --------
+    /// Maksimum yaş (tick cinsinden)
+    pub max_age: usize,
+
+    /// Üreme için minimum yaş
+    pub maturity_age: usize,
+
+    /// Maksimum can
+    pub max_health: usize,
+
+    /// Maksimum enerji
+    pub max_energy: usize,
+
+    /// Enerji düşük kabul edilen eşik
+    pub low_energy_threshold: usize,
+
+    // -------- DİNAMİK (DEĞİŞEN) --------
+    /// Şu ana kadar geçen tick sayısı
+    pub age: usize,
+
+    /// Anlık can
+    pub health: usize,
+
+    /// Anlık enerji
+    pub energy: usize,
+
+    /// Son çiftleşmeden sonra kalan bekleme süresi
+    pub reproduction_cooldown: usize,
+
+    /// Doğal hız (stat)
+    pub speed: usize,
+
+    /// Tick boyunca biriken hareket puanı
+    pub points: usize,
 }
 
-// Canlının hareket kabiliyeti
-#[derive(Debug, Clone)]
-pub struct Movement {
-    pub speed: u32,  // doğal hız (stat)
-    pub points: u32, // bu tick biriken hareket puanı
+impl LifeState {
+    /// Her tick çağrılır
+    pub fn tick(&mut self) {
+        self.age += 1;
+
+        // Pasif enerji kaybı
+        self.energy = self.energy.saturating_sub(1);
+
+        // Üreme bekleme süresi azalır
+        if self.reproduction_cooldown > 0 {
+            self.reproduction_cooldown -= 1;
+        }
+
+        // Yaşlılıktan ölüm
+        if self.age >= self.max_age {
+            self.health = 0;
+        }
+
+        self.points += self.speed;
+    }
+
+    // -------- DURUM SORGULARI --------
+
+    /// Canlı yaşıyor mu?
+    pub fn is_alive(&self) -> bool {
+        self.health > 0
+    } // ===============================
+    /// YAŞAM DURUMU
+    /// ===============================
+    //
+
+    /// Üreme olgunluğuna erişti mi?
+    pub fn is_mature(&self) -> bool {
+        self.age >= self.maturity_age
+    }
+
+    /// Enerji kritik seviyede mi?
+    pub fn is_energy_low(&self) -> bool {
+        self.energy <= self.low_energy_threshold
+    }
+
+    /// Enerji tam mı?
+    pub fn is_energy_full(&self) -> bool {
+        self.energy >= self.max_energy
+    }
+
+    /// Çiftleşmeye uygun mu?
+    pub fn can_reproduce(&self) -> bool {
+        self.is_alive()
+            && self.is_mature()
+            && self.reproduction_cooldown == 0
+            && !self.is_energy_low()
+    }
+
+    // -------- DURUM DEĞİŞTİRİCİLER --------
+
+    /// Enerji harcama
+    pub fn consume_energy(&mut self, amount: usize) {
+        self.energy = self.energy.saturating_sub(amount);
+    }
+
+    /// Enerji kazanma
+    pub fn restore_energy(&mut self, amount: usize) {
+        self.energy = (self.energy + amount).min(self.max_energy);
+    }
+
+    /// Can iyileştirme
+    pub fn heal(&mut self, amount: usize) {
+        self.health = (self.health + amount).min(self.max_health);
+    }
+
+    /// Çiftleşme sonrası çağrılır
+    pub fn on_reproduce(&mut self) {
+        self.reproduction_cooldown = 100;
+        self.consume_energy(10);
+    }
+
+    /// Yeterli puan var mı?
+    pub fn can_move(&self, cost: usize) -> bool {
+        self.points >= cost
+    }
+
+    /// Hareket puanı harca
+    pub fn spend(&mut self, cost: usize) {
+        self.points = self.points.saturating_sub(cost);
+    }
+}
+
+```
+
+## src/entity/mod.rs
+```
+pub mod lifestate;
+
+use crate::{
+    entity::lifestate::LifeState,
+    world::WorldView,
+    world_types::{Action, Position},
+};
+
+/// ===============================
+/// CANLI ARAYÜZÜ
+/// ===============================
+pub trait Entity {
+    /// Canlıya ait benzersiz kimlik
+    fn id(&self) -> usize;
+
+    /// Canlının bulunduğu konum
+    fn position(&self) -> Position;
+
+    /// Konumun değiştirilebilir hali
+    fn position_mut(&mut self) -> &mut Position;
+
+    /// Canlının yaşam durumu (genetik + dinamik)
+    fn life(&self) -> &LifeState;
+
+    /// Değiştirilebilir yaşam durumu
+    fn life_mut(&mut self) -> &mut LifeState;
+
+    /// Karar verme (sadece okuma yapmalı)
+    fn think(&self, ctx: &WorldView) -> Action;
+
+    /// Tek tick güncellemesi
+    fn tick(&mut self) {
+        self.life_mut().tick();
+    }
+
+    /// Alınan kuralı uygula
+    fn apply(&mut self, action: Action);
 }
 
 ```

@@ -38,22 +38,26 @@ pub struct LifeState {
     /// Son çiftleşmeden sonra kalan bekleme süresi
     pub reproduction_cooldown: usize,
 
-    /// Doğal hız (stat)
+    /// Tick başına maksimum hareket hakkı
     pub speed: usize,
-
-    /// Tick boyunca biriken hareket puanı
-    pub points: usize,
+    /// Bu tick içinde kullanılan hareket sayısı
+    pub moves_used: usize,
 }
 
 impl LifeState {
-    /// Her tick çağrılır
+    /// ===============================
+    /// TICK
+    /// ===============================
+    ///
+    /// Her tick başında çağrılır.
+    /// Hareket hakkı resetlenir.
     pub fn tick(&mut self) {
         self.age += 1;
 
         // Pasif enerji kaybı
         self.energy = self.energy.saturating_sub(1);
 
-        // Üreme bekleme süresi azalır
+        // Üreme bekleme süresi
         if self.reproduction_cooldown > 0 {
             self.reproduction_cooldown -= 1;
         }
@@ -63,35 +67,30 @@ impl LifeState {
             self.health = 0;
         }
 
-        self.points += self.speed;
+        // Bu tick için hareket sayacı sıfırlanır
+        self.moves_used = 0;
     }
 
-    // -------- DURUM SORGULARI --------
+    // ===============================
+    // DURUM SORGULARI
+    // ===============================
 
-    /// Canlı yaşıyor mu?
     pub fn is_alive(&self) -> bool {
         self.health > 0
-    } // ===============================
-    /// YAŞAM DURUMU
-    /// ===============================
-    //
+    }
 
-    /// Üreme olgunluğuna erişti mi?
     pub fn is_mature(&self) -> bool {
         self.age >= self.maturity_age
     }
 
-    /// Enerji kritik seviyede mi?
     pub fn is_energy_low(&self) -> bool {
         self.energy <= self.low_energy_threshold
     }
 
-    /// Enerji tam mı?
     pub fn is_energy_full(&self) -> bool {
         self.energy >= self.max_energy
     }
 
-    /// Çiftleşmeye uygun mu?
     pub fn can_reproduce(&self) -> bool {
         self.is_alive()
             && self.is_mature()
@@ -99,36 +98,35 @@ impl LifeState {
             && !self.is_energy_low()
     }
 
-    // -------- DURUM DEĞİŞTİRİCİLER --------
+    /// Bu tick içinde hareket edebilir mi?
+    pub fn can_move(&self) -> bool {
+        self.moves_used < self.speed
+    }
 
-    /// Enerji harcama
+    // ===============================
+    // DURUM DEĞİŞTİRİCİLER
+    // ===============================
+
+    /// Bir hareket kullanıldığında çağrılır
+    pub fn on_move(&mut self) {
+        self.moves_used += 1;
+        self.consume_energy(1);
+    }
+
     pub fn consume_energy(&mut self, amount: usize) {
         self.energy = self.energy.saturating_sub(amount);
     }
 
-    /// Enerji kazanma
     pub fn restore_energy(&mut self, amount: usize) {
         self.energy = (self.energy + amount).min(self.max_energy);
     }
 
-    /// Can iyileştirme
     pub fn heal(&mut self, amount: usize) {
         self.health = (self.health + amount).min(self.max_health);
     }
 
-    /// Çiftleşme sonrası çağrılır
     pub fn on_reproduce(&mut self) {
         self.reproduction_cooldown = 100;
         self.consume_energy(10);
-    }
-
-    /// Yeterli puan var mı?
-    pub fn can_move(&self, cost: usize) -> bool {
-        self.points >= cost
-    }
-
-    /// Hareket puanı harca
-    pub fn spend(&mut self, cost: usize) {
-        self.points = self.points.saturating_sub(cost);
     }
 }
