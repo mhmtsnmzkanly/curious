@@ -1,4 +1,4 @@
-use crate::{cell::Cell, position::Position};
+use crate::world_types::{Cell, Position};
 
 pub struct Map {
     pub width: usize,
@@ -7,7 +7,7 @@ pub struct Map {
 }
 
 impl Map {
-    fn index_of(&self, pos: Position) -> Option<usize> {
+    pub fn index_of(&self, pos: Position) -> Option<usize> {
         if pos.x < self.width && pos.y < self.height {
             Some(pos.y * self.width + pos.x)
         } else {
@@ -15,11 +15,11 @@ impl Map {
         }
     }
 
-    fn get(&self, pos: Position) -> Option<&Cell> {
+    pub fn get(&self, pos: Position) -> Option<&Cell> {
         self.index_of(pos).map(|i| &self.grid[i])
     }
 
-    fn get_mut(&mut self, pos: Position) -> Option<&mut Cell> {
+    pub fn get_mut(&mut self, pos: Position) -> Option<&mut Cell> {
         self.index_of(pos).map(move |i| &mut self.grid[i])
     }
 }

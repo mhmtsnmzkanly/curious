@@ -1,11 +1,9 @@
 use curious::{
-    action::Action,
-    cell::Cell,
     map::Map,
-    position::Position,
     world::{World, WorldView},
+    world_types::{Action, Cell, Position},
 };
 
 fn main() {
-    println!("Hello, world!");
+    println!("Hello, curious!");
 }

@@ -1,16 +1,16 @@
-use crate::{action::Action, entity::Entity, map::Map};
+use crate::{entity::Entity, map::Map, world_types::Action};
 
 pub struct WorldView<'a> {
     pub map: &'a Map,
 }
 
 pub struct World {
-    map: Map,
-    entities: Vec<Box<dyn Entity>>,
+    pub map: Map,
+    pub entities: Vec<Box<dyn Entity>>,
 }
 
 impl World {
-    fn tick(&mut self) {
+    pub fn tick(&mut self) {
         let view = WorldView { map: &self.map };
 
         let actions: Vec<(usize, Action)> = self
