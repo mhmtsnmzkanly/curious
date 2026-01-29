@@ -1,9 +1,9 @@
 ## src/main.rs
 ```
 use curious::{
-    map::Map,
+    entity::action::Action,
+    map::{Map, cell::Cell, position::Position},
     world::{World, WorldView},
-    world_types::{Action, Cell, Position},
 };
 
 fn main() {
@@ -18,125 +18,222 @@ fn main() {
 pub mod entity;
 pub mod map;
 pub mod world;
-pub mod world_types;
-
-```
-
-## src/map.rs
-```
-use crate::world_types::{Cell, Position};
-
-pub struct Map {
-    pub width: usize,
-    pub height: usize,
-    pub grid: Vec<Cell>,
-}
-
-impl Map {
-    pub fn index_of(&self, pos: Position) -> Option<usize> {
-        if pos.x < self.width && pos.y < self.height {
-            Some(pos.y * self.width + pos.x)
-        } else {
-            None
-        }
-    }
-
-    pub fn get(&self, pos: Position) -> Option<&Cell> {
-        self.index_of(pos).map(|i| &self.grid[i])
-    }
-
-    pub fn get_mut(&mut self, pos: Position) -> Option<&mut Cell> {
-        self.index_of(pos).map(move |i| &mut self.grid[i])
-    }
-}
 
 ```
 
 ## src/world.rs
 ```
-use crate::{entity::Entity, map::Map, world_types::Action};
+use std::collections::HashMap;
 
+use crate::{
+    entity::{Entity, phase::EntityPhase},
+    map::{Map, position::Position},
+};
+
+/// ===============================
+/// WORLD VIEW
+/// ===============================
+///
+/// WorldView:
+/// - Entity'lerin dünyayı OKUMASI için vardır
+/// - Dünya DEĞİŞTİRMEZ
+/// - Entity iç durumlarını AÇMAZ
+///
+/// Ama şunları söyler:
+/// - Bu pozisyonda entity var mı?
+/// - Kaç tane var?
+/// - Canlı mı / ceset mi?
+/// - Yakın çevrede kimler var?
 pub struct WorldView<'a> {
     pub map: &'a Map,
+
+    /// Pozisyon -> entity id listesi
+    /// Aynı hücrede birden fazla entity olabilir
+    pub entity_pos: &'a HashMap<Position, Vec<usize>>,
+
+    /// Entity id -> faz bilgisi (Active / Corpse vs.)
+    pub entity_phase: &'a HashMap<usize, EntityPhase>,
 }
 
+impl<'a> WorldView<'a> {
+    /// World tarafından oluşturulur
+    pub fn new(
+        map: &'a Map,
+        entity_pos: &'a HashMap<Position, Vec<usize>>,
+        entity_phase: &'a HashMap<usize, EntityPhase>,
+    ) -> Self {
+        Self {
+            map,
+            entity_pos,
+            entity_phase,
+        }
+    }
+
+    // ===============================
+    // MAP OKUMA
+    // ===============================
+
+    /// Harita sınırları içinde mi?
+    pub fn in_bounds(&self, pos: Position) -> bool {
+        self.map.in_bounds(pos)
+    }
+
+    /// Bu hücreye hareket edilebilir mi?
+    pub fn is_walkable(&self, pos: Position) -> bool {
+        self.map.is_walkable(pos)
+    }
+
+    /// Hücre bilgisi
+    pub fn cell(&self, pos: Position) -> Option<&crate::map::cell::Cell> {
+        self.map.cell(pos)
+    }
+
+    // ===============================
+    // ENTITY ALGILAMA
+    // ===============================
+
+    /// Bu pozisyonda entity var mı?
+    pub fn has_entity(&self, pos: Position) -> bool {
+        self.entity_pos.contains_key(&pos)
+    }
+
+    /// Bu pozisyondaki entity id'leri
+    pub fn entities_at(&self, pos: Position) -> &[usize] {
+        self.entity_pos
+            .get(&pos)
+            .map(|v| v.as_slice())
+            .unwrap_or(&[])
+    }
+
+    /// Bu pozisyonda canlı entity var mı?
+    pub fn has_alive_entity(&self, pos: Position) -> bool {
+        self.entities_at(pos)
+            .iter()
+            .any(|id| self.entity_phase.get(id).is_some_and(|p| p.is_active()))
+    }
+
+    /// Bu pozisyonda ceset var mı?
+    pub fn has_corpse(&self, pos: Position) -> bool {
+        self.entities_at(pos)
+            .iter()
+            .any(|id| self.entity_phase.get(id).is_some_and(|p| p.is_corpse()))
+    }
+
+    // ===============================
+    // YAKIN ÇEVRE (ALGILAMA TEMELİ)
+    // ===============================
+
+    /// Belirli bir merkez etrafında (Manhattan mesafe)
+    /// entity olan pozisyonları döner
+    pub fn nearby_entities(&self, center: Position, radius: usize) -> Vec<(Position, usize)> {
+        let mut result = Vec::new();
+
+        for (pos, ids) in self.entity_pos.iter() {
+            let dx = pos.x.abs_diff(center.x);
+            let dy = pos.y.abs_diff(center.y);
+
+            if dx + dy <= radius {
+                for id in ids {
+                    result.push((*pos, *id));
+                }
+            }
+        }
+
+        result
+    }
+}
+
+/// ===============================
+/// WORLD
+/// ===============================
+///
+/// World:
+/// - Gerçek değişiklikler burada yapılır
+/// - Entity konumları burada tutulur
+/// - İki fazlı tick burada yönetilir
 pub struct World {
     pub map: Map,
+
+    /// Tüm entity'ler
     pub entities: Vec<Box<dyn Entity>>,
+
+    /// Pozisyon -> entity id listesi
+    entity_pos: HashMap<Position, Vec<usize>>,
+
+    /// Entity id -> faz
+    entity_phase: HashMap<usize, EntityPhase>,
 }
 
 impl World {
-    pub fn tick(&mut self) {
-        let view = WorldView { map: &self.map };
+    /// World oluşturulurken çağrılır
+    pub fn new(map: Map, entities: Vec<Box<dyn Entity>>) -> Self {
+        let mut world = Self {
+            map,
+            entities,
+            entity_pos: HashMap::new(),
+            entity_phase: HashMap::new(),
+        };
 
-        let actions: Vec<(usize, Action)> = self
+        world.rebuild_entity_maps();
+        world
+    }
+
+    /// ===============================
+    /// ENTITY HARİTALARINI YENİDEN KUR
+    /// ===============================
+    ///
+    /// Bu fonksiyon:
+    /// - Başlangıçta
+    /// - Büyük temizliklerden sonra
+    /// çağrılır
+    fn rebuild_entity_maps(&mut self) {
+        self.entity_pos.clear();
+        self.entity_phase.clear();
+
+        for e in self.entities.iter() {
+            let id = e.id();
+            let pos = e.position();
+
+            self.entity_pos.entry(pos).or_default().push(id);
+            self.entity_phase.insert(id, e.phase());
+        }
+    }
+
+    /// ===============================
+    /// TICK (İKİ FAZLI)
+    /// ===============================
+    pub fn tick(&mut self) {
+        // ---------- FAZ 1: ENTITY INTERNAL ----------
+        for e in self.entities.iter_mut() {
+            e.tick();
+        }
+
+        // Faz sonrası entity fazlarını güncelle
+        self.entity_phase.clear();
+        for e in self.entities.iter() {
+            self.entity_phase.insert(e.id(), e.phase());
+        }
+
+        // WorldView oluştur
+        let view = WorldView::new(&self.map, &self.entity_pos, &self.entity_phase);
+
+        // ---------- FAZ 2: KARAR TOPLAMA ----------
+        let actions: Vec<(usize, crate::entity::action::Action)> = self
             .entities
             .iter()
             .map(|e| (e.id(), e.think(&view)))
             .collect();
 
+        // ---------- FAZ 3: AKSİYON UYGULAMA ----------
         for (id, action) in actions {
-            if let Some(entity) = self.entities.iter_mut().find(|e| e.id() == id) {
-                entity.apply(action);
+            if let Some(e) = self.entities.iter_mut().find(|e| e.id() == id) {
+                e.apply(action);
             }
         }
+
+        // Konumlar değişmiş olabilir → yeniden kur
+        self.rebuild_entity_maps();
     }
-}
-
-```
-
-## src/world_types.rs
-```
-#[derive(Debug, Clone)]
-pub enum Cell {
-    Empty,
-    Food { amount: u32 },
-    Water { amount: u32 },
-}
-
-#[derive(Debug, Clone, Copy)]
-pub enum Direction {
-    Up,
-    Down,
-    Left,
-    Right,
-}
-
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
-pub struct Position {
-    pub x: usize,
-    pub y: usize,
-}
-
-impl Position {
-    pub fn new(x: usize, y: usize) -> Self {
-        Self { x, y }
-    }
-
-    /// Negatif yön kullanmadan hareket:
-    /// Taşma olursa None döner (harita sınırı kontrolü dışarıda yapılır)
-    pub fn move_dir(&self, dir: Direction, amount: usize) -> Option<Self> {
-        match dir {
-            Direction::Up => self.y.checked_sub(amount).map(|y| Self { x: self.x, y }),
-            Direction::Down => Some(Self {
-                x: self.x,
-                y: self.y + amount,
-            }),
-            Direction::Left => self.x.checked_sub(amount).map(|x| Self { x, y: self.y }),
-            Direction::Right => Some(Self {
-                x: self.x + amount,
-                y: self.y,
-            }),
-        }
-    }
-}
-
-pub enum Action {
-    Move(Direction),
-    Eat,
-    Attack { target_id: usize },
-    Flee(Direction),
-    Idle,
 }
 
 ```
@@ -280,14 +377,15 @@ impl LifeState {
 
 ## src/entity/mod.rs
 ```
+pub mod action;
 pub mod lifestate;
 pub mod perception;
 pub mod phase;
 
 use crate::{
-    entity::{lifestate::LifeState, perception::Perception, phase::EntityPhase},
+    entity::{action::Action, lifestate::LifeState, perception::Perception, phase::EntityPhase},
+    map::position::Position,
     world::WorldView,
-    world_types::{Action, Position},
 };
 
 /// ===============================
@@ -351,7 +449,10 @@ pub trait Entity {
 
 ## src/entity/perception.rs
 ```
-use crate::world_types::Position;
+use crate::{
+    map::{cell::Cell, position::Position},
+    world::WorldView,
+};
 
 /// Algılanan tekil hedef
 #[derive(Debug, Clone)]
@@ -403,6 +504,110 @@ impl Perception {
     }
 }
 
+/// ===============================
+/// PERCEPTION BUILDER
+/// ===============================
+///
+/// Bu modülün tek görevi:
+/// - WorldView'dan OKUMA yapmak
+/// - Entity için anlamlı algı (Perception) üretmek
+///
+/// Entity:
+/// - Haritayı bilmez
+/// - EntityPos bilmez
+/// - Faz bilgisi bilmez
+///
+/// Sadece "algıladıklarını" bilir.
+pub struct PerceptionBuilder;
+
+impl PerceptionBuilder {
+    /// ===============================
+    /// ALGILAMA OLUŞTUR
+    /// ===============================
+    ///
+    /// center  : Entity'nin pozisyonu
+    /// radius  : Algılama menzili
+    pub fn build(view: &WorldView, center: Position, radius: usize, self_id: usize) -> Perception {
+        let mut perception = Perception::empty();
+
+        // ===============================
+        // 1. YAKIN ENTITY'LER
+        // ===============================
+        for (pos, id) in view.nearby_entities(center, radius) {
+            // Kendini algılamasın
+            if id == self_id {
+                continue;
+            }
+
+            // Ceset mi?
+            if view.entity_phase.get(&id).is_some_and(|p| p.is_corpse()) {
+                // Cesetler etçil için "yiyecek"tir
+                perception.foods.push(PerceivedFood {
+                    position: pos,
+                    amount: 10, // sabit veya ileride hesaplanabilir
+                    is_corpse: true,
+                });
+                continue;
+            }
+
+            // Canlı entity
+            if view.entity_phase.get(&id).is_some_and(|p| p.is_active()) {
+                perception
+                    .enemies
+                    .push(PerceivedEntity { id, position: pos });
+
+                // Aynı zamanda potansiyel eş olabilir
+                perception.mates.push(PerceivedEntity { id, position: pos });
+            }
+        }
+
+        // ===============================
+        // 2. YAKIN ÇEVRE HÜCRELERİ
+        // ===============================
+        //
+        // Kare alan taraması (Manhattan)
+        for dx in 0..=radius {
+            for dy in 0..=radius {
+                let positions = [
+                    (center.x + dx, center.y + dy),
+                    (center.x + dx, center.y.saturating_sub(dy)),
+                    (center.x.saturating_sub(dx), center.y + dy),
+                    (center.x.saturating_sub(dx), center.y.saturating_sub(dy)),
+                ];
+
+                for (x, y) in positions {
+                    let pos = Position { x, y };
+
+                    if !view.in_bounds(pos) {
+                        continue;
+                    }
+
+                    // Hücre içeriği
+                    match view.cell(pos) {
+                        Some(Cell::Food { amount }) => {
+                            perception.foods.push(PerceivedFood {
+                                position: pos,
+                                amount: *amount,
+                                is_corpse: false,
+                            });
+                        }
+                        Some(Cell::Water { amount }) => {
+                            perception.foods.push(PerceivedFood {
+                                position: pos,
+                                amount: *amount,
+                                is_corpse: false,
+                            });
+                        }
+                        _ => {}
+                    }
+                }
+            }
+        }
+
+        perception
+    }
+}
+
 ```
 
 ## src/entity/phase.rs
@@ -430,6 +635,212 @@ impl EntityPhase {
     pub fn is_corpse(&self) -> bool {
         matches!(self, EntityPhase::Corpse)
     }
+}
+
+```
+
+## src/entity/action.rs
+```
+use crate::map::direction::Direction;
+
+pub enum Action {
+    Move(Direction),
+    Eat,
+    Attack { target_id: usize },
+    Flee(Direction),
+    Idle,
+}
+
+```
+
+## src/map/mod.rs
+```
+pub mod cell;
+pub mod direction;
+pub mod position;
+
+use crate::map::{cell::Cell, position::Position};
+
+/// ===============================
+/// MAP
+/// ===============================
+///
+/// Map:
+/// - Dünyanın çevresel durumunu tutar
+/// - Entity bilgisi tutmaz
+/// - Sadece "burada ne var?" sorusuna cevap verir
+///
+/// Entity çakışmaları, canlı/ceset kontrolü World seviyesinde yapılır.
+pub struct Map {
+    pub width: usize,
+    pub height: usize,
+    pub grid: Vec<Cell>,
+}
+
+impl Map {
+    /// ===============================
+    /// KONUM YARDIMCILARI
+    /// ===============================
+
+    /// Bu pozisyon harita sınırları içinde mi?
+    pub fn in_bounds(&self, pos: Position) -> bool {
+        pos.x < self.width && pos.y < self.height
+    }
+
+    /// Pozisyondan index üret
+    fn index_of(&self, pos: Position) -> Option<usize> {
+        if self.in_bounds(pos) {
+            Some(pos.y * self.width + pos.x)
+        } else {
+            None
+        }
+    }
+
+    /// ===============================
+    /// OKUMA
+    /// ===============================
+
+    /// Burada ne var?
+    pub fn cell(&self, pos: Position) -> Option<&Cell> {
+        self.index_of(pos).map(|i| &self.grid[i])
+    }
+
+    /// Buradaki şey bu mu?
+    pub fn is_cell(&self, pos: Position, expected: &Cell) -> bool {
+        self.cell(pos).map(|c| c == expected).unwrap_or(false)
+    }
+
+    /// Buraya hareket edilebilir mi?
+    ///
+    /// Şimdilik:
+    /// - Empty -> evet
+    /// - Food / Water -> evet
+    ///
+    /// Entity kontrolü burada yapılmaz.
+    pub fn is_walkable(&self, pos: Position) -> bool {
+        matches!(
+            self.cell(pos),
+            Some(Cell::Empty | Cell::Food { .. } | Cell::Water { .. })
+        )
+    }
+
+    /// ===============================
+    /// YAZMA
+    /// ===============================
+    /// ⚠️ Map mutable ama "kontrollü" değişir
+    /// Entity logic buraya gömülmez
+
+    /// Konuma yeni bir şey yerleştir
+    ///
+    /// Örnek:
+    /// - Food eklemek
+    /// - Ceset bırakmak
+    pub fn set_cell(&mut self, pos: Position, cell: Cell) -> bool {
+        if let Some(i) = self.index_of(pos) {
+            self.grid[i] = cell;
+            true
+        } else {
+            false
+        }
+    }
+
+    /// Konumdaki miktarı azalt
+    ///
+    /// amount kadar düşer,
+    /// 0 veya altına inerse Empty olur
+    pub fn reduce_cell_amount(&mut self, pos: Position, amount: usize) -> bool {
+        if let Some(i) = self.index_of(pos) {
+            match &mut self.grid[i] {
+                Cell::Food { amount: a } | Cell::Water { amount: a } => {
+                    *a = a.saturating_sub(amount);
+                    if *a == 0 {
+                        self.grid[i] = Cell::Empty;
+                    }
+                    true
+                }
+                _ => false,
+            }
+        } else {
+            false
+        }
+    }
+
+    /// Konumdaki şeyi tamamen sil
+    pub fn clear_cell(&mut self, pos: Position) -> bool {
+        self.set_cell(pos, Cell::Empty)
+    }
+}
+
+```
+
+## src/map/position.rs
+```
+use crate::map::direction::Direction;
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, std::hash::Hash)]
+pub struct Position {
+    pub x: usize,
+    pub y: usize,
+}
+
+impl Position {
+    /// x ve y değerlerinden yeni bir değer oluştur
+    pub fn new(x: usize, y: usize) -> Self {
+        Self { x, y }
+    }
+    /// Pozisyonu doğrudan güncellemek için
+    pub fn set(&mut self, other: Position) {
+        self.x = other.x;
+        self.y = other.y;
+    }
+}
+
+impl std::ops::Add<Direction> for Position {
+    type Output = Position;
+
+    fn add(self, dir: Direction) -> Position {
+        match dir {
+            Direction::Up => Position {
+                x: self.x,
+                y: self.y.saturating_sub(1),
+            },
+            Direction::Down => Position {
+                x: self.x,
+                y: self.y + 1,
+            },
+            Direction::Left => Position {
+                x: self.x.saturating_sub(1),
+                y: self.y,
+            },
+            Direction::Right => Position {
+                x: self.x + 1,
+                y: self.y,
+            },
+        }
+    }
+}
+
+```
+
+## src/map/cell.rs
+```
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub enum Cell {
+    Empty,
+    Food { amount: usize },
+    Water { amount: usize },
+}
+
+```
+
+## src/map/direction.rs
+```
+#[derive(Debug, Clone, Copy)]
+pub enum Direction {
+    Up,
+    Down,
+    Left,
+    Right,
 }
 
 ```
