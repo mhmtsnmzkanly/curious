@@ -20,10 +20,6 @@ pub mod map;
 pub mod world;
 pub mod world_types;
 
-// Modülü kullan
-//pub use action::Action;
-//pub use position::Position;
-
 ```
 
 ## src/map.rs
@@ -187,22 +183,26 @@ pub struct LifeState {
     /// Son çiftleşmeden sonra kalan bekleme süresi
     pub reproduction_cooldown: usize,
 
-    /// Doğal hız (stat)
+    /// Tick başına maksimum hareket hakkı
     pub speed: usize,
-
-    /// Tick boyunca biriken hareket puanı
-    pub points: usize,
+    /// Bu tick içinde kullanılan hareket sayısı
+    pub moves_used: usize,
 }
 
 impl LifeState {
-    /// Her tick çağrılır
+    /// ===============================
+    /// TICK
+    /// ===============================
+    ///
+    /// Her tick başında çağrılır.
+    /// Hareket hakkı resetlenir.
     pub fn tick(&mut self) {
         self.age += 1;
 
         // Pasif enerji kaybı
         self.energy = self.energy.saturating_sub(1);
 
-        // Üreme bekleme süresi azalır
+        // Üreme bekleme süresi
         if self.reproduction_cooldown > 0 {
             self.reproduction_cooldown -= 1;
         }
@@ -212,35 +212,30 @@ impl LifeState {
             self.health = 0;
         }
 
-        self.points += self.speed;
+        // Bu tick için hareket sayacı sıfırlanır
+        self.moves_used = 0;
     }
 
-    // -------- DURUM SORGULARI --------
+    // ===============================
+    // DURUM SORGULARI
+    // ===============================
 
-    /// Canlı yaşıyor mu?
     pub fn is_alive(&self) -> bool {
         self.health > 0
-    } // ===============================
-    /// YAŞAM DURUMU
-    /// ===============================
-    //
+    }
 
-    /// Üreme olgunluğuna erişti mi?
     pub fn is_mature(&self) -> bool {
         self.age >= self.maturity_age
     }
 
-    /// Enerji kritik seviyede mi?
     pub fn is_energy_low(&self) -> bool {
         self.energy <= self.low_energy_threshold
     }
 
-    /// Enerji tam mı?
     pub fn is_energy_full(&self) -> bool {
         self.energy >= self.max_energy
     }
 
-    /// Çiftleşmeye uygun mu?
     pub fn can_reproduce(&self) -> bool {
         self.is_alive()
             && self.is_mature()
@@ -248,37 +243,36 @@ impl LifeState {
             && !self.is_energy_low()
     }
 
-    // -------- DURUM DEĞİŞTİRİCİLER --------
+    /// Bu tick içinde hareket edebilir mi?
+    pub fn can_move(&self) -> bool {
+        self.moves_used < self.speed
+    }
 
-    /// Enerji harcama
+    // ===============================
+    // DURUM DEĞİŞTİRİCİLER
+    // ===============================
+
+    /// Bir hareket kullanıldığında çağrılır
+    pub fn on_move(&mut self) {
+        self.moves_used += 1;
+        self.consume_energy(1);
+    }
+
     pub fn consume_energy(&mut self, amount: usize) {
         self.energy = self.energy.saturating_sub(amount);
     }
 
-    /// Enerji kazanma
     pub fn restore_energy(&mut self, amount: usize) {
         self.energy = (self.energy + amount).min(self.max_energy);
     }
 
-    /// Can iyileştirme
     pub fn heal(&mut self, amount: usize) {
         self.health = (self.health + amount).min(self.max_health);
     }
 
-    /// Çiftleşme sonrası çağrılır
     pub fn on_reproduce(&mut self) {
         self.reproduction_cooldown = 100;
         self.consume_energy(10);
-    }
-
-    /// Yeterli puan var mı?
-    pub fn can_move(&self, cost: usize) -> bool {
-        self.points >= cost
-    }
-
-    /// Hareket puanı harca
-    pub fn spend(&mut self, cost: usize) {
-        self.points = self.points.saturating_sub(cost);
     }
 }
 
@@ -287,9 +281,11 @@ impl LifeState {
 ## src/entity/mod.rs
 ```
 pub mod lifestate;
+pub mod perception;
+pub mod phase;
 
 use crate::{
-    entity::lifestate::LifeState,
+    entity::{lifestate::LifeState, perception::Perception, phase::EntityPhase},
     world::WorldView,
     world_types::{Action, Position},
 };
@@ -303,26 +299,137 @@ pub trait Entity {
 
     /// Canlının bulunduğu konum
     fn position(&self) -> Position;
-
-    /// Konumun değiştirilebilir hali
     fn position_mut(&mut self) -> &mut Position;
 
     /// Canlının yaşam durumu (genetik + dinamik)
     fn life(&self) -> &LifeState;
-
-    /// Değiştirilebilir yaşam durumu
     fn life_mut(&mut self) -> &mut LifeState;
+
+    // Varlık durumu
+    fn phase(&self) -> EntityPhase;
+    fn phase_mut(&mut self) -> &mut EntityPhase;
+
+    // Algılama
+    fn perception(&self) -> &Perception;
+    fn perception_mut(&mut self) -> &mut Perception;
 
     /// Karar verme (sadece okuma yapmalı)
     fn think(&self, ctx: &WorldView) -> Action;
 
     /// Tek tick güncellemesi
     fn tick(&mut self) {
+        // Faz kontrolü
+        match self.phase_mut() {
+            EntityPhase::Sleeping { remaining } => {
+                if *remaining > 0 {
+                    *remaining -= 1;
+                    return;
+                } else {
+                    *self.phase_mut() = EntityPhase::Active;
+                }
+            }
+            EntityPhase::Corpse | EntityPhase::Removed => {
+                return;
+            }
+            _ => {}
+        }
+
+        // Yaşam güncellemesi
         self.life_mut().tick();
+
+        // Ölüm kontrolü
+        if !self.life().is_alive() {
+            *self.phase_mut() = EntityPhase::Corpse;
+        }
     }
 
     /// Alınan kuralı uygula
     fn apply(&mut self, action: Action);
+}
+
+```
+
+## src/entity/perception.rs
+```
+use crate::world_types::Position;
+
+/// Algılanan tekil hedef
+#[derive(Debug, Clone)]
+pub struct PerceivedEntity {
+    pub id: usize,
+    pub position: Position,
+}
+
+/// Algılanan yiyecek
+#[derive(Debug, Clone)]
+pub struct PerceivedFood {
+    pub position: Position,
+    pub amount: usize,
+    pub is_corpse: bool, // etçil için önemli
+}
+
+/// Entity'nin bir tick boyunca algıladığı dünya kesiti
+#[derive(Debug, Clone)]
+pub struct Perception {
+    /// Görülen yiyecekler
+    pub foods: Vec<PerceivedFood>,
+
+    /// Tehdit olarak algılanan canlılar
+    pub enemies: Vec<PerceivedEntity>,
+
+    /// Çiftleşme için uygun görülen canlılar
+    pub mates: Vec<PerceivedEntity>,
+}
+
+impl Perception {
+    pub fn empty() -> Self {
+        Self {
+            foods: Vec::new(),
+            enemies: Vec::new(),
+            mates: Vec::new(),
+        }
+    }
+
+    pub fn has_food(&self) -> bool {
+        !self.foods.is_empty()
+    }
+
+    pub fn has_enemy(&self) -> bool {
+        !self.enemies.is_empty()
+    }
+
+    pub fn has_mate(&self) -> bool {
+        !self.mates.is_empty()
+    }
+}
+
+```
+
+## src/entity/phase.rs
+```
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum EntityPhase {
+    /// Aktif, karar alabilir
+    Active,
+
+    /// Uyuyor, N tick boyunca aksiyon yok
+    Sleeping { remaining: usize },
+
+    /// Ölü ama henüz temizlenmedi
+    Corpse,
+
+    /// World tarafından kaldırılacak
+    Removed,
+}
+
+impl EntityPhase {
+    pub fn is_active(&self) -> bool {
+        matches!(self, EntityPhase::Active)
+    }
+
+    pub fn is_corpse(&self) -> bool {
+        matches!(self, EntityPhase::Corpse)
+    }
 }
 
 ```

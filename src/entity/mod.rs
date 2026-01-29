@@ -1,11 +1,12 @@
+pub mod action;
 pub mod lifestate;
 pub mod perception;
 pub mod phase;
 
 use crate::{
-    entity::{lifestate::LifeState, perception::Perception, phase::EntityPhase},
+    entity::{action::Action, lifestate::LifeState, perception::Perception, phase::EntityPhase},
+    map::position::Position,
     world::WorldView,
-    world_types::{Action, Position},
 };
 
 /// ===============================

@@ -1,7 +1,7 @@
 use curious::{
-    map::Map,
+    entity::action::Action,
+    map::{Map, cell::Cell, position::Position},
     world::{World, WorldView},
-    world_types::{Action, Cell, Position},
 };
 
 fn main() {

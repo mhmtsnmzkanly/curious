@@ -1,4 +1,4 @@
-use crate::world_types::Position;
+use crate::map::position::Position;
 
 /// Algılanan tekil hedef
 #[derive(Debug, Clone)]
