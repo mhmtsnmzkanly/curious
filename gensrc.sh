@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-OUTPUT="SRC.md"
 SRC_DIR="src"
+OUTPUT="SRC.md"
 
 # Çıktı dosyasını sıfırla
 : > "$OUTPUT"
