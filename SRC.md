@@ -1,13 +1,112 @@
 ## src/main.rs
 ```
 use curious::{
-    entity::action::Action,
+    creatures::herbivore::Herbivore,
     map::{Map, cell::Cell, position::Position},
-    world::{World, WorldView},
+    world::World,
 };
+use std::{thread, time::Duration};
 
 fn main() {
-    println!("Hello, curious!");
+    let width = 10;
+    let height = 10;
+    let mut grid = vec![Cell::Empty; width * height];
+
+    // Haritaya yemekler koy
+    grid[3 * width + 3] = Cell::Food { amount: 100 };
+    grid[6 * width + 8] = Cell::Food { amount: 100 };
+
+    let mut world = World::new(
+        Map {
+            width,
+            height,
+            grid,
+        },
+        vec![
+            Box::new(Herbivore::new(
+                curious::generate_random_id(),
+                Position::new(0, 0),
+            )),
+            Box::new(Herbivore::new(
+                curious::generate_random_id(),
+                Position::new(9, 9),
+            )),
+        ],
+    );
+
+    let mut tick_counter: usize = 0;
+    loop {
+        tick_counter += 1;
+        print_map(&world, tick_counter);
+        world.tick();
+        thread::sleep(Duration::from_millis(600));
+    }
+}
+
+fn print_map(world: &World, tick: usize) {
+    // Terminali temizle ve imleci başa al (Daha akıcı bir görünüm sağlar)
+    print!("\x1B[2J\x1B[1;1H");
+
+    println!("====================================================");
+    println!("   CURIOUS SIMULATION - TICK: {:<5}", tick);
+    println!("====================================================");
+
+    // --- CANLI DURUMLARI (DASHBOARD) ---
+    println!(
+        "{:<4} | {:<8} | {:<6} | {:<6} | {:<4} | {:<10}",
+        "ID", "POS", "ENRG", "HLTH", "AGE", "PHASE"
+    );
+    println!("----------------------------------------------------");
+
+    for e in world.entities.iter() {
+        let l = e.life();
+        let pos = e.position();
+
+        // Enerji düşükse kırmızı, değilse yeşil renkle yazdırabiliriz (Opsiyonel ANSI)
+        let energy_status = if l.is_energy_low() { "!" } else { " " };
+
+        println!(
+            "{:<4} | ({:>2},{:>2}) | {:>4}{} | {:>6} | {:>4} | {:?}",
+            e.id(),
+            pos.x,
+            pos.y,
+            l.energy,
+            energy_status,
+            l.health,
+            l.age,
+            e.phase()
+        );
+    }
+
+    println!("----------------------------------------------------");
+
+    // --- HARİTA ÇİZİMİ ---
+    println!("\nMAP:");
+    for y in 0..world.map.height {
+        print!("  "); // Sol boşluk
+        for x in 0..world.map.width {
+            let pos = Position::new(x, y);
+
+            // Bu hücrede bir canlı var mı? (Sadece canlı olanları göster)
+            let ent = world
+                .entities
+                .iter()
+                .find(|e| e.position() == pos && e.life().is_alive());
+
+            if let Some(e) = ent {
+                // Canlıyı ID'si ile göster (Örn: @1)
+                print!("\x1B[92m@{:2}\x1B[0m ", e.id()); // Parlak Yeşil
+            } else {
+                match world.map.cell(pos) {
+                    Some(Cell::Food { .. }) => print!("\x1B[93mF  \x1B[0m"), // Sarı F
+                    Some(Cell::Water { .. }) => print!("\x1B[94mW  \x1B[0m"), // Mavi W
+                    _ => print!(".  "),                                      // Boş hücre
+                }
+            }
+        }
+        println!();
+    }
+    println!("\n====================================================");
 }
 
 ```
@@ -15,9 +114,30 @@ fn main() {
 ## src/lib.rs
 ```
 // Modülü dahil et
+pub mod creatures;
 pub mod entity;
 pub mod map;
 pub mod world;
+
+pub fn generate_random_id() -> usize {
+    // Geçici bir değişken oluşturup onun bellek adresini alıyoruz
+    let variable = 0;
+    let address = &variable as *const i32 as usize;
+
+    // Adresi, işlemcinin zaman damgasıyla (TSC) harmanlayarak
+    // rastgeleliği artırıyoruz
+    let timestamp = std::time::SystemTime::now()
+        .duration_since(std::time::UNIX_EPOCH)
+        .unwrap_or_default()
+        .as_nanos() as usize;
+
+    // XOR ve bit kaydırma (bit-mixing) ile benzersiz bir sayı üretiyoruz
+    let mut x = address ^ timestamp;
+    x = x.wrapping_mul(0x517cc1b727220a95);
+    x ^= x >> 31;
+
+    x
+}
 
 ```
 
@@ -26,7 +146,7 @@ pub mod world;
 use std::collections::HashMap;
 
 use crate::{
-    entity::{Entity, phase::EntityPhase},
+    entity::{Entity, action::Action, phase::EntityPhase},
     map::{Map, position::Position},
 };
 
@@ -198,49 +318,37 @@ impl World {
             self.entity_phase.insert(id, e.phase());
         }
     }
-
     pub fn tick(&mut self) {
-        // ===============================
-        // FAZ 1: ENTITY INTERNAL TICK
-        // ===============================
+        // -----------------------------------------------------------
+        // FAZ 1: İÇSEL GÜNCELLEME (Yaşlanma, Ölüm, Enerji Kaybı)
+        // -----------------------------------------------------------
         for e in self.entities.iter_mut() {
             e.tick();
         }
 
-        // Faz bilgilerini güncelle
-        self.entity_phase.clear();
-        for e in self.entities.iter() {
-            self.entity_phase.insert(e.id(), e.phase());
-        }
+        // Ölenleri temizle ve haritaları taze tut
+        self.entities.retain(|e| e.life().is_alive());
+        self.rebuild_entity_maps();
 
-        // WorldView oluştur
+        // -----------------------------------------------------------
+        // FAZ 2: ALGI VE KARAR (Niyet Toplama)
+        // -----------------------------------------------------------
         let view = WorldView::new(&self.map, &self.entity_pos, &self.entity_phase);
-
-        // ===============================
-        // FAZ 2: ACTION TOPLAMA (NİYET)
-        // ===============================
-        let actions: Vec<(usize, crate::entity::action::Action)> = self
+        let actions: Vec<(usize, Action)> = self
             .entities
             .iter()
             .map(|e| (e.id(), e.think(&view)))
             .collect();
 
-        // ===============================
-        // FAZ 3: HAREKETLERİ GRUPLA
-        // ===============================
-        use crate::entity::action::Action;
-        use crate::map::direction::Direction;
-
-        // entity_id -> hedef pozisyon
-        let mut move_intents: HashMap<usize, Position> = HashMap::new();
-
+        // Faz 3: Hareket Niyetleri
+        let mut move_intents = HashMap::new();
         for (id, action) in &actions {
             if let Action::Move(dir) = action {
-                if let Some(e) = self.entities.iter().find(|e| e.id() == *id) {
+                // Doğrudan entity'nin kendisinden pozisyonu alalım (en güvenli yol)
+                if let Some(e) = self.entities.iter().find(|ent| ent.id() == *id) {
                     let from = e.position();
-                    let to = from + *dir;
+                    let to = from + *dir; // Position + Direction artık Add sayesinde çalışır
 
-                    // Harita sınırı ve yürünebilirlik kontrolü
                     if self.map.in_bounds(to) && self.map.is_walkable(to) {
                         move_intents.insert(*id, to);
                     }
@@ -248,59 +356,81 @@ impl World {
             }
         }
 
-        // ===============================
-        // FAZ 4: HAREKETLERİ UYGULA
-        // ===============================
-        //
-        // Aynı hücreye birden fazla entity girebilir
-        // Çatışma sonucu (savaş vs.) daha sonra
+        // Pozisyonları güncelle
         for e in self.entities.iter_mut() {
             if let Some(to) = move_intents.get(&e.id()) {
                 e.position_mut().set(*to);
                 e.life_mut().on_move();
             }
         }
+        // Pozisyon değişikliğinden sonra haritayı tekrar güncelle (Etkileşimler için kritik)
+        self.rebuild_entity_maps();
 
-        // ===============================
-        // FAZ 5: YEME / SALDIRI / DİĞERLERİ
-        // ===============================
-        for (id, action) in actions {
-            if let Some(e) = self.entities.iter_mut().find(|e| e.id() == id) {
-                match action {
-                    Action::Eat => {
+        // -----------------------------------------------------------
+        // FAZ 4: ETKİLEŞİMLER (Yeme, Saldırı, Üreme)
+        // -----------------------------------------------------------
+        let mut newborns: Vec<Box<dyn Entity>> = Vec::new();
+        let mut already_interacted = std::collections::HashSet::new();
+
+        for (id, action) in &actions {
+            if already_interacted.contains(id) {
+                continue;
+            }
+
+            match action {
+                Action::Eat => {
+                    if let Some(e) = self.entities.iter_mut().find(|e| e.id() == *id) {
                         let pos = e.position();
+                        if let Some(crate::map::cell::Cell::Food { amount }) = self.map.cell(pos) {
+                            self.map.reduce_cell_amount(pos, 10);
+                            e.life_mut().restore_energy(10);
+                            already_interacted.insert(*id);
+                        }
+                    }
+                }
 
-                        // Haritadaki kaynaktan ye
-                        if let Some(cell) = self.map.cell(pos) {
-                            match cell {
-                                crate::map::cell::Cell::Food { .. } => {
-                                    self.map.reduce_cell_amount(pos, 10);
-                                    e.life_mut().restore_energy(10);
-                                }
-                                crate::map::cell::Cell::Water { .. } => {
-                                    self.map.reduce_cell_amount(pos, 5);
-                                }
-                                _ => {}
+                Action::Mate { target_id } => {
+                    if already_interacted.contains(target_id) {
+                        continue;
+                    }
+
+                    let p1_idx = self.entities.iter().position(|e| e.id() == *id);
+                    let p2_idx = self.entities.iter().position(|e| e.id() == *target_id);
+
+                    if let (Some(i1), Some(i2)) = (p1_idx, p2_idx) {
+                        let pos1 = self.entities[i1].position();
+                        let pos2 = self.entities[i2].position();
+
+                        // Mesafe Kontrolü: Aynı karede veya komşu karede olabilirler
+                        if pos1.distance_to(pos2) <= 1 {
+                            if self.entities[i1].life().can_reproduce()
+                                && self.entities[i2].life().can_reproduce()
+                            {
+                                let new_id = crate::generate_random_id(); // World içindeki sayaç
+                                newborns.push(self.entities[i1].reproduce(new_id, pos1));
+
+                                self.entities[i1].life_mut().on_reproduce();
+                                self.entities[i2].life_mut().on_reproduce();
+
+                                already_interacted.insert(*id);
+                                already_interacted.insert(*target_id);
                             }
                         }
                     }
-
-                    Action::Attack { target_id } => {
-                        // Basit saldırı modeli
-                        if let Some(target) = self.entities.iter_mut().find(|t| t.id() == target_id)
-                        {
-                            target.life_mut().health = target.life_mut().health.saturating_sub(10);
-                        }
-                    }
-
-                    _ => {}
                 }
+
+                Action::Attack { target_id } => {
+                    // Saldırı mantığı buraya...
+                    already_interacted.insert(*id);
+                }
+                _ => {}
             }
         }
 
-        // ===============================
-        // FAZ 6: ENTITY HARİTALARINI YENİLE
-        // ===============================
+        // -----------------------------------------------------------
+        // FAZ 5: KAPANIŞ
+        // -----------------------------------------------------------
+        self.entities.extend(newborns);
         self.rebuild_entity_maps();
     }
 }
@@ -402,11 +532,9 @@ impl LifeState {
         self.energy >= self.max_energy
     }
 
+    // LifeState içinde
     pub fn can_reproduce(&self) -> bool {
-        self.is_alive()
-            && self.is_mature()
-            && self.reproduction_cooldown == 0
-            && !self.is_energy_low()
+        self.age >= self.maturity_age && self.reproduction_cooldown == 0 && self.energy > 15 // Çok düşük tut ki ölmeden hemen önce bile deneyebilsinler
     }
 
     /// Bu tick içinde hareket edebilir mi?
@@ -429,6 +557,7 @@ impl LifeState {
     }
 
     pub fn restore_energy(&mut self, amount: usize) {
+        // Enerjiyi artır ama maksimum kapasiteyi aşma
         self.energy = (self.energy + amount).min(self.max_energy);
     }
 
@@ -452,7 +581,7 @@ pub mod perception;
 pub mod phase;
 
 use crate::{
-    entity::{action::Action, lifestate::LifeState, perception::Perception, phase::EntityPhase},
+    entity::{action::Action, lifestate::LifeState, phase::EntityPhase},
     map::position::Position,
     world::WorldView,
 };
@@ -475,10 +604,6 @@ pub trait Entity {
     // Varlık durumu
     fn phase(&self) -> EntityPhase;
     fn phase_mut(&mut self) -> &mut EntityPhase;
-
-    // Algılama
-    fn perception(&self) -> &Perception;
-    fn perception_mut(&mut self) -> &mut Perception;
 
     /// Karar verme (sadece okuma yapmalı)
     fn think(&self, ctx: &WorldView) -> Action;
@@ -509,6 +634,10 @@ pub trait Entity {
             *self.phase_mut() = EntityPhase::Corpse;
         }
     }
+
+    /// Canlının kendi türünden yeni bir üye (yavru) oluşturmasını sağlar.
+    /// World bu metodu çağırır ama dönen somut türü (Herbivore vs.) bilmez.
+    fn reproduce(&self, new_id: usize, pos: Position) -> Box<dyn Entity>;
 
     /// Alınan kuralı uygula
     fn apply(&mut self, action: Action);
@@ -712,12 +841,14 @@ impl EntityPhase {
 ```
 use crate::map::direction::Direction;
 
+#[derive(Debug, Clone, Copy, PartialEq)]
 pub enum Action {
     Move(Direction),
     Eat,
     Attack { target_id: usize },
     Flee(Direction),
     Idle,
+    Mate { target_id: usize }, // Yeni: Belirli bir hedefle çiftleşme isteği
 }
 
 ```
@@ -862,6 +993,12 @@ impl Position {
         self.x = other.x;
         self.y = other.y;
     }
+
+    /// Manhattan mesafesini hesaplar
+    pub fn distance_to(&self, other: Position) -> usize {
+        ((self.x as isize - other.x as isize).abs() + (self.y as isize - other.y as isize).abs())
+            as usize
+    }
 }
 
 impl std::ops::Add<Direction> for Position {
@@ -904,12 +1041,146 @@ pub enum Cell {
 
 ## src/map/direction.rs
 ```
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy, PartialEq)]
 pub enum Direction {
     Up,
     Down,
     Left,
     Right,
+}
+
+```
+
+## src/creatures/mod.rs
+```
+pub mod herbivore;
+
+```
+
+## src/creatures/herbivore.rs
+```
+use crate::{
+    entity::{Entity, action::Action, lifestate::LifeState, phase::EntityPhase},
+    map::{cell::Cell, direction::Direction, position::Position},
+    world::WorldView,
+};
+
+pub struct Herbivore {
+    pub id: usize,
+    pub pos: Position,
+    pub life: LifeState,
+    pub phase: EntityPhase,
+}
+
+impl Herbivore {
+    pub fn new(id: usize, pos: Position) -> Self {
+        Self {
+            id,
+            pos,
+            life: LifeState {
+                max_age: 100,
+                maturity_age: 10,
+                max_health: 50,
+                max_energy: 50,
+                low_energy_threshold: 20,
+                age: 0,
+                health: 50,
+                energy: 30,
+                reproduction_cooldown: 0,
+                speed: 1,
+                moves_used: 0,
+            },
+            phase: EntityPhase::Active,
+        }
+    }
+
+    pub fn move_towards(&self, target: Position) -> Action {
+        if target.x > self.pos.x {
+            Action::Move(Direction::Right)
+        } else if target.x < self.pos.x {
+            Action::Move(Direction::Left)
+        } else if target.y > self.pos.y {
+            Action::Move(Direction::Down)
+        } else {
+            Action::Move(Direction::Up)
+        }
+    }
+
+    pub fn random_move(&self) -> Action {
+        let seed = self.id + self.pos.x + self.pos.y + self.life.age;
+        match seed % 4 {
+            0 => Action::Move(Direction::Up),
+            1 => Action::Move(Direction::Down),
+            2 => Action::Move(Direction::Left),
+            _ => Action::Move(Direction::Right),
+        }
+    }
+}
+
+impl Entity for Herbivore {
+    fn id(&self) -> usize {
+        self.id
+    }
+    fn position(&self) -> Position {
+        self.pos
+    }
+    fn position_mut(&mut self) -> &mut Position {
+        &mut self.pos
+    }
+    fn life(&self) -> &LifeState {
+        &self.life
+    }
+    fn life_mut(&mut self) -> &mut LifeState {
+        &mut self.life
+    }
+    fn phase(&self) -> EntityPhase {
+        self.phase
+    }
+    fn phase_mut(&mut self) -> &mut EntityPhase {
+        &mut self.phase
+    }
+
+    fn think(&self, ctx: &WorldView) -> Action {
+        let l = self.life();
+
+        // 1. ÖNCELİK: HAYATTA KALMA (Açlık Kontrolü)
+        if l.is_energy_low() {
+            // ... Mevcut yemek arama kodların ...
+            // Eğer yakında yemek varsa Action::Eat veya Action::Move döndür
+        }
+
+        // 2. ÖNCELİK: ÜREME (Aç değilse ve üreyebiliyorsa)
+        if l.can_reproduce() {
+            // Çevredeki diğer canlıları tara (Mesafe: 4)
+            let nearby = ctx.nearby_entities(self.pos, 4);
+
+            for (other_pos, other_id) in nearby {
+                if other_id != self.id {
+                    // Kendisi değilse
+                    if other_pos == self.pos {
+                        // Aynı karedeysek: Çiftleşme teklif et!
+                        return Action::Mate {
+                            target_id: other_id,
+                        };
+                    } else {
+                        // Yakındaysa: Ona doğru yürü!
+                        return self.move_towards(other_pos);
+                    }
+                }
+            }
+        }
+
+        // 3. ÖNCELİK: RASTGELE GEZİNTİ
+        self.random_move()
+    }
+
+    fn reproduce(&self, new_id: usize, pos: Position) -> Box<dyn Entity> {
+        // Herbivore, kendisinden bir tane daha Herbivore yaratır.
+        // İleride buraya genetik aktarım da eklenebilir.
+        Box::new(Herbivore::new(new_id, pos))
+    }
+
+    fn apply(&mut self, _action: Action) {}
 }
 
 ```

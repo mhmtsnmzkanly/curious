@@ -91,11 +91,9 @@ impl LifeState {
         self.energy >= self.max_energy
     }
 
+    // LifeState içinde
     pub fn can_reproduce(&self) -> bool {
-        self.is_alive()
-            && self.is_mature()
-            && self.reproduction_cooldown == 0
-            && !self.is_energy_low()
+        self.age >= self.maturity_age && self.reproduction_cooldown == 0 && self.energy > 15 // Çok düşük tut ki ölmeden hemen önce bile deneyebilsinler
     }
 
     /// Bu tick içinde hareket edebilir mi?
@@ -118,6 +116,7 @@ impl LifeState {
     }
 
     pub fn restore_energy(&mut self, amount: usize) {
+        // Enerjiyi artır ama maksimum kapasiteyi aşma
         self.energy = (self.energy + amount).min(self.max_energy);
     }
 

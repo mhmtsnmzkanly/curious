@@ -1,6 +1,5 @@
 use curious::{
     creatures::herbivore::Herbivore,
-    entity::Entity,
     map::{Map, cell::Cell, position::Position},
     world::World,
 };
@@ -12,8 +11,10 @@ fn main() {
     let mut grid = vec![Cell::Empty; width * height];
 
     // Haritaya yemekler koy
-    grid[3 * width + 3] = Cell::Food { amount: 100 };
-    grid[6 * width + 8] = Cell::Food { amount: 100 };
+    grid[1 * width] = Cell::Food { amount: 100 };
+    grid[3 * width + 8] = Cell::Food { amount: 100 };
+    grid[5 * width + 5] = Cell::Food { amount: 100 };
+    grid[9 * width + 2] = Cell::Food { amount: 100 };
 
     let mut world = World::new(
         Map {
@@ -22,8 +23,14 @@ fn main() {
             grid,
         },
         vec![
-            Box::new(Herbivore::new(1, Position::new(0, 0))),
-            Box::new(Herbivore::new(2, Position::new(9, 9))),
+            Box::new(Herbivore::new(
+                curious::generate_random_id(),
+                Position::new(0, 0),
+            )),
+            Box::new(Herbivore::new(
+                curious::generate_random_id(),
+                Position::new(1, 1),
+            )),
         ],
     );
 
@@ -88,7 +95,7 @@ fn print_map(world: &World, tick: usize) {
 
             if let Some(e) = ent {
                 // Canlıyı ID'si ile göster (Örn: @1)
-                print!("\x1B[92m@{}\x1B[0m ", e.id()); // Parlak Yeşil
+                print!("\x1B[92m@{:2}\x1B[0m ", e.id()); // Parlak Yeşil
             } else {
                 match world.map.cell(pos) {
                     Some(Cell::Food { .. }) => print!("\x1B[93mF  \x1B[0m"), // Sarı F

@@ -16,6 +16,12 @@ impl Position {
         self.x = other.x;
         self.y = other.y;
     }
+
+    /// Manhattan mesafesini hesaplar
+    pub fn distance_to(&self, other: Position) -> usize {
+        ((self.x as isize - other.x as isize).abs() + (self.y as isize - other.y as isize).abs())
+            as usize
+    }
 }
 
 impl std::ops::Add<Direction> for Position {

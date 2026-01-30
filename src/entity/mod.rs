@@ -58,6 +58,10 @@ pub trait Entity {
         }
     }
 
+    /// Canlının kendi türünden yeni bir üye (yavru) oluşturmasını sağlar.
+    /// World bu metodu çağırır ama dönen somut türü (Herbivore vs.) bilmez.
+    fn reproduce(&self, new_id: usize, pos: Position) -> Box<dyn Entity>;
+
     /// Alınan kuralı uygula
     fn apply(&mut self, action: Action);
 }
