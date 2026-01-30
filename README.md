@@ -131,4 +131,41 @@ fn main() {
     world.tick();
 }
 ```
-
+World::tick fonksiyonun ortaya koymasını istediğim davranışı:
+`
+[ START: DÜNYA TICK SİNYALİ ]
+│
+├─► FAZ 1: BİYOLOJİK SAAT VE FAZ GÜNCELLEME
+│   │   "Zaman herkes için akıyor..."
+│   ├─ [CORPSE / REMOVED]: İşlemi sonlandır (return).
+│   ├─ [SLEEPING]: 'remaining' süresini -1 azalt. 
+│   │   └─ Süre bittiyse: Phase = ACTIVE olur.
+│   └─ [YAŞLANMA]: Aktif veya Uyuyan herkes için Yaş (Age) +1.
+│
+├─► FAZ 2: ALGI VE KARAR (Sadece Aktifler)
+│   │   "Zihni açık olanlar karar verir."
+│   ├─ Sadece Active canlılar "think" metodunu çalıştırır.
+│   └─ Karar Matrisi: Kaç, Saldır, Ye, Çiftleş veya IDLE (Bilinçli Durma).
+│
+├─► FAZ 3: FİZİKSEL UYGULAMA VE ANLIK BEDEL
+│   │   "Her eylemin bir maliyeti vardır."
+│   ├─ [MOVE]: Konum değişir (E: -2).
+│   ├─ [EAT]: Yemek tüketilir (Enerji artar).
+│   ├─ [MATE/ATTACK]: Etkileşim gerçekleşir (E: -15 / -5).
+│   │   └─ ÖNEMLİ: Çiftleşen ebeveynler otomatik SLEEPING moduna alınır.
+│   └─ [IDLE]: Konum sabit kalır (E: -1).
+│
+├─► FAZ 4: METABOLİK DÖNÜŞÜM (Enerji-Can Terazisi)
+│   │   "Vücut bütçeyi dengeliyor."
+│   ├─ 1. AÇLIK: Enerji == 0 ise ──► [Can -1 | Enerji +2].
+│   ├─ 2. İYİLEŞME (Rejenerasyon):
+│   │   └─ ŞART: (Phase == Sleeping VEYA Karar == Idle) 
+│   │           VE (Enerji Doluluk > %60) VE (Can < Max)
+│   │      └─ [Enerji -2] ──► [Can +1] (Hücre onarımı).
+│   └─ 3. BAZAL TÜKETİM:
+│       └─ Uyuyanlar daha az yakıt harcar (E: -0.5).
+│
+└─► FAZ 5: HASAT VE DOĞUM
+    ├─ Can <= 0 veya Age >= Max olanları haritadan temizle.
+    └─ Yeni doğanları ebeveyn yanına ekle (Bebeklik uykusuyla başlat).
+`
