@@ -4,7 +4,7 @@ pub mod perception;
 pub mod phase;
 
 use crate::{
-    entity::{action::Action, lifestate::LifeState, perception::Perception, phase::EntityPhase},
+    entity::{action::Action, lifestate::LifeState, phase::EntityPhase},
     map::position::Position,
     world::WorldView,
 };
@@ -27,10 +27,6 @@ pub trait Entity {
     // Varlık durumu
     fn phase(&self) -> EntityPhase;
     fn phase_mut(&mut self) -> &mut EntityPhase;
-
-    // Algılama
-    fn perception(&self) -> &Perception;
-    fn perception_mut(&mut self) -> &mut Perception;
 
     /// Karar verme (sadece okuma yapmalı)
     fn think(&self, ctx: &WorldView) -> Action;
