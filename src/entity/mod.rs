@@ -1,12 +1,11 @@
-pub mod action;
+pub mod intent;
 pub mod lifestate;
 pub mod perception;
 pub mod phase;
 
 use crate::{
-    entity::{action::Action, lifestate::LifeState, phase::EntityPhase},
+    entity::{intent::Intent, lifestate::LifeState, perception::*, phase::EntityPhase},
     map::position::Position,
-    world::WorldView,
 };
 
 /// ===============================
@@ -29,39 +28,12 @@ pub trait Entity {
     fn phase_mut(&mut self) -> &mut EntityPhase;
 
     /// Karar verme (sadece okuma yapmalı)
-    fn think(&self, ctx: &WorldView) -> Action;
+    fn make_intent(&self, ctx: Perception) -> Intent;
 
     /// Tek tick güncellemesi
-    fn tick(&mut self) {
-        // Faz kontrolü
-        match self.phase_mut() {
-            EntityPhase::Sleeping { remaining } => {
-                if *remaining > 0 {
-                    *remaining -= 1;
-                    return;
-                } else {
-                    *self.phase_mut() = EntityPhase::Active;
-                }
-            }
-            EntityPhase::Corpse | EntityPhase::Removed => {
-                return;
-            }
-            _ => {}
-        }
-
-        // Yaşam güncellemesi
-        self.life_mut().tick();
-
-        // Ölüm kontrolü
-        if !self.life().is_alive() {
-            *self.phase_mut() = EntityPhase::Corpse;
-        }
-    }
+    fn tick(&mut self);
 
     /// Canlının kendi türünden yeni bir üye (yavru) oluşturmasını sağlar.
     /// World bu metodu çağırır ama dönen somut türü (Herbivore vs.) bilmez.
     fn reproduce(&self, new_id: usize, pos: Position) -> Box<dyn Entity>;
-
-    /// Alınan kuralı uygula
-    fn apply(&mut self, action: Action);
 }

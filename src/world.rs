@@ -1,9 +1,8 @@
-use std::collections::{HashMap, HashSet};
-
 use crate::{
-    entity::{Entity, action::Action, phase::EntityPhase},
-    map::{Map, position::Position},
+    entity::{Entity, intent::Intent, perception::*, phase::EntityPhase},
+    map::{Map, cell::Cell, position::Position},
 };
+use std::collections::{HashMap, HashSet};
 
 /// ===============================
 /// WORLD VIEW
@@ -116,6 +115,90 @@ impl<'a> WorldView<'a> {
 
         result
     }
+
+    /// ===============================
+    /// PERCEPTION BUILDER
+    /// ===============================
+    pub fn build_perception(
+        view: &WorldView,
+        center: Position,
+        radius: usize,
+        self_id: usize,
+    ) -> Perception {
+        let mut perception = Perception::empty();
+        let mut seen_entities: HashSet<usize> = HashSet::new();
+        let mut seen_cells: HashSet<Position> = HashSet::new();
+
+        // ===============================
+        // 1. ENTITY ALGILAMA
+        // ===============================
+        for (pos, id) in view.nearby_entities(center, radius) {
+            if id == self_id || !seen_entities.insert(id) {
+                continue;
+            }
+
+            match view.entity_phase.get(&id) {
+                Some(p) if p.is_corpse() => {
+                    perception.foods.push(PerceivedFood {
+                        position: pos,
+                        amount: 10, // ileride ceset ağırlığına bağlanabilir
+                        is_corpse: true,
+                    });
+                }
+                Some(p) if p.is_active() => {
+                    perception
+                        .enemies
+                        .push(PerceivedEntity { id, position: pos });
+                    perception.mates.push(PerceivedEntity { id, position: pos });
+                }
+                _ => {}
+            }
+        }
+
+        // ===============================
+        // 2. HÜCRE ALGILAMA
+        // ===============================
+        let r = radius as isize;
+        let cx = center.x as isize;
+        let cy = center.y as isize;
+
+        for dx in -r..=r {
+            for dy in -r..=r {
+                if dx.abs() + dy.abs() > r {
+                    continue;
+                }
+
+                let x = cx + dx;
+                let y = cy + dy;
+
+                if x < 0 || y < 0 {
+                    continue;
+                }
+
+                let pos = Position {
+                    x: x as usize,
+                    y: y as usize,
+                };
+
+                if !view.in_bounds(pos) || !seen_cells.insert(pos) {
+                    continue;
+                }
+
+                match view.cell(pos) {
+                    Some(Cell::Food { amount }) if *amount > 0 => {
+                        perception.foods.push(PerceivedFood {
+                            position: pos,
+                            amount: *amount,
+                            is_corpse: false,
+                        });
+                    }
+                    _ => {}
+                }
+            }
+        }
+
+        perception
+    }
 }
 
 /// ===============================
@@ -192,21 +275,21 @@ impl World {
         // Entity’ler çevreyi algılar ve eylem niyetlerini oluşturur
         // ---------------------------
         let view = WorldView::new(&self.map, &self.entity_pos, &self.entity_phase);
-        let actions: Vec<(usize, Action)> = self
+        let actions: Vec<(usize, Intent)> = self
             .entities
             .iter()
-            .map(|e| (e.id(), e.think(&view)))
+            .map(|e| (e.id(), e.make_intent(WorldView::make_percetion(view))))
             .collect();
 
         // ---------------------------
         // FAZ 3: HAREKET
         // ---------------------------
         let mut move_intents = std::collections::HashMap::new();
-        for (id, action) in &actions {
-            if let Action::Move(dir) = action {
+        for (id, intent) in &actions {
+            if let Intent::Move { to } = intent {
                 if let Some(e) = self.entities.iter().find(|ent| ent.id() == *id) {
                     let from = e.position();
-                    let to = from + *dir;
+                    let to = from + *to;
 
                     if self.map.in_bounds(to) && self.map.is_walkable(to) {
                         move_intents.insert(*id, to);
@@ -228,13 +311,13 @@ impl World {
         let mut already_interacted = std::collections::HashSet::new();
         let mut newborns: Vec<Box<dyn Entity>> = Vec::new();
 
-        for (id, action) in &actions {
+        for (id, intent) in &actions {
             if already_interacted.contains(id) {
                 continue;
             }
 
-            match action {
-                Action::Eat => {
+            match intent {
+                Intent::Eat { at } => {
                     if let Some(e) = self.entities.iter_mut().find(|ent| ent.id() == *id) {
                         let pos = e.position();
                         if let Some(crate::map::cell::Cell::Food { amount: _ }) = self.map.cell(pos)
@@ -245,13 +328,13 @@ impl World {
                         }
                     }
                 }
-                Action::Mate { target_id } => {
-                    if already_interacted.contains(target_id) {
+                Intent::Mate { target } => {
+                    if already_interacted.contains(target) {
                         continue;
                     }
 
                     let e_idx_opt = self.entities.iter().position(|ent| ent.id() == *id);
-                    let t_idx_opt = self.entities.iter().position(|ent| ent.id() == *target_id);
+                    let t_idx_opt = self.entities.iter().position(|ent| ent.id() == *target);
 
                     if let (Some(e_idx), Some(t_idx)) = (e_idx_opt, t_idx_opt) {
                         if e_idx == t_idx {
@@ -287,13 +370,13 @@ impl World {
                                 parent2.life_mut().on_reproduce();
 
                                 already_interacted.insert(*id);
-                                already_interacted.insert(*target_id);
+                                already_interacted.insert(*target);
                             }
                         }
                     }
                 }
 
-                Action::Attack { target_id: _ } => {
+                Intent::Attack { target } => {
                     // Saldırı mantığı buraya eklenebilir
                     already_interacted.insert(*id);
                 }

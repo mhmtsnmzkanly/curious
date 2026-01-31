@@ -13,14 +13,14 @@ pub struct LifeState {
     /// Maksimum yaş (tick cinsinden)
     pub max_age: usize,
 
-    /// Üreme için minimum yaş
-    pub maturity_age: usize,
-
     /// Maksimum can
     pub max_health: usize,
 
     /// Maksimum enerji
     pub max_energy: usize,
+
+    /// Üreme için minimum yaş
+    pub maturity_age: usize,
 
     /// Enerji düşük kabul edilen eşik
     pub low_energy_threshold: usize,
@@ -93,7 +93,8 @@ impl LifeState {
 
     // LifeState içinde
     pub fn can_reproduce(&self) -> bool {
-        self.age >= self.maturity_age && self.reproduction_cooldown == 0 && self.energy > 15 // Çok düşük tut ki ölmeden hemen önce bile deneyebilsinler
+        (self.age >= self.maturity_age) && (self.reproduction_cooldown == 0 && self.energy > 15)
+        // Çok düşük tut ki ölmeden hemen önce bile deneyebilsinler
     }
 
     /// Bu tick içinde hareket edebilir mi?
@@ -125,6 +126,7 @@ impl LifeState {
     }
 
     pub fn on_reproduce(&mut self) {
+        println!("Entity is reproducing...");
         self.reproduction_cooldown = 100;
         self.consume_energy(10);
     }
