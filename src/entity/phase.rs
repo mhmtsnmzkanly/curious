@@ -34,24 +34,26 @@ impl EntityPhase {
         matches!(self, EntityPhase::Removed)
     }
 
-
     /// World için tick kolaylığı ve otomatik durum güncellemesi
     pub fn tick(&mut self) {
         match self {
+            // Uyuyorsa zamanı düşür, dolduysa sonra ki aşamaya geçir
             EntityPhase::Sleeping { remaining } => {
                 if *remaining > 0 {
                     *remaining -= 1;
                 } else {
                     *self = EntityPhase::Active;
                 }
-            },
+            }
+            // Cesedin ortadan kalkması gereken süreyi düşür,
+            // Bittiyse sisteme kaldırası gerektiğini bildir
             EntityPhase::Corpse { remaining } => {
                 if *remaining > 0 {
                     *remaining -= 1;
                 } else {
                     *self = EntityPhase::Removed;
                 }
-            },
+            }
             _ => {}
         }
     }

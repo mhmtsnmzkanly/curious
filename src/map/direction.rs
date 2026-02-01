@@ -11,7 +11,6 @@ pub enum Direction {
     DownRight,
 }
 
-
 /// Hareket etme talimat dizisi
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct Steps(pub Vec<Direction>);

@@ -4,22 +4,46 @@ pub mod entity;
 pub mod map;
 pub mod world;
 
-pub fn generate_random_id() -> usize {
-    // Geçici bir değişken oluşturup onun bellek adresini alıyoruz
-    let variable = 0;
-    let address = &variable as *const i32 as usize;
+use std::sync::atomic::{AtomicU64, Ordering};
 
-    // Adresi, işlemcinin zaman damgasıyla (TSC) harmanlayarak
-    // rastgeleliği artırıyoruz
-    let timestamp = std::time::SystemTime::now()
-        .duration_since(std::time::UNIX_EPOCH)
-        .unwrap_or_default()
-        .as_nanos() as usize;
+/// Simülasyonda ki chunk büyüklüğü
+pub const CHUNK_SIZE: usize = 16;
 
-    // XOR ve bit kaydırma (bit-mixing) ile benzersiz bir sayı üretiyoruz
-    let mut x = address ^ timestamp;
-    x = x.wrapping_mul(0x517cc1b727220a95);
-    x ^= x >> 31;
+/// Rastgele sayı üretmek için tohum
+static RNG_STATE: AtomicU64 = AtomicU64::new(12345);
 
-    x
+/// Tohumu günceller
+pub fn set_global_seed(seed: u64) {
+    RNG_STATE.store(seed, Ordering::Relaxed);
+}
+
+/// Tohumu zaman damgası ile günceller
+pub fn set_global_seed_with_time() {
+    set_global_seed(
+        std::time::SystemTime::now()
+            .duration_since(std::time::UNIX_EPOCH)
+            .unwrap_or_default()
+            .as_secs(),
+    );
+}
+
+/// Bir sonraki rastgele sayıyı atomik olarak üretir
+pub fn next_rand() -> u64 {
+    // fetch_update: Mevcut değeri güvenli bir şekilde okur,
+    // hesaplamayı yapar ve kimse araya girmeden yeni değeri yazar.
+    RNG_STATE
+        .fetch_update(Ordering::SeqCst, Ordering::SeqCst, |state| {
+            Some(state.wrapping_mul(6364136223846793005).wrapping_add(1))
+        })
+        .unwrap_or(0)
+}
+
+/// [min, max] aralığında sayı üretir
+pub fn gen_range(min: isize, max: isize) -> isize {
+    let range = (max - min).abs() as u64;
+    if range == 0 {
+        return min;
+    }
+    let rand_val = next_rand() % (range + 1);
+    min + rand_val as isize
 }

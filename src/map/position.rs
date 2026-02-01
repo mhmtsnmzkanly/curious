@@ -1,49 +1,80 @@
+use std::ops::Add;
+
 use crate::map::direction::Direction;
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, std::hash::Hash)]
+/// - Dünya koordinatıdır (chunk bağımsız)
+/// - Negatif koordinatları destekler
+/// - (0,0) merkezli dünya için uygundur
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub struct Position {
-    pub x: usize,
-    pub y: usize,
+    pub x: isize,
+    pub y: isize,
 }
 
 impl Position {
-    /// x ve y değerlerinden yeni bir değer oluştur
-    pub fn new(x: usize, y: usize) -> Self {
+    /// Yeni bir pozisyon oluştur
+    pub fn new(x: isize, y: isize) -> Self {
         Self { x, y }
     }
-    /// Pozisyonu doğrudan güncellemek için
+
+    /// Pozisyonu doğrudan güncelle
     pub fn set(&mut self, other: Position) {
         self.x = other.x;
         self.y = other.y;
     }
 
-    /// Manhattan mesafesini hesaplar
+    /// Manhattan mesafesi
+    /// Çapraz yönler olsa bile karar mekanizması için hâlâ en stabil metriktir
     pub fn distance_to(&self, other: Position) -> usize {
-        ((self.x as isize - other.x as isize).abs() + (self.y as isize - other.y as isize).abs())
-            as usize
+        ((self.x - other.x).abs() + (self.y - other.y).abs()) as usize
+    }
+
+    /// Yön bazlı yeni pozisyon (immutable)
+    pub fn offset(&self, dir: Direction) -> Position {
+        *self + dir
     }
 }
 
-impl std::ops::Add<Direction> for Position {
+/// Position + Direction → Position
+///
+/// Çapraz hareketler desteklenir.
+/// World isterse çaprazı yasaklayabilir (Map / validation katmanı).
+impl Add<Direction> for Position {
     type Output = Position;
 
     fn add(self, dir: Direction) -> Position {
         match dir {
             Direction::Up => Position {
                 x: self.x,
-                y: self.y.saturating_sub(1),
+                y: self.y - 1,
             },
             Direction::Down => Position {
                 x: self.x,
                 y: self.y + 1,
             },
             Direction::Left => Position {
-                x: self.x.saturating_sub(1),
+                x: self.x - 1,
                 y: self.y,
             },
             Direction::Right => Position {
                 x: self.x + 1,
                 y: self.y,
+            },
+            Direction::UpLeft => Position {
+                x: self.x - 1,
+                y: self.y - 1,
+            },
+            Direction::UpRight => Position {
+                x: self.x + 1,
+                y: self.y - 1,
+            },
+            Direction::DownLeft => Position {
+                x: self.x - 1,
+                y: self.y + 1,
+            },
+            Direction::DownRight => Position {
+                x: self.x + 1,
+                y: self.y + 1,
             },
         }
     }
