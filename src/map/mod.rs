@@ -51,13 +51,13 @@ pub struct ChunkCoord {
 
 pub struct Map {
     /// Yatay eksende sağ kısım
-    min_x: isize,
+    pub min_x: isize,
     /// Yatay eksende sol kısım
-    max_x: isize,
+    pub max_x: isize,
     /// Dikey eksende sağ kısım
-    min_y: isize,
+    pub min_y: isize,
     /// Dikey eksende sol kısım
-    max_y: isize,
+    pub max_y: isize,
     /// Parçalara ayrılmış harita.
     chunks: HashMap<ChunkCoord, Chunk>,
 }
@@ -296,20 +296,6 @@ impl Map {
         result
     }
 
-    /// Sınırları kontrol ederek güvenli bir dünya oluşturur
-    pub fn safe_new(x1: isize, x2: isize, y1: isize, y2: isize) -> Self {
-        let (min_x, max_x) = if x1 <= x2 { (x1, x2) } else { (x2, x1) };
-        let (min_y, max_y) = if y1 <= y2 { (y1, y2) } else { (y2, y1) };
-
-        Self {
-            min_x,
-            max_x,
-            min_y,
-            max_y,
-            chunks: std::collections::HashMap::new(),
-        }
-    }
-
     /// Tüm haritayı chunk chunk doldurur (Orkestra Şefi)
     pub fn populate_resources(&mut self, density: f32) {
         // Haritanın kapsadığı chunk sınırlarını hesapla
@@ -346,7 +332,7 @@ impl Map {
                     .cell(world_pos)
                     .map_or(true, |c| matches!(c, Cell::Empty))
             {
-                let roll = next_rand() % 100;
+                /*let roll = next_rand() % 100;
                 let cell = if roll < 70 {
                     Cell::Food {
                         amount: (next_rand() % 10 + 5) as usize,
@@ -356,7 +342,13 @@ impl Map {
                         amount: (next_rand() % 15 + 10) as usize,
                     }
                 };
-                self.set_cell(world_pos, cell);
+                self.set_cell(world_pos, cell);*/
+                self.set_cell(
+                    world_pos,
+                    Cell::Food {
+                        amount: (next_rand() % 10 + 5) as usize,
+                    },
+                );
             }
         }
     }

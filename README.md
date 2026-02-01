@@ -39,4 +39,4 @@ bir adım öteye gidip daha karışık sistemlere girişeceğim.
 Projeye şuanlık bir arayüz geliştirmeyi düşünmüyorum.
 Ne kadar yalın kalırsa, başka bir ortama geçirmesi o kadar kolay olur.
 Wasm gibi yada Godot gibi bir motor için Extension olarak.
-Game of Life ile yola çıkıp, günün birinde Dwarf Fortress gibi bir seviyeye gelmek istiyorum
+Game of Life ile yola çıkıp, günün birinde Dwarf Fortress gibi bir seviyeye gelmek istiyorum.

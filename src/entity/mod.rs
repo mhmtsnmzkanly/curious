@@ -4,12 +4,7 @@ pub mod perception;
 pub mod phase;
 pub mod species;
 
-use crate::{
-    entity::{
-        intent::Intent, lifestate::LifeState, perception::*, species::Species,
-    },
-    map::position::Position,
-};
+use crate::entity::{intent::Intent, lifestate::LifeState, perception::*, species::Species};
 
 /// Canlının temel alacağı arayüz
 pub trait Entity {
@@ -29,5 +24,5 @@ pub trait Entity {
 
     /// Canlının kendi türünden yeni bir üye (yavru) oluşturmasını sağlar.
     /// World bu metodu çağırır ama dönen somut türü (Herbivore vs.) bilmez.
-    fn reproduce(&self, pos: Position) -> Box<dyn Entity>;
+    fn reproduce(&self) -> Box<dyn Entity>;
 }

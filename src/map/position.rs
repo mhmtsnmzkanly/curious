@@ -35,6 +35,12 @@ impl Position {
     }
 }
 
+impl From<(isize, isize)> for Position {
+    fn from(t: (isize, isize)) -> Position {
+        Position { x: t.0, y: t.1 }
+    }
+}
+
 /// Position + Direction → Position
 ///
 /// Çapraz hareketler desteklenir.
