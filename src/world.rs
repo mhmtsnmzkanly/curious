@@ -80,7 +80,14 @@ impl World {
         // Döndür
         World { map, entities }
     }
-    /// Her tick, simülasyonun bir adımıdır.
+
+    /// Tick, bir zaman birimidir
+    /// Tick, canlının bulunduğu konumu baz alarak Perception oluşturur.
+    /// Entity, verilen Perception ile karar alır.
+    /// World, Perception -> Intent şeklinde yola koyulur.
+    /// Son adımda sonuca Intent Resolver karar verir.
+    /// BU KARAR KESİNLİK DEĞİLDİR, WORLD SON SÖZÜ SÖYLER
+    /// ÇAKIŞAN NİYETLER İÇİN WORLD İNSİYATİF ALABİLİR
     pub fn tick(&mut self) {
         let mut intents: Vec<(usize, Intent)> = Vec::new();
 
@@ -155,11 +162,11 @@ impl World {
                     if steps.is_empty() {
                         continue;
                     }
-                    let dir = steps[0];
+                    let dir = steps.0[0];
 
                     if let Some(slot) = self.entities.iter().find(|s| s.id == id) {
                         let new_pos = slot.pos.offset(dir);
-                        if self.map.in_bounds(new_pos) && self.map.is_walkable(new_pos) {
+                        if self.map.is_walkable(new_pos) {
                             move_plans.push(MovePlan { id, new_pos });
                         }
                     }
@@ -169,7 +176,7 @@ impl World {
                         continue;
                     }
                     if let Some(slot) = self.entities.iter().find(|s| s.id == id) {
-                        let pos = slot.pos.offset(at[0]);
+                        let pos = slot.pos.offset(at.0[0]);
                         eat_plans.push((id, pos));
                     }
                 }

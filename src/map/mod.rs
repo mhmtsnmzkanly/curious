@@ -183,7 +183,7 @@ impl Map {
 
         loop {
             let next = cur + dir;
-            if !self.in_bounds(next) || !self.is_walkable(next) {
+            if !self.is_walkable(next) {
                 break;
             }
             steps += 1;
@@ -210,7 +210,7 @@ impl Map {
 
     /// Radius ile sınırlı BFS
     pub fn bfs_steps_to(&self, start: Position, goal: Position, radius: usize) -> Option<Steps> {
-        if !self.in_bounds(goal) || !self.is_walkable(goal) {
+        if !self.is_walkable(goal) {
             return None;
         }
 
@@ -239,7 +239,7 @@ impl Map {
                 Direction::DownRight,
             ] {
                 let next = current + dir;
-                if !self.in_bounds(next) || !self.is_walkable(next) {
+                if !self.is_walkable(next) {
                     continue;
                 }
                 if came_from.contains_key(&next) || next == start {

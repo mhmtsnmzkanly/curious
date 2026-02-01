@@ -1,5 +1,8 @@
-use crate::entity::{
-    Entity, intent::Intent, lifestate::LifeState, perception::Perception, species::Species,
+use crate::{
+    entity::{
+        Entity, intent::Intent, lifestate::LifeState, perception::Perception, species::Species,
+    },
+    map::direction::{DIRECTION_ARRAY, Direction, Steps},
 };
 
 pub struct HerbivoreEntity {
@@ -50,17 +53,20 @@ impl Entity for HerbivoreEntity {
         if perception.foods.is_empty() {
             // Yiyecek yok → ara
             // Basit: rastgele bir yön seç
-            use crate::map::direction::Direction::*;
-            let dirs = [Up, Down, Left, Right];
-            let dir = dirs[crate::gen_range(0, dirs.len() as isize - 1) as usize];
-            Intent::Move { steps: vec![dir] }
+            let mut steps: Steps = Steps::empty();
+            (0..=5).map(|_| {
+                steps
+                    .0
+                    .push(DIRECTION_ARRAY[crate::gen_range(0, 7isize) as usize])
+            });
+            Intent::Move { steps }
         } else {
             // Yiyecek var → yemeyi planla
-            let nearest_food = &perception.foods[0]; // Basit: ilk bulduğu yiyecek
+            // Basit: ilk bulduğu yiyecek
             // Eğer tok değilse ye
             if !self.life_state.is_energy_full() {
                 Intent::Eat {
-                    at: vec![nearest_food.steps.0[0]],
+                    at: perception.foods[0].steps.clone(),
                     corpse_id: None,
                 }
             } else if self.life_state.can_reproduce() {

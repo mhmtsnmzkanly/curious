@@ -11,6 +11,16 @@ pub enum Direction {
     DownRight,
 }
 
+pub const DIRECTION_ARRAY: [Direction; 8] = [
+    Direction::Down,
+    Direction::Up,
+    Direction::Left,
+    Direction::Right,
+    Direction::UpLeft,
+    Direction::UpRight,
+    Direction::DownLeft,
+    Direction::DownRight,
+];
 /// Hareket etme talimat dizisi
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct Steps(pub Vec<Direction>);
