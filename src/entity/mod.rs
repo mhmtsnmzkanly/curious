@@ -2,38 +2,32 @@ pub mod intent;
 pub mod lifestate;
 pub mod perception;
 pub mod phase;
+pub mod species;
 
 use crate::{
-    entity::{intent::Intent, lifestate::LifeState, perception::*, phase::EntityPhase},
+    entity::{
+        intent::Intent, lifestate::LifeState, perception::*, species::Species,
+    },
     map::position::Position,
 };
 
-/// ===============================
-/// CANLI ARAYÜZÜ
-/// ===============================
+/// Canlının temel alacağı arayüz
 pub trait Entity {
-    /// Canlıya ait benzersiz kimlik
-    fn id(&self) -> usize;
-
-    /// Canlının bulunduğu konum
-    fn position(&self) -> Position;
-    fn position_mut(&mut self) -> &mut Position;
-
     /// Canlının yaşam durumu (genetik + dinamik)
     fn life(&self) -> &LifeState;
     fn life_mut(&mut self) -> &mut LifeState;
 
-    // Varlık durumu
-    fn phase(&self) -> EntityPhase;
-    fn phase_mut(&mut self) -> &mut EntityPhase;
+    /// Varlık türü
+    fn species(&self) -> Species;
 
     /// Karar verme (sadece okuma yapmalı)
-    fn make_intent(&self, ctx: Perception) -> Intent;
+    fn make_intent(&self, view: Perception) -> Intent;
 
     /// Tek tick güncellemesi
+    /// World'un işini kolaylaştırmak için var;
     fn tick(&mut self);
 
     /// Canlının kendi türünden yeni bir üye (yavru) oluşturmasını sağlar.
     /// World bu metodu çağırır ama dönen somut türü (Herbivore vs.) bilmez.
-    fn reproduce(&self, new_id: usize, pos: Position) -> Box<dyn Entity>;
+    fn reproduce(&self, pos: Position) -> Box<dyn Entity>;
 }

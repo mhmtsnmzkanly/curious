@@ -1,7 +1,3 @@
-/// ===============================
-/// YAŞAM DURUMU
-/// ===============================
-///
 /// Bu struct hem:
 /// - genetik (sabit) bilgileri
 /// - dinamik (tick ile değişen) bilgileri
@@ -45,10 +41,6 @@ pub struct LifeState {
 }
 
 impl LifeState {
-    /// ===============================
-    /// TICK
-    /// ===============================
-    ///
     /// Her tick başında çağrılır.
     /// Hareket hakkı resetlenir.
     pub fn tick(&mut self) {
