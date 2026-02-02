@@ -1,12 +1,14 @@
 pub mod cell;
-pub mod direction;
-pub mod position;
+pub mod movement;
 
 use std::collections::{HashMap, VecDeque};
 
 use crate::{
     CHUNK_SIZE, gen_range,
-    map::{cell::Cell, direction::Direction, direction::Steps, position::Position},
+    map::{
+        cell::Cell,
+        movement::{Direction, Position, Steps},
+    },
     next_rand,
 };
 
@@ -211,6 +213,8 @@ impl Map {
     /// Radius ile sınırlı BFS
     pub fn bfs_steps_to(&self, start: Position, goal: Position, radius: usize) -> Option<Steps> {
         if !self.is_walkable(goal) {
+            println!("None");
+
             return None;
         }
 

@@ -1,8 +1,8 @@
 use crate::{
     entity::{Entity, intent::Intent, perception::*, phase::EntityPhase},
-    map::{Map, position::Position},
+    map::{Map, movement::Position},
 };
-use std::collections::{HashMap, HashSet};
+//use std::collections::{HashMap, HashSet};
 
 /// Canlının yönetim biçimi
 //#[derive(PartialEq, Eq)]
@@ -89,52 +89,51 @@ impl World {
     /// BU KARAR KESİNLİK DEĞİLDİR, WORLD SON SÖZÜ SÖYLER
     /// ÇAKIŞAN NİYETLER İÇİN WORLD İNSİYATİF ALABİLİR
     pub fn tick(&mut self) {
+        // Removed aşamasındaki entityleri sil
+        self.entities.retain(|slot| {
+            let remove = matches!(slot.phase, EntityPhase::Removed);
+            if remove {
+                println!("[@{}] Removed!", slot.id);
+            }
+            !remove
+        });
+
         let mut intents: Vec<(usize, Intent)> = Vec::new();
 
-        // ------------------------------
-        // 1. Her entity için perception ve intent oluştur
-        // ------------------------------
+        // Her entity için perception ve intent oluştur
         for slot in &self.entities {
             if !slot.phase.is_active() {
+                println!("[@{}] Not Active!", slot.id);
                 continue; // Sadece aktif canlılar karar verir
             }
-
             let perception = self.build_perception(slot);
+            println!(
+                "[@{id}] {pos:?}\n[@{id}] {life:?}\n[@{id}] {ption:?}",
+                id = slot.id,
+                pos = &slot.pos,
+                life = &slot.base.as_ref().life(),
+                ption = perception
+            );
             let intent = slot.entity().make_intent(perception);
+            println!("[@{}] Intent {:?}", slot.id, intent);
             intents.push((slot.id, intent));
         }
 
-        // ------------------------------
-        // 2. Intentleri çöz
-        // ------------------------------
+        // Intentleri çöz
         self.resolve_intent(intents);
 
-        // ------------------------------
-        // 3. Canlıların tick güncellemelerini uygula (yaş, enerji, speed reset vb.)
-        // ------------------------------
         for slot in &mut self.entities {
-            if !slot.phase.is_active() {
-                continue; // Sadece aktif canlılar karar verir
+            // Sadece canlı olanların tick güncellemelerini uygula (yaş, enerji, speed reset vb.)
+            if slot.phase.is_active() {
+                slot.entity_mut().tick();
             }
-            slot.entity_mut().tick();
-        }
-
-        // ------------------------------
-        // 4. Fazları güncelle ve ölüleri işaretle
-        // ------------------------------
-        for slot in &mut self.entities {
+            // Fazları güncelle ve ölüleri işaretle
             slot.phase.tick();
 
             if slot.phase == EntityPhase::Active && !slot.entity().life().is_alive() {
-                slot.phase = EntityPhase::Corpse { remaining: 50 }; // Ceset 50 tick kalacak
+                slot.phase = EntityPhase::Corpse { remaining: 5 }; // Ceset 50 tick kalacak
             }
         }
-
-        // ------------------------------
-        // 5. Removed aşamasındaki entityleri sil
-        // ------------------------------
-        self.entities
-            .retain(|slot| !matches!(slot.phase, EntityPhase::Removed));
     }
 
     /// Intentleri çöz ve uygulama fonksiyonu
@@ -162,13 +161,17 @@ impl World {
                     if steps.is_empty() {
                         continue;
                     }
-                    let dir = steps.0[0];
 
-                    if let Some(slot) = self.entities.iter().find(|s| s.id == id) {
-                        let new_pos = slot.pos.offset(dir);
-                        if self.map.is_walkable(new_pos) {
-                            move_plans.push(MovePlan { id, new_pos });
+                    if let Some(slot) = self.entities.iter_mut().find(|s| s.id == id) {
+                        let mut new_pos: Position = slot.pos;
+                        for dir in steps.0.iter() {
+                            if !self.map.is_walkable(new_pos + *dir) {
+                                break;
+                            }
+                            slot.base.as_mut().life_mut().consume_energy(1);
+                            new_pos = new_pos + *dir;
                         }
+                        move_plans.push(MovePlan { id, new_pos });
                     }
                 }
                 Intent::Eat { at, corpse_id: _ } => {
@@ -176,8 +179,14 @@ impl World {
                         continue;
                     }
                     if let Some(slot) = self.entities.iter().find(|s| s.id == id) {
-                        let pos = slot.pos.offset(at.0[0]);
-                        eat_plans.push((id, pos));
+                        let mut new_pos: Position = slot.pos;
+                        for dir in at.0.iter() {
+                            if !self.map.is_walkable(new_pos + *dir) {
+                                break;
+                            }
+                            new_pos = new_pos + *dir;
+                        }
+                        eat_plans.push((id, new_pos));
                     }
                 }
                 Intent::Mate { target_id } => {
@@ -195,6 +204,10 @@ impl World {
         // ------------------------------
         for plan in move_plans {
             if let Some(slot) = self.entities.iter_mut().find(|s| s.id == plan.id) {
+                println!(
+                    "[@{}] Entity moving from {:?} to {:?}",
+                    slot.id, slot.pos, plan.new_pos
+                );
                 slot.pos = plan.new_pos;
                 slot.entity_mut().life_mut().on_move();
             }
@@ -207,6 +220,7 @@ impl World {
             if let Some(slot) = self.entities.iter_mut().find(|s| s.id == id) {
                 if let Some(cell) = self.map.cell(pos) {
                     if let crate::map::cell::Cell::Food { amount } = cell {
+                        println!("[@{}] Entity eating from {:?}", slot.id, slot.pos);
                         let eat_amount = *amount.min(&5);
                         slot.entity_mut().life_mut().restore_energy(eat_amount);
                         self.map.reduce_cell_amount(pos, eat_amount);

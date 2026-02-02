@@ -1,8 +1,11 @@
-use std::{
-    ops::{Add, AddAssign},
-    collections::HashMap
+use crate::{
+    entity::species::Species,
+    map::movement::{Direction, Steps},
 };
-use crate::{entity::species::Species, map::direction::{Direction, Steps}};
+use std::{
+    collections::HashMap,
+    ops::{Add, AddAssign},
+};
 
 /// Algılanan tekil hedef
 #[derive(Debug, Clone)]
@@ -66,9 +69,9 @@ impl Perception {
     /// Bir yöne adım ekle veya mevcut adımı güncelle
     pub fn add_direction(&mut self, dir: Direction, distance: u8) {
         self.directions
-        .entry(dir)
-        .and_modify(|d| *d = (*d).max(distance))
-        .or_insert(distance);
+            .entry(dir)
+            .and_modify(|d| *d = (*d).max(distance))
+            .or_insert(distance);
     }
 }
 

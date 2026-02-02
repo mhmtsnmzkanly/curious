@@ -1,6 +1,7 @@
 use curious::{
     creatures::herbivore::HerbivoreEntity,
     entity::phase::EntityPhase,
+    map::movement::Position,
     set_global_seed_with_time,
     world::{EntitySlot, World},
 };
@@ -28,10 +29,11 @@ fn main() {
     // İnteraktif dünya sayacı
     let mut tick_counter: usize = 0;
     loop {
-        tick_counter += 1;
+        println!("\n\n\n=== Tick: {} ===", tick_counter);
         world.tick();
-        print_map(&world, tick_counter);
-        thread::sleep(Duration::from_millis(500));
+        tick_counter += 1;
+        //print_map(&world, tick_counter);
+        thread::sleep(Duration::from_millis(1000));
     }
 }
 
@@ -87,5 +89,5 @@ pub fn print_map(world: &World, tick: usize) {
         println!(); // Alt satıra geç
     }
     println!("{:-<1$}", "", map_width + 5);
-    println!("@: Canlı | X: Ceset | f: Yemek | .: Boş");
+    println!("@: Canlı | X: Ceset | f: Yemek");
 }

@@ -26,14 +26,15 @@ fn main() {
         ),
     ];
     // İnteraktif dünya
-    let mut world = World::new(-15, 15, -15, 15, entities);
+    let mut world = World::new(-10, 9, -10, 9, entities);
     // İnteraktif dünya sayacı
     let mut tick_counter: usize = 0;
     loop {
-        tick_counter += 1;
+        println!("\n\n\n=== Tick: {} ===", tick_counter);
         world.tick();
-        print_map(&world, tick_counter);
-        thread::sleep(Duration::from_millis(500));
+        tick_counter += 1;
+        //print_map(&world, tick_counter);
+        thread::sleep(Duration::from_millis(1000));
     }
 }
 
@@ -43,8 +44,11 @@ pub fn print_map(world: &World, tick: usize) {
     let map_width = (world.map.max_x - world.map.min_x) as usize;
     let map_height = (world.map.max_y - world.map.min_y) as usize;
 
-    println!("=== CURIOUS SIMULATION | Tick: {} ===", tick);
-    println!("{:-<1$}", "", map_width + 5);
+    println!(
+        "=== CURIOUS SIMULATION [ Map Size: ({}, {}) ]| Tick: {} ===",
+        map_width, map_height, tick
+    );
+    println!("{:-<1$}", "", map_width * 5);
 
     for y in world.map.min_y..=world.map.max_y {
         // --- SOL KOLON: HARİTA ---
@@ -54,7 +58,14 @@ pub fn print_map(world: &World, tick: usize) {
             // Hücredeki varlığı kontrol et (Öncelik: Canlı > Ceset > Yemek)
             if let Some(slot) = world.entities.iter().find(|e| e.pos == pos) {
                 match slot.phase {
-                    EntityPhase::Active => print!("@ "),        // Canlı
+                    // ANSI TrueColor formatı: \x1b[38;2;R;G;Bm
+                    // \x1b[0m kodu ise rengi sıfırlamak içindir
+                    EntityPhase::Active => print!(
+                        "\x1b[38;2;{};{};{}m@ \x1b[0m",
+                        (slot.id & 0xFF) as u8,
+                        ((slot.id >> 8) & 0xFF) as u8,
+                        ((slot.id >> 16) & 0xFF) as u8
+                    ), // Canlı
                     EntityPhase::Corpse { .. } => print!("X "), // Ceset
                     _ => print!("? "),
                 }
@@ -79,7 +90,7 @@ pub fn print_map(world: &World, tick: usize) {
         println!(); // Alt satıra geç
     }
     println!("{:-<1$}", "", map_width + 5);
-    println!("@: Canlı | X: Ceset | f: Yemek | .: Boş");
+    println!("@: Canlı | X: Ceset | f: Yemek");
 }
 
 ```
@@ -136,15 +147,26 @@ pub fn gen_range(min: isize, max: isize) -> isize {
     min + rand_val as isize
 }
 
+pub fn print_with_color(val: usize) {
+    // ANSI TrueColor formatı: \x1b[38;2;R;G;Bm
+    // \x1b[0m kodu ise rengi sıfırlamak içindir
+    print!(
+        "\x1b[38;2;{};{};{}m@ \x1b[0m",
+        (val & 0xFF) as u8,
+        ((val >> 8) & 0xFF) as u8,
+        ((val >> 16) & 0xFF) as u8
+    );
+}
+
 ```
 
 ## src/world.rs
 ```
 use crate::{
     entity::{Entity, intent::Intent, perception::*, phase::EntityPhase},
-    map::{Map, position::Position},
+    map::{Map, direction::Direction, position::Position},
 };
-use std::collections::{HashMap, HashSet};
+//use std::collections::{HashMap, HashSet};
 
 /// Canlının yönetim biçimi
 //#[derive(PartialEq, Eq)]
@@ -217,159 +239,199 @@ impl World {
     pub fn new(x1: isize, x2: isize, y1: isize, y2: isize, entities: Vec<EntitySlot>) -> World {
         // Haritayı oluştur
         let mut map = Map::new(x1, x2, y1, y2);
-        // Haritanın %10 kısmına rastgele kaynak yerleştir.
-        map.populate_resources(0.1f32);
+        // Haritanın % kısmına rastgele kaynak yerleştir.
+        map.populate_resources(0.2f32);
         // Döndür
         World { map, entities }
     }
-    /// Her tick, simülasyonun bir adımıdır.
+
+    /// Tick, bir zaman birimidir
+    /// Tick, canlının bulunduğu konumu baz alarak Perception oluşturur.
+    /// Entity, verilen Perception ile karar alır.
+    /// World, Perception -> Intent şeklinde yola koyulur.
+    /// Son adımda sonuca Intent Resolver karar verir.
+    /// BU KARAR KESİNLİK DEĞİLDİR, WORLD SON SÖZÜ SÖYLER
+    /// ÇAKIŞAN NİYETLER İÇİN WORLD İNSİYATİF ALABİLİR
     pub fn tick(&mut self) {
+        // Removed aşamasındaki entityleri sil
+        self.entities.retain(|slot| {
+            let remove = matches!(slot.phase, EntityPhase::Removed);
+            if remove {
+                println!("[@{}] Removed!", slot.id);
+            }
+            !remove
+        });
+
         let mut intents: Vec<(usize, Intent)> = Vec::new();
 
-        // ------------------------------
-        // 1. Her entity için perception ve intent oluştur
-        // ------------------------------
+        // Her entity için perception ve intent oluştur
         for slot in &self.entities {
             if !slot.phase.is_active() {
+                println!("[@{}] Not Active!", slot.id);
                 continue; // Sadece aktif canlılar karar verir
             }
-
             let perception = self.build_perception(slot);
+            println!(
+                "[@{id}] {pos:?}\n[@{id}] {life:?}\n[@{id}] {ption:?}",
+                id = slot.id,
+                pos = &slot.pos,
+                life = &slot.base.as_ref().life(),
+                ption = perception
+            );
             let intent = slot.entity().make_intent(perception);
+            println!("[@{}] Intent {:?}", slot.id, intent);
             intents.push((slot.id, intent));
         }
 
-        // ------------------------------
-        // 2. Intentleri çöz
-        // ------------------------------
+        // Intentleri çöz
         self.resolve_intent(intents);
 
-        // ------------------------------
-        // 3. Canlıların tick güncellemelerini uygula (yaş, enerji, speed reset vb.)
-        // ------------------------------
         for slot in &mut self.entities {
-            slot.entity_mut().tick();
-        }
-
-        // ------------------------------
-        // 4. Fazları güncelle ve ölüleri işaretle
-        // ------------------------------
-        for slot in &mut self.entities {
+            // Sadece canlı olanların tick güncellemelerini uygula (yaş, enerji, speed reset vb.)
+            if slot.phase.is_active() {
+                slot.entity_mut().tick();
+            }
+            // Fazları güncelle ve ölüleri işaretle
             slot.phase.tick();
 
             if slot.phase == EntityPhase::Active && !slot.entity().life().is_alive() {
-                slot.phase = EntityPhase::Corpse { remaining: 50 }; // Ceset 50 tick kalacak
+                slot.phase = EntityPhase::Corpse { remaining: 5 }; // Ceset 50 tick kalacak
             }
         }
-
-        // ------------------------------
-        // 5. Removed aşamasındaki entityleri sil
-        // ------------------------------
-        self.entities
-            .retain(|slot| !matches!(slot.phase, EntityPhase::Removed));
     }
 
     /// Intentleri çöz ve uygulama fonksiyonu
     pub fn resolve_intent(&mut self, intents: Vec<(usize, Intent)>) {
-        // ID -> pozisyon haritası
-        let mut planned_positions: HashMap<usize, Position> = HashMap::new();
+        // ------------------------------
+        // 1. Move planları ve mate planlarını önceden topla
+        // ------------------------------
+        struct MovePlan {
+            id: usize,
+            new_pos: Position,
+        }
+
+        struct MatePlan {
+            parent_id: usize,
+            target_id: usize,
+        }
+
+        let mut move_plans: Vec<MovePlan> = Vec::new();
+        let mut eat_plans: Vec<(usize, Position)> = Vec::new();
+        let mut mate_plans: Vec<MatePlan> = Vec::new();
 
         for (id, intent) in intents {
+            match intent {
+                Intent::Move { steps } => {
+                    if steps.is_empty() {
+                        continue;
+                    }
+
+                    if let Some(slot) = self.entities.iter_mut().find(|s| s.id == id) {
+                        let mut new_pos: Position = slot.pos;
+                        for dir in steps.0.iter() {
+                            if !self.map.is_walkable(new_pos + *dir) {
+                                break;
+                            }
+                            slot.base.as_mut().life_mut().consume_energy(1);
+                            new_pos = new_pos + *dir;
+                        }
+                        move_plans.push(MovePlan { id, new_pos });
+                    }
+                }
+                Intent::Eat { at, corpse_id: _ } => {
+                    if at.is_empty() {
+                        continue;
+                    }
+                    if let Some(slot) = self.entities.iter().find(|s| s.id == id) {
+                        let mut new_pos: Position = slot.pos;
+                        for dir in at.0.iter() {
+                            if !self.map.is_walkable(new_pos + *dir) {
+                                break;
+                            }
+                            new_pos = new_pos + *dir;
+                        }
+                        eat_plans.push((id, new_pos));
+                    }
+                }
+                Intent::Mate { target_id } => {
+                    mate_plans.push(MatePlan {
+                        parent_id: id,
+                        target_id,
+                    });
+                }
+                _ => {}
+            }
+        }
+
+        // ------------------------------
+        // 2. Move planlarını uygula (tek mutable borrow)
+        // ------------------------------
+        for plan in move_plans {
+            if let Some(slot) = self.entities.iter_mut().find(|s| s.id == plan.id) {
+                println!(
+                    "[@{}] Entity moving from {:?} to {:?}",
+                    slot.id, slot.pos, plan.new_pos
+                );
+                slot.pos = plan.new_pos;
+                slot.entity_mut().life_mut().on_move();
+            }
+        }
+
+        // ------------------------------
+        // 3. Eat planlarını uygula
+        // ------------------------------
+        for (id, pos) in eat_plans {
             if let Some(slot) = self.entities.iter_mut().find(|s| s.id == id) {
-                match intent {
-                    Intent::Move { steps } => {
-                        if steps.is_empty() {
-                            continue;
-                        }
-
-                        // İlk adımı uygula
-                        let dir = steps[0];
-                        let new_pos = slot.pos.offset(dir);
-
-                        // Eğer hedef hücre boş ve walkable ise
-                        if self.map.in_bounds(new_pos) && self.map.is_walkable(new_pos) {
-                            // Çakışma yoksa hareket et
-                            if !planned_positions.values().any(|&p| p == new_pos) {
-                                slot.pos = new_pos;
-                                planned_positions.insert(id, new_pos);
-                                slot.entity_mut().life_mut().on_move();
-                            }
-                        }
-                    }
-
-                    Intent::Eat { at, corpse_id: _ } => {
-                        if at.is_empty() {
-                            continue;
-                        }
-
-                        let dir = at[0];
-                        let target_pos = slot.pos.offset(dir);
-
-                        if let Some(cell) = self.map.cell(target_pos) {
-                            match cell {
-                                crate::map::cell::Cell::Food { amount } => {
-                                    // Yemeği tüket
-                                    let eat_amount: usize = *amount.min(&10usize); // Basit: max 10 enerji
-                                    slot.entity_mut().life_mut().restore_energy(eat_amount);
-                                    self.map.reduce_cell_amount(target_pos, eat_amount);
-                                }
-                                _ => {}
-                            }
-                        }
-                    }
-
-                    Intent::Mate { target_id } => {
-                        if let Some(target_slot) = self.entities.iter().find(|s| s.id == target_id)
-                        {
-                            // Hedef canlı da uygun mu?
-                            if target_slot.phase.is_active()
-                                && target_slot.entity().life().can_reproduce()
-                            {
-                                // Yeni yavru oluştur
-                                let child = slot.entity().reproduce();
-                                let child_pos = slot.pos; // Basit: yavru aynı pozisyonda
-                                let new_id =
-                                    self.entities.iter().map(|s| s.id).max().unwrap_or(0) + 1;
-                                let new_slot = crate::world::EntitySlot::new(
-                                    new_id,
-                                    child_pos,
-                                    crate::entity::phase::EntityPhase::Active,
-                                    child,
-                                );
-                                self.entities.push(new_slot);
-
-                                // Yavrulama sonrası enerji düş
-                                slot.entity_mut().life_mut().on_reproduce();
-                            }
-                        }
-                    }
-
-                    Intent::Flee { target_id: _ } => {
-                        // Basit: sadece rastgele bir boş yöne git
-                        use crate::map::direction::Direction::*;
-                        let dirs = [Up, Down, Left, Right];
-                        let dir = dirs[crate::gen_range(0, dirs.len() as isize - 1) as usize];
-                        let new_pos = slot.pos.offset(dir);
-
-                        if self.map.in_bounds(new_pos) && self.map.is_walkable(new_pos) {
-                            if !planned_positions.values().any(|&p| p == new_pos) {
-                                slot.pos = new_pos;
-                                planned_positions.insert(id, new_pos);
-                                slot.entity_mut().life_mut().on_move();
-                            }
-                        }
-                    }
-
-                    Intent::Attack { target_id: _ } => {
-                        // Şimdilik implement edilmedi
-                    }
-
-                    Intent::Idle { duration: _ } | Intent::Sleep { duration: _ } => {
-                        // Pasif
+                if let Some(cell) = self.map.cell(pos) {
+                    if let crate::map::cell::Cell::Food { amount } = cell {
+                        println!("[@{}] Entity eating from {:?}", slot.id, slot.pos);
+                        let eat_amount = *amount.min(&5);
+                        slot.entity_mut().life_mut().restore_energy(eat_amount);
+                        self.map.reduce_cell_amount(pos, eat_amount);
                     }
                 }
             }
         }
+
+        // ------------------------------
+        // 4. Mate planlarını uygula
+        // ------------------------------
+        let mut new_entities: Vec<crate::world::EntitySlot> = Vec::new();
+        for plan in mate_plans {
+            let can_mate = self.entities.iter().any(|s| s.id == plan.parent_id)
+                && self.entities.iter().any(|s| s.id == plan.target_id);
+            if !can_mate {
+                continue;
+            }
+
+            // Mutable borrow tek seferde al
+            let mut maybe_child = None;
+            for slot in &mut self.entities {
+                if slot.id == plan.parent_id {
+                    maybe_child = Some(slot.entity_mut().reproduce());
+                    slot.entity_mut().life_mut().on_reproduce();
+                    break;
+                }
+            }
+
+            if let Some(child) = maybe_child {
+                let new_id = self.entities.iter().map(|s| s.id).max().unwrap_or(0) + 1;
+                let parent_pos = self
+                    .entities
+                    .iter()
+                    .find(|s| s.id == plan.parent_id)
+                    .unwrap()
+                    .pos;
+                new_entities.push(crate::world::EntitySlot::new(
+                    new_id,
+                    parent_pos,
+                    crate::entity::phase::EntityPhase::Active,
+                    child,
+                ));
+            }
+        }
+
+        self.entities.extend(new_entities);
     }
 
     /// Entity "Intent" üretebilmesi için "Perception" üretir
@@ -896,21 +958,17 @@ impl EntityPhase {
 
 ## src/entity/intent.rs
 ```
-use crate::map::direction::Direction;
+use crate::map::direction::Steps;
 
-/// World -> Perception -> Intent şeklinde yola koyulur.
-/// World, canlının bulunduğu konumu baz alarak Perception oluşturur.
-/// Entity, bu Perception ile kendi içerisinde ki özel mekanizma ile karar alır
-/// BU KARAR KESİNLİK DEĞİLDİR, WORLD SON SÖZÜ SÖYLER
-/// ÇAKIŞAN NİYETLER İÇİN WORLD İNSİYATİF ALABİLİR
+/// Canlının görüş açısıyla yola çıkarak ortaya koyduğu niyet
 #[derive(Debug, Clone, PartialEq)]
 pub enum Intent {
     /// Gidilmek istenilen nokta
-    Move { steps: Vec<Direction> },
+    Move { steps: Steps },
     /// Yenilmek istenilen yemeğin konumu,
     /// Not: Yemek aynı hücrede ise at okunmaz,
     /// miktar canlının yiyebiliceği ve World izin verdiği miktarda olur
-    Eat { at: Vec<Direction>, corpse_id: Option<usize> },
+    Eat { at: Steps, corpse_id: Option<usize> },
     /// Çiftleşmek istenilen canlı
     Mate { target_id: usize },
     /// Saldırılmak istenilen canlı
@@ -1123,7 +1181,7 @@ impl Map {
 
         loop {
             let next = cur + dir;
-            if !self.in_bounds(next) || !self.is_walkable(next) {
+            if !self.is_walkable(next) {
                 break;
             }
             steps += 1;
@@ -1150,7 +1208,7 @@ impl Map {
 
     /// Radius ile sınırlı BFS
     pub fn bfs_steps_to(&self, start: Position, goal: Position, radius: usize) -> Option<Steps> {
-        if !self.in_bounds(goal) || !self.is_walkable(goal) {
+        if !self.is_walkable(goal) {
             return None;
         }
 
@@ -1179,7 +1237,7 @@ impl Map {
                 Direction::DownRight,
             ] {
                 let next = current + dir;
-                if !self.in_bounds(next) || !self.is_walkable(next) {
+                if !self.is_walkable(next) {
                     continue;
                 }
                 if came_from.contains_key(&next) || next == start {
@@ -1272,7 +1330,7 @@ impl Map {
                     .cell(world_pos)
                     .map_or(true, |c| matches!(c, Cell::Empty))
             {
-                let roll = next_rand() % 100;
+                /*let roll = next_rand() % 100;
                 let cell = if roll < 70 {
                     Cell::Food {
                         amount: (next_rand() % 10 + 5) as usize,
@@ -1282,7 +1340,13 @@ impl Map {
                         amount: (next_rand() % 15 + 10) as usize,
                     }
                 };
-                self.set_cell(world_pos, cell);
+                self.set_cell(world_pos, cell);*/
+                self.set_cell(
+                    world_pos,
+                    Cell::Food {
+                        amount: (next_rand() % 10 + 5) as usize,
+                    },
+                );
             }
         }
     }
@@ -1408,6 +1472,16 @@ pub enum Direction {
     DownRight,
 }
 
+pub const DIRECTION_ARRAY: [Direction; 8] = [
+    Direction::Down,
+    Direction::Up,
+    Direction::Left,
+    Direction::Right,
+    Direction::UpLeft,
+    Direction::UpRight,
+    Direction::DownLeft,
+    Direction::DownRight,
+];
 /// Hareket etme talimat dizisi
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct Steps(pub Vec<Direction>);
@@ -1558,8 +1632,11 @@ pub mod herbivore;
 
 ## src/creatures/herbivore.rs
 ```
-use crate::entity::{
-    Entity, intent::Intent, lifestate::LifeState, perception::Perception, species::Species,
+use crate::{
+    entity::{
+        Entity, intent::Intent, lifestate::LifeState, perception::Perception, species::Species,
+    },
+    map::direction::{DIRECTION_ARRAY, Steps},
 };
 
 pub struct HerbivoreEntity {
@@ -1610,17 +1687,20 @@ impl Entity for HerbivoreEntity {
         if perception.foods.is_empty() {
             // Yiyecek yok → ara
             // Basit: rastgele bir yön seç
-            use crate::map::direction::Direction::*;
-            let dirs = [Up, Down, Left, Right];
-            let dir = dirs[crate::gen_range(0, dirs.len() as isize - 1) as usize];
-            Intent::Move { steps: vec![dir] }
+            let mut steps: Steps = Steps::empty();
+            (0..=5).map(|_| {
+                steps
+                    .0
+                    .push(DIRECTION_ARRAY[crate::gen_range(0, 7isize) as usize])
+            });
+            Intent::Move { steps }
         } else {
             // Yiyecek var → yemeyi planla
-            let nearest_food = &perception.foods[0]; // Basit: ilk bulduğu yiyecek
+            // Basit: ilk bulduğu yiyecek
             // Eğer tok değilse ye
             if !self.life_state.is_energy_full() {
                 Intent::Eat {
-                    at: vec![nearest_food.steps.0[0]],
+                    at: perception.foods[0].steps.clone(),
                     corpse_id: None,
                 }
             } else if self.life_state.can_reproduce() {

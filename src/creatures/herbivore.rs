@@ -2,7 +2,7 @@ use crate::{
     entity::{
         Entity, intent::Intent, lifestate::LifeState, perception::Perception, species::Species,
     },
-    map::direction::{DIRECTION_ARRAY, Direction, Steps},
+    map::movement::{DIRECTION_ARRAY, Steps},
 };
 
 pub struct HerbivoreEntity {
@@ -59,7 +59,9 @@ impl Entity for HerbivoreEntity {
                     .0
                     .push(DIRECTION_ARRAY[crate::gen_range(0, 7isize) as usize])
             });
-            Intent::Move { steps }
+            Intent::Move {
+                steps: steps.clone(),
+            }
         } else {
             // Yiyecek var → yemeyi planla
             // Basit: ilk bulduğu yiyecek

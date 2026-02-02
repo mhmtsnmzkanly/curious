@@ -1,4 +1,4 @@
-use crate::map::direction::Steps;
+use crate::map::movement::Steps;
 
 /// Canlının görüş açısıyla yola çıkarak ortaya koyduğu niyet
 #[derive(Debug, Clone, PartialEq)]
