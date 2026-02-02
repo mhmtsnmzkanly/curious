@@ -1,6 +1,6 @@
 use curious::{
     creatures::herbivore::HerbivoreEntity,
-    entity::phase::EntityPhase,
+    entity::{perception::Perception, phase::EntityPhase},
     map::movement::Position,
     set_global_seed_with_time,
     world::{EntitySlot, World},
@@ -25,26 +25,24 @@ fn main() {
         ),
     ];
     // İnteraktif dünya
-    let mut world = World::new(-10, 9, -10, 9, entities);
+    let mut world = World::new(-8, 7, -8, 7, entities);
     // İnteraktif dünya sayacı
     let mut tick_counter: usize = 0;
     loop {
-        println!("\n\n\n=== Tick: {} ===", tick_counter);
+        print!("\x1B[2J\x1B[1;1H\n");
         world.tick();
         tick_counter += 1;
-        //print_map(&world, tick_counter);
+        print_map(&world, tick_counter);
         thread::sleep(Duration::from_millis(1000));
     }
 }
 
 pub fn print_map(world: &World, tick: usize) {
-    print!("\x1B[2J\x1B[1;1H");
-
-    let map_width = (world.map.max_x - world.map.min_x) as usize;
-    let map_height = (world.map.max_y - world.map.min_y) as usize;
+    let map_width = world.map.map_width();
+    let map_height = world.map.map_height();
 
     println!(
-        "=== CURIOUS SIMULATION [ Map Size: ({}, {}) ]| Tick: {} ===",
+        "=== SIMULATION | Map: ({}x{})  | Tick: {} ===",
         map_width, map_height, tick
     );
     println!("{:-<1$}", "", map_width * 5);
@@ -81,8 +79,8 @@ pub fn print_map(world: &World, tick: usize) {
         if let Some(slot) = world.entities.get(entity_index) {
             let life = slot.entity().life();
             print!(
-                "  | ID:{:<2} HP:{:<3} EN:{:<3} AGE:{:<3} Ph:{:?}",
-                slot.id, life.health, life.energy, life.age, slot.phase
+                "  | @{:<2} {:?} HP:{:<3} EN:{:<3} AGE:{:<3} Ph:{:?} ",
+                slot.id, slot.pos, life.health, life.energy, life.age, slot.phase
             );
         }
 

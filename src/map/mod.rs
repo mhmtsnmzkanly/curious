@@ -7,11 +7,12 @@ use crate::{
     CHUNK_SIZE, gen_range,
     map::{
         cell::Cell,
-        movement::{Direction, Position, Steps},
+        movement::{DIRECTION_ARRAY, Direction, Position, Steps},
     },
     next_rand,
 };
 
+#[derive(Debug)]
 struct Chunk {
     cells: Vec<Cell>,
 }
@@ -51,6 +52,7 @@ pub struct ChunkCoord {
     cy: isize,
 }
 
+#[derive(Debug)]
 pub struct Map {
     /// Yatay eksende sağ kısım
     pub min_x: isize,
@@ -199,12 +201,7 @@ impl Map {
 
     pub fn walkable_distances(&self, from: Position) -> HashMap<Direction, u8> {
         let mut map = HashMap::new();
-        for d in [
-            Direction::Up,
-            Direction::Down,
-            Direction::Left,
-            Direction::Right,
-        ] {
+        for d in DIRECTION_ARRAY {
             map.insert(d, self.walkable_distance(from, d));
         }
         map
@@ -213,8 +210,6 @@ impl Map {
     /// Radius ile sınırlı BFS
     pub fn bfs_steps_to(&self, start: Position, goal: Position, radius: usize) -> Option<Steps> {
         if !self.is_walkable(goal) {
-            println!("None");
-
             return None;
         }
 
@@ -310,9 +305,7 @@ impl Map {
 
         for cx in min_cx..=max_cx {
             for cy in min_cy..=max_cy {
-                let coord = ChunkCoord { cx, cy };
-                // İşi uzmanına (populate_chunk) devret
-                self.populate_chunk(coord, density);
+                self.populate_chunk(ChunkCoord { cx, cy }, density);
             }
         }
     }
@@ -336,24 +329,21 @@ impl Map {
                     .cell(world_pos)
                     .map_or(true, |c| matches!(c, Cell::Empty))
             {
-                /*let roll = next_rand() % 100;
-                let cell = if roll < 70 {
-                    Cell::Food {
-                        amount: (next_rand() % 10 + 5) as usize,
-                    }
-                } else {
-                    Cell::Water {
-                        amount: (next_rand() % 15 + 10) as usize,
-                    }
-                };
-                self.set_cell(world_pos, cell);*/
                 self.set_cell(
                     world_pos,
                     Cell::Food {
-                        amount: (next_rand() % 10 + 5) as usize,
+                        amount: (next_rand() % 7 + 5) as usize,
                     },
                 );
             }
         }
+    }
+
+    pub fn map_width(&self) -> usize {
+        (self.max_x - self.min_x + 1) as usize
+    }
+
+    pub fn map_height(&self) -> usize {
+        (self.max_y - self.min_y + 1) as usize
     }
 }

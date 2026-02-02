@@ -5,9 +5,8 @@ use crate::{
 //use std::collections::{HashMap, HashSet};
 
 /// Canlının yönetim biçimi
-//#[derive(PartialEq, Eq)]
 pub struct EntitySlot {
-    /// Canlının benzersiz kimlik numarası
+    /// Canlının benzerhsiz kimlik numarası
     pub id: usize,
     /// Canlının konumu
     pub pos: Position,
@@ -76,7 +75,7 @@ impl World {
         // Haritayı oluştur
         let mut map = Map::new(x1, x2, y1, y2);
         // Haritanın % kısmına rastgele kaynak yerleştir.
-        map.populate_resources(0.2f32);
+        map.populate_resources(0.01f32);
         // Döndür
         World { map, entities }
     }
@@ -90,111 +89,71 @@ impl World {
     /// ÇAKIŞAN NİYETLER İÇİN WORLD İNSİYATİF ALABİLİR
     pub fn tick(&mut self) {
         // Removed aşamasındaki entityleri sil
-        self.entities.retain(|slot| {
-            let remove = matches!(slot.phase, EntityPhase::Removed);
-            if remove {
-                println!("[@{}] Removed!", slot.id);
-            }
-            !remove
-        });
+        self.entities
+            .retain(|slot| !matches!(slot.phase, EntityPhase::Removed));
 
         let mut intents: Vec<(usize, Intent)> = Vec::new();
 
         // Her entity için perception ve intent oluştur
         for slot in &self.entities {
             if !slot.phase.is_active() {
-                println!("[@{}] Not Active!", slot.id);
                 continue; // Sadece aktif canlılar karar verir
             }
             let perception = self.build_perception(slot);
-            println!(
-                "[@{id}] {pos:?}\n[@{id}] {life:?}\n[@{id}] {ption:?}",
-                id = slot.id,
-                pos = &slot.pos,
-                life = &slot.base.as_ref().life(),
-                ption = perception
-            );
+            //println!("@{} {:#?}", slot.id, perception);
             let intent = slot.entity().make_intent(perception);
-            println!("[@{}] Intent {:?}", slot.id, intent);
             intents.push((slot.id, intent));
         }
 
         // Intentleri çöz
-        self.resolve_intent(intents);
-
-        for slot in &mut self.entities {
-            // Sadece canlı olanların tick güncellemelerini uygula (yaş, enerji, speed reset vb.)
-            if slot.phase.is_active() {
-                slot.entity_mut().tick();
-            }
-            // Fazları güncelle ve ölüleri işaretle
-            slot.phase.tick();
-
-            if slot.phase == EntityPhase::Active && !slot.entity().life().is_alive() {
-                slot.phase = EntityPhase::Corpse { remaining: 5 }; // Ceset 50 tick kalacak
-            }
-        }
-    }
-
-    /// Intentleri çöz ve uygulama fonksiyonu
-    pub fn resolve_intent(&mut self, intents: Vec<(usize, Intent)>) {
-        // ------------------------------
+        //
         // 1. Move planları ve mate planlarını önceden topla
-        // ------------------------------
-        struct MovePlan {
-            id: usize,
-            new_pos: Position,
-        }
-
-        struct MatePlan {
-            parent_id: usize,
-            target_id: usize,
-        }
-
-        let mut move_plans: Vec<MovePlan> = Vec::new();
-        let mut eat_plans: Vec<(usize, Position)> = Vec::new();
-        let mut mate_plans: Vec<MatePlan> = Vec::new();
+        let mut move_plans: Vec<(usize, Position, usize)> = Vec::new();
+        let mut eat_plans: Vec<(usize, Position, usize)> = Vec::new();
+        let mut mate_plans: Vec<(usize, usize)> = Vec::new();
 
         for (id, intent) in intents {
             match intent {
                 Intent::Move { steps } => {
-                    if steps.is_empty() {
-                        continue;
-                    }
+                    if !steps.is_empty() {
+                        if let Some(slot) = self.entities.iter_mut().find(|s| s.id == id) {
+                            let mut new_pos: Position = slot.pos;
+                            let mut cost: usize = 0;
 
-                    if let Some(slot) = self.entities.iter_mut().find(|s| s.id == id) {
-                        let mut new_pos: Position = slot.pos;
-                        for dir in steps.0.iter() {
-                            if !self.map.is_walkable(new_pos + *dir) {
-                                break;
+                            for dir in steps.0.iter() {
+                                if !self.map.is_walkable(new_pos + *dir)
+                                    && !slot.base.life().can_move_for(cost + 1)
+                                {
+                                    break;
+                                }
+                                cost += 1;
+                                new_pos = new_pos + *dir;
                             }
-                            slot.base.as_mut().life_mut().consume_energy(1);
-                            new_pos = new_pos + *dir;
+                            move_plans.push((id, new_pos, cost));
                         }
-                        move_plans.push(MovePlan { id, new_pos });
                     }
                 }
                 Intent::Eat { at, corpse_id: _ } => {
-                    if at.is_empty() {
-                        continue;
-                    }
-                    if let Some(slot) = self.entities.iter().find(|s| s.id == id) {
-                        let mut new_pos: Position = slot.pos;
-                        for dir in at.0.iter() {
-                            if !self.map.is_walkable(new_pos + *dir) {
-                                break;
+                    if !at.is_empty() {
+                        if let Some(slot) = self.entities.iter().find(|s| s.id == id) {
+                            let mut new_pos: Position = slot.pos;
+                            let mut cost: usize = 0;
+                            for dir in at.0.iter() {
+                                if !self.map.is_walkable(new_pos + *dir)
+                                    && !slot.base.life().can_move_for(cost + 1)
+                                {
+                                    break;
+                                }
+                                cost += 1;
+                                new_pos = new_pos + *dir;
                             }
-                            new_pos = new_pos + *dir;
+                            eat_plans.push((id, new_pos, cost));
                         }
-                        eat_plans.push((id, new_pos));
                     }
                 }
-                Intent::Mate { target_id } => {
-                    mate_plans.push(MatePlan {
-                        parent_id: id,
-                        target_id,
-                    });
-                }
+                /*Intent::Mate { target_id } => {
+                    mate_plans.push((id, target_id));
+                }*/
                 _ => {}
             }
         }
@@ -202,28 +161,31 @@ impl World {
         // ------------------------------
         // 2. Move planlarını uygula (tek mutable borrow)
         // ------------------------------
-        for plan in move_plans {
-            if let Some(slot) = self.entities.iter_mut().find(|s| s.id == plan.id) {
-                println!(
+        for (id, new_pos, cost) in move_plans {
+            //println!("move_plan: {} {:?} {}", id, new_pos, cost);
+            if let Some(slot) = self.entities.iter_mut().find(|s| s.id == id) {
+                /*println!(
                     "[@{}] Entity moving from {:?} to {:?}",
-                    slot.id, slot.pos, plan.new_pos
-                );
-                slot.pos = plan.new_pos;
-                slot.entity_mut().life_mut().on_move();
+                    slot.id, slot.pos, new_pos
+                );*/
+                slot.base.life_mut().on_move(cost);
+                slot.pos = new_pos;
             }
         }
 
         // ------------------------------
         // 3. Eat planlarını uygula
         // ------------------------------
-        for (id, pos) in eat_plans {
+        for (id, new_pos, cost) in eat_plans {
             if let Some(slot) = self.entities.iter_mut().find(|s| s.id == id) {
-                if let Some(cell) = self.map.cell(pos) {
+                slot.pos = new_pos;
+                slot.base.life_mut().on_move(cost);
+                if let Some(cell) = self.map.cell(new_pos) {
                     if let crate::map::cell::Cell::Food { amount } = cell {
-                        println!("[@{}] Entity eating from {:?}", slot.id, slot.pos);
+                        //println!("[@{}] Entity eating from {:?}", slot.id, slot.pos);
                         let eat_amount = *amount.min(&5);
                         slot.entity_mut().life_mut().restore_energy(eat_amount);
-                        self.map.reduce_cell_amount(pos, eat_amount);
+                        self.map.reduce_cell_amount(new_pos, eat_amount);
                     }
                 }
             }
@@ -232,7 +194,9 @@ impl World {
         // ------------------------------
         // 4. Mate planlarını uygula
         // ------------------------------
+
         let mut new_entities: Vec<crate::world::EntitySlot> = Vec::new();
+        /*
         for plan in mate_plans {
             let can_mate = self.entities.iter().any(|s| s.id == plan.parent_id)
                 && self.entities.iter().any(|s| s.id == plan.target_id);
@@ -266,9 +230,25 @@ impl World {
                 ));
             }
         }
-
+        */
         self.entities.extend(new_entities);
+
+        for slot in &mut self.entities {
+            // Sadece canlı olanların tick güncellemelerini uygula (yaş, enerji, speed reset vb.)
+            if slot.phase.is_active() {
+                slot.entity_mut().tick();
+            }
+            // Fazları güncelle ve ölüleri işaretle
+            slot.phase.tick();
+
+            if slot.phase == EntityPhase::Active && !slot.entity().life().is_alive() {
+                slot.phase = EntityPhase::Corpse { remaining: 5 }; // Ceset 50 tick kalacak
+            }
+        }
     }
+
+    /// Intentleri çöz ve uygulama fonksiyonu
+    //pub fn resolve_intent(&mut self, intents: Vec<(usize, Intent)>) {}
 
     /// Entity "Intent" üretebilmesi için "Perception" üretir
     pub fn build_perception(&self, current_slot: &EntitySlot) -> Perception {

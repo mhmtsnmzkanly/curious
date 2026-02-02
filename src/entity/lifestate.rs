@@ -72,9 +72,11 @@ impl LifeState {
         // Can karşılığında Enerji kazanma
         // Enerji 0 ise, Can yakarak Enerji kazanma
         if self.energy == 0 && !self.is_health_low() {
-            self.health -= 1;
-            self.restore_energy(2);
+            self.health -= 3;
+            self.restore_energy(9);
         }
+
+        self.consume_energy(1);
 
         // Bu tick için hareket sayacı sıfırlanır
         self.moves_used = 0;
@@ -124,17 +126,30 @@ impl LifeState {
 
     /// Bu tick içinde hareket edebilir mi?
     pub fn can_move(&self) -> bool {
-        self.moves_used < self.speed
+        self.moves_used <= self.speed
     }
 
+    pub fn can_move_for(&self, need: usize) -> bool {
+        self.enough_energy(need) && self.enough_moves(need)
+    }
+
+    /// Yeterli enerji var mı?
+    pub fn enough_energy(&self, need: usize) -> bool {
+        self.energy >= need
+    }
+
+    /// Yeterli hareket hakkı var mı?
+    pub fn enough_moves(&self, need: usize) -> bool {
+        self.speed >= need
+    }
     // ===============================
     // DURUM DEĞİŞTİRİCİLER
     // ===============================
 
     /// Bir hareket kullanıldığında çağrılır
-    pub fn on_move(&mut self) {
-        self.moves_used += 1;
-        self.consume_energy(1);
+    pub fn on_move(&mut self, step: usize) {
+        self.moves_used += step;
+        self.consume_energy(step);
     }
 
     pub fn consume_energy(&mut self, amount: usize) {

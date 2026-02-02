@@ -54,14 +54,12 @@ impl Entity for HerbivoreEntity {
             // Yiyecek yok → ara
             // Basit: rastgele bir yön seç
             let mut steps: Steps = Steps::empty();
-            (0..=5).map(|_| {
+            for _ in 0..self.life_state.speed {
                 steps
                     .0
                     .push(DIRECTION_ARRAY[crate::gen_range(0, 7isize) as usize])
-            });
-            Intent::Move {
-                steps: steps.clone(),
             }
+            Intent::Move { steps: steps }
         } else {
             // Yiyecek var → yemeyi planla
             // Basit: ilk bulduğu yiyecek
