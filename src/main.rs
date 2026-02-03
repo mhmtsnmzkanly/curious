@@ -1,5 +1,7 @@
 use curious::{
+    creatures::carnivore::CarnivoreEntity,
     creatures::herbivore::HerbivoreEntity,
+    creatures::omnivore::OmnivoreEntity,
     entity::{perception::Perception, phase::EntityPhase},
     map::movement::Position,
     set_global_seed_with_time,
@@ -13,19 +15,43 @@ fn main() {
     let entities: Vec<EntitySlot> = vec![
         EntitySlot::new(
             1,
-            (0isize, 0isize).into(),
+            (-15isize, -15isize).into(),
             EntityPhase::Active,
             Box::new(HerbivoreEntity::default()),
         ),
         EntitySlot::new(
             2,
-            (3isize, 3isize).into(),
+            (-14isize, -15isize).into(),
             EntityPhase::Active,
             Box::new(HerbivoreEntity::default()),
         ),
+        EntitySlot::new(
+            3,
+            (14isize, -15isize).into(),
+            EntityPhase::Active,
+            Box::new(CarnivoreEntity::default()),
+        ),
+        EntitySlot::new(
+            4,
+            (15isize, -15isize).into(),
+            EntityPhase::Active,
+            Box::new(OmnivoreEntity::default()),
+        ),
+        EntitySlot::new(
+            5,
+            (-15isize, 15isize).into(),
+            EntityPhase::Active,
+            Box::new(CarnivoreEntity::default()),
+        ),
+        EntitySlot::new(
+            6,
+            (-14isize, 15isize).into(),
+            EntityPhase::Active,
+            Box::new(OmnivoreEntity::default()),
+        ),
     ];
     // İnteraktif dünya
-    let mut world = World::new(-8, 7, -8, 7, entities);
+    let mut world = World::new(-15, 14, -15, 14, entities);
     // İnteraktif dünya sayacı
     let mut tick_counter: usize = 0;
     loop {
@@ -33,7 +59,7 @@ fn main() {
         world.tick();
         tick_counter += 1;
         print_map(&world, tick_counter);
-        thread::sleep(Duration::from_millis(1000));
+        thread::sleep(Duration::from_millis(300));
     }
 }
 
@@ -57,17 +83,27 @@ pub fn print_map(world: &World, tick: usize) {
                 match slot.phase {
                     // ANSI TrueColor formatı: \x1b[38;2;R;G;Bm
                     // \x1b[0m kodu ise rengi sıfırlamak içindir
-                    EntityPhase::Active => print!(
-                        "\x1b[38;2;{};{};{}m@ \x1b[0m",
-                        (slot.id & 0xFF) as u8,
-                        ((slot.id >> 8) & 0xFF) as u8,
-                        ((slot.id >> 16) & 0xFF) as u8
-                    ), // Canlı
-                    EntityPhase::Corpse { .. } => print!("X "), // Ceset
+                    EntityPhase::Active => {
+                        // Türüne göre renk: Etçil kırmızı, Otçul yeşil, Hepçil mavi
+                        let (r, g, b) = match slot.base.species() {
+                            curious::entity::species::Species::Carnivore => (220, 40, 40),
+                            curious::entity::species::Species::Herbivore => (40, 200, 40),
+                            curious::entity::species::Species::Omnivore => (60, 120, 220),
+                        };
+                        print!("\x1b[38;2;{};{};{}m@ \x1b[0m", r, g, b);
+                    } // Canlı
+                    EntityPhase::Corpse { .. } => {
+                        // Ceset turuncu
+                        print!("\x1b[38;2;255;140;0mX \x1b[0m");
+                    }
                     _ => print!("? "),
                 }
             } else if let Some(curious::map::cell::Cell::Food { .. }) = world.map.cell(pos) {
-                print!("f "); // Yemek (Food)
+                // Yemek sarı
+                print!("\x1b[38;2;240;220;0mf \x1b[0m");
+            } else if let Some(curious::map::cell::Cell::Water { .. }) = world.map.cell(pos) {
+                // Su sarı
+                print!("\x1b[38;2;240;220;0mw \x1b[0m");
             } else {
                 print!(". "); // Boş hücre
             }
@@ -79,13 +115,19 @@ pub fn print_map(world: &World, tick: usize) {
         if let Some(slot) = world.entities.get(entity_index) {
             let life = slot.entity().life();
             print!(
-                "  | @{:<2} {:?} HP:{:<3} EN:{:<3} AGE:{:<3} Ph:{:?} ",
-                slot.id, slot.pos, life.health, life.energy, life.age, slot.phase
+                "  {:?} | @{:<2} {:?} HP:{:<3} EN:{:<3} AGE:{:<3} Ph:{:?} ",
+                slot.base.species(),
+                slot.id,
+                slot.pos,
+                life.health,
+                life.energy,
+                life.age,
+                slot.phase
             );
         }
 
         println!(); // Alt satıra geç
     }
     println!("{:-<1$}", "", map_width + 5);
-    println!("@: Canlı | X: Ceset | f: Yemek");
+    println!("@: Canlı | X: Ceset | f: Yemek | w: Su");
 }

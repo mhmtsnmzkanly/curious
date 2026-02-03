@@ -1,6 +1,7 @@
 // Modülü dahil et
 pub mod creatures;
 pub mod entity;
+pub mod logger;
 pub mod map;
 pub mod world;
 

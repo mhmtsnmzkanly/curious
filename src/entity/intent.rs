@@ -9,6 +9,8 @@ pub enum Intent {
     /// Not: Yemek aynı hücrede ise at okunmaz,
     /// miktar canlının yiyebiliceği ve World izin verdiği miktarda olur
     Eat { at: Steps, corpse_id: Option<usize> },
+    /// İçilmek istenilen suyun konumu
+    Drink { at: Steps },
     /// Çiftleşmek istenilen canlı
     Mate { target_id: usize },
     /// Saldırılmak istenilen canlı

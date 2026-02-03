@@ -10,11 +10,11 @@ use crate::{
     map::movement::{DIRECTION_ARRAY, Steps},
 };
 
-pub struct HerbivoreEntity {
+pub struct CarnivoreEntity {
     pub life_state: LifeState,
 }
 
-impl HerbivoreEntity {
+impl CarnivoreEntity {
     pub fn new(life_state: LifeState) -> Self {
         Self { life_state }
     }
@@ -22,25 +22,25 @@ impl HerbivoreEntity {
     pub fn default() -> Self {
         Self {
             life_state: LifeState {
-                max_age: 105,
-                max_health: 120,
-                max_energy: 80,
-                max_water: 60,
-                maturity_age: 20,
-                vision_range: 6,
+                max_age: 120,
+                max_health: 140,
+                max_energy: 90,
+                max_water: 70,
+                maturity_age: 25,
+                vision_range: 7,
                 age: 0,
-                health: 120,
-                energy: 80,
-                water: 60,
+                health: 140,
+                energy: 90,
+                water: 70,
                 reproduction_cooldown: 0,
-                speed: 3,
+                speed: 4,
                 moves_used: 0,
             },
         }
     }
 }
 
-impl Entity for HerbivoreEntity {
+impl Entity for CarnivoreEntity {
     fn life(&self) -> &LifeState {
         &self.life_state
     }
@@ -50,17 +50,19 @@ impl Entity for HerbivoreEntity {
     }
 
     fn species(&self) -> Species {
-        Species::Herbivore
+        Species::Carnivore
     }
 
     fn make_intent(&self, perception: Perception) -> Intent {
         let decision =
-            InstinctEvaluator::evaluate(&self.life_state, &perception, Species::Herbivore);
+            InstinctEvaluator::evaluate(&self.life_state, &perception, Species::Carnivore);
 
-        let best_food = perception
-            .foods
+        let best_prey = perception
+            .entities
             .iter()
-            .min_by_key(|f| (f.steps.len(), usize::MAX - f.amount));
+            .filter(|e| e.species != Species::Carnivore)
+            .min_by_key(|e| (e.steps.len(), e.power));
+
         let best_water = perception
             .waters
             .iter()
@@ -74,23 +76,20 @@ impl Entity for HerbivoreEntity {
                             target_id: threat.target_id,
                         };
                     }
+                    return Intent::Flee {
+                        target_id: threat.target_id,
+                    };
                 }
-                let mut steps = Steps::empty();
-                for _ in 0..self.life_state.speed {
-                    steps
-                        .0
-                        .push(DIRECTION_ARRAY[crate::gen_range(0, 7isize) as usize])
-                }
-                Intent::Move { steps }
+                Intent::Idle { duration: 1 }
             }
             Instinct::Survival | Instinct::Hunger => {
-                if let Some(food) = best_food {
-                    if !self.life_state.is_energy_full() {
-                        return Intent::Eat {
-                            at: food.steps.clone(),
-                            corpse_id: None,
-                        };
+                if let Some(prey) = best_prey {
+                    if prey.steps.len() <= 1 {
+                        return Intent::Attack { target_id: prey.id };
                     }
+                    return Intent::Move {
+                        steps: prey.steps.clone(),
+                    };
                 }
 
                 let mut steps = Steps::empty();
@@ -115,7 +114,7 @@ impl Entity for HerbivoreEntity {
                 if let Some(target) = perception
                     .entities
                     .iter()
-                    .find(|e| e.species == Species::Herbivore)
+                    .find(|e| e.species == Species::Carnivore)
                 {
                     if target.steps.len() <= 1 {
                         Intent::Mate {
@@ -139,7 +138,6 @@ impl Entity for HerbivoreEntity {
 
     fn tick(&mut self) {
         self.life_state.tick();
-        //self.life_state.metabolic_cost();
     }
 
     fn reproduce(&self) -> Box<dyn Entity> {
@@ -148,6 +146,6 @@ impl Entity for HerbivoreEntity {
         child_life.energy = child_life.max_energy / 2;
         child_life.water = child_life.max_water / 2;
         child_life.health = child_life.max_health / 2;
-        Box::new(HerbivoreEntity::new(child_life))
+        Box::new(CarnivoreEntity::new(child_life))
     }
 }

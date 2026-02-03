@@ -100,6 +100,7 @@ impl Steps {
     pub fn iter_mut(&mut self) -> std::slice::IterMut<'_, Direction> {
         self.0.iter_mut()
     }
+
     /// Adım sayısını döner
     pub fn len(&self) -> usize {
         self.0.len()

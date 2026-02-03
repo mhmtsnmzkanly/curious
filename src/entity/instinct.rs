@@ -9,6 +9,8 @@ pub enum Instinct {
     Threat,
     /// Açlık (enerji düşük).
     Hunger,
+    /// Susuzluk (su düşük).
+    Thirst,
     /// Çiftleşme (üreme mümkün).
     Mating,
     /// Özel bir dürtü yok.
@@ -33,12 +35,19 @@ pub struct InstinctDecision {
 
 impl InstinctEvaluator {
     /// Basit içgüdü sıralaması uygular.
-    pub fn evaluate(life: &LifeState, perception: &Perception) -> InstinctDecision {
+    pub fn evaluate(
+        life: &LifeState,
+        perception: &Perception,
+        own_species: Species,
+    ) -> InstinctDecision {
+        // Tehdit algısı için mesafe eşiği (adım sayısı)
+        const THREAT_RANGE: usize = 2;
+
         let own_power = life.health + life.energy;
         let threat = perception
             .entities
             .iter()
-            .find(|entity| entity.species != Species::Herbivore)
+            .find(|entity| entity.species != own_species && entity.steps.len() <= THREAT_RANGE)
             .map(|entity| ThreatAssessment {
                 target_id: entity.id,
                 can_win: own_power >= entity.power,
@@ -60,6 +69,12 @@ impl InstinctEvaluator {
         if life.is_energy_low() {
             return InstinctDecision {
                 instinct: Instinct::Hunger,
+                threat: None,
+            };
+        }
+        if life.is_water_low() {
+            return InstinctDecision {
+                instinct: Instinct::Thirst,
                 threat: None,
             };
         }

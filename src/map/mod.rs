@@ -180,6 +180,19 @@ impl Map {
         self.set_cell(pos, Cell::Empty);
     }
 
+    /// Hücreye yiyecek ekle (varsa miktarı artır)
+    pub fn add_food(&mut self, pos: Position, amount: usize) {
+        if !self.in_bounds(pos) {
+            return;
+        }
+
+        let new_cell = match self.cell(pos) {
+            Some(Cell::Food { amount: a }) => Cell::Food { amount: a + amount },
+            _ => Cell::Food { amount },
+        };
+        self.set_cell(pos, new_cell);
+    }
+
     /// Bir yönde engel gelene kadar kaç adım?
     pub fn walkable_distance(&self, from: Position, dir: Direction) -> u8 {
         let mut cur = from;
@@ -295,13 +308,46 @@ impl Map {
         result
     }
 
+    pub fn scan_waters_within(
+        &self,
+        center: Position,
+        radius: usize,
+    ) -> Vec<(Position, Steps, usize)> {
+        let mut result = Vec::new();
+
+        for y in (center.y - radius as isize)..=(center.y + radius as isize) {
+            for x in (center.x - radius as isize)..=(center.x + radius as isize) {
+                let pos = Position { x, y };
+
+                if !self.in_bounds(pos) {
+                    continue;
+                }
+
+                let manhattan = (center.x - x).abs() + (center.y - y).abs();
+                if manhattan as usize > radius {
+                    continue;
+                }
+
+                if let Some(Cell::Water { amount }) = self.cell(pos) {
+                    if let Some(steps) = self.bfs_steps_to(center, pos, radius) {
+                        result.push((pos, steps, *amount));
+                    }
+                }
+            }
+        }
+
+        result
+    }
+
     /// Tüm haritayı chunk chunk doldurur (Orkestra Şefi)
     pub fn populate_resources(&mut self, density: f32) {
         // Haritanın kapsadığı chunk sınırlarını hesapla
-        let min_cx = self.min_x / CHUNK_SIZE as isize;
-        let max_cx = self.max_x / CHUNK_SIZE as isize;
-        let min_cy = self.min_y / CHUNK_SIZE as isize;
-        let max_cy = self.max_y / CHUNK_SIZE as isize;
+        // Negatif koordinatlar için div_euclid kullanılmalı,
+        // aksi halde değerler 0'a doğru yuvarlandığı için yanlış chunklar seçilir.
+        let min_cx = self.min_x.div_euclid(CHUNK_SIZE as isize);
+        let max_cx = self.max_x.div_euclid(CHUNK_SIZE as isize);
+        let min_cy = self.min_y.div_euclid(CHUNK_SIZE as isize);
+        let max_cy = self.max_y.div_euclid(CHUNK_SIZE as isize);
 
         for cx in min_cx..=max_cx {
             for cy in min_cy..=max_cy {
@@ -319,10 +365,7 @@ impl Map {
 
         for ly in 0..CHUNK_SIZE {
             for lx in 0..CHUNK_SIZE {
-                let world_pos = Position::new(
-                    start_x + lx as isize,
-                    start_y + ly as isize,
-                );
+                let world_pos = Position::new(start_x + lx as isize, start_y + ly as isize);
 
                 if !self.in_bounds(world_pos)
                     || !self
@@ -337,12 +380,13 @@ impl Map {
                     continue;
                 }
 
-                self.set_cell(
-                    world_pos,
-                    Cell::Food {
-                        amount: (next_rand() % 7 + 5) as usize,
-                    },
-                );
+                let amount = (next_rand() % 7 + 5) as usize;
+                let water_roll = next_rand() % 100;
+                if water_roll < 20 {
+                    self.set_cell(world_pos, Cell::Water { amount });
+                } else {
+                    self.set_cell(world_pos, Cell::Food { amount });
+                }
             }
         }
     }

@@ -1,5 +1,3 @@
-#!/usr/bin/env bash
-
 SRC_DIR="src"
 OUTPUT="SRC.md"
 

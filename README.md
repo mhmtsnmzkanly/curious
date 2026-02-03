@@ -40,3 +40,8 @@ Projeye şuanlık bir arayüz geliştirmeyi düşünmüyorum.
 Ne kadar yalın kalırsa, başka bir ortama geçirmesi o kadar kolay olur.
 Wasm gibi yada Godot gibi bir motor için Extension olarak.
 Game of Life ile yola çıkıp, günün birinde Dwarf Fortress gibi bir seviyeye gelmek istiyorum.
+
+## Yeni Eklenenler (Özet)
+- Su kaynağı ve susuzluk mekanizması.
+- `Herbivore`, `Carnivore`, `Omnivore` türleri için temel davranışlar.
+- `Drink` niyeti ile su tüketimi.

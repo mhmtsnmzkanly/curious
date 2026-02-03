@@ -1,8 +1,13 @@
 use crate::{
     entity::{Entity, intent::Intent, perception::*, phase::EntityPhase},
-    map::{Map, movement::Position},
+    gen_range,
+    logger::{LogLevel, Logger},
+    map::{
+        movement::{Direction, Position, DIRECTION_ARRAY},
+        Map,
+    },
 };
-//use std::collections::{HashMap, HashSet};
+use std::collections::HashMap;
 
 /// Canlının yönetim biçimi
 pub struct EntitySlot {
@@ -68,6 +73,12 @@ pub struct World {
 
     /// Tüm Canlıların ID, Pos ve Entity listesi
     pub entities: Vec<EntitySlot>,
+
+    /// Simülasyon tur sayacı
+    pub tick_counter: usize,
+
+    /// Gelişmiş loglama
+    pub logger: Logger,
 }
 
 impl World {
@@ -75,9 +86,23 @@ impl World {
         // Haritayı oluştur
         let mut map = Map::new(x1, x2, y1, y2);
         // Haritanın % kısmına rastgele kaynak yerleştir.
-        map.populate_resources(0.01f32);
+        // Kaynak yoğunluğunu biraz düşür (aşırı doygunluk davranışları baskılamasın)
+        map.populate_resources(0.05f32);
         // Döndür
-        World { map, entities }
+        // Her çalıştırmada ayrı log dosyası oluştur (okunabilir tarih/saat)
+        let now = time::OffsetDateTime::now_utc();
+        let format = time::format_description::parse("[year]-[month]-[day]_[hour]-[minute]-[second]")
+            .unwrap_or_else(|_| time::format_description::parse("[year][month][day]_[hour][minute][second]").unwrap());
+        let ts = now.format(&format).unwrap_or_else(|_| "unknown_time".to_string());
+        let log_path = format!("logs/simulation_{}.log", ts);
+        let mut logger = Logger::new(&log_path);
+        logger.set_min_level(LogLevel::Info);
+        World {
+            map,
+            entities,
+            tick_counter: 0,
+            logger,
+        }
     }
 
     /// Tick, bir zaman birimidir
@@ -88,9 +113,22 @@ impl World {
     /// BU KARAR KESİNLİK DEĞİLDİR, WORLD SON SÖZÜ SÖYLER
     /// ÇAKIŞAN NİYETLER İÇİN WORLD İNSİYATİF ALABİLİR
     pub fn tick(&mut self) {
+        self.tick_counter += 1;
+
         // Removed aşamasındaki entityleri sil
         self.entities
             .retain(|slot| !matches!(slot.phase, EntityPhase::Removed));
+
+        let mut log_lines: Vec<String> = Vec::new();
+        log_lines.push(format!("=== Tick {} ===", self.tick_counter));
+
+        // Çakışma çözümü ve hızlı erişim için dolu hücre haritası
+        let mut occupied: HashMap<Position, usize> = self
+            .entities
+            .iter()
+            .filter(|slot| !matches!(slot.phase, EntityPhase::Corpse { .. } | EntityPhase::Removed))
+            .map(|slot| (slot.pos, slot.id))
+            .collect();
 
         let mut intents: Vec<(usize, Intent)> = Vec::new();
 
@@ -100,9 +138,22 @@ impl World {
                 continue; // Sadece aktif canlılar karar verir
             }
             let perception = self.build_perception(slot);
-            //println!("@{} {:#?}", slot.id, perception);
             let intent = slot.entity().make_intent(perception);
             intents.push((slot.id, intent));
+
+            // Niyet logu (Idle ise her 5 tick'te bir yaz)
+            let last_intent = intents.last().unwrap().1.clone();
+            let should_log_intent = !matches!(last_intent, Intent::Idle { .. })
+                || (self.tick_counter % 5 == 0);
+            if should_log_intent {
+                log_lines.push(format!(
+                    "[Niyet] @{} {:?} Pos:{:?} => {:?}",
+                    slot.id,
+                    slot.base.species(),
+                    slot.pos,
+                    last_intent
+                ));
+            }
         }
 
         // Intentleri çöz
@@ -110,7 +161,11 @@ impl World {
         // 1. Move planları ve mate planlarını önceden topla
         let mut move_plans: Vec<(usize, Position, usize)> = Vec::new();
         let mut eat_plans: Vec<(usize, Position, usize)> = Vec::new();
+        let mut drink_plans: Vec<(usize, Position, usize)> = Vec::new();
         let mut mate_plans: Vec<(usize, usize)> = Vec::new();
+        let mut attack_plans: Vec<(usize, usize)> = Vec::new();
+        let mut flee_plans: Vec<(usize, Position, usize)> = Vec::new();
+        let mut sleep_plans: Vec<(usize, usize)> = Vec::new();
 
         for (id, intent) in intents {
             match intent {
@@ -130,62 +185,312 @@ impl World {
                                 new_pos = new_pos + *dir;
                             }
                             move_plans.push((id, new_pos, cost));
+                            log_lines.push(format!(
+                                "[Plan] Move  @{} {:?} -> {:?} adim:{}",
+                                slot.id,
+                                slot.base.species(),
+                                new_pos,
+                                cost
+                            ));
                         }
                     }
                 }
                 Intent::Eat { at, corpse_id: _ } => {
-                    if !at.is_empty() {
-                        if let Some(slot) = self.entities.iter().find(|s| s.id == id) {
-                            let mut new_pos: Position = slot.pos;
-                            let mut cost: usize = 0;
-                            for dir in at.0.iter() {
-                                if !self.map.is_walkable(new_pos + *dir)
-                                    || !slot.base.life().can_move_for(cost + 1)
-                                {
+                    if let Some(slot) = self.entities.iter().find(|s| s.id == id) {
+                        let mut new_pos: Position = slot.pos;
+                        let mut cost: usize = 0;
+                        for dir in at.0.iter() {
+                            if !self.map.is_walkable(new_pos + *dir)
+                                || !slot.base.life().can_move_for(cost + 1)
+                            {
+                                break;
+                            }
+                            cost += 1;
+                            new_pos = new_pos + *dir;
+                        }
+                        // Aynı hücredeyse de yeme planı üret
+                        eat_plans.push((id, new_pos, cost));
+                        log_lines.push(format!(
+                            "[Plan] Eat   @{} {:?} -> {:?} adim:{}",
+                            slot.id,
+                            slot.base.species(),
+                            new_pos,
+                            cost
+                        ));
+                    }
+                }
+                Intent::Drink { at } => {
+                    if let Some(slot) = self.entities.iter().find(|s| s.id == id) {
+                        let mut new_pos: Position = slot.pos;
+                        let mut cost: usize = 0;
+                        for dir in at.0.iter() {
+                            if !self.map.is_walkable(new_pos + *dir)
+                                || !slot.base.life().can_move_for(cost + 1)
+                            {
+                                break;
+                            }
+                            cost += 1;
+                            new_pos = new_pos + *dir;
+                        }
+                        // Aynı hücredeyse de içme planı üret
+                        drink_plans.push((id, new_pos, cost));
+                        log_lines.push(format!(
+                            "[Plan] Drink @{} {:?} -> {:?} adim:{}",
+                            slot.id,
+                            slot.base.species(),
+                            new_pos,
+                            cost
+                        ));
+                    }
+                }
+                Intent::Mate { target_id } => {
+                    mate_plans.push((id, target_id));
+                    log_lines.push(format!(
+                        "[Plan] Mate  @{} -> @{}",
+                        id, target_id
+                    ));
+                }
+                Intent::Attack { target_id } => {
+                    attack_plans.push((id, target_id));
+                    log_lines.push(format!(
+                        "[Plan] Attack @{} -> @{}",
+                        id, target_id
+                    ));
+                }
+                Intent::Flee { target_id } => {
+                    let target_pos = match self.entities.iter().find(|s| s.id == target_id) {
+                        Some(t) => t.pos,
+                        None => continue,
+                    };
+                    if let Some(slot) = self.entities.iter().find(|s| s.id == id) {
+                        let mut new_pos: Position = slot.pos;
+                        let mut cost: usize = 0;
+
+                        for _ in 0..slot.base.life().speed {
+                            // Hedefe en çok uzaklaştıran yönü seç
+                            let mut best_dir: Option<Direction> = None;
+                            let mut best_dist: usize = new_pos.distance_to(target_pos);
+
+                            for dir in DIRECTION_ARRAY {
+                                let candidate = new_pos + dir;
+                                if !self.map.is_walkable(candidate) {
+                                    continue;
+                                }
+                                let dist = candidate.distance_to(target_pos);
+                                if dist > best_dist {
+                                    best_dist = dist;
+                                    best_dir = Some(dir);
+                                }
+                            }
+
+                            // Daha iyi bir yön yoksa, yürünebilir herhangi bir yönü seç
+                            let dir = match best_dir {
+                                Some(d) => d,
+                                None => {
+                                    let mut fallback: Option<Direction> = None;
+                                    for d in DIRECTION_ARRAY {
+                                        let candidate = new_pos + d;
+                                        if self.map.is_walkable(candidate) {
+                                            fallback = Some(d);
+                                            break;
+                                        }
+                                    }
+                                    let Some(d) = fallback else { break };
+                                    d
+                                }
+                            };
+                            if !slot.base.life().can_move_for(cost + 1) {
+                                break;
+                            }
+                            cost += 1;
+                            new_pos = new_pos + dir;
+                        }
+
+                        flee_plans.push((id, new_pos, cost));
+                        log_lines.push(format!(
+                            "[Plan] Flee  @{} -> {:?} (hedef @{}) adim:{}",
+                            id, new_pos, target_id, cost
+                        ));
+                    }
+                }
+                Intent::Idle { duration: _ } => {
+                    if let Some(slot) = self.entities.iter().find(|s| s.id == id) {
+                        // Hafif gezinme: %30 ihtimalle 1 adım rastgele dene
+                        const IDLE_MOVE_CHANCE: isize = 30;
+                        let roll = gen_range(1, 100);
+                        if roll <= IDLE_MOVE_CHANCE && slot.base.life().can_move_for(1) {
+                            let mut chosen: Option<Position> = None;
+                            for _ in 0..8 {
+                                let dir = DIRECTION_ARRAY[gen_range(0, 7isize) as usize];
+                                let candidate = slot.pos + dir;
+                                if self.map.is_walkable(candidate) {
+                                    chosen = Some(candidate);
                                     break;
                                 }
-                                cost += 1;
-                                new_pos = new_pos + *dir;
                             }
-                            eat_plans.push((id, new_pos, cost));
+                            if let Some(pos) = chosen {
+                                move_plans.push((id, pos, 1));
+                                log_lines.push(format!(
+                                    "[Plan] Idle->Move @{} {:?} -> {:?} adim:1",
+                                    slot.id,
+                                    slot.base.species(),
+                                    pos
+                                ));
+                            }
                         }
                     }
                 }
-                /*Intent::Mate { target_id } => {
-                    mate_plans.push((id, target_id));
-                }*/
+                Intent::Sleep { duration } => {
+                    sleep_plans.push((id, duration));
+                    log_lines.push(format!(
+                        "[Plan] Sleep @{} sure:{}",
+                        id, duration
+                    ));
+                }
                 _ => {}
             }
         }
 
         // ------------------------------
-        // 2. Move planlarını uygula (tek mutable borrow)
+        // 2. Move planlarını uygula (çakışma çözümü ile)
         // ------------------------------
-        for (id, new_pos, cost) in move_plans {
-            //println!("move_plan: {} {:?} {}", id, new_pos, cost);
+        let mut move_candidates: HashMap<Position, Vec<(usize, Position, usize)>> = HashMap::new();
+        for plan in &move_plans {
+            move_candidates.entry(plan.1).or_default().push(*plan);
+        }
+
+        let mut move_winners: Vec<(usize, Position, usize)> = move_candidates
+            .into_values()
+            .map(|mut group| {
+                group.sort_by_key(|(id, _, _)| *id);
+                group[0]
+            })
+            .collect();
+
+        move_winners.sort_by_key(|(id, _, _)| *id);
+
+        for (id, new_pos, cost) in move_winners {
+            // Başka biri orayı tutuyorsa hareketi engelle
+            if let Some(other_id) = occupied.get(&new_pos) {
+                if *other_id != id {
+                    log_lines.push(format!(
+                        "[Engel] Move  @{} -> {:?} (doluluk @{})",
+                        id, new_pos, other_id
+                    ));
+                    continue;
+                }
+            }
+
             if let Some(slot) = self.entities.iter_mut().find(|s| s.id == id) {
-                /*println!(
-                    "[@{}] Entity moving from {:?} to {:?}",
-                    slot.id, slot.pos, new_pos
-                );*/
+                // Eski pozisyonu boşalt
+                occupied.remove(&slot.pos);
                 slot.base.life_mut().on_move(cost);
                 slot.pos = new_pos;
+                occupied.insert(new_pos, id);
+
+                log_lines.push(format!(
+                    "[Uygula] Move  @{} -> {:?} adim:{}",
+                    id, new_pos, cost
+                ));
             }
         }
 
         // ------------------------------
-        // 3. Eat planlarını uygula
+        // 3. Eat planlarını uygula (çakışma çözümü ile)
         // ------------------------------
-        for (id, new_pos, cost) in eat_plans {
+        let mut eat_candidates: HashMap<Position, Vec<(usize, Position, usize)>> = HashMap::new();
+        for plan in &eat_plans {
+            eat_candidates.entry(plan.1).or_default().push(*plan);
+        }
+
+        let mut eat_winners: Vec<(usize, Position, usize)> = eat_candidates
+            .into_values()
+            .map(|mut group| {
+                group.sort_by_key(|(id, _, _)| *id);
+                group[0]
+            })
+            .collect();
+
+        eat_winners.sort_by_key(|(id, _, _)| *id);
+
+        for (id, new_pos, cost) in eat_winners {
+            if let Some(other_id) = occupied.get(&new_pos) {
+                if *other_id != id {
+                    log_lines.push(format!(
+                        "[Engel] Eat   @{} -> {:?} (doluluk @{})",
+                        id, new_pos, other_id
+                    ));
+                    continue;
+                }
+            }
+
             if let Some(slot) = self.entities.iter_mut().find(|s| s.id == id) {
+                occupied.remove(&slot.pos);
                 slot.pos = new_pos;
                 slot.base.life_mut().on_move(cost);
+                occupied.insert(new_pos, id);
+
                 if let Some(cell) = self.map.cell(new_pos) {
                     if let crate::map::cell::Cell::Food { amount } = cell {
                         //println!("[@{}] Entity eating from {:?}", slot.id, slot.pos);
                         let eat_amount = *amount.min(&5);
                         slot.entity_mut().life_mut().restore_energy(eat_amount);
                         self.map.reduce_cell_amount(new_pos, eat_amount);
+
+                        log_lines.push(format!(
+                            "[Uygula] Eat   @{} -> {:?} miktar:{}",
+                            id, new_pos, eat_amount
+                        ));
+                    }
+                }
+            }
+        }
+
+        // ------------------------------
+        // 3.1 Drink planlarını uygula (çakışma çözümü ile)
+        // ------------------------------
+        let mut drink_candidates: HashMap<Position, Vec<(usize, Position, usize)>> = HashMap::new();
+        for plan in &drink_plans {
+            drink_candidates.entry(plan.1).or_default().push(*plan);
+        }
+
+        let mut drink_winners: Vec<(usize, Position, usize)> = drink_candidates
+            .into_values()
+            .map(|mut group| {
+                group.sort_by_key(|(id, _, _)| *id);
+                group[0]
+            })
+            .collect();
+
+        drink_winners.sort_by_key(|(id, _, _)| *id);
+
+        for (id, new_pos, cost) in drink_winners {
+            if let Some(other_id) = occupied.get(&new_pos) {
+                if *other_id != id {
+                    log_lines.push(format!(
+                        "[Engel] Drink @{} -> {:?} (doluluk @{})",
+                        id, new_pos, other_id
+                    ));
+                    continue;
+                }
+            }
+
+            if let Some(slot) = self.entities.iter_mut().find(|s| s.id == id) {
+                occupied.remove(&slot.pos);
+                slot.pos = new_pos;
+                slot.base.life_mut().on_move(cost);
+                occupied.insert(new_pos, id);
+
+                if let Some(cell) = self.map.cell(new_pos) {
+                    if let crate::map::cell::Cell::Water { amount } = cell {
+                        let drink_amount = *amount.min(&5);
+                        slot.entity_mut().life_mut().restore_water(drink_amount);
+                        self.map.reduce_cell_amount(new_pos, drink_amount);
+
+                        log_lines.push(format!(
+                            "[Uygula] Drink @{} -> {:?} miktar:{}",
+                            id, new_pos, drink_amount
+                        ));
                     }
                 }
             }
@@ -196,42 +501,227 @@ impl World {
         // ------------------------------
 
         let mut new_entities: Vec<crate::world::EntitySlot> = Vec::new();
-        /*
-        for plan in mate_plans {
-            let can_mate = self.entities.iter().any(|s| s.id == plan.parent_id)
-                && self.entities.iter().any(|s| s.id == plan.target_id);
-            if !can_mate {
+        let id_to_index: HashMap<usize, usize> = self
+            .entities
+            .iter()
+            .enumerate()
+            .map(|(i, s)| (s.id, i))
+            .collect();
+
+        for (self_id, target_id) in mate_plans {
+            let self_index = id_to_index.get(&self_id).copied();
+            let target_index = id_to_index.get(&target_id).copied();
+
+            let (self_index, target_index) = match (self_index, target_index) {
+                (Some(a), Some(t)) if a != t => (a, t),
+                _ => continue,
+            };
+
+            // Aynı anda iki mutable borrow için split_at_mut kullanılır
+            let (left, right) = if self_index < target_index {
+                let (l, r) = self.entities.split_at_mut(target_index);
+                (l, r)
+            } else {
+                let (l, r) = self.entities.split_at_mut(self_index);
+                (r, l)
+            };
+
+            let (self_slot, target_slot) = if self_index < target_index {
+                (&mut left[self_index], &mut right[0])
+            } else {
+                (&mut left[0], &mut right[target_index])
+            };
+
+            // İkisi de aktif olmalı
+            if !self_slot.phase.is_active() || !target_slot.phase.is_active() {
                 continue;
             }
 
-            // Mutable borrow tek seferde al
-            let mut maybe_child = None;
-            for slot in &mut self.entities {
-                if slot.id == plan.parent_id {
-                    maybe_child = Some(slot.entity_mut().reproduce());
-                    slot.entity_mut().life_mut().on_reproduce();
+            // Yakınlık kontrolü (çapraz dahil komşu)
+            let dx = (self_slot.pos.x - target_slot.pos.x).abs();
+            let dy = (self_slot.pos.y - target_slot.pos.y).abs();
+            if dx > 1 || dy > 1 {
+                log_lines.push(format!(
+                    "[Engel] Mate  @{} + @{} (mesafe x:{} y:{})",
+                    self_id, target_id, dx, dy
+                ));
+                continue;
+            }
+
+            // İki tarafın da üreme koşulları uygun olmalı
+            if !self_slot.entity().life().can_reproduce()
+                || !target_slot.entity().life().can_reproduce()
+            {
+                continue;
+            }
+
+            // Çocuğun doğacağı boş bir komşu hücre bul
+            let mut child_pos: Option<Position> = None;
+            for dir in DIRECTION_ARRAY {
+                let candidate = target_slot.pos + dir;
+                if self.map.is_walkable(candidate) && !occupied.contains_key(&candidate) {
+                    child_pos = Some(candidate);
                     break;
                 }
             }
+            let Some(child_pos) = child_pos else {
+                log_lines.push(format!(
+                    "[Engel] Mate  @{} + @{} (bos komsu yok)",
+                    self_id, target_id
+                ));
+                continue;
+            };
 
-            if let Some(child) = maybe_child {
-                let new_id = self.entities.iter().map(|s| s.id).max().unwrap_or(0) + 1;
-                let parent_pos = self
-                    .entities
-                    .iter()
-                    .find(|s| s.id == plan.parent_id)
-                    .unwrap()
-                    .pos;
-                new_entities.push(crate::world::EntitySlot::new(
-                    new_id,
-                    parent_pos,
-                    crate::entity::phase::EntityPhase::Active,
-                    child,
+            // Üreme maliyetleri
+            self_slot.entity_mut().life_mut().on_reproduce();
+            target_slot.entity_mut().life_mut().on_reproduce();
+
+            let child = target_slot.entity_mut().reproduce();
+            let new_id = self.entities.iter().map(|s| s.id).max().unwrap_or(0) + 1;
+
+            new_entities.push(crate::world::EntitySlot::new(
+                new_id,
+                child_pos,
+                crate::entity::phase::EntityPhase::Active,
+                child,
+            ));
+
+            // Yeni doğan pozisyonu işgal edildi
+            occupied.insert(child_pos, new_id);
+
+            log_lines.push(format!(
+                "[Uygula] Mate  @{} + @{} => @{} {:?}",
+                self_id, target_id, new_id, child_pos
+            ));
+        }
+        self.entities.extend(new_entities);
+
+        // ------------------------------
+        // 5. Attack planlarını uygula
+        // ------------------------------
+        let id_to_index: HashMap<usize, usize> = self
+            .entities
+            .iter()
+            .enumerate()
+            .map(|(i, s)| (s.id, i))
+            .collect();
+
+        for (attacker_id, target_id) in attack_plans {
+            let attacker_index = id_to_index.get(&attacker_id).copied();
+            let target_index = id_to_index.get(&target_id).copied();
+
+            let (attacker_index, target_index) = match (attacker_index, target_index) {
+                (Some(a), Some(t)) if a != t => (a, t),
+                _ => continue,
+            };
+
+            // Aynı anda iki mutable borrow için split_at_mut kullanılır
+            let (left, right) = if attacker_index < target_index {
+                let (l, r) = self.entities.split_at_mut(target_index);
+                (l, r)
+            } else {
+                let (l, r) = self.entities.split_at_mut(attacker_index);
+                (r, l)
+            };
+
+            let (attacker, target) = if attacker_index < target_index {
+                (&mut left[attacker_index], &mut right[0])
+            } else {
+                (&mut left[0], &mut right[target_index])
+            };
+
+            // Sadece aktif hedefe saldır
+            if !target.phase.is_active() {
+                log_lines.push(format!(
+                    "[Engel] Attack @{} -> @{} (hedef aktif degil)",
+                    attacker_id, target_id
+                ));
+                continue;
+            }
+
+            // Yakınlık kontrolü (çapraz dahil komşu)
+            let dx = (attacker.pos.x - target.pos.x).abs();
+            let dy = (attacker.pos.y - target.pos.y).abs();
+            if dx <= 1 && dy <= 1 {
+                // Basit hasar modeli
+                attacker.entity_mut().life_mut().consume_energy(3);
+                target.entity_mut().life_mut().take_damage(6);
+
+                log_lines.push(format!(
+                    "[Uygula] Attack @{} -> @{} hasar:{}",
+                    attacker_id, target_id, 6
+                ));
+            } else {
+                log_lines.push(format!(
+                    "[Engel] Attack @{} -> @{} (mesafe x:{} y:{})",
+                    attacker_id, target_id, dx, dy
                 ));
             }
         }
-        */
-        self.entities.extend(new_entities);
+
+        // ------------------------------
+        // 6. Flee planlarını uygula (çakışma çözümü ile)
+        // ------------------------------
+        let mut flee_candidates: HashMap<Position, Vec<(usize, Position, usize)>> = HashMap::new();
+        for plan in &flee_plans {
+            flee_candidates.entry(plan.1).or_default().push(*plan);
+        }
+
+        let mut flee_winners: Vec<(usize, Position, usize)> = flee_candidates
+            .into_values()
+            .map(|mut group| {
+                group.sort_by_key(|(id, _, _)| *id);
+                group[0]
+            })
+            .collect();
+
+        flee_winners.sort_by_key(|(id, _, _)| *id);
+
+        for (id, new_pos, cost) in flee_winners {
+            if let Some(other_id) = occupied.get(&new_pos) {
+                if *other_id != id {
+                    log_lines.push(format!(
+                        "[Engel] Flee  @{} -> {:?} (doluluk @{})",
+                        id, new_pos, other_id
+                    ));
+                    continue;
+                }
+            }
+
+            if let Some(slot) = self.entities.iter_mut().find(|s| s.id == id) {
+                occupied.remove(&slot.pos);
+                if new_pos != slot.pos {
+                    slot.base.life_mut().on_move(cost);
+                    slot.pos = new_pos;
+                } else {
+                    log_lines.push(format!(
+                        "[Engel] Flee  @{} -> {:?} (yerinde kaldı)",
+                        id, slot.pos
+                    ));
+                }
+                occupied.insert(slot.pos, id);
+
+                log_lines.push(format!(
+                    "[Uygula] Flee  @{} -> {:?} adim:{}",
+                    id, slot.pos, cost
+                ));
+            }
+        }
+
+        // ------------------------------
+        // 7. Sleep planlarını uygula
+        // ------------------------------
+        for (id, duration) in sleep_plans {
+            if let Some(slot) = self.entities.iter_mut().find(|s| s.id == id) {
+                if slot.phase.is_active() {
+                    slot.phase = EntityPhase::Sleeping { remaining: duration };
+                    log_lines.push(format!(
+                        "[Uygula] Sleep @{} sure:{}",
+                        id, duration
+                    ));
+                }
+            }
+        }
 
         for slot in &mut self.entities {
             // Sadece canlı olanların tick güncellemelerini uygula (yaş, enerji, speed reset vb.)
@@ -242,9 +732,21 @@ impl World {
             slot.phase.tick();
 
             if slot.phase == EntityPhase::Active && !slot.entity().life().is_alive() {
-                slot.phase = EntityPhase::Corpse { remaining: 5 }; // Ceset 50 tick kalacak
+                slot.phase = EntityPhase::Corpse { remaining: 5 }; // Ceset 5 tick kalacak
+                // Cesedi yiyeceğe dönüştür
+                let life = slot.entity().life();
+                let amount = (life.max_health / 4).max(5);
+                self.map.add_food(slot.pos, amount);
+
+                log_lines.push(format!(
+                    "[Durum] Ceset @{} -> Food miktar:{}",
+                    slot.id, amount
+                ));
             }
         }
+
+        // Tick sonunda logları yaz
+        self.logger.log_many(LogLevel::Info, &log_lines);
     }
 
     /// Intentleri çöz ve uygulama fonksiyonu
@@ -259,6 +761,12 @@ impl World {
         let found_foods = self.map.scan_foods_within(current_slot.pos, radius);
         for (_f_pos, steps, amount) in found_foods {
             perception.add_food(amount, false, steps);
+        }
+
+        // 1.1 Yakındaki Suları Algıla
+        let found_waters = self.map.scan_waters_within(current_slot.pos, radius);
+        for (_w_pos, steps, amount) in found_waters {
+            perception.add_water(amount, steps);
         }
 
         // 2. Yakındaki Diğer Canlıları Algıla

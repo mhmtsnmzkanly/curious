@@ -17,6 +17,9 @@ pub struct LifeState {
     /// Maksimum enerji
     pub max_energy: usize,
 
+    /// Maksimum su
+    pub max_water: usize,
+
     /// Üreme için minimum yaş
     pub maturity_age: usize,
 
@@ -32,6 +35,9 @@ pub struct LifeState {
 
     /// Anlık enerji
     pub energy: usize,
+
+    /// Anlık su
+    pub water: usize,
 
     /// Son çiftleşmeden sonra kalan bekleme süresi
     pub reproduction_cooldown: usize,
@@ -76,7 +82,13 @@ impl LifeState {
             self.restore_energy(9);
         }
 
+        // Su yoksa can düşsün
+        if self.water == 0 && !self.is_health_low() {
+            self.health = self.health.saturating_sub(2);
+        }
+
         self.consume_energy(1);
+        self.consume_water(1);
 
         // Bu tick için hareket sayacı sıfırlanır
         self.moves_used = 0;
@@ -92,6 +104,10 @@ impl LifeState {
     /// Can düşük kabul edilen eşik
     pub fn low_health_threshold(&self) -> usize {
         self.max_health / 4
+    }
+    /// Su düşük kabul edilen eşik
+    pub fn low_water_threshold(&self) -> usize {
+        self.max_water / 4
     }
 
     pub fn is_alive(&self) -> bool {
@@ -118,6 +134,14 @@ impl LifeState {
         self.health >= self.max_health
     }
 
+    pub fn is_water_low(&self) -> bool {
+        self.water <= self.low_water_threshold()
+    }
+
+    pub fn is_water_full(&self) -> bool {
+        self.water >= self.max_water
+    }
+
     // LifeState içinde
     pub fn can_reproduce(&self) -> bool {
         (self.age >= self.maturity_age) && (self.reproduction_cooldown == 0 && self.energy > 15)
@@ -126,7 +150,7 @@ impl LifeState {
 
     /// Bu tick içinde hareket edebilir mi?
     pub fn can_move(&self) -> bool {
-        self.moves_used <= self.speed
+        self.moves_used < self.speed
     }
 
     pub fn can_move_for(&self, need: usize) -> bool {
@@ -140,7 +164,7 @@ impl LifeState {
 
     /// Yeterli hareket hakkı var mı?
     pub fn enough_moves(&self, need: usize) -> bool {
-        self.speed >= need
+        self.moves_used.saturating_add(need) <= self.speed
     }
     // ===============================
     // DURUM DEĞİŞTİRİCİLER
@@ -161,8 +185,21 @@ impl LifeState {
         self.energy = (self.energy + amount).min(self.max_energy);
     }
 
+    pub fn consume_water(&mut self, amount: usize) {
+        self.water = self.water.saturating_sub(amount);
+    }
+
+    pub fn restore_water(&mut self, amount: usize) {
+        self.water = (self.water + amount).min(self.max_water);
+    }
+
     pub fn heal(&mut self, amount: usize) {
         self.health = (self.health + amount).min(self.max_health);
+    }
+
+    /// Hasar al
+    pub fn take_damage(&mut self, amount: usize) {
+        self.health = self.health.saturating_sub(amount);
     }
 
     pub fn on_reproduce(&mut self) {
@@ -211,6 +248,5 @@ impl LifeState {
                 cost
             }
         }
-    }
-    */
+    }*/
 }
