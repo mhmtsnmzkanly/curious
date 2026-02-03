@@ -1,4 +1,5 @@
 pub mod intent;
+pub mod instinct;
 pub mod lifestate;
 pub mod perception;
 pub mod phase;

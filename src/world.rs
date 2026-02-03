@@ -275,7 +275,9 @@ impl World {
                 // Canlıya giden yolu (Steps) BFS ile hesapla
                 if let Some(steps) = self.map.bfs_steps_to(current_slot.pos, other.pos, radius) {
                     // Algılanan canlıyı ekle (ID, Tür ve Adımlar)
-                    perception.add_entity(other.id, other.entity().species(), steps);
+                    let other_life = other.entity().life();
+                    let power = other_life.health + other_life.energy;
+                    perception.add_entity(other.id, other.entity().species(), power, steps);
                 }
             }
         }
