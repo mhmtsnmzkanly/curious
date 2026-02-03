@@ -122,7 +122,7 @@ impl World {
 
                             for dir in steps.0.iter() {
                                 if !self.map.is_walkable(new_pos + *dir)
-                                    && !slot.base.life().can_move_for(cost + 1)
+                                    || !slot.base.life().can_move_for(cost + 1)
                                 {
                                     break;
                                 }
@@ -140,7 +140,7 @@ impl World {
                             let mut cost: usize = 0;
                             for dir in at.0.iter() {
                                 if !self.map.is_walkable(new_pos + *dir)
-                                    && !slot.base.life().can_move_for(cost + 1)
+                                    || !slot.base.life().can_move_for(cost + 1)
                                 {
                                     break;
                                 }

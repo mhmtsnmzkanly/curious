@@ -315,20 +315,28 @@ impl Map {
         let start_x = coord.cx * CHUNK_SIZE as isize;
         let start_y = coord.cy * CHUNK_SIZE as isize;
 
-        // Bir chunk içindeki toplam deneme sayısı (16x16 = 256 hücre)
-        let spawn_attempts = ((CHUNK_SIZE * CHUNK_SIZE) as f32 * density) as usize;
+        let spawn_threshold = (density.clamp(0.0, 1.0) * 100.0).round() as u64;
 
-        for _ in 0..spawn_attempts {
-            let lx = gen_range(0, (CHUNK_SIZE - 1) as isize);
-            let ly = gen_range(0, (CHUNK_SIZE - 1) as isize);
-            let world_pos = Position::new(start_x + lx, start_y + ly);
+        for ly in 0..CHUNK_SIZE {
+            for lx in 0..CHUNK_SIZE {
+                let world_pos = Position::new(
+                    start_x + lx as isize,
+                    start_y + ly as isize,
+                );
 
-            // Sınır ve boşluk kontrolü
-            if self.in_bounds(world_pos)
-                && self
-                    .cell(world_pos)
-                    .map_or(true, |c| matches!(c, Cell::Empty))
-            {
+                if !self.in_bounds(world_pos)
+                    || !self
+                        .cell(world_pos)
+                        .map_or(true, |c| matches!(c, Cell::Empty))
+                {
+                    continue;
+                }
+
+                let roll = next_rand() % 100;
+                if roll >= spawn_threshold {
+                    continue;
+                }
+
                 self.set_cell(
                     world_pos,
                     Cell::Food {
