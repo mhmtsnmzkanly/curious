@@ -122,7 +122,7 @@ impl World {
 
                             for dir in steps.0.iter() {
                                 if !self.map.is_walkable(new_pos + *dir)
-                                    && !slot.base.life().can_move_for(cost + 1)
+                                    || !slot.base.life().can_move_for(cost + 1)
                                 {
                                     break;
                                 }
@@ -140,7 +140,7 @@ impl World {
                             let mut cost: usize = 0;
                             for dir in at.0.iter() {
                                 if !self.map.is_walkable(new_pos + *dir)
-                                    && !slot.base.life().can_move_for(cost + 1)
+                                    || !slot.base.life().can_move_for(cost + 1)
                                 {
                                     break;
                                 }
@@ -275,7 +275,9 @@ impl World {
                 // Canlıya giden yolu (Steps) BFS ile hesapla
                 if let Some(steps) = self.map.bfs_steps_to(current_slot.pos, other.pos, radius) {
                     // Algılanan canlıyı ekle (ID, Tür ve Adımlar)
-                    perception.add_entity(other.id, other.entity().species(), steps);
+                    let other_life = other.entity().life();
+                    let power = other_life.health + other_life.energy;
+                    perception.add_entity(other.id, other.entity().species(), power, steps);
                 }
             }
         }
