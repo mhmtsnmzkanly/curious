@@ -14,6 +14,8 @@ pub struct PerceivedEntity {
     pub id: usize,
     /// Algılanan canlının türü
     pub species: Species,
+    /// Algılanan canlının güç tahmini
+    pub power: usize,
     /// Algılanan canlının yön ve mesafe bilgisi
     pub steps: Steps,
 }
@@ -62,8 +64,13 @@ impl Perception {
     }
 
     /// Algılanan canlıya adım ekle
-    pub fn add_entity(&mut self, id: usize, species: Species, steps: Steps) {
-        self.entities.push(PerceivedEntity { id, species, steps });
+    pub fn add_entity(&mut self, id: usize, species: Species, power: usize, steps: Steps) {
+        self.entities.push(PerceivedEntity {
+            id,
+            species,
+            power,
+            steps,
+        });
     }
 
     /// Bir yöne adım ekle veya mevcut adımı güncelle

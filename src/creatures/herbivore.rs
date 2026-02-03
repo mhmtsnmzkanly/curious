@@ -1,6 +1,11 @@
 use crate::{
     entity::{
-        Entity, intent::Intent, lifestate::LifeState, perception::Perception, species::Species,
+        Entity,
+        instinct::{Instinct, InstinctEvaluator},
+        intent::Intent,
+        lifestate::LifeState,
+        perception::Perception,
+        species::Species,
     },
     map::movement::{DIRECTION_ARRAY, Steps},
 };
@@ -47,30 +52,44 @@ impl Entity for HerbivoreEntity {
     }
 
     fn make_intent(&self, perception: Perception) -> Intent {
-        // ===============================
-        // 1. Yakınında yiyecek var mı?
-        // ===============================
-        if perception.foods.is_empty() {
-            // Yiyecek yok → ara
-            // Basit: rastgele bir yön seç
-            let mut steps: Steps = Steps::empty();
-            for _ in 0..self.life_state.speed {
-                steps
-                    .0
-                    .push(DIRECTION_ARRAY[crate::gen_range(0, 7isize) as usize])
-            }
-            Intent::Move { steps: steps }
-        } else {
-            // Yiyecek var → yemeyi planla
-            // Basit: ilk bulduğu yiyecek
-            // Eğer tok değilse ye
-            if !self.life_state.is_energy_full() {
-                Intent::Eat {
-                    at: perception.foods[0].steps.clone(),
-                    corpse_id: None,
+        let decision = InstinctEvaluator::evaluate(&self.life_state, &perception);
+
+        match decision.instinct {
+            Instinct::Threat => {
+                if let Some(threat) = decision.threat {
+                    if threat.can_win {
+                        return Intent::Attack {
+                            target_id: threat.target_id,
+                        };
+                    }
                 }
-            } else if self.life_state.can_reproduce() {
-                // Tok ve üreme zamanı → eş ara
+                let mut steps = Steps::empty();
+                for _ in 0..self.life_state.speed {
+                    steps
+                        .0
+                        .push(DIRECTION_ARRAY[crate::gen_range(0, 7isize) as usize])
+                }
+                Intent::Move { steps }
+            }
+            Instinct::Survival | Instinct::Hunger => {
+                if let Some(food) = perception.foods.first() {
+                    if !self.life_state.is_energy_full() {
+                        return Intent::Eat {
+                            at: food.steps.clone(),
+                            corpse_id: None,
+                        };
+                    }
+                }
+
+                let mut steps = Steps::empty();
+                for _ in 0..self.life_state.speed {
+                    steps
+                        .0
+                        .push(DIRECTION_ARRAY[crate::gen_range(0, 7isize) as usize])
+                }
+                Intent::Move { steps }
+            }
+            Instinct::Mating => {
                 if let Some(target) = perception
                     .entities
                     .iter()
@@ -80,13 +99,10 @@ impl Entity for HerbivoreEntity {
                         target_id: target.id,
                     }
                 } else {
-                    // Eş yoksa yakındaki bir yere hareket et
                     Intent::Idle { duration: 1 }
                 }
-            } else {
-                // Tok ama üreme zamanı değil → bekle
-                Intent::Idle { duration: 1 }
             }
+            Instinct::Idle => Intent::Idle { duration: 1 },
         }
     }
 
