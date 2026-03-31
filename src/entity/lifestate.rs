@@ -50,46 +50,8 @@ pub struct LifeState {
 }
 
 impl LifeState {
-    /// Her tick başında çağrılır.
-    /// Hareket hakkı resetlenir.
+    /// Her tick başında resetlemeler.
     pub fn tick(&mut self) {
-        // Yaşlanma
-        self.age += 1;
-
-        // Yaşlılıktan ölüm
-        if self.age > self.max_age {
-            self.health = 0;
-            // Kendine not: Yaşlılıktan ölmek yerine her turda 5 can alacak şekilde değiştirilebilir.
-            return; // Yaşlandığı için ekstra bir hesaplamaya gerek yok
-        }
-
-        // Üreme bekleme süresi
-        if self.reproduction_cooldown > 0 {
-            self.reproduction_cooldown -= 1;
-        }
-
-        // Pasif iyileşme süreci
-        // 2 enerji'ye 1 can düşer; değerler değişebilir şimdilik bu
-        if !self.is_energy_low() && self.health < self.max_health {
-            self.consume_energy(2);
-            self.heal(1);
-        }
-
-        // Can karşılığında Enerji kazanma
-        // Enerji 0 ise, Can yakarak Enerji kazanma
-        if self.energy == 0 && !self.is_health_low() {
-            self.health -= 3;
-            self.restore_energy(9);
-        }
-
-        // Su yoksa can düşsün
-        if self.water == 0 && !self.is_health_low() {
-            self.health = self.health.saturating_sub(2);
-        }
-
-        self.consume_energy(1);
-        self.consume_water(1);
-
         // Bu tick için hareket sayacı sıfırlanır
         self.moves_used = 0;
     }

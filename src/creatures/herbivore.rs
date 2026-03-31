@@ -138,8 +138,7 @@ impl Entity for HerbivoreEntity {
     }
 
     fn tick(&mut self) {
-        self.life_state.tick();
-        //self.life_state.metabolic_cost();
+        // Artik metabolism sistem tarafindan merkezi olarak yonetiliyor
     }
 
     fn reproduce(&self) -> Box<dyn Entity> {

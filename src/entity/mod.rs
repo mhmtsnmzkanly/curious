@@ -4,6 +4,7 @@ pub mod lifestate;
 pub mod perception;
 pub mod phase;
 pub mod species;
+pub mod controller;
 
 use crate::entity::{intent::Intent, lifestate::LifeState, perception::*, species::Species};
 

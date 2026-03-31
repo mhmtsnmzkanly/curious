@@ -1,9 +1,27 @@
-// Modülü dahil et
+//! # Curious - Authoritative Simulation Core
+//!
+//! Bu kütüphane, çok oyunculu (multiplayer) veya karmaşık yapay zeka (AI) senaryolarına uygun,
+//! deterministik ve modüler bir simülasyon çekirdeği sunar.
+//!
+//! ## Mimari Prensipler
+//! 1. **Authoritative Logic**: Tüm kurallar (hareket maliyeti, beslenme enerjisi vb.) sunucu tarafındaki `systems` ve `rules` altında merkezi olarak yönetilir.
+//! 2. **Event-Driven**: Simülasyonun sonuçları `SimulationEvent` nesneleri üzerinden dışarıya aktarılır.
+//! 3. **Modular Systems**: Karar verme, planlama ve uygulama aşamaları birbirinden ayrılmıştır.
+//!
+//! ## Ana Modüller
+//! * `world`: Veri yapıları ve dünya durumunu barındırır.
+//! * `systems`: Simülasyonun lojik kurallarını (hareket, metabolizma, etkileşim vb.) içerir.
+//! * `simulation`: Dış dünya ile iletişim kuran motor (Engine) katmanı.
+//! * `rules`: Merkezi biyolojik sabitler ve kanunlar.
+
 pub mod creatures;
 pub mod entity;
 pub mod logger;
 pub mod map;
 pub mod world;
+pub mod simulation;
+pub mod systems;
+pub mod rules;
 
 use std::sync::atomic::{AtomicU64, Ordering};
 

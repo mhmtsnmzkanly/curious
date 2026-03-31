@@ -4,7 +4,7 @@ pub mod movement;
 use std::collections::{HashMap, VecDeque};
 
 use crate::{
-    CHUNK_SIZE, gen_range,
+    CHUNK_SIZE,
     map::{
         cell::Cell,
         movement::{DIRECTION_ARRAY, Direction, Position, Steps},

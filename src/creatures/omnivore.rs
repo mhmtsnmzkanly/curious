@@ -149,7 +149,7 @@ impl Entity for OmnivoreEntity {
     }
 
     fn tick(&mut self) {
-        self.life_state.tick();
+        // Artik metabolism sistem tarafindan merkezi olarak yonetiliyor
     }
 
     fn reproduce(&self) -> Box<dyn Entity> {
