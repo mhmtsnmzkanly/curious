@@ -1,0 +1,1562 @@
+{
+  "name": "mixed-refuge",
+  "bounds": [
+    -6,
+    6,
+    -6,
+    6
+  ],
+  "founders": [
+    {
+      "species": "Herbivore",
+      "pos": {
+        "x": -5,
+        "y": -5
+      }
+    },
+    {
+      "species": "Herbivore",
+      "pos": {
+        "x": -5,
+        "y": -3
+      }
+    },
+    {
+      "species": "Herbivore",
+      "pos": {
+        "x": -5,
+        "y": -1
+      }
+    },
+    {
+      "species": "Herbivore",
+      "pos": {
+        "x": -5,
+        "y": 1
+      }
+    },
+    {
+      "species": "Herbivore",
+      "pos": {
+        "x": -5,
+        "y": 3
+      }
+    },
+    {
+      "species": "Herbivore",
+      "pos": {
+        "x": -5,
+        "y": 5
+      }
+    },
+    {
+      "species": "Herbivore",
+      "pos": {
+        "x": -4,
+        "y": -5
+      }
+    },
+    {
+      "species": "Herbivore",
+      "pos": {
+        "x": -3,
+        "y": -3
+      }
+    },
+    {
+      "species": "Herbivore",
+      "pos": {
+        "x": -3,
+        "y": -1
+      }
+    },
+    {
+      "species": "Herbivore",
+      "pos": {
+        "x": -3,
+        "y": 1
+      }
+    },
+    {
+      "species": "Herbivore",
+      "pos": {
+        "x": -4,
+        "y": 3
+      }
+    },
+    {
+      "species": "Herbivore",
+      "pos": {
+        "x": -3,
+        "y": 5
+      }
+    },
+    {
+      "species": "Herbivore",
+      "pos": {
+        "x": -1,
+        "y": -5
+      }
+    },
+    {
+      "species": "Herbivore",
+      "pos": {
+        "x": -1,
+        "y": -3
+      }
+    },
+    {
+      "species": "Herbivore",
+      "pos": {
+        "x": -1,
+        "y": -1
+      }
+    },
+    {
+      "species": "Herbivore",
+      "pos": {
+        "x": -1,
+        "y": 1
+      }
+    },
+    {
+      "species": "Herbivore",
+      "pos": {
+        "x": -1,
+        "y": 3
+      }
+    },
+    {
+      "species": "Herbivore",
+      "pos": {
+        "x": -1,
+        "y": 5
+      }
+    },
+    {
+      "species": "Herbivore",
+      "pos": {
+        "x": 1,
+        "y": -5
+      }
+    },
+    {
+      "species": "Herbivore",
+      "pos": {
+        "x": 1,
+        "y": -3
+      }
+    },
+    {
+      "species": "Herbivore",
+      "pos": {
+        "x": 1,
+        "y": -1
+      }
+    },
+    {
+      "species": "Herbivore",
+      "pos": {
+        "x": 1,
+        "y": 1
+      }
+    },
+    {
+      "species": "Herbivore",
+      "pos": {
+        "x": 1,
+        "y": 3
+      }
+    },
+    {
+      "species": "Herbivore",
+      "pos": {
+        "x": 1,
+        "y": 5
+      }
+    },
+    {
+      "species": "Herbivore",
+      "pos": {
+        "x": 3,
+        "y": -5
+      }
+    },
+    {
+      "species": "Herbivore",
+      "pos": {
+        "x": 3,
+        "y": -3
+      }
+    },
+    {
+      "species": "Herbivore",
+      "pos": {
+        "x": 3,
+        "y": -1
+      }
+    },
+    {
+      "species": "Herbivore",
+      "pos": {
+        "x": 3,
+        "y": 1
+      }
+    },
+    {
+      "species": "Herbivore",
+      "pos": {
+        "x": 3,
+        "y": 3
+      }
+    },
+    {
+      "species": "Herbivore",
+      "pos": {
+        "x": 3,
+        "y": 5
+      }
+    },
+    {
+      "species": "Herbivore",
+      "pos": {
+        "x": 4,
+        "y": -5
+      }
+    },
+    {
+      "species": "Herbivore",
+      "pos": {
+        "x": 5,
+        "y": -3
+      }
+    },
+    {
+      "species": "Herbivore",
+      "pos": {
+        "x": 5,
+        "y": -1
+      }
+    },
+    {
+      "species": "Herbivore",
+      "pos": {
+        "x": 5,
+        "y": 1
+      }
+    },
+    {
+      "species": "Herbivore",
+      "pos": {
+        "x": 4,
+        "y": 3
+      }
+    },
+    {
+      "species": "Herbivore",
+      "pos": {
+        "x": 5,
+        "y": 5
+      }
+    },
+    {
+      "species": "Carnivore",
+      "pos": {
+        "x": -1,
+        "y": 0
+      }
+    },
+    {
+      "species": "Carnivore",
+      "pos": {
+        "x": 1,
+        "y": 0
+      }
+    }
+  ],
+  "sites": [
+    {
+      "pos": {
+        "x": -6,
+        "y": -6
+      },
+      "kind": "Food",
+      "capacity": 20,
+      "replenish": 2,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": -6,
+        "y": -4
+      },
+      "kind": "Food",
+      "capacity": 20,
+      "replenish": 2,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": -6,
+        "y": -2
+      },
+      "kind": "Food",
+      "capacity": 20,
+      "replenish": 2,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": -6,
+        "y": 0
+      },
+      "kind": "Food",
+      "capacity": 20,
+      "replenish": 2,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": -6,
+        "y": 2
+      },
+      "kind": "Food",
+      "capacity": 20,
+      "replenish": 2,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": -6,
+        "y": 4
+      },
+      "kind": "Food",
+      "capacity": 20,
+      "replenish": 2,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": -6,
+        "y": 6
+      },
+      "kind": "Food",
+      "capacity": 20,
+      "replenish": 2,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": -4,
+        "y": -6
+      },
+      "kind": "Food",
+      "capacity": 20,
+      "replenish": 2,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": -4,
+        "y": -2
+      },
+      "kind": "Food",
+      "capacity": 20,
+      "replenish": 2,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": -4,
+        "y": 0
+      },
+      "kind": "Food",
+      "capacity": 20,
+      "replenish": 2,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": -4,
+        "y": 2
+      },
+      "kind": "Food",
+      "capacity": 20,
+      "replenish": 2,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": -4,
+        "y": 6
+      },
+      "kind": "Food",
+      "capacity": 20,
+      "replenish": 2,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": -2,
+        "y": -6
+      },
+      "kind": "Food",
+      "capacity": 20,
+      "replenish": 2,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": -2,
+        "y": -4
+      },
+      "kind": "Food",
+      "capacity": 20,
+      "replenish": 2,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": -2,
+        "y": -2
+      },
+      "kind": "Food",
+      "capacity": 20,
+      "replenish": 2,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": -2,
+        "y": 0
+      },
+      "kind": "Food",
+      "capacity": 20,
+      "replenish": 2,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": -2,
+        "y": 2
+      },
+      "kind": "Food",
+      "capacity": 20,
+      "replenish": 2,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": -2,
+        "y": 4
+      },
+      "kind": "Food",
+      "capacity": 20,
+      "replenish": 2,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": -2,
+        "y": 6
+      },
+      "kind": "Food",
+      "capacity": 20,
+      "replenish": 2,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": 0,
+        "y": -6
+      },
+      "kind": "Food",
+      "capacity": 20,
+      "replenish": 2,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": 0,
+        "y": -4
+      },
+      "kind": "Food",
+      "capacity": 20,
+      "replenish": 2,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": 0,
+        "y": -2
+      },
+      "kind": "Food",
+      "capacity": 20,
+      "replenish": 2,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": 0,
+        "y": 0
+      },
+      "kind": "Food",
+      "capacity": 20,
+      "replenish": 2,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": 0,
+        "y": 2
+      },
+      "kind": "Food",
+      "capacity": 20,
+      "replenish": 2,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": 0,
+        "y": 4
+      },
+      "kind": "Food",
+      "capacity": 20,
+      "replenish": 2,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": 0,
+        "y": 6
+      },
+      "kind": "Food",
+      "capacity": 20,
+      "replenish": 2,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": 2,
+        "y": -6
+      },
+      "kind": "Food",
+      "capacity": 20,
+      "replenish": 2,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": 2,
+        "y": -4
+      },
+      "kind": "Food",
+      "capacity": 20,
+      "replenish": 2,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": 2,
+        "y": -2
+      },
+      "kind": "Food",
+      "capacity": 20,
+      "replenish": 2,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": 2,
+        "y": 0
+      },
+      "kind": "Food",
+      "capacity": 20,
+      "replenish": 2,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": 2,
+        "y": 2
+      },
+      "kind": "Food",
+      "capacity": 20,
+      "replenish": 2,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": 2,
+        "y": 4
+      },
+      "kind": "Food",
+      "capacity": 20,
+      "replenish": 2,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": 2,
+        "y": 6
+      },
+      "kind": "Food",
+      "capacity": 20,
+      "replenish": 2,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": 4,
+        "y": -6
+      },
+      "kind": "Food",
+      "capacity": 20,
+      "replenish": 2,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": 4,
+        "y": -2
+      },
+      "kind": "Food",
+      "capacity": 20,
+      "replenish": 2,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": 4,
+        "y": 0
+      },
+      "kind": "Food",
+      "capacity": 20,
+      "replenish": 2,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": 4,
+        "y": 2
+      },
+      "kind": "Food",
+      "capacity": 20,
+      "replenish": 2,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": 4,
+        "y": 6
+      },
+      "kind": "Food",
+      "capacity": 20,
+      "replenish": 2,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": 6,
+        "y": -6
+      },
+      "kind": "Food",
+      "capacity": 20,
+      "replenish": 2,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": 6,
+        "y": -4
+      },
+      "kind": "Food",
+      "capacity": 20,
+      "replenish": 2,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": 6,
+        "y": -2
+      },
+      "kind": "Food",
+      "capacity": 20,
+      "replenish": 2,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": 6,
+        "y": 0
+      },
+      "kind": "Food",
+      "capacity": 20,
+      "replenish": 2,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": 6,
+        "y": 2
+      },
+      "kind": "Food",
+      "capacity": 20,
+      "replenish": 2,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": 6,
+        "y": 4
+      },
+      "kind": "Food",
+      "capacity": 20,
+      "replenish": 2,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": 6,
+        "y": 6
+      },
+      "kind": "Food",
+      "capacity": 20,
+      "replenish": 2,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": -5,
+        "y": 0
+      },
+      "kind": "Water",
+      "capacity": 30,
+      "replenish": 4,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": -1,
+        "y": -4
+      },
+      "kind": "Water",
+      "capacity": 30,
+      "replenish": 4,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": -1,
+        "y": 0
+      },
+      "kind": "Water",
+      "capacity": 30,
+      "replenish": 4,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": -1,
+        "y": 4
+      },
+      "kind": "Water",
+      "capacity": 30,
+      "replenish": 4,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": 3,
+        "y": 0
+      },
+      "kind": "Water",
+      "capacity": 30,
+      "replenish": 4,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": 5,
+        "y": -4
+      },
+      "kind": "Water",
+      "capacity": 30,
+      "replenish": 4,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": 5,
+        "y": 0
+      },
+      "kind": "Water",
+      "capacity": 30,
+      "replenish": 4,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": 5,
+        "y": 4
+      },
+      "kind": "Water",
+      "capacity": 30,
+      "replenish": 4,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": -3,
+        "y": -5
+      },
+      "kind": "Food",
+      "capacity": 20,
+      "replenish": 2,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": -5,
+        "y": -3
+      },
+      "kind": "Water",
+      "capacity": 30,
+      "replenish": 4,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": 5,
+        "y": -5
+      },
+      "kind": "Food",
+      "capacity": 20,
+      "replenish": 2,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": 3,
+        "y": -3
+      },
+      "kind": "Water",
+      "capacity": 30,
+      "replenish": 4,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": -3,
+        "y": 3
+      },
+      "kind": "Food",
+      "capacity": 20,
+      "replenish": 2,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": -5,
+        "y": 5
+      },
+      "kind": "Water",
+      "capacity": 30,
+      "replenish": 4,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": 5,
+        "y": 3
+      },
+      "kind": "Food",
+      "capacity": 20,
+      "replenish": 2,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": 3,
+        "y": 5
+      },
+      "kind": "Water",
+      "capacity": 30,
+      "replenish": 4,
+      "interval": 1
+    }
+  ],
+  "resources": [
+    [
+      {
+        "x": -6,
+        "y": -6
+      },
+      {
+        "Food": {
+          "amount": 20
+        }
+      }
+    ],
+    [
+      {
+        "x": -6,
+        "y": -4
+      },
+      {
+        "Food": {
+          "amount": 20
+        }
+      }
+    ],
+    [
+      {
+        "x": -6,
+        "y": -2
+      },
+      {
+        "Food": {
+          "amount": 20
+        }
+      }
+    ],
+    [
+      {
+        "x": -6,
+        "y": 0
+      },
+      {
+        "Food": {
+          "amount": 20
+        }
+      }
+    ],
+    [
+      {
+        "x": -6,
+        "y": 2
+      },
+      {
+        "Food": {
+          "amount": 20
+        }
+      }
+    ],
+    [
+      {
+        "x": -6,
+        "y": 4
+      },
+      {
+        "Food": {
+          "amount": 20
+        }
+      }
+    ],
+    [
+      {
+        "x": -6,
+        "y": 6
+      },
+      {
+        "Food": {
+          "amount": 20
+        }
+      }
+    ],
+    [
+      {
+        "x": -4,
+        "y": -6
+      },
+      {
+        "Food": {
+          "amount": 20
+        }
+      }
+    ],
+    [
+      {
+        "x": -4,
+        "y": -2
+      },
+      {
+        "Food": {
+          "amount": 20
+        }
+      }
+    ],
+    [
+      {
+        "x": -4,
+        "y": 0
+      },
+      {
+        "Food": {
+          "amount": 20
+        }
+      }
+    ],
+    [
+      {
+        "x": -4,
+        "y": 2
+      },
+      {
+        "Food": {
+          "amount": 20
+        }
+      }
+    ],
+    [
+      {
+        "x": -4,
+        "y": 6
+      },
+      {
+        "Food": {
+          "amount": 20
+        }
+      }
+    ],
+    [
+      {
+        "x": -2,
+        "y": -6
+      },
+      {
+        "Food": {
+          "amount": 20
+        }
+      }
+    ],
+    [
+      {
+        "x": -2,
+        "y": -4
+      },
+      {
+        "Food": {
+          "amount": 20
+        }
+      }
+    ],
+    [
+      {
+        "x": -2,
+        "y": -2
+      },
+      {
+        "Food": {
+          "amount": 20
+        }
+      }
+    ],
+    [
+      {
+        "x": -2,
+        "y": 0
+      },
+      {
+        "Food": {
+          "amount": 20
+        }
+      }
+    ],
+    [
+      {
+        "x": -2,
+        "y": 2
+      },
+      {
+        "Food": {
+          "amount": 20
+        }
+      }
+    ],
+    [
+      {
+        "x": -2,
+        "y": 4
+      },
+      {
+        "Food": {
+          "amount": 20
+        }
+      }
+    ],
+    [
+      {
+        "x": -2,
+        "y": 6
+      },
+      {
+        "Food": {
+          "amount": 20
+        }
+      }
+    ],
+    [
+      {
+        "x": 0,
+        "y": -6
+      },
+      {
+        "Food": {
+          "amount": 20
+        }
+      }
+    ],
+    [
+      {
+        "x": 0,
+        "y": -4
+      },
+      {
+        "Food": {
+          "amount": 20
+        }
+      }
+    ],
+    [
+      {
+        "x": 0,
+        "y": -2
+      },
+      {
+        "Food": {
+          "amount": 20
+        }
+      }
+    ],
+    [
+      {
+        "x": 0,
+        "y": 0
+      },
+      {
+        "Food": {
+          "amount": 20
+        }
+      }
+    ],
+    [
+      {
+        "x": 0,
+        "y": 2
+      },
+      {
+        "Food": {
+          "amount": 20
+        }
+      }
+    ],
+    [
+      {
+        "x": 0,
+        "y": 4
+      },
+      {
+        "Food": {
+          "amount": 20
+        }
+      }
+    ],
+    [
+      {
+        "x": 0,
+        "y": 6
+      },
+      {
+        "Food": {
+          "amount": 20
+        }
+      }
+    ],
+    [
+      {
+        "x": 2,
+        "y": -6
+      },
+      {
+        "Food": {
+          "amount": 20
+        }
+      }
+    ],
+    [
+      {
+        "x": 2,
+        "y": -4
+      },
+      {
+        "Food": {
+          "amount": 20
+        }
+      }
+    ],
+    [
+      {
+        "x": 2,
+        "y": -2
+      },
+      {
+        "Food": {
+          "amount": 20
+        }
+      }
+    ],
+    [
+      {
+        "x": 2,
+        "y": 0
+      },
+      {
+        "Food": {
+          "amount": 20
+        }
+      }
+    ],
+    [
+      {
+        "x": 2,
+        "y": 2
+      },
+      {
+        "Food": {
+          "amount": 20
+        }
+      }
+    ],
+    [
+      {
+        "x": 2,
+        "y": 4
+      },
+      {
+        "Food": {
+          "amount": 20
+        }
+      }
+    ],
+    [
+      {
+        "x": 2,
+        "y": 6
+      },
+      {
+        "Food": {
+          "amount": 20
+        }
+      }
+    ],
+    [
+      {
+        "x": 4,
+        "y": -6
+      },
+      {
+        "Food": {
+          "amount": 20
+        }
+      }
+    ],
+    [
+      {
+        "x": 4,
+        "y": -2
+      },
+      {
+        "Food": {
+          "amount": 20
+        }
+      }
+    ],
+    [
+      {
+        "x": 4,
+        "y": 0
+      },
+      {
+        "Food": {
+          "amount": 20
+        }
+      }
+    ],
+    [
+      {
+        "x": 4,
+        "y": 2
+      },
+      {
+        "Food": {
+          "amount": 20
+        }
+      }
+    ],
+    [
+      {
+        "x": 4,
+        "y": 6
+      },
+      {
+        "Food": {
+          "amount": 20
+        }
+      }
+    ],
+    [
+      {
+        "x": 6,
+        "y": -6
+      },
+      {
+        "Food": {
+          "amount": 20
+        }
+      }
+    ],
+    [
+      {
+        "x": 6,
+        "y": -4
+      },
+      {
+        "Food": {
+          "amount": 20
+        }
+      }
+    ],
+    [
+      {
+        "x": 6,
+        "y": -2
+      },
+      {
+        "Food": {
+          "amount": 20
+        }
+      }
+    ],
+    [
+      {
+        "x": 6,
+        "y": 0
+      },
+      {
+        "Food": {
+          "amount": 20
+        }
+      }
+    ],
+    [
+      {
+        "x": 6,
+        "y": 2
+      },
+      {
+        "Food": {
+          "amount": 20
+        }
+      }
+    ],
+    [
+      {
+        "x": 6,
+        "y": 4
+      },
+      {
+        "Food": {
+          "amount": 20
+        }
+      }
+    ],
+    [
+      {
+        "x": 6,
+        "y": 6
+      },
+      {
+        "Food": {
+          "amount": 20
+        }
+      }
+    ],
+    [
+      {
+        "x": -5,
+        "y": 0
+      },
+      {
+        "Water": {
+          "amount": 30
+        }
+      }
+    ],
+    [
+      {
+        "x": -1,
+        "y": -4
+      },
+      {
+        "Water": {
+          "amount": 30
+        }
+      }
+    ],
+    [
+      {
+        "x": -1,
+        "y": 0
+      },
+      {
+        "Water": {
+          "amount": 30
+        }
+      }
+    ],
+    [
+      {
+        "x": -1,
+        "y": 4
+      },
+      {
+        "Water": {
+          "amount": 30
+        }
+      }
+    ],
+    [
+      {
+        "x": 3,
+        "y": 0
+      },
+      {
+        "Water": {
+          "amount": 30
+        }
+      }
+    ],
+    [
+      {
+        "x": 5,
+        "y": -4
+      },
+      {
+        "Water": {
+          "amount": 30
+        }
+      }
+    ],
+    [
+      {
+        "x": 5,
+        "y": 0
+      },
+      {
+        "Water": {
+          "amount": 30
+        }
+      }
+    ],
+    [
+      {
+        "x": 5,
+        "y": 4
+      },
+      {
+        "Water": {
+          "amount": 30
+        }
+      }
+    ],
+    [
+      {
+        "x": -3,
+        "y": -5
+      },
+      {
+        "Food": {
+          "amount": 20
+        }
+      }
+    ],
+    [
+      {
+        "x": -5,
+        "y": -3
+      },
+      {
+        "Water": {
+          "amount": 30
+        }
+      }
+    ],
+    [
+      {
+        "x": 5,
+        "y": -5
+      },
+      {
+        "Food": {
+          "amount": 20
+        }
+      }
+    ],
+    [
+      {
+        "x": 3,
+        "y": -3
+      },
+      {
+        "Water": {
+          "amount": 30
+        }
+      }
+    ],
+    [
+      {
+        "x": -3,
+        "y": 3
+      },
+      {
+        "Food": {
+          "amount": 20
+        }
+      }
+    ],
+    [
+      {
+        "x": -5,
+        "y": 5
+      },
+      {
+        "Water": {
+          "amount": 30
+        }
+      }
+    ],
+    [
+      {
+        "x": 5,
+        "y": 3
+      },
+      {
+        "Food": {
+          "amount": 20
+        }
+      }
+    ],
+    [
+      {
+        "x": 3,
+        "y": 5
+      },
+      {
+        "Water": {
+          "amount": 30
+        }
+      }
+    ]
+  ]
+}

@@ -148,7 +148,17 @@ impl Memory {
         )
     }
     pub fn validate(&self) -> crate::Result<()> {
-        if self.sites.len() > 32 || self.dangers.len() > 8 {
+        if self.sites.len() > 32
+            || self.dangers.len() > 8
+            || self
+                .sites
+                .iter()
+                .any(|s| s.pos.x.unsigned_abs() > 1_000_000 || s.pos.y.unsigned_abs() > 1_000_000)
+            || self
+                .dangers
+                .iter()
+                .any(|(p, _)| p.x.unsigned_abs() > 1_000_000 || p.y.unsigned_abs() > 1_000_000)
+        {
             return Err("memory bounds exceeded".into());
         }
         Ok(())

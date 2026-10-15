@@ -186,8 +186,12 @@ impl InteractionSystem {
                 reject(events, plan.self_id, "Mate", Some(plan.target_id), reason);
                 continue;
             }
-            let Some(pos) = crate::world::World::pick_empty_neighbor(map, partner.pos, occupied)
-            else {
+            let Some(pos) = crate::world::World::pick_empty_neighbor_for(
+                map,
+                partner.pos,
+                occupied,
+                parent.base.can_burrow(),
+            ) else {
                 reject(
                     events,
                     plan.self_id,
@@ -239,6 +243,7 @@ impl InteractionSystem {
     pub fn resolve_attacks(
         entities: &mut [EntitySlot],
         plans: &[AttackPlan],
+        map: &Map,
         events: &mut Vec<SimulationEvent>,
     ) {
         use crate::simulation::event::{RejectionReason as R, reject};
@@ -288,6 +293,16 @@ impl InteractionSystem {
                     "Attack",
                     Some(plan.target_id),
                     R::Inactive,
+                );
+                continue;
+            }
+            if !attacker.base.can_burrow() && matches!(map.cell(target.pos), Some(Cell::Burrow)) {
+                reject(
+                    events,
+                    plan.attacker_id,
+                    "Attack",
+                    Some(plan.target_id),
+                    R::NoPath,
                 );
                 continue;
             }

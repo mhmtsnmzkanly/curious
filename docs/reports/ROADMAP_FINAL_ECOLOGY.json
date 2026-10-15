@@ -1,0 +1,371 @@
+{
+  "small": [
+    {
+      "alive": {},
+      "births": {
+        "Carnivore": 2,
+        "Herbivore": 11
+      },
+      "descendant_breeders": {},
+      "last_alive": {
+        "Carnivore": 174,
+        "Herbivore": 126
+      },
+      "max_generation": {
+        "Carnivore": 1,
+        "Herbivore": 1
+      },
+      "scenario": "scenarios/predator-meadow.json",
+      "seconds": 0.03759352,
+      "seed": 1,
+      "ticks": 2000
+    },
+    {
+      "alive": {},
+      "births": {
+        "Carnivore": 3,
+        "Herbivore": 11
+      },
+      "descendant_breeders": {
+        "Carnivore": 1
+      },
+      "last_alive": {
+        "Carnivore": 164,
+        "Herbivore": 114
+      },
+      "max_generation": {
+        "Carnivore": 2,
+        "Herbivore": 1
+      },
+      "scenario": "scenarios/predator-meadow.json",
+      "seconds": 0.038588551,
+      "seed": 2,
+      "ticks": 2000
+    },
+    {
+      "alive": {},
+      "births": {
+        "Carnivore": 2,
+        "Herbivore": 8
+      },
+      "descendant_breeders": {},
+      "last_alive": {
+        "Carnivore": 143,
+        "Herbivore": 105
+      },
+      "max_generation": {
+        "Carnivore": 1,
+        "Herbivore": 1
+      },
+      "scenario": "scenarios/predator-meadow.json",
+      "seconds": 0.040040018,
+      "seed": 3,
+      "ticks": 2000
+    },
+    {
+      "alive": {},
+      "births": {
+        "Carnivore": 2,
+        "Herbivore": 7
+      },
+      "descendant_breeders": {
+        "Carnivore": 1,
+        "Herbivore": 1
+      },
+      "last_alive": {
+        "Carnivore": 165,
+        "Herbivore": 105
+      },
+      "max_generation": {
+        "Carnivore": 2,
+        "Herbivore": 2
+      },
+      "scenario": "scenarios/predator-meadow.json",
+      "seconds": 0.031870147,
+      "seed": 4,
+      "ticks": 2000
+    },
+    {
+      "alive": {},
+      "births": {
+        "Carnivore": 3,
+        "Herbivore": 10
+      },
+      "descendant_breeders": {
+        "Carnivore": 2
+      },
+      "last_alive": {
+        "Carnivore": 161,
+        "Herbivore": 113
+      },
+      "max_generation": {
+        "Carnivore": 3,
+        "Herbivore": 1
+      },
+      "scenario": "scenarios/predator-meadow.json",
+      "seconds": 0.048455456,
+      "seed": 5,
+      "ticks": 2000
+    },
+    {
+      "alive": {},
+      "births": {
+        "Carnivore": 2,
+        "Herbivore": 12
+      },
+      "descendant_breeders": {
+        "Carnivore": 1,
+        "Herbivore": 1
+      },
+      "last_alive": {
+        "Carnivore": 184,
+        "Herbivore": 130
+      },
+      "max_generation": {
+        "Carnivore": 2,
+        "Herbivore": 2
+      },
+      "scenario": "scenarios/predator-meadow.json",
+      "seconds": 0.043444787,
+      "seed": 42,
+      "ticks": 2000
+    },
+    {
+      "alive": {
+        "Herbivore": 12
+      },
+      "births": {
+        "Carnivore": 2,
+        "Herbivore": 227
+      },
+      "descendant_breeders": {
+        "Carnivore": 1,
+        "Herbivore": 195
+      },
+      "last_alive": {
+        "Carnivore": 120,
+        "Herbivore": 2000
+      },
+      "max_generation": {
+        "Carnivore": 2,
+        "Herbivore": 54
+      },
+      "scenario": "scenarios/predator-meadow.json",
+      "seconds": 0.768549125,
+      "seed": 12345,
+      "ticks": 2000
+    },
+    {
+      "alive": {},
+      "births": {
+        "Carnivore": 2,
+        "Herbivore": 8
+      },
+      "descendant_breeders": {
+        "Carnivore": 1
+      },
+      "last_alive": {
+        "Carnivore": 168,
+        "Herbivore": 105
+      },
+      "max_generation": {
+        "Carnivore": 2,
+        "Herbivore": 1
+      },
+      "scenario": "scenarios/predator-meadow.json",
+      "seconds": 0.031603491,
+      "seed": 2026,
+      "ticks": 2000
+    }
+  ],
+  "dense": [
+    {
+      "alive": {
+        "Herbivore": 37
+      },
+      "births": {
+        "Carnivore": 1,
+        "Herbivore": 728
+      },
+      "descendant_breeders": {
+        "Herbivore": 652
+      },
+      "last_alive": {
+        "Carnivore": 234,
+        "Herbivore": 2000
+      },
+      "max_generation": {
+        "Carnivore": 1,
+        "Herbivore": 69
+      },
+      "scenario": "scenarios/mixed-dense.json",
+      "seconds": 3.132657123,
+      "seed": 1,
+      "ticks": 2000
+    },
+    {
+      "alive": {
+        "Herbivore": 36
+      },
+      "births": {
+        "Carnivore": 2,
+        "Herbivore": 733
+      },
+      "descendant_breeders": {
+        "Carnivore": 1,
+        "Herbivore": 656
+      },
+      "last_alive": {
+        "Carnivore": 237,
+        "Herbivore": 2000
+      },
+      "max_generation": {
+        "Carnivore": 2,
+        "Herbivore": 66
+      },
+      "scenario": "scenarios/mixed-dense.json",
+      "seconds": 2.702779241,
+      "seed": 2,
+      "ticks": 2000
+    },
+    {
+      "alive": {},
+      "births": {
+        "Carnivore": 8,
+        "Herbivore": 56
+      },
+      "descendant_breeders": {
+        "Carnivore": 7,
+        "Herbivore": 27
+      },
+      "last_alive": {
+        "Carnivore": 352,
+        "Herbivore": 287
+      },
+      "max_generation": {
+        "Carnivore": 7,
+        "Herbivore": 7
+      },
+      "scenario": "scenarios/mixed-dense.json",
+      "seconds": 0.283255992,
+      "seed": 3,
+      "ticks": 2000
+    },
+    {
+      "alive": {
+        "Herbivore": 35
+      },
+      "births": {
+        "Carnivore": 1,
+        "Herbivore": 731
+      },
+      "descendant_breeders": {
+        "Herbivore": 660
+      },
+      "last_alive": {
+        "Carnivore": 145,
+        "Herbivore": 2000
+      },
+      "max_generation": {
+        "Carnivore": 1,
+        "Herbivore": 66
+      },
+      "scenario": "scenarios/mixed-dense.json",
+      "seconds": 2.7658434769999998,
+      "seed": 4,
+      "ticks": 2000
+    },
+    {
+      "alive": {},
+      "births": {
+        "Carnivore": 11,
+        "Herbivore": 66
+      },
+      "descendant_breeders": {
+        "Carnivore": 9,
+        "Herbivore": 41
+      },
+      "last_alive": {
+        "Carnivore": 324,
+        "Herbivore": 289
+      },
+      "max_generation": {
+        "Carnivore": 9,
+        "Herbivore": 6
+      },
+      "scenario": "scenarios/mixed-dense.json",
+      "seconds": 0.339085929,
+      "seed": 5,
+      "ticks": 2000
+    },
+    {
+      "alive": {},
+      "births": {
+        "Carnivore": 11,
+        "Herbivore": 71
+      },
+      "descendant_breeders": {
+        "Carnivore": 9,
+        "Herbivore": 42
+      },
+      "last_alive": {
+        "Carnivore": 372,
+        "Herbivore": 334
+      },
+      "max_generation": {
+        "Carnivore": 7,
+        "Herbivore": 8
+      },
+      "scenario": "scenarios/mixed-dense.json",
+      "seconds": 0.328092625,
+      "seed": 42,
+      "ticks": 2000
+    },
+    {
+      "alive": {},
+      "births": {
+        "Carnivore": 10,
+        "Herbivore": 67
+      },
+      "descendant_breeders": {
+        "Carnivore": 8,
+        "Herbivore": 41
+      },
+      "last_alive": {
+        "Carnivore": 338,
+        "Herbivore": 308
+      },
+      "max_generation": {
+        "Carnivore": 7,
+        "Herbivore": 8
+      },
+      "scenario": "scenarios/mixed-dense.json",
+      "seconds": 0.316564713,
+      "seed": 12345,
+      "ticks": 2000
+    },
+    {
+      "alive": {},
+      "births": {
+        "Carnivore": 6,
+        "Herbivore": 44
+      },
+      "descendant_breeders": {
+        "Carnivore": 5,
+        "Herbivore": 21
+      },
+      "last_alive": {
+        "Carnivore": 288,
+        "Herbivore": 241
+      },
+      "max_generation": {
+        "Carnivore": 6,
+        "Herbivore": 5
+      },
+      "scenario": "scenarios/mixed-dense.json",
+      "seconds": 0.287770591,
+      "seed": 2026,
+      "ticks": 2000
+    }
+  ]
+}

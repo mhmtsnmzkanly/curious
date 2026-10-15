@@ -22,7 +22,7 @@ pub fn apply(
     let from = slot.pos;
     let mut cost = 0;
     for next in path {
-        let reason = if !map.can_step(slot.pos, *next) {
+        let reason = if !map.can_step_for(slot.pos, *next, slot.base.can_burrow()) {
             Some(R::NoPath)
         } else if occupied.get(next).is_some_and(|other| *other != id) {
             Some(R::Occupied)

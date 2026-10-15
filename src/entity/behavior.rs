@@ -34,6 +34,21 @@ pub fn decide(species: Species, life: &LifeState, view: Perception, rng: &mut Ra
     let selected = InstinctEvaluator::evaluate(life, &view, species.clone());
     match selected.instinct {
         Instinct::Threat => {
+            if species == Species::Herbivore {
+                if let Some(path) = view
+                    .shelters
+                    .iter()
+                    .filter(|p| !p.is_empty())
+                    .min_by_key(|p| p.len())
+                {
+                    return Decision::new(
+                        Intent::Move {
+                            steps: Steps(path.0.iter().take(life.speed).copied().collect()),
+                        },
+                        Reason::SeekShelter,
+                    );
+                }
+            }
             if let Some(threat) = selected.threat {
                 let combat = species.combat_profile();
                 let no_escape = view.directions.values().all(|d| *d == 0);

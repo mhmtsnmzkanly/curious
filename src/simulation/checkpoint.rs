@@ -54,8 +54,9 @@ impl State {
         for y in world.map.min_y..=world.map.max_y {
             for x in world.map.min_x..=world.map.max_x {
                 let p = Position::new(x, y);
-                if let Some(cell @ (Cell::Food { .. } | Cell::Water { .. } | Cell::Wall)) =
-                    world.map.cell(p)
+                if let Some(
+                    cell @ (Cell::Food { .. } | Cell::Water { .. } | Cell::Wall | Cell::Burrow),
+                ) = world.map.cell(p)
                 {
                     resources.push((p, cell.clone()));
                 }
@@ -68,7 +69,7 @@ impl State {
             .collect();
         commands.sort_by_key(|(id, _)| *id);
         Self {
-            version: 7,
+            version: 8,
             genetics: world.genetics.clone(),
             observation: world.observation.clone(),
             environment: world.environment.clone(),
@@ -104,7 +105,7 @@ impl State {
         }
     }
     pub fn restore(self) -> Result<World> {
-        if !(1..=7).contains(&self.version) {
+        if !(1..=8).contains(&self.version) {
             return Err("unsupported checkpoint version".into());
         }
         let [a, b, c, d] = self.bounds;

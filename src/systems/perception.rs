@@ -31,11 +31,17 @@ impl PerceptionSystem {
             })
             .map(|s| s.pos)
             .collect();
-        let paths = world.map.paths_within(current.pos, radius, &blocked);
+        let paths =
+            world
+                .map
+                .paths_within_for(current.pos, radius, &blocked, current.base.can_burrow());
         let mut positions: Vec<_> = paths.keys().copied().collect();
         positions.sort_by_key(|p| (p.y, p.x));
         let mut view = Perception::empty();
         for pos in positions {
+            if matches!(world.map.cell(pos), Some(crate::map::cell::Cell::Burrow)) {
+                view.shelters.push(paths[&pos].clone());
+            }
             view.cells.push((
                 pos,
                 world
@@ -55,6 +61,16 @@ impl PerceptionSystem {
             }
         }
         for other in nearby.iter().map(|i| &world.entities[*i]) {
+            if !other.base.can_burrow()
+                && current.base.can_burrow()
+                && matches!(
+                    world.map.cell(current.pos),
+                    Some(crate::map::cell::Cell::Burrow)
+                )
+                && other.base.species().hunts(&current.base.species())
+            {
+                continue;
+            }
             if other.id == current.id {
                 continue;
             }
@@ -89,7 +105,9 @@ impl PerceptionSystem {
             let mut distance = 0;
             for _ in 0..radius.min(255) {
                 let next = p + dir;
-                if !world.map.can_step(p, next) || blocked.contains(&next) {
+                if !world.map.can_step_for(p, next, current.base.can_burrow())
+                    || blocked.contains(&next)
+                {
                     break;
                 }
                 p = next;

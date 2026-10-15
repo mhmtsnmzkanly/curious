@@ -9,6 +9,7 @@ const colors = {
   Omnivore: "#b7a0db",
 };
 const reasons = {
+  SeekShelter: "Gördüğü sığınağa kaçıyor",
   EscapeThreat: "Tehlikeden uzaklaşıyor",
   CorneredDefense: "Sıkıştı; kendini savunuyor",
   RecoverStamina: "Yoruldu; dinleniyor",
@@ -311,11 +312,17 @@ function draw() {
     const [x, y] = point(p),
       kind = typeof c === "string" ? c : Object.keys(c)[0];
     ctx.fillStyle =
-      kind === "Water" ? "#3a6d78" : kind === "Wall" ? "#63695c" : "#396044";
+      kind === "Water"
+        ? "#3a6d78"
+        : kind === "Wall"
+          ? "#63695c"
+          : kind === "Burrow"
+            ? "#91775a"
+            : "#396044";
     ctx.globalAlpha = kind === "Wall" ? 1 : 0.8;
     ctx.fillRect(x - cell * 0.43, y - cell * 0.43, cell * 0.86, cell * 0.86);
     ctx.globalAlpha = 1;
-    if (cell > 25 && kind !== "Wall") {
+    if (cell > 25 && kind !== "Wall" && kind !== "Burrow") {
       ctx.fillStyle = kind === "Water" ? "#b1d9e2" : "#a2c982";
       ctx.font = `${Math.min(12, cell * 0.25)}px system-ui`;
       ctx.textAlign = "center";

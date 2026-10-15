@@ -140,7 +140,9 @@ impl PlanningSystem {
         let mut path = Vec::new();
         for dir in steps {
             let next = curr_pos + *dir;
-            if !world.map.can_step(curr_pos, next)
+            if !world
+                .map
+                .can_step_for(curr_pos, next, slot.base.can_burrow())
                 || world.entities.iter().any(|s| {
                     s.id != slot.id
                         && s.pos == next
@@ -177,7 +179,9 @@ impl PlanningSystem {
 
             for dir in DIRECTION_ARRAY {
                 let candidate = curr_pos + dir;
-                if !world.map.can_step(curr_pos, candidate)
+                if !world
+                    .map
+                    .can_step_for(curr_pos, candidate, slot.base.can_burrow())
                     || world.entities.iter().any(|s| {
                         s.id != slot.id
                             && s.pos == candidate

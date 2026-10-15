@@ -118,10 +118,11 @@ impl Learner {
     }
     pub fn validate(&self) -> crate::Result<()> {
         if self.values.len() > 32
-            || self
-                .values
-                .iter()
-                .any(|v| !(-1000..=1000).contains(&v.value))
+            || self.values.iter().any(|v| {
+                !(-1000..=1000).contains(&v.value)
+                    || v.pos.x.unsigned_abs() > 1_000_000
+                    || v.pos.y.unsigned_abs() > 1_000_000
+            })
         {
             return Err("learning bounds exceeded".into());
         }

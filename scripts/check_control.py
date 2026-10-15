@@ -55,6 +55,17 @@ with tempfile.TemporaryDirectory(prefix='curious-http-') as directory:
         assert request('/control',{'action':'speed','ticks_per_second':0})[0]==400
         assert request('/control',{'action':'step','ticks':3})[0]==200
         assert request('/status')[1]['tick']==3
+        # Terrain restrictions must reject a spawn without consuming an ID.
+        terrain_state=request('/state')[1]
+        a,b,c,d=terrain_state['bounds']
+        occupied={(e['pos']['x'],e['pos']['y']) for e in terrain_state['entities']}
+        x,y=next((x,y) for y in range(c,d+1) for x in range(a,b+1) if (x,y) not in occupied)
+        pos={'x':x,'y':y}
+        assert request('/control',{'action':'set_cell','pos':pos,'cell':'Burrow'})[0]==200
+        before_rejection=request('/state')[1]
+        assert request('/control',{'action':'spawn','species':'Carnivore','pos':pos})[0]==400
+        assert request('/state')[1]==before_rejection
+
         assert request('/decisions',authorized=False)[0]==401
         assert request('/decisions')[1]
         assert request('/control',{'action':'observation','full_all':False,'full_for':[1]})[0]==200

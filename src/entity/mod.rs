@@ -23,6 +23,10 @@ pub trait Entity {
     /// Varlık türü
     fn species(&self) -> Species;
 
+    fn can_burrow(&self) -> bool {
+        self.species() == Species::Herbivore
+    }
+
     fn combat(&self) -> crate::rules::combat::CombatProfile {
         self.species().combat_profile()
     }

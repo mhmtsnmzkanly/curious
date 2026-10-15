@@ -97,7 +97,10 @@ impl Scenario {
             }
             map.set_cell(pos, cell);
         }
-        if entities.iter().any(|e| !map.is_walkable(e.pos)) {
+        if entities
+            .iter()
+            .any(|e| !map.is_walkable_for(e.pos, e.base.can_burrow()))
+        {
             return Err("founder position is blocked".into());
         }
         let next_entity_id = entities.len() + 1;

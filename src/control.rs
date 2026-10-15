@@ -181,7 +181,7 @@ impl Runtime {
                 if matches!(cell,Cell::Food{amount}|Cell::Water{amount} if amount>1_000_000) {
                     return Err("resource amount exceeds 1000000".into());
                 }
-                if cell == Cell::Wall {
+                if matches!(cell, Cell::Wall | Cell::Burrow) {
                     self.validate_vacant(pos, None)?;
                 }
                 self.world.map.set_cell(pos, cell);
@@ -190,6 +190,11 @@ impl Runtime {
             Command::Spawn { species, pos } => {
                 self.validate_pos(pos)?;
                 self.validate_vacant(pos, None)?;
+                if matches!(self.world.map.cell(pos), Some(Cell::Burrow))
+                    && species != Species::Herbivore
+                {
+                    return Err("species cannot enter burrow".into());
+                }
                 if self.world.entities.len() >= 10000 {
                     return Err("population safety limit: 10000".into());
                 }
@@ -218,6 +223,11 @@ impl Runtime {
             Command::UpdateEntity { entity: e } => {
                 self.validate_pos(e.pos)?;
                 self.validate_vacant(e.pos, Some(e.id))?;
+                if matches!(self.world.map.cell(e.pos), Some(Cell::Burrow))
+                    && e.species != Species::Herbivore
+                {
+                    return Err("species cannot enter burrow".into());
+                }
                 e.life.validate()?;
                 e.memory.validate()?;
                 e.learner.validate()?;

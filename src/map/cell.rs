@@ -2,6 +2,7 @@
 pub enum Cell {
     Empty,
     Wall,
+    Burrow,
     Food { amount: usize },
     Water { amount: usize },
 }

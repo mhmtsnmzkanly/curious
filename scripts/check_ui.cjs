@@ -21,7 +21,7 @@ const assert = require("node:assert/strict");
       "--serve",
       "--paused",
       "--scenario",
-      path.resolve("scenarios/meadow.json"),
+      path.resolve(process.argv[3] || "scenarios/meadow.json"),
       "--data-dir",
       tmp,
       "--bind",

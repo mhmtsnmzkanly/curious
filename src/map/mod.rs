@@ -124,16 +124,23 @@ impl Map {
     }
 
     pub fn can_step(&self, from: Position, to: Position) -> bool {
+        self.can_step_for(from, to, true)
+    }
+    pub fn can_step_for(&self, from: Position, to: Position, can_burrow: bool) -> bool {
         let dx = to.x - from.x;
         let dy = to.y - from.y;
         dx.abs() <= 1
             && dy.abs() <= 1
             && (dx != 0 || dy != 0)
-            && self.is_walkable(to)
+            && self.is_walkable_for(to, can_burrow)
             && (dx == 0
                 || dy == 0
-                || (self.is_walkable(Position::new(from.x + dx, from.y))
-                    && self.is_walkable(Position::new(from.x, from.y + dy))))
+                || (self.is_walkable_for(Position::new(from.x + dx, from.y), can_burrow)
+                    && self.is_walkable_for(Position::new(from.x, from.y + dy), can_burrow)))
+    }
+
+    pub fn is_walkable_for(&self, pos: Position, can_burrow: bool) -> bool {
+        self.is_walkable(pos) && (can_burrow || !matches!(self.cell(pos), Some(Cell::Burrow)))
     }
 
     pub fn set_cell(&mut self, pos: Position, cell: Cell) {
@@ -238,6 +245,15 @@ impl Map {
         radius: usize,
         blocked: &std::collections::HashSet<Position>,
     ) -> HashMap<Position, Steps> {
+        self.paths_within_for(start, radius, blocked, true)
+    }
+    pub fn paths_within_for(
+        &self,
+        start: Position,
+        radius: usize,
+        blocked: &std::collections::HashSet<Position>,
+        can_burrow: bool,
+    ) -> HashMap<Position, Steps> {
         let mut paths = HashMap::new();
         let mut queue = VecDeque::new();
         paths.insert(start, Steps::empty());
@@ -249,7 +265,7 @@ impl Map {
             }
             for dir in DIRECTION_ARRAY {
                 let next = pos + dir;
-                if !self.can_step(pos, next)
+                if !self.can_step_for(pos, next, can_burrow)
                     || start.distance_to(next) > radius
                     || paths.contains_key(&next)
                 {

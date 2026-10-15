@@ -176,6 +176,7 @@ impl World {
         crate::systems::interaction::InteractionSystem::resolve_attacks(
             &mut self.entities,
             &plans.attacks,
+            &self.map,
             &mut events,
         );
         crate::systems::movement::MovementSystem::resolve_flee(
@@ -236,10 +237,18 @@ impl World {
         pos: Position,
         occupied: &HashMap<Position, usize>,
     ) -> Option<Position> {
+        Self::pick_empty_neighbor_for(map, pos, occupied, true)
+    }
+    pub fn pick_empty_neighbor_for(
+        map: &Map,
+        pos: Position,
+        occupied: &HashMap<Position, usize>,
+        can_burrow: bool,
+    ) -> Option<Position> {
         DIRECTION_ARRAY
             .iter()
             .map(|&d| pos + d)
-            .find(|&p| map.is_walkable(p) && !occupied.contains_key(&p))
+            .find(|&p| map.is_walkable_for(p, can_burrow) && !occupied.contains_key(&p))
     }
 }
 
