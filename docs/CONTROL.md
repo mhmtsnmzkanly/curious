@@ -244,3 +244,17 @@ Laboratuvarda `step` ile davranış gözlenebilir; `bin/curious-lab` canlı çay
 
 Checkpoint V4, duvarları da `resources` içinde saklar. `set_cell` için `"cell":"Wall"`
 kullanılır. Her gerçek hareket adımı ara hücre doluluğu dahil yeniden doğrulanır.
+
+## Gözlem ekranı ve V7 durum
+
+`GET /` gözlem ekranını açar. Veri/komut uçları token varsa korunur; statik
+arayüz anahtar girilebilmesi için açıktır. `/observation` atomik gözlem yanıtıdır.
+Checkpoint V7: bireysel `memory`, `learner`, `genome`; dünya `genetics`.
+`update_entity` tam nesnesinde bu alanlar da saklanır.
+
+```json
+{"action":"genetics","enabled":true,"mutation_per_mille":20}
+```
+
+Hafıza ve öğrenme bireyin yaşamında kalır; yavrulara genom aktarılır. Yeni kayıt
+eski motorla açılamaz; geri dönüş için yükseltme öncesi veri yedeği gerekir.

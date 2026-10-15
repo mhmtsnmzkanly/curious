@@ -323,6 +323,18 @@ pub fn serve(mut runtime: Runtime, bind: &str, token: Option<String>) -> Result<
                 .min(Duration::from_millis(100))
         };
         if let Some(mut request) = server.recv_timeout(wait)? {
+            let static_asset=match (request.method().as_str(),request.url().split('?').next().unwrap_or("")) {
+                ("GET","/")=>Some((include_str!("../web/index.html"),"text/html; charset=utf-8")),
+                ("GET","/ui.css")=>Some((include_str!("../web/style.css"),"text/css; charset=utf-8")),
+                ("GET","/ui.js")=>Some((include_str!("../web/app.js"),"text/javascript; charset=utf-8")),_=>None
+            };
+            if let Some((body,kind))=static_asset {
+                let response=tiny_http::Response::from_string(body)
+                    .with_header(tiny_http::Header::from_bytes("Content-Type",kind).unwrap())
+                    .with_header(tiny_http::Header::from_bytes("Cache-Control","no-store").unwrap())
+                    .with_header(tiny_http::Header::from_bytes("Content-Security-Policy","default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; connect-src 'self'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'").unwrap());
+                let _=request.respond(response);
+            } else {
             let allowed = token.as_ref().is_none_or(|t| {
                 request.headers().iter().any(|h| {
                     h.field.equiv("Authorization") && h.value.as_str() == format!("Bearer {t}")
@@ -345,6 +357,7 @@ pub fn serve(mut runtime: Runtime, bind: &str, token: Option<String>) -> Result<
                     let method = request.method().as_str();
                     let path = request.url().split('?').next().unwrap_or("");
                     let response: Result<Value> = (|| match (method, path) {
+                        ("GET", "/observation") => Ok(json!({"status":runtime.status(),"state":State::capture(&runtime.world),"decisions":runtime.world.last_decisions})),
                         ("GET", "/decisions") => {
                             Ok(serde_json::to_value(&runtime.world.last_decisions)?)
                         }
@@ -380,6 +393,7 @@ pub fn serve(mut runtime: Runtime, bind: &str, token: Option<String>) -> Result<
                     tiny_http::Header::from_bytes("Content-Type", "application/json").unwrap(),
                 );
             let _ = request.respond(response);
+            }
         }
         if !runtime.paused && !runtime.shutdown && Instant::now() >= next {
             if let Err(e) = runtime.tick() {

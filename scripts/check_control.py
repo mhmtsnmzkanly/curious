@@ -46,6 +46,9 @@ with tempfile.TemporaryDirectory(prefix='curious-http-') as directory:
     child=start(directory)
     try:
         assert request('/state',authorized=False)[0]==401
+        snapshot=request('/observation')[1]
+        assert snapshot['state']['tick']==snapshot['status']['tick']
+        assert request('/observation',authorized=False)[0]==401
         assert request('/control',{'action':'speed','ticks_per_second':0})[0]==400
         assert request('/control',{'action':'step','ticks':3})[0]==200
         assert request('/status')[1]['tick']==3
