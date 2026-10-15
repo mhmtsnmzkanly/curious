@@ -18,6 +18,7 @@ use std::{
 #[derive(Deserialize)]
 #[serde(tag = "action", rename_all = "snake_case", deny_unknown_fields)]
 pub enum Command {
+    Genetics {enabled:bool,mutation_per_mille:u16},
     Observation {
         full_all: bool,
         full_for: Vec<usize>,
@@ -93,6 +94,11 @@ impl Runtime {
         let cmd: Command = serde_json::from_value(value.clone())?;
         // Validate first; no partial intervention on invalid input.
         let result = match cmd {
+            Command::Genetics{enabled,mutation_per_mille}=>{
+                if mutation_per_mille>1000 {return Err("mutation rate must be 0..1000 per mille".into());}
+                self.world.genetics=crate::entity::genetics::Genetics{enabled,mutation_per_mille};
+                json!({"genetics":self.world.genetics})
+            },
             Command::Observation { full_all, full_for } => {
                 if full_for.len() > 100 {
                     return Err("at most 100 selected individuals".into());
@@ -202,6 +208,7 @@ impl Runtime {
                 e.life.validate()?;
                 e.memory.validate()?;
                 e.learner.validate()?;
+                e.genome.validate()?;
                 let s = self
                     .world
                     .entities
@@ -215,6 +222,7 @@ impl Runtime {
                     e.controller,
                     make_entity(e.species, e.life),
                 );
+                s.genome=e.genome;
                 s.learner=e.learner;
                 s.memory=e.memory;
                 s.generation = e.generation;

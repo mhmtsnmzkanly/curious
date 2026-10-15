@@ -1,0 +1,818 @@
+[
+  {
+    "mutation_per_mille": 0,
+    "samples": [
+      {
+        "alleles": [
+          4,
+          4,
+          0
+        ],
+        "max_living_generation": 0,
+        "tick": 0
+      },
+      {
+        "alleles": [
+          13,
+          7,
+          0
+        ],
+        "max_living_generation": 3,
+        "tick": 100
+      },
+      {
+        "alleles": [
+          13,
+          2,
+          0
+        ],
+        "max_living_generation": 15,
+        "tick": 500
+      },
+      {
+        "alleles": [
+          15,
+          0,
+          0
+        ],
+        "max_living_generation": 31,
+        "tick": 1000
+      },
+      {
+        "alleles": [
+          13,
+          0,
+          0
+        ],
+        "max_living_generation": 62,
+        "tick": 2000
+      }
+    ],
+    "seed": 1
+  },
+  {
+    "mutation_per_mille": 20,
+    "samples": [
+      {
+        "alleles": [
+          4,
+          4,
+          0
+        ],
+        "max_living_generation": 0,
+        "tick": 0
+      },
+      {
+        "alleles": [
+          13,
+          7,
+          0
+        ],
+        "max_living_generation": 3,
+        "tick": 100
+      },
+      {
+        "alleles": [
+          9,
+          2,
+          0
+        ],
+        "max_living_generation": 15,
+        "tick": 500
+      },
+      {
+        "alleles": [
+          12,
+          1,
+          0
+        ],
+        "max_living_generation": 30,
+        "tick": 1000
+      },
+      {
+        "alleles": [
+          14,
+          0,
+          0
+        ],
+        "max_living_generation": 61,
+        "tick": 2000
+      }
+    ],
+    "seed": 1
+  },
+  {
+    "mutation_per_mille": 0,
+    "samples": [
+      {
+        "alleles": [
+          4,
+          4,
+          0
+        ],
+        "max_living_generation": 0,
+        "tick": 0
+      },
+      {
+        "alleles": [
+          15,
+          8,
+          0
+        ],
+        "max_living_generation": 4,
+        "tick": 100
+      },
+      {
+        "alleles": [
+          12,
+          0,
+          0
+        ],
+        "max_living_generation": 18,
+        "tick": 500
+      },
+      {
+        "alleles": [
+          12,
+          0,
+          0
+        ],
+        "max_living_generation": 32,
+        "tick": 1000
+      },
+      {
+        "alleles": [
+          12,
+          0,
+          0
+        ],
+        "max_living_generation": 60,
+        "tick": 2000
+      }
+    ],
+    "seed": 2
+  },
+  {
+    "mutation_per_mille": 20,
+    "samples": [
+      {
+        "alleles": [
+          4,
+          4,
+          0
+        ],
+        "max_living_generation": 0,
+        "tick": 0
+      },
+      {
+        "alleles": [
+          15,
+          8,
+          0
+        ],
+        "max_living_generation": 4,
+        "tick": 100
+      },
+      {
+        "alleles": [
+          5,
+          7,
+          0
+        ],
+        "max_living_generation": 16,
+        "tick": 500
+      },
+      {
+        "alleles": [
+          9,
+          2,
+          0
+        ],
+        "max_living_generation": 31,
+        "tick": 1000
+      },
+      {
+        "alleles": [
+          13,
+          1,
+          0
+        ],
+        "max_living_generation": 62,
+        "tick": 2000
+      }
+    ],
+    "seed": 2
+  },
+  {
+    "mutation_per_mille": 0,
+    "samples": [
+      {
+        "alleles": [
+          4,
+          4,
+          0
+        ],
+        "max_living_generation": 0,
+        "tick": 0
+      },
+      {
+        "alleles": [
+          14,
+          7,
+          0
+        ],
+        "max_living_generation": 2,
+        "tick": 100
+      },
+      {
+        "alleles": [
+          13,
+          0,
+          0
+        ],
+        "max_living_generation": 14,
+        "tick": 500
+      },
+      {
+        "alleles": [
+          12,
+          0,
+          0
+        ],
+        "max_living_generation": 29,
+        "tick": 1000
+      },
+      {
+        "alleles": [
+          14,
+          0,
+          0
+        ],
+        "max_living_generation": 62,
+        "tick": 2000
+      }
+    ],
+    "seed": 3
+  },
+  {
+    "mutation_per_mille": 20,
+    "samples": [
+      {
+        "alleles": [
+          4,
+          4,
+          0
+        ],
+        "max_living_generation": 0,
+        "tick": 0
+      },
+      {
+        "alleles": [
+          14,
+          7,
+          0
+        ],
+        "max_living_generation": 2,
+        "tick": 100
+      },
+      {
+        "alleles": [
+          13,
+          0,
+          0
+        ],
+        "max_living_generation": 14,
+        "tick": 500
+      },
+      {
+        "alleles": [
+          12,
+          2,
+          0
+        ],
+        "max_living_generation": 32,
+        "tick": 1000
+      },
+      {
+        "alleles": [
+          3,
+          10,
+          0
+        ],
+        "max_living_generation": 59,
+        "tick": 2000
+      }
+    ],
+    "seed": 3
+  },
+  {
+    "mutation_per_mille": 0,
+    "samples": [
+      {
+        "alleles": [
+          4,
+          4,
+          0
+        ],
+        "max_living_generation": 0,
+        "tick": 0
+      },
+      {
+        "alleles": [
+          12,
+          9,
+          0
+        ],
+        "max_living_generation": 3,
+        "tick": 100
+      },
+      {
+        "alleles": [
+          11,
+          0,
+          0
+        ],
+        "max_living_generation": 15,
+        "tick": 500
+      },
+      {
+        "alleles": [
+          13,
+          0,
+          0
+        ],
+        "max_living_generation": 29,
+        "tick": 1000
+      },
+      {
+        "alleles": [
+          13,
+          0,
+          0
+        ],
+        "max_living_generation": 61,
+        "tick": 2000
+      }
+    ],
+    "seed": 4
+  },
+  {
+    "mutation_per_mille": 20,
+    "samples": [
+      {
+        "alleles": [
+          4,
+          4,
+          0
+        ],
+        "max_living_generation": 0,
+        "tick": 0
+      },
+      {
+        "alleles": [
+          12,
+          8,
+          1
+        ],
+        "max_living_generation": 3,
+        "tick": 100
+      },
+      {
+        "alleles": [
+          13,
+          0,
+          0
+        ],
+        "max_living_generation": 15,
+        "tick": 500
+      },
+      {
+        "alleles": [
+          10,
+          0,
+          0
+        ],
+        "max_living_generation": 31,
+        "tick": 1000
+      },
+      {
+        "alleles": [
+          11,
+          0,
+          0
+        ],
+        "max_living_generation": 60,
+        "tick": 2000
+      }
+    ],
+    "seed": 4
+  },
+  {
+    "mutation_per_mille": 0,
+    "samples": [
+      {
+        "alleles": [
+          4,
+          4,
+          0
+        ],
+        "max_living_generation": 0,
+        "tick": 0
+      },
+      {
+        "alleles": [
+          11,
+          10,
+          0
+        ],
+        "max_living_generation": 2,
+        "tick": 100
+      },
+      {
+        "alleles": [
+          9,
+          0,
+          0
+        ],
+        "max_living_generation": 12,
+        "tick": 500
+      },
+      {
+        "alleles": [
+          12,
+          0,
+          0
+        ],
+        "max_living_generation": 27,
+        "tick": 1000
+      },
+      {
+        "alleles": [
+          16,
+          0,
+          0
+        ],
+        "max_living_generation": 58,
+        "tick": 2000
+      }
+    ],
+    "seed": 5
+  },
+  {
+    "mutation_per_mille": 20,
+    "samples": [
+      {
+        "alleles": [
+          4,
+          4,
+          0
+        ],
+        "max_living_generation": 0,
+        "tick": 0
+      },
+      {
+        "alleles": [
+          11,
+          10,
+          0
+        ],
+        "max_living_generation": 2,
+        "tick": 100
+      },
+      {
+        "alleles": [
+          9,
+          0,
+          0
+        ],
+        "max_living_generation": 12,
+        "tick": 500
+      },
+      {
+        "alleles": [
+          12,
+          0,
+          0
+        ],
+        "max_living_generation": 27,
+        "tick": 1000
+      },
+      {
+        "alleles": [
+          12,
+          4,
+          0
+        ],
+        "max_living_generation": 60,
+        "tick": 2000
+      }
+    ],
+    "seed": 5
+  },
+  {
+    "mutation_per_mille": 0,
+    "samples": [
+      {
+        "alleles": [
+          4,
+          4,
+          0
+        ],
+        "max_living_generation": 0,
+        "tick": 0
+      },
+      {
+        "alleles": [
+          10,
+          11,
+          0
+        ],
+        "max_living_generation": 2,
+        "tick": 100
+      },
+      {
+        "alleles": [
+          9,
+          0,
+          0
+        ],
+        "max_living_generation": 15,
+        "tick": 500
+      },
+      {
+        "alleles": [
+          16,
+          0,
+          0
+        ],
+        "max_living_generation": 28,
+        "tick": 1000
+      },
+      {
+        "alleles": [
+          15,
+          0,
+          0
+        ],
+        "max_living_generation": 59,
+        "tick": 2000
+      }
+    ],
+    "seed": 42
+  },
+  {
+    "mutation_per_mille": 20,
+    "samples": [
+      {
+        "alleles": [
+          4,
+          4,
+          0
+        ],
+        "max_living_generation": 0,
+        "tick": 0
+      },
+      {
+        "alleles": [
+          10,
+          11,
+          0
+        ],
+        "max_living_generation": 2,
+        "tick": 100
+      },
+      {
+        "alleles": [
+          9,
+          0,
+          0
+        ],
+        "max_living_generation": 13,
+        "tick": 500
+      },
+      {
+        "alleles": [
+          12,
+          1,
+          0
+        ],
+        "max_living_generation": 28,
+        "tick": 1000
+      },
+      {
+        "alleles": [
+          13,
+          0,
+          0
+        ],
+        "max_living_generation": 59,
+        "tick": 2000
+      }
+    ],
+    "seed": 42
+  },
+  {
+    "mutation_per_mille": 0,
+    "samples": [
+      {
+        "alleles": [
+          4,
+          4,
+          0
+        ],
+        "max_living_generation": 0,
+        "tick": 0
+      },
+      {
+        "alleles": [
+          10,
+          10,
+          0
+        ],
+        "max_living_generation": 3,
+        "tick": 100
+      },
+      {
+        "alleles": [
+          10,
+          0,
+          0
+        ],
+        "max_living_generation": 15,
+        "tick": 500
+      },
+      {
+        "alleles": [
+          16,
+          0,
+          0
+        ],
+        "max_living_generation": 32,
+        "tick": 1000
+      },
+      {
+        "alleles": [
+          11,
+          0,
+          0
+        ],
+        "max_living_generation": 61,
+        "tick": 2000
+      }
+    ],
+    "seed": 12345
+  },
+  {
+    "mutation_per_mille": 20,
+    "samples": [
+      {
+        "alleles": [
+          4,
+          4,
+          0
+        ],
+        "max_living_generation": 0,
+        "tick": 0
+      },
+      {
+        "alleles": [
+          10,
+          10,
+          0
+        ],
+        "max_living_generation": 3,
+        "tick": 100
+      },
+      {
+        "alleles": [
+          10,
+          0,
+          0
+        ],
+        "max_living_generation": 15,
+        "tick": 500
+      },
+      {
+        "alleles": [
+          15,
+          1,
+          0
+        ],
+        "max_living_generation": 32,
+        "tick": 1000
+      },
+      {
+        "alleles": [
+          14,
+          0,
+          0
+        ],
+        "max_living_generation": 59,
+        "tick": 2000
+      }
+    ],
+    "seed": 12345
+  },
+  {
+    "mutation_per_mille": 0,
+    "samples": [
+      {
+        "alleles": [
+          4,
+          4,
+          0
+        ],
+        "max_living_generation": 0,
+        "tick": 0
+      },
+      {
+        "alleles": [
+          13,
+          8,
+          0
+        ],
+        "max_living_generation": 3,
+        "tick": 100
+      },
+      {
+        "alleles": [
+          9,
+          3,
+          0
+        ],
+        "max_living_generation": 14,
+        "tick": 500
+      },
+      {
+        "alleles": [
+          15,
+          0,
+          0
+        ],
+        "max_living_generation": 31,
+        "tick": 1000
+      },
+      {
+        "alleles": [
+          11,
+          0,
+          0
+        ],
+        "max_living_generation": 60,
+        "tick": 2000
+      }
+    ],
+    "seed": 2026
+  },
+  {
+    "mutation_per_mille": 20,
+    "samples": [
+      {
+        "alleles": [
+          4,
+          4,
+          0
+        ],
+        "max_living_generation": 0,
+        "tick": 0
+      },
+      {
+        "alleles": [
+          13,
+          8,
+          0
+        ],
+        "max_living_generation": 3,
+        "tick": 100
+      },
+      {
+        "alleles": [
+          7,
+          6,
+          0
+        ],
+        "max_living_generation": 17,
+        "tick": 500
+      },
+      {
+        "alleles": [
+          14,
+          0,
+          0
+        ],
+        "max_living_generation": 32,
+        "tick": 1000
+      },
+      {
+        "alleles": [
+          12,
+          2,
+          0
+        ],
+        "max_living_generation": 63,
+        "tick": 2000
+      }
+    ],
+    "seed": 2026
+  }
+]

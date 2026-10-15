@@ -21,7 +21,7 @@ pub fn decide(species: Species, life: &LifeState, view: &Perception) -> Option<D
         life.energy
             < profile
                 .energy_cost
-                .saturating_add(e.steps.len().saturating_sub(1))
+                .saturating_add(e.steps.len().saturating_sub(1).saturating_mul(life.move_energy_cost))
     }) {
         return Some(Decision::new(
             Intent::Idle { duration: 1 },
@@ -38,7 +38,7 @@ pub fn decide(species: Species, life: &LifeState, view: &Perception) -> Option<D
     let cost = |e: &&super::perception::PerceivedEntity| {
         let hits = e.health.unwrap_or(e.power).div_ceil(profile.damage.max(1));
         let travel = e.steps.len().saturating_sub(1);
-        travel.saturating_add(hits.saturating_mul(profile.energy_cost + 1))
+        travel.saturating_mul(life.move_energy_cost).saturating_add(hits.saturating_mul(profile.energy_cost + 1))
     };
     let prey = candidates
         .into_iter()

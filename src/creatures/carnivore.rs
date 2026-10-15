@@ -20,6 +20,7 @@ impl CarnivoreEntity {
     pub fn default() -> Self {
         Self {
             life_state: LifeState {
+                move_energy_cost:1,
                 max_stamina:24,stamina:24,exertion:0,
                 death_cause: None,
                 max_age: 120,

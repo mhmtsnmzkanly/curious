@@ -20,6 +20,7 @@ impl OmnivoreEntity {
     pub fn default() -> Self {
         Self {
             life_state: LifeState {
+                move_energy_cost:1,
                 max_stamina:20,stamina:20,exertion:0,
                 death_cause: None,
                 max_age: 110,

@@ -12,6 +12,8 @@ use serde::{Deserialize, Serialize};
 #[serde(deny_unknown_fields)]
 pub struct Founder {
     #[serde(default)]
+    pub genome:crate::entity::genetics::Genome,
+    #[serde(default)]
     pub life: Option<crate::entity::lifestate::LifeState>,
     pub species: Species,
     pub pos: Position,
@@ -62,6 +64,9 @@ impl Scenario {
             };
             let life = f.life.unwrap_or_else(|| template.life().clone());
             life.validate()?;
+            f.genome.validate()?;
+            let mut life=life;
+            f.genome.express_from(&Default::default(),&mut life);
             entities.push(EntitySlot::new(
                 n + 1,
                 f.pos,
@@ -69,6 +74,7 @@ impl Scenario {
                 EntityController::AI,
                 make_entity(f.species, life),
             ));
+            entities.last_mut().unwrap().genome=f.genome;
         }
         let mut environment = Environment::default();
         for site in self.sites {
@@ -94,6 +100,7 @@ impl Scenario {
         if entities.iter().any(|e|!map.is_walkable(e.pos)) {return Err("founder position is blocked".into());}
         let next_entity_id = entities.len() + 1;
         Ok(World {
+            genetics:Default::default(),
             observation: Default::default(),
             last_decisions: Vec::new(),
             map,

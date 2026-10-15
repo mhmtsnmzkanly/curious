@@ -1,3 +1,4 @@
+pub mod genetics;
 pub mod learning;
 pub mod memory;
 pub mod hunting;

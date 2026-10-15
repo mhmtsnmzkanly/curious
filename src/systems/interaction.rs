@@ -130,6 +130,8 @@ impl InteractionSystem {
         occupied: &mut HashMap<Position, usize>,
         events: &mut Vec<SimulationEvent>,
         next_entity_id: &mut usize,
+        rng:&mut crate::random::Random,
+        genetics:&crate::entity::genetics::Genetics,
     ) {
         use crate::simulation::event::{RejectionReason as R, reject};
         let mut new_entities = Vec::new();
@@ -190,6 +192,8 @@ impl InteractionSystem {
             let mut child = entities[t].base.reproduce();
             child.life_mut().energy = energy_budget.min(child.life().max_energy);
             child.life_mut().water = water_budget.min(child.life().max_water);
+            let genome=entities[t].genome.child(&entities[s].genome,rng,genetics);
+            genome.express_from(&entities[t].genome,child.life_mut());
             let species = child.species();
             let id = *next_entity_id;
             *next_entity_id += 1;
@@ -202,6 +206,7 @@ impl InteractionSystem {
                 child,
             ));
             if let Some(child) = new_entities.last_mut() {
+                child.genome=genome;
                 child.generation = generation;
                 child.parents = vec![plan.self_id, plan.target_id];
             }

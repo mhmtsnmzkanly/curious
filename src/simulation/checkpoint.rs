@@ -13,6 +13,8 @@ use serde::{Deserialize, Serialize};
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Individual {
     #[serde(default)]
+    pub genome:crate::entity::genetics::Genome,
+    #[serde(default)]
     pub learner:crate::entity::learning::Learner,
     #[serde(default)]
     pub memory:crate::entity::memory::Memory,
@@ -31,6 +33,8 @@ pub struct Individual {
 }
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct State {
+    #[serde(default)]
+    pub genetics:crate::entity::genetics::Genetics,
     #[serde(default)]
     pub observation: crate::entity::decision::ObservationSettings,
     #[serde(default)]
@@ -62,7 +66,8 @@ impl State {
             .collect();
         commands.sort_by_key(|(id, _)| *id);
         Self {
-            version: 6,
+            version: 7,
+            genetics:world.genetics.clone(),
             observation: world.observation.clone(),
             environment: world.environment.clone(),
             tick: world.tick_counter,
@@ -80,6 +85,7 @@ impl State {
                 .entities
                 .iter()
                 .map(|s| Individual {
+                    genome:s.genome.clone(),
                     learner:s.learner.clone(),
                     memory:s.memory.clone(),
                     generation: s.generation,
@@ -96,7 +102,7 @@ impl State {
         }
     }
     pub fn restore(self) -> Result<World> {
-        if !(1..=6).contains(&self.version) {
+        if !(1..=7).contains(&self.version) {
             return Err("unsupported checkpoint version".into());
         }
         let [a, b, c, d] = self.bounds;
@@ -115,6 +121,7 @@ impl State {
                     s.controller,
                     make_entity(s.species, s.life),
                 );
+                slot.genome=s.genome;
                 slot.learner=s.learner;
                 slot.memory=s.memory;
                 slot.generation = s.generation;
@@ -134,6 +141,7 @@ impl State {
             self.environment
         };
         Ok(World {
+            genetics:self.genetics,
             observation: self.observation,
             last_decisions: Vec::new(),
             environment,
