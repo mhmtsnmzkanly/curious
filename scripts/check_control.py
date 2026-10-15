@@ -46,6 +46,9 @@ with tempfile.TemporaryDirectory(prefix='curious-http-') as directory:
     child=start(directory)
     try:
         assert request('/state',authorized=False)[0]==401
+        foreign=urllib.request.Request(base+'/control',data=b'{"action":"pause"}',headers={'Origin':'https://unrelated.invalid','Content-Type':'application/json','Authorization':f'Bearer {token}'})
+        try:urllib.request.urlopen(foreign);raise AssertionError('cross-origin mutation allowed')
+        except urllib.error.HTTPError as error:assert error.code==403
         snapshot=request('/observation')[1]
         assert snapshot['state']['tick']==snapshot['status']['tick']
         assert request('/observation',authorized=False)[0]==401

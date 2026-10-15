@@ -1,0 +1,11 @@
+[Unit]
+Description=Sample the learned-world resource usage
+After=network.target
+[Service]
+Type=oneshot
+WorkingDirectory=/root/curious
+ExecStart=/usr/bin/python3 /root/curious/scripts/sample_runtime.py --url http://127.0.0.1:7881 --unit curious-evolution.service --output /root/curious/data/soak-evolution
+TimeoutStartSec=20
+NoNewPrivileges=true
+PrivateTmp=true
+UMask=0077

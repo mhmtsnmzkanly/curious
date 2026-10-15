@@ -1,0 +1,8 @@
+[Unit]
+Description=Check Curious learned-world health every minute
+[Timer]
+OnBootSec=30
+OnUnitActiveSec=60
+Unit=curious-evolution-monitor.service
+[Install]
+WantedBy=timers.target

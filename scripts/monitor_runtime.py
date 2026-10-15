@@ -10,8 +10,10 @@ import time
 import urllib.request
 
 
-def evaluate(previous, health, now):
+def evaluate(previous, health, now, label="çayır", key_prefix="curious-meadow"):
     state = dict(previous)
+    state["label"]=label
+    state["key_prefix"]=key_prefix
     state['pending'] = list(previous.get('pending', []))
     failures = previous.get('failures', 0) + 1 if not health.get('reachable') else 0
     state['failures'] = failures
@@ -47,13 +49,13 @@ def evaluate(previous, health, now):
 
 def queue(state, event, message, health, now):
     state['pending'].append({
-        'title': 'Curious: ' + {'recovery': 'durum düzeldi', 'extinction': 'çayırda yaşam tükendi',
+        'title': 'Curious ('+state.get('label','çayır')+'): ' + {'recovery': 'durum düzeldi', 'extinction': 'çayırda yaşam tükendi',
                               'storage_error': 'kayıt hatası', 'unreachable': 'servise ulaşılamıyor',
                               'storage_budget': 'kayıt bütçesi azalıyor'}[event],
         'message': message + f" Tick: {health.get('tick', '?')}. Kontrol zamanı (UTC epoch): {now}.",
         'type': 'success' if event == 'recovery' else 'warning' if event in ('extinction', 'storage_budget') else 'error',
         'target': {'user': 'u_e049630155fc'},
-        'idempotency_key': f'curious-meadow-{event}-{now}',
+        'idempotency_key': f"{state.get('key_prefix','curious-meadow')}-{event}-{now}",
     })
 
 
@@ -70,29 +72,12 @@ def save(path, state):
     finally:os.close(fd)
 
 
-def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--url', default='http://127.0.0.1:7879')
-    parser.add_argument('--state', default='/root/curious/data/meadow-monitor.json')
-    parser.add_argument('--notify-cli', default='/root/notify/bin/notify.js')
-    parser.add_argument('--token-file', default='/root/notify/token.json')
-    args = parser.parse_args()
-    path = Path(args.state)
-    previous = json.loads(path.read_text()) if path.exists() else {}
-    now = int(time.time())
-    try:
-        with urllib.request.urlopen(args.url.rstrip('/') + '/status', timeout=5) as response:
-            health = {'reachable': True, **json.load(response)}
-    except (OSError, ValueError):
-        health = {'reachable': False}
-    state = evaluate(previous, health, now)
-    # Persist exact payloads before transport; retries reuse their canonical body/key.
-    save(path, state)
+def dispatch(state,path,notify_cli,token_file):
     for payload in list(state['pending']):
         with tempfile.TemporaryDirectory(prefix='curious-alert-') as temporary:
             message = Path(temporary)/'message.json'
             message.write_text(json.dumps(payload, ensure_ascii=False))
-            command = ['node', args.notify_cli, '-t', args.token_file, 'send', str(message), '--json', '--timeout', '10']
+            command = ['node', notify_cli, '-t', token_file, 'send', str(message), '--json', '--timeout', '10']
             try:
                 result = subprocess.run(command, capture_output=True, text=True, timeout=45)
                 accepted = result.returncode == 0 and json.loads(result.stdout).get('success')
@@ -103,6 +88,28 @@ def main():
             break
         state['pending'].remove(payload)
         save(path, state)
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--url', default='http://127.0.0.1:7879')
+    parser.add_argument('--state', default='/root/curious/data/meadow-monitor.json')
+    parser.add_argument('--notify-cli', default='/root/notify/bin/notify.js')
+    parser.add_argument('--token-file', default='/root/notify/token.json')
+    parser.add_argument('--label',default='çayır')
+    parser.add_argument('--key-prefix',default='curious-meadow')
+    args = parser.parse_args()
+    path = Path(args.state)
+    previous = json.loads(path.read_text()) if path.exists() else {}
+    now = int(time.time())
+    try:
+        with urllib.request.urlopen(args.url.rstrip('/') + '/status', timeout=5) as response:
+            health = {'reachable': True, **json.load(response)}
+    except (OSError, ValueError):
+        health = {'reachable': False}
+    state = evaluate(previous, health, now,args.label,args.key_prefix)
+    # Persist exact payloads before transport; retries reuse their canonical body/key.
+    save(path, state)
+    dispatch(state,path,args.notify_cli,args.token_file)
     print(json.dumps({'reachable': health['reachable'], 'incident': state.get('incident'), 'pending': len(state['pending'])}))
 
 

@@ -1,0 +1,8 @@
+[Unit]
+Description=Sample learned-world resources every fifteen minutes
+[Timer]
+OnBootSec=30
+OnUnitActiveSec=15min
+Unit=curious-evolution-sampler.service
+[Install]
+WantedBy=timers.target

@@ -1,0 +1,15 @@
+[Unit]
+Description=Curious learned and heritable meadow observation
+After=network.target
+[Service]
+Type=simple
+WorkingDirectory=/root/curious
+ExecStart=/root/curious/bin/curious-candidate --serve --resume-or-new --scenario scenarios/meadow.json --seed 1 --data-dir /root/curious/data/evolution --bind 127.0.0.1:7881 --tps 0.1 --shard-mb 16 --max-history-mb 10240
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=10
+NoNewPrivileges=true
+PrivateTmp=true
+UMask=0077
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,13 @@
+[Unit]
+Description=Independent watchdog for Curious monitors and samplers
+After=network.target
+[Service]
+Type=oneshot
+WorkingDirectory=/root/curious
+ExecStart=/usr/bin/python3 /root/curious/scripts/monitor_watchdog.py
+Restart=on-failure
+RestartSec=30
+TimeoutStartSec=55
+NoNewPrivileges=true
+PrivateTmp=true
+UMask=0077

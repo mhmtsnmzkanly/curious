@@ -1,0 +1,8 @@
+[Unit]
+Description=Check Curious observation jobs every minute
+[Timer]
+OnBootSec=60
+OnUnitActiveSec=60
+Unit=curious-watchdog.service
+[Install]
+WantedBy=timers.target

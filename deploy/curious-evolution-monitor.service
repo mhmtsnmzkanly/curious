@@ -1,0 +1,11 @@
+[Unit]
+Description=Curious learned-world health notifications
+After=network.target
+[Service]
+Type=oneshot
+WorkingDirectory=/root/curious
+ExecStart=/usr/bin/python3 /root/curious/scripts/monitor_runtime.py --url http://127.0.0.1:7881 --state /root/curious/data/evolution-monitor.json --label deneyim-dunyasi --key-prefix curious-evolution
+TimeoutStartSec=55
+NoNewPrivileges=true
+PrivateTmp=true
+UMask=0077

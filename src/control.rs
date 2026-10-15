@@ -362,12 +362,31 @@ pub fn serve(mut runtime: Runtime, bind: &str, token: Option<String>) -> Result<
                     .with_header(tiny_http::Header::from_bytes("Content-Security-Policy","default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; connect-src 'self'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'").unwrap());
                 let _ = request.respond(response);
             } else {
+                let host = request
+                    .headers()
+                    .iter()
+                    .find(|h| h.field.equiv("Host"))
+                    .map(|h| h.value.as_str())
+                    .unwrap_or("");
+                let origin_ok = request
+                    .headers()
+                    .iter()
+                    .find(|h| h.field.equiv("Origin"))
+                    .is_none_or(|h| {
+                        h.value.as_str() == format!("http://{host}")
+                            || h.value.as_str() == format!("https://{host}")
+                    });
                 let allowed = token.as_ref().is_none_or(|t| {
                     request.headers().iter().any(|h| {
                         h.field.equiv("Authorization") && h.value.as_str() == format!("Bearer {t}")
                     })
                 });
-                let (status, body) = if !allowed {
+                let (status, body) = if !origin_ok {
+                    (
+                        403,
+                        json!({"error":"cross-origin management request refused"}),
+                    )
+                } else if !allowed {
                     (401, json!({"error":"unauthorized"}))
                 } else {
                     let mut bytes = Vec::new();
