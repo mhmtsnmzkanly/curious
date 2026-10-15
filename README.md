@@ -1,66 +1,52 @@
-# Curious Simulation
+# Curious
 
-`Curious`, **kendine yetebilen ekosistem** oluşturmayı amaçlayan bir simülasyon ve simülasyon motorudur.
-Döngüyle _(Tick)_ çalışan zamanlama ile Dünya _(World)_,
-Karar verebilicek durumda olan Canlılara _(Entity)_ bir Görüş açısı _(Perception)_ sunan,
-Kendi işlevleri ile bir Niyet _(Intent)_ alan,
-Çakışan Niyetleri çözümleyen _(Intent Resolver)_,
-Kuralları uygun olanları işleyen bir mekanizmaya sahiptir.
-Her Niyetin bir maliyeti vardır.
+Basitleştirilmiş bir dünyada canlıları, kararlarını ve nesillerini gözlemlemek
+için geliştirilen Rust simülasyonu. Hedef belgesel gibi izlenebilen, deneyimden
+öğrenen ve kalıtsal özellikleri değişebilen bir ekosistemdir.
 
-Her döngüde şu işlemler yapılır:
-- Canlıların metabolizmaları çalışır
-- Ölmesi gerekenler Ceset durumuna alınır ve karar veremez.
-- Süresi dolan cesetler kaldırılır.
-- Karar verebilicek durumda ki canlılara bir görüş açısı sunulur
-- Görüş açısı yapılması gereken niyetleri toplayıp
-- Çakışanları kendi içeriside çözerek
-- Son adımda niyetleri dünyaya uygular
+Şu anda deterministik motor, yenilenen kaynaklar, üç tür, yaşam döngüsü,
+bireysel hafıza, su seçimini öğrenme ve bedelli bir hareket özelliği için kalıtım/
+mutasyon var. **Kalıcı avcı–av dengesi ve aylar süren dayanıklılık henüz kanıtlanmadı.**
 
-----
-
-Bu projede amacım, olabildiğince gelişmiş bir simülasyon motoru sunmak.
-İstersen kendi kurallarına uygun bir dünya inşaa edersin,
-İstersen kendi canlılarını oluşturabilirsin.
-
-Proje üç parçaya ayrılmış durumda; Map, World ve Entity.
-İsimlendirmeler geçici, ileride değişmeleri yüksek olasılık.
-Şuan ki durumda en iyi benzetmem; Ring, Hakem ve Boksörler.
-
-Şuan hedeflediğim noktalar ile mevcut durum arasında dağlar var,
-İleride çevreyi dinamik, daha esnek canlılar ve adil bir sistem yapmak istiyorum.
-
-İlk hedefim dış mühahale olmadan uzun bir süre yaşayabilen bir ekosistem.
-Sıralama olarak kısıtlı ama az kusurlu bir Entity iskeleti kurup,
-Kendiyle çelişmeyen ve kısır döngüye yer vermeyen bir hale getirmek.
-Map-Entity-World üçlüsü bir noktadan sonra doygun hale geldiğinde;
-bir adım öteye gidip daha karışık sistemlere girişeceğim.
-
-Projeye şuanlık bir arayüz geliştirmeyi düşünmüyorum.
-Ne kadar yalın kalırsa, başka bir ortama geçirmesi o kadar kolay olur.
-Wasm gibi yada Godot gibi bir motor için Extension olarak.
-Game of Life ile yola çıkıp, günün birinde Dwarf Fortress gibi bir seviyeye gelmek istiyorum.
-
-## Yeni Eklenenler (Özet)
-- Su kaynağı ve susuzluk mekanizması.
-- `Herbivore`, `Carnivore`, `Omnivore` türleri için temel davranışlar.
-- `Drink` niyeti ile su tüketimi.
-
-## Kalıcı kayıt ve kontrol API'si
-
-SQLite geçmişi ve HTTP yönetimi için:
+## Çalıştırma
 
 ```bash
-cargo run --release -- --serve --paused --data-dir data/main
+cargo run --release -- --serve --paused --scenario scenarios/meadow.json \
+  --data-dir data/my-world --bind 127.0.0.1:7878
+# Aynı veriden devam: --resume veya --resume-or-new ekle.
 ```
 
-Kontrol adresi: `http://127.0.0.1:7878`. Dünya durumu, kararlar, olaylar ve
-müdahaleler kaydedilir; SQLite dosyaları boyuta göre bölünür ve son kayıttan
-simülasyona devam edilebilir. Kullanım ve işletim: [docs/CONTROL.md](docs/CONTROL.md).
+`http://127.0.0.1:7878/` görsel gözlem ekranını açar. Birey seçimi, karar/
+sonuç geçmişi, hafıza, öğrenilmiş su tercihleri, nesil/ebeveyn, pause/adım/hız
+kontrolleri bulunur. `CURIOUS_TOKEN` ayarlanırsa veri ve yönetim uçları anahtar
+ister. Çalışan dünya yanlışlıkla yeni senaryoyla ezilmez.
 
-Projenin uzun vadeli hedefi ve geliştirme sırası: [docs/VISION.md](docs/VISION.md).
-Ajanlar için çalışma ve disk bakım notları: [AGENTS.md](AGENTS.md).
+SQLite her tickin durumunu, kararlarını, olaylarını ve müdahalelerini kaydeder;
+dosya boyutuyla shard geçişi, kayıpsız arşiv ve checkpointten devam desteklenir.
 
-Yenilenen çevre ve çok nesilli otçul senaryosu: `scenarios/meadow.json`.
-Ölçümler ve gerçek sınırlar: [çok nesilli dünya raporu](docs/reports/RENEWABLE_MEADOW.md),
-[kayıt ve işletim raporu](docs/reports/STORAGE_AND_OPERATIONS.md).
+## Ayrımlar
+
+- `map`, `environment`: arazi ve nüfustan bağımsız kaynak döngüsü.
+- `entity`: beden, algı, kurallı davranış, hafıza, öğrenme ve genom ayrı modüller.
+- `systems`: niyet toplama, planlama, fiziksel maliyet/çakışma, yaşam döngüsü.
+- `simulation/checkpoint`: sürümlü dünya durumu; SQLite'tan bağımsız.
+- `persistence`, `control`, `web`: kayıt, yönetim ve gözlem.
+
+Yeni yeteneğin eylem maliyeti/dünya doğrulaması motorda, karar tercihi politikada
+olmalı; öğrenme dünyaya doğrudan kaynak yazmaz. Bireysel deneyim ve kalıtım ayrıdır.
+
+## Doğrulama
+
+```bash
+cargo test --all-targets
+cargo build --release
+python3 scripts/check_control.py target/release/curious
+python3 -m unittest discover -s scripts -p 'test_*.py'
+# Playwright kurulu ortamda:
+node scripts/check_ui.cjs target/release/curious
+```
+
+Hedef: [VISION](docs/VISION.md). Açık işler: [ROADMAP](docs/ROADMAP.md).
+Kullanım/işletim: [CONTROL](docs/CONTROL.md). Kanıt ve sınırlar:
+[11 başlığın sonuçları](docs/reports/ROADMAP_RESULTS.md).
+Ajanlar için sunucu, bildirim, commit ve temizlik kuralları: [AGENTS](AGENTS.md).

@@ -1,98 +1,104 @@
 # Curious üzerinde çalışma
 
-İşe başlamadan önce `docs/VISION.md`, `docs/CONTROL.md` ve `TODO.md` dosyalarını
-okuyun. Hedef ve kullanıcı tercihleri bu dosyalarda korunur. Konuşmada verilen
-sonraki talimatlar bu notların önündedir.
+Başlamadan `docs/VISION.md`, `docs/CONTROL.md`, `docs/ROADMAP.md` ve `TODO.md`
+okunur. Kullanıcının sonraki talimatları bu notların önündedir.
 
-## Hedefi koru
+## Hedef ve dürüst kapsam
 
-- Hedef yalnızca dengede kalan bir ekosistem veya Game of Life benzeri bir demo
-  değildir. Basitleştirilmiş bir dünyada, belgesel izler gibi gözlemlenebilen,
-  koşullara göre inandırıcı kararlar veren bireyler ve nesiller amaçlanıyor.
-- Önce deterministik dünya ve kurallı kararlar; sonra bireysel hafıza/öğrenme;
-  ardından ölçülebilir kalıtım ve evrim. Yaş tek başına tecrübe bonusu değildir.
-- Dünya, beden/yetenekler, algı, karar, öğrenme ve kalıtım ayrı sorumluluklardır.
-  Yeni tür, dünya kuralı veya yetenek eklemek geniş çaplı yeniden yazım gerektirmemeli.
-- Uzun süre çalışabilme temel gereksinimdir. Bellek, kayıt boyutu ve tick maliyeti
-  izlenmeli. Aylar süren çalışma veya açık uçlu evrim kanıtlanmadan vaat edilmez.
-- Eksik özellikleri tasarım hatası saymayın. Davranış sorunlarını önce ölçün;
-  yalnızca nüfusu hayatta tutmak için gizli yardımlar eklemeyin.
+- Kullanıcı basitleştirilmiş bir dünyada belgesel gibi gözlenen canlılar, bireysel
+  öğrenme, nesiller ve evrim istiyor. Sadece sabit kalan nüfus durma noktası değil.
+- Dünya, beden/yetenek, algı, politika, hafıza, öğrenme, kalıtım ve gözlem ayrı
+  tutulur. Yeni bir yeteneğin bedeli fiziksel çözümleyicide doğrulanır.
+- Yaş otomatik zekâ bonusu değildir. Öğrenilmiş bilgi yavruya kopyalanmaz.
+- Kaynak yenilenmesi nüfustan bağımsızdır; yok oluşu gizlice canlı ekleyerek düzeltme.
+- Güncel özet `docs/reports/ROADMAP_RESULTS.md`. Kalıcı karma avcı–av dengesi
+  çözülmedi. Sığınaklı seed 12345 etçil 20. nesle ulaştı, sonra tükendi.
+- Su seçimi banditi ve tek hareket alleli için kalıtım/mutasyon çalışır; genel
+  zekâ, genel öğrenme veya açık uçlu evrim tamamlandı denmez.
+- 10.000 kayıtlı tick / 304. nesil kısa testtir; gerçek gün/hafta testi yerine geçmez.
+- Kullanıcı 11 başlığı sırayla istedi; `ROADMAP.md` açık kısımları korur. 1/3'ün
+  kalıcı soy/denge kısmı ve 9'un gerçek süreli doğrulaması hâlâ açık.
 
-## Sunucudaki mevcut çalışma
+## Sunucudaki dünyalar ve ikililer
 
-- Repo: `/root/curious`; servis: `curious.service`.
-- Önceki dünya: `http://127.0.0.1:7878`, `data/main`, pause durumunda.
-- Sürekli çayır: `http://127.0.0.1:7879`, `data/meadow`, `curious-meadow.service`,
-  0,1 tick/s. Bu hız disk tüketimi ve gözlem için bilinçli seçildi; gerekçesiz artırmayın.
-- `curious-monitor.timer` dakikada bir salt okunur sağlık kontrolü ve Notify uyarısı yapar.
-- Systemd birimi `deploy/curious.service` kaynaktan `/etc/systemd/system/` altına
-  kurulmuştur. Servis yeniden açılırken checkpoint yükler ve pause durumuna geçer.
-- Gerçek durumu `/status` üzerinden kontrol edin; bu dosyadaki eski tick bilgisini
-  güncel kabul etmeyin. Çalışan dünyayı test verisiyle değiştirmeyin.
-- Geçmiş shardları, canlı verilerini veya checkpointleri derleme temizliğiyle silmeyin.
-- Aktif RNG dünya başına ayrıdır. Yeni dünyalar için açık seed kullanan
-  `World::with_seed` tercih edilir; global seed yardımcıları eski çağrılar içindir.
-- Geliştirme/laboratuvar checkpoint V3 (dayanıklılık); eski sürekli servisler V2; kod `simulation/checkpoint.rs` içinde. SQLite şeması V2; karar kanıtları `decision_traces` tablosunda.
-  Eski kayıt yüklemek aynı geleceği değil, durum göçünü garanti eder.
-- Son deney raporu `docs/reports/RENEWABLE_MEADOW.md`: otçul nesilleri doğrulandı;
-  öğrenme/evrim ve avcı–av dengesi henüz tamamlanmadı. Kayıpsız gzip arşivi
-  ölçümde 5,55 kat tasarruf sağladı. İşletim raporu `docs/reports/STORAGE_AND_OPERATIONS.md`.
-- Kapanmış `.sqlite.gz` geçmişini silmeyin. API arşivleri geçici açıp sorgulayabilir.
-  V2 yükseltme öncesi yedek `data/backups/pre-checkpoint-v2/` altında.
+Repo `/root/curious`. Gerçek durumu `/status` ile oku; aşağıdaki tickleri güncel sanma.
 
-## İletişim
+| Port | Unit / veri | İkili ve durum |
+|---|---|---|
+| 7878 | curious.service / data/main | eski dünya, pause, korunuyor |
+| 7879 | curious-meadow.service / data/meadow | eski sürekli çayır, eski motor, 0,1 tick/s |
+| 7880 | curious-lab.service / data/lab | V8, bin/curious-lab → releases/curious-c06ed79, pause |
+| 7881 | curious-evolution.service / data/evolution | V7, bin/curious-candidate → releases/curious-ef72f80, 0,1 tick/s |
 
-Kullanıcı önemli aşamalarda Notify üzerinden haber verilmesini açıkça istedi.
-İlk temel aşama rapor sayfası: `p_32dc9b49b5101fc1`
-(`https://notify.novastrum.dev/p/p_32dc9b49b5101fc1`), aşama durumu completed.
-Bu, projenin tamamlandığı anlamına gelmez. Sonraki aşama için yeni görev sayfası açın.
-Rutin her komut için bildirim göndermeyin. Tamamlanma, önemli bulgu, engel veya
-müdahale gerektiren hata için gönderin. İhtiyaç varsa dinamik rapor sayfası,
-grafik/dosya eki ve gerçek ürün tercihleri için form/yanıt özelliklerini kullanın.
-Sırf özellik kullanmış olmak için panel veya onay akışı oluşturmayın.
+- 7881 gerçek süreli koşu 2026-10-15 11:47:50 UTC'de başladı. Öğrenme ve kalıtım
+  açık otçul çayırıdır. Sığınaklı karma deney bu dünyaya uygulanmadı.
+- 7879 ve 7881 hızını gerekçesiz artırma. Testleri bu veri dizinlerinde yapma.
+- Yeni sürümlerde `/` görsel gözlem ekranı, `/observation` atomik durum+karar+status.
+  Diğer uçlar CONTROL.md'de. Uzak tarayıcı için SSH tüneli kullanılabilir.
+- Güncel geliştirme/lab checkpoint V8, sürekli aday V7; SQLite şeması V2.
+  Eski kayıt yüklemek eski motorla aynı geleceği değil, durum göçünü garanti eder.
+- `bin/curious-live` eski 7878/7879 ikilisine işaret eder. Derleme çıktısına bağlı
+  servis yok; `target` temizliği ikilileri silmez. `bin/releases` dosyalarını silme.
+- `data/lab/deployment.json`, revision/hash/gerçek yedek yolunu kaydeder.
+  Son lab yedeği `data/backups/lab-20261015T120041225349Z/`: V7→V8, tick30,
+  pause ve tüm önceki alanlar/RNG doğrulandı. Önceki V3→V7 yedeği de korunuyor.
+- `scripts/deploy_lab.py` clean commit, değişmez ikili, kapalı veri yedeği,
+  integrity_check ve eklemeli durum doğrulaması uygular. Başarısız veriyi de
+  koruyarak rollback yapar. Eski ikiliyi yeni veri üstüne körlemesine açma.
+- Kapanmış `.sqlite.gz` dosyaları kayıpsız geçmiş; silme. API geçici açıp okuyabilir.
+  V2 öncesi yedek `data/backups/pre-checkpoint-v2/` hâlâ korunur.
 
-- Sistem: `/root/notify` → `/var/www/notify.novastrum.dev`.
-- Önce güncel `docs/AGENT_INTEGRATION.md`, `docs/OPERATIONS.md` ve gerekli CLI
-  belgelerini bu sistemin kendi klasöründen okuyun.
-- CLI: `node /root/notify/bin/notify.js -t /root/notify/token.json send <message.json> --json`.
-- Bu konuşmada kullanılan kullanıcı: `memo`, `u_e049630155fc`. Yalnızca ilgili
-  kullanıcıyı hedefleyin; toplu bildirim kullanmayın.
-- Token içeriğini çıktıya, Git'e, raporlara veya bildirimlere koymayın.
-- Ağ tekrarlarında aynı mesaj için sabit idempotency anahtarı kullanın.
+## Gerçek süreli gözlem ve uyarılar
 
-## Doğrulama ve disk bakımı
+- `curious-monitor.timer`: eski çayır, dakikalık sağlık/Notify.
+- `curious-evolution-monitor.timer`: 7881 için ayrı sağlık/outbox.
+- `curious-sampler.timer` / `curious-evolution-sampler.timer`: 15 dakikalık salt
+  okunur RSS/fd/status örnekleri `data/soak` / `data/soak-evolution` içinde.
+- `curious-watchdog.timer`: iki monitörün 3 dk, örnekleyicilerin 35 dk sessizliğini
+  ve 15 dk boşalmayan bildirim kuyruğunu bağımsız kontrol eder.
+- `curious-soak-report.timer`: saatlik kontrol; gerçek 1/7/30 gün ve yeterli ayrı
+  15 dakikalık ölçüm dilimi oluşunca Notify. Hızlandırılmış tick gün sayılmaz.
+- Monitörler kendiliğinden dünya değiştirmez veya yeniden canlı eklemez. Bir host
+  tamamen durduğunda içerideki gözetim de durur; host dışı izleme henüz yok.
+- V7 ölçümünde 0,1 tick/s için ~88 MB/gün / 2,6 GB/30 gün geçmiş tahmini var.
+  Bu nüfus/tam algı/olay yoğunluğuna bağlıdır. Bütçede veya yazma hatasında pause
+  beklenen davranış; geçmişi sessizce silip devam etme.
 
-- İlgili değişikliklerde `cargo test`; servis/kontrol değişikliklerinde ayrıca
-  `python3 scripts/check_control.py target/release/curious` kullanın.
-- Testler ayrı geçici dünyada çalışmalı; aktif `data/main` test alanı değildir.
-- Derleme öncesi/sonrası gerektiğinde `du -sh target/debug target/release` ile
-  boyutları inceleyin. Kullanıcı Rust çıktılarının düzenli temizlenmesini istiyor.
-- Debug/test çıktıları gerekmediğinde `cargo clean --profile dev` ile temizlenebilir.
-- Systemd artık `bin/curious-live` → `bin/releases/curious-<revision>` kullanır.
-  Deney derlemeleri canlı binary'yi değiştirmez. Sürümü ancak test/backup sonrası
-  açık bir dağıtım adımıyla değiştirin. `bin` sürümlerini derleme temizliğiyle silmeyin.
-  Testler bittiğinde `target` tamamen temizlenebilir; canlı sürüm ayrı korunur.
-- Cargo registry, başka projeler, SQLite geçmişi ve loglar derleme önbelleği değildir.
-- Tamamlanan anlamlı değişiklikleri kullanıcının istediği gibi commit edin.
-  Push veya ek dış yayın istenmedikçe ayrıca yapılmaz.
+## Notify ve kullanıcı iletişimi
 
-## Karar ve avcı–av aşaması
+Kullanıcı önemli aşamalarda bildirim istedi; ayrıca izin isteme. Her komutta
+bildirim gönderme. Tamamlanan aşama, anlamlı bulgu, hata veya müdahale gereği için kullan.
 
-- Rapor `docs/reports/DECISION_AND_PREDATION.md`; ilk teşhis `SEED2_DECISIONS.md`.
-- Notify sayfası `p_803d7f4d871633ff`: bu aşama raporu; proje tamamlanması değildir.
-- `curious-lab.service`, 7880, `data/lab`, `bin/curious-lab`: yeni deney sürümü,
-  pause başlar. Sürekli 7879 çayırı eski binary ile kesintisiz korunur.
-- Seed 2 düzeltmesi fırsat varken güvenli üremeye öncelik verir. 8/8 otçul koşu
-  2.000 tick yaşadı. Karma senaryoda etçil doğumu var, etçil soy sürekliliği yok.
-- Sonraki somut konu etçil yavrunun beslenme/su erişimi ve av kararları; öğrenme
-  ve evrim hâlâ uygulanmadı. Sayıları yalnız toplam nüfusla değerlendirmeyin;
-  tür başına doğum/ölüm/yavrunun olgunlaşmasını ayrı inceleyin.
-- Yeni kompakt izler eski disk tahminini artırır; raporda yaklaşık 44–49 MB/gün
-  (0,1 tick/s, deney yoğunluğu), gerçek aylık ölçüm değil.
+- Notify `/root/notify` → `/var/www/notify.novastrum.dev`. Güncel
+  `docs/AGENT_INTEGRATION.md` ve `docs/OPERATIONS.md` bu sistemden okunur.
+- CLI `node /root/notify/bin/notify.js -t /root/notify/token.json ... --json`.
+- Yalnız memo / `u_e049630155fc` hedeflenir. Toplu gönderim yok.
+- Token içeriğini çıktıya, Git'e, rapora veya sayfaya koyma. Sabit idempotency
+  anahtarı ve aynı canonical body ile retry yap.
+- Güncel 11 başlık sayfası `p_6c6647a23f563ace` / running: gerçek süreli gözlem
+  sürüyor ve kalıcı karma denge açık. Bunu bütün projenin tamamlandığı diye kilitleme.
+- Önceki completed aşama sayfaları: temel `p_32dc9b49b5101fc1`, karar
+  `p_803d7f4d871633ff`. Completed, o aşamanın rapor durumudur.
+- Gerçek 7881 ekran görüntüsü Notify raporuna eklendi; ajan arka planda yeni kod
+  yazmıyor. Servisler simülasyon/ölçüm/uyarıları sürdürüyor.
 
-Son dağıtım: `3c454f7` laboratuvar ikilisi `bin/releases/curious-3c454f7` altında;
-`data/lab/deployment.json` SHA256 ve başlangıç incelemesini kaydeder. 30. tickte
-pause bırakıldı, id 9/10 için tam algı açık. Laboratuvar deneydir; sürekli çayırın
-sağlık izlemesi bu servisi kapsamıyor. `7879` değişmedi ve hata vermeden sürüyor.
-31 Rust + 5 Python testi ve HTTP entegrasyonu geçti. Sonrasında `cargo clean`
-343,5 MiB derleme çıktısı kaldırdı; tekrar test için derleme gerekir.
+## Doğrulama, not, commit ve temizlik
+
+- Anlamlı değişiklikleri commit et. Push açıkça istenmedikçe yapma.
+- `cargo test --all-targets`; `cargo build --release`; kontrol değişikliğinde
+  `python3 scripts/check_control.py target/release/curious`.
+- `python3 -m unittest discover -s scripts -p 'test_*.py'`.
+- UI testi `scripts/check_ui.cjs`: dışarıdan Playwright gerekir.
+  `CURIOUS_PLAYWRIGHT` modül yolunu, `PLAYWRIGHT_BROWSERS_PATH` tarayıcı yolunu
+  gösterebilir. Test kendi geçici dünyasını açar; 3. argüman senaryo yoludur.
+- Son doğrulama 40 Rust (öğrenme örneği dahil), 11 Python, HTTP/SIGKILL/auth/
+  Origin/arşiv/terrain ve gerçek Chromium desktop/mobile kontrolleri geçti.
+- Kaynak indeksi optimizasyonunda 500 ticklik State+RNG önce/sonra aynıdır;
+  bin kurucuda p95 71–84 ms → 19–29 ms (SQLite hariç). Rapor ROADMAP_10.md.
+- Deneyler `data/experiments` altında, Git dışında korunur. Ham JSONL/SQLite'ı
+  build temizliği sanıp silme. Yeni ölçüm dizini mevcut dizini ezmez.
+- Son temizlik `cargo clean`: 363,0 MiB; yalnız bu görev için kurulmuş geçici
+  Chromium/Playwright araçları 696,2 MiB kaldırıldı. Öncesinde ayrıca 205,1 MiB
+  debug temizliği yapılmıştı. Target şu an yok; test için yeniden derle.
+- Cargo registry, başka projeler, kalıcı geçmişler ve çalışan sürümler temizlik
+  hedefi değildir. Güvenli aralıklarla build çıktısını temizleme döngüsünü sürdür.

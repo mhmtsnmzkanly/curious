@@ -1,27 +1,22 @@
 # Sıradaki işler
 
-Hedef ve karar gerekçeleri: [docs/VISION.md](docs/VISION.md).
-Çalışma/işletim kuralları: [AGENTS.md](AGENTS.md).
+Hedef [VISION](docs/VISION.md), kullanıcı sırası ve dürüst durum
+[ROADMAP](docs/ROADMAP.md), ölçümler [sonuç raporu](docs/reports/ROADMAP_RESULTS.md).
 
-- [x] Mevcut dünyayı farklı seed'lerle çalıştırıp ilk nesilde kopan yaşam döngüsünü ölç.
-- [x] Ölüm nedenleri, üreme/saldırı retleri ve bedensel üreme engellerini kaydet.
-- [ ] Temel tick/metabolizma hataları düzeltildi; hareket, diyet ve kaynak sözleşmelerini tamamla.
-- [x] RNG'yi dünya başına ayır; iç içe dünyalar ve checkpoint devamını doğrula.
-- [x] Kaynak yenilenmesi ve otçul çayırında torunların üremesi; 10.000 tickte 219–230. nesil.
-- [x] Seed 2 üreme fırsatı darboğazını teşhis et ve düzelt; 8 seed × 2.000 tick doğrulandı.
-- [ ] Farklı kurucu nüfusları ve kaynak kıtlıklarını karşılaştır.
-- [x] Avlama, beslenme, dayanıklılık, sıkışınca savunma ve etçil doğumunu ayrı deneylerde doğrula.
-- [ ] Etçil yavrunun besin/suya erişimini ve avcı soyunun devamını çöz; karma denge henüz yok.
-- [x] Kayıpsız arşivle ölçülen boyutu 5,55 kat azalt; ayrı çayır gözlemi ve otomatik hata bildirimlerini başlat.
-- [ ] Gerçek süreli çayır koşusunu günler/haftalar boyunca değerlendir; izleyicinin kendi sağlığına da gözetim ekle.
-- [x] Bireyin algı/karar/sonuç akışını API ve kalıcı karar izleriyle incele.
-- [ ] Bireysel hafıza ve tek bir karar alanında öğrenme deneyi kur.
-- [ ] Kalıtsal özellikler, bedeller, mutasyon ve soy takibini ayrı bileşenlerde kur.
-- [ ] Uzun koşu, nüfus ölçekleme, bellek ve disk büyümesini ölç; hedefleri ölçümlerle güncelle.
+- [ ] Kalıcı avcı soyunu çöz: sığınaklı seed 12345'in 20 nesillik soyunda çift bulma,
+  rezerv ve ölüm zamanlarını kayıttan incele; gizli doğum/kaynak takviyesi ekleme.
+- [ ] Aynı kararı etkileyen farklı deneyimler için su öğrenmesini yeni çevrede sınama;
+  ardından öğrenmeyi av seçimine genişletme.
+- [ ] Gerçek 1/7/30 gün gözlemini değerlendirme; raporlayıcı otomatik Notify gönderir.
+- [ ] Kalıtım deneyini av baskısında tekrarlama; dağılım değişimini sürüklenmeden ayırma.
+- [ ] Soy ağacı ve ölmüş ataların arayüzden doğrudan seçilmesini geliştirme.
+- [ ] Daha büyük nüfusta SQLite/HTTP maliyetini ölçme; motor-only hızını kayıt hızı sanma.
+- [ ] Disk dolmadan uzun vadeli arşiv kapasitesi planı; geçmişi sessizce silme.
+- [ ] Host dışından gözetim: aynı sunucudaki bütün izleyiciler birlikte durursa içeride
+  çalışan bir timer bunu dışarı bildiremez.
 
-## Sonraki değerlendirmeler
-
-- Kaynak yerleştirmeyi hücre başına olasılık yerine chunk içinde rastgele N hücre
-  yaklaşımıyla karşılaştır; gerekçesiz biçimde dağılımı değiştirme.
-
-Son aşama: [karar ve avcı–av raporu](docs/reports/DECISION_AND_PREDATION.md).
+Tamamlanan ilk uygulamalar: kaynak yenilenmesi/nesiller, deterministik RNG,
+SQLite+arşiv+checkpoint, kontrol/gözlem, hareket sözleşmeleri, bireysel hafıza,
+sınırlı öğrenme, bedelli kalıtım/mutasyon, responsive gözlem ekranı, nüfus ölçümü,
+izleyici gözetimi, sürümlü ikili/yedekli laboratuvar dağıtımı. Test/commit/temizlik/
+önemli Notify döngüsü devam eder.

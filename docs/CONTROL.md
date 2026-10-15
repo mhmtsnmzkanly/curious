@@ -84,7 +84,7 @@ Her dosyada aynı şema vardır:
 
 Checkpoint şu anki somut canlılarda bulunan tüm yaşam durumunu içerir.
 Yeni bir canlıya hafıza/model/genom gibi alanlar eklendiğinde bunlar da sürümlü
-checkpoint sözleşmesine eklenmelidir. Güncel SQLite şeması V2, checkpoint V3; gelecekteki
+checkpoint sözleşmesine eklenmelidir. Güncel geliştirme/laboratuvar SQLite şeması V2, checkpoint V8; gelecekteki
 uyumsuz sürümler sessizce yüklenmez. Yeni ölüm nedeni alanı eski kayıtlarda boş kabul edilir. RNG artık dünya başınadır.
 Bu bir gelecekteki tüm sürümler için otomatik
 migrasyon sistemi değildir.
@@ -156,7 +156,7 @@ tekrar üretim test edilir.
 
 ## Yenilenen çevre ve senaryolar (checkpoint v2)
 
-Çevre V2 yükseltmesinde eklendi. Güncel SQLite şeması V2, checkpoint V3. V1 kayıtları okunur:
+Çevre V2 yükseltmesinde eklendi. Güncel geliştirme/laboratuvar SQLite şeması V2, checkpoint V8. V1 kayıtları okunur:
 mevcut kaynak hücrelerinden varsayılan yenilenme konumları çıkarılır; daha önce
 bitmiş kaynakların eski konumu V1 checkpointten geri kazanılamaz. Mevcut birey
 yaşam değerleri korunur; eksik soy bilgisi kurucu nesil olarak kabul edilir.
@@ -221,7 +221,7 @@ kayıt büyümesini artırır. Gözlem ayarı checkpointte korunur. Restart sonr
 `/decisions` ilk ticke kadar boştur; geçmiş SQLite'tadır.
 
 Yeni `decision_traces(record_id,entity_id,trace_json)` tablosu tick transactionıyla
-birlikte yazılır. SQLite şeması **V2**, dünya checkpointi **V3**. Eski shardlar
+birlikte yazılır. SQLite şeması **V2**, dünya checkpointi **V8**. Eski shardlar
 salt okunur kalır, içlerinde yeni tablo yoktur. Aktif eski shard açılırken tablo
 atomik eklenir; tanınmayan gelecek şema sürümü reddedilir.
 
@@ -258,3 +258,15 @@ Checkpoint V7: bireysel `memory`, `learner`, `genome`; dünya `genetics`.
 
 Hafıza ve öğrenme bireyin yaşamında kalır; yavrulara genom aktarılır. Yeni kayıt
 eski motorla açılamaz; geri dönüş için yükseltme öncesi veri yedeği gerekir.
+
+## V8 habitat deneyi ve sürekli V7 koşusu
+
+`Cell::Burrow` / `set_cell` için `"cell":"Burrow"`: otçulun girebildiği dar
+sığınak; büyük avcı giremez veya içine saldıramaz. Enerji/su ve yaşam desteği
+vermez. Senaryolar `mixed-refuge.json` ve sığınaksız eş kaynak/kurucu kontrolü
+`mixed-refuge-open.json`. Sonuçta avcı soyunun kalıcı olmadığı raporda açıktır.
+
+Güncel kaynak ve 7880 laboratuvar V8; 7881 sürekli öğrenme/kalıtım çayırı V7
+ikilisiyle sabit kalır. 7879 eski çayır eski sürümdedir. Gerçek süreli raporlar
+1/7/30 gün ve yeterli 15 dakikalık kapsam oluşmadan gönderilmez. Operasyon
+komutları ve güncel sürümler AGENTS.md'de tutulur.

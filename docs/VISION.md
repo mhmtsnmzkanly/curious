@@ -70,7 +70,7 @@ MVP, küçük bir dünyada ihtiyaçlara göre davranan, nesilleri devam eden ve 
 bir karar alanında deneyimden öğrenen bireylerin izlenebilir örneğidir. Çok tür,
 sosyal sürüler, karmaşık iklim ve gelişmiş görsellik ilk teslimin zorunluluğu değil.
 
-## 15 Ekim 2026 itibarıyla gerçek durum
+## İlk altyapı aşamasının tarihsel durumu (15 Ekim 2026)
 
 - Rust motorunda harita, üç tür, algı/niyet/plan/çözümleme, metabolizma ve yaşam döngüsü var.
 - SQLite kaydı, dosya boyutuna göre shard geçişi, checkpointten devam ve HTTP kontrolü eklendi.
@@ -85,3 +85,14 @@ sosyal sürüler, karmaşık iklim ve gelişmiş görsellik ilk teslimin zorunlu
 - Aylar süren dayanıklılık ve büyük nüfus performansı henüz doğrulanmadı.
 - Başlangıç raporu `reports/BASELINE.md` içinde. Sıradaki işler kayıt büyümesi,
   nüfus/çevre koşullarına dayanıklılık ve avcı–av davranışlarının gözlemlenmesi.
+
+## Son geliştirme aşaması (aynı gün, sonraki çalışma)
+
+Bireysel sınırlı hafıza, su seçimi için bandit öğrenmesi, hareket özelliğinin
+bedelli kalıtımı/mutasyonu ve görsel gözlem uygulandı. Bunlar genel zekâ veya
+açık uçlu evrim değildir. 40 Rust + 11 Python testi ve gerçek tarayıcı testleri
+geçti. Son rapor `reports/ROADMAP_RESULTS.md`; açık durum `ROADMAP.md`.
+
+Kalıcı karma ekosistem hâlâ açık. Gerçek gün/hafta gözlemi sürüyor. 7881
+üzerindeki V7 koşusu öğrenme/kalıtımla gerçek sürede ilerler; 7880 V8 deney
+laboratuvarıdır. Önceki çayırın eski motoru bu deneylere karıştırılmadı.

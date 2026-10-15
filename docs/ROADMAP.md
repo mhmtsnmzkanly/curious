@@ -1,21 +1,30 @@
-# Kullanıcının onayladığı sıra
+# Kullanıcının onayladığı sıra ve gerçek durum
 
-11 aşama sırayla yürütülecek; her aşamada ölçüm, test, not, commit, gerektiğinde
-derleme temizliği ve önemli sonuçlarda Notify. Tamamlanmayan aşama tamamlandı
-olarak işaretlenmez. Gerçek gün/hafta gözlemi hızlandırılmış test yerine geçmez.
+Her aşamada deney, test, not, commit, derleme temizliği ve önemli sonuçlarda
+Notify uygulanır. Bir özelliğin ilk sürümü, bütün projenin tamamlandığı anlamına
+gelmez. Hızlandırılmış tick gerçek gün/hafta gözleminin yerine geçmez.
 
-1. [x] Etçil yavrunun besin/su erişimi ve avcı soyu
-2. [x] Av seçimi, kovalama, bırakma ve dinlenme
-3. [x] Farklı başlangıçlarda karma ekosistemi ölç (kalıcı birlikte yaşam açık sorun)
-4. [x] Hareket, engel, paylaşım ve çakışma sözleşmeleri
-5. [x] Bireysel hafıza
-6. [x] Tek karar alanında ölçülebilir öğrenme
-7. [x] Bedelli kalıtım, mutasyon ve evrim
-8. [x] Belgesel gibi görsel gözlem
-9. [ ] Uzun süreli dayanıklılık — 10.000 kayıtlı tick geçti, gerçek gün/hafta gözlemi sürüyor
-10. [x] Nüfus/harita ölçekleme
-11. [ ] İzleyicinin sağlığı ve kontrollü dağıtım
+1. [ ] Etçil yavru ve avcı soyunun devamı: enerji sorunu düzeldi, yavru olgunlaşıp üreyebiliyor; kalıcı avcı soyu açık.
+2. [x] Av seçimi, tahmini maliyet, bırakma ve dinlenme için ilk kurallı politika.
+3. [ ] Karma ekosistem: küçük/geniş/yoğun/sığınaklı karşılaştırmalar yapıldı; kalıcı birlikte yaşam sağlanmadı.
+4. [x] Hareket, duvar, sığınak, diyet, paylaşım ve çakışma sözleşmeleri.
+5. [x] Sınırlı bireysel kaynak/tehlike hafızası ve unutma.
+6. [x] Su seçimi için sonuçtan öğrenme ve öğrenmeyen bireyle kontrollü deney.
+7. [x] İlk hareket özelliğinde bedelli kalıtım, mutasyon ve nesil dağılımı ölçümü.
+8. [x] Birey, karar, geçmiş, hafıza ve soy bilgisi için ilk görsel gözlem ekranı.
+9. [ ] Gerçek gün/hafta dayanıklılığı: 10.000 tam kayıtlı tick geçti; gerçek süreli gözlem sürüyor.
+10. [x] 10–1.000 kurucu ve farklı haritalarda ölçüm; algı indeksiyle hızlandırma.
+11. [x] Ayrı izleyici gözetimi, yedekli dağıtım ve gerçek süreli bildirimler.
 
-Aktif aşama: **11**; 9. aşamanın gerçek süreli gözlemi arka planda sürüyor. Aşama 1 sonucu `reports/ROADMAP_01.md` içinde. İlk kanıt: seed 2 etçil yavru, doğumdan sonraki 10 adımda
-enerjisini tüketiyor; yarım sağlıkla doğduğu için açken bile pasif iyileşme
-metabolizmaya ek 2 enerji harcıyor. Önce bu genel rezerv kuralı ayrı ölçülüyor.
+## Süren işler
+
+- Asıl açık biyolojik konu: avcı nesillerinin kalıcı olması. Sığınaklı seed
+  12345'te 20. nesle ulaştı, 907'den sonra avcı kalmadı. Başarı diye etiketlenmez.
+  Sıradaki teşhis bu soyda çift bulma, rezerv ve ölüm zamanlarını ayırmak.
+- Gerçek süreli 9. aşama otomatik örnekleniyor. 1/7/30 gerçek gün ve yeterli
+  örnek birikince Notify raporu gönderilecek; henüz gün/hafta geçti denemez.
+- Öğrenme tek karar alanında; evrim tek özellikte. Genel öğrenme, kalıtsal yeni
+  yeteneklerin kendiliğinden oluşması ve açık uçlu karmaşıklık henüz yok.
+
+Ayrıntılı sonuçlar: [toplu rapor](reports/ROADMAP_RESULTS.md), aşama raporları
+`reports/ROADMAP_01.md`–`ROADMAP_11.md`, son habitat deneyi `reports/REFUGE.md`.
