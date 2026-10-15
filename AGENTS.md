@@ -43,6 +43,9 @@ sonraki talimatlar bu notların önündedir.
 ## İletişim
 
 Kullanıcı önemli aşamalarda Notify üzerinden haber verilmesini açıkça istedi.
+İlk temel aşama rapor sayfası: `p_32dc9b49b5101fc1`
+(`https://notify.novastrum.dev/p/p_32dc9b49b5101fc1`), aşama durumu completed.
+Bu, projenin tamamlandığı anlamına gelmez. Sonraki aşama için yeni görev sayfası açın.
 Rutin her komut için bildirim göndermeyin. Tamamlanma, önemli bulgu, engel veya
 müdahale gerektiren hata için gönderin. İhtiyaç varsa dinamik rapor sayfası,
 grafik/dosya eki ve gerçek ürün tercihleri için form/yanıt özelliklerini kullanın.
