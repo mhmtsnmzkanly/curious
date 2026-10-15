@@ -120,7 +120,13 @@ impl Map {
     }
 
     pub fn is_walkable(&self, pos: Position) -> bool {
-        self.in_bounds(pos)
+        self.in_bounds(pos) && !matches!(self.cell(pos),Some(Cell::Wall))
+    }
+
+    pub fn can_step(&self, from:Position, to:Position)->bool {
+        let dx=to.x-from.x;let dy=to.y-from.y;
+        dx.abs()<=1 && dy.abs()<=1 && (dx!=0 || dy!=0) && self.is_walkable(to)
+        && (dx==0 || dy==0 || (self.is_walkable(Position::new(from.x+dx,from.y)) && self.is_walkable(Position::new(from.x,from.y+dy))))
     }
 
     pub fn set_cell(&mut self, pos: Position, cell: Cell) {
@@ -197,7 +203,7 @@ impl Map {
 
         loop {
             let next = cur + dir;
-            if !self.is_walkable(next) {
+            if !self.can_step(cur, next) {
                 break;
             }
             steps += 1;
@@ -236,7 +242,7 @@ impl Map {
             }
             for dir in DIRECTION_ARRAY {
                 let next = pos + dir;
-                if !self.is_walkable(next)
+                if !self.can_step(pos,next)
                     || start.distance_to(next) > radius
                     || paths.contains_key(&next)
                 {
@@ -284,7 +290,7 @@ impl Map {
                 Direction::DownRight,
             ] {
                 let next = current + dir;
-                if !self.is_walkable(next) {
+                if !self.can_step(current,next) {
                     continue;
                 }
                 if came_from.contains_key(&next) || next == start {

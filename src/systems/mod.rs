@@ -1,6 +1,7 @@
 //! World içindeki yükü bölmek için kullanılan sistemler katmanı.
 //! İleride World::tick() içindeki resolve_* metodları buraya taşınacaktır.
 
+pub mod locomotion;
 pub mod movement;
 pub mod interaction;
 pub mod life_cycle;

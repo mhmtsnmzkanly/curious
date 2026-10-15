@@ -164,6 +164,7 @@ impl Runtime {
                 if matches!(cell,Cell::Food{amount}|Cell::Water{amount} if amount>1_000_000) {
                     return Err("resource amount exceeds 1000000".into());
                 }
+                if cell==Cell::Wall {self.validate_vacant(pos,None)?;}
                 self.world.map.set_cell(pos, cell);
                 json!({"updated":pos})
             }
@@ -264,6 +265,7 @@ impl Runtime {
         }
     }
     fn validate_vacant(&self, p: Position, id: Option<usize>) -> Result<()> {
+        if !self.world.map.is_walkable(p) {return Err("position is blocked".into());}
         if self.world.entities.iter().any(|s| {
             Some(s.id) != id
                 && s.pos == p

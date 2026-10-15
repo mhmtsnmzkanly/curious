@@ -69,7 +69,7 @@ impl PerceptionSystem {
             let mut distance = 0;
             for _ in 0..radius.min(255) {
                 let next = p + dir;
-                if !world.map.is_walkable(next) || blocked.contains(&next) {
+                if !world.map.can_step(p,next) || blocked.contains(&next) {
                     break;
                 }
                 p = next;

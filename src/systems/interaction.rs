@@ -11,35 +11,6 @@ use std::collections::HashMap;
 pub struct InteractionSystem;
 
 impl InteractionSystem {
-    fn move_actor(
-        entities: &mut [EntitySlot],
-        id: usize,
-        pos: Position,
-        cost: usize,
-        occupied: &mut HashMap<Position, usize>,
-        events: &mut Vec<SimulationEvent>,
-    ) -> bool {
-        use crate::simulation::event::{RejectionReason as R, reject};
-        if occupied.get(&pos).is_some_and(|other| *other != id) {
-            reject(events, id, "Approach", None, R::Occupied);
-            return false;
-        }
-        let Some(slot) = entities
-            .iter_mut()
-            .find(|s| s.id == id && s.phase.is_active() && s.base.life().is_alive())
-        else {
-            return false;
-        };
-        if cost > 0 {
-            let from = slot.pos;
-            occupied.remove(&from);
-            slot.pos = pos;
-            slot.base.life_mut().on_move(cost);
-            occupied.insert(pos, id);
-            events.push(SimulationEvent::EntityMoved { id, from, to: pos });
-        }
-        true
-    }
     fn adjacent(a: Position, b: Position) -> bool {
         (a.x - b.x).abs() <= 1 && (a.y - b.y).abs() <= 1
     }
@@ -54,11 +25,8 @@ impl InteractionSystem {
         use crate::simulation::event::{RejectionReason as R, reject};
         let plans = plans.to_vec();
         for p in plans {
-            if !Self::move_actor(entities, p.id, p.new_pos, p.cost, occupied, events)
-                || !Self::adjacent(p.new_pos, p.resource_pos)
-            {
-                continue;
-            }
+            let Some(pos)=super::locomotion::apply(entities,p.id,&p.path,map,occupied,events) else {continue;};
+            if !Self::adjacent(pos,p.resource_pos){reject(events,p.id,"Approach",None,R::OutOfRange);continue;}
             let Some(eater) = entities.iter().position(|s| s.id == p.id) else {
                 continue;
             };
@@ -128,11 +96,8 @@ impl InteractionSystem {
         use crate::simulation::event::{RejectionReason as R, reject};
         let plans = plans.to_vec();
         for p in plans {
-            if !Self::move_actor(entities, p.id, p.new_pos, p.cost, occupied, events)
-                || !Self::adjacent(p.new_pos, p.resource_pos)
-            {
-                continue;
-            }
+            let Some(pos)=super::locomotion::apply(entities,p.id,&p.path,map,occupied,events) else {continue;};
+            if !Self::adjacent(pos,p.resource_pos){reject(events,p.id,"Approach",None,R::OutOfRange);continue;}
             let Some(slot) = entities.iter_mut().find(|s| s.id == p.id) else {
                 continue;
             };

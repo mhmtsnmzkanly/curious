@@ -239,3 +239,8 @@ garanti etmez. Ayrıntılar: [deney raporu](reports/DECISION_AND_PREDATION.md).
 pause başlar ve checkpointten devam eder. `7878` ve `7879` eski sürümde kalır.
 Laboratuvarda `step` ile davranış gözlenebilir; `bin/curious-lab` canlı çayırın
 `bin/curious-live` bağlantısından ayrıdır.
+
+## Hareket V4
+
+Checkpoint V4, duvarları da `resources` içinde saklar. `set_cell` için `"cell":"Wall"`
+kullanılır. Her gerçek hareket adımı ara hücre doluluğu dahil yeniden doğrulanır.

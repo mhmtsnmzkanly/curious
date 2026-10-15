@@ -142,6 +142,7 @@ impl World {
         crate::systems::movement::MovementSystem::resolve_moves(
             &mut self.entities,
             &plans.moves,
+            &self.map,
             &mut occupied,
             &mut events,
         );
@@ -175,6 +176,7 @@ impl World {
         crate::systems::movement::MovementSystem::resolve_flee(
             &mut self.entities,
             &plans.flees,
+            &self.map,
             &mut occupied,
             &mut events,
         );
@@ -233,22 +235,25 @@ pub struct ActionPlans {
     pub sleeps: Vec<SleepPlan>,
 }
 
-#[derive(Clone, Copy)]
+#[derive(Clone)]
 pub struct MovePlan {
+    pub path:Vec<Position>,
     pub id: usize,
     pub new_pos: Position,
     pub cost: usize,
 }
-#[derive(Clone, Copy)]
+#[derive(Clone)]
 pub struct EatPlan {
+    pub path:Vec<Position>,
     pub id: usize,
     pub new_pos: Position,
     pub cost: usize,
     pub resource_pos: Position,
     pub corpse_id: Option<usize>,
 }
-#[derive(Clone, Copy)]
+#[derive(Clone)]
 pub struct DrinkPlan {
+    pub path:Vec<Position>,
     pub id: usize,
     pub new_pos: Position,
     pub cost: usize,
@@ -264,8 +269,9 @@ pub struct AttackPlan {
     pub attacker_id: usize,
     pub target_id: usize,
 }
-#[derive(Clone, Copy)]
+#[derive(Clone)]
 pub struct FleePlan {
+    pub path:Vec<Position>,
     pub id: usize,
     pub new_pos: Position,
     pub cost: usize,
