@@ -5,7 +5,7 @@
 /// - dinamik (tick ile değişen) bilgileri
 /// birlikte tutar.
 /// Ayrım yorumlar ve yardımcı fonksiyonlarla yapılır.
-#[derive(Debug, Clone)]
+#[derive(serde::Serialize, serde::Deserialize, Debug, Clone)]
 pub struct LifeState {
     // -------- GENETİK (SABİT) --------
     /// Maksimum yaş (tick cinsinden)
@@ -165,7 +165,6 @@ impl LifeState {
     }
 
     pub fn on_reproduce(&mut self) {
-        println!("Entity is reproducing...");
         self.reproduction_cooldown = 100;
         self.consume_energy(10);
     }

@@ -23,6 +23,8 @@ pub struct Logger {
 }
 
 impl Logger {
+    pub fn disabled() -> Self { Self { min_level: LogLevel::Info, to_stdout: false, file: None } }
+
     /// Dosyaya log yazan logger üretir
     pub fn new(file_path: &str) -> Self {
         let file = Self::open_log_file(file_path);

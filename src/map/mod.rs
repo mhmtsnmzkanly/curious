@@ -120,10 +120,7 @@ impl Map {
     }
 
     pub fn is_walkable(&self, pos: Position) -> bool {
-        matches!(
-            self.cell(pos),
-            Some(Cell::Empty | Cell::Food { .. } | Cell::Water { .. })
-        )
+        self.in_bounds(pos)
     }
 
     pub fn set_cell(&mut self, pos: Position, cell: Cell) {

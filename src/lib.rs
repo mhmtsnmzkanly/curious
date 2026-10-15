@@ -14,6 +14,8 @@
 //! * `simulation`: Dış dünya ile iletişim kuran motor (Engine) katmanı.
 //! * `rules`: Merkezi biyolojik sabitler ve kanunlar.
 
+pub mod persistence;
+pub mod control;
 pub mod creatures;
 pub mod entity;
 pub mod logger;
@@ -77,3 +79,6 @@ pub fn print_with_color(val: usize) {
         ((val >> 16) & 0xFF) as u8
     );
 }
+
+/// Current random generator state for persisted worlds.
+pub fn rng_state() -> u64 { RNG_STATE.load(Ordering::SeqCst) }

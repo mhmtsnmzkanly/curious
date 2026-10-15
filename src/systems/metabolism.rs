@@ -60,7 +60,7 @@ impl MetabolismSystem {
 mod tests {
     use super::*;
     use crate::creatures::herbivore::HerbivoreEntity;
-    use crate::entity::{phase::EntityPhase, controller::EntityController};
+    use crate::entity::{Entity, phase::EntityPhase, controller::EntityController};
     use crate::map::movement::Position;
 
     #[test]
@@ -69,7 +69,7 @@ mod tests {
         entity.life_mut().age = 999; 
         entity.life_mut().max_age = 1000;
         
-        let mut slot = EntitySlot::new(1, Position::default(), EntityPhase::Active, EntityController::AI, Box::new(entity));
+        let slot = EntitySlot::new(1, Position::new(0, 0), EntityPhase::Active, EntityController::AI, Box::new(entity));
         let mut slots = [slot];
 
         MetabolismSystem::update(&mut slots);
@@ -86,7 +86,7 @@ mod tests {
         entity.life_mut().energy = 0;
         entity.life_mut().health = 100;
         
-        let mut slot = EntitySlot::new(1, Position::default(), EntityPhase::Active, EntityController::AI, Box::new(entity));
+        let slot = EntitySlot::new(1, Position::new(0, 0), EntityPhase::Active, EntityController::AI, Box::new(entity));
         let mut slots = [slot];
 
         MetabolismSystem::update(&mut slots);
@@ -102,7 +102,7 @@ mod tests {
         entity.life_mut().health = 50;
         entity.life_mut().energy = 100; // Enerji var, iyileşmeli
         
-        let mut slot = EntitySlot::new(1, Position::default(), EntityPhase::Active, EntityController::AI, Box::new(entity));
+        let slot = EntitySlot::new(1, Position::new(0, 0), EntityPhase::Active, EntityController::AI, Box::new(entity));
         let mut slots = [slot];
 
         MetabolismSystem::update(&mut slots);

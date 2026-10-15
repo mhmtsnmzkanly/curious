@@ -1,3 +1,4 @@
+#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
 /// Canlının kimin tarafından yönetildiğini belirler
 pub enum EntityController {
     /// Otonom AI tarafından yönetiliyor

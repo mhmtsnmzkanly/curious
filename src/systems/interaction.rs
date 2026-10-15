@@ -26,7 +26,9 @@ impl InteractionSystem {
             target_winners.entry(plan.new_pos).or_insert(plan);
         }
 
-        for plan in target_winners.values() {
+        let mut winners: Vec<_> = target_winners.values().copied().collect();
+        winners.sort_by_key(|p| p.id);
+        for plan in winners {
             if let Some(other_id) = occupied.get(&plan.new_pos) {
                 if *other_id != plan.id { continue; }
             }
@@ -103,7 +105,9 @@ impl InteractionSystem {
             target_winners.entry(plan.new_pos).or_insert(plan);
         }
 
-        for plan in target_winners.values() {
+        let mut winners: Vec<_> = target_winners.values().copied().collect();
+        winners.sort_by_key(|p| p.id);
+        for plan in winners {
             if let Some(other_id) = occupied.get(&plan.new_pos) {
                 if *other_id != plan.id { continue; }
             }
@@ -132,6 +136,7 @@ impl InteractionSystem {
         plans: &[MatePlan],
         occupied: &mut HashMap<Position, usize>,
         events: &mut Vec<SimulationEvent>,
+        next_entity_id: &mut usize,
     ) {
         let mut new_entities = Vec::new();
         
@@ -167,7 +172,8 @@ impl InteractionSystem {
 
                     let child = target_slot.entity_mut().reproduce();
                     let species = child.species();
-                    let new_id = entities.iter().map(|s| s.id).max().unwrap_or(0) + 1 + new_entities.len();
+                    let new_id = *next_entity_id;
+                    *next_entity_id += 1;
                     
                     new_entities.push(EntitySlot::new(new_id, child_pos, EntityPhase::Active, crate::entity::controller::EntityController::AI, child));
                     occupied.insert(child_pos, new_id);

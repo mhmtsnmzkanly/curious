@@ -2,14 +2,18 @@ use curious::{
     creatures::carnivore::CarnivoreEntity,
     creatures::herbivore::HerbivoreEntity,
     creatures::omnivore::OmnivoreEntity,
-    entity::{perception::Perception, phase::EntityPhase},
-    map::movement::Position,
+    entity::phase::EntityPhase,
     set_global_seed_with_time,
     world::{EntitySlot, World},
 };
 use std::{thread, time::Duration};
 
 fn main() {
+    if std::env::args().any(|a| a == "--serve") {
+        if let Err(e) = curious::control::run_cli() { eprintln!("{e}"); std::process::exit(1); }
+        return;
+    }
+
     // RNG için seed'i zaman damgası olarak günceller
     set_global_seed_with_time();
     let entities: Vec<EntitySlot> = vec![
@@ -36,21 +40,21 @@ fn main() {
         ),
         EntitySlot::new(
             4,
-            (15isize, -15isize).into(),
+            (14isize, -14isize).into(),
             EntityPhase::Active,
             curious::entity::controller::EntityController::AI,
             Box::new(OmnivoreEntity::default()),
         ),
         EntitySlot::new(
             5,
-            (-15isize, 15isize).into(),
+            (-15isize, 14isize).into(),
             EntityPhase::Active,
             curious::entity::controller::EntityController::AI,
             Box::new(CarnivoreEntity::default()),
         ),
         EntitySlot::new(
             6,
-            (-14isize, 15isize).into(),
+            (-14isize, 14isize).into(),
             EntityPhase::Active,
             curious::entity::controller::EntityController::AI,
             Box::new(OmnivoreEntity::default()),
@@ -59,7 +63,6 @@ fn main() {
     // İnteraktif dünya
     let mut engine = curious::simulation::SimulationEngine::new(World::new(-15, 14, -15, 14, entities));
     // İnteraktif dünya sayacı
-    let mut tick_counter: usize = 0;
     loop {
         // 1. Simülasyon adımı işlet ve olayları topla
         let events = engine.step();

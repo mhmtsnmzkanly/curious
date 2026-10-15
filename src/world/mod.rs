@@ -11,6 +11,9 @@ pub use entity_slot::EntitySlot;
 /// Simülasyon dünyasını yöneten ana yapı.
 /// Bu yapı, simülasyonun merkezi (authoritative simulation core) olarak görev yapar.
 pub struct World {
+    pub last_trace: Vec<String>,
+    pub last_intents: Vec<(usize, Intent)>,
+    pub next_entity_id: usize,
     /// Simülasyon haritası ve kaynaklar
     pub map: Map,
 
@@ -42,7 +45,11 @@ impl World {
         let mut logger = Logger::new(&log_path);
         logger.set_min_level(LogLevel::Info);
         
+        let next_entity_id = entities.iter().map(|s| s.id).max().unwrap_or(0) + 1;
         World {
+            last_trace: Vec::new(),
+            last_intents: Vec::new(),
+            next_entity_id,
             map,
             entities,
             tick_counter: 0,
@@ -78,6 +85,8 @@ impl World {
         // 3. Niyetleri Topla (Intent Collection System)
         let intents = crate::systems::intent_collection::IntentCollectionSystem::collect(self, &mut log_lines);
 
+        self.last_intents = intents.clone();
+
         // 4. Planları Oluştur (Planning System)
         let plans = crate::systems::planning::PlanningSystem::plan(self, intents, &mut log_lines);
 
@@ -85,7 +94,7 @@ impl World {
         crate::systems::movement::MovementSystem::resolve_moves(&mut self.entities, &plans.moves, &mut occupied, &mut events);
         crate::systems::interaction::InteractionSystem::resolve_eats(&mut self.entities, &mut self.map, &plans.eats, &mut occupied, &mut events);
         crate::systems::interaction::InteractionSystem::resolve_drinks(&mut self.entities, &mut self.map, &plans.drinks, &mut occupied, &mut events);
-        crate::systems::interaction::InteractionSystem::resolve_mates(&mut self.entities, &self.map, &plans.mates, &mut occupied, &mut events);
+        crate::systems::interaction::InteractionSystem::resolve_mates(&mut self.entities, &self.map, &plans.mates, &mut occupied, &mut events, &mut self.next_entity_id);
         crate::systems::interaction::InteractionSystem::resolve_attacks(&mut self.entities, &plans.attacks, &mut events);
         crate::systems::movement::MovementSystem::resolve_flee(&mut self.entities, &plans.flees, &mut occupied, &mut events);
         crate::systems::life_cycle::LifeCycleSystem::resolve_sleep(&mut self.entities, &plans.sleeps, &mut events);
@@ -99,6 +108,7 @@ impl World {
         }
         self.logger.log_many(LogLevel::Info, &log_lines);
         self.command_inputs.clear();
+        self.last_trace = log_lines;
 
         events
     }

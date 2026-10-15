@@ -45,3 +45,18 @@ Game of Life ile yola çıkıp, günün birinde Dwarf Fortress gibi bir seviyeye
 - Su kaynağı ve susuzluk mekanizması.
 - `Herbivore`, `Carnivore`, `Omnivore` türleri için temel davranışlar.
 - `Drink` niyeti ile su tüketimi.
+
+## Kalıcı kayıt ve kontrol API'si
+
+SQLite geçmişi ve HTTP yönetimi için:
+
+```bash
+cargo run --release -- --serve --paused --data-dir data/main
+```
+
+Kontrol adresi: `http://127.0.0.1:7878`. Dünya durumu, kararlar, olaylar ve
+müdahaleler kaydedilir; SQLite dosyaları boyuta göre bölünür ve son kayıttan
+simülasyona devam edilebilir. Kullanım ve işletim: [docs/CONTROL.md](docs/CONTROL.md).
+
+Projenin uzun vadeli hedefi ve geliştirme sırası: [docs/VISION.md](docs/VISION.md).
+Ajanlar için çalışma ve disk bakım notları: [AGENTS.md](AGENTS.md).

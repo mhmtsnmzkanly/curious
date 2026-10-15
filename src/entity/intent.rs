@@ -1,7 +1,7 @@
 use crate::map::movement::Steps;
 
 /// Canlının görüş açısıyla yola çıkarak ortaya koyduğu niyet
-#[derive(Debug, Clone, PartialEq)]
+#[derive(serde::Serialize, serde::Deserialize, Debug, Clone, PartialEq)]
 pub enum Intent {
     /// Gidilmek istenilen nokta
     Move { steps: Steps },

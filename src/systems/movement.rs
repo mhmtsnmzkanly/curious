@@ -24,7 +24,9 @@ impl MovementSystem {
             target_winners.entry(plan.new_pos).or_insert(plan);
         }
 
-        for plan in target_winners.values() {
+        let mut winners: Vec<_> = target_winners.values().copied().collect();
+        winners.sort_by_key(|p| p.id);
+        for plan in winners {
             if let Some(other_id) = occupied.get(&plan.new_pos) {
                 if *other_id != plan.id { continue; }
             }
@@ -56,7 +58,9 @@ impl MovementSystem {
             target_winners.entry(plan.new_pos).or_insert(plan);
         }
 
-        for plan in target_winners.values() {
+        let mut winners: Vec<_> = target_winners.values().copied().collect();
+        winners.sort_by_key(|p| p.id);
+        for plan in winners {
             if let Some(other_id) = occupied.get(&plan.new_pos) {
                 if *other_id != plan.id { continue; }
             }

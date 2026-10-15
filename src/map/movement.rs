@@ -3,7 +3,7 @@ use std::ops::{Add, AddAssign};
 /// - Dünya koordinatıdır (chunk bağımsız)
 /// - Negatif koordinatları destekler
 /// - (0,0) merkezli dünya için uygundur
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+#[derive(serde::Serialize, serde::Deserialize, Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub struct Position {
     pub x: isize,
     pub y: isize,
@@ -34,7 +34,7 @@ impl From<(isize, isize)> for Position {
     }
 }
 
-#[derive(Hash, Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(serde::Serialize, serde::Deserialize, Hash, Debug, Clone, Copy, PartialEq, Eq)]
 pub enum Direction {
     Up,
     Down,
@@ -57,7 +57,7 @@ pub const DIRECTION_ARRAY: [Direction; 8] = [
     Direction::DownRight,
 ];
 /// Hareket etme talimat dizisi
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(serde::Serialize, serde::Deserialize, Debug, Clone, PartialEq, Eq)]
 pub struct Steps(pub Vec<Direction>);
 
 impl Steps {

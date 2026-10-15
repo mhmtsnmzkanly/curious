@@ -38,9 +38,8 @@ impl PerceptionSystem {
         }
 
         // 3. Çevredeki yürünebilir alanları Tara
-        let walkable_map = world.map.walkable_distances(current_slot.pos);
-        for (dir, dist) in walkable_map {
-            perception.add_direction(dir, dist);
+        for dir in crate::map::movement::DIRECTION_ARRAY {
+            perception.add_direction(dir, world.map.walkable_distance(current_slot.pos, dir));
         }
 
         perception
