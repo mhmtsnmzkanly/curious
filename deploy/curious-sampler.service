@@ -1,0 +1,11 @@
+[Unit]
+Description=Read-only Curious long-duration resource sample
+After=network.target
+[Service]
+Type=oneshot
+WorkingDirectory=/root/curious
+ExecStart=/usr/bin/python3 /root/curious/scripts/sample_runtime.py
+TimeoutStartSec=20
+NoNewPrivileges=true
+PrivateTmp=true
+UMask=0077

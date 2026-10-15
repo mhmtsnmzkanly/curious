@@ -1,0 +1,127 @@
+{
+  "revision": "ecc71090cedc3ff38ff8a523799f79b1d60c2f41",
+  "dirty": true,
+  "scenario": "scenarios/meadow.json",
+  "runs": [
+    {
+      "seed": 1,
+      "ticks": 10000,
+      "wall_seconds": 13.877,
+      "first_extinction_tick": null,
+      "max_generation": 304,
+      "events": {
+        "ResourceReplenished": 163984,
+        "EntityMoved": 37702,
+        "ActionRejected": 74451,
+        "EntityAte": 25698,
+        "EntityDrank": 36221,
+        "EntityMated": 1249,
+        "EntityBorn": 1249,
+        "EntityDied": 1243
+      },
+      "intents": {
+        "Move": 796,
+        "Idle": 892,
+        "Eat": 34989,
+        "Drink": 91147,
+        "Mate": 2613
+      },
+      "rejected_actions": {
+        "Occupied": 8870,
+        "OutOfRange": 11203,
+        "MissingResource": 53014,
+        "Cooldown": 1364
+      },
+      "death_causes": {
+        "Starvation": 21,
+        "OldAge": 1211,
+        "Dehydration": 11
+      },
+      "ticks_with_active_low_health_and_zero_water": 174,
+      "peak_sampled_rss_kib": 9020,
+      "peak_sampled_fds": 9,
+      "max_100_tick_batch_seconds": 0.1932,
+      "history_bytes": 101533181,
+      "sample_start_end": [
+        {
+          "tick": 1,
+          "alive": 8,
+          "births": 0,
+          "by_species": {
+            "Herbivore": 8
+          },
+          "deaths": 0,
+          "entities": 8,
+          "food": 224,
+          "max_living_generation": 0,
+          "reproduction_blockers": {
+            "Immature": 8
+          },
+          "resources": 20,
+          "tick_us": 288,
+          "water": 96
+        },
+        {
+          "tick": 10,
+          "alive": 8,
+          "births": 0,
+          "by_species": {
+            "Herbivore": 8
+          },
+          "deaths": 0,
+          "entities": 8,
+          "food": 300,
+          "max_living_generation": 0,
+          "reproduction_blockers": {
+            "Immature": 8
+          },
+          "resources": 20,
+          "tick_us": 173,
+          "water": 120
+        },
+        {
+          "tick": 9990,
+          "alive": 14,
+          "births": 0,
+          "by_species": {
+            "Herbivore": 14
+          },
+          "deaths": 0,
+          "entities": 15,
+          "food": 200,
+          "max_living_generation": 304,
+          "reproduction_blockers": {
+            "Cooldown": 6,
+            "Immature": 3,
+            "InsufficientEnergy": 3,
+            "Ready": 2
+          },
+          "resources": 15,
+          "tick_us": 439,
+          "water": 0
+        },
+        {
+          "tick": 10000,
+          "alive": 14,
+          "births": 0,
+          "by_species": {
+            "Herbivore": 14
+          },
+          "deaths": 0,
+          "entities": 15,
+          "food": 174,
+          "max_living_generation": 304,
+          "reproduction_blockers": {
+            "Cooldown": 7,
+            "Immature": 2,
+            "InsufficientEnergy": 2,
+            "Ready": 3
+          },
+          "resources": 16,
+          "tick_us": 414,
+          "water": 4
+        }
+      ]
+    }
+  ]
+}

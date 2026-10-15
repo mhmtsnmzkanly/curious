@@ -1,0 +1,8 @@
+[Unit]
+Description=Sample Curious resource usage every fifteen minutes
+[Timer]
+OnBootSec=30
+OnUnitActiveSec=15min
+Unit=curious-sampler.service
+[Install]
+WantedBy=timers.target

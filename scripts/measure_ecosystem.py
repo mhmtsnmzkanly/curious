@@ -49,6 +49,9 @@ def measure(binary, directory, seed, ticks, scenario=None, shard_mb=16):
         command += ['--scenario', scenario]
     child = subprocess.Popen(command, env=env, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE)
     started = time.monotonic()
+    peak_rss_kib=0
+    peak_fds=0
+    max_batch_seconds=0.0
     try:
         for _ in range(100):
             if child.poll() is not None:
@@ -61,7 +64,12 @@ def measure(binary, directory, seed, ticks, scenario=None, shard_mb=16):
         else:
             raise RuntimeError('server did not become ready')
         for start in range(0, ticks, 100):
+            batch_start=time.monotonic()
             request('/control', {'action': 'step', 'ticks': min(100, ticks - start)})
+            max_batch_seconds=max(max_batch_seconds,time.monotonic()-batch_start)
+            status_text=Path(f'/proc/{child.pid}/status').read_text()
+            peak_rss_kib=max(peak_rss_kib,int(next(line.split()[1] for line in status_text.splitlines() if line.startswith('VmRSS:'))))
+            peak_fds=max(peak_fds,len(list(Path(f'/proc/{child.pid}/fd').iterdir())))
         request('/control', {'action': 'shutdown'})
         child.wait(timeout=5)
     finally:
@@ -106,6 +114,7 @@ def measure(binary, directory, seed, ticks, scenario=None, shard_mb=16):
             'max_generation': max(generations.values(), default=0), 'events': dict(events), 'intents': dict(intents),
             'rejected_actions': dict(rejected), 'death_causes': dict(death_causes),
             'ticks_with_active_low_health_and_zero_water': starvation_floor_ticks, 'samples': samples,
+            'peak_sampled_rss_kib':peak_rss_kib,'peak_sampled_fds':peak_fds,'max_100_tick_batch_seconds':round(max_batch_seconds,4),
             'history_bytes': sum(p.stat().st_size for p in histories)}
 
 
