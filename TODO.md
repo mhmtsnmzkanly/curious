@@ -5,8 +5,8 @@ Hedef ve karar gerekçeleri: [docs/VISION.md](docs/VISION.md).
 
 - [x] Mevcut dünyayı farklı seed'lerle çalıştırıp ilk nesilde kopan yaşam döngüsünü ölç.
 - [ ] Üremeyi engelleyen koşulları ve ölüm nedenlerini açık, yapılandırılmış veri olarak kaydet.
-- [ ] Tick sırası, metabolizma, hareket ve etkileşim kurallarındaki çelişkileri gider.
-- [ ] RNG'yi global durumdan dünya başına ayrı duruma taşı; tekrar üretilebilirliği geniş senaryolarla doğrula.
+- [ ] Temel tick/metabolizma hataları düzeltildi; hareket, diyet ve kaynak sözleşmelerini tamamla.
+- [x] RNG'yi dünya başına ayır; iç içe dünyalar ve checkpoint devamını doğrula.
 - [ ] Kaynak yenilenmesini ekle ve birbirini izleyen nesillerin dış müdahalesiz üreyebildiğini göster.
 - [ ] Bireyin algı/karar/sonuç akışını incelemeyi kolaylaştır.
 - [ ] Bireysel hafıza ve tek bir karar alanında öğrenme deneyi kur.

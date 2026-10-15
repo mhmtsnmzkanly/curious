@@ -9,3 +9,12 @@ serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 rusqlite = { version = "0.40", features = ["bundled", "hooks"] }
 tiny_http = "0.12"
+
+# Keep development/test artifacts small on the shared server.
+[profile.dev]
+debug = 0
+incremental = false
+
+[profile.test]
+debug = 0
+incremental = false

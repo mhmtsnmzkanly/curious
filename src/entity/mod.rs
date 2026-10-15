@@ -18,7 +18,7 @@ pub trait Entity {
     fn species(&self) -> Species;
 
     /// Karar verme (sadece okuma yapmalı)
-    fn make_intent(&self, view: Perception) -> Intent;
+    fn make_intent(&self, view: Perception, rng: &mut crate::random::Random) -> Intent;
 
     /// Tek tick güncellemesi
     /// World'un işini kolaylaştırmak için var;

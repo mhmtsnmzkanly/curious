@@ -26,7 +26,7 @@ impl PerceptionSystem {
 
         // 2. Yakındaki Diğer Canlıları Tara
         for other in &world.entities {
-            if other.id == current_slot.id { continue; }
+            if other.id == current_slot.id || !matches!(other.phase,crate::entity::phase::EntityPhase::Active|crate::entity::phase::EntityPhase::Sleeping{..}) || !other.base.life().is_alive() { continue; }
             let dist = current_slot.pos.distance_to(other.pos);
             if dist <= radius {
                 if let Some(steps) = world.map.bfs_steps_to(current_slot.pos, other.pos, radius) {

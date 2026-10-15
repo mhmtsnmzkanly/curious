@@ -7,6 +7,8 @@
 /// Ayrım yorumlar ve yardımcı fonksiyonlarla yapılır.
 #[derive(serde::Serialize, serde::Deserialize, Debug, Clone)]
 pub struct LifeState {
+    #[serde(default)]
+    pub death_cause: Option<crate::simulation::event::DeathCause>,
     // -------- GENETİK (SABİT) --------
     /// Maksimum yaş (tick cinsinden)
     pub max_age: usize,
@@ -104,10 +106,23 @@ impl LifeState {
         self.water >= self.max_water
     }
 
-    // LifeState içinde
+    pub fn reproduction_blocker(&self) -> Option<crate::simulation::event::RejectionReason> {
+        use crate::simulation::event::RejectionReason as R;
+        if !self.is_alive() {
+            Some(R::Inactive)
+        } else if !self.is_mature() {
+            Some(R::Immature)
+        } else if self.reproduction_cooldown > 0 {
+            Some(R::Cooldown)
+        } else if self.energy <= 15 {
+            Some(R::InsufficientEnergy)
+        } else {
+            None
+        }
+    }
+
     pub fn can_reproduce(&self) -> bool {
-        (self.age >= self.maturity_age) && (self.reproduction_cooldown == 0 && self.energy > 15)
-        // Çok düşük tut ki ölmeden hemen önce bile deneyebilsinler
+        self.reproduction_blocker().is_none()
     }
 
     /// Bu tick içinde hareket edebilir mi?
@@ -161,7 +176,17 @@ impl LifeState {
 
     /// Hasar al
     pub fn take_damage(&mut self, amount: usize) {
+        self.damage_from(amount, crate::simulation::event::DeathCause::Combat);
+    }
+
+    pub fn damage_from(&mut self, amount: usize, cause: crate::simulation::event::DeathCause) {
+        if self.health == 0 {
+            return;
+        }
         self.health = self.health.saturating_sub(amount);
+        if self.health == 0 {
+            self.death_cause = Some(cause);
+        }
     }
 
     pub fn on_reproduce(&mut self) {

@@ -2,7 +2,6 @@ use crate::{
     world::{World, EntitySlot, ActionPlans, MovePlan, EatPlan, DrinkPlan, MatePlan, AttackPlan, FleePlan, SleepPlan},
     entity::intent::Intent,
     map::movement::{Position, Steps, DIRECTION_ARRAY},
-    gen_range,
 };
 
 /// Ham niyetleri (Intent) doğrulanmış ve maliyeti hesaplanmış eylem planlarına dönüştüren sistem.
@@ -10,7 +9,7 @@ pub struct PlanningSystem;
 
 impl PlanningSystem {
     /// Tüm birimlerin niyetlerini değerlendirir ve bir ActionPlans objesi döner.
-    pub fn plan(world: &World, intents: Vec<(usize, Intent)>, log_lines: &mut Vec<String>) -> ActionPlans {
+    pub fn plan(world: &mut World, intents: Vec<(usize, Intent)>, log_lines: &mut Vec<String>) -> ActionPlans {
         let mut plans = ActionPlans::default();
 
         for (id, intent) in intents {
@@ -54,9 +53,10 @@ impl PlanningSystem {
                     }
                 }
                 Intent::Idle { .. } => {
+                    let wander=world.rng.range(1,100)<=30;
                     if let Some(slot) = Self::find_slot(world, id) {
                         // Hafif gezinme davranışı: %30 ihtimalle rastgele 1 adım
-                        if gen_range(1, 100) <= 30 && slot.base.life().can_move_for(1) {
+                        if wander && slot.base.life().can_move_for(1) {
                             if let Some(pos) = Self::pick_random_neighbor(world, slot.pos) {
                                 plans.moves.push(MovePlan { id, new_pos: pos, cost: 1 });
                                 log_lines.push(format!("[Plan] Idle->Move @{} -> {:?}", id, pos));
@@ -121,10 +121,10 @@ impl PlanningSystem {
         (curr_pos, cost)
     }
 
-    fn pick_random_neighbor(world: &World, pos: Position) -> Option<Position> {
+    fn pick_random_neighbor(world: &mut World, pos: Position) -> Option<Position> {
         let dirs = DIRECTION_ARRAY;
         for _ in 0..8 {
-            let d = dirs[gen_range(0, 7) as usize];
+            let d = dirs[world.rng.range(0, 7) as usize];
             let p = pos + d;
             if world.map.is_walkable(p) { return Some(p); }
         }

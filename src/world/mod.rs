@@ -11,6 +11,7 @@ pub use entity_slot::EntitySlot;
 /// Simülasyon dünyasını yöneten ana yapı.
 /// Bu yapı, simülasyonun merkezi (authoritative simulation core) olarak görev yapar.
 pub struct World {
+    pub rng: crate::random::Random,
     pub last_trace: Vec<String>,
     pub last_intents: Vec<(usize, Intent)>,
     pub next_entity_id: usize,
@@ -33,8 +34,13 @@ pub struct World {
 impl World {
     /// Yeni bir simülasyon dünyası oluşturur.
     pub fn new(x1: isize, x2: isize, y1: isize, y2: isize, entities: Vec<EntitySlot>) -> World {
+        Self::with_seed(x1,x2,y1,y2,entities,crate::rng_state())
+    }
+
+    pub fn with_seed(x1:isize,x2:isize,y1:isize,y2:isize,entities:Vec<EntitySlot>,seed:u64) -> World {
+        let mut rng=crate::random::Random::new(seed);
         let mut map = Map::new(x1, x2, y1, y2);
-        map.populate_resources(0.05f32);
+        map.populate_resources(0.05f32, &mut rng);
         
         let now = time::OffsetDateTime::now_utc();
         let format = time::format_description::parse("[year]-[month]-[day]_[hour]-[minute]-[second]")
@@ -47,6 +53,7 @@ impl World {
         
         let next_entity_id = entities.iter().map(|s| s.id).max().unwrap_or(0) + 1;
         World {
+            rng,
             last_trace: Vec::new(),
             last_intents: Vec::new(),
             next_entity_id,
@@ -73,6 +80,8 @@ impl World {
         let mut events = Vec::new();
         let mut log_lines: Vec<String> = Vec::new();
         log_lines.push(format!("=== Tick {} ===", self.tick_counter));
+
+        crate::systems::life_cycle::LifeCycleSystem::begin_tick(&mut self.entities,&mut self.map,&mut events);
 
         // 2. Hazırlık: Çakışma kontrolü için meşgul olan hücrelerin tespiti
         let mut occupied: HashMap<Position, usize> = self

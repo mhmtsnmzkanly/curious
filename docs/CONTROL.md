@@ -84,7 +84,8 @@ Her dosyada aynı şema vardır:
 Checkpoint şu anki somut canlılarda bulunan tüm yaşam durumunu içerir.
 Yeni bir canlıya hafıza/model/genom gibi alanlar eklendiğinde bunlar da sürümlü
 checkpoint sözleşmesine eklenmelidir. Şema/checkpoint sürümü 1'dir; gelecekteki
-uyumsuz sürümler sessizce yüklenmez. Bu bir gelecekteki tüm sürümler için otomatik
+uyumsuz sürümler sessizce yüklenmez. Yeni ölüm nedeni alanı eski kayıtlarda boş kabul edilir. RNG artık dünya başınadır.
+Bu bir gelecekteki tüm sürümler için otomatik
 migrasyon sistemi değildir.
 
 ```bash
@@ -139,3 +140,15 @@ RNG/checkpoint devamı, HTTP auth, pause/hız/step, ikinci süreç kilidi ve SIG
 sonrası kalıcı müdahalelerin korunması kontrol edilir. Aylar süren dayanıklılık
 ve büyük nüfus performansı henüz doğrulanmış değildir. Ekosistemin ilk nesilden
 sonra devam etmesi, öğrenme ve evrim bu değişiklikte tamamlanmış sayılmaz.
+
+## Tick sözleşmesi
+
+Temizlik → faz süreleri/metabolizma → ölüm kontrolü → doluluk/algı/karar → planlar
+→ eylemler → eylem sonrası ölüm kontrolü → kayıt. Yeni doğan bir bireyin ilk
+metabolizma adımı sonraki ticktedir. Uyuyan birey de yaşlanır ve kaynak tüketir.
+`EntityDied.cause`, ölüm nedenini; `ActionRejected`, saldırı/üreme reddinin nedenini
+bildirir. `CorpseConsumed` ikinci bir ölüm olarak sayılmaz.
+
+Bu sözleşmedeki değişiklikten önceki kayıtların yüklenmesi desteklenir; eski
+ikiliyle aynı geleceği üretmek garanti edilmez. Aynı ikili/sözleşme ve seed altında
+tekrar üretim test edilir.

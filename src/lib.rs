@@ -16,6 +16,7 @@
 
 pub mod persistence;
 pub mod control;
+pub mod random;
 pub mod creatures;
 pub mod entity;
 pub mod logger;
@@ -53,7 +54,7 @@ pub fn next_rand() -> u64 {
     // fetch_update: Mevcut değeri güvenli bir şekilde okur,
     // hesaplamayı yapar ve kimse araya girmeden yeni değeri yazar.
     RNG_STATE
-        .fetch_update(Ordering::SeqCst, Ordering::SeqCst, |state| {
+        .try_update(Ordering::SeqCst, Ordering::SeqCst, |state| {
             Some(state.wrapping_mul(6364136223846793005).wrapping_add(1))
         })
         .unwrap_or(0)

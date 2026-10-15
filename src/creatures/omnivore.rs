@@ -22,6 +22,7 @@ impl OmnivoreEntity {
     pub fn default() -> Self {
         Self {
             life_state: LifeState {
+                death_cause: None,
                 max_age: 110,
                 max_health: 130,
                 max_energy: 85,
@@ -53,7 +54,7 @@ impl Entity for OmnivoreEntity {
         Species::Omnivore
     }
 
-    fn make_intent(&self, perception: Perception) -> Intent {
+    fn make_intent(&self, perception: Perception, rng: &mut crate::random::Random) -> Intent {
         let decision =
             InstinctEvaluator::evaluate(&self.life_state, &perception, Species::Omnivore);
 
@@ -108,7 +109,7 @@ impl Entity for OmnivoreEntity {
                 for _ in 0..self.life_state.speed {
                     steps
                         .0
-                        .push(DIRECTION_ARRAY[crate::gen_range(0, 7isize) as usize])
+                        .push(DIRECTION_ARRAY[rng.range(0, 7isize) as usize])
                 }
                 Intent::Move { steps }
             }
@@ -155,6 +156,9 @@ impl Entity for OmnivoreEntity {
     fn reproduce(&self) -> Box<dyn Entity> {
         let mut child_life = self.life_state.clone();
         child_life.age = 0;
+        child_life.death_cause = None;
+        child_life.reproduction_cooldown = 0;
+        child_life.moves_used = 0;
         child_life.energy = child_life.max_energy / 2;
         child_life.water = child_life.max_water / 2;
         child_life.health = child_life.max_health / 2;

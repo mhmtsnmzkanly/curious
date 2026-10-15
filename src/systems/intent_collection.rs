@@ -9,7 +9,7 @@ pub struct IntentCollectionSystem;
 
 impl IntentCollectionSystem {
     /// Mevcut tüm aktif varlıklardan niyetlerini toplar.
-    pub fn collect(world: &World, log_lines: &mut Vec<String>) -> Vec<(usize, Intent)> {
+    pub fn collect(world: &mut World, log_lines: &mut Vec<String>) -> Vec<(usize, Intent)> {
         let mut intents: Vec<(usize, Intent)> = Vec::new();
 
         for slot in &world.entities {
@@ -26,7 +26,7 @@ impl IntentCollectionSystem {
                 external_intent.clone()
             } else {
                 match slot.controller {
-                    EntityController::AI => slot.entity().make_intent(perception),
+                    EntityController::AI => slot.entity().make_intent(perception, &mut world.rng),
                     EntityController::Player(_) => {
                         // Oyuncuya ait bir birime komut gelmemişse beklemede kalsın.
                         Intent::Idle { duration: 1 }

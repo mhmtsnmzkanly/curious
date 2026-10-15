@@ -9,7 +9,7 @@ use crate::{
         cell::Cell,
         movement::{DIRECTION_ARRAY, Direction, Position, Steps},
     },
-    next_rand,
+    random::Random,
 };
 
 #[derive(Debug)]
@@ -337,7 +337,7 @@ impl Map {
     }
 
     /// Tüm haritayı chunk chunk doldurur (Orkestra Şefi)
-    pub fn populate_resources(&mut self, density: f32) {
+    pub fn populate_resources(&mut self, density: f32, rng: &mut Random) {
         // Haritanın kapsadığı chunk sınırlarını hesapla
         // Negatif koordinatlar için div_euclid kullanılmalı,
         // aksi halde değerler 0'a doğru yuvarlandığı için yanlış chunklar seçilir.
@@ -348,13 +348,13 @@ impl Map {
 
         for cx in min_cx..=max_cx {
             for cy in min_cy..=max_cy {
-                self.populate_chunk(ChunkCoord { cx, cy }, density);
+                self.populate_chunk(ChunkCoord { cx, cy }, density, rng);
             }
         }
     }
 
     /// Sadece belirli bir chunk içine odaklanır (Uzman)
-    pub fn populate_chunk(&mut self, coord: ChunkCoord, density: f32) {
+    pub fn populate_chunk(&mut self, coord: ChunkCoord, density: f32, rng: &mut Random) {
         let start_x = coord.cx * CHUNK_SIZE as isize;
         let start_y = coord.cy * CHUNK_SIZE as isize;
 
@@ -372,13 +372,13 @@ impl Map {
                     continue;
                 }
 
-                let roll = next_rand() % 100;
+                let roll = rng.next_u64() % 100;
                 if roll >= spawn_threshold {
                     continue;
                 }
 
-                let amount = (next_rand() % 7 + 5) as usize;
-                let water_roll = next_rand() % 100;
+                let amount = (rng.next_u64() % 7 + 5) as usize;
+                let water_roll = rng.next_u64() % 100;
                 if water_roll < 20 {
                     self.set_cell(world_pos, Cell::Water { amount });
                 } else {

@@ -27,8 +27,8 @@ sonraki talimatlar bu notların önündedir.
 - Gerçek durumu `/status` üzerinden kontrol edin; bu dosyadaki eski tick bilgisini
   güncel kabul etmeyin. Çalışan dünyayı test verisiyle değiştirmeyin.
 - Geçmiş shardları, canlı verilerini veya checkpointleri derleme temizliğiyle silmeyin.
-- RNG şu anda globaldir: aynı süreçte birden çok bağımsız dünya çalıştırmayın.
-  Gelecekte dünya başına RNG ayrılması gerekiyor.
+- Aktif RNG dünya başına ayrıdır. Yeni dünyalar için açık seed kullanan
+  `World::with_seed` tercih edilir; global seed yardımcıları eski çağrılar içindir.
 
 ## İletişim
 

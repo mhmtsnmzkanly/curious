@@ -1,7 +1,4 @@
-use crate::{
-    world::EntitySlot,
-    rules::biology,
-};
+use crate::{rules::biology, world::EntitySlot};
 
 /// Canlıların içsel durumlarını (enerji tüketimi, yaşlanma, iyileşme) yöneten sistem.
 pub struct MetabolismSystem;
@@ -9,49 +6,47 @@ pub struct MetabolismSystem;
 impl MetabolismSystem {
     pub fn update(entities: &mut [EntitySlot]) {
         for slot in entities {
-            if !slot.phase.is_active() {
+            if matches!(
+                slot.phase,
+                crate::entity::phase::EntityPhase::Corpse { .. }
+                    | crate::entity::phase::EntityPhase::Removed
+            ) {
                 continue;
             }
-
             let life = slot.base.life_mut();
-
-            // 1. Yaşlanma
-            life.age += biology::AGING_RATE;
-
-            // Yaşlılıktan ölüm kontrolü
+            life.moves_used = 0;
+            if !life.is_alive() {
+                continue;
+            }
+            life.age = life.age.saturating_add(biology::AGING_RATE);
             if life.age > life.max_age {
                 life.health = 0;
+                life.death_cause = Some(crate::simulation::event::DeathCause::OldAge);
                 continue;
             }
-
-            // 2. Üreme bekleme süresi azalması
-            if life.reproduction_cooldown > 0 {
-                life.reproduction_cooldown -= 1;
+            life.reproduction_cooldown = life.reproduction_cooldown.saturating_sub(1);
+            life.consume_energy(biology::BMR_ENERGY_COST);
+            life.consume_water(biology::BMR_WATER_COST);
+            if life.energy == 0 {
+                life.damage_from(
+                    biology::STARVATION_HEALTH_LOSS,
+                    crate::simulation::event::DeathCause::Starvation,
+                );
             }
-
-            // 3. Pasif İyileşme (Enerji varsa)
-            if !life.is_energy_low() && life.health < life.max_health {
+            if life.water == 0 {
+                life.damage_from(
+                    biology::DEHYDRATION_HEALTH_LOSS,
+                    crate::simulation::event::DeathCause::Dehydration,
+                );
+            }
+            if life.is_alive()
+                && !life.is_energy_low()
+                && !life.is_water_low()
+                && life.health < life.max_health
+            {
                 life.consume_energy(biology::PASSIVE_HEAL_ENERGY_COST);
                 life.heal(biology::PASSIVE_HEAL_AMOUNT);
             }
-
-            // 4. Enerji Bittiğinde Candan Harcama (Starvation)
-            if life.energy == 0 && !life.is_health_low() {
-                life.health = life.health.saturating_sub(biology::STARVATION_HEALTH_LOSS);
-                life.restore_energy(biology::STARVATION_ENERGY_RESTORE);
-            }
-
-            // 5. Su Bittiğinde Candan Harcama (Dehydration)
-            if life.water == 0 && !life.is_health_low() {
-                life.health = life.health.saturating_sub(biology::DEHYDRATION_HEALTH_LOSS);
-            }
-
-            // 6. Bazal Tüketim (BMR)
-            life.consume_energy(biology::BMR_ENERGY_COST);
-            life.consume_water(biology::BMR_WATER_COST);
-
-            // 7. Tick sonu hazırlıkları
-            life.moves_used = 0;
         }
     }
 }
@@ -60,16 +55,22 @@ impl MetabolismSystem {
 mod tests {
     use super::*;
     use crate::creatures::herbivore::HerbivoreEntity;
-    use crate::entity::{Entity, phase::EntityPhase, controller::EntityController};
+    use crate::entity::{Entity, controller::EntityController, phase::EntityPhase};
     use crate::map::movement::Position;
 
     #[test]
     fn test_aging_and_death() {
         let mut entity = HerbivoreEntity::default();
-        entity.life_mut().age = 999; 
+        entity.life_mut().age = 999;
         entity.life_mut().max_age = 1000;
-        
-        let slot = EntitySlot::new(1, Position::new(0, 0), EntityPhase::Active, EntityController::AI, Box::new(entity));
+
+        let slot = EntitySlot::new(
+            1,
+            Position::new(0, 0),
+            EntityPhase::Active,
+            EntityController::AI,
+            Box::new(entity),
+        );
         let mut slots = [slot];
 
         MetabolismSystem::update(&mut slots);
@@ -85,15 +86,21 @@ mod tests {
         let mut entity = HerbivoreEntity::default();
         entity.life_mut().energy = 0;
         entity.life_mut().health = 100;
-        
-        let slot = EntitySlot::new(1, Position::new(0, 0), EntityPhase::Active, EntityController::AI, Box::new(entity));
+
+        let slot = EntitySlot::new(
+            1,
+            Position::new(0, 0),
+            EntityPhase::Active,
+            EntityController::AI,
+            Box::new(entity),
+        );
         let mut slots = [slot];
 
         MetabolismSystem::update(&mut slots);
-        
+
         // Enerji 0 olduğu için candan yemeli ve bir miktar "starvation energy" gelmeli
         assert!(slots[0].base.life().health < 100);
-        assert!(slots[0].base.life().energy > 0);
+        assert_eq!(slots[0].base.life().energy, 0);
     }
 
     #[test]
@@ -101,8 +108,14 @@ mod tests {
         let mut entity = HerbivoreEntity::default();
         entity.life_mut().health = 50;
         entity.life_mut().energy = 100; // Enerji var, iyileşmeli
-        
-        let slot = EntitySlot::new(1, Position::new(0, 0), EntityPhase::Active, EntityController::AI, Box::new(entity));
+
+        let slot = EntitySlot::new(
+            1,
+            Position::new(0, 0),
+            EntityPhase::Active,
+            EntityController::AI,
+            Box::new(entity),
+        );
         let mut slots = [slot];
 
         MetabolismSystem::update(&mut slots);

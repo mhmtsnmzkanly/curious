@@ -60,7 +60,18 @@ impl InstinctEvaluator {
             };
         }
 
-        if life.is_health_low() || life.energy == 0 {
+        // Urgency compares resource fractions. Injury alone must not hide thirst.
+        if life.is_water_low()
+            && (!life.is_energy_low()
+                || life.water.saturating_mul(life.max_energy)
+                    <= life.energy.saturating_mul(life.max_water))
+        {
+            return InstinctDecision {
+                instinct: Instinct::Thirst,
+                threat: None,
+            };
+        }
+        if life.energy == 0 {
             return InstinctDecision {
                 instinct: Instinct::Survival,
                 threat: None,
@@ -69,12 +80,6 @@ impl InstinctEvaluator {
         if life.is_energy_low() {
             return InstinctDecision {
                 instinct: Instinct::Hunger,
-                threat: None,
-            };
-        }
-        if life.is_water_low() {
-            return InstinctDecision {
-                instinct: Instinct::Thirst,
                 threat: None,
             };
         }

@@ -57,7 +57,7 @@ impl State {
         Self {
             version: 1,
             tick: world.tick_counter,
-            rng: crate::rng_state(),
+            rng: world.rng.state(),
             next_entity_id: world.next_entity_id,
             bounds: [
                 world.map.min_x,
@@ -103,8 +103,8 @@ impl State {
                 )
             })
             .collect();
-        crate::set_global_seed(self.rng);
         Ok(World {
+            rng: crate::random::Random::new(self.rng),
             map,
             entities,
             tick_counter: self.tick,

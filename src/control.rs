@@ -388,7 +388,6 @@ pub fn run_cli() -> Result<()> {
         if previous.is_some() {
             return Err("directory already contains a run; use --resume or a new directory".into());
         }
-        crate::set_global_seed(seed);
         let entities = vec![
             EntitySlot::new(
                 1,
@@ -419,7 +418,7 @@ pub fn run_cli() -> Result<()> {
                 Box::new(crate::creatures::omnivore::OmnivoreEntity::default()),
             ),
         ];
-        let mut w = World::new(-15, 14, -15, 14, entities);
+        let mut w = World::with_seed(-15, 14, -15, 14, entities,seed);
         w.logger = crate::logger::Logger::disabled();
         w
     };

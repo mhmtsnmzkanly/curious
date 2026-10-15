@@ -1,34 +1,58 @@
 use crate::{
-    world::{EntitySlot, SleepPlan},
-    map::Map,
     entity::phase::EntityPhase,
+    map::Map,
     rules::biology,
     simulation::SimulationEvent,
+    world::{EntitySlot, SleepPlan},
 };
 
 /// Canlıların yaşam döngüsü (yaşlanma, uyku, ölüm) aşamalarını yöneten sistem.
 pub struct LifeCycleSystem;
 
 impl LifeCycleSystem {
+    pub fn begin_tick(
+        entities: &mut [EntitySlot],
+        map: &mut Map,
+        events: &mut Vec<SimulationEvent>,
+    ) {
+        for slot in entities.iter_mut() {
+            slot.phase.tick();
+        }
+        crate::systems::metabolism::MetabolismSystem::update(entities);
+        Self::finalize_tick(entities, map, events);
+    }
+
     pub fn finalize_tick(
         entities: &mut [EntitySlot],
         map: &mut Map,
         events: &mut Vec<SimulationEvent>,
     ) {
-        // Authoritative Metabolism: Her şey merkezi kurallara göre işler
-        crate::systems::metabolism::MetabolismSystem::update(entities);
-
         for slot in entities {
-            slot.phase.tick();
-
             // Ölüm Kontrolü
-            if slot.phase == EntityPhase::Active && !slot.entity().life().is_alive() {
+            if matches!(
+                slot.phase,
+                EntityPhase::Active | EntityPhase::Sleeping { .. }
+            ) && !slot.entity().life().is_alive()
+            {
                 let species = slot.entity().species();
-                slot.phase = EntityPhase::Corpse { remaining: biology::CORPSE_DURATION_TICKS };
-                let amount = (slot.entity().life().max_health / biology::CORPSE_FOOD_DIVISOR).max(biology::MIN_FOOD_FROM_CORPSE);
+                slot.phase = EntityPhase::Corpse {
+                    remaining: biology::CORPSE_DURATION_TICKS,
+                };
+                let amount = (slot.entity().life().max_health / biology::CORPSE_FOOD_DIVISOR)
+                    .max(biology::MIN_FOOD_FROM_CORPSE);
                 map.add_food(slot.pos, amount);
-                
-                events.push(SimulationEvent::EntityDied { id: slot.id, pos: slot.pos, species });
+
+                events.push(SimulationEvent::EntityDied {
+                    id: slot.id,
+                    pos: slot.pos,
+                    species,
+                    cause: Some(
+                        slot.base
+                            .life()
+                            .death_cause
+                            .unwrap_or(crate::simulation::event::DeathCause::Unknown),
+                    ),
+                });
             }
         }
     }
@@ -41,8 +65,13 @@ impl LifeCycleSystem {
         for plan in plans {
             if let Some(slot) = entities.iter_mut().find(|s| s.id == plan.id) {
                 if slot.phase.is_active() {
-                    slot.phase = EntityPhase::Sleeping { remaining: plan.duration };
-                    events.push(SimulationEvent::EntitySlept { id: plan.id, duration: plan.duration });
+                    slot.phase = EntityPhase::Sleeping {
+                        remaining: plan.duration,
+                    };
+                    events.push(SimulationEvent::EntitySlept {
+                        id: plan.id,
+                        duration: plan.duration,
+                    });
                 }
             }
         }
