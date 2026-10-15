@@ -13,9 +13,9 @@ olarak işaretlenmez. Gerçek gün/hafta gözlemi hızlandırılmış test yerin
 7. [x] Bedelli kalıtım, mutasyon ve evrim
 8. [x] Belgesel gibi görsel gözlem
 9. [ ] Uzun süreli dayanıklılık — 10.000 kayıtlı tick geçti, gerçek gün/hafta gözlemi sürüyor
-10. [ ] Nüfus/harita ölçekleme
+10. [x] Nüfus/harita ölçekleme
 11. [ ] İzleyicinin sağlığı ve kontrollü dağıtım
 
-Aktif aşama: **10**; 9. aşamanın gerçek süreli gözlemi arka planda sürüyor. Aşama 1 sonucu `reports/ROADMAP_01.md` içinde. İlk kanıt: seed 2 etçil yavru, doğumdan sonraki 10 adımda
+Aktif aşama: **11**; 9. aşamanın gerçek süreli gözlemi arka planda sürüyor. Aşama 1 sonucu `reports/ROADMAP_01.md` içinde. İlk kanıt: seed 2 etçil yavru, doğumdan sonraki 10 adımda
 enerjisini tüketiyor; yarım sağlıkla doğduğu için açken bile pasif iyileşme
 metabolizmaya ek 2 enerji harcıyor. Önce bu genel rezerv kuralı ayrı ölçülüyor.

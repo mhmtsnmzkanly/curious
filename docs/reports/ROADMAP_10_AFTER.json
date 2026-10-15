@@ -1,0 +1,90 @@
+[
+  {
+    "checkpoint_bytes": 5701,
+    "final_entities": 10,
+    "forage": false,
+    "p50_us": 173,
+    "p95_us": 222,
+    "population": 10,
+    "rss_high_water_kib": 2600,
+    "side": 16,
+    "ticks": 30
+  },
+  {
+    "checkpoint_bytes": 13411,
+    "final_entities": 14,
+    "forage": true,
+    "p50_us": 409,
+    "p95_us": 646,
+    "population": 10,
+    "rss_high_water_kib": 2664,
+    "side": 16,
+    "ticks": 30
+  },
+  {
+    "checkpoint_bytes": 66987,
+    "final_entities": 122,
+    "forage": false,
+    "p50_us": 2531,
+    "p95_us": 3286,
+    "population": 100,
+    "rss_high_water_kib": 3156,
+    "side": 32,
+    "ticks": 30
+  },
+  {
+    "checkpoint_bytes": 80076,
+    "final_entities": 118,
+    "forage": true,
+    "p50_us": 3816,
+    "p95_us": 5277,
+    "population": 100,
+    "rss_high_water_kib": 3232,
+    "side": 32,
+    "ticks": 30
+  },
+  {
+    "checkpoint_bytes": 331903,
+    "final_entities": 604,
+    "forage": false,
+    "p50_us": 5872,
+    "p95_us": 8397,
+    "population": 500,
+    "rss_high_water_kib": 5284,
+    "side": 32,
+    "ticks": 30
+  },
+  {
+    "checkpoint_bytes": 279232,
+    "final_entities": 510,
+    "forage": true,
+    "p50_us": 8039,
+    "p95_us": 11108,
+    "population": 500,
+    "rss_high_water_kib": 4612,
+    "side": 32,
+    "ticks": 30
+  },
+  {
+    "checkpoint_bytes": 671308,
+    "final_entities": 1221,
+    "forage": false,
+    "p50_us": 13486,
+    "p95_us": 19250,
+    "population": 1000,
+    "rss_high_water_kib": 7692,
+    "side": 64,
+    "ticks": 30
+  },
+  {
+    "checkpoint_bytes": 612911,
+    "final_entities": 1035,
+    "forage": true,
+    "p50_us": 24177,
+    "p95_us": 29465,
+    "population": 1000,
+    "rss_high_water_kib": 7544,
+    "side": 64,
+    "ticks": 30
+  }
+]

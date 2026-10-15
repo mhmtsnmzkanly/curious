@@ -10,14 +10,15 @@ use crate::{
 pub struct IntentCollectionSystem;
 impl IntentCollectionSystem {
     pub fn collect(world: &mut World, log: &mut Vec<String>) -> Vec<(usize, Intent)> {
+        let index = super::spatial::SpatialIndex::new(&world.entities);
         let mut intents = Vec::new();
         let mut traces = Vec::new();
-        for index in 0..world.entities.len() {
-            let slot = &world.entities[index];
+        for slot_index in 0..world.entities.len() {
+            let slot = &world.entities[slot_index];
             if !slot.phase.is_active() {
                 continue;
             }
-            let view = PerceptionSystem::build(world, slot);
+            let view = PerceptionSystem::with_index(world, slot, &index);
             let rng = world.rng.state();
             let mut learner = slot.learner.clone();
             let mut memory = slot.memory.clone();
@@ -62,8 +63,8 @@ impl IntentCollectionSystem {
                 decision,
                 full,
             ));
-            world.entities[index].memory = memory;
-            world.entities[index].learner = learner;
+            world.entities[slot_index].memory = memory;
+            world.entities[slot_index].learner = learner;
         }
         world.last_decisions = traces;
         intents

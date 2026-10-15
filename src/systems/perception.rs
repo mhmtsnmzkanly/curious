@@ -9,10 +9,22 @@ use crate::{
 pub struct PerceptionSystem;
 impl PerceptionSystem {
     pub fn build(world: &World, current: &EntitySlot) -> Perception {
+        Self::with_index(
+            world,
+            current,
+            &super::spatial::SpatialIndex::new(&world.entities),
+        )
+    }
+    pub fn with_index(
+        world: &World,
+        current: &EntitySlot,
+        index: &super::spatial::SpatialIndex,
+    ) -> Perception {
         let radius = current.base.life().vision_range;
-        let blocked: std::collections::HashSet<_> = world
-            .entities
+        let nearby = index.nearby(current.pos, radius);
+        let blocked: std::collections::HashSet<_> = nearby
             .iter()
+            .map(|i| &world.entities[*i])
             .filter(|s| {
                 s.id != current.id
                     && matches!(s.phase, EntityPhase::Active | EntityPhase::Sleeping { .. })
@@ -42,7 +54,7 @@ impl PerceptionSystem {
                 _ => {}
             }
         }
-        for other in &world.entities {
+        for other in nearby.iter().map(|i| &world.entities[*i]) {
             if other.id == current.id {
                 continue;
             }
