@@ -14,6 +14,8 @@ impl OmnivoreEntity {
     pub fn default() -> Self {
         Self {
             life_state: LifeState {
+                max_meal: crate::rules::biology::EAT_ENERGY_AMOUNT,
+                reproduction_reserve_per_mille: 500,
                 move_energy_cost: 1,
                 max_stamina: 20,
                 stamina: 20,
@@ -30,6 +32,7 @@ impl OmnivoreEntity {
                 energy: 85,
                 water: 65,
                 reproduction_cooldown: 0,
+                reproduction_interval: crate::rules::biology::REPRODUCTION_COOLDOWN_TICKS,
                 speed: 3,
                 moves_used: 0,
             },

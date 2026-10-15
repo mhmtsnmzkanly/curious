@@ -69,7 +69,7 @@ impl State {
             .collect();
         commands.sort_by_key(|(id, _)| *id);
         Self {
-            version: 8,
+            version: 9,
             genetics: world.genetics.clone(),
             observation: world.observation.clone(),
             environment: world.environment.clone(),
@@ -105,7 +105,7 @@ impl State {
         }
     }
     pub fn restore(self) -> Result<World> {
-        if !(1..=8).contains(&self.version) {
+        if !(1..=9).contains(&self.version) {
             return Err("unsupported checkpoint version".into());
         }
         let [a, b, c, d] = self.bounds;

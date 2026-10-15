@@ -20,6 +20,7 @@ const reasons = {
   SearchWater: "Su arıyor",
   RecallWater: "Hatırladığı suya dönüyor",
   RecallFood: "Hatırladığı yiyeceğe dönüyor",
+  RecallMate: "Daha önce gördüğü eşin son konumunu arıyor",
   LearnedWater: "Deneyimine göre su seçti",
   SeekFood: "Beslenmeye yöneliyor",
   HuntPrey: "Avını takip ediyor",
@@ -197,6 +198,15 @@ function renderIndividual() {
       `${e.life.speed} adım / ${e.life.move_energy_cost || 1} enerji`,
     ],
     ["Kalıtsal hareket", e.genome?.mobility ?? 0],
+    ["Bir öğünde en çok", `${e.life.max_meal ?? 10} besin`],
+    [
+      "Üreme için enerji",
+      `${Math.floor((e.life.max_energy * (e.life.reproduction_reserve_per_mille ?? 500)) / 1000)} / ${e.life.max_energy}`,
+    ],
+    [
+      "Üreme bekleme süresi",
+      `${e.life.reproduction_cooldown} adım (aralık ${e.life.reproduction_interval ?? 25})`,
+    ],
   ]) {
     const dt = document.createElement("dt"),
       dd = document.createElement("dd");
@@ -212,7 +222,7 @@ function renderIndividual() {
     ? `Gördükleri: ${d.seen.entities.length} birey, ${d.seen.waters} su, ${d.seen.foods} besin noktası.`
     : "";
   $("knowledge").textContent =
-    `${e.memory?.sites.length || 0} kaynak ve ${e.memory?.dangers.length || 0} tehlike konumu hatırlıyor. Su seçimini öğrenme ${e.learner?.enabled ? "açık" : "kapalı"}.`;
+    `${e.memory?.sites.length || 0} kaynak, ${e.memory?.dangers.length || 0} tehlike ve ${e.memory?.companions?.length || 0} türdeş konumu hatırlıyor. Su seçimini öğrenme ${e.learner?.enabled ? "açık" : "kapalı"}.`;
   $("values").replaceChildren();
   for (const v of e.learner?.values || []) {
     const s = document.createElement("small");

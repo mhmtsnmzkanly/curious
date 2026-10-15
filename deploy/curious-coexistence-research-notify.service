@@ -1,0 +1,11 @@
+[Unit]
+Description=Flush durable coexistence experiment notifications
+After=network.target
+[Service]
+Type=oneshot
+WorkingDirectory=/root/curious-research/current
+ExecStart=/usr/bin/python3 /root/curious-research/current/scripts/research_coexistence.py --config /root/curious/data/coexistence-research/config.json --notifications-only
+TimeoutStartSec=150
+NoNewPrivileges=true
+PrivateTmp=true
+UMask=0077

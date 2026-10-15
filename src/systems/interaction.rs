@@ -38,6 +38,7 @@ impl InteractionSystem {
                 continue;
             };
             let species = entities[eater].base.species();
+            let max_meal = entities[eater].base.life().max_meal;
             let remaining = entities[eater]
                 .base
                 .life()
@@ -56,10 +57,7 @@ impl InteractionSystem {
                     reject(events, p.id, "Eat", Some(id), R::MissingResource);
                     continue;
                 };
-                let amount = entities[corpse]
-                    .corpse_energy
-                    .min(biology::EAT_ENERGY_AMOUNT)
-                    .min(remaining);
+                let amount = entities[corpse].corpse_energy.min(max_meal).min(remaining);
                 entities[corpse].corpse_energy -= amount;
                 if entities[corpse].corpse_energy == 0 {
                     entities[corpse].phase = EntityPhase::Removed;
@@ -79,7 +77,7 @@ impl InteractionSystem {
                     reject(events, p.id, "Eat", None, R::MissingResource);
                     continue;
                 };
-                let amount = (*amount).min(biology::EAT_ENERGY_AMOUNT).min(remaining);
+                let amount = (*amount).min(max_meal).min(remaining);
                 map.reduce_cell_amount(p.resource_pos, amount);
                 amount
             };

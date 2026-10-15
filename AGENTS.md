@@ -3,6 +3,38 @@
 Başlamadan `docs/VISION.md`, `docs/CONTROL.md`, `docs/ROADMAP.md` ve `TODO.md`
 okunur. Kullanıcının sonraki talimatları bu notların önündedir.
 
+## V9 av–avcı çalışması
+
+- Kullanıcı 11 aşamalı kalıcı av–avcı planını uygulamayı onayladı. Plan:
+  `docs/COEXISTENCE_PLAN.md`; kanıt ve koşullu akış:
+  `docs/reports/COEXISTENCE_IMPLEMENTATION.md`.
+- Seed12345/1 V8 teşhisi tamamlandı. Kaynak V9'da ciddi yaralanma rezervi,
+  zamana/enerjiye göre kaynak seçimi ve görülen yetişkin türdeş hafızası var.
+- Bedenin yeni alanları: `max_meal` (eski kayıt/default10),
+  `reproduction_interval` (25), `reproduction_reserve_per_mille` (500).
+  Varsayılan türler uzun ömürlü deney profiline çevrilmedi. V1–V8 okunur;
+  SQLite V2 değişmedi. V9 kaydını V8 ikiliyle açma.
+- Bir prototipte20.000 tick /65 avcı nesli var; aynı koşul diğer seedlerde
+  tükendi. Kalıcı denge,27/30 uzun kabul veya gerçek gün/hafta geçti denmez.
+- `prepare_coexistence_candidates.py`36 adayı önceden tanımlar. Kalibrasyon
+  seedleri1,2,3,4,5,42,12345,2026; görülmemiş uzun test10001–10030.
+- `research_coexistence.py`: aday tarama →8×20k →±%10 duyarlılık →30×100k
+  kurallı → kaynak şoku → öğrenme/mutasyon karşılaştırmaları →30×100k birlikte.
+  Bütün kapılar geçerse ayrı7882 servisi; eski dünyalara dokunmaz.
+- Uzun iş için kaynak ayrı temiz Git worktree'sinde, ikili/senaryo hash ile
+  sabitlenir. `data/coexistence-research/state.json`, aşama alt dizinlerindeki
+  `progress.json` ve `seed-*.log` gerçek durumu gösterir. Sonuç dosyası yokken
+  koşuyu tamamlanmış sayma. Ajan arka planda kod yazmaz; program tanımlı işleri
+  yürütür. Biyolojik ret, altyapı hatasından ayrıdır; ret sonrası yeni ayar yazmaz.
+- Araştırma bildirimi ayrı kalıcı outbox ve retry timer'ıyla; heartbeat/outbox
+  bağımsız watchdog ile izlenir. Sayfa yalnız içerik değişince güncellenir.
+- Koşullu7882, nitelikli seedlerden ilkini kullanır. Türlerden yalnız birinin
+  kaybı da uyarılır.32GiB kayıt bütçesi, gerçek1/7/30 gün ölçümü; sınırsız disk
+  veya sonsuz ekolojik süreklilik vaat edilmez.
+- Son doğrulama45 Rust,21 Python ve HTTP kontrol/auth/SIGKILL/arşiv testi.
+  Derleme temizlenebilir; çalışan/sabitlenmiş `bin/releases`, araştırma
+  worktree'si, deney ikilileri ve veriler temizlenmez.
+
 ## Hedef ve dürüst kapsam
 
 - Kullanıcı basitleştirilmiş bir dünyada belgesel gibi gözlenen canlılar, bireysel
@@ -35,7 +67,7 @@ Repo `/root/curious`. Gerçek durumu `/status` ile oku; aşağıdaki tickleri g�
 - 7879 ve 7881 hızını gerekçesiz artırma. Testleri bu veri dizinlerinde yapma.
 - Yeni sürümlerde `/` görsel gözlem ekranı, `/observation` atomik durum+karar+status.
   Diğer uçlar CONTROL.md'de. Uzak tarayıcı için SSH tüneli kullanılabilir.
-- Güncel geliştirme/lab checkpoint V8, sürekli aday V7; SQLite şeması V2.
+- Güncel geliştirme checkpoint V9, lab V8, sürekli aday V7; SQLite şeması V2.
   Eski kayıt yüklemek eski motorla aynı geleceği değil, durum göçünü garanti eder.
 - `bin/curious-live` eski 7878/7879 ikilisine işaret eder. Derleme çıktısına bağlı
   servis yok; `target` temizliği ikilileri silmez. `bin/releases` dosyalarını silme.

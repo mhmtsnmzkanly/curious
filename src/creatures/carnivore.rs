@@ -14,6 +14,8 @@ impl CarnivoreEntity {
     pub fn default() -> Self {
         Self {
             life_state: LifeState {
+                max_meal: crate::rules::biology::EAT_ENERGY_AMOUNT,
+                reproduction_reserve_per_mille: 500,
                 move_energy_cost: 1,
                 max_stamina: 24,
                 stamina: 24,
@@ -30,6 +32,7 @@ impl CarnivoreEntity {
                 energy: 90,
                 water: 70,
                 reproduction_cooldown: 0,
+                reproduction_interval: crate::rules::biology::REPRODUCTION_COOLDOWN_TICKS,
                 speed: 4,
                 moves_used: 0,
             },

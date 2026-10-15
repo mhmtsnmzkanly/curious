@@ -98,6 +98,7 @@ impl PerceptionSystem {
                     other.phase.is_active() && life.can_reproduce(),
                 );
                 view.entities.last_mut().unwrap().health = Some(life.health);
+                view.entities.last_mut().unwrap().mature = life.is_mature();
             }
         }
         for dir in DIRECTION_ARRAY {

@@ -1,5 +1,23 @@
 # Kalıcı kayıt ve kontrol servisi
 
+## V9 geliştirme ekleri
+
+Kaynak checkpoint V9, SQLite V2. Çalışan7880 V8,7881 V7 korunuyor.
+Yeni beden alanları `max_meal` (1–1.000.000), `reproduction_interval`
+(1–1.000.000.000) ve `reproduction_reserve_per_mille` (250–1000).
+Eksik eski alanlar10/25/500'dür. Üremede ebeveynin dörtte birlik enerji/su
+ödemesi korunur; rezerv alanı yalnız gerekli başlangıç enerjisini belirler.
+`update_entity` bu alanları da tam nesneyle taşır. `spawn` yerleşik türün
+varsayılan bedenini kullanır; deneysel senaryo bedenini global varsayılan yapmaz.
+
+`memory.companions`: görülen yetişkin türdeşlerin kimlik/son konum/zamanı,
+en fazla8 kayıt ve30 tick. `companions_enabled` bunun bağımsız kontrolüdür.
+`RecallMate` gerekçesi son görülen konumu arama kararıdır; güncel konuma
+omniscient erişim değildir. Algıda `mature` yerel yetişkinlik gözlemidir.
+
+Koşullu yeni7882 servisi ancak araştırmanın bütün kabul kapıları geçince başlar.
+Durum/çalıştırma sözleşmesi `reports/COEXISTENCE_IMPLEMENTATION.md` içindedir.
+
 ## Başlatma
 
 ```bash

@@ -20,6 +20,7 @@ pub enum Reason {
     RecallWater,
     LearnedWater,
     RecallFood,
+    RecallMate,
     SeekFood,
     HuntPrey,
     SearchFood,

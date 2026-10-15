@@ -11,6 +11,8 @@ use std::{
 #[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
 pub struct PerceivedEntity {
     #[serde(default)]
+    pub mature: bool,
+    #[serde(default)]
     pub health: Option<usize>,
     pub reproductive: bool,
     /// Algılanan canlının kimliği (Kaldırılabilir, Emin değilim)
@@ -101,6 +103,7 @@ impl Perception {
         reproductive: bool,
     ) {
         self.entities.push(PerceivedEntity {
+            mature: reproductive,
             health: None,
             reproductive,
             id,

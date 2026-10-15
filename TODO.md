@@ -3,8 +3,10 @@
 Hedef [VISION](docs/VISION.md), kullanıcı sırası ve dürüst durum
 [ROADMAP](docs/ROADMAP.md), ölçümler [sonuç raporu](docs/reports/ROADMAP_RESULTS.md).
 
-- [ ] Kalıcı avcı soyunu çöz: sığınaklı seed 12345'in 20 nesillik soyunda çift bulma,
-  rezerv ve ölüm zamanlarını kayıttan incele; gizli doğum/kaynak takviyesi ekleme.
+- [ ] Kalıcı avcı soyunu çöz: V8 soy/rezerv teşhisi tamamlandı; V9 koşullu
+  araştırmanın `data/coexistence-research/state.json` ve aşama raporlarını incele.
+  Uzun test ve duyarlılık geçmeden kalıcı denge deme. Kod kararı için son avcı
+  ölümleri ve karar kuyrukları probe sonuçlarında vardır. Gizli takviye ekleme.
 - [ ] Aynı kararı etkileyen farklı deneyimler için su öğrenmesini yeni çevrede sınama;
   ardından öğrenmeyi av seçimine genişletme.
 - [ ] Gerçek 1/7/30 gün gözlemini değerlendirme; raporlayıcı otomatik Notify gönderir.

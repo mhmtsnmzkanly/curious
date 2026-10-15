@@ -10,7 +10,7 @@ import time
 import urllib.request
 
 
-def evaluate(previous, health, now, label="çayır", key_prefix="curious-meadow"):
+def evaluate(previous, health, now, label="çayır", key_prefix="curious-meadow", required_species=()):
     state = dict(previous)
     state["label"]=label
     state["key_prefix"]=key_prefix
@@ -24,6 +24,8 @@ def evaluate(previous, health, now, label="çayır", key_prefix="curious-meadow"
         kind = 'storage_error'
     elif health.get('reachable') and health.get('alive') == 0:
         kind = 'extinction'
+    elif health.get('reachable') and any(health.get('species', {}).get(s, 0) == 0 for s in required_species):
+        kind = 'species_extinction'
     old = previous.get('incident')
     if kind != old:
         state['incident'] = kind
@@ -32,6 +34,7 @@ def evaluate(previous, health, now, label="çayır", key_prefix="curious-meadow"
                 'unreachable': 'Kontrol servisine art arda 3 kontrolde ulaşılamadı.',
                 'storage_error': 'Kalıcı kayıt hatası var; dünya ilerlemesi duraklatıldı.',
                 'extinction': 'Yaşayan birey kalmadı. Otomatik yeniden canlı eklenmedi.',
+                'species_extinction': 'Gerekli türlerden biri tükendi: ' + ', '.join(s for s in required_species if health.get('species', {}).get(s, 0) == 0) + '. Otomatik canlı eklenmedi.',
                 None: 'Önceki sorun artık gözlenmiyor; servis tekrar erişilebilir ve yaşam sürüyor.',
             }[kind]
             queue(state, kind or 'recovery', message, health, now)
@@ -51,9 +54,9 @@ def queue(state, event, message, health, now):
     state['pending'].append({
         'title': 'Curious ('+state.get('label','çayır')+'): ' + {'recovery': 'durum düzeldi', 'extinction': 'çayırda yaşam tükendi',
                               'storage_error': 'kayıt hatası', 'unreachable': 'servise ulaşılamıyor',
-                              'storage_budget': 'kayıt bütçesi azalıyor'}[event],
+                              'storage_budget': 'kayıt bütçesi azalıyor', 'species_extinction': 'karma dünyada tür tükendi'}[event],
         'message': message + f" Tick: {health.get('tick', '?')}. Kontrol zamanı (UTC epoch): {now}.",
-        'type': 'success' if event == 'recovery' else 'warning' if event in ('extinction', 'storage_budget') else 'error',
+        'type': 'success' if event == 'recovery' else 'warning' if event in ('extinction', 'species_extinction', 'storage_budget') else 'error',
         'target': {'user': 'u_e049630155fc'},
         'idempotency_key': f"{state.get('key_prefix','curious-meadow')}-{event}-{now}",
     })
@@ -97,16 +100,22 @@ def main():
     parser.add_argument('--token-file', default='/root/notify/token.json')
     parser.add_argument('--label',default='çayır')
     parser.add_argument('--key-prefix',default='curious-meadow')
+    parser.add_argument('--require-species', default='')
     args = parser.parse_args()
     path = Path(args.state)
     previous = json.loads(path.read_text()) if path.exists() else {}
     now = int(time.time())
     try:
-        with urllib.request.urlopen(args.url.rstrip('/') + '/status', timeout=5) as response:
-            health = {'reachable': True, **json.load(response)}
+        required = tuple(s for s in args.require_species.split(',') if s)
+        with urllib.request.urlopen(args.url.rstrip('/') + ('/observation' if required else '/status'), timeout=5) as response:
+            payload = json.load(response)
+        health = {'reachable': True, **(payload['status'] if required else payload)}
+        if required:
+            from collections import Counter
+            health['species'] = dict(Counter(e['species'] for e in payload['state']['entities'] if e['life']['health'] > 0))
     except (OSError, ValueError):
         health = {'reachable': False}
-    state = evaluate(previous, health, now,args.label,args.key_prefix)
+    state = evaluate(previous, health, now,args.label,args.key_prefix, tuple(s for s in args.require_species.split(',') if s))
     # Persist exact payloads before transport; retries reuse their canonical body/key.
     save(path, state)
     dispatch(state,path,args.notify_cli,args.token_file)

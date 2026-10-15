@@ -7,6 +7,9 @@
 /// Ayrım yorumlar ve yardımcı fonksiyonlarla yapılır.
 #[derive(serde::Serialize, serde::Deserialize, Debug, Clone)]
 pub struct LifeState {
+    /// Maximum food intake in one action; finite food is still shared.
+    #[serde(default = "default_max_meal")]
+    pub max_meal: usize,
     #[serde(default = "default_move_cost")]
     pub move_energy_cost: usize,
     #[serde(default = "default_stamina")]
@@ -51,6 +54,12 @@ pub struct LifeState {
 
     /// Son çiftleşmeden sonra kalan bekleme süresi
     pub reproduction_cooldown: usize,
+    /// Physiological interval between births, independent of current cooldown.
+    #[serde(default = "default_reproduction_interval")]
+    pub reproduction_interval: usize,
+    /// Minimum reserve before reproduction; parental transfer remains one quarter.
+    #[serde(default = "default_reproduction_reserve")]
+    pub reproduction_reserve_per_mille: usize,
 
     /// Tick başına maksimum hareket hakkı
     pub speed: usize,
@@ -62,6 +71,11 @@ pub struct LifeState {
 impl LifeState {
     pub fn validate(&self) -> crate::Result<()> {
         if self.move_energy_cost == 0
+            || self.max_meal == 0
+            || self.max_meal > 1_000_000
+            || !(250..=1000).contains(&self.reproduction_reserve_per_mille)
+            || self.reproduction_interval == 0
+            || self.reproduction_interval > 1_000_000_000
             || self.move_energy_cost > 32
             || self.max_stamina == 0
             || self.max_stamina > 1000
@@ -151,7 +165,12 @@ impl LifeState {
             Some(R::Cooldown)
         } else if self.stamina < 2 {
             Some(R::Fatigued)
-        } else if self.energy < self.max_energy / 2 {
+        } else if self.energy
+            < self
+                .max_energy
+                .saturating_mul(self.reproduction_reserve_per_mille)
+                / 1000
+        {
             Some(R::InsufficientEnergy)
         } else if self.water < self.max_water / 2 {
             Some(R::InsufficientWater)
@@ -239,7 +258,7 @@ impl LifeState {
     }
 
     pub fn on_reproduce(&mut self) {
-        self.reproduction_cooldown = crate::rules::biology::REPRODUCTION_COOLDOWN_TICKS;
+        self.reproduction_cooldown = self.reproduction_interval;
         self.consume_energy(self.max_energy / 4);
         self.consume_water(self.max_water / 4);
         self.exert(2);
@@ -294,4 +313,13 @@ fn default_stamina() -> usize {
 
 fn default_move_cost() -> usize {
     1
+}
+fn default_reproduction_interval() -> usize {
+    crate::rules::biology::REPRODUCTION_COOLDOWN_TICKS
+}
+fn default_max_meal() -> usize {
+    crate::rules::biology::EAT_ENERGY_AMOUNT
+}
+fn default_reproduction_reserve() -> usize {
+    500
 }

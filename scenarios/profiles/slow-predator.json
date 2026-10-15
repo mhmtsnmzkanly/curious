@@ -1,0 +1,7 @@
+{
+  "max_age": 1200,
+  "max_energy": 270,
+  "max_meal": 60,
+  "reproduction_interval": 350,
+  "reproduction_reserve_per_mille": 900
+}

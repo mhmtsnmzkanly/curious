@@ -1,6 +1,7 @@
 pub mod behavior;
 pub mod controller;
 pub mod decision;
+pub mod foraging;
 pub mod genetics;
 pub mod hunting;
 pub mod instinct;

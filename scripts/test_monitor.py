@@ -28,4 +28,15 @@ class MonitorTests(unittest.TestCase):
         state=evaluate({}, {'reachable':True,'alive':8,'storage_error':'read error','history_bytes':None,'history_budget_bytes':100},1)
         self.assertEqual(state['incident'],'storage_error')
 
+    def test_predator_extinction_is_reported_even_when_herbivores_remain(self):
+        health={'reachable':True,'alive':40,'species':{'Herbivore':40}}
+        state=evaluate({},health,1,required_species=('Herbivore','Carnivore'))
+        self.assertEqual(state['incident'],'species_extinction')
+        self.assertIn('Carnivore',state['pending'][0]['message'])
+        state=evaluate(state,health,2,required_species=('Herbivore','Carnivore'))
+        self.assertEqual(len(state['pending']),1)
+        health['species']['Carnivore']=2
+        state=evaluate(state,health,3,required_species=('Herbivore','Carnivore'))
+        self.assertIsNone(state['incident'])
+
 if __name__=='__main__':unittest.main()

@@ -68,3 +68,49 @@ fn knowledge_is_bounded_and_survives_restart_without_changing_the_future() {
     m.observe(Position::new(0, 0), &view, 1, Species::Herbivore);
     assert_eq!(m.sites.len(), 32);
 }
+
+#[test]
+fn companions_are_observed_not_invented_and_absence_or_age_invalidates_memory() {
+    use curious::map::movement::Steps;
+    let origin = Position::new(0, 0);
+    let target = Position::new(3, 0);
+    let mut m = Memory::default();
+    let mut view = Perception::empty();
+    view.add_entity(
+        7,
+        Species::Herbivore,
+        100,
+        Steps(vec![Direction::Right; 3]),
+        true,
+    );
+    m.observe(origin, &view, 1, Species::Herbivore);
+    let mut unseen = Perception::empty();
+    unseen.add_direction(Direction::Right, 3);
+    let mut actor = HerbivoreEntity::default();
+    actor.life_mut().age = 30;
+    let d = m.recall(
+        origin,
+        actor.life(),
+        &unseen,
+        Decision::new(Intent::Idle { duration: 1 }, Reason::NoEligibleMate),
+    );
+    assert_eq!(d.reason, Reason::RecallMate);
+    let mut unseen_world = serde_json::to_value(m.clone()).unwrap();
+    unseen_world.as_object_mut().unwrap().remove("companions");
+    let old: Memory = serde_json::from_value(unseen_world).unwrap();
+    assert!(old.companions.is_empty());
+    unseen.cells.push((target, Cell::Empty));
+    m.observe(origin, &unseen, 2, Species::Herbivore);
+    assert!(m.companions.is_empty());
+    m.observe(origin, &view, 3, Species::Herbivore);
+    m.observe(origin, &Perception::empty(), 34, Species::Herbivore);
+    assert!(m.companions.is_empty());
+    // A different species and an immature peer do not create mate knowledge.
+    view.entities[0].species = Species::Carnivore;
+    m.observe(origin, &view, 35, Species::Herbivore);
+    assert!(m.companions.is_empty());
+    view.entities[0].species = Species::Herbivore;
+    view.entities[0].mature = false;
+    m.observe(origin, &view, 36, Species::Herbivore);
+    assert!(m.companions.is_empty());
+}

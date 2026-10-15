@@ -20,17 +20,29 @@ pub struct KnownSite {
     pub seen: usize,
 }
 #[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct KnownCompanion {
+    pub id: usize,
+    pub pos: Position,
+    pub seen: usize,
+}
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Memory {
     pub enabled: bool,
+    #[serde(default = "enabled_by_default")]
+    pub companions_enabled: bool,
     pub sites: Vec<KnownSite>,
     pub dangers: Vec<(Position, usize)>,
+    #[serde(default)]
+    pub companions: Vec<KnownCompanion>,
 }
 impl Default for Memory {
     fn default() -> Self {
         Self {
             enabled: true,
+            companions_enabled: true,
             sites: vec![],
             dangers: vec![],
+            companions: vec![],
         }
     }
 }
@@ -45,6 +57,7 @@ impl Memory {
         if !self.enabled {
             self.sites.clear();
             self.dangers.clear();
+            self.companions.clear();
             return;
         }
         self.sites.retain(|s|tick.saturating_sub(s.seen)<=100 && !view.cells.iter().any(|(p,c)|*p==s.pos && !matches!((s.kind,c),(ResourceKind::Food,Cell::Food{amount})|(ResourceKind::Water,Cell::Water{amount}) if *amount>0)));
@@ -71,7 +84,26 @@ impl Memory {
         }
         self.dangers
             .retain(|(_, seen)| tick.saturating_sub(*seen) <= 30);
+        self.companions.retain(|c| {
+            self.companions_enabled
+                && tick.saturating_sub(c.seen) <= 30
+                && (!view.cells.iter().any(|(p, _)| *p == c.pos)
+                    || view.entities.iter().any(|e| e.id == c.id))
+        });
         for e in &view.entities {
+            if self.companions_enabled && e.species == species && e.mature {
+                let pos = e.steps.0.iter().fold(origin, |p, d| p + *d);
+                if let Some(c) = self.companions.iter_mut().find(|c| c.id == e.id) {
+                    c.pos = pos;
+                    c.seen = tick;
+                } else {
+                    self.companions.push(KnownCompanion {
+                        id: e.id,
+                        pos,
+                        seen: tick,
+                    });
+                }
+            }
             if e.species.hunts(&species) {
                 let p = e.steps.0.iter().fold(origin, |p, d| p + *d);
                 if let Some(old) = self.dangers.iter_mut().find(|(pos, _)| *pos == p) {
@@ -84,6 +116,10 @@ impl Memory {
         if self.dangers.len() > 8 {
             self.dangers.drain(..self.dangers.len() - 8);
         }
+        self.companions.sort_by_key(|c| (c.seen, c.id));
+        if self.companions.len() > 8 {
+            self.companions.drain(..self.companions.len() - 8);
+        }
     }
     pub fn recall(
         &self,
@@ -93,6 +129,20 @@ impl Memory {
         decision: Decision,
     ) -> Decision {
         if !self.enabled || life.energy == 0 || life.stamina == 0 {
+            return decision;
+        }
+        if self.companions_enabled
+            && decision.reason == Reason::NoEligibleMate
+            && life.can_reproduce()
+        {
+            if let Some(c) = self
+                .companions
+                .iter()
+                .min_by_key(|c| (origin.distance_to(c.pos), c.id))
+            {
+                return Self::toward(origin, c.pos, life, view, Reason::RecallMate)
+                    .unwrap_or(decision);
+            }
             return decision;
         }
         let (kind, reason) = match decision.reason {
@@ -118,38 +168,54 @@ impl Memory {
         else {
             return decision;
         };
+        Self::toward(origin, site.pos, life, view, reason).unwrap_or(decision)
+    }
+    fn toward(
+        origin: Position,
+        target: Position,
+        life: &LifeState,
+        view: &Perception,
+        reason: Reason,
+    ) -> Option<Decision> {
         let Some(dir) = DIRECTION_ARRAY
             .into_iter()
             .filter(|d| view.directions.get(d).copied().unwrap_or(0) > 0)
             .min_by_key(|d| {
                 (
-                    (origin + *d).distance_to(site.pos),
+                    (origin + *d).distance_to(target),
                     DIRECTION_ARRAY.iter().position(|x| x == d).unwrap(),
                 )
             })
         else {
-            return decision;
+            return None;
         };
-        if (origin + dir).distance_to(site.pos) >= origin.distance_to(site.pos) {
-            return decision;
+        if (origin + dir).distance_to(target) >= origin.distance_to(target) {
+            return None;
         }
         let count = life
             .speed
             .min(view.directions[&dir] as usize)
             .min(life.stamina)
-            .min(life.energy)
-            .min(origin.distance_to(site.pos))
-            .max(1);
-        Decision::new(
+            .min(life.energy / life.move_energy_cost.max(1))
+            .min(origin.distance_to(target));
+        if count == 0 {
+            return None;
+        }
+        Some(Decision::new(
             Intent::Move {
                 steps: Steps(vec![dir; count]),
             },
             reason,
-        )
+        ))
     }
     pub fn validate(&self) -> crate::Result<()> {
         if self.sites.len() > 32
             || self.dangers.len() > 8
+            || self.companions.len() > 8
+            || self
+                .companions
+                .iter()
+                .any(|c| c.pos.x.unsigned_abs() > 1_000_000 || c.pos.y.unsigned_abs() > 1_000_000)
             || self
                 .sites
                 .iter()
@@ -163,4 +229,7 @@ impl Memory {
         }
         Ok(())
     }
+}
+fn enabled_by_default() -> bool {
+    true
 }

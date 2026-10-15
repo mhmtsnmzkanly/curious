@@ -80,7 +80,7 @@ def diagnose(directory):
                             row['moves'] += moves
                             row['move_energy'] += moves * life['move_energy_cost']
                         ready = (life['age'] >= life['maturity_age'] and not life['reproduction_cooldown']
-                                 and life['stamina'] >= 2 and life['energy'] >= life['max_energy']//2
+                                 and life['stamina'] >= 2 and life['energy'] >= life['max_energy'] * life.get('reproduction_reserve_per_mille', 500)//1000
                                  and life['water'] >= life['max_water']//2 and life['health'] >= life['max_health']//2)
                         mates = [e for e in t['seen']['entities'] if e['species'] == t['species'] and e['reproductive']]
                         row['ready_ticks'] += ready

@@ -1,0 +1,11 @@
+[Unit]
+Description=Sample the mixed-world resource usage
+After=network.target
+[Service]
+Type=oneshot
+WorkingDirectory=/root/curious
+ExecStart=/usr/bin/python3 /root/curious-research/current/scripts/sample_runtime.py --url http://127.0.0.1:7882 --unit curious-coexistence.service --output /root/curious/data/soak-coexistence --species
+TimeoutStartSec=20
+NoNewPrivileges=true
+PrivateTmp=true
+UMask=0077

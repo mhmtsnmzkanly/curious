@@ -1,0 +1,16 @@
+[Unit]
+Description=Curious qualified mixed ecosystem observation
+After=network.target
+[Service]
+Type=simple
+EnvironmentFile=/root/curious/data/coexistence-runtime.env
+WorkingDirectory=/root/curious
+ExecStart=/root/curious/bin/curious-coexistence --serve --resume-or-new --scenario /root/curious/data/coexistence-scenario.json --seed ${CURIOUS_SEED} --data-dir /root/curious/data/coexistence --bind 127.0.0.1:7882 --tps 0.1 --shard-mb 64 --max-history-mb 32768
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=10
+NoNewPrivileges=true
+PrivateTmp=true
+UMask=0077
+[Install]
+WantedBy=multi-user.target

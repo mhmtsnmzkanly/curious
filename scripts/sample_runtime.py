@@ -5,10 +5,14 @@ from pathlib import Path
 from monitor_runtime import save
 
 def main():
- p=argparse.ArgumentParser();p.add_argument('--url',default='http://127.0.0.1:7879');p.add_argument('--unit',default='curious-meadow.service');p.add_argument('--output',default='/root/curious/data/soak');a=p.parse_args()
+ p=argparse.ArgumentParser();p.add_argument('--url',default='http://127.0.0.1:7879');p.add_argument('--unit',default='curious-meadow.service');p.add_argument('--output',default='/root/curious/data/soak');p.add_argument('--species',action='store_true');a=p.parse_args()
  now=time.time();sample={'at':now,'url':a.url,'unit':a.unit}
  try:
-  with urllib.request.urlopen(a.url+'/status',timeout=5) as r:sample['status']=json.load(r)
+  with urllib.request.urlopen(a.url+('/observation' if a.species else '/status'),timeout=5) as r:payload=json.load(r)
+  sample['status']=payload['status'] if a.species else payload
+  if a.species:
+   from collections import Counter
+   sample['species']=dict(Counter(e['species'] for e in payload['state']['entities'] if e['life']['health']>0))
   sample['response_ms']=round((time.time()-now)*1000,3)
   pid=int(subprocess.check_output(['systemctl','show','-p','MainPID','--value',a.unit],text=True))
   status=Path(f'/proc/{pid}/status').read_text()

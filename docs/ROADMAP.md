@@ -28,3 +28,8 @@ gelmez. Hızlandırılmış tick gerçek gün/hafta gözleminin yerine geçmez.
 
 Ayrıntılı sonuçlar: [toplu rapor](reports/ROADMAP_RESULTS.md), aşama raporları
 `reports/ROADMAP_01.md`–`ROADMAP_11.md`, son habitat deneyi `reports/REFUGE.md`.
+
+Av–avcı için onaylanan yeni11 aşamalı çalışma `COEXISTENCE_PLAN.md` içindedir.
+V8 teşhisi ve V9 düzeltmeleri uygulandı. Kalibrasyon/duyarlılık/uzun testler ve
+koşullu ayrı dünya için çalıştırıcı hazırlandı; biyolojik kabul kapıları henüz
+geçilmiş değildir. Ayrıntı `reports/COEXISTENCE_IMPLEMENTATION.md`.

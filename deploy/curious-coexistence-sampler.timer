@@ -1,0 +1,8 @@
+[Unit]
+Description=Sample mixed-world resources every fifteen minutes
+[Timer]
+OnBootSec=30
+OnUnitActiveSec=15min
+Unit=curious-coexistence-sampler.service
+[Install]
+WantedBy=timers.target

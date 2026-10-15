@@ -4,9 +4,9 @@ Başlangıç: 929d5bb / checkpoint V8. Kullanıcının 11 aşamalı planı uygul
 talimatı üzerine başlatıldı. Çalışan 7879 ve 7881 dünyaları deney değildir.
 
 1. [x] Başlangıç sürümünü ve eş seedli karşılaştırmaları sabitle.
-2. [ ] Seed 12345 ve erken yok oluş için tam kayıtlı soy/karar teşhisi.
-3. [ ] Avcının besin, bakım, avlanma, üreme ve ceset kaybı bütçesi.
-4. [ ] Kanıtlanan karar hatalarını küçük senaryolarla düzelt.
+2. [x] Seed 12345 ve erken yok oluş için tam kayıtlı soy/karar teşhisi.
+3. [x] Avcının besin, bakım, avlanma, üreme ve ceset kaybı bütçesi.
+4. [x] İlk düzeltmeler: ciddi yaralanma rezervi, bedelli kaynak seçimi, görülen eş hafızası.
 5. [ ] Yavru → yetişkin → üreyen yetişkin dönüşümünü ve eş fırsatlarını ölç.
 6. [ ] Sığınak kullanımı ve erişilebilir av üretimini karşılaştır.
 7. [ ] Tek ayar yerine dayanıklı bir koşul aralığı bul.
@@ -26,3 +26,8 @@ Gerekçeli biyolojik parametre değişikliği mümkündür; etki ve bedel raporl
 
 Her anlamlı aşama: deney/rapor → ilgili testler → commit → gerektiğinde build
 temizliği → önemli bulgu veya tamamlamada kullanıcıya Notify. Push istenmedi.
+
+Uygulama ve sınanacak kapılar: reports/COEXISTENCE_IMPLEMENTATION.md.
+5–11 için ilk kod/deney altyapısı vardır; biyolojik kabul kapıları açık tutulur.
+Görülmemiş doğrulama seedleri10001–10030 olarak önceden ayrıldı. Arka plan
+programı kod üretmez; tanımlı deneyler ve koşullu ayrı7882 dağıtımıyla sınırlıdır.

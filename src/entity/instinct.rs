@@ -76,7 +76,15 @@ impl InstinctEvaluator {
 
         // Refill reserves before seeking reproduction; quarter-full thresholds
         // otherwise trap adults permanently below the reproduction requirement.
-        let needs_food = life.energy < life.max_energy.saturating_mul(3) / 4;
+        // Injured animals need a reserve above the healing threshold. Stopping
+        // feeding at that same threshold lets basal metabolism switch healing
+        // off again, leaving damaged juveniles below reproductive health.
+        let food_target = if life.health <= life.max_health / 2 {
+            life.max_energy.saturating_mul(9) / 10
+        } else {
+            life.max_energy.saturating_mul(3) / 4
+        };
+        let needs_food = life.energy < food_target;
         let needs_water = life.water < life.max_water.saturating_mul(3) / 4;
         if needs_water
             && (!needs_food
@@ -100,7 +108,7 @@ impl InstinctEvaluator {
                 threat: None,
             };
         }
-        if life.can_reproduce() && !perception.entities.is_empty() {
+        if life.can_reproduce() {
             return InstinctDecision {
                 instinct: Instinct::Mating,
                 threat: None,

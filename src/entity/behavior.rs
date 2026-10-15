@@ -81,8 +81,7 @@ pub fn decide(species: Species, life: &LifeState, view: Perception, rng: &mut Ra
         Instinct::Thirst => {
             if let Some(w) = view.waters.iter().max_by_key(|w| {
                 (
-                    w.amount.min(crate::rules::biology::DRINK_WATER_AMOUNT) as isize * 2
-                        - w.steps.len() as isize,
+                    super::foraging::value(w.amount, w.steps.len(), life, true),
                     std::cmp::Reverse(w.steps.len()),
                 )
             }) {
@@ -109,8 +108,7 @@ pub fn decide(species: Species, life: &LifeState, view: Perception, rng: &mut Ra
                 })
                 .max_by_key(|f| {
                     (
-                        f.amount.min(crate::rules::biology::EAT_ENERGY_AMOUNT) as isize * 2
-                            - f.steps.len() as isize,
+                        super::foraging::value(f.amount, f.steps.len(), life, false),
                         std::cmp::Reverse(f.steps.len()),
                     )
                 });

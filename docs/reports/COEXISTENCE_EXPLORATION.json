@@ -1,0 +1,7797 @@
+{
+  "coexistence-carcass20": {
+    "runs": 8,
+    "results": [
+      {
+        "alive": {
+          "Herbivore": 38
+        },
+        "births": {
+          "Carnivore": 20,
+          "Herbivore": 1362
+        },
+        "descendant_breeders": {
+          "Carnivore": 16,
+          "Herbivore": 1214
+        },
+        "last_alive": {
+          "Carnivore": 529,
+          "Herbivore": 4000
+        },
+        "max_generation": {
+          "Carnivore": 9,
+          "Herbivore": 133
+        },
+        "mode": "fixed",
+        "scenario": "scenarios/mixed-refuge.json",
+        "seed": 1,
+        "ticks": 4000
+      },
+      {
+        "alive": {
+          "Herbivore": 35
+        },
+        "births": {
+          "Carnivore": 29,
+          "Herbivore": 1371
+        },
+        "descendant_breeders": {
+          "Carnivore": 26,
+          "Herbivore": 1209
+        },
+        "last_alive": {
+          "Carnivore": 621,
+          "Herbivore": 4000
+        },
+        "max_generation": {
+          "Carnivore": 14,
+          "Herbivore": 129
+        },
+        "mode": "fixed",
+        "scenario": "scenarios/mixed-refuge.json",
+        "seed": 2,
+        "ticks": 4000
+      },
+      {
+        "alive": {
+          "Herbivore": 41
+        },
+        "births": {
+          "Carnivore": 1,
+          "Herbivore": 1523
+        },
+        "descendant_breeders": {
+          "Herbivore": 1366
+        },
+        "last_alive": {
+          "Carnivore": 149,
+          "Herbivore": 4000
+        },
+        "max_generation": {
+          "Carnivore": 1,
+          "Herbivore": 131
+        },
+        "mode": "fixed",
+        "scenario": "scenarios/mixed-refuge.json",
+        "seed": 3,
+        "ticks": 4000
+      },
+      {
+        "alive": {
+          "Herbivore": 43
+        },
+        "births": {
+          "Carnivore": 16,
+          "Herbivore": 1302
+        },
+        "descendant_breeders": {
+          "Carnivore": 14,
+          "Herbivore": 1153
+        },
+        "last_alive": {
+          "Carnivore": 477,
+          "Herbivore": 4000
+        },
+        "max_generation": {
+          "Carnivore": 9,
+          "Herbivore": 128
+        },
+        "mode": "fixed",
+        "scenario": "scenarios/mixed-refuge.json",
+        "seed": 4,
+        "ticks": 4000
+      },
+      {
+        "alive": {
+          "Herbivore": 40
+        },
+        "births": {
+          "Carnivore": 27,
+          "Herbivore": 1335
+        },
+        "descendant_breeders": {
+          "Carnivore": 23,
+          "Herbivore": 1192
+        },
+        "last_alive": {
+          "Carnivore": 631,
+          "Herbivore": 4000
+        },
+        "max_generation": {
+          "Carnivore": 14,
+          "Herbivore": 133
+        },
+        "mode": "fixed",
+        "scenario": "scenarios/mixed-refuge.json",
+        "seed": 5,
+        "ticks": 4000
+      },
+      {
+        "alive": {},
+        "births": {
+          "Carnivore": 21,
+          "Herbivore": 94
+        },
+        "descendant_breeders": {
+          "Carnivore": 17,
+          "Herbivore": 63
+        },
+        "last_alive": {
+          "Carnivore": 472,
+          "Herbivore": 424
+        },
+        "max_generation": {
+          "Carnivore": 9,
+          "Herbivore": 12
+        },
+        "mode": "fixed",
+        "scenario": "scenarios/mixed-refuge.json",
+        "seed": 42,
+        "ticks": 4000
+      },
+      {
+        "alive": {
+          "Herbivore": 42
+        },
+        "births": {
+          "Carnivore": 16,
+          "Herbivore": 1435
+        },
+        "descendant_breeders": {
+          "Carnivore": 13,
+          "Herbivore": 1290
+        },
+        "last_alive": {
+          "Carnivore": 493,
+          "Herbivore": 4000
+        },
+        "max_generation": {
+          "Carnivore": 8,
+          "Herbivore": 128
+        },
+        "mode": "fixed",
+        "scenario": "scenarios/mixed-refuge.json",
+        "seed": 12345,
+        "ticks": 4000
+      },
+      {
+        "alive": {
+          "Herbivore": 40
+        },
+        "births": {
+          "Carnivore": 1,
+          "Herbivore": 1512
+        },
+        "descendant_breeders": {
+          "Herbivore": 1355
+        },
+        "last_alive": {
+          "Carnivore": 120,
+          "Herbivore": 4000
+        },
+        "max_generation": {
+          "Carnivore": 1,
+          "Herbivore": 126
+        },
+        "mode": "fixed",
+        "scenario": "scenarios/mixed-refuge.json",
+        "seed": 2026,
+        "ticks": 4000
+      }
+    ]
+  },
+  "coexistence-habitats": {
+    "runs": 12,
+    "results": [
+      {
+        "alive": {
+          "Herbivore": 165
+        },
+        "births": {
+          "Carnivore": 3,
+          "Herbivore": 6173
+        },
+        "descendant_breeders": {
+          "Herbivore": 5319
+        },
+        "last_alive": {
+          "Carnivore": 234,
+          "Herbivore": 4000
+        },
+        "max_generation": {
+          "Carnivore": 1,
+          "Herbivore": 136
+        },
+        "mode": "fixed",
+        "scenario": "data/experiments/coexistence-habitats/patches-2.json",
+        "seed": 1,
+        "ticks": 4000
+      },
+      {
+        "alive": {
+          "Herbivore": 151
+        },
+        "births": {
+          "Carnivore": 114,
+          "Herbivore": 4681
+        },
+        "descendant_breeders": {
+          "Carnivore": 96,
+          "Herbivore": 3973
+        },
+        "last_alive": {
+          "Carnivore": 799,
+          "Herbivore": 4000
+        },
+        "max_generation": {
+          "Carnivore": 17,
+          "Herbivore": 132
+        },
+        "mode": "fixed",
+        "scenario": "data/experiments/coexistence-habitats/patches-2.json",
+        "seed": 2,
+        "ticks": 4000
+      },
+      {
+        "alive": {
+          "Herbivore": 161
+        },
+        "births": {
+          "Carnivore": 108,
+          "Herbivore": 4726
+        },
+        "descendant_breeders": {
+          "Carnivore": 85,
+          "Herbivore": 4039
+        },
+        "last_alive": {
+          "Carnivore": 830,
+          "Herbivore": 4000
+        },
+        "max_generation": {
+          "Carnivore": 17,
+          "Herbivore": 134
+        },
+        "mode": "fixed",
+        "scenario": "data/experiments/coexistence-habitats/patches-2.json",
+        "seed": 3,
+        "ticks": 4000
+      },
+      {
+        "alive": {
+          "Herbivore": 155
+        },
+        "births": {
+          "Carnivore": 120,
+          "Herbivore": 4792
+        },
+        "descendant_breeders": {
+          "Carnivore": 105,
+          "Herbivore": 4044
+        },
+        "last_alive": {
+          "Carnivore": 914,
+          "Herbivore": 4000
+        },
+        "max_generation": {
+          "Carnivore": 20,
+          "Herbivore": 130
+        },
+        "mode": "fixed",
+        "scenario": "data/experiments/coexistence-habitats/patches-2.json",
+        "seed": 4,
+        "ticks": 4000
+      },
+      {
+        "alive": {
+          "Herbivore": 151
+        },
+        "births": {
+          "Carnivore": 21,
+          "Herbivore": 6082
+        },
+        "descendant_breeders": {
+          "Carnivore": 14,
+          "Herbivore": 5249
+        },
+        "last_alive": {
+          "Carnivore": 802,
+          "Herbivore": 4000
+        },
+        "max_generation": {
+          "Carnivore": 14,
+          "Herbivore": 138
+        },
+        "mode": "fixed",
+        "scenario": "data/experiments/coexistence-habitats/patches-2.json",
+        "seed": 1,
+        "ticks": 4000
+      },
+      {
+        "alive": {
+          "Herbivore": 160
+        },
+        "births": {
+          "Carnivore": 154,
+          "Herbivore": 5422
+        },
+        "descendant_breeders": {
+          "Carnivore": 138,
+          "Herbivore": 4545
+        },
+        "last_alive": {
+          "Carnivore": 1252,
+          "Herbivore": 4000
+        },
+        "max_generation": {
+          "Carnivore": 29,
+          "Herbivore": 133
+        },
+        "mode": "fixed",
+        "scenario": "data/experiments/coexistence-habitats/patches-2.json",
+        "seed": 2,
+        "ticks": 4000
+      },
+      {
+        "alive": {
+          "Herbivore": 154
+        },
+        "births": {
+          "Carnivore": 134,
+          "Herbivore": 4844
+        },
+        "descendant_breeders": {
+          "Carnivore": 117,
+          "Herbivore": 4115
+        },
+        "last_alive": {
+          "Carnivore": 1044,
+          "Herbivore": 4000
+        },
+        "max_generation": {
+          "Carnivore": 25,
+          "Herbivore": 133
+        },
+        "mode": "fixed",
+        "scenario": "data/experiments/coexistence-habitats/patches-2.json",
+        "seed": 3,
+        "ticks": 4000
+      },
+      {
+        "alive": {
+          "Herbivore": 153
+        },
+        "births": {
+          "Carnivore": 208,
+          "Herbivore": 4670
+        },
+        "descendant_breeders": {
+          "Carnivore": 179,
+          "Herbivore": 3814
+        },
+        "last_alive": {
+          "Carnivore": 1609,
+          "Herbivore": 4000
+        },
+        "max_generation": {
+          "Carnivore": 38,
+          "Herbivore": 135
+        },
+        "mode": "fixed",
+        "scenario": "data/experiments/coexistence-habitats/patches-2.json",
+        "seed": 4,
+        "ticks": 4000
+      },
+      {
+        "alive": {},
+        "births": {
+          "Carnivore": 18,
+          "Herbivore": 90
+        },
+        "descendant_breeders": {
+          "Carnivore": 13,
+          "Herbivore": 61
+        },
+        "last_alive": {
+          "Carnivore": 402,
+          "Herbivore": 412
+        },
+        "max_generation": {
+          "Carnivore": 8,
+          "Herbivore": 9
+        },
+        "mode": "fixed",
+        "scenario": "data/experiments/coexistence-habitats/refuge-single.json",
+        "seed": 1,
+        "ticks": 4000
+      },
+      {
+        "alive": {},
+        "births": {
+          "Carnivore": 26,
+          "Herbivore": 134
+        },
+        "descendant_breeders": {
+          "Carnivore": 19,
+          "Herbivore": 103
+        },
+        "last_alive": {
+          "Carnivore": 539,
+          "Herbivore": 490
+        },
+        "max_generation": {
+          "Carnivore": 11,
+          "Herbivore": 13
+        },
+        "mode": "fixed",
+        "scenario": "data/experiments/coexistence-habitats/refuge-single.json",
+        "seed": 2,
+        "ticks": 4000
+      },
+      {
+        "alive": {},
+        "births": {
+          "Carnivore": 17,
+          "Herbivore": 85
+        },
+        "descendant_breeders": {
+          "Carnivore": 14,
+          "Herbivore": 53
+        },
+        "last_alive": {
+          "Carnivore": 415,
+          "Herbivore": 349
+        },
+        "max_generation": {
+          "Carnivore": 9,
+          "Herbivore": 9
+        },
+        "mode": "fixed",
+        "scenario": "data/experiments/coexistence-habitats/refuge-single.json",
+        "seed": 3,
+        "ticks": 4000
+      },
+      {
+        "alive": {},
+        "births": {
+          "Carnivore": 20,
+          "Herbivore": 99
+        },
+        "descendant_breeders": {
+          "Carnivore": 16,
+          "Herbivore": 67
+        },
+        "last_alive": {
+          "Carnivore": 455,
+          "Herbivore": 369
+        },
+        "max_generation": {
+          "Carnivore": 9,
+          "Herbivore": 9
+        },
+        "mode": "fixed",
+        "scenario": "data/experiments/coexistence-habitats/refuge-single.json",
+        "seed": 4,
+        "ticks": 4000
+      }
+    ]
+  },
+  "coexistence-productivity": {
+    "runs": 48,
+    "results": [
+      {
+        "alive": {
+          "Herbivore": 35
+        },
+        "births": {
+          "Carnivore": 1,
+          "Herbivore": 55
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Herbivore": 25
+        },
+        "first_extinction": 123,
+        "last_alive": {
+          "Carnivore": 122,
+          "Herbivore": 122
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 1,
+          "Herbivore": 4
+        },
+        "mode": "fixed",
+        "requested_ticks": 4000,
+        "scenario": "data/experiments/coexistence-productivity/f1-w1-staggered.json",
+        "seed": 1,
+        "ticks": 123
+      },
+      {
+        "alive": {
+          "Carnivore": 3
+        },
+        "births": {
+          "Carnivore": 18,
+          "Herbivore": 109
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 15,
+          "Herbivore": 67
+        },
+        "first_extinction": 465,
+        "last_alive": {
+          "Carnivore": 464,
+          "Herbivore": 464
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 11,
+          "Herbivore": 13
+        },
+        "mode": "fixed",
+        "requested_ticks": 4000,
+        "scenario": "data/experiments/coexistence-productivity/f1-w1-staggered.json",
+        "seed": 2,
+        "ticks": 465
+      },
+      {
+        "alive": {
+          "Herbivore": 2
+        },
+        "births": {
+          "Carnivore": 15,
+          "Herbivore": 100
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 12,
+          "Herbivore": 63
+        },
+        "first_extinction": 433,
+        "last_alive": {
+          "Carnivore": 432,
+          "Herbivore": 432
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 9,
+          "Herbivore": 13
+        },
+        "mode": "fixed",
+        "requested_ticks": 4000,
+        "scenario": "data/experiments/coexistence-productivity/f1-w1-staggered.json",
+        "seed": 3,
+        "ticks": 433
+      },
+      {
+        "alive": {
+          "Herbivore": 3
+        },
+        "births": {
+          "Carnivore": 14,
+          "Herbivore": 78
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 12,
+          "Herbivore": 48
+        },
+        "first_extinction": 364,
+        "last_alive": {
+          "Carnivore": 363,
+          "Herbivore": 363
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 9,
+          "Herbivore": 9
+        },
+        "mode": "fixed",
+        "requested_ticks": 4000,
+        "scenario": "data/experiments/coexistence-productivity/f1-w1-staggered.json",
+        "seed": 4,
+        "ticks": 364
+      },
+      {
+        "alive": {
+          "Herbivore": 8
+        },
+        "births": {
+          "Carnivore": 25,
+          "Herbivore": 156
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 20,
+          "Herbivore": 105
+        },
+        "first_extinction": 681,
+        "last_alive": {
+          "Carnivore": 680,
+          "Herbivore": 680
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 15,
+          "Herbivore": 21
+        },
+        "mode": "fixed",
+        "requested_ticks": 4000,
+        "scenario": "data/experiments/coexistence-productivity/f1-w1-staggered.json",
+        "seed": 5,
+        "ticks": 681
+      },
+      {
+        "alive": {
+          "Herbivore": 1
+        },
+        "births": {
+          "Carnivore": 15,
+          "Herbivore": 87
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 12,
+          "Herbivore": 48
+        },
+        "first_extinction": 458,
+        "last_alive": {
+          "Carnivore": 457,
+          "Herbivore": 457
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 9,
+          "Herbivore": 10
+        },
+        "mode": "fixed",
+        "requested_ticks": 4000,
+        "scenario": "data/experiments/coexistence-productivity/f1-w1-staggered.json",
+        "seed": 42,
+        "ticks": 458
+      },
+      {
+        "alive": {
+          "Carnivore": 4
+        },
+        "births": {
+          "Carnivore": 15,
+          "Herbivore": 71
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 11,
+          "Herbivore": 39
+        },
+        "first_extinction": 277,
+        "last_alive": {
+          "Carnivore": 276,
+          "Herbivore": 276
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 8,
+          "Herbivore": 8
+        },
+        "mode": "fixed",
+        "requested_ticks": 4000,
+        "scenario": "data/experiments/coexistence-productivity/f1-w1-staggered.json",
+        "seed": 12345,
+        "ticks": 277
+      },
+      {
+        "alive": {
+          "Herbivore": 1
+        },
+        "births": {
+          "Carnivore": 26,
+          "Herbivore": 151
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 23,
+          "Herbivore": 103
+        },
+        "first_extinction": 669,
+        "last_alive": {
+          "Carnivore": 668,
+          "Herbivore": 668
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 17,
+          "Herbivore": 16
+        },
+        "mode": "fixed",
+        "requested_ticks": 4000,
+        "scenario": "data/experiments/coexistence-productivity/f1-w1-staggered.json",
+        "seed": 2026,
+        "ticks": 669
+      },
+      {
+        "alive": {
+          "Herbivore": 29
+        },
+        "births": {
+          "Carnivore": 2,
+          "Herbivore": 76
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Herbivore": 51
+        },
+        "first_extinction": 238,
+        "last_alive": {
+          "Carnivore": 237,
+          "Herbivore": 237
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 1,
+          "Herbivore": 7
+        },
+        "mode": "fixed",
+        "requested_ticks": 4000,
+        "scenario": "data/experiments/coexistence-productivity/f1-w1-zero.json",
+        "seed": 1,
+        "ticks": 238
+      },
+      {
+        "alive": {
+          "Herbivore": 2
+        },
+        "births": {
+          "Carnivore": 14,
+          "Herbivore": 97
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 11,
+          "Herbivore": 59
+        },
+        "first_extinction": 460,
+        "last_alive": {
+          "Carnivore": 459,
+          "Herbivore": 459
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 9,
+          "Herbivore": 12
+        },
+        "mode": "fixed",
+        "requested_ticks": 4000,
+        "scenario": "data/experiments/coexistence-productivity/f1-w1-zero.json",
+        "seed": 2,
+        "ticks": 460
+      },
+      {
+        "alive": {
+          "Herbivore": 22
+        },
+        "births": {
+          "Carnivore": 1,
+          "Herbivore": 55
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Herbivore": 31
+        },
+        "first_extinction": 158,
+        "last_alive": {
+          "Carnivore": 157,
+          "Herbivore": 157
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 1,
+          "Herbivore": 5
+        },
+        "mode": "fixed",
+        "requested_ticks": 4000,
+        "scenario": "data/experiments/coexistence-productivity/f1-w1-zero.json",
+        "seed": 3,
+        "ticks": 158
+      },
+      {
+        "alive": {
+          "Herbivore": 7
+        },
+        "births": {
+          "Carnivore": 16,
+          "Herbivore": 102
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 13,
+          "Herbivore": 64
+        },
+        "first_extinction": 423,
+        "last_alive": {
+          "Carnivore": 422,
+          "Herbivore": 422
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 8,
+          "Herbivore": 12
+        },
+        "mode": "fixed",
+        "requested_ticks": 4000,
+        "scenario": "data/experiments/coexistence-productivity/f1-w1-zero.json",
+        "seed": 4,
+        "ticks": 423
+      },
+      {
+        "alive": {
+          "Herbivore": 1
+        },
+        "births": {
+          "Carnivore": 11,
+          "Herbivore": 65
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 8,
+          "Herbivore": 41
+        },
+        "first_extinction": 318,
+        "last_alive": {
+          "Carnivore": 317,
+          "Herbivore": 317
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 5,
+          "Herbivore": 7
+        },
+        "mode": "fixed",
+        "requested_ticks": 4000,
+        "scenario": "data/experiments/coexistence-productivity/f1-w1-zero.json",
+        "seed": 5,
+        "ticks": 318
+      },
+      {
+        "alive": {
+          "Herbivore": 4
+        },
+        "births": {
+          "Carnivore": 22,
+          "Herbivore": 160
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 20,
+          "Herbivore": 111
+        },
+        "first_extinction": 650,
+        "last_alive": {
+          "Carnivore": 649,
+          "Herbivore": 649
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 11,
+          "Herbivore": 17
+        },
+        "mode": "fixed",
+        "requested_ticks": 4000,
+        "scenario": "data/experiments/coexistence-productivity/f1-w1-zero.json",
+        "seed": 42,
+        "ticks": 650
+      },
+      {
+        "alive": {
+          "Herbivore": 4
+        },
+        "births": {
+          "Carnivore": 18,
+          "Herbivore": 112
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 16,
+          "Herbivore": 72
+        },
+        "first_extinction": 468,
+        "last_alive": {
+          "Carnivore": 467,
+          "Herbivore": 467
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 9,
+          "Herbivore": 13
+        },
+        "mode": "fixed",
+        "requested_ticks": 4000,
+        "scenario": "data/experiments/coexistence-productivity/f1-w1-zero.json",
+        "seed": 12345,
+        "ticks": 468
+      },
+      {
+        "alive": {
+          "Herbivore": 38
+        },
+        "births": {
+          "Carnivore": 2,
+          "Herbivore": 85
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Herbivore": 53
+        },
+        "first_extinction": 238,
+        "last_alive": {
+          "Carnivore": 237,
+          "Herbivore": 237
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 1,
+          "Herbivore": 8
+        },
+        "mode": "fixed",
+        "requested_ticks": 4000,
+        "scenario": "data/experiments/coexistence-productivity/f1-w1-zero.json",
+        "seed": 2026,
+        "ticks": 238
+      },
+      {
+        "alive": {
+          "Carnivore": 1
+        },
+        "births": {
+          "Carnivore": 23,
+          "Herbivore": 129
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 17,
+          "Herbivore": 88
+        },
+        "first_extinction": 436,
+        "last_alive": {
+          "Carnivore": 435,
+          "Herbivore": 435
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 9,
+          "Herbivore": 10
+        },
+        "mode": "fixed",
+        "requested_ticks": 4000,
+        "scenario": "data/experiments/coexistence-productivity/f1-w2-staggered.json",
+        "seed": 1,
+        "ticks": 436
+      },
+      {
+        "alive": {
+          "Herbivore": 6
+        },
+        "births": {
+          "Carnivore": 26,
+          "Herbivore": 139
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 21,
+          "Herbivore": 88
+        },
+        "first_extinction": 454,
+        "last_alive": {
+          "Carnivore": 453,
+          "Herbivore": 453
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 12,
+          "Herbivore": 14
+        },
+        "mode": "fixed",
+        "requested_ticks": 4000,
+        "scenario": "data/experiments/coexistence-productivity/f1-w2-staggered.json",
+        "seed": 2,
+        "ticks": 454
+      },
+      {
+        "alive": {
+          "Carnivore": 2
+        },
+        "births": {
+          "Carnivore": 23,
+          "Herbivore": 111
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 18,
+          "Herbivore": 73
+        },
+        "first_extinction": 347,
+        "last_alive": {
+          "Carnivore": 346,
+          "Herbivore": 346
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 8,
+          "Herbivore": 8
+        },
+        "mode": "fixed",
+        "requested_ticks": 4000,
+        "scenario": "data/experiments/coexistence-productivity/f1-w2-staggered.json",
+        "seed": 3,
+        "ticks": 347
+      },
+      {
+        "alive": {
+          "Carnivore": 4
+        },
+        "births": {
+          "Carnivore": 22,
+          "Herbivore": 107
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 17,
+          "Herbivore": 65
+        },
+        "first_extinction": 330,
+        "last_alive": {
+          "Carnivore": 329,
+          "Herbivore": 329
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 11,
+          "Herbivore": 7
+        },
+        "mode": "fixed",
+        "requested_ticks": 4000,
+        "scenario": "data/experiments/coexistence-productivity/f1-w2-staggered.json",
+        "seed": 4,
+        "ticks": 330
+      },
+      {
+        "alive": {
+          "Herbivore": 1
+        },
+        "births": {
+          "Carnivore": 22,
+          "Herbivore": 116
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 19,
+          "Herbivore": 71
+        },
+        "first_extinction": 369,
+        "last_alive": {
+          "Carnivore": 368,
+          "Herbivore": 368
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 9,
+          "Herbivore": 9
+        },
+        "mode": "fixed",
+        "requested_ticks": 4000,
+        "scenario": "data/experiments/coexistence-productivity/f1-w2-staggered.json",
+        "seed": 5,
+        "ticks": 369
+      },
+      {
+        "alive": {
+          "Herbivore": 45
+        },
+        "births": {
+          "Carnivore": 1,
+          "Herbivore": 69
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Herbivore": 37
+        },
+        "first_extinction": 123,
+        "last_alive": {
+          "Carnivore": 122,
+          "Herbivore": 122
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 1,
+          "Herbivore": 5
+        },
+        "mode": "fixed",
+        "requested_ticks": 4000,
+        "scenario": "data/experiments/coexistence-productivity/f1-w2-staggered.json",
+        "seed": 42,
+        "ticks": 123
+      },
+      {
+        "alive": {
+          "Herbivore": 1
+        },
+        "births": {
+          "Carnivore": 22,
+          "Herbivore": 114
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 19,
+          "Herbivore": 79
+        },
+        "first_extinction": 379,
+        "last_alive": {
+          "Carnivore": 378,
+          "Herbivore": 378
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 9,
+          "Herbivore": 11
+        },
+        "mode": "fixed",
+        "requested_ticks": 4000,
+        "scenario": "data/experiments/coexistence-productivity/f1-w2-staggered.json",
+        "seed": 12345,
+        "ticks": 379
+      },
+      {
+        "alive": {
+          "Herbivore": 1
+        },
+        "births": {
+          "Carnivore": 21,
+          "Herbivore": 109
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 16,
+          "Herbivore": 76
+        },
+        "first_extinction": 382,
+        "last_alive": {
+          "Carnivore": 381,
+          "Herbivore": 381
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 8,
+          "Herbivore": 9
+        },
+        "mode": "fixed",
+        "requested_ticks": 4000,
+        "scenario": "data/experiments/coexistence-productivity/f1-w2-staggered.json",
+        "seed": 2026,
+        "ticks": 382
+      },
+      {
+        "alive": {
+          "Herbivore": 97
+        },
+        "births": {
+          "Carnivore": 1,
+          "Herbivore": 119
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Herbivore": 82
+        },
+        "first_extinction": 123,
+        "last_alive": {
+          "Carnivore": 122,
+          "Herbivore": 122
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 1,
+          "Herbivore": 6
+        },
+        "mode": "fixed",
+        "requested_ticks": 4000,
+        "scenario": "data/experiments/coexistence-productivity/f2-w2-staggered.json",
+        "seed": 1,
+        "ticks": 123
+      },
+      {
+        "alive": {
+          "Herbivore": 2
+        },
+        "births": {
+          "Carnivore": 40,
+          "Herbivore": 235
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 31,
+          "Herbivore": 172
+        },
+        "first_extinction": 523,
+        "last_alive": {
+          "Carnivore": 522,
+          "Herbivore": 522
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 11,
+          "Herbivore": 14
+        },
+        "mode": "fixed",
+        "requested_ticks": 4000,
+        "scenario": "data/experiments/coexistence-productivity/f2-w2-staggered.json",
+        "seed": 2,
+        "ticks": 523
+      },
+      {
+        "alive": {
+          "Carnivore": 3
+        },
+        "births": {
+          "Carnivore": 41,
+          "Herbivore": 218
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 32,
+          "Herbivore": 159
+        },
+        "first_extinction": 445,
+        "last_alive": {
+          "Carnivore": 444,
+          "Herbivore": 444
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 10,
+          "Herbivore": 11
+        },
+        "mode": "fixed",
+        "requested_ticks": 4000,
+        "scenario": "data/experiments/coexistence-productivity/f2-w2-staggered.json",
+        "seed": 3,
+        "ticks": 445
+      },
+      {
+        "alive": {
+          "Carnivore": 4
+        },
+        "births": {
+          "Carnivore": 35,
+          "Herbivore": 230
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 26,
+          "Herbivore": 166
+        },
+        "first_extinction": 442,
+        "last_alive": {
+          "Carnivore": 441,
+          "Herbivore": 441
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 10,
+          "Herbivore": 13
+        },
+        "mode": "fixed",
+        "requested_ticks": 4000,
+        "scenario": "data/experiments/coexistence-productivity/f2-w2-staggered.json",
+        "seed": 4,
+        "ticks": 442
+      },
+      {
+        "alive": {
+          "Herbivore": 75
+        },
+        "births": {
+          "Carnivore": 2,
+          "Herbivore": 143
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 1,
+          "Herbivore": 99
+        },
+        "first_extinction": 169,
+        "last_alive": {
+          "Carnivore": 168,
+          "Herbivore": 168
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 2,
+          "Herbivore": 6
+        },
+        "mode": "fixed",
+        "requested_ticks": 4000,
+        "scenario": "data/experiments/coexistence-productivity/f2-w2-staggered.json",
+        "seed": 5,
+        "ticks": 169
+      },
+      {
+        "alive": {
+          "Carnivore": 3
+        },
+        "births": {
+          "Carnivore": 36,
+          "Herbivore": 218
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 29,
+          "Herbivore": 155
+        },
+        "first_extinction": 430,
+        "last_alive": {
+          "Carnivore": 429,
+          "Herbivore": 429
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 12,
+          "Herbivore": 12
+        },
+        "mode": "fixed",
+        "requested_ticks": 4000,
+        "scenario": "data/experiments/coexistence-productivity/f2-w2-staggered.json",
+        "seed": 42,
+        "ticks": 430
+      },
+      {
+        "alive": {
+          "Herbivore": 3
+        },
+        "births": {
+          "Carnivore": 42,
+          "Herbivore": 266
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 33,
+          "Herbivore": 211
+        },
+        "first_extinction": 561,
+        "last_alive": {
+          "Carnivore": 560,
+          "Herbivore": 560
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 12,
+          "Herbivore": 14
+        },
+        "mode": "fixed",
+        "requested_ticks": 4000,
+        "scenario": "data/experiments/coexistence-productivity/f2-w2-staggered.json",
+        "seed": 12345,
+        "ticks": 561
+      },
+      {
+        "alive": {
+          "Herbivore": 1
+        },
+        "births": {
+          "Carnivore": 37,
+          "Herbivore": 226
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 30,
+          "Herbivore": 161
+        },
+        "first_extinction": 479,
+        "last_alive": {
+          "Carnivore": 478,
+          "Herbivore": 478
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 10,
+          "Herbivore": 16
+        },
+        "mode": "fixed",
+        "requested_ticks": 4000,
+        "scenario": "data/experiments/coexistence-productivity/f2-w2-staggered.json",
+        "seed": 2026,
+        "ticks": 479
+      },
+      {
+        "alive": {
+          "Carnivore": 4
+        },
+        "births": {
+          "Carnivore": 53,
+          "Herbivore": 290
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 44,
+          "Herbivore": 205
+        },
+        "first_extinction": 460,
+        "last_alive": {
+          "Carnivore": 459,
+          "Herbivore": 459
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 12,
+          "Herbivore": 13
+        },
+        "mode": "fixed",
+        "requested_ticks": 4000,
+        "scenario": "data/experiments/coexistence-productivity/f2-w4-staggered.json",
+        "seed": 1,
+        "ticks": 460
+      },
+      {
+        "alive": {
+          "Carnivore": 6
+        },
+        "births": {
+          "Carnivore": 49,
+          "Herbivore": 300
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 38,
+          "Herbivore": 209
+        },
+        "first_extinction": 459,
+        "last_alive": {
+          "Carnivore": 458,
+          "Herbivore": 458
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 14,
+          "Herbivore": 12
+        },
+        "mode": "fixed",
+        "requested_ticks": 4000,
+        "scenario": "data/experiments/coexistence-productivity/f2-w4-staggered.json",
+        "seed": 2,
+        "ticks": 459
+      },
+      {
+        "alive": {
+          "Carnivore": 2
+        },
+        "births": {
+          "Carnivore": 51,
+          "Herbivore": 280
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 41,
+          "Herbivore": 201
+        },
+        "first_extinction": 459,
+        "last_alive": {
+          "Carnivore": 458,
+          "Herbivore": 458
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 13,
+          "Herbivore": 14
+        },
+        "mode": "fixed",
+        "requested_ticks": 4000,
+        "scenario": "data/experiments/coexistence-productivity/f2-w4-staggered.json",
+        "seed": 3,
+        "ticks": 459
+      },
+      {
+        "alive": {
+          "Herbivore": 1
+        },
+        "births": {
+          "Carnivore": 47,
+          "Herbivore": 289
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 39,
+          "Herbivore": 213
+        },
+        "first_extinction": 513,
+        "last_alive": {
+          "Carnivore": 512,
+          "Herbivore": 512
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 12,
+          "Herbivore": 14
+        },
+        "mode": "fixed",
+        "requested_ticks": 4000,
+        "scenario": "data/experiments/coexistence-productivity/f2-w4-staggered.json",
+        "seed": 4,
+        "ticks": 513
+      },
+      {
+        "alive": {
+          "Carnivore": 4
+        },
+        "births": {
+          "Carnivore": 48,
+          "Herbivore": 295
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 38,
+          "Herbivore": 213
+        },
+        "first_extinction": 466,
+        "last_alive": {
+          "Carnivore": 465,
+          "Herbivore": 465
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 11,
+          "Herbivore": 12
+        },
+        "mode": "fixed",
+        "requested_ticks": 4000,
+        "scenario": "data/experiments/coexistence-productivity/f2-w4-staggered.json",
+        "seed": 5,
+        "ticks": 466
+      },
+      {
+        "alive": {
+          "Herbivore": 1
+        },
+        "births": {
+          "Carnivore": 51,
+          "Herbivore": 291
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 44,
+          "Herbivore": 214
+        },
+        "first_extinction": 510,
+        "last_alive": {
+          "Carnivore": 509,
+          "Herbivore": 509
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 13,
+          "Herbivore": 13
+        },
+        "mode": "fixed",
+        "requested_ticks": 4000,
+        "scenario": "data/experiments/coexistence-productivity/f2-w4-staggered.json",
+        "seed": 42,
+        "ticks": 510
+      },
+      {
+        "alive": {
+          "Carnivore": 1
+        },
+        "births": {
+          "Carnivore": 48,
+          "Herbivore": 273
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 39,
+          "Herbivore": 200
+        },
+        "first_extinction": 464,
+        "last_alive": {
+          "Carnivore": 463,
+          "Herbivore": 463
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 12,
+          "Herbivore": 13
+        },
+        "mode": "fixed",
+        "requested_ticks": 4000,
+        "scenario": "data/experiments/coexistence-productivity/f2-w4-staggered.json",
+        "seed": 12345,
+        "ticks": 464
+      },
+      {
+        "alive": {
+          "Carnivore": 5
+        },
+        "births": {
+          "Carnivore": 51,
+          "Herbivore": 286
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 42,
+          "Herbivore": 211
+        },
+        "first_extinction": 459,
+        "last_alive": {
+          "Carnivore": 458,
+          "Herbivore": 458
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 16,
+          "Herbivore": 11
+        },
+        "mode": "fixed",
+        "requested_ticks": 4000,
+        "scenario": "data/experiments/coexistence-productivity/f2-w4-staggered.json",
+        "seed": 2026,
+        "ticks": 459
+      },
+      {
+        "alive": {
+          "Herbivore": 1
+        },
+        "births": {
+          "Carnivore": 53,
+          "Herbivore": 405
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 43,
+          "Herbivore": 279
+        },
+        "first_extinction": 557,
+        "last_alive": {
+          "Carnivore": 556,
+          "Herbivore": 556
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 15,
+          "Herbivore": 15
+        },
+        "mode": "fixed",
+        "requested_ticks": 4000,
+        "scenario": "data/experiments/coexistence-productivity/f4-w4-staggered.json",
+        "seed": 1,
+        "ticks": 557
+      },
+      {
+        "alive": {
+          "Carnivore": 1
+        },
+        "births": {
+          "Carnivore": 68,
+          "Herbivore": 602
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 56,
+          "Herbivore": 434
+        },
+        "first_extinction": 746,
+        "last_alive": {
+          "Carnivore": 745,
+          "Herbivore": 745
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 18,
+          "Herbivore": 20
+        },
+        "mode": "fixed",
+        "requested_ticks": 4000,
+        "scenario": "data/experiments/coexistence-productivity/f4-w4-staggered.json",
+        "seed": 2,
+        "ticks": 746
+      },
+      {
+        "alive": {
+          "Carnivore": 1
+        },
+        "births": {
+          "Carnivore": 55,
+          "Herbivore": 406
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 43,
+          "Herbivore": 278
+        },
+        "first_extinction": 564,
+        "last_alive": {
+          "Carnivore": 563,
+          "Herbivore": 563
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 14,
+          "Herbivore": 14
+        },
+        "mode": "fixed",
+        "requested_ticks": 4000,
+        "scenario": "data/experiments/coexistence-productivity/f4-w4-staggered.json",
+        "seed": 3,
+        "ticks": 564
+      },
+      {
+        "alive": {
+          "Carnivore": 2
+        },
+        "births": {
+          "Carnivore": 57,
+          "Herbivore": 446
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 45,
+          "Herbivore": 317
+        },
+        "first_extinction": 560,
+        "last_alive": {
+          "Carnivore": 559,
+          "Herbivore": 559
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 16,
+          "Herbivore": 16
+        },
+        "mode": "fixed",
+        "requested_ticks": 4000,
+        "scenario": "data/experiments/coexistence-productivity/f4-w4-staggered.json",
+        "seed": 4,
+        "ticks": 560
+      },
+      {
+        "alive": {
+          "Herbivore": 5
+        },
+        "births": {
+          "Carnivore": 67,
+          "Herbivore": 494
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 53,
+          "Herbivore": 345
+        },
+        "first_extinction": 634,
+        "last_alive": {
+          "Carnivore": 633,
+          "Herbivore": 633
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 17,
+          "Herbivore": 20
+        },
+        "mode": "fixed",
+        "requested_ticks": 4000,
+        "scenario": "data/experiments/coexistence-productivity/f4-w4-staggered.json",
+        "seed": 5,
+        "ticks": 634
+      },
+      {
+        "alive": {
+          "Carnivore": 1
+        },
+        "births": {
+          "Carnivore": 76,
+          "Herbivore": 1137
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 61,
+          "Herbivore": 849
+        },
+        "first_extinction": 1092,
+        "last_alive": {
+          "Carnivore": 1091,
+          "Herbivore": 1091
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 26,
+          "Herbivore": 30
+        },
+        "mode": "fixed",
+        "requested_ticks": 4000,
+        "scenario": "data/experiments/coexistence-productivity/f4-w4-staggered.json",
+        "seed": 42,
+        "ticks": 1092
+      },
+      {
+        "alive": {
+          "Herbivore": 134
+        },
+        "births": {
+          "Carnivore": 1,
+          "Herbivore": 153
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Herbivore": 100
+        },
+        "first_extinction": 123,
+        "last_alive": {
+          "Carnivore": 122,
+          "Herbivore": 122
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 1,
+          "Herbivore": 6
+        },
+        "mode": "fixed",
+        "requested_ticks": 4000,
+        "scenario": "data/experiments/coexistence-productivity/f4-w4-staggered.json",
+        "seed": 12345,
+        "ticks": 123
+      },
+      {
+        "alive": {
+          "Herbivore": 1
+        },
+        "births": {
+          "Carnivore": 49,
+          "Herbivore": 376
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 41,
+          "Herbivore": 257
+        },
+        "first_extinction": 551,
+        "last_alive": {
+          "Carnivore": 550,
+          "Herbivore": 550
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 16,
+          "Herbivore": 16
+        },
+        "mode": "fixed",
+        "requested_ticks": 4000,
+        "scenario": "data/experiments/coexistence-productivity/f4-w4-staggered.json",
+        "seed": 2026,
+        "ticks": 551
+      }
+    ]
+  },
+  "coexistence-timescales": {
+    "runs": 40,
+    "results": [
+      {
+        "alive": {
+          "Herbivore": 37
+        },
+        "births": {
+          "Carnivore": 1,
+          "Herbivore": 58
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Herbivore": 30
+        },
+        "first_extinction": 123,
+        "last_alive": {
+          "Carnivore": 122,
+          "Herbivore": 122
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 1,
+          "Herbivore": 5
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-timescales/age120-interval25.json",
+        "seed": 1,
+        "ticks": 123
+      },
+      {
+        "alive": {
+          "Carnivore": 2
+        },
+        "births": {
+          "Carnivore": 27,
+          "Herbivore": 158
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 23,
+          "Herbivore": 104
+        },
+        "first_extinction": 601,
+        "last_alive": {
+          "Carnivore": 600,
+          "Herbivore": 600
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 14,
+          "Herbivore": 18
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-timescales/age120-interval25.json",
+        "seed": 2,
+        "ticks": 601
+      },
+      {
+        "alive": {
+          "Herbivore": 5
+        },
+        "births": {
+          "Carnivore": 16,
+          "Herbivore": 92
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 12,
+          "Herbivore": 53
+        },
+        "first_extinction": 375,
+        "last_alive": {
+          "Carnivore": 374,
+          "Herbivore": 374
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 10,
+          "Herbivore": 9
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-timescales/age120-interval25.json",
+        "seed": 3,
+        "ticks": 375
+      },
+      {
+        "alive": {
+          "Herbivore": 39
+        },
+        "births": {
+          "Carnivore": 3,
+          "Herbivore": 98
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 2,
+          "Herbivore": 66
+        },
+        "first_extinction": 232,
+        "last_alive": {
+          "Carnivore": 231,
+          "Herbivore": 231
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 3,
+          "Herbivore": 8
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-timescales/age120-interval25.json",
+        "seed": 4,
+        "ticks": 232
+      },
+      {
+        "alive": {
+          "Herbivore": 3
+        },
+        "births": {
+          "Carnivore": 27,
+          "Herbivore": 184
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 22,
+          "Herbivore": 130
+        },
+        "first_extinction": 630,
+        "last_alive": {
+          "Carnivore": 629,
+          "Herbivore": 629
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 15,
+          "Herbivore": 19
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-timescales/age120-interval25.json",
+        "seed": 5,
+        "ticks": 630
+      },
+      {
+        "alive": {
+          "Herbivore": 12
+        },
+        "births": {
+          "Carnivore": 15,
+          "Herbivore": 104
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 12,
+          "Herbivore": 68
+        },
+        "first_extinction": 344,
+        "last_alive": {
+          "Carnivore": 343,
+          "Herbivore": 343
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 6,
+          "Herbivore": 11
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-timescales/age120-interval25.json",
+        "seed": 42,
+        "ticks": 344
+      },
+      {
+        "alive": {
+          "Herbivore": 26
+        },
+        "births": {
+          "Carnivore": 2,
+          "Herbivore": 63
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Herbivore": 36
+        },
+        "first_extinction": 149,
+        "last_alive": {
+          "Carnivore": 148,
+          "Herbivore": 148
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 1,
+          "Herbivore": 6
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-timescales/age120-interval25.json",
+        "seed": 12345,
+        "ticks": 149
+      },
+      {
+        "alive": {
+          "Herbivore": 1
+        },
+        "births": {
+          "Carnivore": 14,
+          "Herbivore": 73
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 12,
+          "Herbivore": 44
+        },
+        "first_extinction": 354,
+        "last_alive": {
+          "Carnivore": 353,
+          "Herbivore": 353
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 8,
+          "Herbivore": 7
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-timescales/age120-interval25.json",
+        "seed": 2026,
+        "ticks": 354
+      },
+      {
+        "alive": {
+          "Herbivore": 37
+        },
+        "births": {
+          "Carnivore": 1,
+          "Herbivore": 58
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Herbivore": 30
+        },
+        "first_extinction": 123,
+        "last_alive": {
+          "Carnivore": 122,
+          "Herbivore": 122
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 1,
+          "Herbivore": 5
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-timescales/age120-interval75.json",
+        "seed": 1,
+        "ticks": 123
+      },
+      {
+        "alive": {
+          "Herbivore": 34
+        },
+        "births": {
+          "Carnivore": 1,
+          "Herbivore": 56
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Herbivore": 27
+        },
+        "first_extinction": 123,
+        "last_alive": {
+          "Carnivore": 122,
+          "Herbivore": 122
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 1,
+          "Herbivore": 4
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-timescales/age120-interval75.json",
+        "seed": 2,
+        "ticks": 123
+      },
+      {
+        "alive": {
+          "Herbivore": 38
+        },
+        "births": {
+          "Carnivore": 1,
+          "Herbivore": 55
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Herbivore": 26
+        },
+        "first_extinction": 123,
+        "last_alive": {
+          "Carnivore": 122,
+          "Herbivore": 122
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 1,
+          "Herbivore": 4
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-timescales/age120-interval75.json",
+        "seed": 3,
+        "ticks": 123
+      },
+      {
+        "alive": {
+          "Herbivore": 31
+        },
+        "births": {
+          "Carnivore": 1,
+          "Herbivore": 56
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Herbivore": 27
+        },
+        "first_extinction": 123,
+        "last_alive": {
+          "Carnivore": 122,
+          "Herbivore": 122
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 1,
+          "Herbivore": 4
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-timescales/age120-interval75.json",
+        "seed": 4,
+        "ticks": 123
+      },
+      {
+        "alive": {
+          "Herbivore": 28
+        },
+        "births": {
+          "Carnivore": 1,
+          "Herbivore": 54
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Herbivore": 23
+        },
+        "first_extinction": 123,
+        "last_alive": {
+          "Carnivore": 122,
+          "Herbivore": 122
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 1,
+          "Herbivore": 4
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-timescales/age120-interval75.json",
+        "seed": 5,
+        "ticks": 123
+      },
+      {
+        "alive": {
+          "Herbivore": 34
+        },
+        "births": {
+          "Carnivore": 1,
+          "Herbivore": 58
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Herbivore": 32
+        },
+        "first_extinction": 123,
+        "last_alive": {
+          "Carnivore": 122,
+          "Herbivore": 122
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 1,
+          "Herbivore": 4
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-timescales/age120-interval75.json",
+        "seed": 42,
+        "ticks": 123
+      },
+      {
+        "alive": {
+          "Herbivore": 57
+        },
+        "births": {
+          "Carnivore": 1,
+          "Herbivore": 43
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Herbivore": 14
+        },
+        "first_extinction": 67,
+        "last_alive": {
+          "Carnivore": 66,
+          "Herbivore": 66
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 1,
+          "Herbivore": 2
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-timescales/age120-interval75.json",
+        "seed": 12345,
+        "ticks": 67
+      },
+      {
+        "alive": {
+          "Herbivore": 34
+        },
+        "births": {
+          "Carnivore": 1,
+          "Herbivore": 54
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Herbivore": 27
+        },
+        "first_extinction": 123,
+        "last_alive": {
+          "Carnivore": 122,
+          "Herbivore": 122
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 1,
+          "Herbivore": 4
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-timescales/age120-interval75.json",
+        "seed": 2026,
+        "ticks": 123
+      },
+      {
+        "alive": {
+          "Herbivore": 1
+        },
+        "births": {
+          "Carnivore": 11,
+          "Herbivore": 68
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 6,
+          "Herbivore": 40
+        },
+        "first_extinction": 274,
+        "last_alive": {
+          "Carnivore": 273,
+          "Herbivore": 273
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 4,
+          "Herbivore": 5
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-timescales/age360-interval25.json",
+        "seed": 1,
+        "ticks": 274
+      },
+      {
+        "alive": {
+          "Carnivore": 1
+        },
+        "births": {
+          "Carnivore": 14,
+          "Herbivore": 76
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 12,
+          "Herbivore": 44
+        },
+        "first_extinction": 340,
+        "last_alive": {
+          "Carnivore": 339,
+          "Herbivore": 339
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 9,
+          "Herbivore": 7
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-timescales/age360-interval25.json",
+        "seed": 2,
+        "ticks": 340
+      },
+      {
+        "alive": {
+          "Herbivore": 2
+        },
+        "births": {
+          "Carnivore": 12,
+          "Herbivore": 63
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 7,
+          "Herbivore": 32
+        },
+        "first_extinction": 289,
+        "last_alive": {
+          "Carnivore": 288,
+          "Herbivore": 288
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 5,
+          "Herbivore": 8
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-timescales/age360-interval25.json",
+        "seed": 3,
+        "ticks": 289
+      },
+      {
+        "alive": {
+          "Herbivore": 3
+        },
+        "births": {
+          "Carnivore": 12,
+          "Herbivore": 78
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 8,
+          "Herbivore": 47
+        },
+        "first_extinction": 464,
+        "last_alive": {
+          "Carnivore": 463,
+          "Herbivore": 463
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 6,
+          "Herbivore": 12
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-timescales/age360-interval25.json",
+        "seed": 4,
+        "ticks": 464
+      },
+      {
+        "alive": {
+          "Herbivore": 3
+        },
+        "births": {
+          "Carnivore": 14,
+          "Herbivore": 85
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 9,
+          "Herbivore": 47
+        },
+        "first_extinction": 363,
+        "last_alive": {
+          "Carnivore": 362,
+          "Herbivore": 362
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 8,
+          "Herbivore": 8
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-timescales/age360-interval25.json",
+        "seed": 5,
+        "ticks": 363
+      },
+      {
+        "alive": {
+          "Herbivore": 7
+        },
+        "births": {
+          "Carnivore": 11,
+          "Herbivore": 76
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 8,
+          "Herbivore": 45
+        },
+        "first_extinction": 313,
+        "last_alive": {
+          "Carnivore": 312,
+          "Herbivore": 312
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 6,
+          "Herbivore": 8
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-timescales/age360-interval25.json",
+        "seed": 42,
+        "ticks": 313
+      },
+      {
+        "alive": {
+          "Carnivore": 8
+        },
+        "births": {
+          "Carnivore": 12,
+          "Herbivore": 60
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 8,
+          "Herbivore": 29
+        },
+        "first_extinction": 234,
+        "last_alive": {
+          "Carnivore": 233,
+          "Herbivore": 233
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 6,
+          "Herbivore": 8
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-timescales/age360-interval25.json",
+        "seed": 12345,
+        "ticks": 234
+      },
+      {
+        "alive": {
+          "Carnivore": 3
+        },
+        "births": {
+          "Carnivore": 12,
+          "Herbivore": 64
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 9,
+          "Herbivore": 35
+        },
+        "first_extinction": 306,
+        "last_alive": {
+          "Carnivore": 305,
+          "Herbivore": 305
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 6,
+          "Herbivore": 8
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-timescales/age360-interval25.json",
+        "seed": 2026,
+        "ticks": 306
+      },
+      {
+        "alive": {
+          "Herbivore": 37
+        },
+        "births": {
+          "Carnivore": 7,
+          "Herbivore": 202
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 5,
+          "Herbivore": 143
+        },
+        "first_extinction": 667,
+        "last_alive": {
+          "Carnivore": 666,
+          "Herbivore": 666
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 5,
+          "Herbivore": 20
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-timescales/age360-interval75.json",
+        "seed": 1,
+        "ticks": 667
+      },
+      {
+        "alive": {},
+        "births": {
+          "Carnivore": 9,
+          "Herbivore": 93
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 7,
+          "Herbivore": 59
+        },
+        "first_extinction": 469,
+        "last_alive": {
+          "Carnivore": 468,
+          "Herbivore": 468
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 5,
+          "Herbivore": 10
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-timescales/age360-interval75.json",
+        "seed": 2,
+        "ticks": 469
+      },
+      {
+        "alive": {
+          "Herbivore": 3
+        },
+        "births": {
+          "Carnivore": 8,
+          "Herbivore": 90
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 4,
+          "Herbivore": 57
+        },
+        "first_extinction": 359,
+        "last_alive": {
+          "Carnivore": 358,
+          "Herbivore": 358
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 4,
+          "Herbivore": 10
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-timescales/age360-interval75.json",
+        "seed": 3,
+        "ticks": 359
+      },
+      {
+        "alive": {
+          "Herbivore": 4
+        },
+        "births": {
+          "Carnivore": 6,
+          "Herbivore": 80
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 4,
+          "Herbivore": 44
+        },
+        "first_extinction": 367,
+        "last_alive": {
+          "Carnivore": 366,
+          "Herbivore": 366
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 5,
+          "Herbivore": 11
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-timescales/age360-interval75.json",
+        "seed": 4,
+        "ticks": 367
+      },
+      {
+        "alive": {
+          "Carnivore": 3
+        },
+        "births": {
+          "Carnivore": 9,
+          "Herbivore": 102
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 7,
+          "Herbivore": 64
+        },
+        "first_extinction": 381,
+        "last_alive": {
+          "Carnivore": 380,
+          "Herbivore": 380
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 5,
+          "Herbivore": 10
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-timescales/age360-interval75.json",
+        "seed": 5,
+        "ticks": 381
+      },
+      {
+        "alive": {
+          "Herbivore": 3
+        },
+        "births": {
+          "Carnivore": 6,
+          "Herbivore": 81
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 4,
+          "Herbivore": 47
+        },
+        "first_extinction": 363,
+        "last_alive": {
+          "Carnivore": 362,
+          "Herbivore": 362
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 3,
+          "Herbivore": 10
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-timescales/age360-interval75.json",
+        "seed": 42,
+        "ticks": 363
+      },
+      {
+        "alive": {
+          "Herbivore": 4
+        },
+        "births": {
+          "Carnivore": 9,
+          "Herbivore": 119
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 7,
+          "Herbivore": 79
+        },
+        "first_extinction": 534,
+        "last_alive": {
+          "Carnivore": 533,
+          "Herbivore": 533
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 6,
+          "Herbivore": 16
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-timescales/age360-interval75.json",
+        "seed": 12345,
+        "ticks": 534
+      },
+      {
+        "alive": {
+          "Carnivore": 6
+        },
+        "births": {
+          "Carnivore": 9,
+          "Herbivore": 104
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 8,
+          "Herbivore": 65
+        },
+        "first_extinction": 374,
+        "last_alive": {
+          "Carnivore": 373,
+          "Herbivore": 373
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 7,
+          "Herbivore": 10
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-timescales/age360-interval75.json",
+        "seed": 2026,
+        "ticks": 374
+      },
+      {
+        "alive": {
+          "Carnivore": 1
+        },
+        "births": {
+          "Carnivore": 6,
+          "Herbivore": 121
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 4,
+          "Herbivore": 82
+        },
+        "first_extinction": 491,
+        "last_alive": {
+          "Carnivore": 490,
+          "Herbivore": 490
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 5,
+          "Herbivore": 12
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-timescales/age600-interval150.json",
+        "seed": 1,
+        "ticks": 491
+      },
+      {
+        "alive": {
+          "Herbivore": 7
+        },
+        "births": {
+          "Carnivore": 4,
+          "Herbivore": 118
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 3,
+          "Herbivore": 69
+        },
+        "first_extinction": 423,
+        "last_alive": {
+          "Carnivore": 422,
+          "Herbivore": 422
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 3,
+          "Herbivore": 13
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-timescales/age600-interval150.json",
+        "seed": 2,
+        "ticks": 423
+      },
+      {
+        "alive": {
+          "Herbivore": 4
+        },
+        "births": {
+          "Carnivore": 8,
+          "Herbivore": 142
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 6,
+          "Herbivore": 90
+        },
+        "first_extinction": 580,
+        "last_alive": {
+          "Carnivore": 579,
+          "Herbivore": 579
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 5,
+          "Herbivore": 17
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-timescales/age600-interval150.json",
+        "seed": 3,
+        "ticks": 580
+      },
+      {
+        "alive": {
+          "Herbivore": 4
+        },
+        "births": {
+          "Carnivore": 6,
+          "Herbivore": 124
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 4,
+          "Herbivore": 84
+        },
+        "first_extinction": 482,
+        "last_alive": {
+          "Carnivore": 481,
+          "Herbivore": 481
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 5,
+          "Herbivore": 15
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-timescales/age600-interval150.json",
+        "seed": 4,
+        "ticks": 482
+      },
+      {
+        "alive": {
+          "Carnivore": 2
+        },
+        "births": {
+          "Carnivore": 4,
+          "Herbivore": 80
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 2,
+          "Herbivore": 43
+        },
+        "first_extinction": 371,
+        "last_alive": {
+          "Carnivore": 370,
+          "Herbivore": 370
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 3,
+          "Herbivore": 7
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-timescales/age600-interval150.json",
+        "seed": 5,
+        "ticks": 371
+      },
+      {
+        "alive": {
+          "Herbivore": 30
+        },
+        "births": {
+          "Carnivore": 6,
+          "Herbivore": 223
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 4,
+          "Herbivore": 150
+        },
+        "first_extinction": 843,
+        "last_alive": {
+          "Carnivore": 842,
+          "Herbivore": 842
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 3,
+          "Herbivore": 27
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-timescales/age600-interval150.json",
+        "seed": 42,
+        "ticks": 843
+      },
+      {
+        "alive": {
+          "Carnivore": 1
+        },
+        "births": {
+          "Carnivore": 4,
+          "Herbivore": 88
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 2,
+          "Herbivore": 57
+        },
+        "first_extinction": 438,
+        "last_alive": {
+          "Carnivore": 437,
+          "Herbivore": 437
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 2,
+          "Herbivore": 11
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-timescales/age600-interval150.json",
+        "seed": 12345,
+        "ticks": 438
+      },
+      {
+        "alive": {
+          "Herbivore": 1
+        },
+        "births": {
+          "Carnivore": 4,
+          "Herbivore": 105
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 3,
+          "Herbivore": 65
+        },
+        "first_extinction": 491,
+        "last_alive": {
+          "Carnivore": 490,
+          "Herbivore": 490
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 4,
+          "Herbivore": 10
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-timescales/age600-interval150.json",
+        "seed": 2026,
+        "ticks": 491
+      }
+    ]
+  },
+  "coexistence-meals": {
+    "runs": 40,
+    "results": [
+      {
+        "alive": {
+          "Herbivore": 28
+        },
+        "births": {
+          "Carnivore": 1,
+          "Herbivore": 52
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Herbivore": 28
+        },
+        "first_extinction": 148,
+        "last_alive": {
+          "Carnivore": 147,
+          "Herbivore": 147
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 1,
+          "Herbivore": 4
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-meals/meal10.json",
+        "seed": 1,
+        "ticks": 148
+      },
+      {
+        "alive": {
+          "Herbivore": 3
+        },
+        "births": {
+          "Carnivore": 15,
+          "Herbivore": 104
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 12,
+          "Herbivore": 64
+        },
+        "first_extinction": 466,
+        "last_alive": {
+          "Carnivore": 465,
+          "Herbivore": 465
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 8,
+          "Herbivore": 12
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-meals/meal10.json",
+        "seed": 2,
+        "ticks": 466
+      },
+      {
+        "alive": {
+          "Herbivore": 36
+        },
+        "births": {
+          "Carnivore": 1,
+          "Herbivore": 83
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Herbivore": 53
+        },
+        "first_extinction": 223,
+        "last_alive": {
+          "Carnivore": 222,
+          "Herbivore": 222
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 1,
+          "Herbivore": 8
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-meals/meal10.json",
+        "seed": 3,
+        "ticks": 223
+      },
+      {
+        "alive": {
+          "Herbivore": 1
+        },
+        "births": {
+          "Carnivore": 17,
+          "Herbivore": 122
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 15,
+          "Herbivore": 77
+        },
+        "first_extinction": 516,
+        "last_alive": {
+          "Carnivore": 515,
+          "Herbivore": 515
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 10,
+          "Herbivore": 14
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-meals/meal10.json",
+        "seed": 4,
+        "ticks": 516
+      },
+      {
+        "alive": {
+          "Herbivore": 23
+        },
+        "births": {
+          "Carnivore": 1,
+          "Herbivore": 49
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Herbivore": 24
+        },
+        "first_extinction": 146,
+        "last_alive": {
+          "Carnivore": 145,
+          "Herbivore": 145
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 1,
+          "Herbivore": 5
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-meals/meal10.json",
+        "seed": 5,
+        "ticks": 146
+      },
+      {
+        "alive": {
+          "Herbivore": 3
+        },
+        "births": {
+          "Carnivore": 21,
+          "Herbivore": 130
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 19,
+          "Herbivore": 85
+        },
+        "first_extinction": 537,
+        "last_alive": {
+          "Carnivore": 536,
+          "Herbivore": 536
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 13,
+          "Herbivore": 13
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-meals/meal10.json",
+        "seed": 42,
+        "ticks": 537
+      },
+      {
+        "alive": {
+          "Herbivore": 26
+        },
+        "births": {
+          "Carnivore": 1,
+          "Herbivore": 56
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Herbivore": 23
+        },
+        "first_extinction": 147,
+        "last_alive": {
+          "Carnivore": 146,
+          "Herbivore": 146
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 1,
+          "Herbivore": 4
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-meals/meal10.json",
+        "seed": 12345,
+        "ticks": 147
+      },
+      {
+        "alive": {
+          "Herbivore": 21
+        },
+        "births": {
+          "Carnivore": 1,
+          "Herbivore": 53
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Herbivore": 25
+        },
+        "first_extinction": 151,
+        "last_alive": {
+          "Carnivore": 150,
+          "Herbivore": 150
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 1,
+          "Herbivore": 5
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-meals/meal10.json",
+        "seed": 2026,
+        "ticks": 151
+      },
+      {
+        "alive": {
+          "Carnivore": 1
+        },
+        "births": {
+          "Carnivore": 11,
+          "Herbivore": 73
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 8,
+          "Herbivore": 45
+        },
+        "first_extinction": 379,
+        "last_alive": {
+          "Carnivore": 378,
+          "Herbivore": 378
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 7,
+          "Herbivore": 9
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-meals/meal20.json",
+        "seed": 1,
+        "ticks": 379
+      },
+      {
+        "alive": {
+          "Herbivore": 3
+        },
+        "births": {
+          "Carnivore": 13,
+          "Herbivore": 77
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 10,
+          "Herbivore": 47
+        },
+        "first_extinction": 369,
+        "last_alive": {
+          "Carnivore": 368,
+          "Herbivore": 368
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 8,
+          "Herbivore": 9
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-meals/meal20.json",
+        "seed": 2,
+        "ticks": 369
+      },
+      {
+        "alive": {
+          "Herbivore": 7
+        },
+        "births": {
+          "Carnivore": 17,
+          "Herbivore": 114
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 15,
+          "Herbivore": 72
+        },
+        "first_extinction": 461,
+        "last_alive": {
+          "Carnivore": 460,
+          "Herbivore": 460
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 9,
+          "Herbivore": 14
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-meals/meal20.json",
+        "seed": 3,
+        "ticks": 461
+      },
+      {
+        "alive": {
+          "Carnivore": 1
+        },
+        "births": {
+          "Carnivore": 9,
+          "Herbivore": 61
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 7,
+          "Herbivore": 37
+        },
+        "first_extinction": 325,
+        "last_alive": {
+          "Carnivore": 324,
+          "Herbivore": 324
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 7,
+          "Herbivore": 5
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-meals/meal20.json",
+        "seed": 4,
+        "ticks": 325
+      },
+      {
+        "alive": {
+          "Carnivore": 1
+        },
+        "births": {
+          "Carnivore": 9,
+          "Herbivore": 57
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 6,
+          "Herbivore": 31
+        },
+        "first_extinction": 276,
+        "last_alive": {
+          "Carnivore": 275,
+          "Herbivore": 275
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 6,
+          "Herbivore": 6
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-meals/meal20.json",
+        "seed": 5,
+        "ticks": 276
+      },
+      {
+        "alive": {
+          "Carnivore": 3
+        },
+        "births": {
+          "Carnivore": 21,
+          "Herbivore": 136
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 18,
+          "Herbivore": 93
+        },
+        "first_extinction": 496,
+        "last_alive": {
+          "Carnivore": 495,
+          "Herbivore": 495
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 9,
+          "Herbivore": 12
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-meals/meal20.json",
+        "seed": 42,
+        "ticks": 496
+      },
+      {
+        "alive": {
+          "Herbivore": 6
+        },
+        "births": {
+          "Carnivore": 10,
+          "Herbivore": 84
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 8,
+          "Herbivore": 51
+        },
+        "first_extinction": 412,
+        "last_alive": {
+          "Carnivore": 411,
+          "Herbivore": 411
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 8,
+          "Herbivore": 12
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-meals/meal20.json",
+        "seed": 12345,
+        "ticks": 412
+      },
+      {
+        "alive": {
+          "Herbivore": 3
+        },
+        "births": {
+          "Carnivore": 11,
+          "Herbivore": 90
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 9,
+          "Herbivore": 55
+        },
+        "first_extinction": 455,
+        "last_alive": {
+          "Carnivore": 454,
+          "Herbivore": 454
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 7,
+          "Herbivore": 12
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-meals/meal20.json",
+        "seed": 2026,
+        "ticks": 455
+      },
+      {
+        "alive": {
+          "Herbivore": 9
+        },
+        "births": {
+          "Carnivore": 9,
+          "Herbivore": 86
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 7,
+          "Herbivore": 54
+        },
+        "first_extinction": 391,
+        "last_alive": {
+          "Carnivore": 390,
+          "Herbivore": 390
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 8,
+          "Herbivore": 10
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-meals/meal30.json",
+        "seed": 1,
+        "ticks": 391
+      },
+      {
+        "alive": {
+          "Carnivore": 6
+        },
+        "births": {
+          "Carnivore": 12,
+          "Herbivore": 74
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 9,
+          "Herbivore": 43
+        },
+        "first_extinction": 298,
+        "last_alive": {
+          "Carnivore": 297,
+          "Herbivore": 297
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 8,
+          "Herbivore": 8
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-meals/meal30.json",
+        "seed": 2,
+        "ticks": 298
+      },
+      {
+        "alive": {
+          "Herbivore": 4
+        },
+        "births": {
+          "Carnivore": 11,
+          "Herbivore": 83
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 8,
+          "Herbivore": 47
+        },
+        "first_extinction": 388,
+        "last_alive": {
+          "Carnivore": 387,
+          "Herbivore": 387
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 9,
+          "Herbivore": 10
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-meals/meal30.json",
+        "seed": 3,
+        "ticks": 388
+      },
+      {
+        "alive": {
+          "Herbivore": 1
+        },
+        "births": {
+          "Carnivore": 17,
+          "Herbivore": 124
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 12,
+          "Herbivore": 78
+        },
+        "first_extinction": 567,
+        "last_alive": {
+          "Carnivore": 566,
+          "Herbivore": 566
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 10,
+          "Herbivore": 16
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-meals/meal30.json",
+        "seed": 4,
+        "ticks": 567
+      },
+      {
+        "alive": {
+          "Herbivore": 5
+        },
+        "births": {
+          "Carnivore": 9,
+          "Herbivore": 73
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 6,
+          "Herbivore": 41
+        },
+        "first_extinction": 342,
+        "last_alive": {
+          "Carnivore": 341,
+          "Herbivore": 341
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 4,
+          "Herbivore": 8
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-meals/meal30.json",
+        "seed": 5,
+        "ticks": 342
+      },
+      {
+        "alive": {
+          "Carnivore": 2
+        },
+        "births": {
+          "Carnivore": 14,
+          "Herbivore": 92
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 11,
+          "Herbivore": 50
+        },
+        "first_extinction": 351,
+        "last_alive": {
+          "Carnivore": 350,
+          "Herbivore": 350
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 7,
+          "Herbivore": 9
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-meals/meal30.json",
+        "seed": 42,
+        "ticks": 351
+      },
+      {
+        "alive": {
+          "Herbivore": 6
+        },
+        "births": {
+          "Carnivore": 14,
+          "Herbivore": 66
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 10,
+          "Herbivore": 40
+        },
+        "first_extinction": 303,
+        "last_alive": {
+          "Carnivore": 302,
+          "Herbivore": 302
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 6,
+          "Herbivore": 8
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-meals/meal30.json",
+        "seed": 12345,
+        "ticks": 303
+      },
+      {
+        "alive": {
+          "Herbivore": 2
+        },
+        "births": {
+          "Carnivore": 16,
+          "Herbivore": 107
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 13,
+          "Herbivore": 72
+        },
+        "first_extinction": 459,
+        "last_alive": {
+          "Carnivore": 458,
+          "Herbivore": 458
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 11,
+          "Herbivore": 14
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-meals/meal30.json",
+        "seed": 2026,
+        "ticks": 459
+      },
+      {
+        "alive": {
+          "Herbivore": 42
+        },
+        "births": {
+          "Carnivore": 2,
+          "Herbivore": 95
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 1,
+          "Herbivore": 68
+        },
+        "first_extinction": 240,
+        "last_alive": {
+          "Carnivore": 239,
+          "Herbivore": 239
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 2,
+          "Herbivore": 9
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-meals/meal45.json",
+        "seed": 1,
+        "ticks": 240
+      },
+      {
+        "alive": {
+          "Herbivore": 7
+        },
+        "births": {
+          "Carnivore": 11,
+          "Herbivore": 89
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 9,
+          "Herbivore": 59
+        },
+        "first_extinction": 379,
+        "last_alive": {
+          "Carnivore": 378,
+          "Herbivore": 378
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 10,
+          "Herbivore": 9
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-meals/meal45.json",
+        "seed": 2,
+        "ticks": 379
+      },
+      {
+        "alive": {
+          "Carnivore": 3
+        },
+        "births": {
+          "Carnivore": 15,
+          "Herbivore": 96
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 12,
+          "Herbivore": 59
+        },
+        "first_extinction": 424,
+        "last_alive": {
+          "Carnivore": 423,
+          "Herbivore": 423
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 10,
+          "Herbivore": 10
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-meals/meal45.json",
+        "seed": 3,
+        "ticks": 424
+      },
+      {
+        "alive": {
+          "Herbivore": 33
+        },
+        "births": {
+          "Carnivore": 2,
+          "Herbivore": 80
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Herbivore": 51
+        },
+        "first_extinction": 229,
+        "last_alive": {
+          "Carnivore": 228,
+          "Herbivore": 228
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 1,
+          "Herbivore": 8
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-meals/meal45.json",
+        "seed": 4,
+        "ticks": 229
+      },
+      {
+        "alive": {
+          "Herbivore": 3
+        },
+        "births": {
+          "Carnivore": 12,
+          "Herbivore": 84
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 8,
+          "Herbivore": 48
+        },
+        "first_extinction": 396,
+        "last_alive": {
+          "Carnivore": 395,
+          "Herbivore": 395
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 7,
+          "Herbivore": 10
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-meals/meal45.json",
+        "seed": 5,
+        "ticks": 396
+      },
+      {
+        "alive": {
+          "Carnivore": 1
+        },
+        "births": {
+          "Carnivore": 11,
+          "Herbivore": 64
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 7,
+          "Herbivore": 36
+        },
+        "first_extinction": 332,
+        "last_alive": {
+          "Carnivore": 331,
+          "Herbivore": 331
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 7,
+          "Herbivore": 7
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-meals/meal45.json",
+        "seed": 42,
+        "ticks": 332
+      },
+      {
+        "alive": {
+          "Herbivore": 26
+        },
+        "births": {
+          "Carnivore": 2,
+          "Herbivore": 65
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Herbivore": 43
+        },
+        "first_extinction": 188,
+        "last_alive": {
+          "Carnivore": 187,
+          "Herbivore": 187
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 1,
+          "Herbivore": 7
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-meals/meal45.json",
+        "seed": 12345,
+        "ticks": 188
+      },
+      {
+        "alive": {
+          "Carnivore": 1
+        },
+        "births": {
+          "Carnivore": 18,
+          "Herbivore": 109
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 13,
+          "Herbivore": 66
+        },
+        "first_extinction": 438,
+        "last_alive": {
+          "Carnivore": 437,
+          "Herbivore": 437
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 9,
+          "Herbivore": 11
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-meals/meal45.json",
+        "seed": 2026,
+        "ticks": 438
+      },
+      {
+        "alive": {
+          "Carnivore": 2
+        },
+        "births": {
+          "Carnivore": 19,
+          "Herbivore": 109
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 14,
+          "Herbivore": 66
+        },
+        "first_extinction": 433,
+        "last_alive": {
+          "Carnivore": 432,
+          "Herbivore": 432
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 8,
+          "Herbivore": 10
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-meals/meal60.json",
+        "seed": 1,
+        "ticks": 433
+      },
+      {
+        "alive": {
+          "Herbivore": 33
+        },
+        "births": {
+          "Carnivore": 1,
+          "Herbivore": 55
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Herbivore": 26
+        },
+        "first_extinction": 150,
+        "last_alive": {
+          "Carnivore": 149,
+          "Herbivore": 149
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 1,
+          "Herbivore": 4
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-meals/meal60.json",
+        "seed": 2,
+        "ticks": 150
+      },
+      {
+        "alive": {
+          "Herbivore": 3
+        },
+        "births": {
+          "Carnivore": 11,
+          "Herbivore": 78
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 9,
+          "Herbivore": 44
+        },
+        "first_extinction": 382,
+        "last_alive": {
+          "Carnivore": 381,
+          "Herbivore": 381
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 7,
+          "Herbivore": 10
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-meals/meal60.json",
+        "seed": 3,
+        "ticks": 382
+      },
+      {
+        "alive": {
+          "Carnivore": 2
+        },
+        "births": {
+          "Carnivore": 9,
+          "Herbivore": 67
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 7,
+          "Herbivore": 32
+        },
+        "first_extinction": 327,
+        "last_alive": {
+          "Carnivore": 326,
+          "Herbivore": 326
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 6,
+          "Herbivore": 6
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-meals/meal60.json",
+        "seed": 4,
+        "ticks": 327
+      },
+      {
+        "alive": {
+          "Herbivore": 34
+        },
+        "births": {
+          "Carnivore": 2,
+          "Herbivore": 79
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Herbivore": 55
+        },
+        "first_extinction": 221,
+        "last_alive": {
+          "Carnivore": 220,
+          "Herbivore": 220
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 1,
+          "Herbivore": 8
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-meals/meal60.json",
+        "seed": 5,
+        "ticks": 221
+      },
+      {
+        "alive": {
+          "Carnivore": 1
+        },
+        "births": {
+          "Carnivore": 18,
+          "Herbivore": 100
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 14,
+          "Herbivore": 64
+        },
+        "first_extinction": 450,
+        "last_alive": {
+          "Carnivore": 449,
+          "Herbivore": 449
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 8,
+          "Herbivore": 12
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-meals/meal60.json",
+        "seed": 42,
+        "ticks": 450
+      },
+      {
+        "alive": {
+          "Herbivore": 5
+        },
+        "births": {
+          "Carnivore": 12,
+          "Herbivore": 58
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 8,
+          "Herbivore": 27
+        },
+        "first_extinction": 310,
+        "last_alive": {
+          "Carnivore": 309,
+          "Herbivore": 309
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 5,
+          "Herbivore": 7
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-meals/meal60.json",
+        "seed": 12345,
+        "ticks": 310
+      },
+      {
+        "alive": {
+          "Herbivore": 9
+        },
+        "births": {
+          "Carnivore": 5,
+          "Herbivore": 63
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 4,
+          "Herbivore": 35
+        },
+        "first_extinction": 278,
+        "last_alive": {
+          "Carnivore": 277,
+          "Herbivore": 277
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 5,
+          "Herbivore": 9
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-meals/meal60.json",
+        "seed": 2026,
+        "ticks": 278
+      }
+    ]
+  },
+  "coexistence-critical-recovery": {
+    "runs": 16,
+    "results": [
+      {
+        "alive": {
+          "Herbivore": 1
+        },
+        "births": {
+          "Carnivore": 9,
+          "Herbivore": 59
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 8,
+          "Herbivore": 36
+        },
+        "first_extinction": 340,
+        "last_alive": {
+          "Carnivore": 339,
+          "Herbivore": 339
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 8,
+          "Herbivore": 6
+        },
+        "mode": "both",
+        "requested_ticks": 10000,
+        "scenario": "scenarios/mixed-refuge.json",
+        "seed": 1,
+        "ticks": 340
+      },
+      {
+        "alive": {
+          "Carnivore": 1
+        },
+        "births": {
+          "Carnivore": 6,
+          "Herbivore": 62
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 5,
+          "Herbivore": 38
+        },
+        "first_extinction": 335,
+        "last_alive": {
+          "Carnivore": 334,
+          "Herbivore": 334
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 6,
+          "Herbivore": 8
+        },
+        "mode": "both",
+        "requested_ticks": 10000,
+        "scenario": "scenarios/mixed-refuge.json",
+        "seed": 2,
+        "ticks": 335
+      },
+      {
+        "alive": {
+          "Herbivore": 1
+        },
+        "births": {
+          "Carnivore": 20,
+          "Herbivore": 163
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 17,
+          "Herbivore": 113
+        },
+        "first_extinction": 700,
+        "last_alive": {
+          "Carnivore": 699,
+          "Herbivore": 699
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 14,
+          "Herbivore": 17
+        },
+        "mode": "both",
+        "requested_ticks": 10000,
+        "scenario": "scenarios/mixed-refuge.json",
+        "seed": 3,
+        "ticks": 700
+      },
+      {
+        "alive": {
+          "Herbivore": 23
+        },
+        "births": {
+          "Carnivore": 1,
+          "Herbivore": 49
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Herbivore": 30
+        },
+        "first_extinction": 146,
+        "last_alive": {
+          "Carnivore": 145,
+          "Herbivore": 145
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 1,
+          "Herbivore": 4
+        },
+        "mode": "both",
+        "requested_ticks": 10000,
+        "scenario": "scenarios/mixed-refuge.json",
+        "seed": 4,
+        "ticks": 146
+      },
+      {
+        "alive": {
+          "Herbivore": 1
+        },
+        "births": {
+          "Carnivore": 26,
+          "Herbivore": 189
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 23,
+          "Herbivore": 133
+        },
+        "first_extinction": 724,
+        "last_alive": {
+          "Carnivore": 723,
+          "Herbivore": 723
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 19,
+          "Herbivore": 22
+        },
+        "mode": "both",
+        "requested_ticks": 10000,
+        "scenario": "scenarios/mixed-refuge.json",
+        "seed": 5,
+        "ticks": 724
+      },
+      {
+        "alive": {
+          "Herbivore": 30
+        },
+        "births": {
+          "Herbivore": 41
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Herbivore": 13
+        },
+        "first_extinction": 121,
+        "last_alive": {
+          "Carnivore": 120,
+          "Herbivore": 120
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 0,
+          "Herbivore": 3
+        },
+        "mode": "both",
+        "requested_ticks": 10000,
+        "scenario": "scenarios/mixed-refuge.json",
+        "seed": 42,
+        "ticks": 121
+      },
+      {
+        "alive": {
+          "Carnivore": 1
+        },
+        "births": {
+          "Carnivore": 23,
+          "Herbivore": 181
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 21,
+          "Herbivore": 126
+        },
+        "first_extinction": 711,
+        "last_alive": {
+          "Carnivore": 710,
+          "Herbivore": 710
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 15,
+          "Herbivore": 23
+        },
+        "mode": "both",
+        "requested_ticks": 10000,
+        "scenario": "scenarios/mixed-refuge.json",
+        "seed": 12345,
+        "ticks": 711
+      },
+      {
+        "alive": {
+          "Herbivore": 28
+        },
+        "births": {
+          "Carnivore": 1,
+          "Herbivore": 51
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Herbivore": 30
+        },
+        "first_extinction": 150,
+        "last_alive": {
+          "Carnivore": 149,
+          "Herbivore": 149
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 1,
+          "Herbivore": 5
+        },
+        "mode": "both",
+        "requested_ticks": 10000,
+        "scenario": "scenarios/mixed-refuge.json",
+        "seed": 2026,
+        "ticks": 150
+      },
+      {
+        "alive": {
+          "Herbivore": 3
+        },
+        "births": {
+          "Carnivore": 24,
+          "Herbivore": 175
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 21,
+          "Herbivore": 127
+        },
+        "first_extinction": 628,
+        "last_alive": {
+          "Carnivore": 627,
+          "Herbivore": 627
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 12,
+          "Herbivore": 19
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "scenarios/mixed-refuge.json",
+        "seed": 1,
+        "ticks": 628
+      },
+      {
+        "alive": {
+          "Herbivore": 21
+        },
+        "births": {
+          "Carnivore": 2,
+          "Herbivore": 63
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Herbivore": 36
+        },
+        "first_extinction": 195,
+        "last_alive": {
+          "Carnivore": 194,
+          "Herbivore": 194
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 1,
+          "Herbivore": 5
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "scenarios/mixed-refuge.json",
+        "seed": 2,
+        "ticks": 195
+      },
+      {
+        "alive": {
+          "Herbivore": 45
+        },
+        "births": {
+          "Carnivore": 1,
+          "Herbivore": 98
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Herbivore": 71
+        },
+        "first_extinction": 241,
+        "last_alive": {
+          "Carnivore": 240,
+          "Herbivore": 240
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 1,
+          "Herbivore": 8
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "scenarios/mixed-refuge.json",
+        "seed": 3,
+        "ticks": 241
+      },
+      {
+        "alive": {
+          "Herbivore": 7
+        },
+        "births": {
+          "Carnivore": 13,
+          "Herbivore": 102
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 10,
+          "Herbivore": 67
+        },
+        "first_extinction": 463,
+        "last_alive": {
+          "Carnivore": 462,
+          "Herbivore": 462
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 9,
+          "Herbivore": 12
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "scenarios/mixed-refuge.json",
+        "seed": 4,
+        "ticks": 463
+      },
+      {
+        "alive": {
+          "Herbivore": 31
+        },
+        "births": {
+          "Carnivore": 1,
+          "Herbivore": 55
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Herbivore": 31
+        },
+        "first_extinction": 146,
+        "last_alive": {
+          "Carnivore": 145,
+          "Herbivore": 145
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 1,
+          "Herbivore": 5
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "scenarios/mixed-refuge.json",
+        "seed": 5,
+        "ticks": 146
+      },
+      {
+        "alive": {
+          "Herbivore": 20
+        },
+        "births": {
+          "Carnivore": 19,
+          "Herbivore": 146
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 15,
+          "Herbivore": 98
+        },
+        "first_extinction": 503,
+        "last_alive": {
+          "Carnivore": 502,
+          "Herbivore": 502
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 10,
+          "Herbivore": 17
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "scenarios/mixed-refuge.json",
+        "seed": 42,
+        "ticks": 503
+      },
+      {
+        "alive": {
+          "Herbivore": 27
+        },
+        "births": {
+          "Carnivore": 1,
+          "Herbivore": 51
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Herbivore": 27
+        },
+        "first_extinction": 147,
+        "last_alive": {
+          "Carnivore": 146,
+          "Herbivore": 146
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 1,
+          "Herbivore": 5
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "scenarios/mixed-refuge.json",
+        "seed": 12345,
+        "ticks": 147
+      },
+      {
+        "alive": {
+          "Herbivore": 1
+        },
+        "births": {
+          "Carnivore": 22,
+          "Herbivore": 149
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 17,
+          "Herbivore": 104
+        },
+        "first_extinction": 592,
+        "last_alive": {
+          "Carnivore": 591,
+          "Herbivore": 591
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 11,
+          "Herbivore": 16
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "scenarios/mixed-refuge.json",
+        "seed": 2026,
+        "ticks": 592
+      }
+    ]
+  },
+  "coexistence-slow-response": {
+    "runs": 40,
+    "results": [
+      {
+        "alive": {
+          "Carnivore": 7
+        },
+        "births": {
+          "Carnivore": 7,
+          "Herbivore": 304
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 6,
+          "Herbivore": 221
+        },
+        "first_extinction": 912,
+        "last_alive": {
+          "Carnivore": 911,
+          "Herbivore": 911
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 5,
+          "Herbivore": 25
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-slow-response/a1200-r350-e180-m60.json",
+        "seed": 1,
+        "ticks": 912
+      },
+      {
+        "alive": {
+          "Carnivore": 4
+        },
+        "births": {
+          "Carnivore": 7,
+          "Herbivore": 288
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 6,
+          "Herbivore": 213
+        },
+        "first_extinction": 977,
+        "last_alive": {
+          "Carnivore": 976,
+          "Herbivore": 976
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 4,
+          "Herbivore": 27
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-slow-response/a1200-r350-e180-m60.json",
+        "seed": 2,
+        "ticks": 977
+      },
+      {
+        "alive": {
+          "Carnivore": 4
+        },
+        "births": {
+          "Carnivore": 7,
+          "Herbivore": 305
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 6,
+          "Herbivore": 230
+        },
+        "first_extinction": 965,
+        "last_alive": {
+          "Carnivore": 964,
+          "Herbivore": 964
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 4,
+          "Herbivore": 26
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-slow-response/a1200-r350-e180-m60.json",
+        "seed": 3,
+        "ticks": 965
+      },
+      {
+        "alive": {
+          "Carnivore": 3
+        },
+        "births": {
+          "Carnivore": 6,
+          "Herbivore": 338
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 5,
+          "Herbivore": 253
+        },
+        "first_extinction": 1086,
+        "last_alive": {
+          "Carnivore": 1085,
+          "Herbivore": 1085
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 6,
+          "Herbivore": 29
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-slow-response/a1200-r350-e180-m60.json",
+        "seed": 4,
+        "ticks": 1086
+      },
+      {
+        "alive": {
+          "Carnivore": 9
+        },
+        "births": {
+          "Carnivore": 7,
+          "Herbivore": 304
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 6,
+          "Herbivore": 238
+        },
+        "first_extinction": 918,
+        "last_alive": {
+          "Carnivore": 917,
+          "Herbivore": 917
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 5,
+          "Herbivore": 29
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-slow-response/a1200-r350-e180-m60.json",
+        "seed": 5,
+        "ticks": 918
+      },
+      {
+        "alive": {
+          "Carnivore": 3
+        },
+        "births": {
+          "Carnivore": 7,
+          "Herbivore": 286
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 6,
+          "Herbivore": 213
+        },
+        "first_extinction": 967,
+        "last_alive": {
+          "Carnivore": 966,
+          "Herbivore": 966
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 6,
+          "Herbivore": 25
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-slow-response/a1200-r350-e180-m60.json",
+        "seed": 42,
+        "ticks": 967
+      },
+      {
+        "alive": {
+          "Carnivore": 2
+        },
+        "births": {
+          "Carnivore": 8,
+          "Herbivore": 439
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 6,
+          "Herbivore": 369
+        },
+        "first_extinction": 1427,
+        "last_alive": {
+          "Carnivore": 1426,
+          "Herbivore": 1426
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 5,
+          "Herbivore": 41
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-slow-response/a1200-r350-e180-m60.json",
+        "seed": 12345,
+        "ticks": 1427
+      },
+      {
+        "alive": {
+          "Carnivore": 6
+        },
+        "births": {
+          "Carnivore": 7,
+          "Herbivore": 310
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 6,
+          "Herbivore": 232
+        },
+        "first_extinction": 988,
+        "last_alive": {
+          "Carnivore": 987,
+          "Herbivore": 987
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 6,
+          "Herbivore": 28
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-slow-response/a1200-r350-e180-m60.json",
+        "seed": 2026,
+        "ticks": 988
+      },
+      {
+        "alive": {
+          "Carnivore": 6
+        },
+        "births": {
+          "Carnivore": 7,
+          "Herbivore": 308
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 6,
+          "Herbivore": 238
+        },
+        "first_extinction": 964,
+        "last_alive": {
+          "Carnivore": 963,
+          "Herbivore": 963
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 6,
+          "Herbivore": 25
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-slow-response/a1200-r350-e270-m30.json",
+        "seed": 1,
+        "ticks": 964
+      },
+      {
+        "alive": {
+          "Carnivore": 8
+        },
+        "births": {
+          "Carnivore": 7,
+          "Herbivore": 288
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 6,
+          "Herbivore": 213
+        },
+        "first_extinction": 921,
+        "last_alive": {
+          "Carnivore": 920,
+          "Herbivore": 920
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 5,
+          "Herbivore": 27
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-slow-response/a1200-r350-e270-m30.json",
+        "seed": 2,
+        "ticks": 921
+      },
+      {
+        "alive": {
+          "Carnivore": 4
+        },
+        "births": {
+          "Carnivore": 2,
+          "Herbivore": 81
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 1,
+          "Herbivore": 42
+        },
+        "first_extinction": 473,
+        "last_alive": {
+          "Carnivore": 472,
+          "Herbivore": 472
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 2,
+          "Herbivore": 12
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-slow-response/a1200-r350-e270-m30.json",
+        "seed": 3,
+        "ticks": 473
+      },
+      {
+        "alive": {
+          "Carnivore": 3
+        },
+        "births": {
+          "Carnivore": 7,
+          "Herbivore": 298
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 6,
+          "Herbivore": 226
+        },
+        "first_extinction": 984,
+        "last_alive": {
+          "Carnivore": 983,
+          "Herbivore": 983
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 6,
+          "Herbivore": 26
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-slow-response/a1200-r350-e270-m30.json",
+        "seed": 4,
+        "ticks": 984
+      },
+      {
+        "alive": {
+          "Carnivore": 3
+        },
+        "births": {
+          "Carnivore": 3,
+          "Herbivore": 86
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 2,
+          "Herbivore": 48
+        },
+        "first_extinction": 505,
+        "last_alive": {
+          "Carnivore": 504,
+          "Herbivore": 504
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 3,
+          "Herbivore": 11
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-slow-response/a1200-r350-e270-m30.json",
+        "seed": 5,
+        "ticks": 505
+      },
+      {
+        "alive": {
+          "Carnivore": 6
+        },
+        "births": {
+          "Carnivore": 7,
+          "Herbivore": 286
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 6,
+          "Herbivore": 206
+        },
+        "first_extinction": 933,
+        "last_alive": {
+          "Carnivore": 932,
+          "Herbivore": 932
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 5,
+          "Herbivore": 25
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-slow-response/a1200-r350-e270-m30.json",
+        "seed": 42,
+        "ticks": 933
+      },
+      {
+        "alive": {
+          "Carnivore": 1
+        },
+        "births": {
+          "Carnivore": 7,
+          "Herbivore": 270
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 6,
+          "Herbivore": 192
+        },
+        "first_extinction": 950,
+        "last_alive": {
+          "Carnivore": 949,
+          "Herbivore": 949
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 6,
+          "Herbivore": 26
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-slow-response/a1200-r350-e270-m30.json",
+        "seed": 12345,
+        "ticks": 950
+      },
+      {
+        "alive": {
+          "Carnivore": 2
+        },
+        "births": {
+          "Carnivore": 7,
+          "Herbivore": 289
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 6,
+          "Herbivore": 212
+        },
+        "first_extinction": 1024,
+        "last_alive": {
+          "Carnivore": 1023,
+          "Herbivore": 1023
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 6,
+          "Herbivore": 27
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-slow-response/a1200-r350-e270-m30.json",
+        "seed": 2026,
+        "ticks": 1024
+      },
+      {
+        "alive": {
+          "Carnivore": 7
+        },
+        "births": {
+          "Carnivore": 7,
+          "Herbivore": 293
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 6,
+          "Herbivore": 228
+        },
+        "first_extinction": 927,
+        "last_alive": {
+          "Carnivore": 926,
+          "Herbivore": 926
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 6,
+          "Herbivore": 28
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-slow-response/a1200-r350-e270-m60.json",
+        "seed": 1,
+        "ticks": 927
+      },
+      {
+        "alive": {
+          "Carnivore": 5
+        },
+        "births": {
+          "Carnivore": 7,
+          "Herbivore": 286
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 6,
+          "Herbivore": 207
+        },
+        "first_extinction": 963,
+        "last_alive": {
+          "Carnivore": 962,
+          "Herbivore": 962
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 5,
+          "Herbivore": 28
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-slow-response/a1200-r350-e270-m60.json",
+        "seed": 2,
+        "ticks": 963
+      },
+      {
+        "alive": {
+          "Carnivore": 9
+        },
+        "births": {
+          "Carnivore": 7,
+          "Herbivore": 296
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 6,
+          "Herbivore": 228
+        },
+        "first_extinction": 917,
+        "last_alive": {
+          "Carnivore": 916,
+          "Herbivore": 916
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 6,
+          "Herbivore": 24
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-slow-response/a1200-r350-e270-m60.json",
+        "seed": 3,
+        "ticks": 917
+      },
+      {
+        "alive": {
+          "Carnivore": 4
+        },
+        "births": {
+          "Carnivore": 7,
+          "Herbivore": 296
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 6,
+          "Herbivore": 219
+        },
+        "first_extinction": 962,
+        "last_alive": {
+          "Carnivore": 961,
+          "Herbivore": 961
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 6,
+          "Herbivore": 27
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-slow-response/a1200-r350-e270-m60.json",
+        "seed": 4,
+        "ticks": 962
+      },
+      {
+        "alive": {
+          "Carnivore": 6
+        },
+        "births": {
+          "Carnivore": 7,
+          "Herbivore": 299
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 6,
+          "Herbivore": 225
+        },
+        "first_extinction": 940,
+        "last_alive": {
+          "Carnivore": 939,
+          "Herbivore": 939
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 6,
+          "Herbivore": 26
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-slow-response/a1200-r350-e270-m60.json",
+        "seed": 5,
+        "ticks": 940
+      },
+      {
+        "alive": {
+          "Carnivore": 7
+        },
+        "births": {
+          "Carnivore": 7,
+          "Herbivore": 301
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 6,
+          "Herbivore": 242
+        },
+        "first_extinction": 934,
+        "last_alive": {
+          "Carnivore": 933,
+          "Herbivore": 933
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 5,
+          "Herbivore": 26
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-slow-response/a1200-r350-e270-m60.json",
+        "seed": 42,
+        "ticks": 934
+      },
+      {
+        "alive": {
+          "Carnivore": 4
+        },
+        "births": {
+          "Carnivore": 7,
+          "Herbivore": 302
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 6,
+          "Herbivore": 230
+        },
+        "first_extinction": 980,
+        "last_alive": {
+          "Carnivore": 979,
+          "Herbivore": 979
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 5,
+          "Herbivore": 27
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-slow-response/a1200-r350-e270-m60.json",
+        "seed": 12345,
+        "ticks": 980
+      },
+      {
+        "alive": {
+          "Carnivore": 4
+        },
+        "births": {
+          "Carnivore": 6,
+          "Herbivore": 276
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 4,
+          "Herbivore": 199
+        },
+        "first_extinction": 979,
+        "last_alive": {
+          "Carnivore": 978,
+          "Herbivore": 978
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 4,
+          "Herbivore": 28
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-slow-response/a1200-r350-e270-m60.json",
+        "seed": 2026,
+        "ticks": 979
+      },
+      {
+        "alive": {
+          "Herbivore": 5
+        },
+        "births": {
+          "Carnivore": 7,
+          "Herbivore": 300
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 6,
+          "Herbivore": 224
+        },
+        "first_extinction": 961,
+        "last_alive": {
+          "Carnivore": 960,
+          "Herbivore": 960
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 6,
+          "Herbivore": 28
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-slow-response/a1200-r350-e90-m60.json",
+        "seed": 1,
+        "ticks": 961
+      },
+      {
+        "alive": {
+          "Carnivore": 3
+        },
+        "births": {
+          "Carnivore": 7,
+          "Herbivore": 295
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 6,
+          "Herbivore": 222
+        },
+        "first_extinction": 966,
+        "last_alive": {
+          "Carnivore": 965,
+          "Herbivore": 965
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 5,
+          "Herbivore": 24
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-slow-response/a1200-r350-e90-m60.json",
+        "seed": 2,
+        "ticks": 966
+      },
+      {
+        "alive": {
+          "Herbivore": 44
+        },
+        "births": {
+          "Carnivore": 6,
+          "Herbivore": 337
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 4,
+          "Herbivore": 252
+        },
+        "first_extinction": 1201,
+        "last_alive": {
+          "Carnivore": 1200,
+          "Herbivore": 1200
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 5,
+          "Herbivore": 38
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-slow-response/a1200-r350-e90-m60.json",
+        "seed": 3,
+        "ticks": 1201
+      },
+      {
+        "alive": {
+          "Carnivore": 1
+        },
+        "births": {
+          "Carnivore": 6,
+          "Herbivore": 321
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 5,
+          "Herbivore": 237
+        },
+        "first_extinction": 1074,
+        "last_alive": {
+          "Carnivore": 1073,
+          "Herbivore": 1073
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 6,
+          "Herbivore": 28
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-slow-response/a1200-r350-e90-m60.json",
+        "seed": 4,
+        "ticks": 1074
+      },
+      {
+        "alive": {
+          "Herbivore": 4
+        },
+        "births": {
+          "Carnivore": 8,
+          "Herbivore": 422
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 6,
+          "Herbivore": 343
+        },
+        "first_extinction": 1380,
+        "last_alive": {
+          "Carnivore": 1379,
+          "Herbivore": 1379
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 6,
+          "Herbivore": 42
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-slow-response/a1200-r350-e90-m60.json",
+        "seed": 5,
+        "ticks": 1380
+      },
+      {
+        "alive": {
+          "Herbivore": 1
+        },
+        "births": {
+          "Carnivore": 8,
+          "Herbivore": 415
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 6,
+          "Herbivore": 330
+        },
+        "first_extinction": 1445,
+        "last_alive": {
+          "Carnivore": 1444,
+          "Herbivore": 1444
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 5,
+          "Herbivore": 41
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-slow-response/a1200-r350-e90-m60.json",
+        "seed": 42,
+        "ticks": 1445
+      },
+      {
+        "alive": {
+          "Carnivore": 5
+        },
+        "births": {
+          "Carnivore": 7,
+          "Herbivore": 286
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 6,
+          "Herbivore": 221
+        },
+        "first_extinction": 902,
+        "last_alive": {
+          "Carnivore": 901,
+          "Herbivore": 901
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 6,
+          "Herbivore": 27
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-slow-response/a1200-r350-e90-m60.json",
+        "seed": 12345,
+        "ticks": 902
+      },
+      {
+        "alive": {
+          "Herbivore": 40
+        },
+        "births": {
+          "Carnivore": 1,
+          "Herbivore": 461
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Herbivore": 391
+        },
+        "first_extinction": 1201,
+        "last_alive": {
+          "Carnivore": 1200,
+          "Herbivore": 1200
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 1,
+          "Herbivore": 39
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-slow-response/a1200-r350-e90-m60.json",
+        "seed": 2026,
+        "ticks": 1201
+      },
+      {
+        "alive": {
+          "Carnivore": 2
+        },
+        "births": {
+          "Carnivore": 5,
+          "Herbivore": 122
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 4,
+          "Herbivore": 76
+        },
+        "first_extinction": 521,
+        "last_alive": {
+          "Carnivore": 520,
+          "Herbivore": 520
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 4,
+          "Herbivore": 13
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-slow-response/a600-r150-e90-m30.json",
+        "seed": 1,
+        "ticks": 521
+      },
+      {
+        "alive": {
+          "Herbivore": 3
+        },
+        "births": {
+          "Carnivore": 7,
+          "Herbivore": 149
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 4,
+          "Herbivore": 101
+        },
+        "first_extinction": 627,
+        "last_alive": {
+          "Carnivore": 626,
+          "Herbivore": 626
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 5,
+          "Herbivore": 17
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-slow-response/a600-r150-e90-m30.json",
+        "seed": 2,
+        "ticks": 627
+      },
+      {
+        "alive": {
+          "Carnivore": 4
+        },
+        "births": {
+          "Carnivore": 8,
+          "Herbivore": 163
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 6,
+          "Herbivore": 113
+        },
+        "first_extinction": 569,
+        "last_alive": {
+          "Carnivore": 568,
+          "Herbivore": 568
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 6,
+          "Herbivore": 15
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-slow-response/a600-r150-e90-m30.json",
+        "seed": 3,
+        "ticks": 569
+      },
+      {
+        "alive": {
+          "Herbivore": 1
+        },
+        "births": {
+          "Carnivore": 6,
+          "Herbivore": 131
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 5,
+          "Herbivore": 81
+        },
+        "first_extinction": 555,
+        "last_alive": {
+          "Carnivore": 554,
+          "Herbivore": 554
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 4,
+          "Herbivore": 12
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-slow-response/a600-r150-e90-m30.json",
+        "seed": 4,
+        "ticks": 555
+      },
+      {
+        "alive": {
+          "Herbivore": 1
+        },
+        "births": {
+          "Carnivore": 5,
+          "Herbivore": 98
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 2,
+          "Herbivore": 63
+        },
+        "first_extinction": 551,
+        "last_alive": {
+          "Carnivore": 550,
+          "Herbivore": 550
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 2,
+          "Herbivore": 14
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-slow-response/a600-r150-e90-m30.json",
+        "seed": 5,
+        "ticks": 551
+      },
+      {
+        "alive": {
+          "Herbivore": 4
+        },
+        "births": {
+          "Carnivore": 8,
+          "Herbivore": 183
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 6,
+          "Herbivore": 128
+        },
+        "first_extinction": 788,
+        "last_alive": {
+          "Carnivore": 787,
+          "Herbivore": 787
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 5,
+          "Herbivore": 23
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-slow-response/a600-r150-e90-m30.json",
+        "seed": 42,
+        "ticks": 788
+      },
+      {
+        "alive": {
+          "Herbivore": 1
+        },
+        "births": {
+          "Carnivore": 10,
+          "Herbivore": 211
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 7,
+          "Herbivore": 149
+        },
+        "first_extinction": 751,
+        "last_alive": {
+          "Carnivore": 750,
+          "Herbivore": 750
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 7,
+          "Herbivore": 20
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-slow-response/a600-r150-e90-m30.json",
+        "seed": 12345,
+        "ticks": 751
+      },
+      {
+        "alive": {
+          "Carnivore": 4
+        },
+        "births": {
+          "Carnivore": 8,
+          "Herbivore": 163
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 6,
+          "Herbivore": 107
+        },
+        "first_extinction": 563,
+        "last_alive": {
+          "Carnivore": 562,
+          "Herbivore": 562
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 7,
+          "Herbivore": 15
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-slow-response/a600-r150-e90-m30.json",
+        "seed": 2026,
+        "ticks": 563
+      }
+    ]
+  },
+  "coexistence-reserve": {
+    "runs": 48,
+    "results": [
+      {
+        "alive": {
+          "Herbivore": 34
+        },
+        "births": {
+          "Herbivore": 46
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Herbivore": 19
+        },
+        "first_extinction": 121,
+        "last_alive": {
+          "Carnivore": 120,
+          "Herbivore": 120
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 0,
+          "Herbivore": 4
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-reserve/a120-r25-e90-m10-q750.json",
+        "seed": 1,
+        "ticks": 121
+      },
+      {
+        "alive": {
+          "Herbivore": 22
+        },
+        "births": {
+          "Carnivore": 1,
+          "Herbivore": 52
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Herbivore": 25
+        },
+        "first_extinction": 151,
+        "last_alive": {
+          "Carnivore": 150,
+          "Herbivore": 150
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 1,
+          "Herbivore": 4
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-reserve/a120-r25-e90-m10-q750.json",
+        "seed": 2,
+        "ticks": 151
+      },
+      {
+        "alive": {
+          "Herbivore": 35
+        },
+        "births": {
+          "Herbivore": 48
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Herbivore": 22
+        },
+        "first_extinction": 121,
+        "last_alive": {
+          "Carnivore": 120,
+          "Herbivore": 120
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 0,
+          "Herbivore": 3
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-reserve/a120-r25-e90-m10-q750.json",
+        "seed": 3,
+        "ticks": 121
+      },
+      {
+        "alive": {
+          "Herbivore": 40
+        },
+        "births": {
+          "Carnivore": 1,
+          "Herbivore": 88
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Herbivore": 59
+        },
+        "first_extinction": 238,
+        "last_alive": {
+          "Carnivore": 237,
+          "Herbivore": 237
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 1,
+          "Herbivore": 7
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-reserve/a120-r25-e90-m10-q750.json",
+        "seed": 4,
+        "ticks": 238
+      },
+      {
+        "alive": {
+          "Herbivore": 35
+        },
+        "births": {
+          "Carnivore": 1,
+          "Herbivore": 86
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Herbivore": 53
+        },
+        "first_extinction": 234,
+        "last_alive": {
+          "Carnivore": 233,
+          "Herbivore": 233
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 1,
+          "Herbivore": 9
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-reserve/a120-r25-e90-m10-q750.json",
+        "seed": 5,
+        "ticks": 234
+      },
+      {
+        "alive": {
+          "Herbivore": 25
+        },
+        "births": {
+          "Herbivore": 42
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Herbivore": 16
+        },
+        "first_extinction": 121,
+        "last_alive": {
+          "Carnivore": 120,
+          "Herbivore": 120
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 0,
+          "Herbivore": 3
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-reserve/a120-r25-e90-m10-q750.json",
+        "seed": 42,
+        "ticks": 121
+      },
+      {
+        "alive": {
+          "Herbivore": 28
+        },
+        "births": {
+          "Carnivore": 1,
+          "Herbivore": 55
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Herbivore": 27
+        },
+        "first_extinction": 149,
+        "last_alive": {
+          "Carnivore": 148,
+          "Herbivore": 148
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 1,
+          "Herbivore": 5
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-reserve/a120-r25-e90-m10-q750.json",
+        "seed": 12345,
+        "ticks": 149
+      },
+      {
+        "alive": {
+          "Herbivore": 26
+        },
+        "births": {
+          "Herbivore": 46
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Herbivore": 12
+        },
+        "first_extinction": 121,
+        "last_alive": {
+          "Carnivore": 120,
+          "Herbivore": 120
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 0,
+          "Herbivore": 3
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-reserve/a120-r25-e90-m10-q750.json",
+        "seed": 2026,
+        "ticks": 121
+      },
+      {
+        "alive": {
+          "Carnivore": 5
+        },
+        "births": {
+          "Carnivore": 7,
+          "Herbivore": 332
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 6,
+          "Herbivore": 258
+        },
+        "first_extinction": 1048,
+        "last_alive": {
+          "Carnivore": 1047,
+          "Herbivore": 1047
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 5,
+          "Herbivore": 29
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-reserve/a1200-r350-e180-m60-q750.json",
+        "seed": 1,
+        "ticks": 1048
+      },
+      {
+        "alive": {
+          "Carnivore": 6
+        },
+        "births": {
+          "Carnivore": 6,
+          "Herbivore": 299
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 4,
+          "Herbivore": 237
+        },
+        "first_extinction": 921,
+        "last_alive": {
+          "Carnivore": 920,
+          "Herbivore": 920
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 4,
+          "Herbivore": 28
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-reserve/a1200-r350-e180-m60-q750.json",
+        "seed": 2,
+        "ticks": 921
+      },
+      {
+        "alive": {
+          "Carnivore": 3
+        },
+        "births": {
+          "Carnivore": 6,
+          "Herbivore": 311
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 5,
+          "Herbivore": 241
+        },
+        "first_extinction": 1030,
+        "last_alive": {
+          "Carnivore": 1029,
+          "Herbivore": 1029
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 6,
+          "Herbivore": 31
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-reserve/a1200-r350-e180-m60-q750.json",
+        "seed": 3,
+        "ticks": 1030
+      },
+      {
+        "alive": {
+          "Carnivore": 2
+        },
+        "births": {
+          "Carnivore": 6,
+          "Herbivore": 304
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 4,
+          "Herbivore": 237
+        },
+        "first_extinction": 982,
+        "last_alive": {
+          "Carnivore": 981,
+          "Herbivore": 981
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 4,
+          "Herbivore": 28
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-reserve/a1200-r350-e180-m60-q750.json",
+        "seed": 4,
+        "ticks": 982
+      },
+      {
+        "alive": {
+          "Carnivore": 8
+        },
+        "births": {
+          "Carnivore": 6,
+          "Herbivore": 315
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 4,
+          "Herbivore": 235
+        },
+        "first_extinction": 971,
+        "last_alive": {
+          "Carnivore": 970,
+          "Herbivore": 970
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 5,
+          "Herbivore": 30
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-reserve/a1200-r350-e180-m60-q750.json",
+        "seed": 5,
+        "ticks": 971
+      },
+      {
+        "alive": {
+          "Carnivore": 1
+        },
+        "births": {
+          "Carnivore": 3,
+          "Herbivore": 118
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 2,
+          "Herbivore": 61
+        },
+        "first_extinction": 646,
+        "last_alive": {
+          "Carnivore": 645,
+          "Herbivore": 645
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 2,
+          "Herbivore": 15
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-reserve/a1200-r350-e180-m60-q750.json",
+        "seed": 42,
+        "ticks": 646
+      },
+      {
+        "alive": {
+          "Carnivore": 7
+        },
+        "births": {
+          "Carnivore": 6,
+          "Herbivore": 309
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 5,
+          "Herbivore": 242
+        },
+        "first_extinction": 977,
+        "last_alive": {
+          "Carnivore": 976,
+          "Herbivore": 976
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 5,
+          "Herbivore": 28
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-reserve/a1200-r350-e180-m60-q750.json",
+        "seed": 12345,
+        "ticks": 977
+      },
+      {
+        "alive": {
+          "Carnivore": 5
+        },
+        "births": {
+          "Carnivore": 6,
+          "Herbivore": 334
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 4,
+          "Herbivore": 265
+        },
+        "first_extinction": 1030,
+        "last_alive": {
+          "Carnivore": 1029,
+          "Herbivore": 1029
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 4,
+          "Herbivore": 28
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-reserve/a1200-r350-e180-m60-q750.json",
+        "seed": 2026,
+        "ticks": 1030
+      },
+      {
+        "alive": {
+          "Carnivore": 9
+        },
+        "births": {
+          "Carnivore": 7,
+          "Herbivore": 295
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 6,
+          "Herbivore": 232
+        },
+        "first_extinction": 914,
+        "last_alive": {
+          "Carnivore": 913,
+          "Herbivore": 913
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 6,
+          "Herbivore": 30
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-reserve/a1200-r350-e270-m60-q750.json",
+        "seed": 1,
+        "ticks": 914
+      },
+      {
+        "alive": {
+          "Carnivore": 2
+        },
+        "births": {
+          "Carnivore": 7,
+          "Herbivore": 289
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 6,
+          "Herbivore": 216
+        },
+        "first_extinction": 997,
+        "last_alive": {
+          "Carnivore": 996,
+          "Herbivore": 996
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 6,
+          "Herbivore": 28
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-reserve/a1200-r350-e270-m60-q750.json",
+        "seed": 2,
+        "ticks": 997
+      },
+      {
+        "alive": {
+          "Carnivore": 8
+        },
+        "births": {
+          "Carnivore": 6,
+          "Herbivore": 299
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 4,
+          "Herbivore": 231
+        },
+        "first_extinction": 938,
+        "last_alive": {
+          "Carnivore": 937,
+          "Herbivore": 937
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 5,
+          "Herbivore": 29
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-reserve/a1200-r350-e270-m60-q750.json",
+        "seed": 3,
+        "ticks": 938
+      },
+      {
+        "alive": {
+          "Carnivore": 2
+        },
+        "births": {
+          "Carnivore": 6,
+          "Herbivore": 318
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 4,
+          "Herbivore": 248
+        },
+        "first_extinction": 1082,
+        "last_alive": {
+          "Carnivore": 1081,
+          "Herbivore": 1081
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 5,
+          "Herbivore": 29
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-reserve/a1200-r350-e270-m60-q750.json",
+        "seed": 4,
+        "ticks": 1082
+      },
+      {
+        "alive": {
+          "Carnivore": 4
+        },
+        "births": {
+          "Carnivore": 7,
+          "Herbivore": 303
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 6,
+          "Herbivore": 230
+        },
+        "first_extinction": 974,
+        "last_alive": {
+          "Carnivore": 973,
+          "Herbivore": 973
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 6,
+          "Herbivore": 27
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-reserve/a1200-r350-e270-m60-q750.json",
+        "seed": 5,
+        "ticks": 974
+      },
+      {
+        "alive": {
+          "Carnivore": 5
+        },
+        "births": {
+          "Carnivore": 6,
+          "Herbivore": 310
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 4,
+          "Herbivore": 250
+        },
+        "first_extinction": 977,
+        "last_alive": {
+          "Carnivore": 976,
+          "Herbivore": 976
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 5,
+          "Herbivore": 29
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-reserve/a1200-r350-e270-m60-q750.json",
+        "seed": 42,
+        "ticks": 977
+      },
+      {
+        "alive": {
+          "Carnivore": 6
+        },
+        "births": {
+          "Carnivore": 6,
+          "Herbivore": 304
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 4,
+          "Herbivore": 235
+        },
+        "first_extinction": 967,
+        "last_alive": {
+          "Carnivore": 966,
+          "Herbivore": 966
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 4,
+          "Herbivore": 27
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-reserve/a1200-r350-e270-m60-q750.json",
+        "seed": 12345,
+        "ticks": 967
+      },
+      {
+        "alive": {
+          "Carnivore": 7
+        },
+        "births": {
+          "Carnivore": 6,
+          "Herbivore": 272
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 5,
+          "Herbivore": 195
+        },
+        "first_extinction": 909,
+        "last_alive": {
+          "Carnivore": 908,
+          "Herbivore": 908
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 4,
+          "Herbivore": 25
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-reserve/a1200-r350-e270-m60-q750.json",
+        "seed": 2026,
+        "ticks": 909
+      },
+      {
+        "alive": {
+          "Herbivore": 38
+        },
+        "births": {
+          "Carnivore": 7,
+          "Herbivore": 1470
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 6,
+          "Herbivore": 1295
+        },
+        "first_extinction": 3999,
+        "last_alive": {
+          "Carnivore": 3998,
+          "Herbivore": 3998
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 5,
+          "Herbivore": 132
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-reserve/a1200-r350-e270-m60-q900.json",
+        "seed": 1,
+        "ticks": 3999
+      },
+      {
+        "alive": {
+          "Herbivore": 38
+        },
+        "births": {
+          "Carnivore": 4,
+          "Herbivore": 1016
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 3,
+          "Herbivore": 889
+        },
+        "first_extinction": 2740,
+        "last_alive": {
+          "Carnivore": 2739,
+          "Herbivore": 2739
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 4,
+          "Herbivore": 92
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-reserve/a1200-r350-e270-m60-q900.json",
+        "seed": 2,
+        "ticks": 2740
+      },
+      {
+        "alive": {
+          "Herbivore": 42
+        },
+        "births": {
+          "Carnivore": 4,
+          "Herbivore": 933
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 3,
+          "Herbivore": 807
+        },
+        "first_extinction": 2519,
+        "last_alive": {
+          "Carnivore": 2518,
+          "Herbivore": 2518
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 3,
+          "Herbivore": 80
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-reserve/a1200-r350-e270-m60-q900.json",
+        "seed": 3,
+        "ticks": 2519
+      },
+      {
+        "alive": {
+          "Herbivore": 35
+        },
+        "births": {
+          "Carnivore": 2,
+          "Herbivore": 828
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Herbivore": 718
+        },
+        "first_extinction": 2239,
+        "last_alive": {
+          "Carnivore": 2238,
+          "Herbivore": 2238
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 1,
+          "Herbivore": 74
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-reserve/a1200-r350-e270-m60-q900.json",
+        "seed": 4,
+        "ticks": 2239
+      },
+      {
+        "alive": {
+          "Herbivore": 39
+        },
+        "births": {
+          "Carnivore": 14,
+          "Herbivore": 2075
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 12,
+          "Herbivore": 1778
+        },
+        "first_extinction": 5683,
+        "last_alive": {
+          "Carnivore": 5682,
+          "Herbivore": 5682
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 12,
+          "Herbivore": 181
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-reserve/a1200-r350-e270-m60-q900.json",
+        "seed": 5,
+        "ticks": 5683
+      },
+      {
+        "alive": {
+          "Herbivore": 39
+        },
+        "births": {
+          "Carnivore": 5,
+          "Herbivore": 1354
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 4,
+          "Herbivore": 1192
+        },
+        "first_extinction": 3657,
+        "last_alive": {
+          "Carnivore": 3656,
+          "Herbivore": 3656
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 5,
+          "Herbivore": 119
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-reserve/a1200-r350-e270-m60-q900.json",
+        "seed": 42,
+        "ticks": 3657
+      },
+      {
+        "alive": {
+          "Herbivore": 43
+        },
+        "births": {
+          "Carnivore": 1,
+          "Herbivore": 707
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Herbivore": 605
+        },
+        "first_extinction": 1885,
+        "last_alive": {
+          "Carnivore": 1884,
+          "Herbivore": 1884
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 1,
+          "Herbivore": 62
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-reserve/a1200-r350-e270-m60-q900.json",
+        "seed": 12345,
+        "ticks": 1885
+      },
+      {
+        "alive": {
+          "Herbivore": 39
+        },
+        "births": {
+          "Carnivore": 7,
+          "Herbivore": 1687
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 6,
+          "Herbivore": 1491
+        },
+        "first_extinction": 4590,
+        "last_alive": {
+          "Carnivore": 4589,
+          "Herbivore": 4589
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 6,
+          "Herbivore": 145
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-reserve/a1200-r350-e270-m60-q900.json",
+        "seed": 2026,
+        "ticks": 4590
+      },
+      {
+        "alive": {
+          "Herbivore": 1
+        },
+        "births": {
+          "Carnivore": 6,
+          "Herbivore": 123
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 4,
+          "Herbivore": 73
+        },
+        "first_extinction": 531,
+        "last_alive": {
+          "Carnivore": 530,
+          "Herbivore": 530
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 3,
+          "Herbivore": 11
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-reserve/a360-r75-e90-m30-q750.json",
+        "seed": 1,
+        "ticks": 531
+      },
+      {
+        "alive": {
+          "Herbivore": 1
+        },
+        "births": {
+          "Carnivore": 5,
+          "Herbivore": 74
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 2,
+          "Herbivore": 41
+        },
+        "first_extinction": 361,
+        "last_alive": {
+          "Carnivore": 360,
+          "Herbivore": 360
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 2,
+          "Herbivore": 7
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-reserve/a360-r75-e90-m30-q750.json",
+        "seed": 2,
+        "ticks": 361
+      },
+      {
+        "alive": {
+          "Herbivore": 3
+        },
+        "births": {
+          "Carnivore": 5,
+          "Herbivore": 70
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 4,
+          "Herbivore": 41
+        },
+        "first_extinction": 366,
+        "last_alive": {
+          "Carnivore": 365,
+          "Herbivore": 365
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 5,
+          "Herbivore": 9
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-reserve/a360-r75-e90-m30-q750.json",
+        "seed": 3,
+        "ticks": 366
+      },
+      {
+        "alive": {
+          "Carnivore": 2
+        },
+        "births": {
+          "Carnivore": 4,
+          "Herbivore": 86
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 2,
+          "Herbivore": 47
+        },
+        "first_extinction": 380,
+        "last_alive": {
+          "Carnivore": 379,
+          "Herbivore": 379
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 2,
+          "Herbivore": 11
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-reserve/a360-r75-e90-m30-q750.json",
+        "seed": 4,
+        "ticks": 380
+      },
+      {
+        "alive": {
+          "Carnivore": 2
+        },
+        "births": {
+          "Carnivore": 6,
+          "Herbivore": 79
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 3,
+          "Herbivore": 43
+        },
+        "first_extinction": 355,
+        "last_alive": {
+          "Carnivore": 354,
+          "Herbivore": 354
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 4,
+          "Herbivore": 8
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-reserve/a360-r75-e90-m30-q750.json",
+        "seed": 5,
+        "ticks": 355
+      },
+      {
+        "alive": {
+          "Carnivore": 1
+        },
+        "births": {
+          "Carnivore": 9,
+          "Herbivore": 144
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 6,
+          "Herbivore": 95
+        },
+        "first_extinction": 577,
+        "last_alive": {
+          "Carnivore": 576,
+          "Herbivore": 576
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 5,
+          "Herbivore": 16
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-reserve/a360-r75-e90-m30-q750.json",
+        "seed": 42,
+        "ticks": 577
+      },
+      {
+        "alive": {
+          "Herbivore": 2
+        },
+        "births": {
+          "Carnivore": 4,
+          "Herbivore": 70
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 2,
+          "Herbivore": 36
+        },
+        "first_extinction": 312,
+        "last_alive": {
+          "Carnivore": 311,
+          "Herbivore": 311
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 3,
+          "Herbivore": 7
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-reserve/a360-r75-e90-m30-q750.json",
+        "seed": 12345,
+        "ticks": 312
+      },
+      {
+        "alive": {
+          "Herbivore": 4
+        },
+        "births": {
+          "Carnivore": 6,
+          "Herbivore": 99
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 5,
+          "Herbivore": 57
+        },
+        "first_extinction": 450,
+        "last_alive": {
+          "Carnivore": 449,
+          "Herbivore": 449
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 4,
+          "Herbivore": 11
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-reserve/a360-r75-e90-m30-q750.json",
+        "seed": 2026,
+        "ticks": 450
+      },
+      {
+        "alive": {
+          "Carnivore": 2
+        },
+        "births": {
+          "Carnivore": 12,
+          "Herbivore": 326
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 8,
+          "Herbivore": 239
+        },
+        "first_extinction": 1107,
+        "last_alive": {
+          "Carnivore": 1106,
+          "Herbivore": 1106
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 7,
+          "Herbivore": 33
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-reserve/a360-r75-e90-m30-q900.json",
+        "seed": 1,
+        "ticks": 1107
+      },
+      {
+        "alive": {
+          "Herbivore": 40
+        },
+        "births": {
+          "Carnivore": 1,
+          "Herbivore": 251
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Herbivore": 196
+        },
+        "first_extinction": 652,
+        "last_alive": {
+          "Carnivore": 651,
+          "Herbivore": 651
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 1,
+          "Herbivore": 22
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-reserve/a360-r75-e90-m30-q900.json",
+        "seed": 2,
+        "ticks": 652
+      },
+      {
+        "alive": {
+          "Herbivore": 13
+        },
+        "births": {
+          "Carnivore": 5,
+          "Herbivore": 158
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 4,
+          "Herbivore": 106
+        },
+        "first_extinction": 627,
+        "last_alive": {
+          "Carnivore": 626,
+          "Herbivore": 626
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 5,
+          "Herbivore": 18
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-reserve/a360-r75-e90-m30-q900.json",
+        "seed": 3,
+        "ticks": 627
+      },
+      {
+        "alive": {
+          "Herbivore": 5
+        },
+        "births": {
+          "Carnivore": 7,
+          "Herbivore": 198
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 5,
+          "Herbivore": 124
+        },
+        "first_extinction": 761,
+        "last_alive": {
+          "Carnivore": 760,
+          "Herbivore": 760
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 5,
+          "Herbivore": 22
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-reserve/a360-r75-e90-m30-q900.json",
+        "seed": 4,
+        "ticks": 761
+      },
+      {
+        "alive": {
+          "Herbivore": 37
+        },
+        "births": {
+          "Carnivore": 1,
+          "Herbivore": 241
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Herbivore": 194
+        },
+        "first_extinction": 644,
+        "last_alive": {
+          "Carnivore": 643,
+          "Herbivore": 643
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 1,
+          "Herbivore": 20
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-reserve/a360-r75-e90-m30-q900.json",
+        "seed": 5,
+        "ticks": 644
+      },
+      {
+        "alive": {
+          "Herbivore": 36
+        },
+        "births": {
+          "Carnivore": 10,
+          "Herbivore": 569
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 9,
+          "Herbivore": 464
+        },
+        "first_extinction": 1495,
+        "last_alive": {
+          "Carnivore": 1494,
+          "Herbivore": 1494
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 8,
+          "Herbivore": 47
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-reserve/a360-r75-e90-m30-q900.json",
+        "seed": 42,
+        "ticks": 1495
+      },
+      {
+        "alive": {
+          "Herbivore": 4
+        },
+        "births": {
+          "Carnivore": 17,
+          "Herbivore": 462
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 15,
+          "Herbivore": 341
+        },
+        "first_extinction": 1429,
+        "last_alive": {
+          "Carnivore": 1428,
+          "Herbivore": 1428
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 13,
+          "Herbivore": 40
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-reserve/a360-r75-e90-m30-q900.json",
+        "seed": 12345,
+        "ticks": 1429
+      },
+      {
+        "alive": {
+          "Herbivore": 6
+        },
+        "births": {
+          "Carnivore": 3,
+          "Herbivore": 106
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 1,
+          "Herbivore": 68
+        },
+        "first_extinction": 552,
+        "last_alive": {
+          "Carnivore": 551,
+          "Herbivore": 551
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 2,
+          "Herbivore": 16
+        },
+        "mode": "fixed",
+        "requested_ticks": 10000,
+        "scenario": "data/experiments/coexistence-reserve/a360-r75-e90-m30-q900.json",
+        "seed": 2026,
+        "ticks": 552
+      }
+    ]
+  },
+  "coexistence-slow-spatial": {
+    "runs": 4,
+    "results": [
+      {
+        "alive": {
+          "Carnivore": 5,
+          "Herbivore": 155
+        },
+        "births": {
+          "Carnivore": 177,
+          "Herbivore": 29668
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 173,
+          "Herbivore": 26151
+        },
+        "first_extinction": null,
+        "last_alive": {
+          "Carnivore": 20000,
+          "Herbivore": 20000
+        },
+        "late_births": {
+          "Carnivore": 11,
+          "Herbivore": 2993
+        },
+        "late_descendant_breeders": {
+          "Carnivore": 15,
+          "Herbivore": 2750
+        },
+        "max_generation": {
+          "Carnivore": 65,
+          "Herbivore": 675
+        },
+        "mode": "fixed",
+        "requested_ticks": 20000,
+        "scenario": "data/experiments/coexistence-slow-spatial/patches2.json",
+        "seed": 1,
+        "ticks": 20000
+      },
+      {
+        "alive": {
+          "Herbivore": 154
+        },
+        "births": {
+          "Carnivore": 130,
+          "Herbivore": 24696
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 124,
+          "Herbivore": 21834
+        },
+        "first_extinction": 16564,
+        "last_alive": {
+          "Carnivore": 16563,
+          "Herbivore": 16563
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 45,
+          "Herbivore": 553
+        },
+        "mode": "fixed",
+        "requested_ticks": 20000,
+        "scenario": "data/experiments/coexistence-slow-spatial/patches2.json",
+        "seed": 2,
+        "ticks": 16564
+      },
+      {
+        "alive": {
+          "Herbivore": 171
+        },
+        "births": {
+          "Carnivore": 84,
+          "Herbivore": 19146
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 80,
+          "Herbivore": 16929
+        },
+        "first_extinction": 12799,
+        "last_alive": {
+          "Carnivore": 12798,
+          "Herbivore": 12798
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 39,
+          "Herbivore": 436
+        },
+        "mode": "fixed",
+        "requested_ticks": 20000,
+        "scenario": "data/experiments/coexistence-slow-spatial/patches2.json",
+        "seed": 3,
+        "ticks": 12799
+      },
+      {
+        "alive": {
+          "Herbivore": 161
+        },
+        "births": {
+          "Carnivore": 57,
+          "Herbivore": 14363
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 54,
+          "Herbivore": 12755
+        },
+        "first_extinction": 9558,
+        "last_alive": {
+          "Carnivore": 9557,
+          "Herbivore": 9557
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 24,
+          "Herbivore": 317
+        },
+        "mode": "fixed",
+        "requested_ticks": 20000,
+        "scenario": "data/experiments/coexistence-slow-spatial/patches2.json",
+        "seed": 4,
+        "ticks": 9558
+      }
+    ]
+  },
+  "coexistence-spatial-size": {
+    "runs": 2,
+    "results": [
+      {
+        "alive": {
+          "Herbivore": 358
+        },
+        "births": {
+          "Carnivore": 176,
+          "Herbivore": 65609
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 170,
+          "Herbivore": 58414
+        },
+        "first_extinction": 19175,
+        "last_alive": {
+          "Carnivore": 19174,
+          "Herbivore": 19175
+        },
+        "late_births": {
+          "Herbivore": 4116
+        },
+        "late_descendant_breeders": {
+          "Herbivore": 3798
+        },
+        "max_generation": {
+          "Carnivore": 55,
+          "Herbivore": 662
+        },
+        "mode": "fixed",
+        "requested_ticks": 20000,
+        "scenario": "data/experiments/coexistence-spatial-size/patches3.json",
+        "seed": 2,
+        "shock": {
+          "at": 0,
+          "duration": 500,
+          "percent": 50
+        },
+        "ticks": 19175
+      },
+      {
+        "alive": {
+          "Herbivore": 647
+        },
+        "births": {
+          "Carnivore": 118,
+          "Herbivore": 56698
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 102,
+          "Herbivore": 50064
+        },
+        "first_extinction": 9358,
+        "last_alive": {
+          "Carnivore": 9357,
+          "Herbivore": 9358
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 25,
+          "Herbivore": 318
+        },
+        "mode": "fixed",
+        "requested_ticks": 20000,
+        "scenario": "data/experiments/coexistence-spatial-size/patches4.json",
+        "seed": 2,
+        "shock": {
+          "at": 0,
+          "duration": 500,
+          "percent": 50
+        },
+        "ticks": 9358
+      }
+    ]
+  },
+  "coexistence-reserve-spatial": {
+    "runs": 2,
+    "results": [
+      {
+        "alive": {
+          "Herbivore": 4
+        },
+        "births": {
+          "Carnivore": 46,
+          "Herbivore": 2477
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 39,
+          "Herbivore": 1841
+        },
+        "first_extinction": 1199,
+        "last_alive": {
+          "Carnivore": 1198,
+          "Herbivore": 1199
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 9,
+          "Herbivore": 38
+        },
+        "mode": "fixed",
+        "requested_ticks": 20000,
+        "scenario": "data/experiments/coexistence-reserve-spatial/patches3-q800.json",
+        "seed": 2,
+        "shock": {
+          "at": 0,
+          "duration": 500,
+          "percent": 50
+        },
+        "ticks": 1199
+      },
+      {
+        "alive": {
+          "Carnivore": 11
+        },
+        "births": {
+          "Carnivore": 44,
+          "Herbivore": 2752
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 34,
+          "Herbivore": 2093
+        },
+        "first_extinction": 1115,
+        "last_alive": {
+          "Carnivore": 1115,
+          "Herbivore": 1114
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 7,
+          "Herbivore": 33
+        },
+        "mode": "fixed",
+        "requested_ticks": 20000,
+        "scenario": "data/experiments/coexistence-reserve-spatial/patches3-q850.json",
+        "seed": 2,
+        "shock": {
+          "at": 0,
+          "duration": 500,
+          "percent": 50
+        },
+        "ticks": 1115
+      }
+    ]
+  },
+  "coexistence-steady": {
+    "runs": 2,
+    "results": [
+      {
+        "alive": {
+          "Herbivore": 1
+        },
+        "births": {
+          "Carnivore": 117,
+          "Herbivore": 11217
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 95,
+          "Herbivore": 9232
+        },
+        "first_extinction": 4093,
+        "last_alive": {
+          "Carnivore": 4092,
+          "Herbivore": 4093
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 17,
+          "Herbivore": 132
+        },
+        "mode": "fixed",
+        "requested_ticks": 20000,
+        "scenario": "data/experiments/coexistence-steady/patches3-q875.json",
+        "seed": 2,
+        "shock": {
+          "at": 0,
+          "duration": 500,
+          "percent": 50
+        },
+        "ticks": 4093
+      },
+      {
+        "alive": {
+          "Herbivore": 369
+        },
+        "births": {
+          "Carnivore": 54,
+          "Herbivore": 28537
+        },
+        "companions": true,
+        "descendant_breeders": {
+          "Carnivore": 53,
+          "Herbivore": 25369
+        },
+        "first_extinction": 8277,
+        "last_alive": {
+          "Carnivore": 8276,
+          "Herbivore": 8277
+        },
+        "late_births": {},
+        "late_descendant_breeders": {},
+        "max_generation": {
+          "Carnivore": 19,
+          "Herbivore": 278
+        },
+        "mode": "fixed",
+        "requested_ticks": 20000,
+        "scenario": "data/experiments/coexistence-steady/patches3-q900.json",
+        "seed": 2,
+        "shock": {
+          "at": 0,
+          "duration": 500,
+          "percent": 50
+        },
+        "ticks": 8277
+      }
+    ]
+  }
+}

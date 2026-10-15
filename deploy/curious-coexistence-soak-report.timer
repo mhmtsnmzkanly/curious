@@ -1,0 +1,8 @@
+[Unit]
+Description=Check actual mixed-world observation milestones
+[Timer]
+OnBootSec=120
+OnUnitActiveSec=1h
+Unit=curious-coexistence-soak-report.service
+[Install]
+WantedBy=timers.target

@@ -23,10 +23,19 @@ def evaluate(previous,observations,now):
 
 def main():
  p=argparse.ArgumentParser();p.add_argument('--root',default='/root/curious/data');p.add_argument('--token-file',default='/root/notify/token.json');p.add_argument('--notify-cli',default='/root/notify/bin/notify.js');a=p.parse_args();root=Path(a.root);path=root/'watchdog.json';now=int(time.time());observations={}
- for name,filename,limit,key in [('meadow','meadow-monitor.json',180,'last_check'),('evolution','evolution-monitor.json',180,'last_check'),('sample-meadow','soak/latest.json',2100,'at'),('sample-evolution','soak-evolution/latest.json',2100,'at')]:
+ checks=[('meadow','meadow-monitor.json',180,'last_check'),('evolution','evolution-monitor.json',180,'last_check'),('sample-meadow','soak/latest.json',2100,'at'),('sample-evolution','soak-evolution/latest.json',2100,'at')]
+ if (root/'coexistence-deployment.json').exists():
+  checks += [('coexistence','coexistence-monitor.json',180,'last_check'),('sample-coexistence','soak-coexistence/latest.json',2100,'at')]
+ research=root/'coexistence-research/state.json'
+ if research.exists():
+  try:
+   if json.loads(research.read_text()).get('status') in ('running','error'):checks.append(('coexistence-research','coexistence-research/state.json',180,'last_check'))
+  except (OSError,ValueError):checks.append(('coexistence-research','coexistence-research/state.json',180,'last_check'))
+ if (root/'coexistence-research/notifications.json').exists():checks.append(('coexistence-research-notify','coexistence-research/notifications.json',180,'last_check'))
+ for name,filename,limit,key in checks:
   try:data=json.loads((root/filename).read_text())
   except (OSError,ValueError):data={}
-  observations[name]={'last_check':data.get(key,0),'limit':limit,'pending':bool(data.get('pending'))}
+  observations[name]={'last_check':data.get(key,0),'limit':limit,'pending':bool(data.get('pending') or data.get('page_update_pending') or data.get('task_update_pending'))}
  try:previous=json.loads(path.read_text())
  except FileNotFoundError:previous={}
  state=evaluate(previous,observations,now);save(path,state);dispatch(state,path,a.notify_cli,a.token_file)

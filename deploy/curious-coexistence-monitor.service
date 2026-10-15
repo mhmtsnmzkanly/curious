@@ -1,0 +1,11 @@
+[Unit]
+Description=Curious mixed-world health notifications
+After=network.target
+[Service]
+Type=oneshot
+WorkingDirectory=/root/curious
+ExecStart=/usr/bin/python3 /root/curious-research/current/scripts/monitor_runtime.py --url http://127.0.0.1:7882 --state /root/curious/data/coexistence-monitor.json --label karma-dunya --key-prefix curious-coexistence --require-species Herbivore,Carnivore
+TimeoutStartSec=55
+NoNewPrivileges=true
+PrivateTmp=true
+UMask=0077
