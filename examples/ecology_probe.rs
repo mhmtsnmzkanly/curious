@@ -10,12 +10,25 @@ fn main() {
             .unwrap()
             .build(seed)
             .unwrap();
+        let mode = args.get(4).map(String::as_str).unwrap_or("both");
+        assert!(["fixed", "learning", "mutation", "both"].contains(&mode));
+        w.genetics.enabled = matches!(mode, "mutation" | "both");
+        for e in &mut w.entities {
+            e.learner.enabled = matches!(mode, "learning" | "both");
+        }
         let mut births: BTreeMap<String, usize> = BTreeMap::new();
         let mut breeders = BTreeMap::new();
         let mut generations = BTreeMap::new();
         let mut last_alive = BTreeMap::new();
         let start = Instant::now();
         for _ in 0..ticks {
+            // Offspring start with their own defaults; the experiment's learning
+            // treatment applies to newborns as well as founders, before decisions.
+            if matches!(mode, "fixed" | "mutation") {
+                for e in &mut w.entities {
+                    e.learner.enabled = false;
+                }
+            }
             let events = w.tick();
             for e in events {
                 match e {
@@ -58,7 +71,7 @@ fn main() {
         }
         println!(
             "{}",
-            serde_json::json!({"scenario":file,"seed":seed,"ticks":ticks,"alive":alive,"last_alive":last_alive,"births":births,"descendant_breeders":reproduced,"max_generation":generations,"seconds":start.elapsed().as_secs_f64()})
+            serde_json::json!({"scenario":file,"seed":seed,"mode":mode,"ticks":ticks,"alive":alive,"last_alive":last_alive,"births":births,"descendant_breeders":reproduced,"max_generation":generations,"seconds":start.elapsed().as_secs_f64()})
         );
     }
 }
