@@ -1,0 +1,722 @@
+{
+  "roadmap-3-dense-probe.jsonl": [
+    {
+      "alive": {
+        "Herbivore": 39
+      },
+      "births": {
+        "Herbivore": 772
+      },
+      "descendant_breeders": {
+        "Herbivore": 664
+      },
+      "last_alive": {
+        "Carnivore": 120,
+        "Herbivore": 2000
+      },
+      "max_generation": {
+        "Carnivore": 0,
+        "Herbivore": 68
+      },
+      "scenario": "scenarios/mixed-dense.json",
+      "seconds": 1.713674229,
+      "seed": 1,
+      "ticks": 2000
+    },
+    {
+      "alive": {},
+      "births": {
+        "Carnivore": 9,
+        "Herbivore": 42
+      },
+      "descendant_breeders": {
+        "Carnivore": 6,
+        "Herbivore": 17
+      },
+      "last_alive": {
+        "Carnivore": 247,
+        "Herbivore": 187
+      },
+      "max_generation": {
+        "Carnivore": 4,
+        "Herbivore": 5
+      },
+      "scenario": "scenarios/mixed-dense.json",
+      "seconds": 0.16594943,
+      "seed": 2,
+      "ticks": 2000
+    },
+    {
+      "alive": {},
+      "births": {
+        "Carnivore": 23,
+        "Herbivore": 155
+      },
+      "descendant_breeders": {
+        "Carnivore": 20,
+        "Herbivore": 111
+      },
+      "last_alive": {
+        "Carnivore": 591,
+        "Herbivore": 514
+      },
+      "max_generation": {
+        "Carnivore": 12,
+        "Herbivore": 14
+      },
+      "scenario": "scenarios/mixed-dense.json",
+      "seconds": 0.401736998,
+      "seed": 3,
+      "ticks": 2000
+    },
+    {
+      "alive": {
+        "Herbivore": 45
+      },
+      "births": {
+        "Herbivore": 785
+      },
+      "descendant_breeders": {
+        "Herbivore": 670
+      },
+      "last_alive": {
+        "Carnivore": 120,
+        "Herbivore": 2000
+      },
+      "max_generation": {
+        "Carnivore": 0,
+        "Herbivore": 67
+      },
+      "scenario": "scenarios/mixed-dense.json",
+      "seconds": 1.763078347,
+      "seed": 4,
+      "ticks": 2000
+    },
+    {
+      "alive": {
+        "Herbivore": 42
+      },
+      "births": {
+        "Herbivore": 782
+      },
+      "descendant_breeders": {
+        "Herbivore": 666
+      },
+      "last_alive": {
+        "Carnivore": 120,
+        "Herbivore": 2000
+      },
+      "max_generation": {
+        "Carnivore": 0,
+        "Herbivore": 66
+      },
+      "scenario": "scenarios/mixed-dense.json",
+      "seconds": 1.798451894,
+      "seed": 5,
+      "ticks": 2000
+    },
+    {
+      "alive": {
+        "Herbivore": 37
+      },
+      "births": {
+        "Herbivore": 777
+      },
+      "descendant_breeders": {
+        "Herbivore": 661
+      },
+      "last_alive": {
+        "Carnivore": 120,
+        "Herbivore": 2000
+      },
+      "max_generation": {
+        "Carnivore": 0,
+        "Herbivore": 63
+      },
+      "scenario": "scenarios/mixed-dense.json",
+      "seconds": 1.7685011739999998,
+      "seed": 42,
+      "ticks": 2000
+    },
+    {
+      "alive": {},
+      "births": {
+        "Carnivore": 15,
+        "Herbivore": 95
+      },
+      "descendant_breeders": {
+        "Carnivore": 12,
+        "Herbivore": 59
+      },
+      "last_alive": {
+        "Carnivore": 433,
+        "Herbivore": 368
+      },
+      "max_generation": {
+        "Carnivore": 10,
+        "Herbivore": 9
+      },
+      "scenario": "scenarios/mixed-dense.json",
+      "seconds": 0.258414993,
+      "seed": 12345,
+      "ticks": 2000
+    },
+    {
+      "alive": {},
+      "births": {
+        "Carnivore": 11,
+        "Herbivore": 56
+      },
+      "descendant_breeders": {
+        "Carnivore": 8,
+        "Herbivore": 26
+      },
+      "last_alive": {
+        "Carnivore": 313,
+        "Herbivore": 227
+      },
+      "max_generation": {
+        "Carnivore": 5,
+        "Herbivore": 6
+      },
+      "scenario": "scenarios/mixed-dense.json",
+      "seconds": 0.21330219,
+      "seed": 2026,
+      "ticks": 2000
+    }
+  ],
+  "roadmap-3-interval-probe.jsonl": [
+    {
+      "alive": {
+        "Herbivore": 39
+      },
+      "births": {
+        "Herbivore": 1548
+      },
+      "descendant_breeders": {
+        "Herbivore": 1366
+      },
+      "last_alive": {
+        "Carnivore": 120,
+        "Herbivore": 4000
+      },
+      "max_generation": {
+        "Carnivore": 0,
+        "Herbivore": 135
+      },
+      "scenario": "scenarios/mixed-dense.json",
+      "seconds": 3.640193366,
+      "seed": 1,
+      "ticks": 4000
+    },
+    {
+      "alive": {
+        "Herbivore": 37
+      },
+      "births": {
+        "Carnivore": 4,
+        "Herbivore": 1512
+      },
+      "descendant_breeders": {
+        "Carnivore": 3,
+        "Herbivore": 1296
+      },
+      "last_alive": {
+        "Carnivore": 309,
+        "Herbivore": 4000
+      },
+      "max_generation": {
+        "Carnivore": 3,
+        "Herbivore": 132
+      },
+      "scenario": "scenarios/mixed-dense.json",
+      "seconds": 3.2900314059999998,
+      "seed": 2,
+      "ticks": 4000
+    },
+    {
+      "alive": {
+        "Herbivore": 40
+      },
+      "births": {
+        "Carnivore": 2,
+        "Herbivore": 1550
+      },
+      "descendant_breeders": {
+        "Carnivore": 1,
+        "Herbivore": 1372
+      },
+      "last_alive": {
+        "Carnivore": 220,
+        "Herbivore": 4000
+      },
+      "max_generation": {
+        "Carnivore": 2,
+        "Herbivore": 127
+      },
+      "scenario": "scenarios/mixed-dense.json",
+      "seconds": 3.409815725,
+      "seed": 3,
+      "ticks": 4000
+    },
+    {
+      "alive": {
+        "Herbivore": 40
+      },
+      "births": {
+        "Herbivore": 1567
+      },
+      "descendant_breeders": {
+        "Herbivore": 1362
+      },
+      "last_alive": {
+        "Carnivore": 120,
+        "Herbivore": 4000
+      },
+      "max_generation": {
+        "Carnivore": 0,
+        "Herbivore": 130
+      },
+      "scenario": "scenarios/mixed-dense.json",
+      "seconds": 3.501568669,
+      "seed": 4,
+      "ticks": 4000
+    },
+    {
+      "alive": {
+        "Herbivore": 40
+      },
+      "births": {
+        "Herbivore": 1560
+      },
+      "descendant_breeders": {
+        "Herbivore": 1369
+      },
+      "last_alive": {
+        "Carnivore": 120,
+        "Herbivore": 4000
+      },
+      "max_generation": {
+        "Carnivore": 0,
+        "Herbivore": 128
+      },
+      "scenario": "scenarios/mixed-dense.json",
+      "seconds": 3.5112358,
+      "seed": 5,
+      "ticks": 4000
+    },
+    {
+      "alive": {
+        "Herbivore": 40
+      },
+      "births": {
+        "Herbivore": 1562
+      },
+      "descendant_breeders": {
+        "Herbivore": 1352
+      },
+      "last_alive": {
+        "Carnivore": 120,
+        "Herbivore": 4000
+      },
+      "max_generation": {
+        "Carnivore": 0,
+        "Herbivore": 124
+      },
+      "scenario": "scenarios/mixed-dense.json",
+      "seconds": 3.456322247,
+      "seed": 42,
+      "ticks": 4000
+    },
+    {
+      "alive": {
+        "Herbivore": 38
+      },
+      "births": {
+        "Carnivore": 2,
+        "Herbivore": 1541
+      },
+      "descendant_breeders": {
+        "Carnivore": 1,
+        "Herbivore": 1339
+      },
+      "last_alive": {
+        "Carnivore": 234,
+        "Herbivore": 4000
+      },
+      "max_generation": {
+        "Carnivore": 2,
+        "Herbivore": 123
+      },
+      "scenario": "scenarios/mixed-dense.json",
+      "seconds": 3.480046458,
+      "seed": 12345,
+      "ticks": 4000
+    },
+    {
+      "alive": {
+        "Herbivore": 40
+      },
+      "births": {
+        "Carnivore": 3,
+        "Herbivore": 1524
+      },
+      "descendant_breeders": {
+        "Carnivore": 2,
+        "Herbivore": 1327
+      },
+      "last_alive": {
+        "Carnivore": 261,
+        "Herbivore": 4000
+      },
+      "max_generation": {
+        "Carnivore": 2,
+        "Herbivore": 126
+      },
+      "scenario": "scenarios/mixed-dense.json",
+      "seconds": 3.3502508779999998,
+      "seed": 2026,
+      "ticks": 4000
+    }
+  ],
+  "roadmap-2-hunting": [
+    {
+      "seed": 1,
+      "ticks": 1000,
+      "wall_seconds": 0.286,
+      "first_extinction_tick": 175,
+      "max_generation": 3,
+      "events": {
+        "ResourceReplenished": 1696,
+        "EntityMoved": 678,
+        "EntityAte": 338,
+        "EntityAttacked": 44,
+        "ActionRejected": 142,
+        "EntityDrank": 181,
+        "EntityMated": 14,
+        "EntityBorn": 14,
+        "EntityDied": 24,
+        "CorpseConsumed": 10
+      },
+      "intents": {
+        "Flee": 310,
+        "Move": 233,
+        "Idle": 208,
+        "Eat": 378,
+        "Attack": 52,
+        "Drink": 216,
+        "Mate": 28
+      },
+      "rejected_actions": {
+        "NoPath": 62,
+        "Cooldown": 14,
+        "Occupied": 24,
+        "Inactive": 8,
+        "MissingResource": 34
+      },
+      "death_causes": {
+        "Combat": 12,
+        "OldAge": 9,
+        "Starvation": 3
+      },
+      "ticks_with_active_low_health_and_zero_water": 0,
+      "history_bytes": 1796118
+    },
+    {
+      "seed": 2,
+      "ticks": 1000,
+      "wall_seconds": 0.341,
+      "first_extinction_tick": 193,
+      "max_generation": 1,
+      "events": {
+        "ResourceReplenished": 1562,
+        "EntityMoved": 606,
+        "EntityAte": 323,
+        "EntityDrank": 173,
+        "ActionRejected": 169,
+        "EntityAttacked": 61,
+        "EntityMated": 13,
+        "EntityBorn": 13,
+        "EntityDied": 23,
+        "CorpseConsumed": 11
+      },
+      "intents": {
+        "Flee": 283,
+        "Move": 215,
+        "Idle": 172,
+        "Eat": 362,
+        "Drink": 217,
+        "Attack": 68,
+        "Mate": 26
+      },
+      "rejected_actions": {
+        "MissingResource": 45,
+        "Occupied": 33,
+        "Cooldown": 13,
+        "NoPath": 71,
+        "OutOfRange": 1,
+        "Inactive": 6
+      },
+      "death_causes": {
+        "Combat": 14,
+        "OldAge": 8,
+        "Starvation": 1
+      },
+      "ticks_with_active_low_health_and_zero_water": 0,
+      "history_bytes": 1586909
+    },
+    {
+      "seed": 3,
+      "ticks": 1000,
+      "wall_seconds": 0.375,
+      "first_extinction_tick": 196,
+      "max_generation": 2,
+      "events": {
+        "ResourceReplenished": 1813,
+        "EntityMoved": 765,
+        "EntityAte": 357,
+        "EntityAttacked": 42,
+        "ActionRejected": 220,
+        "EntityDrank": 205,
+        "EntityMated": 14,
+        "EntityBorn": 14,
+        "EntityDied": 24,
+        "CorpseConsumed": 11
+      },
+      "intents": {
+        "Flee": 315,
+        "Move": 240,
+        "Idle": 152,
+        "Eat": 408,
+        "Attack": 48,
+        "Drink": 309,
+        "Mate": 26
+      },
+      "rejected_actions": {
+        "NoPath": 55,
+        "Occupied": 53,
+        "Cooldown": 12,
+        "MissingResource": 94,
+        "Inactive": 6
+      },
+      "death_causes": {
+        "Combat": 12,
+        "OldAge": 11,
+        "Starvation": 1
+      },
+      "ticks_with_active_low_health_and_zero_water": 0,
+      "history_bytes": 1170641
+    },
+    {
+      "seed": 42,
+      "ticks": 1000,
+      "wall_seconds": 0.429,
+      "first_extinction_tick": 185,
+      "max_generation": 2,
+      "events": {
+        "ResourceReplenished": 1533,
+        "EntityMoved": 675,
+        "EntityAte": 326,
+        "EntityDrank": 167,
+        "EntityAttacked": 55,
+        "EntityMated": 13,
+        "EntityBorn": 13,
+        "ActionRejected": 136,
+        "EntityDied": 23,
+        "CorpseConsumed": 14
+      },
+      "intents": {
+        "Flee": 273,
+        "Idle": 208,
+        "Move": 263,
+        "Eat": 387,
+        "Drink": 184,
+        "Attack": 71,
+        "Mate": 27
+      },
+      "rejected_actions": {
+        "Cooldown": 14,
+        "MissingResource": 38,
+        "NoPath": 45,
+        "Occupied": 23,
+        "Inactive": 16
+      },
+      "death_causes": {
+        "Combat": 13,
+        "OldAge": 8,
+        "Starvation": 2
+      },
+      "ticks_with_active_low_health_and_zero_water": 0,
+      "history_bytes": 1614733
+    }
+  ],
+  "roadmap-3-wide": [
+    {
+      "seed": 1,
+      "ticks": 2000,
+      "wall_seconds": 0.58,
+      "first_extinction_tick": 207,
+      "max_generation": 4,
+      "events": {
+        "EntityMoved": 2103,
+        "EntityAte": 912,
+        "ResourceReplenished": 3292,
+        "ActionRejected": 733,
+        "EntityAttacked": 45,
+        "EntityDrank": 274,
+        "EntityMated": 18,
+        "EntityBorn": 18,
+        "EntityDied": 44,
+        "CorpseConsumed": 12
+      },
+      "intents": {
+        "Move": 318,
+        "Idle": 439,
+        "Flee": 321,
+        "Eat": 2041,
+        "Attack": 48,
+        "Drink": 362,
+        "Mate": 39
+      },
+      "rejected_actions": {
+        "Occupied": 230,
+        "MissingResource": 398,
+        "Cooldown": 21,
+        "NoPath": 81,
+        "Inactive": 3
+      },
+      "death_causes": {
+        "Combat": 15,
+        "Starvation": 8,
+        "Dehydration": 2,
+        "OldAge": 19
+      },
+      "ticks_with_active_low_health_and_zero_water": 21,
+      "history_bytes": 4640292
+    },
+    {
+      "seed": 2,
+      "ticks": 2000,
+      "wall_seconds": 2.753,
+      "first_extinction_tick": null,
+      "max_generation": 57,
+      "events": {
+        "EntityMoved": 23280,
+        "EntityAte": 11697,
+        "ResourceReplenished": 56896,
+        "ActionRejected": 5861,
+        "EntityAttacked": 27,
+        "EntityDrank": 4069,
+        "EntityMated": 285,
+        "EntityBorn": 285,
+        "EntityDied": 297
+      },
+      "intents": {
+        "Move": 1316,
+        "Idle": 1885,
+        "Flee": 225,
+        "Eat": 22517,
+        "Attack": 27,
+        "Drink": 4401,
+        "Mate": 582
+      },
+      "rejected_actions": {
+        "MissingResource": 2943,
+        "Occupied": 2576,
+        "Cooldown": 297,
+        "NoPath": 45
+      },
+      "death_causes": {
+        "Combat": 5,
+        "Starvation": 15,
+        "Dehydration": 6,
+        "OldAge": 271
+      },
+      "ticks_with_active_low_health_and_zero_water": 59,
+      "history_bytes": 18717128
+    },
+    {
+      "seed": 3,
+      "ticks": 2000,
+      "wall_seconds": 0.663,
+      "first_extinction_tick": 469,
+      "max_generation": 9,
+      "events": {
+        "EntityMoved": 2477,
+        "EntityAte": 1251,
+        "ResourceReplenished": 5603,
+        "EntityAttacked": 26,
+        "ActionRejected": 764,
+        "EntityDrank": 405,
+        "EntityMated": 23,
+        "EntityBorn": 23,
+        "EntityDied": 49,
+        "CorpseConsumed": 2
+      },
+      "intents": {
+        "Move": 364,
+        "Idle": 654,
+        "Flee": 188,
+        "Eat": 2587,
+        "Attack": 26,
+        "Drink": 552,
+        "Mate": 53
+      },
+      "rejected_actions": {
+        "NoPath": 31,
+        "Occupied": 288,
+        "MissingResource": 415,
+        "Cooldown": 30
+      },
+      "death_causes": {
+        "Combat": 6,
+        "Starvation": 13,
+        "Dehydration": 1,
+        "OldAge": 29
+      },
+      "ticks_with_active_low_health_and_zero_water": 34,
+      "history_bytes": 3508714
+    },
+    {
+      "seed": 42,
+      "ticks": 2000,
+      "wall_seconds": 2.607,
+      "first_extinction_tick": null,
+      "max_generation": 59,
+      "events": {
+        "EntityMoved": 22669,
+        "EntityAte": 11433,
+        "ResourceReplenished": 55379,
+        "ActionRejected": 5976,
+        "EntityDrank": 3987,
+        "EntityAttacked": 20,
+        "EntityMated": 280,
+        "EntityBorn": 280,
+        "EntityDied": 290
+      },
+      "intents": {
+        "Idle": 1813,
+        "Move": 1309,
+        "Flee": 197,
+        "Eat": 22264,
+        "Drink": 4323,
+        "Attack": 20,
+        "Mate": 568
+      },
+      "rejected_actions": {
+        "NoPath": 37,
+        "MissingResource": 2982,
+        "Occupied": 2669,
+        "Cooldown": 288
+      },
+      "death_causes": {
+        "Combat": 6,
+        "Dehydration": 5,
+        "Starvation": 13,
+        "OldAge": 266
+      },
+      "ticks_with_active_low_health_and_zero_water": 62,
+      "history_bytes": 17093404
+    }
+  ]
+}

@@ -6,7 +6,7 @@ olarak işaretlenmez. Gerçek gün/hafta gözlemi hızlandırılmış test yerin
 
 1. [x] Etçil yavrunun besin/su erişimi ve avcı soyu
 2. [x] Av seçimi, kovalama, bırakma ve dinlenme
-3. [ ] Farklı başlangıçlarda karma ekosistem
+3. [x] Farklı başlangıçlarda karma ekosistemi ölç (kalıcı birlikte yaşam açık sorun)
 4. [ ] Hareket, engel, paylaşım ve çakışma sözleşmeleri
 5. [ ] Bireysel hafıza
 6. [ ] Tek karar alanında ölçülebilir öğrenme
@@ -16,6 +16,6 @@ olarak işaretlenmez. Gerçek gün/hafta gözlemi hızlandırılmış test yerin
 10. [ ] Nüfus/harita ölçekleme
 11. [x] İzleyicinin sağlığı ve kontrollü dağıtım
 
-Aktif aşama: **3**. Aşama 1 sonucu `reports/ROADMAP_01.md` içinde. İlk kanıt: seed 2 etçil yavru, doğumdan sonraki 10 adımda
+Aktif aşama: **4**. Aşama 1 sonucu `reports/ROADMAP_01.md` içinde. İlk kanıt: seed 2 etçil yavru, doğumdan sonraki 10 adımda
 enerjisini tüketiyor; yarım sağlıkla doğduğu için açken bile pasif iyileşme
 metabolizmaya ek 2 enerji harcıyor. Önce bu genel rezerv kuralı ayrı ölçülüyor.

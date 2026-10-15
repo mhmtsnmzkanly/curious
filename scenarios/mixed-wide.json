@@ -1,0 +1,911 @@
+{
+  "name": "mixed-wide-24-herbivores-2-carnivores",
+  "bounds": [
+    -10,
+    10,
+    -10,
+    10
+  ],
+  "founders": [
+    {
+      "species": "Herbivore",
+      "pos": {
+        "x": -7,
+        "y": -7
+      }
+    },
+    {
+      "species": "Herbivore",
+      "pos": {
+        "x": -6,
+        "y": -7
+      }
+    },
+    {
+      "species": "Herbivore",
+      "pos": {
+        "x": -7,
+        "y": -6
+      }
+    },
+    {
+      "species": "Herbivore",
+      "pos": {
+        "x": -6,
+        "y": -6
+      }
+    },
+    {
+      "species": "Herbivore",
+      "pos": {
+        "x": 5,
+        "y": -7
+      }
+    },
+    {
+      "species": "Herbivore",
+      "pos": {
+        "x": 6,
+        "y": -7
+      }
+    },
+    {
+      "species": "Herbivore",
+      "pos": {
+        "x": 5,
+        "y": -6
+      }
+    },
+    {
+      "species": "Herbivore",
+      "pos": {
+        "x": 6,
+        "y": -6
+      }
+    },
+    {
+      "species": "Herbivore",
+      "pos": {
+        "x": -7,
+        "y": 5
+      }
+    },
+    {
+      "species": "Herbivore",
+      "pos": {
+        "x": -6,
+        "y": 5
+      }
+    },
+    {
+      "species": "Herbivore",
+      "pos": {
+        "x": -7,
+        "y": 6
+      }
+    },
+    {
+      "species": "Herbivore",
+      "pos": {
+        "x": -6,
+        "y": 6
+      }
+    },
+    {
+      "species": "Herbivore",
+      "pos": {
+        "x": 5,
+        "y": 5
+      }
+    },
+    {
+      "species": "Herbivore",
+      "pos": {
+        "x": 6,
+        "y": 5
+      }
+    },
+    {
+      "species": "Herbivore",
+      "pos": {
+        "x": 5,
+        "y": 6
+      }
+    },
+    {
+      "species": "Herbivore",
+      "pos": {
+        "x": 6,
+        "y": 6
+      }
+    },
+    {
+      "species": "Herbivore",
+      "pos": {
+        "x": -1,
+        "y": -7
+      }
+    },
+    {
+      "species": "Herbivore",
+      "pos": {
+        "x": 0,
+        "y": -7
+      }
+    },
+    {
+      "species": "Herbivore",
+      "pos": {
+        "x": -1,
+        "y": -6
+      }
+    },
+    {
+      "species": "Herbivore",
+      "pos": {
+        "x": 0,
+        "y": -6
+      }
+    },
+    {
+      "species": "Herbivore",
+      "pos": {
+        "x": -1,
+        "y": 5
+      }
+    },
+    {
+      "species": "Herbivore",
+      "pos": {
+        "x": 0,
+        "y": 5
+      }
+    },
+    {
+      "species": "Herbivore",
+      "pos": {
+        "x": -1,
+        "y": 6
+      }
+    },
+    {
+      "species": "Herbivore",
+      "pos": {
+        "x": 0,
+        "y": 6
+      }
+    },
+    {
+      "species": "Carnivore",
+      "pos": {
+        "x": -1,
+        "y": 0
+      }
+    },
+    {
+      "species": "Carnivore",
+      "pos": {
+        "x": 1,
+        "y": 0
+      }
+    }
+  ],
+  "sites": [
+    {
+      "pos": {
+        "x": -9,
+        "y": -9
+      },
+      "kind": "Food",
+      "capacity": 20,
+      "replenish": 2,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": -9,
+        "y": -5
+      },
+      "kind": "Food",
+      "capacity": 20,
+      "replenish": 2,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": -9,
+        "y": -1
+      },
+      "kind": "Food",
+      "capacity": 20,
+      "replenish": 2,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": -9,
+        "y": 3
+      },
+      "kind": "Food",
+      "capacity": 20,
+      "replenish": 2,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": -9,
+        "y": 7
+      },
+      "kind": "Food",
+      "capacity": 20,
+      "replenish": 2,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": -5,
+        "y": -9
+      },
+      "kind": "Food",
+      "capacity": 20,
+      "replenish": 2,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": -5,
+        "y": -5
+      },
+      "kind": "Food",
+      "capacity": 20,
+      "replenish": 2,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": -5,
+        "y": -1
+      },
+      "kind": "Food",
+      "capacity": 20,
+      "replenish": 2,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": -5,
+        "y": 3
+      },
+      "kind": "Food",
+      "capacity": 20,
+      "replenish": 2,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": -5,
+        "y": 7
+      },
+      "kind": "Food",
+      "capacity": 20,
+      "replenish": 2,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": -1,
+        "y": -9
+      },
+      "kind": "Food",
+      "capacity": 20,
+      "replenish": 2,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": -1,
+        "y": -5
+      },
+      "kind": "Food",
+      "capacity": 20,
+      "replenish": 2,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": -1,
+        "y": -1
+      },
+      "kind": "Food",
+      "capacity": 20,
+      "replenish": 2,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": -1,
+        "y": 3
+      },
+      "kind": "Food",
+      "capacity": 20,
+      "replenish": 2,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": -1,
+        "y": 7
+      },
+      "kind": "Food",
+      "capacity": 20,
+      "replenish": 2,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": 3,
+        "y": -9
+      },
+      "kind": "Food",
+      "capacity": 20,
+      "replenish": 2,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": 3,
+        "y": -5
+      },
+      "kind": "Food",
+      "capacity": 20,
+      "replenish": 2,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": 3,
+        "y": -1
+      },
+      "kind": "Food",
+      "capacity": 20,
+      "replenish": 2,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": 3,
+        "y": 3
+      },
+      "kind": "Food",
+      "capacity": 20,
+      "replenish": 2,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": 3,
+        "y": 7
+      },
+      "kind": "Food",
+      "capacity": 20,
+      "replenish": 2,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": 7,
+        "y": -9
+      },
+      "kind": "Food",
+      "capacity": 20,
+      "replenish": 2,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": 7,
+        "y": -5
+      },
+      "kind": "Food",
+      "capacity": 20,
+      "replenish": 2,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": 7,
+        "y": -1
+      },
+      "kind": "Food",
+      "capacity": 20,
+      "replenish": 2,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": 7,
+        "y": 3
+      },
+      "kind": "Food",
+      "capacity": 20,
+      "replenish": 2,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": 7,
+        "y": 7
+      },
+      "kind": "Food",
+      "capacity": 20,
+      "replenish": 2,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": -6,
+        "y": -6
+      },
+      "kind": "Water",
+      "capacity": 30,
+      "replenish": 4,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": -6,
+        "y": 0
+      },
+      "kind": "Water",
+      "capacity": 30,
+      "replenish": 4,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": -6,
+        "y": 6
+      },
+      "kind": "Water",
+      "capacity": 30,
+      "replenish": 4,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": 0,
+        "y": -6
+      },
+      "kind": "Water",
+      "capacity": 30,
+      "replenish": 4,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": 0,
+        "y": 0
+      },
+      "kind": "Water",
+      "capacity": 30,
+      "replenish": 4,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": 0,
+        "y": 6
+      },
+      "kind": "Water",
+      "capacity": 30,
+      "replenish": 4,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": 6,
+        "y": -6
+      },
+      "kind": "Water",
+      "capacity": 30,
+      "replenish": 4,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": 6,
+        "y": 0
+      },
+      "kind": "Water",
+      "capacity": 30,
+      "replenish": 4,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": 6,
+        "y": 6
+      },
+      "kind": "Water",
+      "capacity": 30,
+      "replenish": 4,
+      "interval": 1
+    }
+  ],
+  "resources": [
+    [
+      {
+        "x": -9,
+        "y": -9
+      },
+      {
+        "Food": {
+          "amount": 20
+        }
+      }
+    ],
+    [
+      {
+        "x": -9,
+        "y": -5
+      },
+      {
+        "Food": {
+          "amount": 20
+        }
+      }
+    ],
+    [
+      {
+        "x": -9,
+        "y": -1
+      },
+      {
+        "Food": {
+          "amount": 20
+        }
+      }
+    ],
+    [
+      {
+        "x": -9,
+        "y": 3
+      },
+      {
+        "Food": {
+          "amount": 20
+        }
+      }
+    ],
+    [
+      {
+        "x": -9,
+        "y": 7
+      },
+      {
+        "Food": {
+          "amount": 20
+        }
+      }
+    ],
+    [
+      {
+        "x": -5,
+        "y": -9
+      },
+      {
+        "Food": {
+          "amount": 20
+        }
+      }
+    ],
+    [
+      {
+        "x": -5,
+        "y": -5
+      },
+      {
+        "Food": {
+          "amount": 20
+        }
+      }
+    ],
+    [
+      {
+        "x": -5,
+        "y": -1
+      },
+      {
+        "Food": {
+          "amount": 20
+        }
+      }
+    ],
+    [
+      {
+        "x": -5,
+        "y": 3
+      },
+      {
+        "Food": {
+          "amount": 20
+        }
+      }
+    ],
+    [
+      {
+        "x": -5,
+        "y": 7
+      },
+      {
+        "Food": {
+          "amount": 20
+        }
+      }
+    ],
+    [
+      {
+        "x": -1,
+        "y": -9
+      },
+      {
+        "Food": {
+          "amount": 20
+        }
+      }
+    ],
+    [
+      {
+        "x": -1,
+        "y": -5
+      },
+      {
+        "Food": {
+          "amount": 20
+        }
+      }
+    ],
+    [
+      {
+        "x": -1,
+        "y": -1
+      },
+      {
+        "Food": {
+          "amount": 20
+        }
+      }
+    ],
+    [
+      {
+        "x": -1,
+        "y": 3
+      },
+      {
+        "Food": {
+          "amount": 20
+        }
+      }
+    ],
+    [
+      {
+        "x": -1,
+        "y": 7
+      },
+      {
+        "Food": {
+          "amount": 20
+        }
+      }
+    ],
+    [
+      {
+        "x": 3,
+        "y": -9
+      },
+      {
+        "Food": {
+          "amount": 20
+        }
+      }
+    ],
+    [
+      {
+        "x": 3,
+        "y": -5
+      },
+      {
+        "Food": {
+          "amount": 20
+        }
+      }
+    ],
+    [
+      {
+        "x": 3,
+        "y": -1
+      },
+      {
+        "Food": {
+          "amount": 20
+        }
+      }
+    ],
+    [
+      {
+        "x": 3,
+        "y": 3
+      },
+      {
+        "Food": {
+          "amount": 20
+        }
+      }
+    ],
+    [
+      {
+        "x": 3,
+        "y": 7
+      },
+      {
+        "Food": {
+          "amount": 20
+        }
+      }
+    ],
+    [
+      {
+        "x": 7,
+        "y": -9
+      },
+      {
+        "Food": {
+          "amount": 20
+        }
+      }
+    ],
+    [
+      {
+        "x": 7,
+        "y": -5
+      },
+      {
+        "Food": {
+          "amount": 20
+        }
+      }
+    ],
+    [
+      {
+        "x": 7,
+        "y": -1
+      },
+      {
+        "Food": {
+          "amount": 20
+        }
+      }
+    ],
+    [
+      {
+        "x": 7,
+        "y": 3
+      },
+      {
+        "Food": {
+          "amount": 20
+        }
+      }
+    ],
+    [
+      {
+        "x": 7,
+        "y": 7
+      },
+      {
+        "Food": {
+          "amount": 20
+        }
+      }
+    ],
+    [
+      {
+        "x": -6,
+        "y": -6
+      },
+      {
+        "Water": {
+          "amount": 30
+        }
+      }
+    ],
+    [
+      {
+        "x": -6,
+        "y": 0
+      },
+      {
+        "Water": {
+          "amount": 30
+        }
+      }
+    ],
+    [
+      {
+        "x": -6,
+        "y": 6
+      },
+      {
+        "Water": {
+          "amount": 30
+        }
+      }
+    ],
+    [
+      {
+        "x": 0,
+        "y": -6
+      },
+      {
+        "Water": {
+          "amount": 30
+        }
+      }
+    ],
+    [
+      {
+        "x": 0,
+        "y": 0
+      },
+      {
+        "Water": {
+          "amount": 30
+        }
+      }
+    ],
+    [
+      {
+        "x": 0,
+        "y": 6
+      },
+      {
+        "Water": {
+          "amount": 30
+        }
+      }
+    ],
+    [
+      {
+        "x": 6,
+        "y": -6
+      },
+      {
+        "Water": {
+          "amount": 30
+        }
+      }
+    ],
+    [
+      {
+        "x": 6,
+        "y": 0
+      },
+      {
+        "Water": {
+          "amount": 30
+        }
+      }
+    ],
+    [
+      {
+        "x": 6,
+        "y": 6
+      },
+      {
+        "Water": {
+          "amount": 30
+        }
+      }
+    ]
+  ]
+}
