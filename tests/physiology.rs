@@ -187,3 +187,18 @@ fn local_mating_opportunity_obeys_body_safety_limits() {
         Instinct::Threat
     );
 }
+
+#[test]
+fn healing_does_not_spend_a_hungry_juveniles_food_reserve() {
+    let mut w=pair();
+    let life=w.entities[0].base.life_mut();
+    life.health=70;
+    life.energy=44;
+    w.tick();
+    assert_eq!(w.entities[0].base.life().energy,43);
+    assert_eq!(w.entities[0].base.life().health,70);
+    w.entities[0].base.life_mut().energy=90;
+    w.tick();
+    assert_eq!(w.entities[0].base.life().health,71);
+    assert_eq!(w.entities[0].base.life().energy,87);
+}

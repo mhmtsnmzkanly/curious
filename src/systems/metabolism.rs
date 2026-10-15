@@ -45,7 +45,7 @@ impl MetabolismSystem {
                 );
             }
             if life.is_alive()
-                && !life.is_energy_low()
+                && life.energy >= life.max_energy.saturating_mul(3) / 4
                 && !life.is_water_low()
                 && life.health < life.max_health
             {

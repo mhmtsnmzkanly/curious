@@ -1,0 +1,186 @@
+{
+  "seed-1": {
+    "Herbivore": {
+      "births": 7,
+      "descendants_matured": 3,
+      "descendants_reproduced": 1,
+      "max_generation": 2,
+      "deaths": {
+        "Combat": 12,
+        "OldAge": 3
+      }
+    },
+    "Carnivore": {
+      "births": 4,
+      "descendants_matured": 4,
+      "descendants_reproduced": 2,
+      "max_generation": 3,
+      "deaths": {
+        "OldAge": 2,
+        "Starvation": 4
+      }
+    }
+  },
+  "seed-12345": {
+    "Herbivore": {
+      "births": 4,
+      "descendants_matured": 3,
+      "descendants_reproduced": 0,
+      "max_generation": 1,
+      "deaths": {
+        "Combat": 12
+      }
+    },
+    "Carnivore": {
+      "births": 2,
+      "descendants_matured": 2,
+      "descendants_reproduced": 0,
+      "max_generation": 1,
+      "deaths": {
+        "OldAge": 2,
+        "Starvation": 2
+      }
+    }
+  },
+  "seed-2": {
+    "Herbivore": {
+      "births": 253,
+      "descendants_matured": 250,
+      "descendants_reproduced": 233,
+      "max_generation": 57,
+      "deaths": {
+        "OldAge": 234,
+        "Combat": 2,
+        "Starvation": 5,
+        "Dehydration": 6
+      }
+    },
+    "Carnivore": {
+      "births": 1,
+      "descendants_matured": 1,
+      "descendants_reproduced": 0,
+      "max_generation": 1,
+      "deaths": {
+        "Starvation": 3
+      }
+    }
+  },
+  "seed-2026": {
+    "Herbivore": {
+      "births": 252,
+      "descendants_matured": 246,
+      "descendants_reproduced": 228,
+      "max_generation": 62,
+      "deaths": {
+        "OldAge": 237,
+        "Combat": 4,
+        "Starvation": 3,
+        "Dehydration": 2
+      }
+    },
+    "Carnivore": {
+      "births": 1,
+      "descendants_matured": 1,
+      "descendants_reproduced": 0,
+      "max_generation": 1,
+      "deaths": {
+        "Starvation": 2,
+        "Dehydration": 1
+      }
+    }
+  },
+  "seed-3": {
+    "Herbivore": {
+      "births": 253,
+      "descendants_matured": 250,
+      "descendants_reproduced": 222,
+      "max_generation": 59,
+      "deaths": {
+        "OldAge": 234,
+        "Combat": 6,
+        "Dehydration": 4,
+        "Starvation": 4
+      }
+    },
+    "Carnivore": {
+      "births": 0,
+      "descendants_matured": 0,
+      "descendants_reproduced": 0,
+      "max_generation": 0,
+      "deaths": {
+        "Starvation": 1,
+        "OldAge": 1
+      }
+    }
+  },
+  "seed-4": {
+    "Herbivore": {
+      "births": 246,
+      "descendants_matured": 242,
+      "descendants_reproduced": 227,
+      "max_generation": 64,
+      "deaths": {
+        "Combat": 9,
+        "OldAge": 226,
+        "Starvation": 3,
+        "Dehydration": 3
+      }
+    },
+    "Carnivore": {
+      "births": 1,
+      "descendants_matured": 1,
+      "descendants_reproduced": 0,
+      "max_generation": 1,
+      "deaths": {
+        "Starvation": 1,
+        "Dehydration": 1,
+        "OldAge": 1
+      }
+    }
+  },
+  "seed-42": {
+    "Herbivore": {
+      "births": 6,
+      "descendants_matured": 3,
+      "descendants_reproduced": 0,
+      "max_generation": 1,
+      "deaths": {
+        "Combat": 13,
+        "OldAge": 1
+      }
+    },
+    "Carnivore": {
+      "births": 3,
+      "descendants_matured": 3,
+      "descendants_reproduced": 2,
+      "max_generation": 3,
+      "deaths": {
+        "OldAge": 3,
+        "Starvation": 2
+      }
+    }
+  },
+  "seed-5": {
+    "Herbivore": {
+      "births": 4,
+      "descendants_matured": 2,
+      "descendants_reproduced": 1,
+      "max_generation": 2,
+      "deaths": {
+        "Combat": 11,
+        "OldAge": 1
+      }
+    },
+    "Carnivore": {
+      "births": 3,
+      "descendants_matured": 3,
+      "descendants_reproduced": 2,
+      "max_generation": 3,
+      "deaths": {
+        "OldAge": 2,
+        "Starvation": 2,
+        "Dehydration": 1
+      }
+    }
+  }
+}
