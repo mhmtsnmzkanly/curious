@@ -61,6 +61,7 @@ impl PerceptionSystem {
                     steps.clone(),
                     other.phase.is_active() && life.can_reproduce(),
                 );
+                view.entities.last_mut().unwrap().health=Some(life.health);
             }
         }
         for dir in DIRECTION_ARRAY {

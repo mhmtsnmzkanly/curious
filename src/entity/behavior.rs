@@ -108,32 +108,8 @@ pub fn decide(species: Species, life: &LifeState, view: Perception, rng: &mut Ra
                     Reason::SeekFood,
                 );
             }
-            if let Some(prey) = view
-                .entities
-                .iter()
-                .filter(|e| species.hunts(&e.species))
-                .min_by_key(|e| (e.steps.len(), e.power, e.id))
-            {
-                let combat = species.combat_profile();
-                // Do not reserve an arbitrary energy fraction: an adjacent injured
-                // prey may still be worth a final affordable attack.
-                let minimum_cost = combat
-                    .energy_cost
-                    .saturating_add(prey.steps.len().saturating_sub(1));
-                if life.energy < minimum_cost {
-                    return Decision::new(Intent::Idle { duration: 1 }, Reason::HuntLowEnergy);
-                }
-                if life.stamina <= life.max_stamina / 4 || life.stamina < combat.stamina_cost {
-                    return Decision::new(Intent::Idle { duration: 1 }, Reason::RecoverStamina);
-                }
-                let intent = if prey.steps.len() <= 1 {
-                    Intent::Attack { target_id: prey.id }
-                } else {
-                    Intent::Move {
-                        steps: prey.steps.clone(),
-                    }
-                };
-                Decision::new(intent, Reason::HuntPrey)
+            if let Some(decision) = super::hunting::decide(species, life, &view) {
+                decision
             } else {
                 Decision::new(explore(life, &view, rng), Reason::SearchFood)
             }

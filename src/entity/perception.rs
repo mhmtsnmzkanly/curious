@@ -10,6 +10,8 @@ use std::{
 /// Algılanan tekil hedef
 #[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
 pub struct PerceivedEntity {
+    #[serde(default)]
+    pub health: Option<usize>,
     pub reproductive:bool,
     /// Algılanan canlının kimliği (Kaldırılabilir, Emin değilim)
     pub id: usize,
@@ -86,6 +88,7 @@ impl Perception {
     /// Algılanan canlıya adım ekle
     pub fn add_entity(&mut self, id: usize, species: Species, power: usize, steps: Steps, reproductive:bool) {
         self.entities.push(PerceivedEntity {
+            health:None,
             reproductive,
             id,
             species,

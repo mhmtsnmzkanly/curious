@@ -190,15 +190,54 @@ fn local_mating_opportunity_obeys_body_safety_limits() {
 
 #[test]
 fn healing_does_not_spend_a_hungry_juveniles_food_reserve() {
-    let mut w=pair();
-    let life=w.entities[0].base.life_mut();
-    life.health=70;
-    life.energy=44;
+    let mut w = pair();
+    let life = w.entities[0].base.life_mut();
+    life.health = 70;
+    life.energy = 44;
     w.tick();
-    assert_eq!(w.entities[0].base.life().energy,43);
-    assert_eq!(w.entities[0].base.life().health,70);
-    w.entities[0].base.life_mut().energy=90;
+    assert_eq!(w.entities[0].base.life().energy, 43);
+    assert_eq!(w.entities[0].base.life().health, 70);
+    w.entities[0].base.life_mut().energy = 90;
     w.tick();
-    assert_eq!(w.entities[0].base.life().health,71);
-    assert_eq!(w.entities[0].base.life().energy,87);
+    assert_eq!(w.entities[0].base.life().health, 71);
+    assert_eq!(w.entities[0].base.life().energy, 87);
+}
+
+#[test]
+fn hunting_prefers_an_affordable_wounded_prey() {
+    let carn = CarnivoreEntity::default();
+    let mut view = Perception::empty();
+    view.add_entity(
+        2,
+        Species::Herbivore,
+        200,
+        Steps(vec![Direction::Right]),
+        false,
+    );
+    view.entities[0].health = Some(120);
+    view.add_entity(
+        3,
+        Species::Herbivore,
+        120,
+        Steps(vec![Direction::Left, Direction::Left]),
+        false,
+    );
+    view.entities[1].health = Some(20);
+    let d = curious::entity::hunting::decide(Species::Carnivore, carn.life(), &view).unwrap();
+    assert_eq!(
+        d.intent,
+        Intent::Move {
+            steps: Steps(vec![Direction::Left, Direction::Left])
+        }
+    );
+    let mut low = CarnivoreEntity::default();
+    low.life_mut().energy = 10;
+    view.entities.remove(1);
+    view.entities[0].steps = Steps(vec![Direction::Right; 3]);
+    assert_eq!(
+        curious::entity::hunting::decide(Species::Carnivore, low.life(), &view)
+            .unwrap()
+            .reason,
+        Reason::HuntTooCostly
+    );
 }

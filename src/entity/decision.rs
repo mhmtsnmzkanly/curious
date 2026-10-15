@@ -12,6 +12,7 @@ pub enum Reason {
     CorneredDefense,
     RecoverStamina,
     HuntLowEnergy,
+    HuntTooCostly,
     Defend,
     SeekWater,
     SearchWater,

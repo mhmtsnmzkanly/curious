@@ -1,3 +1,4 @@
+pub mod hunting;
 pub mod decision;
 pub mod behavior;
 pub mod intent;
