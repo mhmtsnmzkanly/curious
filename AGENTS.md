@@ -21,7 +21,10 @@ sonraki talimatlar bu notların önündedir.
 ## Sunucudaki mevcut çalışma
 
 - Repo: `/root/curious`; servis: `curious.service`.
-- Kontrol: `http://127.0.0.1:7878`; kalıcı dünya: `data/main`.
+- Önceki dünya: `http://127.0.0.1:7878`, `data/main`, pause durumunda.
+- Sürekli çayır: `http://127.0.0.1:7879`, `data/meadow`, `curious-meadow.service`,
+  0,1 tick/s. Bu hız disk tüketimi ve gözlem için bilinçli seçildi; gerekçesiz artırmayın.
+- `curious-monitor.timer` dakikada bir salt okunur sağlık kontrolü ve Notify uyarısı yapar.
 - Systemd birimi `deploy/curious.service` kaynaktan `/etc/systemd/system/` altına
   kurulmuştur. Servis yeniden açılırken checkpoint yükler ve pause durumuna geçer.
 - Gerçek durumu `/status` üzerinden kontrol edin; bu dosyadaki eski tick bilgisini
@@ -32,8 +35,10 @@ sonraki talimatlar bu notların önündedir.
 - Güncel checkpoint V2; kod `simulation/checkpoint.rs` içinde. SQLite şeması V1.
   Eski kayıt yüklemek aynı geleceği değil, durum göçünü garanti eder.
 - Son deney raporu `docs/reports/RENEWABLE_MEADOW.md`: otçul nesilleri doğrulandı;
-  öğrenme/evrim ve avcı–av dengesi henüz tamamlanmadı. Tam snapshot kaydı yaklaşık
-  3,8 GB/gün (3 tick/s); uzun sunucu koşusundan önce kayıt maliyetini düşürün.
+  öğrenme/evrim ve avcı–av dengesi henüz tamamlanmadı. Kayıpsız gzip arşivi
+  ölçümde 5,55 kat tasarruf sağladı. İşletim raporu `docs/reports/STORAGE_AND_OPERATIONS.md`.
+- Kapanmış `.sqlite.gz` geçmişini silmeyin. API arşivleri geçici açıp sorgulayabilir.
+  V2 yükseltme öncesi yedek `data/backups/pre-checkpoint-v2/` altında.
 
 ## İletişim
 

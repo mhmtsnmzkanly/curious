@@ -64,6 +64,17 @@ with tempfile.TemporaryDirectory(prefix='curious-http-') as directory:
         data=request('/query',{'shard':shard,'sql':'SELECT COUNT(*) FROM interventions'})
         assert data[0]==200 and data[1]['rows'][0][0]>=4
         assert request('/query',{'shard':shard,'sql':'DELETE FROM records'})[0]==400
+        # Force closed shards and inspect compressed history through the HTTP API.
+        for _ in range(20):
+            if any(row.get('compressed') for row in request('/databases')[1]):
+                break
+            assert request('/control',{'action':'step','ticks':20})[0]==200
+        assert any(row.get('compressed') for row in request('/databases')[1])
+        assert request('/query',{'shard':0,'sql':'SELECT COUNT(*) FROM records'})[1]['rows'][0][0]>0
+        archived_state=request('/state')[1]
+        child.kill(); child.wait(timeout=5)
+        child=start(directory,True)
+        assert request('/state')[1]==archived_state
         assert request('/control',{'action':'speed','ticks_per_second':100})[0]==200
         assert request('/control',{'action':'resume'})[0]==200
         time.sleep(.1)

@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 """Measure isolated HTTP worlds without modifying the live service. Standard library only."""
 import argparse
+import contextlib
+import gzip
+import tempfile
+import shutil
 from collections import Counter
 import json
 import os
@@ -12,7 +16,19 @@ import time
 import urllib.request
 
 
-def measure(binary, directory, seed, ticks, scenario=None):
+@contextlib.contextmanager
+def history_connection(path):
+    with tempfile.TemporaryDirectory(prefix='curious-history-') as scratch:
+        if path.suffix == '.gz':
+            unpacked = Path(scratch)/'history.sqlite'
+            with gzip.open(path,'rb') as source, unpacked.open('wb') as target:
+                shutil.copyfileobj(source,target)
+            path = unpacked
+        with sqlite3.connect(f'file:{path}?mode=ro', uri=True) as connection:
+            yield connection
+
+
+def measure(binary, directory, seed, ticks, scenario=None, shard_mb=16):
     directory.mkdir(parents=True, exist_ok=False)
     with socket.socket() as sock:
         sock.bind(('127.0.0.1', 0))
@@ -28,7 +44,7 @@ def measure(binary, directory, seed, ticks, scenario=None):
             return json.load(response)
 
     command = [binary, '--serve', '--paused', '--data-dir', str(directory), '--seed', str(seed),
-               '--bind', f'127.0.0.1:{port}']
+               '--bind', f'127.0.0.1:{port}', '--shard-mb', str(shard_mb)]
     if scenario:
         command += ['--scenario', scenario]
     child = subprocess.Popen(command, env=env, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE)
@@ -58,8 +74,9 @@ def measure(binary, directory, seed, ticks, scenario=None):
     samples = []
     first_extinction = None
     starvation_floor_ticks = 0
-    for db in sorted(directory.glob('history-*.sqlite')):
-        with sqlite3.connect(f'file:{db}?mode=ro', uri=True) as connection:
+    histories=sorted(p for p in directory.glob('history-*') if p.name.endswith(('.sqlite','.sqlite.gz')))
+    for db in histories:
+        with history_connection(db) as connection:
             for tick, kind, encoded, metrics in connection.execute('SELECT tick,kind,state_json,metrics_json FROM records ORDER BY id'):
                 state, metric = json.loads(encoded), json.loads(metrics)
                 if kind == 'initial':
@@ -89,7 +106,7 @@ def measure(binary, directory, seed, ticks, scenario=None):
             'max_generation': max(generations.values(), default=0), 'events': dict(events), 'intents': dict(intents),
             'rejected_actions': dict(rejected), 'death_causes': dict(death_causes),
             'ticks_with_active_low_health_and_zero_water': starvation_floor_ticks, 'samples': samples,
-            'history_bytes': sum(p.stat().st_size for p in directory.glob('*.sqlite'))}
+            'history_bytes': sum(p.stat().st_size for p in histories)}
 
 
 def main():
@@ -97,6 +114,7 @@ def main():
     parser.add_argument('--binary', default='target/release/curious')
     parser.add_argument('--output', required=True)
     parser.add_argument('--scenario')
+    parser.add_argument('--shard-mb', type=int, default=16)
     parser.add_argument('--seeds', default='1,2,3,4,5,42,12345,2026')
     parser.add_argument('--ticks', type=int, default=500)
     args = parser.parse_args()
@@ -106,7 +124,7 @@ def main():
               'dirty': bool(subprocess.check_output(['git','status','--porcelain'],text=True).strip()),
               'scenario': args.scenario or 'default four founders; no interventions except step/shutdown', 'runs': []}
     for seed in map(int, args.seeds.split(',')):
-        result = measure(str(Path(args.binary).resolve()), output / f'seed-{seed}', seed, args.ticks, args.scenario)
+        result = measure(str(Path(args.binary).resolve()), output / f'seed-{seed}', seed, args.ticks, args.scenario, args.shard_mb)
         report['runs'].append(result)
         (output / 'summary.json').write_text(json.dumps(report, indent=2) + '\n')
         print(json.dumps({k: v for k, v in result.items() if k != 'samples'}), flush=True)

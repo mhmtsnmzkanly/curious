@@ -4,7 +4,7 @@ pub use crate::simulation::checkpoint::{Individual, State};
 use crate::{
     entity::phase::EntityPhase, map::cell::Cell, simulation::SimulationEvent, world::World,
 };
-use rusqlite::{Connection, OpenFlags, params};
+use rusqlite::{Connection, params};
 use serde_json::{Value, json};
 use std::{
     path::{Path, PathBuf},
@@ -29,7 +29,17 @@ pub struct Store {
 impl Store {
     pub fn open(dir: &Path, max_bytes: u64) -> Result<Self> {
         std::fs::create_dir_all(dir)?;
+        crate::archive::cleanup_pending(dir)?;
         let shard = Self::files(dir)?.last().map(|(n, _)| *n).unwrap_or(0);
+        // A run whose last available file is sealed gets a fresh active shard.
+        let shard = if Self::files(dir)?
+            .last()
+            .is_some_and(|(_, p)| crate::archive::is_archive(p))
+        {
+            shard + 1
+        } else {
+            shard
+        };
         let conn = Self::connect(&dir.join(format!("history-{shard:06}.sqlite")))?;
         let archived_bytes = Self::files(dir)?
             .into_iter()
@@ -46,21 +56,25 @@ impl Store {
         })
     }
     fn files(dir: &Path) -> Result<Vec<(usize, PathBuf)>> {
-        let mut files = Vec::new();
+        let mut files = std::collections::BTreeMap::<usize, PathBuf>::new();
         for entry in std::fs::read_dir(dir)? {
             let p = entry?.path();
-            if let Some(n) = p
-                .file_name()
-                .and_then(|s| s.to_str())
-                .and_then(|s| s.strip_prefix("history-"))
+            let Some(name) = p.file_name().and_then(|s| s.to_str()) else {
+                continue;
+            };
+            let raw = name.strip_suffix(".gz").unwrap_or(name);
+            let Some(n) = raw
+                .strip_prefix("history-")
                 .and_then(|s| s.strip_suffix(".sqlite"))
                 .and_then(|s| s.parse().ok())
-            {
-                files.push((n, p));
+            else {
+                continue;
+            };
+            if !crate::archive::is_archive(&p) || !files.contains_key(&n) {
+                files.insert(n, p);
             }
         }
-        files.sort_by_key(|(n, _)| *n);
-        Ok(files)
+        Ok(files.into_iter().collect())
     }
     fn connect(path: &Path) -> Result<Connection> {
         let c = Connection::open(path)?;
@@ -81,12 +95,22 @@ impl Store {
             return Err("history storage budget reached; archive old shards and restart with a larger budget".into());
         }
         if (pages * size) as u64 >= self.max_bytes {
-            self.conn.execute_batch("PRAGMA wal_checkpoint(TRUNCATE)")?;
+            let (busy, frames, checkpointed): (i64, i64, i64) =
+                self.conn
+                    .query_row("PRAGMA wal_checkpoint(TRUNCATE)", [], |r| {
+                        Ok((r.get(0)?, r.get(1)?, r.get(2)?))
+                    })?;
+            if busy != 0 || frames > checkpointed {
+                return Err("cannot seal history while WAL checkpoint is busy".into());
+            }
             let next = self.shard + 1;
             let conn = Self::connect(&self.dir.join(format!("history-{next:06}.sqlite")))?;
-            self.archived_bytes += (pages * size) as u64;
-            self.conn = conn;
+            let previous = self.dir.join(format!("history-{:06}.sqlite", self.shard));
+            let old = std::mem::replace(&mut self.conn, conn);
             self.shard = next;
+            drop(old);
+            let archived = crate::archive::seal(&previous)?;
+            self.archived_bytes += std::fs::metadata(archived)?.len();
         }
         Ok(())
     }
@@ -178,7 +202,7 @@ impl Store {
     }
     pub fn latest(&self) -> Result<Option<State>> {
         for (_, path) in Self::files(&self.dir)?.into_iter().rev() {
-            let c = Connection::open_with_flags(path, OpenFlags::SQLITE_OPEN_READ_ONLY)?;
+            let c = crate::archive::Reader::open(&path)?;
             let mut stmt = c.prepare("SELECT state_json FROM records ORDER BY id DESC LIMIT 1")?;
             let mut rows = stmt.query([])?;
             if let Some(row) = rows.next()? {
@@ -188,13 +212,22 @@ impl Store {
         }
         Ok(None)
     }
+    pub fn estimated_bytes(&self) -> Result<u64> {
+        let pages: i64 = self.conn.query_row("PRAGMA page_count", [], |r| r.get(0))?;
+        let size: i64 = self.conn.query_row("PRAGMA page_size", [], |r| r.get(0))?;
+        Ok(self.archived_bytes + (pages * size) as u64)
+    }
     pub fn inventory(&self) -> Result<Value> {
-        Ok(json!(Self::files(&self.dir)?.into_iter().map(|(n,p)|json!({"shard":n,"bytes":std::fs::metadata(p).map(|m|m.len()).unwrap_or(0)})).collect::<Vec<_>>()))
+        Ok(json!(Self::files(&self.dir)?.into_iter().map(|(n,p)|json!({"shard":n,"compressed":crate::archive::is_archive(&p),"bytes":std::fs::metadata(p).map(|m|m.len()).unwrap_or(0)})).collect::<Vec<_>>()))
     }
     /// Read-only bounded inspection on any historical shard; no SQL writes or attachments.
     pub fn query(&self, shard: usize, sql: &str) -> Result<Value> {
-        let path = self.dir.join(format!("history-{shard:06}.sqlite"));
-        let c = Connection::open_with_flags(path, OpenFlags::SQLITE_OPEN_READ_ONLY)?;
+        let path = Self::files(&self.dir)?
+            .into_iter()
+            .find(|(n, _)| *n == shard)
+            .map(|(_, p)| p)
+            .ok_or("history shard not found")?;
+        let c = crate::archive::Reader::open(&path)?;
         c.execute_batch("PRAGMA query_only=ON")?;
         let started = std::time::Instant::now();
         c.progress_handler(1000, Some(move || started.elapsed().as_millis() > 200))?;

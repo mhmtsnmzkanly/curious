@@ -1,0 +1,11 @@
+{
+  "uncompressed_bytes": 146751488,
+  "compressed_bytes": 26456234,
+  "ratio": 5.55,
+  "same_events": true,
+  "same_final_world": true,
+  "archive_shard_mb": 1,
+  "ticks": 10000,
+  "seed": 1,
+  "wall_seconds": 6.421
+}

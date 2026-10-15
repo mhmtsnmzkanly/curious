@@ -62,7 +62,7 @@ pub struct Runtime {
 }
 impl Runtime {
     pub fn status(&self) -> Value {
-        json!({"tick":self.world.tick_counter,"paused":self.paused,"ticks_per_second":self.tps,"shutdown":self.shutdown,"storage_error":self.error,"shard":self.store.shard,"directory":self.store.dir,"entities":self.world.entities.len()})
+        json!({"alive":self.world.entities.iter().filter(|s|matches!(s.phase,EntityPhase::Active|EntityPhase::Sleeping{..}) && s.base.life().is_alive()).count(),"history_bytes":self.store.estimated_bytes().ok(),"history_budget_bytes":self.store.max_history_bytes,"tick":self.world.tick_counter,"paused":self.paused,"ticks_per_second":self.tps,"shutdown":self.shutdown,"storage_error":self.error,"shard":self.store.shard,"directory":self.store.dir,"entities":self.world.entities.len()})
     }
     pub fn tick(&mut self) -> Result<()> {
         let start = Instant::now();

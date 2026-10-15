@@ -1,0 +1,10 @@
+[Unit]
+Description=Check Curious meadow health every minute
+
+[Timer]
+OnBootSec=60
+OnUnitActiveSec=60
+Unit=curious-monitor.service
+
+[Install]
+WantedBy=timers.target

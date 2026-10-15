@@ -75,8 +75,9 @@ sosyal sürüler, karmaşık iklim ve gelişmiş görsellik ilk teslimin zorunlu
 - Rust motorunda harita, üç tür, algı/niyet/plan/çözümleme, metabolizma ve yaşam döngüsü var.
 - SQLite kaydı, dosya boyutuna göre shard geçişi, checkpointten devam ve HTTP kontrolü eklendi.
 - Kararlar, olaylar, tam dünya durumu, metrikler ve kabul edilen müdahaleler kaydediliyor.
-- Dört Rust testi ve HTTP/kapanma-kurtarma testi geçti; systemd restartında dünya
-  durumunun korunması kontrol edildi. Ayrıntılar `CONTROL.md` içinde.
+- 22 Rust, 5 izleyici testi ve HTTP/arşiv/kapanma-kurtarma kontrolü geçti.
+  V2 yükseltmede eski dünya korundu; ayrı çayır gözlemi başladı. Ayrıntılar
+  `reports/STORAGE_AND_OPERATIONS.md` ve `CONTROL.md` içinde.
 - Kaynak yenilenmesi ve otçul çayırında nesillerin devamı doğrulandı:
   8 seedin 7'si 2.000 tickte yaşıyor; uzun koşularda 10.000 tick ve 219–230. nesil.
   Ayrıntılar ve yok olan koşul `reports/RENEWABLE_MEADOW.md` içinde.

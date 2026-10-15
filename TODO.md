@@ -10,7 +10,8 @@ Hedef ve karar gerekçeleri: [docs/VISION.md](docs/VISION.md).
 - [x] Kaynak yenilenmesi ve otçul çayırında torunların üremesi; 10.000 tickte 219–230. nesil.
 - [ ] Çayırda yok olan seed 2'nin davranış darboğazını ve farklı başlangıç nüfuslarını incele.
 - [ ] Avcı–av beslenmesi/kovalama/üreme döngüsünü ayrı senaryolarda doğrula.
-- [ ] 3 tick/s için yaklaşık 3,8 GB/gün olan kayıt büyümesini kayıpsız azalt; sonra uzun sunucu koşusu başlat.
+- [x] Kayıpsız arşivle ölçülen boyutu 5,55 kat azalt; ayrı çayır gözlemi ve otomatik hata bildirimlerini başlat.
+- [ ] Gerçek süreli çayır koşusunu günler/haftalar boyunca değerlendir; izleyicinin kendi sağlığına da gözetim ekle.
 - [ ] Bireyin algı/karar/sonuç akışını incelemeyi kolaylaştır.
 - [ ] Bireysel hafıza ve tek bir karar alanında öğrenme deneyi kur.
 - [ ] Kalıtsal özellikler, bedeller, mutasyon ve soy takibini ayrı bileşenlerde kur.

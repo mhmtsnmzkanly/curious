@@ -186,3 +186,19 @@ senaryo dosyasını değiştirerek mevcut dünyayı sessizce değiştirmez.
 Kütüphane `SimulationEngine::snapshot()` artık aynı tam V2 temsili döndürür:
 eski `map_resources` yerine türü koruyan `resources` alanı kullanılır.
 Gözlem araçları bu alan değişimine göre güncellenmelidir.
+
+## Sıkıştırılmış geçmiş ve sürekli gözlem
+
+Kapanmış shardlar artık `history-NNNNNN.sqlite.gz` olarak kayıpsız saklanır.
+`/databases` her shard için `compressed` alanını döndürür. `/query` aynı shard
+numarasıyla çalışır; arşiv geçici olarak açılır. 2 GiB açılmış dosya sınırı vardır.
+Sıkıştırma öncesi WAL checkpoint, arşivi bayt bayt doğrulama ve atomik yayımlama
+uygulanır. Eski kaydın içeriği atılmaz. SQL JSON sorguları değişmez.
+
+`/status` artık `alive`, `history_bytes` (yaklaşık mantıksal aktif + sıkıştırılmış
+geçmiş boyutu) ve `history_budget_bytes` verir. WAL/geçici arşiv alanı için pay bırakın.
+
+Çalışan ayrı gözlem dünyası: `127.0.0.1:7879`, `curious-meadow.service`,
+`data/meadow`, 0,1 tick/s. `7878` üzerindeki önceki dünya pause durumunda korunur.
+`curious-monitor.timer` çayırda hata/yok oluş/bütçe durumlarında Notify gönderir.
+Ayrıntılar: [STORAGE_AND_OPERATIONS.md](reports/STORAGE_AND_OPERATIONS.md).

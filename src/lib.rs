@@ -16,6 +16,7 @@
 
 pub mod persistence;
 pub mod control;
+pub mod archive;
 pub mod scenario;
 pub mod environment;
 pub mod random;

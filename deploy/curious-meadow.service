@@ -1,0 +1,17 @@
+[Unit]
+Description=Curious renewable meadow observation run
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/root/curious
+ExecStart=/root/curious/target/release/curious --serve --resume-or-new --scenario scenarios/meadow.json --seed 1 --data-dir /root/curious/data/meadow --bind 127.0.0.1:7879 --tps 0.1 --shard-mb 16 --max-history-mb 10240
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=10
+NoNewPrivileges=true
+PrivateTmp=true
+UMask=0077
+
+[Install]
+WantedBy=multi-user.target

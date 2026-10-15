@@ -60,3 +60,7 @@ simülasyona devam edilebilir. Kullanım ve işletim: [docs/CONTROL.md](docs/CON
 
 Projenin uzun vadeli hedefi ve geliştirme sırası: [docs/VISION.md](docs/VISION.md).
 Ajanlar için çalışma ve disk bakım notları: [AGENTS.md](AGENTS.md).
+
+Yenilenen çevre ve çok nesilli otçul senaryosu: `scenarios/meadow.json`.
+Ölçümler ve gerçek sınırlar: [çok nesilli dünya raporu](docs/reports/RENEWABLE_MEADOW.md),
+[kayıt ve işletim raporu](docs/reports/STORAGE_AND_OPERATIONS.md).
