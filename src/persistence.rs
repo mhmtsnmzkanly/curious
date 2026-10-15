@@ -78,14 +78,20 @@ impl Store {
     }
     fn connect(path: &Path) -> Result<Connection> {
         let c = Connection::open(path)?;
-        c.execute_batch("PRAGMA journal_mode=WAL; PRAGMA synchronous=FULL; PRAGMA user_version=1;
+        let version: i64 = c.query_row("PRAGMA user_version", [], |r| r.get(0))?;
+        if version > 2 {
+            return Err("unsupported history schema version".into());
+        }
+        c.execute_batch("PRAGMA journal_mode=WAL; PRAGMA synchronous=FULL; BEGIN IMMEDIATE;
           CREATE TABLE IF NOT EXISTS records(id INTEGER PRIMARY KEY, tick INTEGER NOT NULL, at_ms TEXT NOT NULL, kind TEXT NOT NULL, state_json TEXT NOT NULL, metrics_json TEXT NOT NULL, trace_json TEXT NOT NULL);
           CREATE INDEX IF NOT EXISTS records_tick ON records(tick);
           CREATE TABLE IF NOT EXISTS events(record_id INTEGER NOT NULL, ordinal INTEGER NOT NULL, kind TEXT NOT NULL, payload TEXT NOT NULL, PRIMARY KEY(record_id,ordinal));
           CREATE INDEX IF NOT EXISTS events_kind ON events(kind);
           CREATE TABLE IF NOT EXISTS decisions(record_id INTEGER NOT NULL, entity_id INTEGER NOT NULL, intent_json TEXT NOT NULL);
           CREATE INDEX IF NOT EXISTS decisions_entity ON decisions(entity_id,record_id);
-          CREATE TABLE IF NOT EXISTS interventions(id INTEGER PRIMARY KEY, tick INTEGER NOT NULL, at_ms TEXT NOT NULL, request_json TEXT NOT NULL, result_json TEXT NOT NULL);")?;
+          CREATE TABLE IF NOT EXISTS decision_traces(record_id INTEGER NOT NULL,entity_id INTEGER NOT NULL,trace_json TEXT NOT NULL,PRIMARY KEY(record_id,entity_id));
+          CREATE INDEX IF NOT EXISTS traces_entity ON decision_traces(entity_id,record_id);
+          CREATE TABLE IF NOT EXISTS interventions(id INTEGER PRIMARY KEY, tick INTEGER NOT NULL, at_ms TEXT NOT NULL, request_json TEXT NOT NULL, result_json TEXT NOT NULL); PRAGMA user_version=2; COMMIT;")?;
         Ok(c)
     }
     fn rotate(&mut self) -> Result<()> {
@@ -187,6 +193,12 @@ impl Store {
             )?;
         }
         if kind == "tick" {
+            for trace in &world.last_decisions {
+                tx.execute(
+                    "INSERT INTO decision_traces VALUES(?1,?2,?3)",
+                    params![id, trace.id as i64, serde_json::to_string(trace)?],
+                )?;
+            }
             for (entity, intent) in &world.last_intents {
                 tx.execute(
                     "INSERT INTO decisions VALUES(?1,?2,?3)",

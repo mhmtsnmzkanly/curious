@@ -1,0 +1,101 @@
+{
+  "name": "hunt-corridor",
+  "bounds": [
+    0,
+    8,
+    0,
+    0
+  ],
+  "founders": [
+    {
+      "species": "Carnivore",
+      "pos": {
+        "x": 0,
+        "y": 0
+      },
+      "life": {
+        "max_age": 120,
+        "max_health": 140,
+        "max_energy": 90,
+        "max_water": 70,
+        "maturity_age": 25,
+        "vision_range": 7,
+        "age": 0,
+        "health": 140,
+        "energy": 66,
+        "water": 70,
+        "reproduction_cooldown": 0,
+        "speed": 4,
+        "moves_used": 0
+      }
+    },
+    {
+      "species": "Herbivore",
+      "pos": {
+        "x": 3,
+        "y": 0
+      },
+      "life": {
+        "max_age": 105,
+        "max_health": 120,
+        "max_energy": 80,
+        "max_water": 60,
+        "maturity_age": 20,
+        "vision_range": 6,
+        "age": 0,
+        "health": 120,
+        "energy": 80,
+        "water": 60,
+        "reproduction_cooldown": 0,
+        "speed": 3,
+        "moves_used": 0
+      }
+    }
+  ],
+  "sites": [
+    {
+      "pos": {
+        "x": 8,
+        "y": 0
+      },
+      "kind": "Water",
+      "capacity": 30,
+      "replenish": 4,
+      "interval": 1
+    },
+    {
+      "pos": {
+        "x": 7,
+        "y": 0
+      },
+      "kind": "Food",
+      "capacity": 20,
+      "replenish": 2,
+      "interval": 1
+    }
+  ],
+  "resources": [
+    [
+      {
+        "x": 8,
+        "y": 0
+      },
+      {
+        "Water": {
+          "amount": 30
+        }
+      }
+    ],
+    [
+      {
+        "x": 7,
+        "y": 0
+      },
+      {
+        "Food": {
+          "amount": 12
+        }
+      }
+    ]
+  ]
+}

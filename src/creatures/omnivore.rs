@@ -56,6 +56,10 @@ impl Entity for OmnivoreEntity {
         crate::entity::behavior::choose(Species::Omnivore,&self.life_state,perception,rng)
     }
 
+    fn decide(&self,view:Perception,rng:&mut crate::random::Random)->crate::entity::decision::Decision {
+        crate::entity::behavior::decide(Species::Omnivore,&self.life_state,view,rng)
+    }
+
     fn tick(&mut self) {
         // Artik metabolism sistem tarafindan merkezi olarak yonetiliyor
     }

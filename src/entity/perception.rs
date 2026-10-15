@@ -8,7 +8,7 @@ use std::{
 };
 
 /// Algılanan tekil hedef
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
 pub struct PerceivedEntity {
     pub reproductive:bool,
     /// Algılanan canlının kimliği (Kaldırılabilir, Emin değilim)
@@ -22,7 +22,7 @@ pub struct PerceivedEntity {
 }
 
 /// Algılanan yiyecek
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
 pub struct PerceivedFood {
     pub corpse_id:Option<usize>,
     /// Algılanan yemeğin miktarı
@@ -34,7 +34,7 @@ pub struct PerceivedFood {
 }
 
 /// Algılanan su
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
 pub struct PerceivedWater {
     /// Algılanan su miktarı
     pub amount: usize,
@@ -46,7 +46,7 @@ pub struct PerceivedWater {
 /// - Bu pozisyonda canlı var mı ve kaç tane var?
 /// - Canlı mı / ceset mi?
 /// - Yakın çevrede kimler var?
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
 pub struct Perception {
     /// Algılanan yemekler
     pub foods: Vec<PerceivedFood>,

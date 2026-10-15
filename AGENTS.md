@@ -32,7 +32,7 @@ sonraki talimatlar bu notların önündedir.
 - Geçmiş shardları, canlı verilerini veya checkpointleri derleme temizliğiyle silmeyin.
 - Aktif RNG dünya başına ayrıdır. Yeni dünyalar için açık seed kullanan
   `World::with_seed` tercih edilir; global seed yardımcıları eski çağrılar içindir.
-- Güncel checkpoint V2; kod `simulation/checkpoint.rs` içinde. SQLite şeması V1.
+- Güncel checkpoint V2; kod `simulation/checkpoint.rs` içinde. SQLite şeması V2; karar kanıtları `decision_traces` tablosunda.
   Eski kayıt yüklemek aynı geleceği değil, durum göçünü garanti eder.
 - Son deney raporu `docs/reports/RENEWABLE_MEADOW.md`: otçul nesilleri doğrulandı;
   öğrenme/evrim ve avcı–av dengesi henüz tamamlanmadı. Kayıpsız gzip arşivi
@@ -68,9 +68,10 @@ Sırf özellik kullanmış olmak için panel veya onay akışı oluşturmayın.
 - Derleme öncesi/sonrası gerektiğinde `du -sh target/debug target/release` ile
   boyutları inceleyin. Kullanıcı Rust çıktılarının düzenli temizlenmesini istiyor.
 - Debug/test çıktıları gerekmediğinde `cargo clean --profile dev` ile temizlenebilir.
-- Çalışan systemd biriminin kullandığı `target/release/curious` dosyasını koruyun;
-  tam `cargo clean`, sonraki servis başlangıcını bozabilir. Tam temizlikten önce
-  servis için ayrı bir binary kurulmalı veya yeniden derleme planlanmalı.
+- Systemd artık `bin/curious-live` → `bin/releases/curious-<revision>` kullanır.
+  Deney derlemeleri canlı binary'yi değiştirmez. Sürümü ancak test/backup sonrası
+  açık bir dağıtım adımıyla değiştirin. `bin` sürümlerini derleme temizliğiyle silmeyin.
+  Testler bittiğinde `target` tamamen temizlenebilir; canlı sürüm ayrı korunur.
 - Cargo registry, başka projeler, SQLite geçmişi ve loglar derleme önbelleği değildir.
 - Tamamlanan anlamlı değişiklikleri kullanıcının istediği gibi commit edin.
   Push veya ek dış yayın istenmedikçe ayrıca yapılmaz.

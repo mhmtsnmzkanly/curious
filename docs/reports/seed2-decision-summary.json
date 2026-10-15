@@ -1,0 +1,214 @@
+{
+  "directory": "data/experiments/decision-evidence/seed-2",
+  "totals": {
+    "ready": 328,
+    "ready_with_visible_mate": 203,
+    "ready_adjacent_mate": 96,
+    "adjacent_reason_Mate": 16,
+    "adjacent_reason_SeekFood": 68,
+    "ready_without_visible_mate": 125,
+    "adjacent_reason_SeekWater": 12
+  },
+  "individuals": {
+    "1": {
+      "reasons": {
+        "Explore": 8,
+        "Rest": 22,
+        "SeekFood": 60,
+        "SeekWater": 14,
+        "ApproachMate": 1
+      },
+      "first_tick": 1,
+      "last_tick": 105
+    },
+    "2": {
+      "reasons": {
+        "Rest": 26,
+        "Explore": 8,
+        "SeekFood": 50,
+        "SeekWater": 16,
+        "ApproachMate": 3,
+        "Mate": 2
+      },
+      "first_tick": 1,
+      "last_tick": 105
+    },
+    "3": {
+      "reasons": {
+        "Rest": 16,
+        "Explore": 5,
+        "SeekWater": 18,
+        "SeekFood": 62,
+        "ApproachMate": 2,
+        "Mate": 2
+      },
+      "first_tick": 1,
+      "last_tick": 105
+    },
+    "4": {
+      "reasons": {
+        "Rest": 17,
+        "Explore": 9,
+        "SeekFood": 64,
+        "SeekWater": 14,
+        "Mate": 1
+      },
+      "first_tick": 1,
+      "last_tick": 105
+    },
+    "5": {
+      "reasons": {
+        "Rest": 22,
+        "Explore": 5,
+        "SeekWater": 16,
+        "SeekFood": 60,
+        "Mate": 2
+      },
+      "first_tick": 1,
+      "last_tick": 105
+    },
+    "6": {
+      "reasons": {
+        "Rest": 19,
+        "Explore": 10,
+        "SeekFood": 66,
+        "SeekWater": 9,
+        "ApproachMate": 1
+      },
+      "first_tick": 1,
+      "last_tick": 105
+    },
+    "7": {
+      "reasons": {
+        "Explore": 9,
+        "Rest": 21,
+        "SeekFood": 60,
+        "SeekWater": 13,
+        "Mate": 2
+      },
+      "first_tick": 1,
+      "last_tick": 105
+    },
+    "8": {
+      "reasons": {
+        "Explore": 7,
+        "Rest": 13,
+        "SeekFood": 63,
+        "SeekWater": 15,
+        "Mate": 4,
+        "ApproachMate": 3
+      },
+      "first_tick": 1,
+      "last_tick": 105
+    },
+    "9": {
+      "reasons": {
+        "SeekFood": 93,
+        "SeekWater": 12
+      },
+      "first_tick": 21,
+      "last_tick": 125
+    },
+    "10": {
+      "reasons": {
+        "SeekFood": 76,
+        "SeekWater": 18,
+        "Explore": 1,
+        "ApproachMate": 3,
+        "Mate": 1,
+        "NoEligibleMate": 6
+      },
+      "first_tick": 21,
+      "last_tick": 125
+    },
+    "11": {
+      "reasons": {
+        "SeekFood": 93,
+        "SeekWater": 12
+      },
+      "first_tick": 22,
+      "last_tick": 126
+    },
+    "12": {
+      "reasons": {
+        "SeekFood": 90,
+        "SeekWater": 15
+      },
+      "first_tick": 24,
+      "last_tick": 128
+    },
+    "13": {
+      "reasons": {
+        "SeekFood": 90,
+        "SeekWater": 15
+      },
+      "first_tick": 47,
+      "last_tick": 151
+    },
+    "14": {
+      "reasons": {
+        "SeekFood": 92,
+        "SeekWater": 13
+      },
+      "first_tick": 47,
+      "last_tick": 151
+    },
+    "15": {
+      "reasons": {
+        "SeekFood": 91,
+        "SeekWater": 14
+      },
+      "first_tick": 49,
+      "last_tick": 153
+    },
+    "16": {
+      "reasons": {
+        "SeekFood": 91,
+        "SeekWater": 14
+      },
+      "first_tick": 50,
+      "last_tick": 154
+    },
+    "17": {
+      "reasons": {
+        "SeekFood": 92,
+        "SeekWater": 13
+      },
+      "first_tick": 51,
+      "last_tick": 155
+    },
+    "18": {
+      "reasons": {
+        "SeekFood": 73,
+        "SeekWater": 17,
+        "ApproachMate": 4,
+        "NoEligibleMate": 1,
+        "Mate": 2,
+        "Rest": 3,
+        "Explore": 5
+      },
+      "first_tick": 76,
+      "last_tick": 180
+    },
+    "19": {
+      "reasons": {
+        "SeekFood": 85,
+        "SeekWater": 15,
+        "Rest": 3,
+        "Explore": 2
+      },
+      "first_tick": 78,
+      "last_tick": 182
+    },
+    "20": {
+      "reasons": {
+        "SeekFood": 32,
+        "SeekWater": 12,
+        "Rest": 41,
+        "Explore": 20
+      },
+      "first_tick": 165,
+      "last_tick": 269
+    }
+  }
+}

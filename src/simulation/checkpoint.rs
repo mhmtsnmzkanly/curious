@@ -28,6 +28,8 @@ pub struct Individual {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct State {
     #[serde(default)]
+    pub observation:crate::entity::decision::ObservationSettings,
+    #[serde(default)]
     pub environment: crate::environment::Environment,
     pub version: u32,
     pub tick: usize,
@@ -57,6 +59,7 @@ impl State {
         commands.sort_by_key(|(id, _)| *id);
         Self {
             version: 2,
+            observation:world.observation.clone(),
             environment: world.environment.clone(),
             tick: world.tick_counter,
             rng: world.rng.state(),
@@ -123,6 +126,7 @@ impl State {
             self.environment
         };
         Ok(World {
+            observation:self.observation,last_decisions:Vec::new(),
             environment,
             rng: crate::random::Random::new(self.rng),
             map,

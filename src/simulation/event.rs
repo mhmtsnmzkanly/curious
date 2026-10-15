@@ -105,3 +105,16 @@ pub fn reject(
         reason,
     });
 }
+
+impl SimulationEvent {
+    pub fn involves(&self,entity:usize)->bool {
+        match self {
+            Self::ResourceReplenished{..}=>false,
+            Self::EntityMoved{id,..}|Self::EntityAte{id,..}|Self::EntityDrank{id,..}|Self::EntityDied{id,..}|Self::EntityBorn{id,..}|Self::EntitySlept{id,..}=>*id==entity,
+            Self::CorpseConsumed{id,eater,..}=>*id==entity||*eater==entity,
+            Self::EntityAttacked{attacker,target,..}=>*attacker==entity||*target==entity,
+            Self::EntityMated{parent1,parent2,child,..}=>*parent1==entity||*parent2==entity||*child==entity,
+            Self::ActionRejected{id,..}=>*id==entity,
+        }
+    }
+}

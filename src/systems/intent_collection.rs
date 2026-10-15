@@ -1,50 +1,52 @@
 use crate::{
-    world::World,
-    entity::{intent::Intent, controller::EntityController},
+    entity::{
+        controller::EntityController,
+        decision::{Decision, DecisionTrace, Reason},
+        intent::Intent,
+    },
     systems::perception::PerceptionSystem,
+    world::World,
 };
-
-/// Varlıkların niyetlerini (AI veya Dış Komut) toplayan sistem.
 pub struct IntentCollectionSystem;
-
 impl IntentCollectionSystem {
-    /// Mevcut tüm aktif varlıklardan niyetlerini toplar.
-    pub fn collect(world: &mut World, log_lines: &mut Vec<String>) -> Vec<(usize, Intent)> {
-        let mut intents: Vec<(usize, Intent)> = Vec::new();
-
+    pub fn collect(world: &mut World, log: &mut Vec<String>) -> Vec<(usize, Intent)> {
+        let mut intents = Vec::new();
+        let mut traces = Vec::new();
         for slot in &world.entities {
             if !slot.phase.is_active() {
                 continue;
             }
-
-            // 1. Algı Verisini Oluştur
-            let perception = PerceptionSystem::build(world, slot);
-            
-            // 2. Niyet Belirle (Öncelik: Dış Komut > İçsel AI)
-            let intent = if let Some(external_intent) = world.command_inputs.get(&slot.id) {
-                log_lines.push(format!("[Input] @{} Dış Komut: {:?}", slot.id, external_intent));
-                external_intent.clone()
+            let view = PerceptionSystem::build(world, slot);
+            let rng = world.rng.state();
+            let decision = if let Some(intent) = world.command_inputs.get(&slot.id) {
+                Decision::new(intent.clone(), Reason::ExternalCommand)
             } else {
                 match slot.controller {
-                    EntityController::AI => slot.entity().make_intent(perception, &mut world.rng),
+                    EntityController::AI => slot.base.decide(view.clone(), &mut world.rng),
                     EntityController::Player(_) => {
-                        // Oyuncuya ait bir birime komut gelmemişse beklemede kalsın.
-                        Intent::Idle { duration: 1 }
+                        Decision::new(Intent::Idle { duration: 1 }, Reason::PlayerWaiting)
                     }
                 }
             };
-            
-            // 3. Loglama (Seyrek loglama stratejisi)
-            let should_log = !matches!(intent, Intent::Idle { .. }) || (world.tick_counter % 5 == 0);
-            if should_log {
-                log_lines.push(format!(
-                    "[Niyet] @{} {:?} @{:?} => {:?}",
-                    slot.id, slot.base.species(), slot.pos, intent
-                ));
-            }
-            
-            intents.push((slot.id, intent));
+            let full = world.observation.full_all || world.observation.full_for.contains(&slot.id);
+            log.push(format!(
+                "[Decision] @{} {:?} => {:?}",
+                slot.id, decision.reason, decision.intent
+            ));
+            intents.push((slot.id, decision.intent.clone()));
+            traces.push(DecisionTrace::new(
+                world.tick_counter,
+                slot.id,
+                slot.base.species(),
+                slot.pos,
+                slot.base.life().clone(),
+                rng,
+                view,
+                decision,
+                full,
+            ));
         }
+        world.last_decisions = traces;
         intents
     }
 }

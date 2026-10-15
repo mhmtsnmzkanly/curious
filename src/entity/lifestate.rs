@@ -52,6 +52,27 @@ pub struct LifeState {
 }
 
 impl LifeState {
+    pub fn validate(&self) -> crate::Result<()> {
+        if self.max_health == 0
+            || self.max_energy == 0
+            || self.max_water == 0
+            || self.max_age > 1_000_000_000
+            || self.max_health > 1_000_000
+            || self.max_energy > 1_000_000
+            || self.max_water > 1_000_000
+            || self.health > self.max_health
+            || self.energy > self.max_energy
+            || self.water > self.max_water
+            || self.speed > 32
+            || self.vision_range > 32
+            || self.age > 1_000_000_000
+            || self.moves_used > 32
+        {
+            return Err("invalid life state or limits exceeded".into());
+        }
+        Ok(())
+    }
+
     /// Her tick başında resetlemeler.
     pub fn tick(&mut self) {
         // Bu tick için hareket sayacı sıfırlanır

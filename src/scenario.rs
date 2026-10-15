@@ -11,6 +11,8 @@ use serde::{Deserialize, Serialize};
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct Founder {
+    #[serde(default)]
+    pub life: Option<crate::entity::lifestate::LifeState>,
     pub species: Species,
     pub pos: Position,
 }
@@ -58,12 +60,14 @@ impl Scenario {
                     Box::new(crate::creatures::omnivore::OmnivoreEntity::default())
                 }
             };
+            let life = f.life.unwrap_or_else(|| template.life().clone());
+            life.validate()?;
             entities.push(EntitySlot::new(
                 n + 1,
                 f.pos,
                 EntityPhase::Active,
                 EntityController::AI,
-                make_entity(f.species, template.life().clone()),
+                make_entity(f.species, life),
             ));
         }
         let mut environment = Environment::default();
@@ -89,6 +93,8 @@ impl Scenario {
         }
         let next_entity_id = entities.len() + 1;
         Ok(World {
+            observation: Default::default(),
+            last_decisions: Vec::new(),
             map,
             environment,
             entities,

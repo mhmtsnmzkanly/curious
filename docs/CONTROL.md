@@ -202,3 +202,28 @@ geçmiş boyutu) ve `history_budget_bytes` verir. WAL/geçici arşiv alanı içi
 `data/meadow`, 0,1 tick/s. `7878` üzerindeki önceki dünya pause durumunda korunur.
 `curious-monitor.timer` çayırda hata/yok oluş/bütçe durumlarında Notify gönderir.
 Ayrıntılar: [STORAGE_AND_OPERATIONS.md](reports/STORAGE_AND_OPERATIONS.md).
+
+## Karar kanıtı (SQLite şema V2)
+
+`GET /decisions`, son tickin kararlarını döndürür. Her kayıtta `before`,
+`seen`, `decision.reason`, `decision.intent`, `target` ve `outcome` bulunur.
+Gerekçe, seçimi yapan kod dalından gelir; sonuç görüldükten sonra üretilmez.
+`outcome.events` bireyin eylemini veya ona gelen etkileri içerir.
+
+```json
+{"action":"observation","full_all":false,"full_for":[1,20]}
+```
+
+Varsayılan: bütün bireylerde kompakt algı özeti ve gerçek sonuç. Seçilen bireylerde
+`perception` tam algıyı içerir. `full_all:true` bütün bireylerde ayrıntıyı açar ve
+kayıt büyümesini artırır. Gözlem ayarı checkpointte korunur. Restart sonrasında
+`/decisions` ilk ticke kadar boştur; geçmiş SQLite'tadır.
+
+Yeni `decision_traces(record_id,entity_id,trace_json)` tablosu tick transactionıyla
+birlikte yazılır. SQLite şeması **V2**, dünya checkpointi **V2**. Eski shardlar
+salt okunur kalır, içlerinde yeni tablo yoktur. Aktif eski shard açılırken tablo
+atomik eklenir; tanınmayan gelecek şema sürümü reddedilir.
+
+Servis binary'leri artık `bin/releases/` altında sürümlenir; systemd
+`bin/curious-live` bağlantısını kullanır. `target/release` içinde deney derlemek,
+çalışan dünya beklenmedik yeniden başlarsa yeni davranışı sessizce devreye sokmaz.

@@ -1,5 +1,6 @@
-//! Shared rule-based decision policy. World rules remain outside this module.
+//! Shared rule-based policy. Reason codes are produced in the same branch as the intent.
 use super::{
+    decision::{Decision, Reason},
     instinct::{Instinct, InstinctEvaluator},
     intent::Intent,
     lifestate::LifeState,
@@ -10,7 +11,6 @@ use crate::{
     map::movement::{DIRECTION_ARRAY, Steps},
     random::Random,
 };
-
 fn explore(life: &LifeState, view: &Perception, rng: &mut Random) -> Intent {
     let available: Vec<_> = DIRECTION_ARRAY
         .into_iter()
@@ -27,38 +27,49 @@ fn explore(life: &LifeState, view: &Perception, rng: &mut Random) -> Intent {
         steps: Steps(vec![dir; distance]),
     }
 }
-
 pub fn choose(species: Species, life: &LifeState, view: Perception, rng: &mut Random) -> Intent {
-    let decision = InstinctEvaluator::evaluate(life, &view, species.clone());
-    match decision.instinct {
+    decide(species, life, view, rng).intent
+}
+pub fn decide(species: Species, life: &LifeState, view: Perception, rng: &mut Random) -> Decision {
+    let selected = InstinctEvaluator::evaluate(life, &view, species.clone());
+    match selected.instinct {
         Instinct::Threat => {
-            if let Some(threat) = decision.threat {
+            if let Some(threat) = selected.threat {
                 if species != Species::Herbivore && threat.can_win {
-                    Intent::Attack {
-                        target_id: threat.target_id,
-                    }
+                    Decision::new(
+                        Intent::Attack {
+                            target_id: threat.target_id,
+                        },
+                        Reason::Defend,
+                    )
                 } else {
-                    Intent::Flee {
-                        target_id: threat.target_id,
-                    }
+                    Decision::new(
+                        Intent::Flee {
+                            target_id: threat.target_id,
+                        },
+                        Reason::EscapeThreat,
+                    )
                 }
             } else {
-                Intent::Idle { duration: 1 }
+                Decision::new(Intent::Idle { duration: 1 }, Reason::Rest)
             }
         }
         Instinct::Thirst => {
-            if let Some(water) = view.waters.iter().max_by_key(|w| {
+            if let Some(w) = view.waters.iter().max_by_key(|w| {
                 (
                     w.amount.min(crate::rules::biology::DRINK_WATER_AMOUNT) as isize * 2
                         - w.steps.len() as isize,
                     std::cmp::Reverse(w.steps.len()),
                 )
             }) {
-                Intent::Drink {
-                    at: water.steps.clone(),
-                }
+                Decision::new(
+                    Intent::Drink {
+                        at: w.steps.clone(),
+                    },
+                    Reason::SeekWater,
+                )
             } else {
-                explore(life, &view, rng)
+                Decision::new(explore(life, &view, rng), Reason::SearchWater)
             }
         }
         Instinct::Survival | Instinct::Hunger => {
@@ -79,11 +90,14 @@ pub fn choose(species: Species, life: &LifeState, view: Perception, rng: &mut Ra
                         std::cmp::Reverse(f.steps.len()),
                     )
                 });
-            if let Some(food) = food {
-                return Intent::Eat {
-                    at: food.steps.clone(),
-                    corpse_id: food.corpse_id,
-                };
+            if let Some(f) = food {
+                return Decision::new(
+                    Intent::Eat {
+                        at: f.steps.clone(),
+                        corpse_id: f.corpse_id,
+                    },
+                    Reason::SeekFood,
+                );
             }
             if let Some(prey) = view
                 .entities
@@ -91,15 +105,16 @@ pub fn choose(species: Species, life: &LifeState, view: Perception, rng: &mut Ra
                 .filter(|e| species.hunts(&e.species))
                 .min_by_key(|e| (e.steps.len(), e.power, e.id))
             {
-                if prey.steps.len() <= 1 {
+                let intent = if prey.steps.len() <= 1 {
                     Intent::Attack { target_id: prey.id }
                 } else {
                     Intent::Move {
                         steps: prey.steps.clone(),
                     }
-                }
+                };
+                Decision::new(intent, Reason::HuntPrey)
             } else {
-                explore(life, &view, rng)
+                Decision::new(explore(life, &view, rng), Reason::SearchFood)
             }
         }
         Instinct::Mating => {
@@ -110,23 +125,29 @@ pub fn choose(species: Species, life: &LifeState, view: Perception, rng: &mut Ra
                 .min_by_key(|e| (e.steps.len(), e.id))
             {
                 if mate.steps.len() <= 1 {
-                    Intent::Mate { target_id: mate.id }
+                    Decision::new(Intent::Mate { target_id: mate.id }, Reason::Mate)
                 } else {
-                    Intent::Move {
-                        steps: Steps(mate.steps.0.iter().take(life.speed).copied().collect()),
-                    }
+                    Decision::new(
+                        Intent::Move {
+                            steps: Steps(mate.steps.0.iter().take(life.speed).copied().collect()),
+                        },
+                        Reason::ApproachMate,
+                    )
                 }
-            } else if rng.range(1, 100) <= 30 {
-                explore(life, &view, rng)
             } else {
-                Intent::Idle { duration: 1 }
+                let intent = if rng.range(1, 100) <= 30 {
+                    explore(life, &view, rng)
+                } else {
+                    Intent::Idle { duration: 1 }
+                };
+                Decision::new(intent, Reason::NoEligibleMate)
             }
         }
         Instinct::Idle => {
             if rng.range(1, 100) <= 30 {
-                explore(life, &view, rng)
+                Decision::new(explore(life, &view, rng), Reason::Explore)
             } else {
-                Intent::Idle { duration: 1 }
+                Decision::new(Intent::Idle { duration: 1 }, Reason::Rest)
             }
         }
     }

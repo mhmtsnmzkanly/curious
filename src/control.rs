@@ -18,6 +18,10 @@ use std::{
 #[derive(Deserialize)]
 #[serde(tag = "action", rename_all = "snake_case", deny_unknown_fields)]
 pub enum Command {
+    Observation {
+        full_all: bool,
+        full_for: Vec<usize>,
+    },
     Pause,
     Resume,
     Shutdown,
@@ -89,6 +93,14 @@ impl Runtime {
         let cmd: Command = serde_json::from_value(value.clone())?;
         // Validate first; no partial intervention on invalid input.
         let result = match cmd {
+            Command::Observation { full_all, full_for } => {
+                if full_for.len() > 100 {
+                    return Err("at most 100 selected individuals".into());
+                }
+                self.world.observation =
+                    crate::entity::decision::ObservationSettings { full_all, full_for };
+                json!({"observation":self.world.observation})
+            }
             Command::Pause => {
                 self.paused = true;
                 json!({"paused":true})
@@ -186,23 +198,7 @@ impl Runtime {
             Command::UpdateEntity { entity: e } => {
                 self.validate_pos(e.pos)?;
                 self.validate_vacant(e.pos, Some(e.id))?;
-                if e.life.max_health == 0
-                    || e.life.max_energy == 0
-                    || e.life.max_water == 0
-                    || e.life.max_age > 1_000_000_000
-                    || e.life.max_health > 1_000_000
-                    || e.life.max_energy > 1_000_000
-                    || e.life.max_water > 1_000_000
-                    || e.life.health > e.life.max_health
-                    || e.life.energy > e.life.max_energy
-                    || e.life.water > e.life.max_water
-                    || e.life.speed > 32
-                    || e.life.vision_range > 32
-                    || e.life.age > 1_000_000_000
-                    || e.life.moves_used > 32
-                {
-                    return Err("invalid life state or limits exceeded".into());
-                }
+                e.life.validate()?;
                 let s = self
                     .world
                     .entities
@@ -335,6 +331,9 @@ pub fn serve(mut runtime: Runtime, bind: &str, token: Option<String>) -> Result<
                     let method = request.method().as_str();
                     let path = request.url().split('?').next().unwrap_or("");
                     let response: Result<Value> = (|| match (method, path) {
+                        ("GET", "/decisions") => {
+                            Ok(serde_json::to_value(&runtime.world.last_decisions)?)
+                        }
                         ("GET", "/status") => Ok(runtime.status()),
                         ("GET", "/state") => {
                             Ok(serde_json::to_value(State::capture(&runtime.world))?)

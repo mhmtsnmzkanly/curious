@@ -1,3 +1,4 @@
+pub mod decision;
 pub mod behavior;
 pub mod intent;
 pub mod instinct;
@@ -20,6 +21,11 @@ pub trait Entity {
 
     /// Karar verme (sadece okuma yapmalı)
     fn make_intent(&self, view: Perception, rng: &mut crate::random::Random) -> Intent;
+
+    /// Custom policies may supply their own evidence; legacy implementations remain usable.
+    fn decide(&self,view:Perception,rng:&mut crate::random::Random)->decision::Decision {
+        decision::Decision::new(self.make_intent(view,rng),decision::Reason::CustomPolicy)
+    }
 
     /// Tek tick güncellemesi
     /// World'un işini kolaylaştırmak için var;
