@@ -95,7 +95,7 @@ impl PlanningSystem {
 
             for dir in DIRECTION_ARRAY {
                 let candidate = curr_pos + dir;
-                if !world.map.is_walkable(candidate) { continue; }
+                if !world.map.is_walkable(candidate) || world.entities.iter().any(|s|s.id!=slot.id && s.pos==candidate && matches!(s.phase,crate::entity::phase::EntityPhase::Active|crate::entity::phase::EntityPhase::Sleeping{..})) { continue; }
                 let d = candidate.distance_to(target_pos);
                 if d > max_dist {
                     max_dist = d;

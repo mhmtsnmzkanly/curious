@@ -22,6 +22,16 @@ impl MovementSystem {
         }
 
         for plan in plans {
+            if plan.cost == 0 {
+                crate::simulation::event::reject(
+                    events,
+                    plan.id,
+                    "Move",
+                    None,
+                    crate::simulation::event::RejectionReason::NoPath,
+                );
+                continue;
+            }
             if target_winners
                 .get(&plan.new_pos)
                 .is_none_or(|winner| winner.id != plan.id)
@@ -66,6 +76,16 @@ impl MovementSystem {
         }
 
         for plan in plans {
+            if plan.cost == 0 {
+                crate::simulation::event::reject(
+                    events,
+                    plan.id,
+                    "Flee",
+                    None,
+                    crate::simulation::event::RejectionReason::NoPath,
+                );
+                continue;
+            }
             if target_winners
                 .get(&plan.new_pos)
                 .is_none_or(|winner| winner.id != plan.id)

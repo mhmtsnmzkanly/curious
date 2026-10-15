@@ -49,6 +49,13 @@ with tempfile.TemporaryDirectory(prefix='curious-http-') as directory:
         assert request('/control',{'action':'speed','ticks_per_second':0})[0]==400
         assert request('/control',{'action':'step','ticks':3})[0]==200
         assert request('/status')[1]['tick']==3
+        assert request('/decisions',authorized=False)[0]==401
+        assert request('/decisions')[1]
+        assert request('/control',{'action':'observation','full_all':False,'full_for':[1]})[0]==200
+        assert request('/control',{'action':'step','ticks':1})[0]==200
+        traces=request('/decisions')[1]
+        assert all((d['perception'] is not None)==(d['id']==1) for d in traces)
+        assert all(d['outcome'] is not None for d in traces)
         assert request('/control',{'action':'spawn','species':'Herbivore','pos':{'x':0,'y':0}})[0]==200
         state=request('/state')[1]
         assert len(state['entities'])>=5

@@ -35,12 +35,21 @@ pub fn decide(species: Species, life: &LifeState, view: Perception, rng: &mut Ra
     match selected.instinct {
         Instinct::Threat => {
             if let Some(threat) = selected.threat {
-                if species != Species::Herbivore && threat.can_win {
+                let combat = species.combat_profile();
+                let no_escape = view.directions.values().all(|d| *d == 0);
+                if (species != Species::Herbivore && threat.can_win || no_escape)
+                    && life.energy >= combat.energy_cost
+                    && life.stamina >= combat.stamina_cost
+                {
                     Decision::new(
                         Intent::Attack {
                             target_id: threat.target_id,
                         },
-                        Reason::Defend,
+                        if no_escape {
+                            Reason::CorneredDefense
+                        } else {
+                            Reason::Defend
+                        },
                     )
                 } else {
                     Decision::new(
@@ -105,6 +114,18 @@ pub fn decide(species: Species, life: &LifeState, view: Perception, rng: &mut Ra
                 .filter(|e| species.hunts(&e.species))
                 .min_by_key(|e| (e.steps.len(), e.power, e.id))
             {
+                let combat = species.combat_profile();
+                // Do not reserve an arbitrary energy fraction: an adjacent injured
+                // prey may still be worth a final affordable attack.
+                let minimum_cost = combat
+                    .energy_cost
+                    .saturating_add(prey.steps.len().saturating_sub(1));
+                if life.energy < minimum_cost {
+                    return Decision::new(Intent::Idle { duration: 1 }, Reason::HuntLowEnergy);
+                }
+                if life.stamina <= life.max_stamina / 4 || life.stamina < combat.stamina_cost {
+                    return Decision::new(Intent::Idle { duration: 1 }, Reason::RecoverStamina);
+                }
                 let intent = if prey.steps.len() <= 1 {
                     Intent::Attack { target_id: prey.id }
                 } else {

@@ -9,6 +9,9 @@ use serde::{Deserialize, Serialize};
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
 pub enum Reason {
     EscapeThreat,
+    CorneredDefense,
+    RecoverStamina,
+    HuntLowEnergy,
     Defend,
     SeekWater,
     SearchWater,

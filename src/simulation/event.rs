@@ -77,6 +77,8 @@ pub enum DeathCause {
 #[derive(Debug, Clone, Copy, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
 pub enum RejectionReason {
     MissingEntity,
+    Fatigued,
+    NoPath,
     MissingResource,
     InvalidDiet,
     InsufficientWater,

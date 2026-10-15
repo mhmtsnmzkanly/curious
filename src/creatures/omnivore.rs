@@ -20,6 +20,7 @@ impl OmnivoreEntity {
     pub fn default() -> Self {
         Self {
             life_state: LifeState {
+                max_stamina:20,stamina:20,exertion:0,
                 death_cause: None,
                 max_age: 110,
                 max_health: 130,
@@ -67,6 +68,7 @@ impl Entity for OmnivoreEntity {
     fn reproduce(&self) -> Box<dyn Entity> {
         let mut child_life = self.life_state.clone();
         child_life.age = 0;
+        child_life.stamina=child_life.max_stamina;child_life.exertion=0;
         child_life.death_cause = None;
         child_life.reproduction_cooldown = 0;
         child_life.moves_used = 0;

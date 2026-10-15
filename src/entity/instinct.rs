@@ -60,6 +60,20 @@ impl InstinctEvaluator {
             };
         }
 
+        // A locally available mate is an opportunity, not a reason to postpone
+        // feeding indefinitely. Physiological reproduction limits still apply.
+        if life.can_reproduce()
+            && perception
+                .entities
+                .iter()
+                .any(|e| e.species == own_species && e.reproductive && e.steps.len() <= 1)
+        {
+            return InstinctDecision {
+                instinct: Instinct::Mating,
+                threat: None,
+            };
+        }
+
         // Refill reserves before seeking reproduction; quarter-full thresholds
         // otherwise trap adults permanently below the reproduction requirement.
         let needs_food = life.energy < life.max_energy.saturating_mul(3) / 4;

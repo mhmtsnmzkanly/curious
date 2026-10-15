@@ -47,6 +47,8 @@ fn offspring_does_not_inherit_parent_cooldown_or_injury_cause() {
         assert_eq!(child.life().age, 0);
         assert_eq!(child.life().reproduction_cooldown, 0);
         assert_eq!(child.life().moves_used, 0);
+        assert_eq!(child.life().stamina, child.life().max_stamina);
+        assert_eq!(child.life().exertion, 0);
         assert_eq!(child.life().death_cause, None);
     }
 }
@@ -447,7 +449,7 @@ fn renewable_meadow_supports_descendants_that_reproduce() {
 }
 
 #[test]
-fn version_one_checkpoints_migrate_explicitly_to_version_two() {
+fn version_one_checkpoints_migrate_explicitly_to_current_version() {
     let mut w = world(vec![slot(1, 0, Box::new(HerbivoreEntity::default()))]);
     w.map.set_cell(
         Position::new(1, 0),
@@ -468,5 +470,5 @@ fn version_one_checkpoints_migrate_explicitly_to_version_two() {
         .unwrap();
     assert_eq!(restored.environment.sites.len(), 1);
     assert_eq!(restored.entities[0].generation, 0);
-    assert_eq!(State::capture(&restored).version, 2);
+    assert_eq!(State::capture(&restored).version, 3);
 }

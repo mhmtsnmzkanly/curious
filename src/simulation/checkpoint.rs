@@ -28,7 +28,7 @@ pub struct Individual {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct State {
     #[serde(default)]
-    pub observation:crate::entity::decision::ObservationSettings,
+    pub observation: crate::entity::decision::ObservationSettings,
     #[serde(default)]
     pub environment: crate::environment::Environment,
     pub version: u32,
@@ -58,8 +58,8 @@ impl State {
             .collect();
         commands.sort_by_key(|(id, _)| *id);
         Self {
-            version: 2,
-            observation:world.observation.clone(),
+            version: 3,
+            observation: world.observation.clone(),
             environment: world.environment.clone(),
             tick: world.tick_counter,
             rng: world.rng.state(),
@@ -90,7 +90,7 @@ impl State {
         }
     }
     pub fn restore(self) -> Result<World> {
-        if self.version != 1 && self.version != 2 {
+        if !(1..=3).contains(&self.version) {
             return Err("unsupported checkpoint version".into());
         }
         let [a, b, c, d] = self.bounds;
@@ -126,7 +126,8 @@ impl State {
             self.environment
         };
         Ok(World {
-            observation:self.observation,last_decisions:Vec::new(),
+            observation: self.observation,
+            last_decisions: Vec::new(),
             environment,
             rng: crate::random::Random::new(self.rng),
             map,

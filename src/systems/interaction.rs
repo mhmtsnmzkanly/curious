@@ -216,13 +216,15 @@ impl InteractionSystem {
                 );
                 continue;
             };
-            let energy_budget=entities[s].base.life().max_energy/4 + entities[t].base.life().max_energy/4;
-            let water_budget=entities[s].base.life().max_water/4 + entities[t].base.life().max_water/4;
+            let energy_budget =
+                entities[s].base.life().max_energy / 4 + entities[t].base.life().max_energy / 4;
+            let water_budget =
+                entities[s].base.life().max_water / 4 + entities[t].base.life().max_water / 4;
             entities[s].base.life_mut().on_reproduce();
             entities[t].base.life_mut().on_reproduce();
             let mut child = entities[t].base.reproduce();
-            child.life_mut().energy=energy_budget.min(child.life().max_energy);
-            child.life_mut().water=water_budget.min(child.life().max_water);
+            child.life_mut().energy = energy_budget.min(child.life().max_energy);
+            child.life_mut().water = water_budget.min(child.life().max_water);
             let species = child.species();
             let id = *next_entity_id;
             *next_entity_id += 1;
@@ -305,11 +307,8 @@ impl InteractionSystem {
                 );
                 continue;
             }
-            if !attacker
-                .base
-                .life()
-                .enough_energy(biology::ATTACK_ENERGY_COST)
-            {
+            let combat = attacker.base.combat();
+            if !attacker.base.life().enough_energy(combat.energy_cost) {
                 reject(
                     events,
                     plan.attacker_id,
@@ -320,22 +319,30 @@ impl InteractionSystem {
                 continue;
             }
 
+            if attacker.base.life().stamina < combat.stamina_cost {
+                reject(
+                    events,
+                    plan.attacker_id,
+                    "Attack",
+                    Some(plan.target_id),
+                    R::Fatigued,
+                );
+                continue;
+            }
             let dx = (attacker.pos.x - target.pos.x).abs();
             let dy = (attacker.pos.y - target.pos.y).abs();
             if dx <= 1 && dy <= 1 {
                 attacker
                     .entity_mut()
                     .life_mut()
-                    .consume_energy(biology::ATTACK_ENERGY_COST);
-                target
-                    .entity_mut()
-                    .life_mut()
-                    .take_damage(biology::ATTACK_DAMAGE_AMOUNT);
+                    .consume_energy(combat.energy_cost);
+                attacker.base.life_mut().exert(combat.stamina_cost);
+                target.entity_mut().life_mut().take_damage(combat.damage);
 
                 events.push(SimulationEvent::EntityAttacked {
                     attacker: plan.attacker_id,
                     target: plan.target_id,
-                    damage: biology::ATTACK_DAMAGE_AMOUNT,
+                    damage: combat.damage,
                 });
             } else {
                 reject(

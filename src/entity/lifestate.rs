@@ -7,6 +7,12 @@
 /// Ayrım yorumlar ve yardımcı fonksiyonlarla yapılır.
 #[derive(serde::Serialize, serde::Deserialize, Debug, Clone)]
 pub struct LifeState {
+    #[serde(default = "default_stamina")]
+    pub max_stamina: usize,
+    #[serde(default = "default_stamina")]
+    pub stamina: usize,
+    #[serde(default)]
+    pub exertion: usize,
     #[serde(default)]
     pub death_cause: Option<crate::simulation::event::DeathCause>,
     // -------- GENETİK (SABİT) --------
@@ -53,7 +59,11 @@ pub struct LifeState {
 
 impl LifeState {
     pub fn validate(&self) -> crate::Result<()> {
-        if self.max_health == 0
+        if self.max_stamina == 0
+            || self.max_stamina > 1000
+            || self.stamina > self.max_stamina
+            || self.exertion > 1_000_000
+            || self.max_health == 0
             || self.max_energy == 0
             || self.max_water == 0
             || self.max_age > 1_000_000_000
@@ -135,6 +145,8 @@ impl LifeState {
             Some(R::Immature)
         } else if self.reproduction_cooldown > 0 {
             Some(R::Cooldown)
+        } else if self.stamina < 2 {
+            Some(R::Fatigued)
         } else if self.energy < self.max_energy / 2 {
             Some(R::InsufficientEnergy)
         } else if self.water < self.max_water / 2 {
@@ -156,7 +168,7 @@ impl LifeState {
     }
 
     pub fn can_move_for(&self, need: usize) -> bool {
-        self.enough_energy(need) && self.enough_moves(need)
+        self.enough_energy(need) && self.enough_moves(need) && self.stamina >= need
     }
 
     /// Yeterli enerji var mı?
@@ -176,6 +188,12 @@ impl LifeState {
     pub fn on_move(&mut self, step: usize) {
         self.moves_used += step;
         self.consume_energy(step);
+        self.exert(step);
+    }
+
+    pub fn exert(&mut self, amount: usize) {
+        self.stamina = self.stamina.saturating_sub(amount);
+        self.exertion = self.exertion.saturating_add(amount);
     }
 
     pub fn consume_energy(&mut self, amount: usize) {
@@ -218,6 +236,7 @@ impl LifeState {
         self.reproduction_cooldown = crate::rules::biology::REPRODUCTION_COOLDOWN_TICKS;
         self.consume_energy(self.max_energy / 4);
         self.consume_water(self.max_water / 4);
+        self.exert(2);
     }
 
     /*
@@ -261,4 +280,8 @@ impl LifeState {
             }
         }
     }*/
+}
+
+fn default_stamina() -> usize {
+    16
 }

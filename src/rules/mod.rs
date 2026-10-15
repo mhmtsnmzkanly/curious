@@ -3,3 +3,5 @@ pub mod biology;
 pub mod movement;
 
 pub struct SimulationRules;
+
+pub mod combat;

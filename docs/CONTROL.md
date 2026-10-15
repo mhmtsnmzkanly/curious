@@ -28,6 +28,7 @@ uygulanır. Hız hedefi işlem süresi nedeniyle tam duvar saati garantisi deği
 | Yöntem / yol | İşlev |
 |---|---|
 | `GET /status` | Tick, pause, hız, depolama hatası ve aktif shard |
+| `GET /decisions` | Son tickin gerekçe ve sonuç içeren kararları |
 | `GET /state` | Bütün canlılar, tüm yaşam özellikleri, kaynak tür/miktarları, sınırlar, RNG, bekleyen komutlar |
 | `GET /databases` | Tarihsel SQLite dosyaları ve boyutları |
 | `POST /control` | Aşağıdaki müdahaleler |
@@ -83,7 +84,7 @@ Her dosyada aynı şema vardır:
 
 Checkpoint şu anki somut canlılarda bulunan tüm yaşam durumunu içerir.
 Yeni bir canlıya hafıza/model/genom gibi alanlar eklendiğinde bunlar da sürümlü
-checkpoint sözleşmesine eklenmelidir. Şema/checkpoint sürümü 1'dir; gelecekteki
+checkpoint sözleşmesine eklenmelidir. Güncel SQLite şeması V2, checkpoint V3; gelecekteki
 uyumsuz sürümler sessizce yüklenmez. Yeni ölüm nedeni alanı eski kayıtlarda boş kabul edilir. RNG artık dünya başınadır.
 Bu bir gelecekteki tüm sürümler için otomatik
 migrasyon sistemi değildir.
@@ -155,7 +156,7 @@ tekrar üretim test edilir.
 
 ## Yenilenen çevre ve senaryolar (checkpoint v2)
 
-SQLite tablo şeması 1, dünya checkpoint sürümü artık **2**. V1 kayıtları okunur:
+Çevre V2 yükseltmesinde eklendi. Güncel SQLite şeması V2, checkpoint V3. V1 kayıtları okunur:
 mevcut kaynak hücrelerinden varsayılan yenilenme konumları çıkarılır; daha önce
 bitmiş kaynakların eski konumu V1 checkpointten geri kazanılamaz. Mevcut birey
 yaşam değerleri korunur; eksik soy bilgisi kurucu nesil olarak kabul edilir.
@@ -183,7 +184,7 @@ Senaryo JSON'u açık sınırlar, kurucular, kaynak konumları ve başlangıç m
 belirtir. Devam edilen kayıt varsa `--resume-or-new` kayıtlı çevreyi kullanır;
 senaryo dosyasını değiştirerek mevcut dünyayı sessizce değiştirmez.
 
-Kütüphane `SimulationEngine::snapshot()` artık aynı tam V2 temsili döndürür:
+Kütüphane `SimulationEngine::snapshot()` artık aynı tam checkpoint temsili döndürür:
 eski `map_resources` yerine türü koruyan `resources` alanı kullanılır.
 Gözlem araçları bu alan değişimine göre güncellenmelidir.
 
@@ -220,10 +221,21 @@ kayıt büyümesini artırır. Gözlem ayarı checkpointte korunur. Restart sonr
 `/decisions` ilk ticke kadar boştur; geçmiş SQLite'tadır.
 
 Yeni `decision_traces(record_id,entity_id,trace_json)` tablosu tick transactionıyla
-birlikte yazılır. SQLite şeması **V2**, dünya checkpointi **V2**. Eski shardlar
+birlikte yazılır. SQLite şeması **V2**, dünya checkpointi **V3**. Eski shardlar
 salt okunur kalır, içlerinde yeni tablo yoktur. Aktif eski shard açılırken tablo
 atomik eklenir; tanınmayan gelecek şema sürümü reddedilir.
 
 Servis binary'leri artık `bin/releases/` altında sürümlenir; systemd
 `bin/curious-live` bağlantısını kullanır. `target/release` içinde deney derlemek,
 çalışan dünya beklenmedik yeniden başlarsa yeni davranışı sessizce devreye sokmaz.
+
+## Dayanıklılık (checkpoint V3) ve deney servisi
+
+Yaşam durumuna `max_stamina`, `stamina`, `exertion` eklendi. V1/V2 içinde eksik
+alanlar 16/16/0 olarak yüklenir; sonraki kayıt V3 olur. Eski fizikle aynı geleceği
+garanti etmez. Ayrıntılar: [deney raporu](reports/DECISION_AND_PREDATION.md).
+
+`curious-lab.service`, `127.0.0.1:7880`, `data/lab`, yeni fizik/karar sürümüyle
+pause başlar ve checkpointten devam eder. `7878` ve `7879` eski sürümde kalır.
+Laboratuvarda `step` ile davranış gözlenebilir; `bin/curious-lab` canlı çayırın
+`bin/curious-live` bağlantısından ayrıdır.

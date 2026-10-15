@@ -19,6 +19,8 @@ pub trait Entity {
     /// Varlık türü
     fn species(&self) -> Species;
 
+    fn combat(&self)->crate::rules::combat::CombatProfile {self.species().combat_profile()}
+
     /// Karar verme (sadece okuma yapmalı)
     fn make_intent(&self, view: Perception, rng: &mut crate::random::Random) -> Intent;
 

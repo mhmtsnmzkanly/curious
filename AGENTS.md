@@ -32,7 +32,7 @@ sonraki talimatlar bu notların önündedir.
 - Geçmiş shardları, canlı verilerini veya checkpointleri derleme temizliğiyle silmeyin.
 - Aktif RNG dünya başına ayrıdır. Yeni dünyalar için açık seed kullanan
   `World::with_seed` tercih edilir; global seed yardımcıları eski çağrılar içindir.
-- Güncel checkpoint V2; kod `simulation/checkpoint.rs` içinde. SQLite şeması V2; karar kanıtları `decision_traces` tablosunda.
+- Geliştirme/laboratuvar checkpoint V3 (dayanıklılık); eski sürekli servisler V2; kod `simulation/checkpoint.rs` içinde. SQLite şeması V2; karar kanıtları `decision_traces` tablosunda.
   Eski kayıt yüklemek aynı geleceği değil, durum göçünü garanti eder.
 - Son deney raporu `docs/reports/RENEWABLE_MEADOW.md`: otçul nesilleri doğrulandı;
   öğrenme/evrim ve avcı–av dengesi henüz tamamlanmadı. Kayıpsız gzip arşivi
@@ -75,3 +75,17 @@ Sırf özellik kullanmış olmak için panel veya onay akışı oluşturmayın.
 - Cargo registry, başka projeler, SQLite geçmişi ve loglar derleme önbelleği değildir.
 - Tamamlanan anlamlı değişiklikleri kullanıcının istediği gibi commit edin.
   Push veya ek dış yayın istenmedikçe ayrıca yapılmaz.
+
+## Karar ve avcı–av aşaması
+
+- Rapor `docs/reports/DECISION_AND_PREDATION.md`; ilk teşhis `SEED2_DECISIONS.md`.
+- Notify sayfası `p_803d7f4d871633ff`: bu aşama raporu; proje tamamlanması değildir.
+- `curious-lab.service`, 7880, `data/lab`, `bin/curious-lab`: yeni deney sürümü,
+  pause başlar. Sürekli 7879 çayırı eski binary ile kesintisiz korunur.
+- Seed 2 düzeltmesi fırsat varken güvenli üremeye öncelik verir. 8/8 otçul koşu
+  2.000 tick yaşadı. Karma senaryoda etçil doğumu var, etçil soy sürekliliği yok.
+- Sonraki somut konu etçil yavrunun beslenme/su erişimi ve av kararları; öğrenme
+  ve evrim hâlâ uygulanmadı. Sayıları yalnız toplam nüfusla değerlendirmeyin;
+  tür başına doğum/ölüm/yavrunun olgunlaşmasını ayrı inceleyin.
+- Yeni kompakt izler eski disk tahminini artırır; raporda yaklaşık 44–49 MB/gün
+  (0,1 tick/s, deney yoğunluğu), gerçek aylık ölçüm değil.

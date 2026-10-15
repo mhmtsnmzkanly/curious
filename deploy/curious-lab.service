@@ -1,0 +1,17 @@
+[Unit]
+Description=Curious decision and predator-prey laboratory
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/root/curious
+ExecStart=/root/curious/bin/curious-lab --serve --paused --resume-or-new --scenario scenarios/predator-meadow.json --seed 1 --data-dir /root/curious/data/lab --bind 127.0.0.1:7880 --tps 0.1 --shard-mb 16 --max-history-mb 1024
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=10
+NoNewPrivileges=true
+PrivateTmp=true
+UMask=0077
+
+[Install]
+WantedBy=multi-user.target

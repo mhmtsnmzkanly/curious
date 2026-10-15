@@ -20,3 +20,17 @@ impl Species {
         }
     }
 }
+
+impl Species {
+    pub fn combat_profile(&self) -> crate::rules::combat::CombatProfile {
+        crate::rules::combat::CombatProfile {
+            damage: match self {
+                Self::Herbivore => 6,
+                Self::Carnivore => 20,
+                Self::Omnivore => 14,
+            },
+            energy_cost: 3,
+            stamina_cost: 2,
+        }
+    }
+}

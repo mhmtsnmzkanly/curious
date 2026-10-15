@@ -1,0 +1,1248 @@
+{
+  "fatigue-meadow": {
+    "revision": "5dc8d6b6df4ae96a6732a9ee6062793e5335379a",
+    "dirty": true,
+    "scenario": "scenarios/meadow.json",
+    "runs": [
+      {
+        "seed": 1,
+        "ticks": 2000,
+        "wall_seconds": 1.816,
+        "first_extinction_tick": null,
+        "max_generation": 49,
+        "events": {
+          "ResourceReplenished": 32167,
+          "EntityMoved": 7080,
+          "EntityAte": 5356,
+          "EntityDrank": 2374,
+          "EntityMated": 163,
+          "EntityBorn": 163,
+          "ActionRejected": 7973,
+          "EntityDied": 162
+        },
+        "intents": {
+          "Move": 544,
+          "Idle": 857,
+          "Eat": 13140,
+          "Drink": 2567,
+          "Mate": 337
+        },
+        "rejected_actions": {
+          "Cooldown": 174,
+          "MissingResource": 5992,
+          "Occupied": 1807
+        },
+        "death_causes": {
+          "OldAge": 160,
+          "Starvation": 2
+        },
+        "ticks_with_active_low_health_and_zero_water": 12,
+        "history_bytes": 10288662,
+        "final_sample": {
+          "tick": 2000,
+          "alive": 9,
+          "births": 0,
+          "by_species": {
+            "Herbivore": 9
+          },
+          "deaths": 0,
+          "entities": 10,
+          "food": 120,
+          "max_living_generation": 49,
+          "reproduction_blockers": {
+            "Cooldown": 3,
+            "Immature": 2,
+            "InsufficientEnergy": 4
+          },
+          "resources": 17,
+          "tick_us": 251,
+          "water": 60
+        }
+      },
+      {
+        "seed": 2,
+        "ticks": 2000,
+        "wall_seconds": 1.89,
+        "first_extinction_tick": null,
+        "max_generation": 52,
+        "events": {
+          "ResourceReplenished": 32835,
+          "EntityMoved": 7142,
+          "EntityAte": 5461,
+          "EntityDrank": 2427,
+          "ActionRejected": 8152,
+          "EntityMated": 168,
+          "EntityBorn": 168,
+          "EntityDied": 165
+        },
+        "intents": {
+          "Move": 484,
+          "Idle": 781,
+          "Eat": 13416,
+          "Drink": 2635,
+          "Mate": 352
+        },
+        "rejected_actions": {
+          "Occupied": 1750,
+          "Cooldown": 184,
+          "MissingResource": 6218
+        },
+        "death_causes": {
+          "Dehydration": 2,
+          "OldAge": 161,
+          "Starvation": 2
+        },
+        "ticks_with_active_low_health_and_zero_water": 17,
+        "history_bytes": 10897033,
+        "final_sample": {
+          "tick": 2000,
+          "alive": 11,
+          "births": 0,
+          "by_species": {
+            "Herbivore": 11
+          },
+          "deaths": 0,
+          "entities": 11,
+          "food": 92,
+          "max_living_generation": 52,
+          "reproduction_blockers": {
+            "Cooldown": 5,
+            "Immature": 2,
+            "InsufficientEnergy": 2,
+            "Ready": 2
+          },
+          "resources": 17,
+          "tick_us": 225,
+          "water": 76
+        }
+      },
+      {
+        "seed": 3,
+        "ticks": 2000,
+        "wall_seconds": 1.905,
+        "first_extinction_tick": null,
+        "max_generation": 48,
+        "events": {
+          "ResourceReplenished": 31999,
+          "EntityMoved": 7033,
+          "EntityAte": 5329,
+          "EntityDrank": 2364,
+          "EntityMated": 162,
+          "EntityBorn": 162,
+          "ActionRejected": 8000,
+          "EntityDied": 163
+        },
+        "intents": {
+          "Move": 515,
+          "Idle": 846,
+          "Eat": 13077,
+          "Drink": 2562,
+          "Mate": 332
+        },
+        "rejected_actions": {
+          "Cooldown": 170,
+          "Occupied": 1696,
+          "MissingResource": 6134
+        },
+        "death_causes": {
+          "Dehydration": 1,
+          "Starvation": 2,
+          "OldAge": 160
+        },
+        "ticks_with_active_low_health_and_zero_water": 17,
+        "history_bytes": 10430628,
+        "final_sample": {
+          "tick": 2000,
+          "alive": 7,
+          "births": 0,
+          "by_species": {
+            "Herbivore": 7
+          },
+          "deaths": 0,
+          "entities": 8,
+          "food": 128,
+          "max_living_generation": 48,
+          "reproduction_blockers": {
+            "Cooldown": 1,
+            "Immature": 1,
+            "InsufficientEnergy": 3,
+            "Ready": 2
+          },
+          "resources": 18,
+          "tick_us": 144,
+          "water": 88
+        }
+      },
+      {
+        "seed": 4,
+        "ticks": 2000,
+        "wall_seconds": 1.775,
+        "first_extinction_tick": null,
+        "max_generation": 50,
+        "events": {
+          "ResourceReplenished": 31317,
+          "EntityMoved": 6829,
+          "EntityAte": 5190,
+          "EntityDrank": 2307,
+          "EntityMated": 156,
+          "EntityBorn": 156,
+          "ActionRejected": 7759,
+          "EntityDied": 157
+        },
+        "intents": {
+          "Move": 502,
+          "Idle": 803,
+          "Eat": 12687,
+          "Drink": 2537,
+          "Mate": 324
+        },
+        "rejected_actions": {
+          "Cooldown": 168,
+          "MissingResource": 5968,
+          "Occupied": 1623
+        },
+        "death_causes": {
+          "OldAge": 155,
+          "Starvation": 1,
+          "Dehydration": 1
+        },
+        "ticks_with_active_low_health_and_zero_water": 6,
+        "history_bytes": 10090593,
+        "final_sample": {
+          "tick": 2000,
+          "alive": 7,
+          "births": 0,
+          "by_species": {
+            "Herbivore": 7
+          },
+          "deaths": 0,
+          "entities": 8,
+          "food": 124,
+          "max_living_generation": 50,
+          "reproduction_blockers": {
+            "Cooldown": 1,
+            "InsufficientEnergy": 2,
+            "Ready": 4
+          },
+          "resources": 17,
+          "tick_us": 186,
+          "water": 78
+        }
+      },
+      {
+        "seed": 5,
+        "ticks": 2000,
+        "wall_seconds": 1.922,
+        "first_extinction_tick": null,
+        "max_generation": 49,
+        "events": {
+          "ResourceReplenished": 33570,
+          "EntityMoved": 7280,
+          "EntityAte": 5594,
+          "EntityDrank": 2514,
+          "ActionRejected": 8300,
+          "EntityMated": 173,
+          "EntityBorn": 173,
+          "EntityDied": 171
+        },
+        "intents": {
+          "Move": 538,
+          "Idle": 802,
+          "Eat": 13688,
+          "Drink": 2754,
+          "Mate": 363
+        },
+        "rejected_actions": {
+          "Occupied": 1778,
+          "Cooldown": 190,
+          "MissingResource": 6332
+        },
+        "death_causes": {
+          "Dehydration": 2,
+          "OldAge": 163,
+          "Starvation": 6
+        },
+        "ticks_with_active_low_health_and_zero_water": 22,
+        "history_bytes": 10745122,
+        "final_sample": {
+          "tick": 2000,
+          "alive": 10,
+          "births": 0,
+          "by_species": {
+            "Herbivore": 10
+          },
+          "deaths": 0,
+          "entities": 10,
+          "food": 114,
+          "max_living_generation": 49,
+          "reproduction_blockers": {
+            "Cooldown": 4,
+            "Immature": 1,
+            "InsufficientEnergy": 2,
+            "Ready": 3
+          },
+          "resources": 16,
+          "tick_us": 212,
+          "water": 44
+        }
+      },
+      {
+        "seed": 42,
+        "ticks": 2000,
+        "wall_seconds": 1.978,
+        "first_extinction_tick": null,
+        "max_generation": 52,
+        "events": {
+          "ResourceReplenished": 32716,
+          "EntityMoved": 7104,
+          "EntityAte": 5431,
+          "EntityDrank": 2429,
+          "ActionRejected": 8354,
+          "EntityMated": 167,
+          "EntityBorn": 167,
+          "EntityDied": 166
+        },
+        "intents": {
+          "Idle": 726,
+          "Move": 477,
+          "Eat": 13465,
+          "Drink": 2700,
+          "Mate": 349
+        },
+        "rejected_actions": {
+          "MissingResource": 6414,
+          "Cooldown": 182,
+          "Occupied": 1758
+        },
+        "death_causes": {
+          "OldAge": 162,
+          "Starvation": 3,
+          "Dehydration": 1
+        },
+        "ticks_with_active_low_health_and_zero_water": 13,
+        "history_bytes": 11117422,
+        "final_sample": {
+          "tick": 2000,
+          "alive": 9,
+          "births": 0,
+          "by_species": {
+            "Herbivore": 9
+          },
+          "deaths": 0,
+          "entities": 10,
+          "food": 84,
+          "max_living_generation": 52,
+          "reproduction_blockers": {
+            "Cooldown": 3,
+            "Immature": 1,
+            "InsufficientEnergy": 4,
+            "Ready": 1
+          },
+          "resources": 17,
+          "tick_us": 253,
+          "water": 76
+        }
+      },
+      {
+        "seed": 12345,
+        "ticks": 2000,
+        "wall_seconds": 1.863,
+        "first_extinction_tick": null,
+        "max_generation": 55,
+        "events": {
+          "ResourceReplenished": 32509,
+          "EntityMoved": 7114,
+          "EntityAte": 5394,
+          "EntityDrank": 2383,
+          "EntityMated": 167,
+          "EntityBorn": 167,
+          "ActionRejected": 8082,
+          "EntityDied": 165
+        },
+        "intents": {
+          "Idle": 942,
+          "Move": 560,
+          "Eat": 13281,
+          "Drink": 2566,
+          "Mate": 348
+        },
+        "rejected_actions": {
+          "Cooldown": 181,
+          "MissingResource": 6247,
+          "Occupied": 1654
+        },
+        "death_causes": {
+          "OldAge": 159,
+          "Starvation": 3,
+          "Dehydration": 3
+        },
+        "ticks_with_active_low_health_and_zero_water": 21,
+        "history_bytes": 10531822,
+        "final_sample": {
+          "tick": 2000,
+          "alive": 10,
+          "births": 1,
+          "by_species": {
+            "Herbivore": 10
+          },
+          "deaths": 0,
+          "entities": 10,
+          "food": 136,
+          "max_living_generation": 55,
+          "reproduction_blockers": {
+            "Cooldown": 4,
+            "Immature": 2,
+            "InsufficientEnergy": 2,
+            "Ready": 2
+          },
+          "resources": 19,
+          "tick_us": 223,
+          "water": 62
+        }
+      },
+      {
+        "seed": 2026,
+        "ticks": 2000,
+        "wall_seconds": 1.827,
+        "first_extinction_tick": null,
+        "max_generation": 53,
+        "events": {
+          "ResourceReplenished": 33824,
+          "EntityMoved": 7312,
+          "EntityAte": 5650,
+          "EntityDrank": 2505,
+          "ActionRejected": 8518,
+          "EntityMated": 173,
+          "EntityBorn": 173,
+          "EntityDied": 171
+        },
+        "intents": {
+          "Move": 456,
+          "Idle": 769,
+          "Eat": 13891,
+          "Drink": 2804,
+          "Mate": 358
+        },
+        "rejected_actions": {
+          "Occupied": 2033,
+          "Cooldown": 185,
+          "MissingResource": 6300
+        },
+        "death_causes": {
+          "Starvation": 5,
+          "OldAge": 165,
+          "Dehydration": 1
+        },
+        "ticks_with_active_low_health_and_zero_water": 30,
+        "history_bytes": 11256264,
+        "final_sample": {
+          "tick": 2000,
+          "alive": 10,
+          "births": 0,
+          "by_species": {
+            "Herbivore": 10
+          },
+          "deaths": 0,
+          "entities": 10,
+          "food": 102,
+          "max_living_generation": 53,
+          "reproduction_blockers": {
+            "Cooldown": 5,
+            "Immature": 3,
+            "InsufficientEnergy": 2
+          },
+          "resources": 17,
+          "tick_us": 323,
+          "water": 50
+        }
+      }
+    ]
+  },
+  "hunt-baseline": {
+    "revision": "94b43a9cdf3f35dad0065e26d8f45bc158a11485",
+    "dirty": true,
+    "scenario": "scenarios/hunt-corridor.json",
+    "runs": [
+      {
+        "seed": 1,
+        "ticks": 100,
+        "wall_seconds": 0.051,
+        "first_extinction_tick": 72,
+        "max_generation": 0,
+        "events": {
+          "ResourceReplenished": 7,
+          "EntityMoved": 64,
+          "EntityAttacked": 15,
+          "ActionRejected": 38,
+          "EntityDied": 2,
+          "EntityAte": 3,
+          "CorpseConsumed": 1,
+          "EntityDrank": 1
+        },
+        "intents": {
+          "Move": 6,
+          "Attack": 53,
+          "Flee": 54,
+          "Eat": 3,
+          "Drink": 3,
+          "Idle": 7
+        },
+        "rejected_actions": {
+          "InsufficientEnergy": 38
+        },
+        "death_causes": {
+          "Starvation": 2
+        },
+        "ticks_with_active_low_health_and_zero_water": 0,
+        "history_bytes": 368640,
+        "final_sample": {
+          "tick": 100,
+          "alive": 0,
+          "births": 0,
+          "by_species": {},
+          "deaths": 0,
+          "entities": 0,
+          "food": 20,
+          "max_living_generation": 0,
+          "reproduction_blockers": {},
+          "resources": 2,
+          "tick_us": 0,
+          "water": 30
+        }
+      },
+      {
+        "seed": 2,
+        "ticks": 100,
+        "wall_seconds": 0.06,
+        "first_extinction_tick": 74,
+        "max_generation": 0,
+        "events": {
+          "ResourceReplenished": 9,
+          "EntityMoved": 63,
+          "EntityAttacked": 14,
+          "ActionRejected": 40,
+          "EntityDied": 2,
+          "EntityAte": 3,
+          "EntityDrank": 2,
+          "CorpseConsumed": 1
+        },
+        "intents": {
+          "Move": 9,
+          "Idle": 8,
+          "Attack": 54,
+          "Flee": 54,
+          "Eat": 3,
+          "Drink": 2
+        },
+        "rejected_actions": {
+          "InsufficientEnergy": 40
+        },
+        "death_causes": {
+          "Starvation": 2
+        },
+        "ticks_with_active_low_health_and_zero_water": 0,
+        "history_bytes": 380928,
+        "final_sample": {
+          "tick": 100,
+          "alive": 0,
+          "births": 0,
+          "by_species": {},
+          "deaths": 0,
+          "entities": 0,
+          "food": 20,
+          "max_living_generation": 0,
+          "reproduction_blockers": {},
+          "resources": 2,
+          "tick_us": 0,
+          "water": 30
+        }
+      },
+      {
+        "seed": 3,
+        "ticks": 100,
+        "wall_seconds": 0.056,
+        "first_extinction_tick": 72,
+        "max_generation": 0,
+        "events": {
+          "ResourceReplenished": 7,
+          "EntityMoved": 64,
+          "EntityAttacked": 15,
+          "ActionRejected": 38,
+          "EntityDied": 2,
+          "EntityAte": 3,
+          "CorpseConsumed": 1,
+          "EntityDrank": 1
+        },
+        "intents": {
+          "Move": 6,
+          "Attack": 53,
+          "Flee": 54,
+          "Eat": 3,
+          "Drink": 3,
+          "Idle": 7
+        },
+        "rejected_actions": {
+          "InsufficientEnergy": 38
+        },
+        "death_causes": {
+          "Starvation": 2
+        },
+        "ticks_with_active_low_health_and_zero_water": 0,
+        "history_bytes": 368640,
+        "final_sample": {
+          "tick": 100,
+          "alive": 0,
+          "births": 0,
+          "by_species": {},
+          "deaths": 0,
+          "entities": 0,
+          "food": 20,
+          "max_living_generation": 0,
+          "reproduction_blockers": {},
+          "resources": 2,
+          "tick_us": 1,
+          "water": 30
+        }
+      },
+      {
+        "seed": 42,
+        "ticks": 100,
+        "wall_seconds": 0.052,
+        "first_extinction_tick": 73,
+        "max_generation": 0,
+        "events": {
+          "ResourceReplenished": 7,
+          "EntityMoved": 61,
+          "EntityAttacked": 14,
+          "ActionRejected": 38,
+          "EntityDied": 2,
+          "EntityAte": 3,
+          "EntityDrank": 1,
+          "CorpseConsumed": 1
+        },
+        "intents": {
+          "Move": 9,
+          "Idle": 10,
+          "Attack": 52,
+          "Flee": 52,
+          "Eat": 3,
+          "Drink": 1
+        },
+        "rejected_actions": {
+          "InsufficientEnergy": 38
+        },
+        "death_causes": {
+          "Starvation": 2
+        },
+        "ticks_with_active_low_health_and_zero_water": 0,
+        "history_bytes": 368640,
+        "final_sample": {
+          "tick": 100,
+          "alive": 0,
+          "births": 0,
+          "by_species": {},
+          "deaths": 0,
+          "entities": 0,
+          "food": 20,
+          "max_living_generation": 0,
+          "reproduction_blockers": {},
+          "resources": 2,
+          "tick_us": 0,
+          "water": 30
+        }
+      }
+    ]
+  },
+  "hunt-final": {
+    "revision": "5dc8d6b6df4ae96a6732a9ee6062793e5335379a",
+    "dirty": true,
+    "scenario": "scenarios/hunt-corridor.json",
+    "runs": [
+      {
+        "seed": 1,
+        "ticks": 100,
+        "wall_seconds": 0.076,
+        "first_extinction_tick": 70,
+        "max_generation": 0,
+        "events": {
+          "ResourceReplenished": 4,
+          "EntityMoved": 20,
+          "EntityAttacked": 13,
+          "ActionRejected": 1,
+          "EntityDied": 2,
+          "EntityAte": 5
+        },
+        "intents": {
+          "Move": 19,
+          "Attack": 13,
+          "Flee": 2,
+          "Eat": 5,
+          "Idle": 39
+        },
+        "rejected_actions": {
+          "NoPath": 1
+        },
+        "death_causes": {
+          "Combat": 1,
+          "Starvation": 1
+        },
+        "ticks_with_active_low_health_and_zero_water": 0,
+        "history_bytes": 274432,
+        "final_sample": {
+          "tick": 100,
+          "alive": 0,
+          "births": 0,
+          "by_species": {},
+          "deaths": 0,
+          "entities": 0,
+          "food": 20,
+          "max_living_generation": 0,
+          "reproduction_blockers": {},
+          "resources": 2,
+          "tick_us": 1,
+          "water": 30
+        }
+      },
+      {
+        "seed": 2,
+        "ticks": 100,
+        "wall_seconds": 0.071,
+        "first_extinction_tick": 71,
+        "max_generation": 0,
+        "events": {
+          "ResourceReplenished": 4,
+          "EntityMoved": 20,
+          "EntityAttacked": 12,
+          "ActionRejected": 1,
+          "EntityDied": 2,
+          "EntityAte": 5
+        },
+        "intents": {
+          "Move": 19,
+          "Idle": 41,
+          "Attack": 13,
+          "Flee": 1,
+          "Eat": 5,
+          "Drink": 1
+        },
+        "rejected_actions": {
+          "Inactive": 1
+        },
+        "death_causes": {
+          "Combat": 1,
+          "Starvation": 1
+        },
+        "ticks_with_active_low_health_and_zero_water": 1,
+        "history_bytes": 274432,
+        "final_sample": {
+          "tick": 100,
+          "alive": 0,
+          "births": 0,
+          "by_species": {},
+          "deaths": 0,
+          "entities": 0,
+          "food": 20,
+          "max_living_generation": 0,
+          "reproduction_blockers": {},
+          "resources": 2,
+          "tick_us": 0,
+          "water": 30
+        }
+      },
+      {
+        "seed": 3,
+        "ticks": 100,
+        "wall_seconds": 0.062,
+        "first_extinction_tick": 70,
+        "max_generation": 0,
+        "events": {
+          "ResourceReplenished": 4,
+          "EntityMoved": 20,
+          "EntityAttacked": 13,
+          "ActionRejected": 1,
+          "EntityDied": 2,
+          "EntityAte": 5
+        },
+        "intents": {
+          "Move": 19,
+          "Attack": 13,
+          "Flee": 2,
+          "Eat": 5,
+          "Idle": 39
+        },
+        "rejected_actions": {
+          "NoPath": 1
+        },
+        "death_causes": {
+          "Combat": 1,
+          "Starvation": 1
+        },
+        "ticks_with_active_low_health_and_zero_water": 0,
+        "history_bytes": 274432,
+        "final_sample": {
+          "tick": 100,
+          "alive": 0,
+          "births": 0,
+          "by_species": {},
+          "deaths": 0,
+          "entities": 0,
+          "food": 20,
+          "max_living_generation": 0,
+          "reproduction_blockers": {},
+          "resources": 2,
+          "tick_us": 0,
+          "water": 30
+        }
+      },
+      {
+        "seed": 42,
+        "ticks": 100,
+        "wall_seconds": 0.067,
+        "first_extinction_tick": 72,
+        "max_generation": 0,
+        "events": {
+          "ResourceReplenished": 4,
+          "EntityMoved": 20,
+          "EntityAttacked": 11,
+          "ActionRejected": 1,
+          "EntityDied": 2,
+          "EntityAte": 5
+        },
+        "intents": {
+          "Move": 18,
+          "Idle": 42,
+          "Attack": 12,
+          "Flee": 2,
+          "Eat": 5,
+          "Drink": 2
+        },
+        "rejected_actions": {
+          "Inactive": 1
+        },
+        "death_causes": {
+          "Combat": 1,
+          "Starvation": 1
+        },
+        "ticks_with_active_low_health_and_zero_water": 2,
+        "history_bytes": 274432,
+        "final_sample": {
+          "tick": 100,
+          "alive": 0,
+          "births": 0,
+          "by_species": {},
+          "deaths": 0,
+          "entities": 0,
+          "food": 20,
+          "max_living_generation": 0,
+          "reproduction_blockers": {},
+          "resources": 2,
+          "tick_us": 1,
+          "water": 30
+        }
+      }
+    ]
+  },
+  "predator-meadow-final": {
+    "revision": "5dc8d6b6df4ae96a6732a9ee6062793e5335379a",
+    "dirty": true,
+    "scenario": "scenarios/predator-meadow.json",
+    "runs": [
+      {
+        "seed": 1,
+        "ticks": 1000,
+        "wall_seconds": 0.421,
+        "first_extinction_tick": 192,
+        "max_generation": 1,
+        "events": {
+          "ResourceReplenished": 1917,
+          "EntityMoved": 569,
+          "EntityAte": 360,
+          "EntityAttacked": 62,
+          "ActionRejected": 123,
+          "EntityDrank": 125,
+          "EntityDied": 18,
+          "EntityMated": 8,
+          "EntityBorn": 8,
+          "CorpseConsumed": 3
+        },
+        "intents": {
+          "Flee": 270,
+          "Move": 134,
+          "Idle": 223,
+          "Eat": 451,
+          "Attack": 63,
+          "Drink": 130,
+          "Mate": 14
+        },
+        "rejected_actions": {
+          "NoPath": 41,
+          "Cooldown": 6,
+          "Occupied": 28,
+          "MissingResource": 47,
+          "Inactive": 1
+        },
+        "death_causes": {
+          "Combat": 8,
+          "Starvation": 1,
+          "OldAge": 9
+        },
+        "ticks_with_active_low_health_and_zero_water": 0,
+        "history_bytes": 1410816,
+        "final_sample": {
+          "tick": 1000,
+          "alive": 0,
+          "births": 0,
+          "by_species": {},
+          "deaths": 0,
+          "entities": 0,
+          "food": 320,
+          "max_living_generation": 0,
+          "reproduction_blockers": {},
+          "resources": 20,
+          "tick_us": 1,
+          "water": 120
+        },
+        "births_by_species": {
+          "Herbivore": 7,
+          "Carnivore": 1
+        },
+        "carnivore_deaths": [
+          {
+            "tick": 72,
+            "cause": "Starvation",
+            "id": 14,
+            "pos": {
+              "x": 1,
+              "y": 0
+            },
+            "species": "Carnivore"
+          },
+          {
+            "tick": 121,
+            "cause": "OldAge",
+            "id": 9,
+            "pos": {
+              "x": 2,
+              "y": 3
+            },
+            "species": "Carnivore"
+          },
+          {
+            "tick": 121,
+            "cause": "OldAge",
+            "id": 10,
+            "pos": {
+              "x": 2,
+              "y": -1
+            },
+            "species": "Carnivore"
+          }
+        ],
+        "last_living_carnivore_tick": 120,
+        "founder_carnivore_food_energy": {
+          "9": 280,
+          "10": 130
+        }
+      },
+      {
+        "seed": 2,
+        "ticks": 1000,
+        "wall_seconds": 1.315,
+        "first_extinction_tick": null,
+        "max_generation": 27,
+        "events": {
+          "ResourceReplenished": 16240,
+          "EntityMoved": 3622,
+          "EntityAte": 2728,
+          "EntityDrank": 1189,
+          "ActionRejected": 3808,
+          "EntityAttacked": 51,
+          "EntityMated": 84,
+          "EntityBorn": 84,
+          "EntityDied": 85
+        },
+        "intents": {
+          "Flee": 332,
+          "Move": 278,
+          "Idle": 475,
+          "Eat": 6255,
+          "Drink": 1289,
+          "Attack": 51,
+          "Mate": 174
+        },
+        "rejected_actions": {
+          "MissingResource": 2815,
+          "Occupied": 774,
+          "Cooldown": 90,
+          "NoPath": 129
+        },
+        "death_causes": {
+          "Combat": 6,
+          "Starvation": 2,
+          "Dehydration": 1,
+          "OldAge": 76
+        },
+        "ticks_with_active_low_health_and_zero_water": 4,
+        "history_bytes": 5762903,
+        "final_sample": {
+          "tick": 1000,
+          "alive": 9,
+          "births": 0,
+          "by_species": {
+            "Herbivore": 9
+          },
+          "deaths": 0,
+          "entities": 9,
+          "food": 154,
+          "max_living_generation": 27,
+          "reproduction_blockers": {
+            "Cooldown": 4,
+            "Immature": 2,
+            "InsufficientEnergy": 3
+          },
+          "resources": 18,
+          "tick_us": 204,
+          "water": 66
+        },
+        "births_by_species": {
+          "Herbivore": 83,
+          "Carnivore": 1
+        },
+        "carnivore_deaths": [
+          {
+            "tick": 66,
+            "cause": "Starvation",
+            "id": 14,
+            "pos": {
+              "x": 3,
+              "y": 2
+            },
+            "species": "Carnivore"
+          },
+          {
+            "tick": 88,
+            "cause": "Starvation",
+            "id": 9,
+            "pos": {
+              "x": 0,
+              "y": -3
+            },
+            "species": "Carnivore"
+          },
+          {
+            "tick": 121,
+            "cause": "OldAge",
+            "id": 10,
+            "pos": {
+              "x": -3,
+              "y": 3
+            },
+            "species": "Carnivore"
+          }
+        ],
+        "last_living_carnivore_tick": 120,
+        "founder_carnivore_food_energy": {
+          "9": 40,
+          "10": 260
+        }
+      },
+      {
+        "seed": 3,
+        "ticks": 1000,
+        "wall_seconds": 0.975,
+        "first_extinction_tick": null,
+        "max_generation": 21,
+        "events": {
+          "ResourceReplenished": 15839,
+          "EntityMoved": 3664,
+          "EntityAte": 2668,
+          "EntityAttacked": 34,
+          "EntityDrank": 1131,
+          "EntityMated": 76,
+          "EntityBorn": 76,
+          "ActionRejected": 3426,
+          "EntityDied": 80,
+          "CorpseConsumed": 1
+        },
+        "intents": {
+          "Flee": 322,
+          "Move": 297,
+          "Idle": 551,
+          "Eat": 5972,
+          "Attack": 34,
+          "Drink": 1199,
+          "Mate": 160
+        },
+        "rejected_actions": {
+          "Cooldown": 84,
+          "MissingResource": 2589,
+          "NoPath": 51,
+          "Occupied": 702
+        },
+        "death_causes": {
+          "Combat": 1,
+          "Starvation": 3,
+          "Dehydration": 1,
+          "OldAge": 75
+        },
+        "ticks_with_active_low_health_and_zero_water": 0,
+        "history_bytes": 5545574,
+        "final_sample": {
+          "tick": 1000,
+          "alive": 6,
+          "births": 0,
+          "by_species": {
+            "Herbivore": 6
+          },
+          "deaths": 0,
+          "entities": 6,
+          "food": 152,
+          "max_living_generation": 21,
+          "reproduction_blockers": {
+            "Cooldown": 3,
+            "Immature": 1,
+            "Ready": 2
+          },
+          "resources": 18,
+          "tick_us": 172,
+          "water": 84
+        },
+        "births_by_species": {
+          "Herbivore": 76
+        },
+        "carnivore_deaths": [
+          {
+            "tick": 90,
+            "cause": "Dehydration",
+            "id": 9,
+            "pos": {
+              "x": 1,
+              "y": -2
+            },
+            "species": "Carnivore"
+          },
+          {
+            "tick": 109,
+            "cause": "Starvation",
+            "id": 10,
+            "pos": {
+              "x": -1,
+              "y": 1
+            },
+            "species": "Carnivore"
+          }
+        ],
+        "last_living_carnivore_tick": 108,
+        "founder_carnivore_food_energy": {
+          "10": 70,
+          "9": 30
+        }
+      },
+      {
+        "seed": 42,
+        "ticks": 1000,
+        "wall_seconds": 1.102,
+        "first_extinction_tick": null,
+        "max_generation": 25,
+        "events": {
+          "ResourceReplenished": 15673,
+          "EntityMoved": 3483,
+          "EntityAte": 2666,
+          "EntityDrank": 1128,
+          "EntityAttacked": 54,
+          "ActionRejected": 3477,
+          "EntityMated": 80,
+          "EntityBorn": 80,
+          "EntityDied": 83,
+          "CorpseConsumed": 3
+        },
+        "intents": {
+          "Flee": 272,
+          "Idle": 511,
+          "Move": 316,
+          "Eat": 5957,
+          "Drink": 1234,
+          "Attack": 55,
+          "Mate": 162
+        },
+        "rejected_actions": {
+          "Occupied": 695,
+          "Cooldown": 82,
+          "NoPath": 90,
+          "MissingResource": 2609,
+          "Inactive": 1
+        },
+        "death_causes": {
+          "Combat": 6,
+          "Dehydration": 2,
+          "Starvation": 2,
+          "OldAge": 73
+        },
+        "ticks_with_active_low_health_and_zero_water": 21,
+        "history_bytes": 5027993,
+        "final_sample": {
+          "tick": 1000,
+          "alive": 7,
+          "births": 0,
+          "by_species": {
+            "Herbivore": 7
+          },
+          "deaths": 0,
+          "entities": 8,
+          "food": 118,
+          "max_living_generation": 25,
+          "reproduction_blockers": {
+            "Cooldown": 2,
+            "Immature": 1,
+            "InsufficientEnergy": 1,
+            "Ready": 3
+          },
+          "resources": 18,
+          "tick_us": 145,
+          "water": 76
+        },
+        "births_by_species": {
+          "Herbivore": 79,
+          "Carnivore": 1
+        },
+        "carnivore_deaths": [
+          {
+            "tick": 73,
+            "cause": "Dehydration",
+            "id": 9,
+            "pos": {
+              "x": -3,
+              "y": 3
+            },
+            "species": "Carnivore"
+          },
+          {
+            "tick": 100,
+            "cause": "Dehydration",
+            "id": 14,
+            "pos": {
+              "x": 3,
+              "y": -3
+            },
+            "species": "Carnivore"
+          },
+          {
+            "tick": 121,
+            "cause": "OldAge",
+            "id": 10,
+            "pos": {
+              "x": 0,
+              "y": 3
+            },
+            "species": "Carnivore"
+          }
+        ],
+        "last_living_carnivore_tick": 120,
+        "founder_carnivore_food_energy": {
+          "9": 30,
+          "10": 170
+        }
+      }
+    ]
+  }
+}

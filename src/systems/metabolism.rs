@@ -14,6 +14,11 @@ impl MetabolismSystem {
                 continue;
             }
             let life = slot.base.life_mut();
+            life.stamina = life
+                .stamina
+                .saturating_add(if life.exertion == 0 { 4 } else { 1 })
+                .min(life.max_stamina);
+            life.exertion = 0;
             life.moves_used = 0;
             if !life.is_alive() {
                 continue;

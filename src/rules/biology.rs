@@ -6,17 +6,11 @@ pub const EAT_ENERGY_AMOUNT: usize = 10;
 /// Bir içimde içilebilecek maksimum su miktarı
 pub const DRINK_WATER_AMOUNT: usize = 10;
 
-/// Saldırı sırasında saldırganın tükettiği enerji
-pub const ATTACK_ENERGY_COST: usize = 3;
-
-/// Saldırı sırasında hedefe verilen hasar
-pub const ATTACK_DAMAGE_AMOUNT: usize = 6;
-
 /// Cesetlerin haritada kalma süresi (tick)
 pub const CORPSE_DURATION_TICKS: usize = 5;
 
 /// Bir cesedin sağladığı gıda miktarının çarpanı (max_health / x)
-pub const CORPSE_FOOD_DIVISOR: usize = 4;
+pub const CORPSE_FOOD_DIVISOR: usize = 2;
 
 /// Minimum gıda miktarı (cesetlerden çıkan)
 pub const MIN_FOOD_FROM_CORPSE: usize = 5;
@@ -40,9 +34,6 @@ pub const PASSIVE_HEAL_ENERGY_COST: usize = 2;
 
 /// Enerji bittiğinde candan harcanan miktar (açlıktan ölme başlangıcı)
 pub const STARVATION_HEALTH_LOSS: usize = 3;
-
-/// Enerjiyi yenilemek için candan harcanan karşılığında kazanılan miktar
-pub const STARVATION_ENERGY_RESTORE: usize = 9;
 
 /// Su bittiğinde candan harcanan miktar (susuzluktan ölme)
 pub const DEHYDRATION_HEALTH_LOSS: usize = 2;

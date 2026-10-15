@@ -59,7 +59,7 @@ impl PerceptionSystem {
                     other.base.species(),
                     life.health + life.energy,
                     steps.clone(),
-                    life.can_reproduce(),
+                    other.phase.is_active() && life.can_reproduce(),
                 );
             }
         }
