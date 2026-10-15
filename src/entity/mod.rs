@@ -1,3 +1,4 @@
+pub mod memory;
 pub mod hunting;
 pub mod decision;
 pub mod behavior;

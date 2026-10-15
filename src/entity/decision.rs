@@ -16,6 +16,8 @@ pub enum Reason {
     Defend,
     SeekWater,
     SearchWater,
+    RecallWater,
+    RecallFood,
     SeekFood,
     HuntPrey,
     SearchFood,

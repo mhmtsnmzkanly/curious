@@ -5,6 +5,7 @@ use crate::{
 
 /// Canlının yönetim biçimi ve temel verileri
 pub struct EntitySlot {
+    pub memory:crate::entity::memory::Memory,
     pub generation:usize,
     pub parents:Vec<usize>,
     pub corpse_energy:usize,
@@ -24,6 +25,7 @@ impl EntitySlot {
     /// Yeni canlı oluştur
     pub fn new(id: usize, pos: Position, phase: EntityPhase, controller: EntityController, base: Box<dyn Entity>) -> EntitySlot {
         Self {
+            memory:Default::default(),
             generation:0,
             parents:Vec::new(),
             corpse_energy:0,

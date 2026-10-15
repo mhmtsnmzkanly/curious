@@ -13,6 +13,8 @@ use serde::{Deserialize, Serialize};
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Individual {
     #[serde(default)]
+    pub memory:crate::entity::memory::Memory,
+    #[serde(default)]
     pub generation: usize,
     #[serde(default)]
     pub parents: Vec<usize>,
@@ -58,7 +60,7 @@ impl State {
             .collect();
         commands.sort_by_key(|(id, _)| *id);
         Self {
-            version: 4,
+            version: 5,
             observation: world.observation.clone(),
             environment: world.environment.clone(),
             tick: world.tick_counter,
@@ -76,6 +78,7 @@ impl State {
                 .entities
                 .iter()
                 .map(|s| Individual {
+                    memory:s.memory.clone(),
                     generation: s.generation,
                     parents: s.parents.clone(),
                     corpse_energy: s.corpse_energy,
@@ -90,7 +93,7 @@ impl State {
         }
     }
     pub fn restore(self) -> Result<World> {
-        if !(1..=4).contains(&self.version) {
+        if !(1..=5).contains(&self.version) {
             return Err("unsupported checkpoint version".into());
         }
         let [a, b, c, d] = self.bounds;
@@ -109,6 +112,7 @@ impl State {
                     s.controller,
                     make_entity(s.species, s.life),
                 );
+                slot.memory=s.memory;
                 slot.generation = s.generation;
                 slot.parents = s.parents;
                 slot.corpse_energy = s.corpse_energy;

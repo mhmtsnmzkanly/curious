@@ -24,6 +24,7 @@ impl PerceptionSystem {
         positions.sort_by_key(|p| (p.y, p.x));
         let mut view = Perception::empty();
         for pos in positions {
+            view.cells.push((pos,world.map.cell(pos).cloned().unwrap_or(crate::map::cell::Cell::Empty)));
             match world.map.cell(pos) {
                 Some(crate::map::cell::Cell::Food { amount }) if *amount > 0 => {
                     view.add_food(*amount, false, paths[&pos].clone())

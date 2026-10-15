@@ -470,5 +470,5 @@ fn version_one_checkpoints_migrate_explicitly_to_current_version() {
         .unwrap();
     assert_eq!(restored.environment.sites.len(), 1);
     assert_eq!(restored.entities[0].generation, 0);
-    assert_eq!(State::capture(&restored).version, 4);
+    assert_eq!(State::capture(&restored).version, 5);
 }

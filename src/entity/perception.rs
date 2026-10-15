@@ -50,6 +50,8 @@ pub struct PerceivedWater {
 /// - Yakın çevrede kimler var?
 #[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
 pub struct Perception {
+    #[serde(default)]
+    pub cells:Vec<(crate::map::movement::Position,crate::map::cell::Cell)>,
     /// Algılanan yemekler
     pub foods: Vec<PerceivedFood>,
     /// Algılanan sular
@@ -64,6 +66,7 @@ impl Perception {
     /// Boş bir görüş açısı oluştur
     pub fn empty() -> Self {
         Self {
+            cells:Vec::new(),
             foods: Vec::new(),
             waters: Vec::new(),
             entities: Vec::new(),
