@@ -9,7 +9,7 @@ Tek olaya her dakika tekrar bildirim göndermez; düzelme de kaydedilir. Bu göz
 bütün sunucunun veya Notify hizmetinin aynı anda arızasını dışarıdan tespit eden
 bir altyapı değildir; host dışı izleme ileride gerekir.
 
-Sekiz Python testi, gecikme/tekrar/düzelme, bağımsız dünya anahtarları ve mevcut
+İzleme için sekiz Python testi, gecikme/tekrar/düzelme, bağımsız dünya anahtarları ve mevcut
 uyarı davranışlarını doğrular. Systemd tekrar başlatma ve süre sınırları vardır.
 
 `scripts/deploy_lab.py` yalnız duraklatılmış laboratuvarı yükseltir: değişmez
@@ -29,3 +29,8 @@ Dağıtımın gerçek revision, hash, yedek ve tick sonuçları `data/lab/deploy
 içindedir; notlar AGENTS.md'ye kaydedilir. Gerçek süreli gün/hafta deneyi (9)
 hâlâ devam eder. Kalıcı karma ekosistem, öğrenmenin farklı görevlere yayılması,
 açık uçlu evrim ve daha büyük nüfuslar bu aşamayla tamamlanmış sayılmaz.
+
+Gerçek süreli gözlem raporlayıcısı da kuruldu: yeterli 15 dakikalık zaman dilimi
+örneği ve gerçek 1/7/30 gün geçince Notify gönderir. Hızlandırılmış tick sayısını
+gün saymaz; üç ek test süre, kapsam ve tekrar kontrolünü doğrular. Timer saatlik
+kontrol eder; örnekleme/sağlık gözetimi ayrı kalır.

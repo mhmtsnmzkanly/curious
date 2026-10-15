@@ -1,0 +1,8 @@
+[Unit]
+Description=Check real-day observation milestones hourly
+[Timer]
+OnBootSec=120
+OnUnitActiveSec=1h
+Unit=curious-soak-report.service
+[Install]
+WantedBy=timers.target

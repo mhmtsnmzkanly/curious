@@ -15,6 +15,7 @@ def main():
   sample['rss_kib']=int(next(line.split()[1] for line in status.splitlines() if line.startswith('VmRSS:')))
   sample['fd_count']=len(list(Path(f'/proc/{pid}/fd').iterdir()))
   sample['pid']=pid
+  sample['binary']=os.readlink(f'/proc/{pid}/exe')
   sample['service_started']=subprocess.check_output(['systemctl','show','-p','ActiveEnterTimestamp','--value',a.unit],text=True).strip()
  except (OSError,ValueError,subprocess.SubprocessError) as e:sample['error']=type(e).__name__
  out=Path(a.output);out.mkdir(parents=True,exist_ok=True)

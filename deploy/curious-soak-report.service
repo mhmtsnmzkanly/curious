@@ -1,0 +1,11 @@
+[Unit]
+Description=Report actual Curious elapsed-time milestones
+After=network.target
+[Service]
+Type=oneshot
+WorkingDirectory=/root/curious
+ExecStart=/usr/bin/python3 /root/curious/scripts/report_soak.py
+TimeoutStartSec=55
+NoNewPrivileges=true
+PrivateTmp=true
+UMask=0077
