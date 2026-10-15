@@ -89,3 +89,10 @@ Sırf özellik kullanmış olmak için panel veya onay akışı oluşturmayın.
   tür başına doğum/ölüm/yavrunun olgunlaşmasını ayrı inceleyin.
 - Yeni kompakt izler eski disk tahminini artırır; raporda yaklaşık 44–49 MB/gün
   (0,1 tick/s, deney yoğunluğu), gerçek aylık ölçüm değil.
+
+Son dağıtım: `3c454f7` laboratuvar ikilisi `bin/releases/curious-3c454f7` altında;
+`data/lab/deployment.json` SHA256 ve başlangıç incelemesini kaydeder. 30. tickte
+pause bırakıldı, id 9/10 için tam algı açık. Laboratuvar deneydir; sürekli çayırın
+sağlık izlemesi bu servisi kapsamıyor. `7879` değişmedi ve hata vermeden sürüyor.
+31 Rust + 5 Python testi ve HTTP entegrasyonu geçti. Sonrasında `cargo clean`
+343,5 MiB derleme çıktısı kaldırdı; tekrar test için derleme gerekir.
