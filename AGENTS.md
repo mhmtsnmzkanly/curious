@@ -35,6 +35,31 @@ okunur. Kullanıcının sonraki talimatları bu notların önündedir.
   Derleme temizlenebilir; çalışan/sabitlenmiş `bin/releases`, araştırma
   worktree'si, deney ikilileri ve veriler temizlenmez.
 
+## Aktif araştırma devri — 2026-10-15 16:06:41 UTC
+
+- Kod commit'i `ae7f0df4500b4df829b59ab7f119ba21ad94f84b`.
+  Temiz, detached kaynak `/root/curious-research/revision-ae7f0df`;
+  `/root/curious-research/current` buraya bağlı. Araştırma sürerken değiştirme.
+- `curious-coexistence-research.service` etkin ve çalışıyor; ilk aşama
+  `screen-n3-steady-q890`, seed 2/5. İki gerçek probe süreci doğrulandı.
+  `curious-coexistence-research-notify.timer` etkin; kalıcı kuyruk boş,
+  sayfa running. Sonraki gerçek sonucu `state.json` ve aşama sonuçlarından oku.
+- Config `/root/curious/data/coexistence-research/config.json`; 36 aday ve
+  SHA kimlikleri aynı dizinde. İkililer `bin/releases/coexistence-*-ae7f0df`.
+  Araştırma, ana repo sonraki commitlerinden bağımsızdır.
+- Rapor: https://notify.novastrum.dev/p/p_48ad8f4609f2fa26 .
+  Başlangıç bildirimi `n_6c271f4398903599`; ayrıca çalışan süreç bildirildi.
+  Sayfa ekleri ve ara bulgular korunur. Global proje sayfasını tamamlanmış yapma.
+- 7882 kapalı; dünya unitleri henüz kurulmadı. Yalnız bütün kapılar geçerse
+  program ayrı dünyayı kurar. `bin/curious-coexistence` şimdiden hazırlanmış
+  ikili bağlantısıdır, çalışan dünya anlamına gelmez.
+- Gerçek ikiliyle 71/72 seed, 500 tick çalıştırıcı smoke + resume doğrulandı;
+  ikisi de biyolojik kabulü geçmedi (bu beklenen protokol kontrolüdür).
+- Son `cargo clean`: 1267 dosya / 398,9 MiB kaldırıldı. Deneyler, veriler,
+  sabit ikililer ve worktree korundu. Önceki debug temizliği ayrıca 209,4 MiB.
+- Başlatma sonrası 7878/7880 pause; 7879/7881 0,1 tick/s ve storage_error yok.
+  Eski dünyaların hızları ve ikilileri değiştirilmedi.
+
 ## Hedef ve dürüst kapsam
 
 - Kullanıcı basitleştirilmiş bir dünyada belgesel gibi gözlenen canlılar, bireysel

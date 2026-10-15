@@ -109,3 +109,14 @@ ve bildirim korunur; geçmiş sessizce silinmez.
 Doğrulama:45 Rust testi,21 Python testi, HTTP kontrol/auth/SIGKILL/arşiv testi.
 Bu sonuçlar biyolojik denge kabulü değildir. Yeni araştırma süreci ve sayfa
 kimliği çalıştırma sonrası AGENTS.md'ye eklenir.
+
+## Çalışan deney programı
+
+2026-10-15 16:06:41 UTC: `ae7f0df` temiz worktree üzerinden araştırma servisi
+başlatıldı. İlk aşama `screen-n3-steady-q890`, iki paralel gerçek süreç.
+Config ve devam kayıtları `data/coexistence-research/`; araştırma ve bildirim
+retry timer'ı systemd altında etkin. 7882 henüz kapalı.
+
+Rapor: https://notify.novastrum.dev/p/p_48ad8f4609f2fa26 .
+`cargo clean` 398,9 MiB kaldırdı; sabit ikililer ve deney verileri korundu.
+Bu kayıt başlatma kanıtıdır; uzun biyolojik testlerin sonucu değildir.
