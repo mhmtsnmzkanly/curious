@@ -17,6 +17,7 @@ pub enum Reason {
     SeekWater,
     SearchWater,
     RecallWater,
+    LearnedWater,
     RecallFood,
     SeekFood,
     HuntPrey,

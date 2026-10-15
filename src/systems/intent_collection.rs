@@ -19,6 +19,7 @@ impl IntentCollectionSystem {
             }
             let view = PerceptionSystem::build(world, slot);
             let rng = world.rng.state();
+            let mut learner=slot.learner.clone();
             let mut memory=slot.memory.clone();
             memory.observe(slot.pos,&view,world.tick_counter,slot.base.species());
             let decision = if let Some(intent) = world.command_inputs.get(&slot.id) {
@@ -31,6 +32,7 @@ impl IntentCollectionSystem {
                     }
                 }
             };
+            let decision=if matches!(slot.controller,EntityController::AI) && !world.command_inputs.contains_key(&slot.id) {learner.choose(slot.pos,&view,decision,&mut world.rng)}else{learner.pending=None;decision};
             let full = world.observation.full_all || world.observation.full_for.contains(&slot.id);
             log.push(format!(
                 "[Decision] @{} {:?} => {:?}",
@@ -49,6 +51,7 @@ impl IntentCollectionSystem {
                 full,
             ));
             world.entities[index].memory=memory;
+            world.entities[index].learner=learner;
         }
         world.last_decisions = traces;
         intents

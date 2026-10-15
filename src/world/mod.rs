@@ -193,6 +193,12 @@ impl World {
             &mut events,
         );
 
+        for trace in &self.last_decisions {
+            if let Some(slot)=self.entities.iter_mut().find(|s|s.id==trace.id) {
+                let after=slot.base.life().clone();
+                slot.learner.finish(slot.id,&trace.before,&after,&events);
+            }
+        }
         for trace in &mut self.last_decisions {
             if let Some(slot)=self.entities.iter().find(|s|s.id==trace.id) {
                 trace.outcome=Some(crate::entity::decision::Outcome{pos:slot.pos,life:slot.base.life().clone(),phase:slot.phase,events:events.iter().filter(|e|e.involves(trace.id)).cloned().collect()});

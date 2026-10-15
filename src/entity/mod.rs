@@ -1,3 +1,4 @@
+pub mod learning;
 pub mod memory;
 pub mod hunting;
 pub mod decision;

@@ -5,6 +5,7 @@ use crate::{
 
 /// Canlının yönetim biçimi ve temel verileri
 pub struct EntitySlot {
+    pub learner:crate::entity::learning::Learner,
     pub memory:crate::entity::memory::Memory,
     pub generation:usize,
     pub parents:Vec<usize>,
@@ -25,6 +26,7 @@ impl EntitySlot {
     /// Yeni canlı oluştur
     pub fn new(id: usize, pos: Position, phase: EntityPhase, controller: EntityController, base: Box<dyn Entity>) -> EntitySlot {
         Self {
+            learner:Default::default(),
             memory:Default::default(),
             generation:0,
             parents:Vec::new(),

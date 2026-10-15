@@ -201,6 +201,7 @@ impl Runtime {
                 self.validate_vacant(e.pos, Some(e.id))?;
                 e.life.validate()?;
                 e.memory.validate()?;
+                e.learner.validate()?;
                 let s = self
                     .world
                     .entities
@@ -214,6 +215,7 @@ impl Runtime {
                     e.controller,
                     make_entity(e.species, e.life),
                 );
+                s.learner=e.learner;
                 s.memory=e.memory;
                 s.generation = e.generation;
                 s.parents = e.parents;
