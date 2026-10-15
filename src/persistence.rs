@@ -1,130 +1,16 @@
-//! Versioned observations and size-rotated SQLite history. No automatic history deletion.
+//! Size-rotated SQLite history; engine checkpoints do not depend on this module.
+pub use crate::Result;
+pub use crate::simulation::checkpoint::{Individual, State};
 use crate::{
-    entity::{
-        Entity, controller::EntityController, intent::Intent, lifestate::LifeState,
-        phase::EntityPhase, species::Species,
-    },
-    map::{Map, cell::Cell, movement::Position},
-    simulation::SimulationEvent,
-    world::{EntitySlot, World},
+    entity::phase::EntityPhase, map::cell::Cell, simulation::SimulationEvent, world::World,
 };
 use rusqlite::{Connection, OpenFlags, params};
-use serde::{Deserialize, Serialize};
 use serde_json::{Value, json};
 use std::{
     path::{Path, PathBuf},
     time::{SystemTime, UNIX_EPOCH},
 };
-pub type Result<T> = std::result::Result<T, Box<dyn std::error::Error + Send + Sync>>;
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct Individual {
-    pub id: usize,
-    pub pos: Position,
-    pub phase: EntityPhase,
-    pub controller: EntityController,
-    pub species: Species,
-    pub life: LifeState,
-}
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct State {
-    pub version: u32,
-    pub tick: usize,
-    pub rng: u64,
-    pub next_entity_id: usize,
-    pub bounds: [isize; 4],
-    pub entities: Vec<Individual>,
-    pub resources: Vec<(Position, Cell)>,
-    pub commands: Vec<(usize, Intent)>,
-}
-impl State {
-    pub fn capture(world: &World) -> Self {
-        let mut resources = Vec::new();
-        for y in world.map.min_y..=world.map.max_y {
-            for x in world.map.min_x..=world.map.max_x {
-                let p = Position::new(x, y);
-                if let Some(cell @ (Cell::Food { .. } | Cell::Water { .. })) = world.map.cell(p) {
-                    resources.push((p, cell.clone()));
-                }
-            }
-        }
-        let mut commands: Vec<_> = world
-            .command_inputs
-            .iter()
-            .map(|(id, i)| (*id, i.clone()))
-            .collect();
-        commands.sort_by_key(|(id, _)| *id);
-        Self {
-            version: 1,
-            tick: world.tick_counter,
-            rng: world.rng.state(),
-            next_entity_id: world.next_entity_id,
-            bounds: [
-                world.map.min_x,
-                world.map.max_x,
-                world.map.min_y,
-                world.map.max_y,
-            ],
-            resources,
-            commands,
-            entities: world
-                .entities
-                .iter()
-                .map(|s| Individual {
-                    id: s.id,
-                    pos: s.pos,
-                    phase: s.phase,
-                    controller: s.controller.clone(),
-                    species: s.base.species(),
-                    life: s.base.life().clone(),
-                })
-                .collect(),
-        }
-    }
-    pub fn restore(self) -> Result<World> {
-        if self.version != 1 {
-            return Err("unsupported checkpoint version".into());
-        }
-        let [a, b, c, d] = self.bounds;
-        let mut map = Map::new(a, b, c, d);
-        for (p, cell) in self.resources {
-            map.set_cell(p, cell);
-        }
-        let entities = self
-            .entities
-            .into_iter()
-            .map(|s| {
-                EntitySlot::new(
-                    s.id,
-                    s.pos,
-                    s.phase,
-                    s.controller,
-                    make_entity(s.species, s.life),
-                )
-            })
-            .collect();
-        Ok(World {
-            rng: crate::random::Random::new(self.rng),
-            map,
-            entities,
-            tick_counter: self.tick,
-            logger: crate::logger::Logger::disabled(),
-            command_inputs: self.commands.into_iter().collect(),
-            last_trace: Vec::new(),
-            last_intents: Vec::new(),
-            next_entity_id: self.next_entity_id,
-        })
-    }
-}
-pub fn make_entity(species: Species, life: LifeState) -> Box<dyn Entity> {
-    let mut entity: Box<dyn Entity> = match species {
-        Species::Herbivore => Box::new(crate::creatures::herbivore::HerbivoreEntity::default()),
-        Species::Carnivore => Box::new(crate::creatures::carnivore::CarnivoreEntity::default()),
-        Species::Omnivore => Box::new(crate::creatures::omnivore::OmnivoreEntity::default()),
-    };
-    *entity.life_mut() = life;
-    entity
-}
 pub fn now_ms() -> u128 {
     SystemTime::now()
         .duration_since(UNIX_EPOCH)
@@ -241,7 +127,24 @@ impl Store {
                 }
             })
             .sum();
-        let metrics = json!({"alive":alive,"entities":state.entities.len(),"resources":state.resources.len(),"food":food,"water":water,"tick_us":elapsed_us,
+        let mut reproduction_blockers = std::collections::BTreeMap::<String, usize>::new();
+        let mut by_species = std::collections::BTreeMap::<String, usize>::new();
+        let mut max_generation = 0;
+        for e in state
+            .entities
+            .iter()
+            .filter(|e| matches!(e.phase, EntityPhase::Active | EntityPhase::Sleeping { .. }))
+        {
+            *by_species.entry(format!("{:?}", e.species)).or_default() += 1;
+            let reason = e
+                .life
+                .reproduction_blocker()
+                .map(|r| format!("{r:?}"))
+                .unwrap_or_else(|| "Ready".into());
+            *reproduction_blockers.entry(reason).or_default() += 1;
+            max_generation = max_generation.max(e.generation);
+        }
+        let metrics = json!({"alive":alive,"by_species":by_species,"max_living_generation":max_generation,"reproduction_blockers":reproduction_blockers,"entities":state.entities.len(),"resources":state.resources.len(),"food":food,"water":water,"tick_us":elapsed_us,
             "births":events.iter().filter(|e|matches!(e,SimulationEvent::EntityBorn{..})).count(),
             "deaths":events.iter().filter(|e|matches!(e,SimulationEvent::EntityDied{..})).count()});
         let tx = self.conn.transaction()?;

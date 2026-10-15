@@ -16,6 +16,8 @@
 
 pub mod persistence;
 pub mod control;
+pub mod scenario;
+pub mod environment;
 pub mod random;
 pub mod creatures;
 pub mod entity;
@@ -83,3 +85,6 @@ pub fn print_with_color(val: usize) {
 
 /// Current random generator state for persisted worlds.
 pub fn rng_state() -> u64 { RNG_STATE.load(Ordering::SeqCst) }
+
+/// Shared boundary error type; simulation state codecs are storage-independent.
+pub type Result<T> = std::result::Result<T, Box<dyn std::error::Error + Send + Sync>>;

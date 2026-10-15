@@ -1,13 +1,11 @@
 use crate::{
     entity::{
         Entity,
-        instinct::{Instinct, InstinctEvaluator},
         intent::Intent,
         lifestate::LifeState,
         perception::Perception,
         species::Species,
     },
-    map::movement::{DIRECTION_ARRAY, Steps},
 };
 
 pub struct HerbivoreEntity {
@@ -54,75 +52,8 @@ impl Entity for HerbivoreEntity {
         Species::Herbivore
     }
 
-    fn make_intent(&self, perception: Perception, rng: &mut crate::random::Random) -> Intent {
-        let decision =
-            InstinctEvaluator::evaluate(&self.life_state, &perception, Species::Herbivore);
-
-        let best_food = perception
-            .foods
-            .iter()
-            .min_by_key(|f| (f.steps.len(), usize::MAX - f.amount));
-        let best_water = perception
-            .waters
-            .iter()
-            .min_by_key(|w| (w.steps.len(), usize::MAX - w.amount));
-
-        match decision.instinct {
-            Instinct::Threat => {
-                if let Some(threat)=decision.threat { Intent::Flee {target_id:threat.target_id} } else {Intent::Idle{duration:1}}
-            }
-            Instinct::Survival | Instinct::Hunger => {
-                if let Some(food) = best_food {
-                    if !self.life_state.is_energy_full() {
-                        return Intent::Eat {
-                            at: food.steps.clone(),
-                            corpse_id: None,
-                        };
-                    }
-                }
-
-                let mut steps = Steps::empty();
-                for _ in 0..self.life_state.speed {
-                    steps
-                        .0
-                        .push(DIRECTION_ARRAY[rng.range(0, 7isize) as usize])
-                }
-                Intent::Move { steps }
-            }
-            Instinct::Thirst => {
-                if let Some(water) = best_water {
-                    if !self.life_state.is_water_full() {
-                        return Intent::Drink {
-                            at: water.steps.clone(),
-                        };
-                    }
-                }
-                Intent::Idle { duration: 1 }
-            }
-            Instinct::Mating => {
-                if let Some(target) = perception
-                    .entities
-                    .iter()
-                    .find(|e| e.species == Species::Herbivore)
-                {
-                    if target.steps.len() <= 1 {
-                        Intent::Mate {
-                            target_id: target.id,
-                        }
-                    } else {
-                        // Çiftleşmek için hedefe yaklaş (tek adım)
-                        let mut one_step = Steps::empty();
-                        if let Some(first) = target.steps.0.first() {
-                            one_step.0.push(*first);
-                        }
-                        Intent::Move { steps: one_step }
-                    }
-                } else {
-                    Intent::Idle { duration: 1 }
-                }
-            }
-            Instinct::Idle => Intent::Idle { duration: 1 },
-        }
+    fn make_intent(&self, perception: Perception, rng:&mut crate::random::Random) -> Intent {
+        crate::entity::behavior::choose(Species::Herbivore,&self.life_state,perception,rng)
     }
 
     fn tick(&mut self) {

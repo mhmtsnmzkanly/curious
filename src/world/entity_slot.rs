@@ -5,6 +5,9 @@ use crate::{
 
 /// Canlının yönetim biçimi ve temel verileri
 pub struct EntitySlot {
+    pub generation:usize,
+    pub parents:Vec<usize>,
+    pub corpse_energy:usize,
     /// Canlının benzersiz kimlik numarası
     pub id: usize,
     /// Canlının konumu
@@ -21,6 +24,9 @@ impl EntitySlot {
     /// Yeni canlı oluştur
     pub fn new(id: usize, pos: Position, phase: EntityPhase, controller: EntityController, base: Box<dyn Entity>) -> EntitySlot {
         Self {
+            generation:0,
+            parents:Vec::new(),
+            corpse_energy:0,
             id,
             pos,
             phase,

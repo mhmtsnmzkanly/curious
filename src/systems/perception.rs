@@ -1,47 +1,81 @@
 use crate::{
-    world::{World, EntitySlot},
-    entity::perception::Perception,
+    entity::perception::{PerceivedFood, Perception},
+    entity::phase::EntityPhase,
+    map::movement::DIRECTION_ARRAY,
+    world::{EntitySlot, World},
 };
 
-/// Canlıların çevrelerini algılamasını sağlayan sistem.
+/// Bounded local perception; one traversal supplies all resource/entity paths.
 pub struct PerceptionSystem;
-
 impl PerceptionSystem {
-    /// Bir canlı (EntitySlot) için çevresindeki verileri tarar ve Perception objesi üretir.
-    pub fn build(world: &World, current_slot: &EntitySlot) -> Perception {
-        let mut perception = Perception::empty();
-        let radius = current_slot.base.life().vision_range;
-
-        // 1. Yakındaki Yiyecekleri Tara
-        let found_foods = world.map.scan_foods_within(current_slot.pos, radius);
-        for (_f_pos, steps, amount) in found_foods {
-            perception.add_food(amount, false, steps);
-        }
-
-        // 1.1 Yakındaki Suları Tara
-        let found_waters = world.map.scan_waters_within(current_slot.pos, radius);
-        for (_w_pos, steps, amount) in found_waters {
-            perception.add_water(amount, steps);
-        }
-
-        // 2. Yakındaki Diğer Canlıları Tara
-        for other in &world.entities {
-            if other.id == current_slot.id || !matches!(other.phase,crate::entity::phase::EntityPhase::Active|crate::entity::phase::EntityPhase::Sleeping{..}) || !other.base.life().is_alive() { continue; }
-            let dist = current_slot.pos.distance_to(other.pos);
-            if dist <= radius {
-                if let Some(steps) = world.map.bfs_steps_to(current_slot.pos, other.pos, radius) {
-                    let other_life = other.entity().life();
-                    let power = other_life.health + other_life.energy;
-                    perception.add_entity(other.id, other.entity().species(), power, steps);
+    pub fn build(world: &World, current: &EntitySlot) -> Perception {
+        let radius = current.base.life().vision_range;
+        let blocked: std::collections::HashSet<_> = world
+            .entities
+            .iter()
+            .filter(|s| {
+                s.id != current.id
+                    && matches!(s.phase, EntityPhase::Active | EntityPhase::Sleeping { .. })
+            })
+            .map(|s| s.pos)
+            .collect();
+        let paths = world.map.paths_within(current.pos, radius, &blocked);
+        let mut positions: Vec<_> = paths.keys().copied().collect();
+        positions.sort_by_key(|p| (p.y, p.x));
+        let mut view = Perception::empty();
+        for pos in positions {
+            match world.map.cell(pos) {
+                Some(crate::map::cell::Cell::Food { amount }) if *amount > 0 => {
+                    view.add_food(*amount, false, paths[&pos].clone())
                 }
+                Some(crate::map::cell::Cell::Water { amount }) if *amount > 0 => {
+                    view.add_water(*amount, paths[&pos].clone())
+                }
+                _ => {}
             }
         }
-
-        // 3. Çevredeki yürünebilir alanları Tara
-        for dir in crate::map::movement::DIRECTION_ARRAY {
-            perception.add_direction(dir, world.map.walkable_distance(current_slot.pos, dir));
+        for other in &world.entities {
+            if other.id == current.id {
+                continue;
+            }
+            let Some(steps) = paths.get(&other.pos) else {
+                continue;
+            };
+            if matches!(other.phase, EntityPhase::Corpse { .. }) && other.corpse_energy > 0 {
+                view.foods.push(PerceivedFood {
+                    corpse_id: Some(other.id),
+                    amount: other.corpse_energy,
+                    is_corpse: true,
+                    steps: steps.clone(),
+                });
+            } else if matches!(
+                other.phase,
+                EntityPhase::Active | EntityPhase::Sleeping { .. }
+            ) && other.base.life().is_alive()
+            {
+                let life = other.base.life();
+                view.add_entity(
+                    other.id,
+                    other.base.species(),
+                    life.health + life.energy,
+                    steps.clone(),
+                    life.can_reproduce(),
+                );
+            }
         }
-
-        perception
+        for dir in DIRECTION_ARRAY {
+            let mut p = current.pos;
+            let mut distance = 0;
+            for _ in 0..radius.min(255) {
+                let next = p + dir;
+                if !world.map.is_walkable(next) || blocked.contains(&next) {
+                    break;
+                }
+                p = next;
+                distance += 1;
+            }
+            view.add_direction(dir, distance);
+        }
+        view
     }
 }

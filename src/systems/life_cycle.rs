@@ -24,7 +24,7 @@ impl LifeCycleSystem {
 
     pub fn finalize_tick(
         entities: &mut [EntitySlot],
-        map: &mut Map,
+        _map: &mut Map,
         events: &mut Vec<SimulationEvent>,
     ) {
         for slot in entities {
@@ -40,7 +40,7 @@ impl LifeCycleSystem {
                 };
                 let amount = (slot.entity().life().max_health / biology::CORPSE_FOOD_DIVISOR)
                     .max(biology::MIN_FOOD_FROM_CORPSE);
-                map.add_food(slot.pos, amount);
+                slot.corpse_energy=amount;
 
                 events.push(SimulationEvent::EntityDied {
                     id: slot.id,

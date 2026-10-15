@@ -29,6 +29,11 @@ sonraki talimatlar bu notların önündedir.
 - Geçmiş shardları, canlı verilerini veya checkpointleri derleme temizliğiyle silmeyin.
 - Aktif RNG dünya başına ayrıdır. Yeni dünyalar için açık seed kullanan
   `World::with_seed` tercih edilir; global seed yardımcıları eski çağrılar içindir.
+- Güncel checkpoint V2; kod `simulation/checkpoint.rs` içinde. SQLite şeması V1.
+  Eski kayıt yüklemek aynı geleceği değil, durum göçünü garanti eder.
+- Son deney raporu `docs/reports/RENEWABLE_MEADOW.md`: otçul nesilleri doğrulandı;
+  öğrenme/evrim ve avcı–av dengesi henüz tamamlanmadı. Tam snapshot kaydı yaklaşık
+  3,8 GB/gün (3 tick/s); uzun sunucu koşusundan önce kayıt maliyetini düşürün.
 
 ## İletişim
 

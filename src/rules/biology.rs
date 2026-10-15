@@ -1,10 +1,10 @@
 //! Biyolojik kurallar ve sabitler.
 
 /// Bir öğünde yenilebilecek maksimum enerji miktarı
-pub const EAT_ENERGY_AMOUNT: usize = 5;
+pub const EAT_ENERGY_AMOUNT: usize = 10;
 
 /// Bir içimde içilebilecek maksimum su miktarı
-pub const DRINK_WATER_AMOUNT: usize = 5;
+pub const DRINK_WATER_AMOUNT: usize = 10;
 
 /// Saldırı sırasında saldırganın tükettiği enerji
 pub const ATTACK_ENERGY_COST: usize = 3;
@@ -46,3 +46,6 @@ pub const STARVATION_ENERGY_RESTORE: usize = 9;
 
 /// Su bittiğinde candan harcanan miktar (susuzluktan ölme)
 pub const DEHYDRATION_HEALTH_LOSS: usize = 2;
+
+/// Parents can reproduce more than once during their lifetime.
+pub const REPRODUCTION_COOLDOWN_TICKS:usize=25;

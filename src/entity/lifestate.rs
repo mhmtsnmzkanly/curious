@@ -114,8 +114,12 @@ impl LifeState {
             Some(R::Immature)
         } else if self.reproduction_cooldown > 0 {
             Some(R::Cooldown)
-        } else if self.energy <= 15 {
+        } else if self.energy < self.max_energy / 2 {
             Some(R::InsufficientEnergy)
+        } else if self.water < self.max_water / 2 {
+            Some(R::InsufficientWater)
+        } else if self.health < self.max_health / 2 {
+            Some(R::PoorHealth)
         } else {
             None
         }
@@ -190,8 +194,9 @@ impl LifeState {
     }
 
     pub fn on_reproduce(&mut self) {
-        self.reproduction_cooldown = 100;
-        self.consume_energy(10);
+        self.reproduction_cooldown = crate::rules::biology::REPRODUCTION_COOLDOWN_TICKS;
+        self.consume_energy(self.max_energy / 4);
+        self.consume_water(self.max_water / 4);
     }
 
     /*

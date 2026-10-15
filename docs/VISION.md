@@ -77,6 +77,10 @@ sosyal sürüler, karmaşık iklim ve gelişmiş görsellik ilk teslimin zorunlu
 - Kararlar, olaylar, tam dünya durumu, metrikler ve kabul edilen müdahaleler kaydediliyor.
 - Dört Rust testi ve HTTP/kapanma-kurtarma testi geçti; systemd restartında dünya
   durumunun korunması kontrol edildi. Ayrıntılar `CONTROL.md` içinde.
-- Kaynak yenilenmesi, sürekli nesiller, öğrenme ve evrim henüz tamamlanmadı.
+- Kaynak yenilenmesi ve otçul çayırında nesillerin devamı doğrulandı:
+  8 seedin 7'si 2.000 tickte yaşıyor; uzun koşularda 10.000 tick ve 219–230. nesil.
+  Ayrıntılar ve yok olan koşul `reports/RENEWABLE_MEADOW.md` içinde.
+- Avcı–av dengesi, öğrenme ve kalıtsal evrim henüz tamamlanmadı.
 - Aylar süren dayanıklılık ve büyük nüfus performansı henüz doğrulanmadı.
-- Sıradaki iş ilk nesilde yaşamın kesilmesine ilişkin ölçümlü başlangıç raporu.
+- Başlangıç raporu `reports/BASELINE.md` içinde. Sıradaki işler kayıt büyümesi,
+  nüfus/çevre koşullarına dayanıklılık ve avcı–av davranışlarının gözlemlenmesi.

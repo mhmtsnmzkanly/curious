@@ -12,7 +12,7 @@ import time
 import urllib.request
 
 
-def measure(binary, directory, seed, ticks):
+def measure(binary, directory, seed, ticks, scenario=None):
     directory.mkdir(parents=True, exist_ok=False)
     with socket.socket() as sock:
         sock.bind(('127.0.0.1', 0))
@@ -27,8 +27,11 @@ def measure(binary, directory, seed, ticks):
         with urllib.request.urlopen(req, timeout=60) as response:
             return json.load(response)
 
-    child = subprocess.Popen([binary, '--serve', '--paused', '--data-dir', str(directory), '--seed', str(seed),
-                              '--bind', f'127.0.0.1:{port}'], env=env, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE)
+    command = [binary, '--serve', '--paused', '--data-dir', str(directory), '--seed', str(seed),
+               '--bind', f'127.0.0.1:{port}']
+    if scenario:
+        command += ['--scenario', scenario]
+    child = subprocess.Popen(command, env=env, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE)
     started = time.monotonic()
     try:
         for _ in range(100):
@@ -93,15 +96,17 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--binary', default='target/release/curious')
     parser.add_argument('--output', required=True)
+    parser.add_argument('--scenario')
     parser.add_argument('--seeds', default='1,2,3,4,5,42,12345,2026')
     parser.add_argument('--ticks', type=int, default=500)
     args = parser.parse_args()
     output = Path(args.output)
     output.mkdir(parents=True, exist_ok=False)
     report = {'revision': subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip(),
-              'scenario': 'default four founders; no interventions except step/shutdown', 'runs': []}
+              'dirty': bool(subprocess.check_output(['git','status','--porcelain'],text=True).strip()),
+              'scenario': args.scenario or 'default four founders; no interventions except step/shutdown', 'runs': []}
     for seed in map(int, args.seeds.split(',')):
-        result = measure(str(Path(args.binary).resolve()), output / f'seed-{seed}', seed, args.ticks)
+        result = measure(str(Path(args.binary).resolve()), output / f'seed-{seed}', seed, args.ticks, args.scenario)
         report['runs'].append(result)
         (output / 'summary.json').write_text(json.dumps(report, indent=2) + '\n')
         print(json.dumps({k: v for k, v in result.items() if k != 'samples'}), flush=True)

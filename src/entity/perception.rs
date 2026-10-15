@@ -10,6 +10,7 @@ use std::{
 /// Algılanan tekil hedef
 #[derive(Debug, Clone)]
 pub struct PerceivedEntity {
+    pub reproductive:bool,
     /// Algılanan canlının kimliği (Kaldırılabilir, Emin değilim)
     pub id: usize,
     /// Algılanan canlının türü
@@ -23,6 +24,7 @@ pub struct PerceivedEntity {
 /// Algılanan yiyecek
 #[derive(Debug, Clone)]
 pub struct PerceivedFood {
+    pub corpse_id:Option<usize>,
     /// Algılanan yemeğin miktarı
     pub amount: usize,
     /// Algılanan yemek ceset mi?
@@ -69,6 +71,7 @@ impl Perception {
     /// Algılanan yiyeceğe adım ekle
     pub fn add_food(&mut self, amount: usize, is_corpse: bool, steps: Steps) {
         self.foods.push(PerceivedFood {
+            corpse_id:None,
             amount,
             is_corpse,
             steps,
@@ -81,8 +84,9 @@ impl Perception {
     }
 
     /// Algılanan canlıya adım ekle
-    pub fn add_entity(&mut self, id: usize, species: Species, power: usize, steps: Steps) {
+    pub fn add_entity(&mut self, id: usize, species: Species, power: usize, steps: Steps, reproductive:bool) {
         self.entities.push(PerceivedEntity {
+            reproductive,
             id,
             species,
             power,

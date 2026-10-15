@@ -5,6 +5,11 @@ use crate::map::movement::Position;
 /// Bu olaylar ağ üzerinden istemcilere (clients) gönderilebilir.
 #[derive(serde::Serialize, serde::Deserialize, Debug, Clone)]
 pub enum SimulationEvent {
+    ResourceReplenished {
+        pos: Position,
+        kind: crate::environment::ResourceKind,
+        amount: usize,
+    },
     ActionRejected {
         id: usize,
         action: String,
@@ -72,6 +77,10 @@ pub enum DeathCause {
 #[derive(Debug, Clone, Copy, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
 pub enum RejectionReason {
     MissingEntity,
+    MissingResource,
+    InvalidDiet,
+    InsufficientWater,
+    PoorHealth,
     Inactive,
     OutOfRange,
     DifferentSpecies,

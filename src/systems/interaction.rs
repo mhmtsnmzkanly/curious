@@ -11,6 +11,39 @@ use std::collections::HashMap;
 pub struct InteractionSystem;
 
 impl InteractionSystem {
+    fn move_actor(
+        entities: &mut [EntitySlot],
+        id: usize,
+        pos: Position,
+        cost: usize,
+        occupied: &mut HashMap<Position, usize>,
+        events: &mut Vec<SimulationEvent>,
+    ) -> bool {
+        use crate::simulation::event::{RejectionReason as R, reject};
+        if occupied.get(&pos).is_some_and(|other| *other != id) {
+            reject(events, id, "Approach", None, R::Occupied);
+            return false;
+        }
+        let Some(slot) = entities
+            .iter_mut()
+            .find(|s| s.id == id && s.phase.is_active() && s.base.life().is_alive())
+        else {
+            return false;
+        };
+        if cost > 0 {
+            let from = slot.pos;
+            occupied.remove(&from);
+            slot.pos = pos;
+            slot.base.life_mut().on_move(cost);
+            occupied.insert(pos, id);
+            events.push(SimulationEvent::EntityMoved { id, from, to: pos });
+        }
+        true
+    }
+    fn adjacent(a: Position, b: Position) -> bool {
+        (a.x - b.x).abs() <= 1 && (a.y - b.y).abs() <= 1
+    }
+
     pub fn resolve_eats(
         entities: &mut [EntitySlot],
         map: &mut Map,
@@ -18,96 +51,73 @@ impl InteractionSystem {
         occupied: &mut HashMap<Position, usize>,
         events: &mut Vec<SimulationEvent>,
     ) {
-        let mut target_winners: HashMap<Position, &EatPlan> = HashMap::new();
-        let mut sorted_plans = plans.to_vec();
-        sorted_plans.sort_by_key(|p| p.id);
-
-        for plan in &sorted_plans {
-            target_winners.entry(plan.new_pos).or_insert(plan);
-        }
-
-        let mut winners: Vec<_> = target_winners.values().copied().collect();
-        winners.sort_by_key(|p| p.id);
-        for plan in winners {
-            if let Some(other_id) = occupied.get(&plan.new_pos) {
-                if *other_id != plan.id {
+        use crate::simulation::event::{RejectionReason as R, reject};
+        let plans = plans.to_vec();
+        for p in plans {
+            if !Self::move_actor(entities, p.id, p.new_pos, p.cost, occupied, events)
+                || !Self::adjacent(p.new_pos, p.resource_pos)
+            {
+                continue;
+            }
+            let Some(eater) = entities.iter().position(|s| s.id == p.id) else {
+                continue;
+            };
+            let species = entities[eater].base.species();
+            let remaining = entities[eater]
+                .base
+                .life()
+                .max_energy
+                .saturating_sub(entities[eater].base.life().energy);
+            let amount = if let Some(id) = p.corpse_id {
+                if !species.eats_meat() {
+                    reject(events, p.id, "Eat", Some(id), R::InvalidDiet);
                     continue;
                 }
-            }
-
-            // Önce yiyen birimin ve varsa hedef cesedin indekslerini bulalım
-            let eater_idx = entities.iter().position(|s| s.id == plan.id);
-            let corpse_idx = entities.iter().position(|s| {
-                s.id != plan.id
-                    && s.pos == plan.new_pos
-                    && matches!(s.phase, EntityPhase::Corpse { .. })
-            });
-
-            match (eater_idx, corpse_idx) {
-                // Sadece yiyen birim bulundu (Bitki yeme ihtimali)
-                (Some(e_idx), None) => {
-                    let slot = &mut entities[e_idx];
-                    let from = slot.pos;
-                    occupied.remove(&from);
-                    slot.pos = plan.new_pos;
-                    slot.base.life_mut().on_move(plan.cost);
-                    occupied.insert(slot.pos, plan.id);
-
-                    if let Some(Cell::Food { amount }) = map.cell(slot.pos) {
-                        let eat_amount = (*amount).min(biology::EAT_ENERGY_AMOUNT);
-                        slot.entity_mut().life_mut().restore_energy(eat_amount);
-                        map.reduce_cell_amount(slot.pos, eat_amount);
-                        events.push(SimulationEvent::EntityAte {
-                            id: plan.id,
-                            pos: slot.pos,
-                            amount: eat_amount,
-                        });
-                    }
-                }
-                // Hem yiyen hem ceset bulundu (Etçil/Hepçil durumu)
-                (Some(e_idx), Some(c_idx)) => {
-                    let (first, second) = if e_idx < c_idx {
-                        let (left, right) = entities.split_at_mut(c_idx);
-                        (&mut left[e_idx], &mut right[0])
-                    } else {
-                        let (left, right) = entities.split_at_mut(e_idx);
-                        (&mut left[c_idx], &mut right[0])
-                    };
-
-                    let (eater, corpse) = if e_idx < c_idx {
-                        (first, second)
-                    } else {
-                        (second, first)
-                    };
-
-                    // Yiyen birimi hareket ettir
-                    let from = eater.pos;
-                    occupied.remove(&from);
-                    eater.pos = plan.new_pos;
-                    eater.base.life_mut().on_move(plan.cost);
-                    occupied.insert(eater.pos, plan.id);
-
-                    // Cesedi ye
-                    let eat_amount = biology::EAT_ENERGY_AMOUNT * 2;
-                    eater.entity_mut().life_mut().restore_energy(eat_amount);
-                    corpse.phase = EntityPhase::Removed;
-
-                    events.push(SimulationEvent::EntityAte {
-                        id: plan.id,
-                        pos: eater.pos,
-                        amount: eat_amount,
-                    });
+                let Some(corpse) = entities.iter().position(|s| {
+                    s.id == id
+                        && s.pos == p.resource_pos
+                        && matches!(s.phase, EntityPhase::Corpse { .. })
+                }) else {
+                    reject(events, p.id, "Eat", Some(id), R::MissingResource);
+                    continue;
+                };
+                let amount = entities[corpse]
+                    .corpse_energy
+                    .min(biology::EAT_ENERGY_AMOUNT)
+                    .min(remaining);
+                entities[corpse].corpse_energy -= amount;
+                if entities[corpse].corpse_energy == 0 {
+                    entities[corpse].phase = EntityPhase::Removed;
                     events.push(SimulationEvent::CorpseConsumed {
-                        id: corpse.id,
-                        eater: plan.id,
-                        pos: corpse.pos,
+                        id,
+                        eater: p.id,
+                        pos: p.resource_pos,
                     });
                 }
-                _ => {}
+                amount
+            } else {
+                if !species.eats_plants() {
+                    reject(events, p.id, "Eat", None, R::InvalidDiet);
+                    continue;
+                }
+                let Some(Cell::Food { amount }) = map.cell(p.resource_pos) else {
+                    reject(events, p.id, "Eat", None, R::MissingResource);
+                    continue;
+                };
+                let amount = (*amount).min(biology::EAT_ENERGY_AMOUNT).min(remaining);
+                map.reduce_cell_amount(p.resource_pos, amount);
+                amount
+            };
+            if amount > 0 {
+                entities[eater].base.life_mut().restore_energy(amount);
+                events.push(SimulationEvent::EntityAte {
+                    id: p.id,
+                    pos: p.resource_pos,
+                    amount,
+                });
             }
         }
     }
-
     pub fn resolve_drinks(
         entities: &mut [EntitySlot],
         map: &mut Map,
@@ -115,41 +125,35 @@ impl InteractionSystem {
         occupied: &mut HashMap<Position, usize>,
         events: &mut Vec<SimulationEvent>,
     ) {
-        let mut target_winners: HashMap<Position, &DrinkPlan> = HashMap::new();
-        let mut sorted_plans = plans.to_vec();
-        sorted_plans.sort_by_key(|p| p.id);
-
-        for plan in &sorted_plans {
-            target_winners.entry(plan.new_pos).or_insert(plan);
-        }
-
-        let mut winners: Vec<_> = target_winners.values().copied().collect();
-        winners.sort_by_key(|p| p.id);
-        for plan in winners {
-            if let Some(other_id) = occupied.get(&plan.new_pos) {
-                if *other_id != plan.id {
-                    continue;
-                }
+        use crate::simulation::event::{RejectionReason as R, reject};
+        let plans = plans.to_vec();
+        for p in plans {
+            if !Self::move_actor(entities, p.id, p.new_pos, p.cost, occupied, events)
+                || !Self::adjacent(p.new_pos, p.resource_pos)
+            {
+                continue;
             }
-
-            if let Some(slot) = entities.iter_mut().find(|s| s.id == plan.id) {
-                let from = slot.pos;
-                occupied.remove(&from);
-                slot.pos = plan.new_pos;
-                slot.base.life_mut().on_move(plan.cost);
-                occupied.insert(slot.pos, plan.id);
-
-                if let Some(Cell::Water { amount }) = map.cell(slot.pos) {
-                    let drink_amount = (*amount).min(biology::DRINK_WATER_AMOUNT);
-                    slot.entity_mut().life_mut().restore_water(drink_amount);
-                    map.reduce_cell_amount(slot.pos, drink_amount);
-
-                    events.push(SimulationEvent::EntityDrank {
-                        id: plan.id,
-                        pos: slot.pos,
-                        amount: drink_amount,
-                    });
-                }
+            let Some(slot) = entities.iter_mut().find(|s| s.id == p.id) else {
+                continue;
+            };
+            let Some(Cell::Water { amount }) = map.cell(p.resource_pos) else {
+                reject(events, p.id, "Drink", None, R::MissingResource);
+                continue;
+            };
+            let amount = (*amount).min(biology::DRINK_WATER_AMOUNT).min(
+                slot.base
+                    .life()
+                    .max_water
+                    .saturating_sub(slot.base.life().water),
+            );
+            if amount > 0 {
+                slot.base.life_mut().restore_water(amount);
+                map.reduce_cell_amount(p.resource_pos, amount);
+                events.push(SimulationEvent::EntityDrank {
+                    id: p.id,
+                    pos: p.resource_pos,
+                    amount,
+                });
             }
         }
     }
@@ -212,12 +216,17 @@ impl InteractionSystem {
                 );
                 continue;
             };
+            let energy_budget=entities[s].base.life().max_energy/4 + entities[t].base.life().max_energy/4;
+            let water_budget=entities[s].base.life().max_water/4 + entities[t].base.life().max_water/4;
             entities[s].base.life_mut().on_reproduce();
             entities[t].base.life_mut().on_reproduce();
-            let child = entities[t].base.reproduce();
+            let mut child = entities[t].base.reproduce();
+            child.life_mut().energy=energy_budget.min(child.life().max_energy);
+            child.life_mut().water=water_budget.min(child.life().max_water);
             let species = child.species();
             let id = *next_entity_id;
             *next_entity_id += 1;
+            let generation = entities[s].generation.max(entities[t].generation) + 1;
             new_entities.push(EntitySlot::new(
                 id,
                 pos,
@@ -225,6 +234,10 @@ impl InteractionSystem {
                 crate::entity::controller::EntityController::AI,
                 child,
             ));
+            if let Some(child) = new_entities.last_mut() {
+                child.generation = generation;
+                child.parents = vec![plan.self_id, plan.target_id];
+            }
             occupied.insert(pos, id);
             events.push(SimulationEvent::EntityMated {
                 parent1: plan.self_id,

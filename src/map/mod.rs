@@ -217,6 +217,42 @@ impl Map {
         map
     }
 
+    /// Paths within both sight radius and step budget. Occupied endpoints can be
+    /// approached, but never traversed. Iteration order is not exposed to policy.
+    pub fn paths_within(
+        &self,
+        start: Position,
+        radius: usize,
+        blocked: &std::collections::HashSet<Position>,
+    ) -> HashMap<Position, Steps> {
+        let mut paths = HashMap::new();
+        let mut queue = VecDeque::new();
+        paths.insert(start, Steps::empty());
+        queue.push_back(start);
+        while let Some(pos) = queue.pop_front() {
+            let path = paths[&pos].clone();
+            if path.len() >= radius {
+                continue;
+            }
+            for dir in DIRECTION_ARRAY {
+                let next = pos + dir;
+                if !self.is_walkable(next)
+                    || start.distance_to(next) > radius
+                    || paths.contains_key(&next)
+                {
+                    continue;
+                }
+                let mut steps = path.clone();
+                steps.0.push(dir);
+                paths.insert(next, steps);
+                if !blocked.contains(&next) {
+                    queue.push_back(next);
+                }
+            }
+        }
+        paths
+    }
+
     /// Radius ile sınırlı BFS
     pub fn bfs_steps_to(&self, start: Position, goal: Position, radius: usize) -> Option<Steps> {
         if !self.is_walkable(goal) {

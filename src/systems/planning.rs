@@ -23,17 +23,21 @@ impl PlanningSystem {
                         }
                     }
                 }
-                Intent::Eat { at, .. } => {
+                Intent::Eat { at, corpse_id } => {
                     if let Some(slot) = Self::find_slot(world, id) {
-                        let (new_pos, cost) = Self::evaluate_path(world, slot, &at);
-                        plans.eats.push(EatPlan { id, new_pos, cost });
+                        let resource_pos=at.0.iter().fold(slot.pos,|p,d|p+*d);
+                        let approach=Steps(at.0.iter().take(at.len().saturating_sub(1)).copied().collect());
+                        let (new_pos, cost) = Self::evaluate_path(world, slot, &approach);
+                        plans.eats.push(EatPlan { id, new_pos, cost, resource_pos,corpse_id });
                         log_lines.push(format!("[Plan] Eat @{} -> {:?} adim:{}", id, new_pos, cost));
                     }
                 }
                 Intent::Drink { at } => {
                     if let Some(slot) = Self::find_slot(world, id) {
-                        let (new_pos, cost) = Self::evaluate_path(world, slot, &at);
-                        plans.drinks.push(DrinkPlan { id, new_pos, cost });
+                        let resource_pos=at.0.iter().fold(slot.pos,|p,d|p+*d);
+                        let approach=Steps(at.0.iter().take(at.len().saturating_sub(1)).copied().collect());
+                        let (new_pos, cost) = Self::evaluate_path(world, slot, &approach);
+                        plans.drinks.push(DrinkPlan { id, new_pos, cost, resource_pos });
                         log_lines.push(format!("[Plan] Drink @{} -> {:?} adim:{}", id, new_pos, cost));
                     }
                 }
@@ -52,18 +56,7 @@ impl PlanningSystem {
                         log_lines.push(format!("[Plan] Flee @{} -> {:?} (hedef @{}) adim:{}", id, new_pos, target_id, cost));
                     }
                 }
-                Intent::Idle { .. } => {
-                    let wander=world.rng.range(1,100)<=30;
-                    if let Some(slot) = Self::find_slot(world, id) {
-                        // Hafif gezinme davranışı: %30 ihtimalle rastgele 1 adım
-                        if wander && slot.base.life().can_move_for(1) {
-                            if let Some(pos) = Self::pick_random_neighbor(world, slot.pos) {
-                                plans.moves.push(MovePlan { id, new_pos: pos, cost: 1 });
-                                log_lines.push(format!("[Plan] Idle->Move @{} -> {:?}", id, pos));
-                            }
-                        }
-                    }
-                }
+                Intent::Idle { .. } => {}
                 Intent::Sleep { duration } => {
                     plans.sleeps.push(SleepPlan { id, duration });
                     log_lines.push(format!("[Plan] Sleep @{} sure:{}", id, duration));
@@ -82,7 +75,7 @@ impl PlanningSystem {
         let mut cost = 0;
         for dir in steps {
             let next = curr_pos + *dir;
-            if !world.map.is_walkable(next) || !slot.base.life().can_move_for(cost + 1) {
+            if !world.map.is_walkable(next) || world.entities.iter().any(|s|s.id!=slot.id && s.pos==next && matches!(s.phase,crate::entity::phase::EntityPhase::Active|crate::entity::phase::EntityPhase::Sleeping{..})) || !slot.base.life().can_move_for(cost + 1) {
                 break;
             }
             curr_pos = next;
@@ -121,13 +114,4 @@ impl PlanningSystem {
         (curr_pos, cost)
     }
 
-    fn pick_random_neighbor(world: &mut World, pos: Position) -> Option<Position> {
-        let dirs = DIRECTION_ARRAY;
-        for _ in 0..8 {
-            let d = dirs[world.rng.range(0, 7) as usize];
-            let p = pos + d;
-            if world.map.is_walkable(p) { return Some(p); }
-        }
-        None
-    }
 }

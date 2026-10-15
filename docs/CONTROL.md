@@ -152,3 +152,37 @@ bildirir. `CorpseConsumed` ikinci bir ölüm olarak sayılmaz.
 Bu sözleşmedeki değişiklikten önceki kayıtların yüklenmesi desteklenir; eski
 ikiliyle aynı geleceği üretmek garanti edilmez. Aynı ikili/sözleşme ve seed altında
 tekrar üretim test edilir.
+
+## Yenilenen çevre ve senaryolar (checkpoint v2)
+
+SQLite tablo şeması 1, dünya checkpoint sürümü artık **2**. V1 kayıtları okunur:
+mevcut kaynak hücrelerinden varsayılan yenilenme konumları çıkarılır; daha önce
+bitmiş kaynakların eski konumu V1 checkpointten geri kazanılamaz. Mevcut birey
+yaşam değerleri korunur; eksik soy bilgisi kurucu nesil olarak kabul edilir.
+Bu yükseltme eski ikiliyle aynı geleceği garanti etmez.
+
+V2 `environment.sites` alanında konum, tür, kapasite, yenilenme miktarı/sıklığı;
+bireylerde `generation`, `parents`, `corpse_energy` alanları saklanır. Boş kaynak
+konumları da checkpointte kalır. `EntityAte.pos` ve `EntityDrank.pos` tüketilen
+kaynağın konumudur; canlı aynı hücrede olmak zorunda değildir.
+
+```json
+{"action":"set_resource_site","site":{"pos":{"x":0,"y":0},"kind":"Water","capacity":30,"replenish":4,"interval":1}}
+{"action":"remove_resource_site","pos":{"x":0,"y":0}}
+```
+
+`set_cell` anlık miktarı değiştirir; tek başına yenilenme konumu oluşturmaz.
+`remove_resource_site` yenilenmeyi kaldırır, eldeki kaynağı silmez.
+
+```bash
+./target/release/curious --serve --paused --seed 1 \
+  --scenario scenarios/meadow.json --data-dir data/meadow --bind 127.0.0.1:7879
+```
+
+Senaryo JSON'u açık sınırlar, kurucular, kaynak konumları ve başlangıç miktarları
+belirtir. Devam edilen kayıt varsa `--resume-or-new` kayıtlı çevreyi kullanır;
+senaryo dosyasını değiştirerek mevcut dünyayı sessizce değiştirmez.
+
+Kütüphane `SimulationEngine::snapshot()` artık aynı tam V2 temsili döndürür:
+eski `map_resources` yerine türü koruyan `resources` alanı kullanılır.
+Gözlem araçları bu alan değişimine göre güncellenmelidir.

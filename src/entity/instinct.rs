@@ -47,7 +47,7 @@ impl InstinctEvaluator {
         let threat = perception
             .entities
             .iter()
-            .find(|entity| entity.species != own_species && entity.steps.len() <= THREAT_RANGE)
+            .find(|entity| entity.species.hunts(&own_species) && entity.steps.len() <= THREAT_RANGE)
             .map(|entity| ThreatAssessment {
                 target_id: entity.id,
                 can_win: own_power >= entity.power,
@@ -60,9 +60,12 @@ impl InstinctEvaluator {
             };
         }
 
-        // Urgency compares resource fractions. Injury alone must not hide thirst.
-        if life.is_water_low()
-            && (!life.is_energy_low()
+        // Refill reserves before seeking reproduction; quarter-full thresholds
+        // otherwise trap adults permanently below the reproduction requirement.
+        let needs_food = life.energy < life.max_energy.saturating_mul(3) / 4;
+        let needs_water = life.water < life.max_water.saturating_mul(3) / 4;
+        if needs_water
+            && (!needs_food
                 || life.water.saturating_mul(life.max_energy)
                     <= life.energy.saturating_mul(life.max_water))
         {
@@ -77,7 +80,7 @@ impl InstinctEvaluator {
                 threat: None,
             };
         }
-        if life.is_energy_low() {
+        if needs_food {
             return InstinctDecision {
                 instinct: Instinct::Hunger,
                 threat: None,

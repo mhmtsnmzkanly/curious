@@ -1,0 +1,278 @@
+{
+  "revision": "955b5aa4b241fcb2cf6a5ae80301f97b82da35f6",
+  "scenario": "default four founders; no interventions except step/shutdown",
+  "runs": [
+    {
+      "seed": 1,
+      "ticks": 500,
+      "wall_seconds": 0.141,
+      "first_extinction_tick": 92,
+      "max_generation": 0,
+      "events": {
+        "EntityMoved": 84,
+        "EntityAttacked": 1,
+        "ActionRejected": 1,
+        "EntityAte": 8,
+        "EntityDied": 4
+      },
+      "intents": {
+        "Idle": 318,
+        "Attack": 2,
+        "Flee": 2,
+        "Eat": 8,
+        "Move": 18
+      },
+      "rejected_actions": {
+        "OutOfRange": 1
+      },
+      "death_causes": {
+        "Dehydration": 2,
+        "Starvation": 2
+      },
+      "ticks_with_active_low_health_and_zero_water": 13,
+      "history_bytes": 2191360
+    },
+    {
+      "seed": 2,
+      "ticks": 500,
+      "wall_seconds": 0.137,
+      "first_extinction_tick": 92,
+      "max_generation": 1,
+      "events": {
+        "EntityAttacked": 1,
+        "EntityMoved": 65,
+        "EntityMated": 1,
+        "EntityBorn": 1,
+        "ActionRejected": 2,
+        "EntityAte": 27,
+        "EntityDrank": 3,
+        "EntityDied": 5
+      },
+      "intents": {
+        "Idle": 258,
+        "Attack": 2,
+        "Flee": 2,
+        "Move": 59,
+        "Mate": 2,
+        "Eat": 33,
+        "Drink": 30
+      },
+      "rejected_actions": {
+        "Cooldown": 1,
+        "OutOfRange": 1
+      },
+      "death_causes": {
+        "Dehydration": 4,
+        "Starvation": 1
+      },
+      "ticks_with_active_low_health_and_zero_water": 21,
+      "history_bytes": 1335296
+    },
+    {
+      "seed": 3,
+      "ticks": 500,
+      "wall_seconds": 0.102,
+      "first_extinction_tick": 92,
+      "max_generation": 1,
+      "events": {
+        "EntityMoved": 74,
+        "EntityAttacked": 1,
+        "EntityMated": 1,
+        "EntityBorn": 1,
+        "ActionRejected": 3,
+        "EntityAte": 21,
+        "EntityDrank": 1,
+        "EntityDied": 5
+      },
+      "intents": {
+        "Idle": 235,
+        "Attack": 3,
+        "Flee": 3,
+        "Move": 77,
+        "Mate": 2,
+        "Eat": 27,
+        "Drink": 19
+      },
+      "rejected_actions": {
+        "Cooldown": 1,
+        "OutOfRange": 2
+      },
+      "death_causes": {
+        "Starvation": 1,
+        "Dehydration": 4
+      },
+      "ticks_with_active_low_health_and_zero_water": 27,
+      "history_bytes": 1314816
+    },
+    {
+      "seed": 4,
+      "ticks": 500,
+      "wall_seconds": 0.108,
+      "first_extinction_tick": 91,
+      "max_generation": 0,
+      "events": {
+        "EntityAttacked": 1,
+        "EntityMoved": 78,
+        "EntityAte": 23,
+        "ActionRejected": 1,
+        "EntityDrank": 3,
+        "EntityDied": 4
+      },
+      "intents": {
+        "Idle": 238,
+        "Attack": 2,
+        "Flee": 8,
+        "Eat": 28,
+        "Drink": 44,
+        "Move": 31
+      },
+      "rejected_actions": {
+        "OutOfRange": 1
+      },
+      "death_causes": {
+        "Starvation": 2,
+        "Dehydration": 2
+      },
+      "ticks_with_active_low_health_and_zero_water": 12,
+      "history_bytes": 1343488
+    },
+    {
+      "seed": 5,
+      "ticks": 500,
+      "wall_seconds": 0.112,
+      "first_extinction_tick": 97,
+      "max_generation": 1,
+      "events": {
+        "EntityAttacked": 3,
+        "EntityMoved": 65,
+        "ActionRejected": 5,
+        "EntityMated": 1,
+        "EntityBorn": 1,
+        "EntityAte": 37,
+        "EntityDrank": 5,
+        "EntityDied": 5
+      },
+      "intents": {
+        "Idle": 262,
+        "Attack": 7,
+        "Flee": 7,
+        "Mate": 2,
+        "Eat": 58,
+        "Drink": 53,
+        "Move": 14
+      },
+      "rejected_actions": {
+        "OutOfRange": 3,
+        "Cooldown": 1,
+        "InsufficientEnergy": 1
+      },
+      "death_causes": {
+        "Dehydration": 2,
+        "Starvation": 3
+      },
+      "ticks_with_active_low_health_and_zero_water": 24,
+      "history_bytes": 1409024
+    },
+    {
+      "seed": 42,
+      "ticks": 500,
+      "wall_seconds": 0.102,
+      "first_extinction_tick": 95,
+      "max_generation": 0,
+      "events": {
+        "EntityAttacked": 1,
+        "EntityMoved": 82,
+        "EntityAte": 16,
+        "EntityDrank": 4,
+        "EntityDied": 4
+      },
+      "intents": {
+        "Idle": 281,
+        "Attack": 1,
+        "Flee": 1,
+        "Eat": 26,
+        "Move": 26,
+        "Drink": 23
+      },
+      "rejected_actions": {},
+      "death_causes": {
+        "Dehydration": 1,
+        "Starvation": 3
+      },
+      "ticks_with_active_low_health_and_zero_water": 15,
+      "history_bytes": 1335296
+    },
+    {
+      "seed": 12345,
+      "ticks": 500,
+      "wall_seconds": 0.123,
+      "first_extinction_tick": 94,
+      "max_generation": 1,
+      "events": {
+        "EntityAttacked": 1,
+        "EntityMoved": 66,
+        "EntityMated": 1,
+        "EntityBorn": 1,
+        "ActionRejected": 1,
+        "EntityAte": 24,
+        "EntityDrank": 1,
+        "EntityDied": 5
+      },
+      "intents": {
+        "Idle": 279,
+        "Attack": 1,
+        "Flee": 1,
+        "Mate": 2,
+        "Eat": 39,
+        "Drink": 46,
+        "Move": 24
+      },
+      "rejected_actions": {
+        "Cooldown": 1
+      },
+      "death_causes": {
+        "Dehydration": 2,
+        "Starvation": 3
+      },
+      "ticks_with_active_low_health_and_zero_water": 21,
+      "history_bytes": 1363968
+    },
+    {
+      "seed": 2026,
+      "ticks": 500,
+      "wall_seconds": 0.106,
+      "first_extinction_tick": 87,
+      "max_generation": 1,
+      "events": {
+        "EntityAttacked": 3,
+        "EntityMoved": 83,
+        "ActionRejected": 3,
+        "EntityMated": 1,
+        "EntityBorn": 1,
+        "EntityAte": 27,
+        "EntityDrank": 2,
+        "EntityDied": 5
+      },
+      "intents": {
+        "Idle": 219,
+        "Attack": 5,
+        "Flee": 7,
+        "Move": 70,
+        "Mate": 2,
+        "Eat": 35,
+        "Drink": 31
+      },
+      "rejected_actions": {
+        "OutOfRange": 2,
+        "Cooldown": 1
+      },
+      "death_causes": {
+        "Starvation": 4,
+        "Dehydration": 1
+      },
+      "ticks_with_active_low_health_and_zero_water": 20,
+      "history_bytes": 1347584
+    }
+  ],
+  "implementation": "World foundations after 5c8ef95; see following ecology implementation commit. Historical experiments ran during development."
+}

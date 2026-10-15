@@ -1,9 +1,9 @@
-use std::collections::HashMap;
 use crate::{
     map::movement::Position,
-    world::{EntitySlot, MovePlan, FleePlan},
     simulation::SimulationEvent,
+    world::{EntitySlot, FleePlan, MovePlan},
 };
+use std::collections::HashMap;
 
 /// Hareketle ilgili simülasyon mantığını yürüten sistem.
 pub struct MovementSystem;
@@ -17,28 +17,38 @@ impl MovementSystem {
         events: &mut Vec<SimulationEvent>,
     ) {
         let mut target_winners: HashMap<Position, &MovePlan> = HashMap::new();
-        let mut sorted_plans = plans.to_vec();
-        sorted_plans.sort_by_key(|p| p.id);
-
-        for plan in &sorted_plans {
+        for plan in plans {
             target_winners.entry(plan.new_pos).or_insert(plan);
         }
 
-        let mut winners: Vec<_> = target_winners.values().copied().collect();
-        winners.sort_by_key(|p| p.id);
-        for plan in winners {
+        for plan in plans {
+            if target_winners
+                .get(&plan.new_pos)
+                .is_none_or(|winner| winner.id != plan.id)
+            {
+                continue;
+            }
             if let Some(other_id) = occupied.get(&plan.new_pos) {
-                if *other_id != plan.id { continue; }
+                if *other_id != plan.id {
+                    continue;
+                }
             }
 
-            if let Some(slot) = entities.iter_mut().find(|s| s.id == plan.id) {
+            if let Some(slot) = entities
+                .iter_mut()
+                .find(|s| s.id == plan.id && s.phase.is_active() && s.base.life().is_alive())
+            {
                 let from = slot.pos;
                 occupied.remove(&from);
                 slot.base.life_mut().on_move(plan.cost);
                 slot.pos = plan.new_pos;
                 occupied.insert(slot.pos, plan.id);
-                
-                events.push(SimulationEvent::EntityMoved { id: plan.id, from, to: plan.new_pos });
+
+                events.push(SimulationEvent::EntityMoved {
+                    id: plan.id,
+                    from,
+                    to: plan.new_pos,
+                });
             }
         }
     }
@@ -51,28 +61,38 @@ impl MovementSystem {
         events: &mut Vec<SimulationEvent>,
     ) {
         let mut target_winners: HashMap<Position, &FleePlan> = HashMap::new();
-        let mut sorted_plans = plans.to_vec();
-        sorted_plans.sort_by_key(|p| p.id);
-
-        for plan in &sorted_plans {
+        for plan in plans {
             target_winners.entry(plan.new_pos).or_insert(plan);
         }
 
-        let mut winners: Vec<_> = target_winners.values().copied().collect();
-        winners.sort_by_key(|p| p.id);
-        for plan in winners {
+        for plan in plans {
+            if target_winners
+                .get(&plan.new_pos)
+                .is_none_or(|winner| winner.id != plan.id)
+            {
+                continue;
+            }
             if let Some(other_id) = occupied.get(&plan.new_pos) {
-                if *other_id != plan.id { continue; }
+                if *other_id != plan.id {
+                    continue;
+                }
             }
 
-            if let Some(slot) = entities.iter_mut().find(|s| s.id == plan.id) {
+            if let Some(slot) = entities
+                .iter_mut()
+                .find(|s| s.id == plan.id && s.phase.is_active() && s.base.life().is_alive())
+            {
                 let from = slot.pos;
                 occupied.remove(&from);
                 slot.base.life_mut().on_move(plan.cost);
                 slot.pos = plan.new_pos;
                 occupied.insert(slot.pos, plan.id);
-                
-                events.push(SimulationEvent::EntityMoved { id: plan.id, from, to: plan.new_pos });
+
+                events.push(SimulationEvent::EntityMoved {
+                    id: plan.id,
+                    from,
+                    to: plan.new_pos,
+                });
             }
         }
     }

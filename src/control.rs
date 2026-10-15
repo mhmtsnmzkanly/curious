@@ -1,8 +1,10 @@
 //! Single-owner runtime: controls only run between committed simulation ticks.
 use crate::{
+    Result,
+    creatures::from_life as make_entity,
     entity::{controller::EntityController, intent::Intent, phase::EntityPhase, species::Species},
     map::{cell::Cell, movement::Position},
-    persistence::{Individual, Result, State, Store, make_entity},
+    persistence::{Individual, State, Store},
     world::{EntitySlot, World},
 };
 use serde::Deserialize;
@@ -19,13 +21,36 @@ pub enum Command {
     Pause,
     Resume,
     Shutdown,
-    Step { ticks: usize },
-    Speed { ticks_per_second: f64 },
-    Intent { id: usize, intent: Intent },
-    SetCell { pos: Position, cell: Cell },
-    Spawn { species: Species, pos: Position },
-    UpdateEntity { entity: Individual },
-    Remove { id: usize },
+    Step {
+        ticks: usize,
+    },
+    Speed {
+        ticks_per_second: f64,
+    },
+    Intent {
+        id: usize,
+        intent: Intent,
+    },
+    SetCell {
+        pos: Position,
+        cell: Cell,
+    },
+    Spawn {
+        species: Species,
+        pos: Position,
+    },
+    UpdateEntity {
+        entity: Individual,
+    },
+    Remove {
+        id: usize,
+    },
+    SetResourceSite {
+        site: crate::environment::ResourceSite,
+    },
+    RemoveResourceSite {
+        pos: Position,
+    },
 }
 pub struct Runtime {
     pub world: World,
@@ -92,13 +117,17 @@ impl Runtime {
                 // Persist the request before the batch so interrupted batches remain identifiable.
                 let started =
                     json!({"requested_ticks":ticks,"started_at_tick":self.world.tick_counter});
-                self.store.record(
+                if let Err(e) = self.store.record(
                     &self.world,
                     &[],
                     "step_requested",
                     0,
                     Some((&value, &started)),
-                )?;
+                ) {
+                    self.paused = true;
+                    self.error = Some(e.to_string());
+                    return Err(e);
+                }
                 for _ in 0..ticks {
                     self.tick()?;
                 }
@@ -157,7 +186,10 @@ impl Runtime {
             Command::UpdateEntity { entity: e } => {
                 self.validate_pos(e.pos)?;
                 self.validate_vacant(e.pos, Some(e.id))?;
-                if e.life.max_age > 1_000_000_000
+                if e.life.max_health == 0
+                    || e.life.max_energy == 0
+                    || e.life.max_water == 0
+                    || e.life.max_age > 1_000_000_000
                     || e.life.max_health > 1_000_000
                     || e.life.max_energy > 1_000_000
                     || e.life.max_water > 1_000_000
@@ -184,7 +216,27 @@ impl Runtime {
                     e.controller,
                     make_entity(e.species, e.life),
                 );
+                s.generation = e.generation;
+                s.parents = e.parents;
+                s.corpse_energy = e.corpse_energy;
                 json!({"updated":e.id})
+            }
+            Command::SetResourceSite { site } => {
+                self.validate_pos(site.pos)?;
+                if site.capacity > 1_000_000
+                    || site.replenish > site.capacity
+                    || site.interval == 0
+                    || site.interval > 1_000_000
+                {
+                    return Err("invalid resource site".into());
+                }
+                self.world.environment.set_site(site);
+                json!({"configured":true})
+            }
+            Command::RemoveResourceSite { pos } => {
+                self.validate_pos(pos)?;
+                self.world.environment.sites.retain(|s| s.pos != pos);
+                json!({"removed_source":pos})
             }
             Command::Remove { id } => {
                 let s = self
@@ -334,6 +386,7 @@ pub fn run_cli() -> Result<()> {
     let mut history_mb = 10240u64;
     let mut paused = false;
     let mut seed = 12345;
+    let mut scenario: Option<PathBuf> = None;
     let mut tps = 3.0;
     let mut max_mb = 256u64;
     let mut args = std::env::args().skip(1);
@@ -345,6 +398,7 @@ pub fn run_cli() -> Result<()> {
             "--resume-or-new" => resume_or_new = true,
             "--bind" => bind = args.next().ok_or("missing --bind value")?,
             "--data-dir" => dir = Some(args.next().ok_or("missing --data-dir value")?.into()),
+            "--scenario" => scenario = Some(args.next().ok_or("missing --scenario value")?.into()),
             "--seed" => seed = args.next().ok_or("missing --seed value")?.parse()?,
             "--tps" => tps = args.next().ok_or("missing --tps value")?.parse::<f64>()?,
             "--max-history-mb" => {
@@ -388,39 +442,45 @@ pub fn run_cli() -> Result<()> {
         if previous.is_some() {
             return Err("directory already contains a run; use --resume or a new directory".into());
         }
-        let entities = vec![
-            EntitySlot::new(
-                1,
-                Position::new(-5, -5),
-                EntityPhase::Active,
-                EntityController::AI,
-                Box::new(crate::creatures::herbivore::HerbivoreEntity::default()),
-            ),
-            EntitySlot::new(
-                2,
-                Position::new(-4, -5),
-                EntityPhase::Active,
-                EntityController::AI,
-                Box::new(crate::creatures::herbivore::HerbivoreEntity::default()),
-            ),
-            EntitySlot::new(
-                3,
-                Position::new(5, 5),
-                EntityPhase::Active,
-                EntityController::AI,
-                Box::new(crate::creatures::carnivore::CarnivoreEntity::default()),
-            ),
-            EntitySlot::new(
-                4,
-                Position::new(4, 5),
-                EntityPhase::Active,
-                EntityController::AI,
-                Box::new(crate::creatures::omnivore::OmnivoreEntity::default()),
-            ),
-        ];
-        let mut w = World::with_seed(-15, 14, -15, 14, entities,seed);
-        w.logger = crate::logger::Logger::disabled();
-        w
+        if let Some(path) = scenario {
+            let scenario: crate::scenario::Scenario =
+                serde_json::from_slice(&std::fs::read(path)?)?;
+            scenario.build(seed)?
+        } else {
+            let entities = vec![
+                EntitySlot::new(
+                    1,
+                    Position::new(-5, -5),
+                    EntityPhase::Active,
+                    EntityController::AI,
+                    Box::new(crate::creatures::herbivore::HerbivoreEntity::default()),
+                ),
+                EntitySlot::new(
+                    2,
+                    Position::new(-4, -5),
+                    EntityPhase::Active,
+                    EntityController::AI,
+                    Box::new(crate::creatures::herbivore::HerbivoreEntity::default()),
+                ),
+                EntitySlot::new(
+                    3,
+                    Position::new(5, 5),
+                    EntityPhase::Active,
+                    EntityController::AI,
+                    Box::new(crate::creatures::carnivore::CarnivoreEntity::default()),
+                ),
+                EntitySlot::new(
+                    4,
+                    Position::new(4, 5),
+                    EntityPhase::Active,
+                    EntityController::AI,
+                    Box::new(crate::creatures::omnivore::OmnivoreEntity::default()),
+                ),
+            ];
+            let mut w = World::with_seed(-15, 14, -15, 14, entities, seed);
+            w.logger = crate::logger::Logger::disabled();
+            w
+        }
     };
     store.record(
         &world,

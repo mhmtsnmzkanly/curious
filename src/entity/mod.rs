@@ -1,3 +1,4 @@
+pub mod behavior;
 pub mod intent;
 pub mod instinct;
 pub mod lifestate;
