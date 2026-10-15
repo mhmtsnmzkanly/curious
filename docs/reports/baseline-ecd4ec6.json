@@ -1,0 +1,226 @@
+{
+  "revision": "ecd4ec6ebb96ca1d5ee3684c262a522b3b25f527",
+  "scenario": "default four founders; no interventions except step/shutdown",
+  "runs": [
+    {
+      "seed": 1,
+      "ticks": 500,
+      "wall_seconds": 0.115,
+      "first_extinction_tick": 121,
+      "max_generation": 0,
+      "events": {
+        "EntityMoved": 135,
+        "EntityAttacked": 9,
+        "EntityAte": 60,
+        "EntityDied": 5
+      },
+      "intents": {
+        "Idle": 203,
+        "Attack": 17,
+        "Flee": 4,
+        "Move": 119,
+        "Eat": 101
+      },
+      "rejected_actions": {},
+      "death_causes": {},
+      "ticks_with_active_low_health_and_zero_water": 28,
+      "history_bytes": 1404928
+    },
+    {
+      "seed": 2,
+      "ticks": 500,
+      "wall_seconds": 0.121,
+      "first_extinction_tick": 121,
+      "max_generation": 1,
+      "events": {
+        "EntityAttacked": 14,
+        "EntityMoved": 162,
+        "EntityMated": 1,
+        "EntityBorn": 1,
+        "EntityAte": 49,
+        "EntityDrank": 2,
+        "EntityDied": 5
+      },
+      "intents": {
+        "Idle": 181,
+        "Attack": 30,
+        "Flee": 4,
+        "Move": 200,
+        "Mate": 2,
+        "Eat": 66,
+        "Drink": 3
+      },
+      "rejected_actions": {},
+      "death_causes": {},
+      "ticks_with_active_low_health_and_zero_water": 36,
+      "history_bytes": 1150976
+    },
+    {
+      "seed": 3,
+      "ticks": 500,
+      "wall_seconds": 0.124,
+      "first_extinction_tick": 128,
+      "max_generation": 1,
+      "events": {
+        "EntityMoved": 169,
+        "EntityAttacked": 9,
+        "EntityMated": 1,
+        "EntityBorn": 1,
+        "EntityAte": 49,
+        "EntityDrank": 2,
+        "EntityDied": 5
+      },
+      "intents": {
+        "Idle": 162,
+        "Attack": 27,
+        "Flee": 4,
+        "Move": 253,
+        "Mate": 2,
+        "Eat": 83,
+        "Drink": 3
+      },
+      "rejected_actions": {},
+      "death_causes": {},
+      "ticks_with_active_low_health_and_zero_water": 60,
+      "history_bytes": 1155072
+    },
+    {
+      "seed": 4,
+      "ticks": 500,
+      "wall_seconds": 0.117,
+      "first_extinction_tick": 121,
+      "max_generation": 0,
+      "events": {
+        "EntityAttacked": 10,
+        "EntityMoved": 151,
+        "EntityAte": 55,
+        "EntityDied": 4
+      },
+      "intents": {
+        "Idle": 175,
+        "Attack": 31,
+        "Flee": 4,
+        "Eat": 69,
+        "Move": 152,
+        "Drink": 1
+      },
+      "rejected_actions": {},
+      "death_causes": {},
+      "ticks_with_active_low_health_and_zero_water": 28,
+      "history_bytes": 1122304
+    },
+    {
+      "seed": 5,
+      "ticks": 500,
+      "wall_seconds": 0.113,
+      "first_extinction_tick": 126,
+      "max_generation": 1,
+      "events": {
+        "EntityAttacked": 12,
+        "EntityMoved": 158,
+        "EntityMated": 1,
+        "EntityBorn": 1,
+        "EntityAte": 58,
+        "EntityDrank": 5,
+        "EntityDied": 5
+      },
+      "intents": {
+        "Idle": 193,
+        "Attack": 20,
+        "Flee": 2,
+        "Mate": 2,
+        "Eat": 64,
+        "Drink": 9,
+        "Move": 248
+      },
+      "rejected_actions": {},
+      "death_causes": {},
+      "ticks_with_active_low_health_and_zero_water": 54,
+      "history_bytes": 1478656
+    },
+    {
+      "seed": 42,
+      "ticks": 500,
+      "wall_seconds": 0.118,
+      "first_extinction_tick": 121,
+      "max_generation": 0,
+      "events": {
+        "EntityAttacked": 3,
+        "EntityMoved": 179,
+        "EntityAte": 49,
+        "EntityDrank": 1,
+        "EntityDied": 4
+      },
+      "intents": {
+        "Idle": 187,
+        "Attack": 7,
+        "Flee": 3,
+        "Eat": 62,
+        "Move": 183,
+        "Drink": 2
+      },
+      "rejected_actions": {},
+      "death_causes": {},
+      "ticks_with_active_low_health_and_zero_water": 29,
+      "history_bytes": 1138688
+    },
+    {
+      "seed": 12345,
+      "ticks": 500,
+      "wall_seconds": 0.129,
+      "first_extinction_tick": 127,
+      "max_generation": 1,
+      "events": {
+        "EntityAttacked": 12,
+        "EntityMoved": 151,
+        "EntityMated": 1,
+        "EntityBorn": 1,
+        "EntityAte": 62,
+        "EntityDied": 5,
+        "EntityDrank": 1
+      },
+      "intents": {
+        "Idle": 200,
+        "Attack": 56,
+        "Flee": 2,
+        "Move": 196,
+        "Mate": 2,
+        "Eat": 72,
+        "Drink": 1
+      },
+      "rejected_actions": {},
+      "death_causes": {},
+      "ticks_with_active_low_health_and_zero_water": 59,
+      "history_bytes": 1150976
+    },
+    {
+      "seed": 2026,
+      "ticks": 500,
+      "wall_seconds": 0.119,
+      "first_extinction_tick": 126,
+      "max_generation": 1,
+      "events": {
+        "EntityAttacked": 9,
+        "EntityMoved": 132,
+        "EntityMated": 1,
+        "EntityBorn": 1,
+        "EntityAte": 45,
+        "EntityDrank": 2,
+        "EntityDied": 5
+      },
+      "intents": {
+        "Idle": 159,
+        "Attack": 103,
+        "Flee": 7,
+        "Mate": 2,
+        "Eat": 74,
+        "Move": 202,
+        "Drink": 2
+      },
+      "rejected_actions": {},
+      "death_causes": {},
+      "ticks_with_active_low_health_and_zero_water": 55,
+      "history_bytes": 1454080
+    }
+  ]
+}

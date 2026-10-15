@@ -3,7 +3,7 @@
 Hedef ve karar gerekçeleri: [docs/VISION.md](docs/VISION.md).
 Çalışma/işletim kuralları: [AGENTS.md](AGENTS.md).
 
-- [ ] Mevcut dünyayı farklı seed'lerle çalıştırıp ilk nesilde kopan yaşam döngüsünü ölç.
+- [x] Mevcut dünyayı farklı seed'lerle çalıştırıp ilk nesilde kopan yaşam döngüsünü ölç.
 - [ ] Üremeyi engelleyen koşulları ve ölüm nedenlerini açık, yapılandırılmış veri olarak kaydet.
 - [ ] Tick sırası, metabolizma, hareket ve etkileşim kurallarındaki çelişkileri gider.
 - [ ] RNG'yi global durumdan dünya başına ayrı duruma taşı; tekrar üretilebilirliği geniş senaryolarla doğrula.
