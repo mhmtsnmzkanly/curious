@@ -1,5 +1,5 @@
 use std::{
-    fs::{create_dir_all, File, OpenOptions},
+    fs::{File, OpenOptions, create_dir_all},
     io::Write,
     path::Path,
     time::{SystemTime, UNIX_EPOCH},
@@ -23,7 +23,13 @@ pub struct Logger {
 }
 
 impl Logger {
-    pub fn disabled() -> Self { Self { min_level: LogLevel::Info, to_stdout: false, file: None } }
+    pub fn disabled() -> Self {
+        Self {
+            min_level: LogLevel::Info,
+            to_stdout: false,
+            file: None,
+        }
+    }
 
     /// Dosyaya log yazan logger üretir
     pub fn new(file_path: &str) -> Self {
@@ -80,10 +86,6 @@ impl Logger {
             let _ = create_dir_all(parent);
         }
 
-        OpenOptions::new()
-            .create(true)
-            .append(true)
-            .open(path)
-            .ok()
+        OpenOptions::new().create(true).append(true).open(path).ok()
     }
 }

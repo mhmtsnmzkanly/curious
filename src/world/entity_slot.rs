@@ -1,16 +1,16 @@
 use crate::{
-    entity::{Entity, phase::EntityPhase, controller::EntityController},
+    entity::{Entity, controller::EntityController, phase::EntityPhase},
     map::movement::Position,
 };
 
 /// Canlının yönetim biçimi ve temel verileri
 pub struct EntitySlot {
-    pub genome:crate::entity::genetics::Genome,
-    pub learner:crate::entity::learning::Learner,
-    pub memory:crate::entity::memory::Memory,
-    pub generation:usize,
-    pub parents:Vec<usize>,
-    pub corpse_energy:usize,
+    pub genome: crate::entity::genetics::Genome,
+    pub learner: crate::entity::learning::Learner,
+    pub memory: crate::entity::memory::Memory,
+    pub generation: usize,
+    pub parents: Vec<usize>,
+    pub corpse_energy: usize,
     /// Canlının benzersiz kimlik numarası
     pub id: usize,
     /// Canlının konumu
@@ -25,14 +25,20 @@ pub struct EntitySlot {
 
 impl EntitySlot {
     /// Yeni canlı oluştur
-    pub fn new(id: usize, pos: Position, phase: EntityPhase, controller: EntityController, base: Box<dyn Entity>) -> EntitySlot {
+    pub fn new(
+        id: usize,
+        pos: Position,
+        phase: EntityPhase,
+        controller: EntityController,
+        base: Box<dyn Entity>,
+    ) -> EntitySlot {
         Self {
-            learner:Default::default(),
-            genome:Default::default(),
-            memory:Default::default(),
-            generation:0,
-            parents:Vec::new(),
-            corpse_energy:0,
+            learner: Default::default(),
+            genome: Default::default(),
+            memory: Default::default(),
+            generation: 0,
+            parents: Vec::new(),
+            corpse_energy: 0,
             id,
             pos,
             phase,

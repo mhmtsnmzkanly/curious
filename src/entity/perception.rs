@@ -12,7 +12,7 @@ use std::{
 pub struct PerceivedEntity {
     #[serde(default)]
     pub health: Option<usize>,
-    pub reproductive:bool,
+    pub reproductive: bool,
     /// Algılanan canlının kimliği (Kaldırılabilir, Emin değilim)
     pub id: usize,
     /// Algılanan canlının türü
@@ -26,7 +26,7 @@ pub struct PerceivedEntity {
 /// Algılanan yiyecek
 #[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
 pub struct PerceivedFood {
-    pub corpse_id:Option<usize>,
+    pub corpse_id: Option<usize>,
     /// Algılanan yemeğin miktarı
     pub amount: usize,
     /// Algılanan yemek ceset mi?
@@ -51,7 +51,7 @@ pub struct PerceivedWater {
 #[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
 pub struct Perception {
     #[serde(default)]
-    pub cells:Vec<(crate::map::movement::Position,crate::map::cell::Cell)>,
+    pub cells: Vec<(crate::map::movement::Position, crate::map::cell::Cell)>,
     /// Algılanan yemekler
     pub foods: Vec<PerceivedFood>,
     /// Algılanan sular
@@ -66,7 +66,7 @@ impl Perception {
     /// Boş bir görüş açısı oluştur
     pub fn empty() -> Self {
         Self {
-            cells:Vec::new(),
+            cells: Vec::new(),
             foods: Vec::new(),
             waters: Vec::new(),
             entities: Vec::new(),
@@ -76,7 +76,7 @@ impl Perception {
     /// Algılanan yiyeceğe adım ekle
     pub fn add_food(&mut self, amount: usize, is_corpse: bool, steps: Steps) {
         self.foods.push(PerceivedFood {
-            corpse_id:None,
+            corpse_id: None,
             amount,
             is_corpse,
             steps,
@@ -89,9 +89,16 @@ impl Perception {
     }
 
     /// Algılanan canlıya adım ekle
-    pub fn add_entity(&mut self, id: usize, species: Species, power: usize, steps: Steps, reproductive:bool) {
+    pub fn add_entity(
+        &mut self,
+        id: usize,
+        species: Species,
+        power: usize,
+        steps: Steps,
+        reproductive: bool,
+    ) {
         self.entities.push(PerceivedEntity {
-            health:None,
+            health: None,
             reproductive,
             id,
             species,

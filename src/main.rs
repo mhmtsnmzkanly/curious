@@ -10,7 +10,10 @@ use std::{thread, time::Duration};
 
 fn main() {
     if std::env::args().any(|a| a == "--serve") {
-        if let Err(e) = curious::control::run_cli() { eprintln!("{e}"); std::process::exit(1); }
+        if let Err(e) = curious::control::run_cli() {
+            eprintln!("{e}");
+            std::process::exit(1);
+        }
         return;
     }
 
@@ -61,7 +64,8 @@ fn main() {
         ),
     ];
     // İnteraktif dünya
-    let mut engine = curious::simulation::SimulationEngine::new(World::new(-15, 14, -15, 14, entities));
+    let mut engine =
+        curious::simulation::SimulationEngine::new(World::new(-15, 14, -15, 14, entities));
     // İnteraktif dünya sayacı
     loop {
         // 1. Simülasyon adımı işlet ve olayları topla
@@ -73,14 +77,19 @@ fn main() {
         // Örnek: 50. tick'te oyuncu kontrollü birime dışarıdan komut gönder
         if current_tick == 50 {
             use curious::entity::intent::Intent;
-            use curious::map::movement::{Steps, Direction};
-            engine.send_command(1, Intent::Move { steps: Steps::from(vec![Direction::Up, Direction::Up]) });
+            use curious::map::movement::{Direction, Steps};
+            engine.send_command(
+                1,
+                Intent::Move {
+                    steps: Steps::from(vec![Direction::Up, Direction::Up]),
+                },
+            );
         }
 
         // 3. Ekranı temizle ve haritayı çiz
         print!("\x1B[2J\x1B[1;1H\n");
         print_map(engine.world(), current_tick, &events);
-        
+
         thread::sleep(Duration::from_millis(300));
     }
 }

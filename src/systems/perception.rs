@@ -24,7 +24,14 @@ impl PerceptionSystem {
         positions.sort_by_key(|p| (p.y, p.x));
         let mut view = Perception::empty();
         for pos in positions {
-            view.cells.push((pos,world.map.cell(pos).cloned().unwrap_or(crate::map::cell::Cell::Empty)));
+            view.cells.push((
+                pos,
+                world
+                    .map
+                    .cell(pos)
+                    .cloned()
+                    .unwrap_or(crate::map::cell::Cell::Empty),
+            ));
             match world.map.cell(pos) {
                 Some(crate::map::cell::Cell::Food { amount }) if *amount > 0 => {
                     view.add_food(*amount, false, paths[&pos].clone())
@@ -62,7 +69,7 @@ impl PerceptionSystem {
                     steps.clone(),
                     other.phase.is_active() && life.can_reproduce(),
                 );
-                view.entities.last_mut().unwrap().health=Some(life.health);
+                view.entities.last_mut().unwrap().health = Some(life.health);
             }
         }
         for dir in DIRECTION_ARRAY {
@@ -70,7 +77,7 @@ impl PerceptionSystem {
             let mut distance = 0;
             for _ in 0..radius.min(255) {
                 let next = p + dir;
-                if !world.map.can_step(p,next) || blocked.contains(&next) {
+                if !world.map.can_step(p, next) || blocked.contains(&next) {
                     break;
                 }
                 p = next;

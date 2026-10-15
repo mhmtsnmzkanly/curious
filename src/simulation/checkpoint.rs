@@ -13,11 +13,11 @@ use serde::{Deserialize, Serialize};
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Individual {
     #[serde(default)]
-    pub genome:crate::entity::genetics::Genome,
+    pub genome: crate::entity::genetics::Genome,
     #[serde(default)]
-    pub learner:crate::entity::learning::Learner,
+    pub learner: crate::entity::learning::Learner,
     #[serde(default)]
-    pub memory:crate::entity::memory::Memory,
+    pub memory: crate::entity::memory::Memory,
     #[serde(default)]
     pub generation: usize,
     #[serde(default)]
@@ -34,7 +34,7 @@ pub struct Individual {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct State {
     #[serde(default)]
-    pub genetics:crate::entity::genetics::Genetics,
+    pub genetics: crate::entity::genetics::Genetics,
     #[serde(default)]
     pub observation: crate::entity::decision::ObservationSettings,
     #[serde(default)]
@@ -54,7 +54,9 @@ impl State {
         for y in world.map.min_y..=world.map.max_y {
             for x in world.map.min_x..=world.map.max_x {
                 let p = Position::new(x, y);
-                if let Some(cell @ (Cell::Food { .. } | Cell::Water { .. } | Cell::Wall)) = world.map.cell(p) {
+                if let Some(cell @ (Cell::Food { .. } | Cell::Water { .. } | Cell::Wall)) =
+                    world.map.cell(p)
+                {
                     resources.push((p, cell.clone()));
                 }
             }
@@ -67,7 +69,7 @@ impl State {
         commands.sort_by_key(|(id, _)| *id);
         Self {
             version: 7,
-            genetics:world.genetics.clone(),
+            genetics: world.genetics.clone(),
             observation: world.observation.clone(),
             environment: world.environment.clone(),
             tick: world.tick_counter,
@@ -85,9 +87,9 @@ impl State {
                 .entities
                 .iter()
                 .map(|s| Individual {
-                    genome:s.genome.clone(),
-                    learner:s.learner.clone(),
-                    memory:s.memory.clone(),
+                    genome: s.genome.clone(),
+                    learner: s.learner.clone(),
+                    memory: s.memory.clone(),
                     generation: s.generation,
                     parents: s.parents.clone(),
                     corpse_energy: s.corpse_energy,
@@ -121,9 +123,9 @@ impl State {
                     s.controller,
                     make_entity(s.species, s.life),
                 );
-                slot.genome=s.genome;
-                slot.learner=s.learner;
-                slot.memory=s.memory;
+                slot.genome = s.genome;
+                slot.learner = s.learner;
+                slot.memory = s.memory;
                 slot.generation = s.generation;
                 slot.parents = s.parents;
                 slot.corpse_energy = s.corpse_energy;
@@ -141,7 +143,7 @@ impl State {
             self.environment
         };
         Ok(World {
-            genetics:self.genetics,
+            genetics: self.genetics,
             observation: self.observation,
             last_decisions: Vec::new(),
             environment,

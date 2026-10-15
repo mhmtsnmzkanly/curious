@@ -18,7 +18,10 @@ use std::{
 #[derive(Deserialize)]
 #[serde(tag = "action", rename_all = "snake_case", deny_unknown_fields)]
 pub enum Command {
-    Genetics {enabled:bool,mutation_per_mille:u16},
+    Genetics {
+        enabled: bool,
+        mutation_per_mille: u16,
+    },
     Observation {
         full_all: bool,
         full_for: Vec<usize>,
@@ -94,11 +97,19 @@ impl Runtime {
         let cmd: Command = serde_json::from_value(value.clone())?;
         // Validate first; no partial intervention on invalid input.
         let result = match cmd {
-            Command::Genetics{enabled,mutation_per_mille}=>{
-                if mutation_per_mille>1000 {return Err("mutation rate must be 0..1000 per mille".into());}
-                self.world.genetics=crate::entity::genetics::Genetics{enabled,mutation_per_mille};
+            Command::Genetics {
+                enabled,
+                mutation_per_mille,
+            } => {
+                if mutation_per_mille > 1000 {
+                    return Err("mutation rate must be 0..1000 per mille".into());
+                }
+                self.world.genetics = crate::entity::genetics::Genetics {
+                    enabled,
+                    mutation_per_mille,
+                };
                 json!({"genetics":self.world.genetics})
-            },
+            }
             Command::Observation { full_all, full_for } => {
                 if full_for.len() > 100 {
                     return Err("at most 100 selected individuals".into());
@@ -170,7 +181,9 @@ impl Runtime {
                 if matches!(cell,Cell::Food{amount}|Cell::Water{amount} if amount>1_000_000) {
                     return Err("resource amount exceeds 1000000".into());
                 }
-                if cell==Cell::Wall {self.validate_vacant(pos,None)?;}
+                if cell == Cell::Wall {
+                    self.validate_vacant(pos, None)?;
+                }
                 self.world.map.set_cell(pos, cell);
                 json!({"updated":pos})
             }
@@ -222,9 +235,9 @@ impl Runtime {
                     e.controller,
                     make_entity(e.species, e.life),
                 );
-                s.genome=e.genome;
-                s.learner=e.learner;
-                s.memory=e.memory;
+                s.genome = e.genome;
+                s.learner = e.learner;
+                s.memory = e.memory;
                 s.generation = e.generation;
                 s.parents = e.parents;
                 s.corpse_energy = e.corpse_energy;
@@ -277,7 +290,9 @@ impl Runtime {
         }
     }
     fn validate_vacant(&self, p: Position, id: Option<usize>) -> Result<()> {
-        if !self.world.map.is_walkable(p) {return Err("position is blocked".into());}
+        if !self.world.map.is_walkable(p) {
+            return Err("position is blocked".into());
+        }
         if self.world.entities.iter().any(|s| {
             Some(s.id) != id
                 && s.pos == p
@@ -323,40 +338,53 @@ pub fn serve(mut runtime: Runtime, bind: &str, token: Option<String>) -> Result<
                 .min(Duration::from_millis(100))
         };
         if let Some(mut request) = server.recv_timeout(wait)? {
-            let static_asset=match (request.method().as_str(),request.url().split('?').next().unwrap_or("")) {
-                ("GET","/")=>Some((include_str!("../web/index.html"),"text/html; charset=utf-8")),
-                ("GET","/ui.css")=>Some((include_str!("../web/style.css"),"text/css; charset=utf-8")),
-                ("GET","/ui.js")=>Some((include_str!("../web/app.js"),"text/javascript; charset=utf-8")),_=>None
+            let static_asset = match (
+                request.method().as_str(),
+                request.url().split('?').next().unwrap_or(""),
+            ) {
+                ("GET", "/") => Some((
+                    include_str!("../web/index.html"),
+                    "text/html; charset=utf-8",
+                )),
+                ("GET", "/ui.css") => {
+                    Some((include_str!("../web/style.css"), "text/css; charset=utf-8"))
+                }
+                ("GET", "/ui.js") => Some((
+                    include_str!("../web/app.js"),
+                    "text/javascript; charset=utf-8",
+                )),
+                _ => None,
             };
-            if let Some((body,kind))=static_asset {
+            if let Some((body, kind)) = static_asset {
                 let response=tiny_http::Response::from_string(body)
                     .with_header(tiny_http::Header::from_bytes("Content-Type",kind).unwrap())
                     .with_header(tiny_http::Header::from_bytes("Cache-Control","no-store").unwrap())
                     .with_header(tiny_http::Header::from_bytes("Content-Security-Policy","default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; connect-src 'self'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'").unwrap());
-                let _=request.respond(response);
+                let _ = request.respond(response);
             } else {
-            let allowed = token.as_ref().is_none_or(|t| {
-                request.headers().iter().any(|h| {
-                    h.field.equiv("Authorization") && h.value.as_str() == format!("Bearer {t}")
-                })
-            });
-            let (status, body) = if !allowed {
-                (401, json!({"error":"unauthorized"}))
-            } else {
-                let mut bytes = Vec::new();
-                let read = request
-                    .as_reader()
-                    .take(1024 * 1024 + 1)
-                    .read_to_end(&mut bytes);
-                if read.is_err() || bytes.len() > 1024 * 1024 {
-                    (
-                        413,
-                        json!({"error":"request body exceeds 1 MiB or is unreadable"}),
-                    )
+                let allowed = token.as_ref().is_none_or(|t| {
+                    request.headers().iter().any(|h| {
+                        h.field.equiv("Authorization") && h.value.as_str() == format!("Bearer {t}")
+                    })
+                });
+                let (status, body) = if !allowed {
+                    (401, json!({"error":"unauthorized"}))
                 } else {
-                    let method = request.method().as_str();
-                    let path = request.url().split('?').next().unwrap_or("");
-                    let response: Result<Value> = (|| match (method, path) {
+                    let mut bytes = Vec::new();
+                    let read = request
+                        .as_reader()
+                        .take(1024 * 1024 + 1)
+                        .read_to_end(&mut bytes);
+                    if read.is_err() || bytes.len() > 1024 * 1024 {
+                        (
+                            413,
+                            json!({"error":"request body exceeds 1 MiB or is unreadable"}),
+                        )
+                    } else {
+                        let method = request.method().as_str();
+                        let path = request.url().split('?').next().unwrap_or("");
+                        let response: Result<Value> = (|| {
+                            match (method, path) {
                         ("GET", "/observation") => Ok(json!({"status":runtime.status(),"state":State::capture(&runtime.world),"decisions":runtime.world.last_decisions})),
                         ("GET", "/decisions") => {
                             Ok(serde_json::to_value(&runtime.world.last_decisions)?)
@@ -380,19 +408,20 @@ pub fn serve(mut runtime: Runtime, bind: &str, token: Option<String>) -> Result<
                             "route not found; GET /status /state /databases; POST /control /query"
                                 .into(),
                         ),
-                    })();
-                    match response {
-                        Ok(v) => (200, v),
-                        Err(e) => (400, json!({"error":e.to_string()})),
                     }
-                }
-            };
-            let response = tiny_http::Response::from_string(body.to_string())
-                .with_status_code(status)
-                .with_header(
-                    tiny_http::Header::from_bytes("Content-Type", "application/json").unwrap(),
-                );
-            let _ = request.respond(response);
+                        })();
+                        match response {
+                            Ok(v) => (200, v),
+                            Err(e) => (400, json!({"error":e.to_string()})),
+                        }
+                    }
+                };
+                let response = tiny_http::Response::from_string(body.to_string())
+                    .with_status_code(status)
+                    .with_header(
+                        tiny_http::Header::from_bytes("Content-Type", "application/json").unwrap(),
+                    );
+                let _ = request.respond(response);
             }
         }
         if !runtime.paused && !runtime.shutdown && Instant::now() >= next {

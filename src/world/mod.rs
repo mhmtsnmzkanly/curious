@@ -14,9 +14,9 @@ pub use entity_slot::EntitySlot;
 /// Simülasyon dünyasını yöneten ana yapı.
 /// Bu yapı, simülasyonun merkezi (authoritative simulation core) olarak görev yapar.
 pub struct World {
-    pub genetics:crate::entity::genetics::Genetics,
-    pub observation:crate::entity::decision::ObservationSettings,
-    pub last_decisions:Vec<crate::entity::decision::DecisionTrace>,
+    pub genetics: crate::entity::genetics::Genetics,
+    pub observation: crate::entity::decision::ObservationSettings,
+    pub last_decisions: Vec<crate::entity::decision::DecisionTrace>,
     pub environment: crate::environment::Environment,
     pub rng: crate::random::Random,
     pub last_trace: Vec<String>,
@@ -74,8 +74,9 @@ impl World {
         let next_entity_id = entities.iter().map(|s| s.id).max().unwrap_or(0) + 1;
         let environment = crate::environment::Environment::from_map(&map);
         World {
-            genetics:Default::default(),
-            observation:Default::default(),last_decisions:Vec::new(),
+            genetics: Default::default(),
+            observation: Default::default(),
+            last_decisions: Vec::new(),
             environment,
             rng,
             last_trace: Vec::new(),
@@ -198,14 +199,23 @@ impl World {
         );
 
         for trace in &self.last_decisions {
-            if let Some(slot)=self.entities.iter_mut().find(|s|s.id==trace.id) {
-                let after=slot.base.life().clone();
-                slot.learner.finish(slot.id,&trace.before,&after,&events);
+            if let Some(slot) = self.entities.iter_mut().find(|s| s.id == trace.id) {
+                let after = slot.base.life().clone();
+                slot.learner.finish(slot.id, &trace.before, &after, &events);
             }
         }
         for trace in &mut self.last_decisions {
-            if let Some(slot)=self.entities.iter().find(|s|s.id==trace.id) {
-                trace.outcome=Some(crate::entity::decision::Outcome{pos:slot.pos,life:slot.base.life().clone(),phase:slot.phase,events:events.iter().filter(|e|e.involves(trace.id)).cloned().collect()});
+            if let Some(slot) = self.entities.iter().find(|s| s.id == trace.id) {
+                trace.outcome = Some(crate::entity::decision::Outcome {
+                    pos: slot.pos,
+                    life: slot.base.life().clone(),
+                    phase: slot.phase,
+                    events: events
+                        .iter()
+                        .filter(|e| e.involves(trace.id))
+                        .cloned()
+                        .collect(),
+                });
             }
         }
 
@@ -247,14 +257,14 @@ pub struct ActionPlans {
 
 #[derive(Clone)]
 pub struct MovePlan {
-    pub path:Vec<Position>,
+    pub path: Vec<Position>,
     pub id: usize,
     pub new_pos: Position,
     pub cost: usize,
 }
 #[derive(Clone)]
 pub struct EatPlan {
-    pub path:Vec<Position>,
+    pub path: Vec<Position>,
     pub id: usize,
     pub new_pos: Position,
     pub cost: usize,
@@ -263,7 +273,7 @@ pub struct EatPlan {
 }
 #[derive(Clone)]
 pub struct DrinkPlan {
-    pub path:Vec<Position>,
+    pub path: Vec<Position>,
     pub id: usize,
     pub new_pos: Position,
     pub cost: usize,
@@ -281,7 +291,7 @@ pub struct AttackPlan {
 }
 #[derive(Clone)]
 pub struct FleePlan {
-    pub path:Vec<Position>,
+    pub path: Vec<Position>,
     pub id: usize,
     pub new_pos: Position,
     pub cost: usize,

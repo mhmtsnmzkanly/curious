@@ -40,7 +40,7 @@ impl LifeCycleSystem {
                 };
                 let amount = (slot.entity().life().max_health / biology::CORPSE_FOOD_DIVISOR)
                     .max(biology::MIN_FOOD_FROM_CORPSE);
-                slot.corpse_energy=amount;
+                slot.corpse_energy = amount;
 
                 events.push(SimulationEvent::EntityDied {
                     id: slot.id,

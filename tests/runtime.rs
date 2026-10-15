@@ -101,7 +101,15 @@ fn durable_controls_rotation_and_resume() {
         rt.tick().unwrap();
     }
     assert!(rt.store.shard > 0);
-    assert!(rt.store.inventory().unwrap().as_array().unwrap().iter().any(|s|s["compressed"]==true));
+    assert!(
+        rt.store
+            .inventory()
+            .unwrap()
+            .as_array()
+            .unwrap()
+            .iter()
+            .any(|s| s["compressed"] == true)
+    );
     assert!(rt.store.inventory().unwrap().as_array().unwrap().len() > 1);
     assert!(rt.store.query(0, "DELETE FROM records").is_err());
     assert!(

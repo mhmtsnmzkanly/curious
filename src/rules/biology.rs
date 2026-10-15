@@ -39,4 +39,4 @@ pub const STARVATION_HEALTH_LOSS: usize = 3;
 pub const DEHYDRATION_HEALTH_LOSS: usize = 2;
 
 /// Parents can reproduce more than once during their lifetime.
-pub const REPRODUCTION_COOLDOWN_TICKS:usize=25;
+pub const REPRODUCTION_COOLDOWN_TICKS: usize = 25;

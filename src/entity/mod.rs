@@ -1,16 +1,16 @@
-pub mod genetics;
-pub mod learning;
-pub mod memory;
-pub mod hunting;
-pub mod decision;
 pub mod behavior;
-pub mod intent;
+pub mod controller;
+pub mod decision;
+pub mod genetics;
+pub mod hunting;
 pub mod instinct;
+pub mod intent;
+pub mod learning;
 pub mod lifestate;
+pub mod memory;
 pub mod perception;
 pub mod phase;
 pub mod species;
-pub mod controller;
 
 use crate::entity::{intent::Intent, lifestate::LifeState, perception::*, species::Species};
 
@@ -23,14 +23,16 @@ pub trait Entity {
     /// Varlık türü
     fn species(&self) -> Species;
 
-    fn combat(&self)->crate::rules::combat::CombatProfile {self.species().combat_profile()}
+    fn combat(&self) -> crate::rules::combat::CombatProfile {
+        self.species().combat_profile()
+    }
 
     /// Karar verme (sadece okuma yapmalı)
     fn make_intent(&self, view: Perception, rng: &mut crate::random::Random) -> Intent;
 
     /// Custom policies may supply their own evidence; legacy implementations remain usable.
-    fn decide(&self,view:Perception,rng:&mut crate::random::Random)->decision::Decision {
-        decision::Decision::new(self.make_intent(view,rng),decision::Reason::CustomPolicy)
+    fn decide(&self, view: Perception, rng: &mut crate::random::Random) -> decision::Decision {
+        decision::Decision::new(self.make_intent(view, rng), decision::Reason::CustomPolicy)
     }
 
     /// Tek tick güncellemesi

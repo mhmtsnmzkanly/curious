@@ -1,11 +1,5 @@
-use crate::{
-    entity::{
-        Entity,
-        intent::Intent,
-        lifestate::LifeState,
-        perception::Perception,
-        species::Species,
-    },
+use crate::entity::{
+    Entity, intent::Intent, lifestate::LifeState, perception::Perception, species::Species,
 };
 
 pub struct OmnivoreEntity {
@@ -20,8 +14,10 @@ impl OmnivoreEntity {
     pub fn default() -> Self {
         Self {
             life_state: LifeState {
-                move_energy_cost:1,
-                max_stamina:20,stamina:20,exertion:0,
+                move_energy_cost: 1,
+                max_stamina: 20,
+                stamina: 20,
+                exertion: 0,
                 death_cause: None,
                 max_age: 110,
                 max_health: 130,
@@ -54,12 +50,16 @@ impl Entity for OmnivoreEntity {
         Species::Omnivore
     }
 
-    fn make_intent(&self, perception: Perception, rng:&mut crate::random::Random) -> Intent {
-        crate::entity::behavior::choose(Species::Omnivore,&self.life_state,perception,rng)
+    fn make_intent(&self, perception: Perception, rng: &mut crate::random::Random) -> Intent {
+        crate::entity::behavior::choose(Species::Omnivore, &self.life_state, perception, rng)
     }
 
-    fn decide(&self,view:Perception,rng:&mut crate::random::Random)->crate::entity::decision::Decision {
-        crate::entity::behavior::decide(Species::Omnivore,&self.life_state,view,rng)
+    fn decide(
+        &self,
+        view: Perception,
+        rng: &mut crate::random::Random,
+    ) -> crate::entity::decision::Decision {
+        crate::entity::behavior::decide(Species::Omnivore, &self.life_state, view, rng)
     }
 
     fn tick(&mut self) {
@@ -69,7 +69,8 @@ impl Entity for OmnivoreEntity {
     fn reproduce(&self) -> Box<dyn Entity> {
         let mut child_life = self.life_state.clone();
         child_life.age = 0;
-        child_life.stamina=child_life.max_stamina;child_life.exertion=0;
+        child_life.stamina = child_life.max_stamina;
+        child_life.exertion = 0;
         child_life.death_cause = None;
         child_life.reproduction_cooldown = 0;
         child_life.moves_used = 0;

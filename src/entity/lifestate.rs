@@ -7,8 +7,8 @@
 /// Ayrım yorumlar ve yardımcı fonksiyonlarla yapılır.
 #[derive(serde::Serialize, serde::Deserialize, Debug, Clone)]
 pub struct LifeState {
-    #[serde(default="default_move_cost")]
-    pub move_energy_cost:usize,
+    #[serde(default = "default_move_cost")]
+    pub move_energy_cost: usize,
     #[serde(default = "default_stamina")]
     pub max_stamina: usize,
     #[serde(default = "default_stamina")]
@@ -61,7 +61,9 @@ pub struct LifeState {
 
 impl LifeState {
     pub fn validate(&self) -> crate::Result<()> {
-        if self.move_energy_cost==0 || self.move_energy_cost>32 || self.max_stamina == 0
+        if self.move_energy_cost == 0
+            || self.move_energy_cost > 32
+            || self.max_stamina == 0
             || self.max_stamina > 1000
             || self.stamina > self.max_stamina
             || self.exertion > 1_000_000
@@ -170,7 +172,9 @@ impl LifeState {
     }
 
     pub fn can_move_for(&self, need: usize) -> bool {
-        self.enough_energy(need.saturating_mul(self.move_energy_cost)) && self.enough_moves(need) && self.stamina >= need
+        self.enough_energy(need.saturating_mul(self.move_energy_cost))
+            && self.enough_moves(need)
+            && self.stamina >= need
     }
 
     /// Yeterli enerji var mı?
@@ -288,4 +292,6 @@ fn default_stamina() -> usize {
     16
 }
 
-fn default_move_cost()->usize{1}
+fn default_move_cost() -> usize {
+    1
+}
