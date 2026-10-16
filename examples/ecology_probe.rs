@@ -171,9 +171,30 @@ fn main() {
                 let mut counts = BTreeMap::<String, usize>::new();
                 let mut reserve = BTreeMap::<String, usize>::new();
                 let mut sheltered = 0;
+                let mut predator_age = [0usize; 3]; // juvenile, adult, final quarter of lifespan
+                let mut predator_ready_now = 0;
+                let mut predator_energy_blocked = 0;
                 for e in &w.entities {
                     if e.base.life().health == 0 {
                         continue;
+                    }
+                    if e.base.species() == curious::entity::species::Species::Carnivore {
+                        let life = e.base.life();
+                        let band = if !life.is_mature() {
+                            0
+                        } else if life.age >= life.max_age * 3 / 4 {
+                            2
+                        } else {
+                            1
+                        };
+                        predator_age[band] += 1;
+                        predator_ready_now += usize::from(life.can_reproduce());
+                        predator_energy_blocked += usize::from(
+                            life.reproduction_blocker()
+                                == Some(
+                                    curious::simulation::event::RejectionReason::InsufficientEnergy,
+                                ),
+                        );
                     }
                     let name = format!("{:?}", e.base.species());
                     *counts.entry(name.clone()).or_insert(0) += 1;
@@ -182,7 +203,7 @@ fn main() {
                         sheltered += 1;
                     }
                 }
-                samples.push(serde_json::json!({"tick":w.tick_counter,"alive":counts,"total_energy":reserve,"sheltered":sheltered}));
+                samples.push(serde_json::json!({"tick":w.tick_counter,"alive":counts,"total_energy":reserve,"sheltered":sheltered,"births":births,"death_causes":death_causes,"predator_age_bands":predator_age,"predator_ready":predator_ready_now,"predator_energy_blocked":predator_energy_blocked}));
             }
             if progress_every > 0 && w.tick_counter % progress_every == 0 {
                 let counts = w.entities.iter().filter(|e| e.base.life().health > 0).fold(

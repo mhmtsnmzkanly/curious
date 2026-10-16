@@ -3,6 +3,15 @@
 Başlamadan `docs/VISION.md`, `docs/CONTROL.md`, `docs/ROADMAP.md` ve `TODO.md`
 okunur. Kullanıcının sonraki talimatları bu notların önündedir.
 
+## Üreme rezervi düzeltmesi
+
+V9 araştırma 30/30 uzun normal koşuyu geçti, kaynak şokunda 4/8 ile durdu.
+Ana kaynakta üreme rezervi yalnız bitişik hazır eş ve görünür, pozitif değerli
+mevcut besin fırsatında tamamlanır; normal açlık üstünde yeni av başlatılmaz.
+İlk iki daha geniş yaklaşım kısa deneyde elendi. Kanıt, sınırlı kontrol/şok
+protokolü ve çalışma yolları `docs/reports/RESERVE_OPPORTUNITY.md` içinde.
+Yeni davranışın uzun ekolojik kabulü henüz yok; eski 30/30'u buna sayma.
+
 ## V10 geliştirme — gecikmiş su sonucu
 
 Ana kaynak V10 checkpoint üretir; SQLite V2 değişmedi. `ae7f0df` araştırma

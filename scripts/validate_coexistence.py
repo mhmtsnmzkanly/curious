@@ -144,7 +144,7 @@ def execute(args, output, manifest):
             'title': 'Curious: karma ekosistem doğrulaması',
             'message': f"{result['passed']}/{result['planned']} koşu kabul ölçütünü geçti; gereken {result['required']}. "
                        + ('Belirtilen deney eşiği geçti.' if result['accepted'] else 'Denge hedefi geçilmedi; yeni dünya dağıtılmadı.'),
-            'type': 'success' if result['accepted'] else 'info',
+            'type': 'success' if result['accepted'] else 'error',
             'target': {'user': 'u_e049630155fc'}, 'idempotency_key': 'curious-coexistence-validation-' + identity,
             'panel': {'title': 'Av–avcı deney sonucu', 'mode': 'static', 'manifest': {'version': 1, 'blocks': [
                 {'id': 'result', 'type': 'markdown', 'content': f"{args.ticks:,} tick × {len(seeds)} seed. Mod: {args.mode}. "

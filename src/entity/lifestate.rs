@@ -155,6 +155,13 @@ impl LifeState {
         self.water >= self.max_water
     }
 
+    /// One shared energy gate for physical reproduction and reserve planning.
+    pub fn reproduction_energy_required(&self) -> usize {
+        self.max_energy
+            .saturating_mul(self.reproduction_reserve_per_mille)
+            / 1000
+    }
+
     pub fn reproduction_blocker(&self) -> Option<crate::simulation::event::RejectionReason> {
         use crate::simulation::event::RejectionReason as R;
         if !self.is_alive() {
@@ -165,12 +172,7 @@ impl LifeState {
             Some(R::Cooldown)
         } else if self.stamina < 2 {
             Some(R::Fatigued)
-        } else if self.energy
-            < self
-                .max_energy
-                .saturating_mul(self.reproduction_reserve_per_mille)
-                / 1000
-        {
+        } else if self.energy < self.reproduction_energy_required() {
             Some(R::InsufficientEnergy)
         } else if self.water < self.max_water / 2 {
             Some(R::InsufficientWater)

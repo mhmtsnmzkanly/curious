@@ -156,3 +156,123 @@ fn version_eight_keeps_original_body_limits_when_new_fields_are_absent() {
                 && e.memory.companions.is_empty())
     );
 }
+
+#[test]
+fn reproduction_reserve_goal_matches_the_physical_gate_without_overriding_thirst() {
+    use curious::entity::{
+        instinct::{Instinct, InstinctEvaluator},
+        perception::Perception,
+        species::Species,
+    };
+    let mut actor = CarnivoreEntity::default();
+    let life = actor.life_mut();
+    life.max_energy = 270;
+    life.energy = 220;
+    life.reproduction_reserve_per_mille = 885;
+    life.age = life.maturity_age;
+    life.water = life.max_water;
+    assert_eq!(life.reproduction_energy_required(), 238);
+    let mut food_view = Perception::empty();
+    food_view.add_food(60, true, curious::map::movement::Steps(vec![]));
+    assert_eq!(
+        InstinctEvaluator::evaluate(life, &food_view, Species::Carnivore).instinct,
+        Instinct::Idle
+    );
+    food_view.add_entity(
+        2,
+        Species::Carnivore,
+        100,
+        curious::map::movement::Steps(vec![]),
+        true,
+    );
+    assert_eq!(
+        InstinctEvaluator::evaluate(life, &Perception::empty(), Species::Carnivore).instinct,
+        Instinct::Idle
+    );
+    let evaluate = |life: &curious::entity::lifestate::LifeState| {
+        InstinctEvaluator::evaluate(life, &food_view, Species::Carnivore).instinct
+    };
+    assert_eq!(evaluate(life), Instinct::Hunger);
+    life.energy = 238;
+    assert!(life.can_reproduce());
+    assert_eq!(evaluate(life), Instinct::Mating);
+    life.energy = 220;
+    life.water = 1;
+    assert_eq!(evaluate(life), Instinct::Thirst);
+    life.water = life.max_water;
+    life.reproduction_cooldown = 1;
+    assert_eq!(evaluate(life), Instinct::Idle);
+    life.reproduction_cooldown = 0;
+    life.age = 0;
+    assert_eq!(evaluate(life), Instinct::Idle);
+}
+
+#[test]
+fn adult_uses_existing_carcass_for_reserve_but_does_not_start_extra_hunt() {
+    use curious::entity::{
+        behavior, decision::Reason, intent::Intent, perception::Perception, species::Species,
+    };
+    use curious::map::movement::{Direction, Steps};
+    let mut actor = CarnivoreEntity::default();
+    let life = actor.life_mut();
+    life.max_energy = 270;
+    life.energy = 220;
+    life.max_meal = 60;
+    life.reproduction_reserve_per_mille = 885;
+    life.age = 30;
+    let mut prey = Perception::empty();
+    prey.add_entity(
+        9,
+        Species::Herbivore,
+        50,
+        Steps(vec![Direction::Right]),
+        false,
+    );
+    let decision = behavior::decide(
+        Species::Carnivore,
+        actor.life(),
+        prey,
+        &mut curious::random::Random::new(1),
+    );
+    assert!(!matches!(decision.intent, Intent::Attack { .. }));
+    assert_ne!(decision.reason, Reason::HuntPrey);
+    let mut dead = EntitySlot::new(
+        2,
+        Position::new(1, 0),
+        EntityPhase::Corpse { remaining: 5 },
+        EntityController::AI,
+        Box::new(CarnivoreEntity::default()),
+    );
+    dead.base.life_mut().health = 0;
+    dead.corpse_energy = 40;
+    let actor = EntitySlot::new(
+        1,
+        Position::new(0, 0),
+        EntityPhase::Active,
+        EntityController::AI,
+        Box::new(actor),
+    );
+    let mut partner = CarnivoreEntity::default();
+    partner.life_mut().age = 30;
+    let partner = EntitySlot::new(
+        3,
+        Position::new(0, 1),
+        EntityPhase::Active,
+        EntityController::Player(0),
+        Box::new(partner),
+    );
+    let mut w = World::with_seed(0, 2, 0, 2, vec![actor, dead, partner], 1);
+    w.map = Map::new(0, 2, 0, 2);
+    w.environment = Default::default();
+    let events = w.tick();
+    assert!(events.iter().any(|e| matches!(
+        e,
+        SimulationEvent::EntityAte {
+            id: 1,
+            amount: 40,
+            ..
+        }
+    )));
+    assert!(w.entities[0].base.life().can_reproduce());
+    assert_eq!(w.entities[1].corpse_energy, 0);
+}
