@@ -1,0 +1,1127 @@
+{
+  "revision": "ae7f0df4500b4df829b59ab7f119ba21ad94f84b",
+  "binary_sha256": "cee1f2e5fd387920e4affb9144507f769ef944ac58885b671d5623330644e303",
+  "scenario_sha256": "33cb6ebf9d73df017b65b9ee9831be8446c2a81077f3a0e313fe06b05f0b19ac",
+  "treatment": {
+    "at": 10000,
+    "duration": 1000,
+    "percent": 50
+  },
+  "effective_site_rates": [
+    {
+      "kind": "Food",
+      "count": 784,
+      "interval": 1,
+      "before": 2,
+      "during": 1
+    },
+    {
+      "kind": "Water",
+      "count": 192,
+      "interval": 1,
+      "before": 4,
+      "during": 2
+    }
+  ],
+  "rows": [
+    {
+      "seed": 1,
+      "extinct": 11163,
+      "ticks": 11163,
+      "control_final": {
+        "Carnivore": 45,
+        "Herbivore": 455
+      },
+      "shock_final": {
+        "Herbivore": 687
+      },
+      "pre_shock_observations_equal": true,
+      "observations": {
+        "9900": {
+          "alive": {
+            "Carnivore": 53,
+            "Herbivore": 524
+          },
+          "sheltered": 114,
+          "tick": 9900,
+          "total_energy": {
+            "Carnivore": 10905,
+            "Herbivore": 22010
+          }
+        },
+        "10100": {
+          "alive": {
+            "Carnivore": 51,
+            "Herbivore": 141
+          },
+          "sheltered": 48,
+          "tick": 10100,
+          "total_energy": {
+            "Carnivore": 9974,
+            "Herbivore": 6940
+          }
+        },
+        "10500": {
+          "alive": {
+            "Carnivore": 11,
+            "Herbivore": 195
+          },
+          "sheltered": 25,
+          "tick": 10500,
+          "total_energy": {
+            "Carnivore": 2267,
+            "Herbivore": 10031
+          }
+        },
+        "11000": {
+          "alive": {
+            "Carnivore": 2,
+            "Herbivore": 326
+          },
+          "sheltered": 54,
+          "tick": 11000,
+          "total_energy": {
+            "Carnivore": 386,
+            "Herbivore": 13155
+          }
+        },
+        "12000": null,
+        "13000": null,
+        "20000": null
+      },
+      "sampled_minimum": {
+        "Carnivore": 0,
+        "Herbivore": 90
+      },
+      "last_deaths": {
+        "OldAge": 10
+      },
+      "recent_decisions": 100,
+      "ready_recent_decisions": 28,
+      "ready_with_visible_ready_mate": 0,
+      "last_death": {
+        "tick": 11163,
+        "cause": "OldAge",
+        "last_decision_before_death": {
+          "life": {
+            "age": 1200,
+            "death_cause": null,
+            "energy": 213,
+            "exertion": 0,
+            "health": 140,
+            "maturity_age": 25,
+            "max_age": 1200,
+            "max_energy": 270,
+            "max_health": 140,
+            "max_meal": 60,
+            "max_stamina": 24,
+            "max_water": 70,
+            "move_energy_cost": 1,
+            "moves_used": 0,
+            "reproduction_cooldown": 0,
+            "reproduction_interval": 350,
+            "reproduction_reserve_per_mille": 885,
+            "speed": 4,
+            "stamina": 19,
+            "vision_range": 7,
+            "water": 54
+          },
+          "pos": {
+            "x": 25,
+            "y": 42
+          },
+          "ready": false,
+          "ready_mates": 0,
+          "reason": "Rest",
+          "tick": 11162,
+          "visible_prey": 21
+        }
+      },
+      "source_sha256": "dfcd327ac9b977ada4b024ef7a3c183a119436131a7721d2fc486bb92221b887"
+    },
+    {
+      "seed": 2,
+      "extinct": null,
+      "ticks": 20000,
+      "control_final": {
+        "Carnivore": 50,
+        "Herbivore": 462
+      },
+      "shock_final": {
+        "Carnivore": 54,
+        "Herbivore": 579
+      },
+      "pre_shock_observations_equal": true,
+      "observations": {
+        "9900": {
+          "alive": {
+            "Carnivore": 53,
+            "Herbivore": 525
+          },
+          "sheltered": 100,
+          "tick": 9900,
+          "total_energy": {
+            "Carnivore": 11408,
+            "Herbivore": 20877
+          }
+        },
+        "10100": {
+          "alive": {
+            "Carnivore": 50,
+            "Herbivore": 136
+          },
+          "sheltered": 29,
+          "tick": 10100,
+          "total_energy": {
+            "Carnivore": 8083,
+            "Herbivore": 6234
+          }
+        },
+        "10500": {
+          "alive": {
+            "Carnivore": 16,
+            "Herbivore": 346
+          },
+          "sheltered": 67,
+          "tick": 10500,
+          "total_energy": {
+            "Carnivore": 3515,
+            "Herbivore": 13006
+          }
+        },
+        "11000": {
+          "alive": {
+            "Carnivore": 10,
+            "Herbivore": 302
+          },
+          "sheltered": 62,
+          "tick": 11000,
+          "total_energy": {
+            "Carnivore": 1984,
+            "Herbivore": 12379
+          }
+        },
+        "12000": {
+          "alive": {
+            "Carnivore": 9,
+            "Herbivore": 633
+          },
+          "sheltered": 91,
+          "tick": 12000,
+          "total_energy": {
+            "Carnivore": 2101,
+            "Herbivore": 24247
+          }
+        },
+        "13000": {
+          "alive": {
+            "Carnivore": 14,
+            "Herbivore": 599
+          },
+          "sheltered": 75,
+          "tick": 13000,
+          "total_energy": {
+            "Carnivore": 3171,
+            "Herbivore": 24710
+          }
+        },
+        "20000": {
+          "alive": {
+            "Carnivore": 54,
+            "Herbivore": 579
+          },
+          "sheltered": 122,
+          "tick": 20000,
+          "total_energy": {
+            "Carnivore": 11633,
+            "Herbivore": 23176
+          }
+        }
+      },
+      "sampled_minimum": {
+        "Carnivore": 7,
+        "Herbivore": 118
+      },
+      "last_deaths": {
+        "OldAge": 10
+      },
+      "recent_decisions": 100,
+      "ready_recent_decisions": 2,
+      "ready_with_visible_ready_mate": 0,
+      "last_death": {
+        "tick": 19967,
+        "cause": "OldAge",
+        "last_decision_before_death": {
+          "life": {
+            "age": 1200,
+            "death_cause": null,
+            "energy": 245,
+            "exertion": 0,
+            "health": 140,
+            "maturity_age": 25,
+            "max_age": 1200,
+            "max_energy": 270,
+            "max_health": 140,
+            "max_meal": 60,
+            "max_stamina": 24,
+            "max_water": 70,
+            "move_energy_cost": 1,
+            "moves_used": 0,
+            "reproduction_cooldown": 240,
+            "reproduction_interval": 350,
+            "reproduction_reserve_per_mille": 885,
+            "speed": 4,
+            "stamina": 19,
+            "vision_range": 7,
+            "water": 50
+          },
+          "pos": {
+            "x": 19,
+            "y": 19
+          },
+          "ready": false,
+          "ready_mates": 0,
+          "reason": "SeekWater",
+          "tick": 19966,
+          "visible_prey": 13
+        }
+      },
+      "source_sha256": "8aeb7e13ff6fbed9825e9fd75ced112807cbf069a5863eaece608220a5f7724e"
+    },
+    {
+      "seed": 3,
+      "extinct": 11041,
+      "ticks": 11041,
+      "control_final": {
+        "Carnivore": 48,
+        "Herbivore": 569
+      },
+      "shock_final": {
+        "Herbivore": 411
+      },
+      "pre_shock_observations_equal": true,
+      "observations": {
+        "9900": {
+          "alive": {
+            "Carnivore": 66,
+            "Herbivore": 489
+          },
+          "sheltered": 104,
+          "tick": 9900,
+          "total_energy": {
+            "Carnivore": 13924,
+            "Herbivore": 20806
+          }
+        },
+        "10100": {
+          "alive": {
+            "Carnivore": 61,
+            "Herbivore": 151
+          },
+          "sheltered": 44,
+          "tick": 10100,
+          "total_energy": {
+            "Carnivore": 11680,
+            "Herbivore": 7130
+          }
+        },
+        "10500": {
+          "alive": {
+            "Carnivore": 7,
+            "Herbivore": 45
+          },
+          "sheltered": 9,
+          "tick": 10500,
+          "total_energy": {
+            "Carnivore": 569,
+            "Herbivore": 2562
+          }
+        },
+        "11000": {
+          "alive": {
+            "Carnivore": 1,
+            "Herbivore": 299
+          },
+          "sheltered": 28,
+          "tick": 11000,
+          "total_energy": {
+            "Carnivore": 169,
+            "Herbivore": 12592
+          }
+        },
+        "12000": null,
+        "13000": null,
+        "20000": null
+      },
+      "sampled_minimum": {
+        "Carnivore": 0,
+        "Herbivore": 41
+      },
+      "last_deaths": {
+        "OldAge": 7,
+        "Starvation": 3
+      },
+      "recent_decisions": 100,
+      "ready_recent_decisions": 3,
+      "ready_with_visible_ready_mate": 0,
+      "last_death": {
+        "tick": 11041,
+        "cause": "OldAge",
+        "last_decision_before_death": {
+          "life": {
+            "age": 1200,
+            "death_cause": null,
+            "energy": 201,
+            "exertion": 0,
+            "health": 140,
+            "maturity_age": 25,
+            "max_age": 1200,
+            "max_energy": 270,
+            "max_health": 140,
+            "max_meal": 60,
+            "max_stamina": 24,
+            "max_water": 70,
+            "move_energy_cost": 1,
+            "moves_used": 0,
+            "reproduction_cooldown": 0,
+            "reproduction_interval": 350,
+            "reproduction_reserve_per_mille": 885,
+            "speed": 4,
+            "stamina": 24,
+            "vision_range": 7,
+            "water": 51
+          },
+          "pos": {
+            "x": 44,
+            "y": 4
+          },
+          "ready": false,
+          "ready_mates": 0,
+          "reason": "SeekWater",
+          "tick": 11040,
+          "visible_prey": 10
+        }
+      },
+      "source_sha256": "28961f9c49bb0e6f80bd09a81031bb94d43b773a786575bff06108863e709789"
+    },
+    {
+      "seed": 4,
+      "extinct": 13941,
+      "ticks": 13941,
+      "control_final": {
+        "Carnivore": 45,
+        "Herbivore": 556
+      },
+      "shock_final": {
+        "Herbivore": 657
+      },
+      "pre_shock_observations_equal": true,
+      "observations": {
+        "9900": {
+          "alive": {
+            "Carnivore": 48,
+            "Herbivore": 574
+          },
+          "sheltered": 104,
+          "tick": 9900,
+          "total_energy": {
+            "Carnivore": 10480,
+            "Herbivore": 23044
+          }
+        },
+        "10100": {
+          "alive": {
+            "Carnivore": 48,
+            "Herbivore": 168
+          },
+          "sheltered": 34,
+          "tick": 10100,
+          "total_energy": {
+            "Carnivore": 8044,
+            "Herbivore": 7869
+          }
+        },
+        "10500": {
+          "alive": {
+            "Carnivore": 14,
+            "Herbivore": 267
+          },
+          "sheltered": 55,
+          "tick": 10500,
+          "total_energy": {
+            "Carnivore": 2973,
+            "Herbivore": 11376
+          }
+        },
+        "11000": {
+          "alive": {
+            "Carnivore": 7,
+            "Herbivore": 318
+          },
+          "sheltered": 50,
+          "tick": 11000,
+          "total_energy": {
+            "Carnivore": 1527,
+            "Herbivore": 12582
+          }
+        },
+        "12000": {
+          "alive": {
+            "Carnivore": 5,
+            "Herbivore": 673
+          },
+          "sheltered": 73,
+          "tick": 12000,
+          "total_energy": {
+            "Carnivore": 988,
+            "Herbivore": 25158
+          }
+        },
+        "13000": {
+          "alive": {
+            "Carnivore": 2,
+            "Herbivore": 645
+          },
+          "sheltered": 63,
+          "tick": 13000,
+          "total_energy": {
+            "Carnivore": 491,
+            "Herbivore": 25331
+          }
+        },
+        "20000": null
+      },
+      "sampled_minimum": {
+        "Carnivore": 0,
+        "Herbivore": 166
+      },
+      "last_deaths": {
+        "OldAge": 10
+      },
+      "recent_decisions": 100,
+      "ready_recent_decisions": 3,
+      "ready_with_visible_ready_mate": 0,
+      "last_death": {
+        "tick": 13941,
+        "cause": "OldAge",
+        "last_decision_before_death": {
+          "life": {
+            "age": 1200,
+            "death_cause": null,
+            "energy": 215,
+            "exertion": 0,
+            "health": 140,
+            "maturity_age": 25,
+            "max_age": 1200,
+            "max_energy": 270,
+            "max_health": 140,
+            "max_meal": 60,
+            "max_stamina": 24,
+            "max_water": 70,
+            "move_energy_cost": 1,
+            "moves_used": 0,
+            "reproduction_cooldown": 0,
+            "reproduction_interval": 350,
+            "reproduction_reserve_per_mille": 885,
+            "speed": 4,
+            "stamina": 24,
+            "vision_range": 7,
+            "water": 50
+          },
+          "pos": {
+            "x": 4,
+            "y": 42
+          },
+          "ready": false,
+          "ready_mates": 0,
+          "reason": "SeekWater",
+          "tick": 13940,
+          "visible_prey": 23
+        }
+      },
+      "source_sha256": "cf52fccbb3ca95eaaad63abc1d4fe4004c6b0e617bd1ab4a41c591e5427a4401"
+    },
+    {
+      "seed": 5,
+      "extinct": null,
+      "ticks": 20000,
+      "control_final": {
+        "Carnivore": 51,
+        "Herbivore": 537
+      },
+      "shock_final": {
+        "Carnivore": 37,
+        "Herbivore": 581
+      },
+      "pre_shock_observations_equal": true,
+      "observations": {
+        "9900": {
+          "alive": {
+            "Carnivore": 47,
+            "Herbivore": 551
+          },
+          "sheltered": 91,
+          "tick": 9900,
+          "total_energy": {
+            "Carnivore": 9872,
+            "Herbivore": 22854
+          }
+        },
+        "10100": {
+          "alive": {
+            "Carnivore": 43,
+            "Herbivore": 140
+          },
+          "sheltered": 22,
+          "tick": 10100,
+          "total_energy": {
+            "Carnivore": 8537,
+            "Herbivore": 6916
+          }
+        },
+        "10500": {
+          "alive": {
+            "Carnivore": 11,
+            "Herbivore": 299
+          },
+          "sheltered": 49,
+          "tick": 10500,
+          "total_energy": {
+            "Carnivore": 2266,
+            "Herbivore": 11726
+          }
+        },
+        "11000": {
+          "alive": {
+            "Carnivore": 7,
+            "Herbivore": 316
+          },
+          "sheltered": 45,
+          "tick": 11000,
+          "total_energy": {
+            "Carnivore": 1455,
+            "Herbivore": 13104
+          }
+        },
+        "12000": {
+          "alive": {
+            "Carnivore": 6,
+            "Herbivore": 613
+          },
+          "sheltered": 69,
+          "tick": 12000,
+          "total_energy": {
+            "Carnivore": 1389,
+            "Herbivore": 23285
+          }
+        },
+        "13000": {
+          "alive": {
+            "Carnivore": 4,
+            "Herbivore": 641
+          },
+          "sheltered": 75,
+          "tick": 13000,
+          "total_energy": {
+            "Carnivore": 945,
+            "Herbivore": 25036
+          }
+        },
+        "20000": {
+          "alive": {
+            "Carnivore": 37,
+            "Herbivore": 581
+          },
+          "sheltered": 95,
+          "tick": 20000,
+          "total_energy": {
+            "Carnivore": 7490,
+            "Herbivore": 23459
+          }
+        }
+      },
+      "sampled_minimum": {
+        "Carnivore": 3,
+        "Herbivore": 140
+      },
+      "last_deaths": {
+        "OldAge": 10
+      },
+      "recent_decisions": 100,
+      "ready_recent_decisions": 7,
+      "ready_with_visible_ready_mate": 0,
+      "last_death": {
+        "tick": 19979,
+        "cause": "OldAge",
+        "last_decision_before_death": {
+          "life": {
+            "age": 1200,
+            "death_cause": null,
+            "energy": 207,
+            "exertion": 0,
+            "health": 140,
+            "maturity_age": 25,
+            "max_age": 1200,
+            "max_energy": 270,
+            "max_health": 140,
+            "max_meal": 60,
+            "max_stamina": 24,
+            "max_water": 70,
+            "move_energy_cost": 1,
+            "moves_used": 0,
+            "reproduction_cooldown": 0,
+            "reproduction_interval": 350,
+            "reproduction_reserve_per_mille": 885,
+            "speed": 4,
+            "stamina": 24,
+            "vision_range": 7,
+            "water": 52
+          },
+          "pos": {
+            "x": 9,
+            "y": 43
+          },
+          "ready": false,
+          "ready_mates": 0,
+          "reason": "Rest",
+          "tick": 19978,
+          "visible_prey": 22
+        }
+      },
+      "source_sha256": "3fbc796d0fc51f8dda263e3995b9516b486ab6ee48957714fdcdf2d77607e8a0"
+    },
+    {
+      "seed": 42,
+      "extinct": null,
+      "ticks": 20000,
+      "control_final": {
+        "Carnivore": 58,
+        "Herbivore": 452
+      },
+      "shock_final": {
+        "Carnivore": 43,
+        "Herbivore": 505
+      },
+      "pre_shock_observations_equal": true,
+      "observations": {
+        "9900": {
+          "alive": {
+            "Carnivore": 45,
+            "Herbivore": 507
+          },
+          "sheltered": 87,
+          "tick": 9900,
+          "total_energy": {
+            "Carnivore": 9121,
+            "Herbivore": 20428
+          }
+        },
+        "10100": {
+          "alive": {
+            "Carnivore": 41,
+            "Herbivore": 141
+          },
+          "sheltered": 30,
+          "tick": 10100,
+          "total_energy": {
+            "Carnivore": 6903,
+            "Herbivore": 7349
+          }
+        },
+        "10500": {
+          "alive": {
+            "Carnivore": 16,
+            "Herbivore": 292
+          },
+          "sheltered": 54,
+          "tick": 10500,
+          "total_energy": {
+            "Carnivore": 3092,
+            "Herbivore": 11188
+          }
+        },
+        "11000": {
+          "alive": {
+            "Carnivore": 7,
+            "Herbivore": 307
+          },
+          "sheltered": 52,
+          "tick": 11000,
+          "total_energy": {
+            "Carnivore": 1429,
+            "Herbivore": 12430
+          }
+        },
+        "12000": {
+          "alive": {
+            "Carnivore": 7,
+            "Herbivore": 659
+          },
+          "sheltered": 97,
+          "tick": 12000,
+          "total_energy": {
+            "Carnivore": 1565,
+            "Herbivore": 25769
+          }
+        },
+        "13000": {
+          "alive": {
+            "Carnivore": 9,
+            "Herbivore": 632
+          },
+          "sheltered": 80,
+          "tick": 13000,
+          "total_energy": {
+            "Carnivore": 2118,
+            "Herbivore": 24748
+          }
+        },
+        "20000": {
+          "alive": {
+            "Carnivore": 43,
+            "Herbivore": 505
+          },
+          "sheltered": 100,
+          "tick": 20000,
+          "total_energy": {
+            "Carnivore": 9100,
+            "Herbivore": 21179
+          }
+        }
+      },
+      "sampled_minimum": {
+        "Carnivore": 7,
+        "Herbivore": 130
+      },
+      "last_deaths": {
+        "OldAge": 8,
+        "Starvation": 2
+      },
+      "recent_decisions": 100,
+      "ready_recent_decisions": 14,
+      "ready_with_visible_ready_mate": 0,
+      "last_death": {
+        "tick": 19966,
+        "cause": "OldAge",
+        "last_decision_before_death": {
+          "life": {
+            "age": 1200,
+            "death_cause": null,
+            "energy": 241,
+            "exertion": 0,
+            "health": 140,
+            "maturity_age": 25,
+            "max_age": 1200,
+            "max_energy": 270,
+            "max_health": 140,
+            "max_meal": 60,
+            "max_stamina": 24,
+            "max_water": 70,
+            "move_energy_cost": 1,
+            "moves_used": 0,
+            "reproduction_cooldown": 0,
+            "reproduction_interval": 350,
+            "reproduction_reserve_per_mille": 885,
+            "speed": 4,
+            "stamina": 24,
+            "vision_range": 7,
+            "water": 53
+          },
+          "pos": {
+            "x": 33,
+            "y": 43
+          },
+          "ready": true,
+          "ready_mates": 0,
+          "reason": "NoEligibleMate",
+          "tick": 19965,
+          "visible_prey": 17
+        }
+      },
+      "source_sha256": "15521eaabed987504a067c21bfa75198df6e03558d084db94cec20aaa027e303"
+    },
+    {
+      "seed": 12345,
+      "extinct": 12521,
+      "ticks": 12521,
+      "control_final": {
+        "Carnivore": 40,
+        "Herbivore": 572
+      },
+      "shock_final": {
+        "Herbivore": 648
+      },
+      "pre_shock_observations_equal": true,
+      "observations": {
+        "9900": {
+          "alive": {
+            "Carnivore": 47,
+            "Herbivore": 480
+          },
+          "sheltered": 80,
+          "tick": 9900,
+          "total_energy": {
+            "Carnivore": 9348,
+            "Herbivore": 19720
+          }
+        },
+        "10100": {
+          "alive": {
+            "Carnivore": 40,
+            "Herbivore": 159
+          },
+          "sheltered": 41,
+          "tick": 10100,
+          "total_energy": {
+            "Carnivore": 7636,
+            "Herbivore": 7512
+          }
+        },
+        "10500": {
+          "alive": {
+            "Carnivore": 16,
+            "Herbivore": 318
+          },
+          "sheltered": 57,
+          "tick": 10500,
+          "total_energy": {
+            "Carnivore": 3332,
+            "Herbivore": 13083
+          }
+        },
+        "11000": {
+          "alive": {
+            "Carnivore": 3,
+            "Herbivore": 306
+          },
+          "sheltered": 43,
+          "tick": 11000,
+          "total_energy": {
+            "Carnivore": 608,
+            "Herbivore": 12263
+          }
+        },
+        "12000": {
+          "alive": {
+            "Carnivore": 2,
+            "Herbivore": 650
+          },
+          "sheltered": 84,
+          "tick": 12000,
+          "total_energy": {
+            "Carnivore": 471,
+            "Herbivore": 25456
+          }
+        },
+        "13000": null,
+        "20000": null
+      },
+      "sampled_minimum": {
+        "Carnivore": 0,
+        "Herbivore": 129
+      },
+      "last_deaths": {
+        "OldAge": 10
+      },
+      "recent_decisions": 100,
+      "ready_recent_decisions": 21,
+      "ready_with_visible_ready_mate": 0,
+      "last_death": {
+        "tick": 12521,
+        "cause": "OldAge",
+        "last_decision_before_death": {
+          "life": {
+            "age": 1200,
+            "death_cause": null,
+            "energy": 254,
+            "exertion": 0,
+            "health": 140,
+            "maturity_age": 25,
+            "max_age": 1200,
+            "max_energy": 270,
+            "max_health": 140,
+            "max_meal": 60,
+            "max_stamina": 24,
+            "max_water": 70,
+            "move_energy_cost": 1,
+            "moves_used": 0,
+            "reproduction_cooldown": 0,
+            "reproduction_interval": 350,
+            "reproduction_reserve_per_mille": 885,
+            "speed": 4,
+            "stamina": 23,
+            "vision_range": 7,
+            "water": 52
+          },
+          "pos": {
+            "x": 39,
+            "y": 39
+          },
+          "ready": true,
+          "ready_mates": 0,
+          "reason": "NoEligibleMate",
+          "tick": 12520,
+          "visible_prey": 15
+        }
+      },
+      "source_sha256": "1afcc30162af0756b1e8c58de796d5eada1a62d7ebba090de4d65dc226909aea"
+    },
+    {
+      "seed": 2026,
+      "extinct": null,
+      "ticks": 20000,
+      "control_final": {
+        "Carnivore": 55,
+        "Herbivore": 554
+      },
+      "shock_final": {
+        "Carnivore": 46,
+        "Herbivore": 524
+      },
+      "pre_shock_observations_equal": true,
+      "observations": {
+        "9900": {
+          "alive": {
+            "Carnivore": 49,
+            "Herbivore": 519
+          },
+          "sheltered": 91,
+          "tick": 9900,
+          "total_energy": {
+            "Carnivore": 9662,
+            "Herbivore": 21388
+          }
+        },
+        "10100": {
+          "alive": {
+            "Carnivore": 46,
+            "Herbivore": 149
+          },
+          "sheltered": 36,
+          "tick": 10100,
+          "total_energy": {
+            "Carnivore": 7983,
+            "Herbivore": 7198
+          }
+        },
+        "10500": {
+          "alive": {
+            "Carnivore": 17,
+            "Herbivore": 332
+          },
+          "sheltered": 61,
+          "tick": 10500,
+          "total_energy": {
+            "Carnivore": 3315,
+            "Herbivore": 11552
+          }
+        },
+        "11000": {
+          "alive": {
+            "Carnivore": 10,
+            "Herbivore": 304
+          },
+          "sheltered": 44,
+          "tick": 11000,
+          "total_energy": {
+            "Carnivore": 2141,
+            "Herbivore": 12392
+          }
+        },
+        "12000": {
+          "alive": {
+            "Carnivore": 11,
+            "Herbivore": 630
+          },
+          "sheltered": 76,
+          "tick": 12000,
+          "total_energy": {
+            "Carnivore": 2438,
+            "Herbivore": 23950
+          }
+        },
+        "13000": {
+          "alive": {
+            "Carnivore": 16,
+            "Herbivore": 611
+          },
+          "sheltered": 86,
+          "tick": 13000,
+          "total_energy": {
+            "Carnivore": 3255,
+            "Herbivore": 24837
+          }
+        },
+        "20000": {
+          "alive": {
+            "Carnivore": 46,
+            "Herbivore": 524
+          },
+          "sheltered": 93,
+          "tick": 20000,
+          "total_energy": {
+            "Carnivore": 9638,
+            "Herbivore": 21856
+          }
+        }
+      },
+      "sampled_minimum": {
+        "Carnivore": 10,
+        "Herbivore": 136
+      },
+      "last_deaths": {
+        "OldAge": 9,
+        "Starvation": 1
+      },
+      "recent_decisions": 100,
+      "ready_recent_decisions": 0,
+      "ready_with_visible_ready_mate": 0,
+      "last_death": {
+        "tick": 19995,
+        "cause": "OldAge",
+        "last_decision_before_death": {
+          "life": {
+            "age": 1200,
+            "death_cause": null,
+            "energy": 210,
+            "exertion": 0,
+            "health": 140,
+            "maturity_age": 25,
+            "max_age": 1200,
+            "max_energy": 270,
+            "max_health": 140,
+            "max_meal": 60,
+            "max_stamina": 24,
+            "max_water": 70,
+            "move_energy_cost": 1,
+            "moves_used": 0,
+            "reproduction_cooldown": 0,
+            "reproduction_interval": 350,
+            "reproduction_reserve_per_mille": 885,
+            "speed": 4,
+            "stamina": 24,
+            "vision_range": 7,
+            "water": 58
+          },
+          "pos": {
+            "x": 12,
+            "y": 45
+          },
+          "ready": false,
+          "ready_mates": 0,
+          "reason": "Rest",
+          "tick": 19994,
+          "visible_prey": 13
+        }
+      },
+      "source_sha256": "a53144e610f1d8c2bd8e66b360f533273822b17f66c3b49651465245564b4590"
+    }
+  ],
+  "limitations": [
+    "Samples are every 100 ticks; minima may miss intermediate lows.",
+    "Only the last 10 predator deaths and last 10 decisions per death are retained.",
+    "No phase-resolved births, age distributions, water stocks or deaths are available.",
+    "OldAge is the terminal cause, not proof that the shock had no physiological impact.",
+    "Visible ready-mate counts omit unready or unseen potential partners."
+  ]
+}

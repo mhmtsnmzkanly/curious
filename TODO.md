@@ -3,10 +3,12 @@
 Hedef [VISION](docs/VISION.md), kullanıcı sırası ve dürüst durum
 [ROADMAP](docs/ROADMAP.md), ölçümler [sonuç raporu](docs/reports/ROADMAP_RESULTS.md).
 
-- [ ] Kalıcı avcı soyunu çöz: V8 soy/rezerv teşhisi tamamlandı; V9 koşullu
-  araştırmanın `data/coexistence-research/state.json` ve aşama raporlarını incele.
-  Uzun test ve duyarlılık geçmeden kalıcı denge deme. Kod kararı için son avcı
-  ölümleri ve karar kuyrukları probe sonuçlarında vardır. Gizli takviye ekleme.
+- [ ] Kaynak şokundan toparlanmayı çöz: V9 sabit kurallı uzun doğrulama 30/30
+  geçti; kaynak şoku 4/8 ile araştırmayı durdurdu. Teşhis ve sonraki sınırlı
+  deney [RESOURCE_SHOCK_ANALYSIS](docs/reports/RESOURCE_SHOCK_ANALYSIS.md).
+  202 beslenme hedefi / 238 üreme eşiği uyumsuzluğunu ve daralmada yerel eş
+  bulmayı ayrı ölç. Otçul toparlanması avcı soyunun toparlanması anlamına gelmez.
+  Öğrenme/mutasyon kapıları çalışmadı, yeni dünya açılmadı. Gizli takviye ekleme.
 - [ ] Su öğrenmesinin ortam değişimi deneyini değerlendir (`learning_trial` reversal);
   V10 su denemeleri gecikmiş sonucu ve gerçek hareket maliyetini izliyor.
   [Öğrenme sözleşmesine](docs/LEARNING_NEXT.md) göre sıradaki iş sınırlı av
