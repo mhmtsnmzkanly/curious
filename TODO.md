@@ -7,8 +7,9 @@ Hedef [VISION](docs/VISION.md), kullanıcı sırası ve dürüst durum
   araştırmanın `data/coexistence-research/state.json` ve aşama raporlarını incele.
   Uzun test ve duyarlılık geçmeden kalıcı denge deme. Kod kararı için son avcı
   ölümleri ve karar kuyrukları probe sonuçlarında vardır. Gizli takviye ekleme.
-- [ ] Aynı kararı etkileyen farklı deneyimler için su öğrenmesini yeni çevrede sınama;
-  ardından öğrenmeyi av seçimine genişletme.
+- [ ] Su öğrenmesinin ortam değişimi deneyini değerlendir (`learning_trial` reversal);
+  ardından [öğrenme sözleşmesine](docs/LEARNING_NEXT.md) göre bölüm bazında
+  sonuç değerlendirme ve sınırlı av tercihini uygula.
 - [ ] Gerçek 1/7/30 gün gözlemini değerlendirme; raporlayıcı otomatik Notify gönderir.
 - [ ] Kalıtım deneyini av baskısında tekrarlama; dağılım değişimini sürüklenmeden ayırma.
 - [ ] Soy ağacı ve ölmüş ataların arayüzden doğrudan seçilmesini geliştirme.
