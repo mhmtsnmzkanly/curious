@@ -43,9 +43,12 @@ pub fn apply(
         cost += 1;
     }
     if cost > 0 {
+        let before_energy = slot.base.life().energy;
         slot.base.life_mut().on_move(cost);
+        let energy_cost = before_energy.saturating_sub(slot.base.life().energy);
         events.push(SimulationEvent::EntityMoved {
             id,
+            energy_cost,
             from,
             to: slot.pos,
         });

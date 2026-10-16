@@ -1,5 +1,32 @@
 # Kalıcı kayıt ve kontrol servisi
 
+## V10 geliştirme ekleri
+
+Checkpoint V10, SQLite V2. Mevcut servisler ve `ae7f0df` sabit araştırması
+bu değişikliği kullanmaz. V1–V9 durumlar okunur; V10'u eski ikiliyle açmayın.
+
+`learner.pending` yerini `episode` ve `last_episode` alanlarına bırakır.
+Eski tamamlanmamış `pending` atılır; öğrenilmiş su değerleri korunur.
+`episode`: hedef, yürütülmüş adım sayısı, gerçek hareket enerji maliyeti ve
+alınan dış saldırı hasarı. En fazla 20 yürütülmüş adım; daha öncelikli karar,
+görünür hedef kaybı, dış komut, öğrenmenin kapatılması veya ölüm denemeyi keser.
+Kesintiler puan güncellemez. Hedefe su içerek ulaşma, kaynak bulunamaması veya
+20 adımlık süre sonu puanlanır; bir deneme yalnız bir deneyim sayılır.
+
+Ödül: `10 × içilen su − 2 × hareket enerjisi − adım sayısı − başarısızsa 10`,
+[-1000,1000] aralığına kırpılır. Bu bir başlangıç hipotezidir; ekolojik başarı
+ölçütü değildir. Metabolizma/iyileşme/üreme net enerji değişiminden tekrar
+çıkarılmaz. Dış saldırı hasarı bağlam olarak gösterilir, nedensellik iddiasıyla
+su kaynağının puanından düşülmez. Süre dolan yavaş ama geçerli bir rota yine
+negatif puan alabilir; sınırlı ufkun bilinen bedelidir.
+
+`last_episode` son denemenin sonucu ve varsa puanıdır; geçmiş denemeler için
+kalıcı durum kayıtları okunur. Gövde ve aktif/son deneme boyutları sınırlıdır,
+checkpoint yüklemede ve `update_entity` sırasında doğrulanır.
+`EntityMoved.energy_cost` çözümleyicinin gerçekten harcadığı enerjidir; eski
+olaylarda alan eksikse 0 okunur. Eski olaylar yeni öğreniciye yeniden oynatılmaz.
+Yeni hareket olayında alan fiziksel kuralları değiştirmez.
+
 ## V9 geliştirme ekleri
 
 Kaynak checkpoint V9, SQLite V2. Çalışan7880 V8,7881 V7 korunuyor.

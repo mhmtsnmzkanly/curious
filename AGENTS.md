@@ -3,6 +3,16 @@
 Başlamadan `docs/VISION.md`, `docs/CONTROL.md`, `docs/ROADMAP.md` ve `TODO.md`
 okunur. Kullanıcının sonraki talimatları bu notların önündedir.
 
+## V10 geliştirme — gecikmiş su sonucu
+
+Ana kaynak V10 checkpoint üretir; SQLite V2 değişmedi. `ae7f0df` araştırma
+worktree'si hâlâ V9 ve temiz tutulur; ikilisi, config'i ve çalışan dünyalar
+bu geliştirmede değiştirilmez. Yeni kaynak henüz canlı servise dağıtılmadı.
+Su seçimi tek bir denemeyi en çok 20 yürütülmüş adım izler. Kesintiler puanlanmaz;
+gerçek hareket enerjisi EntityMoved.energy_cost olayından hesaplanır. Ayrıntı
+`docs/CONTROL.md` V10 ve `docs/LEARNING_NEXT.md`; genel av öğrenmesi henüz yok.
+V10 kaydını eski ikiliyle açma. V1–V9 learner.pending atılır; değerler korunur.
+
 ## V9 av–avcı çalışması
 
 - Kullanıcı 11 aşamalı kalıcı av–avcı planını uygulamayı onayladı. Plan:

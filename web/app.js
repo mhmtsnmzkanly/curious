@@ -224,6 +224,19 @@ function renderIndividual() {
   $("knowledge").textContent =
     `${e.memory?.sites.length || 0} kaynak, ${e.memory?.dangers.length || 0} tehlike ve ${e.memory?.companions?.length || 0} türdeş konumu hatırlıyor. Su seçimini öğrenme ${e.learner?.enabled ? "açık" : "kapalı"}.`;
   $("values").replaceChildren();
+  const episode = e.learner?.episode;
+  const result = e.learner?.last_episode;
+  const ends = { Reached: "Su içti", Failed: "Kaynak kalmadı", TimedOut: "Deneme süresi doldu", Interrupted: "Önceliği veya görünen hedefi değişti", Disabled: "Öğrenme kapatıldı", Died: "Yaşamı sona erdi" };
+  if (episode) {
+    const line = document.createElement("small");
+    line.textContent = `Devam eden su denemesi (${episode.target.x}, ${episode.target.y}) · ${episode.ticks}/20 adım · ${episode.movement_energy} hareket enerjisi. Sonuç henüz puanlanmadı.`;
+    $("values").append(line);
+  }
+  if (result) {
+    const line = document.createElement("small");
+    line.textContent = `Son su denemesi: ${ends[result.end] || result.end} · ${result.attempt.ticks} adım · ${result.water} su · ${result.attempt.movement_energy} hareket enerjisi · ${result.attempt.incoming_damage} dış saldırı hasarı (puana katılmadı) · ${result.reward == null ? "puan güncellenmedi" : "puan " + result.reward}.`;
+    $("values").append(line);
+  }
   for (const v of e.learner?.values || []) {
     const s = document.createElement("small");
     s.textContent = `Su (${v.pos.x}, ${v.pos.y}) · ${v.visits} deneyim · değer ${v.value}`;

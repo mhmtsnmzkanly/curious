@@ -43,7 +43,7 @@ impl IntentCollectionSystem {
             {
                 learner.choose(slot.pos, &view, decision, &mut world.rng)
             } else {
-                learner.pending = None;
+                learner.interrupt(crate::entity::learning::WaterEnd::Interrupted);
                 decision
             };
             let full = world.observation.full_all || world.observation.full_for.contains(&slot.id);

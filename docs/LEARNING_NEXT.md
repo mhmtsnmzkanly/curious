@@ -4,10 +4,10 @@
 
 `entity/learning.rs` görünür su kaynaklarını konuma göre puanlayan, en çok
 32 kayıtlı bir bandit içerir. Yalnız kurallı karar SeekWater olduğunda ve en az
-iki su kaynağı göründüğünde devreye girer. Sonuç aynı tickte içilen su, enerji
+iki su kaynağı göründüğünde devreye girer. V9 araştırma sürümünde sonuç aynı tickte içilen su, enerji
 kaybı ve yaralanmadan hesaplanır. Yaş bonusu veya yavruya anı aktarımı yoktur.
 
-Bu yapı genel bir durum–eylem öğrenmesi değildir. Uzak kaynağa doğru giderken
+Bu yapı genel bir durum–eylem öğrenmesi değildir. V9'da uzak kaynağa doğru giderken
 henüz su içilmemesini başarısızlık sayabilmesi, aynı tickteki başka yaralanmaları
 seçime bağlayabilmesi ve konum bilgisini yeni bir bölgeye taşıyamaması açık
 sınırlardır. Sonraki tasarımda bunlar sessizce doğru kabul edilmemelidir.
@@ -75,5 +75,9 @@ ve eski karar yerine neden bu adayın seçildiği gösterilir. Kullanıcı bir y
 bireyin deneyiminin işe yaradığını karar geçmişinden görebilmelidir. Yaş ile
 hayatta kalan bireylerin seçilim etkisi ayrı değerlendirilir.
 
-Bu dosya uygulama sözleşmesi taslağıdır. Genel av öğrenmesi henüz uygulanmadı;
+V10 geliştirmede su denemesi en çok 20 adım biriktirir; hareket enerjisi
+çözümleyici olayından gelir. Kesilen denemeler yanlış başarısızlık olarak
+puanlanmaz. Ayrıntı `CONTROL.md` V10 bölümündedir.
+
+Bu dosyanın av öğrenmesi kısmı uygulama sözleşmesi taslağıdır. Genel av öğrenmesi henüz uygulanmadı;
 uzun denge taraması yalnız mevcut su öğrenmesi ve hareket mutasyonunu içerir.

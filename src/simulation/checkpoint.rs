@@ -69,7 +69,7 @@ impl State {
             .collect();
         commands.sort_by_key(|(id, _)| *id);
         Self {
-            version: 9,
+            version: 10,
             genetics: world.genetics.clone(),
             observation: world.observation.clone(),
             environment: world.environment.clone(),
@@ -105,8 +105,11 @@ impl State {
         }
     }
     pub fn restore(self) -> Result<World> {
-        if !(1..=9).contains(&self.version) {
+        if !(1..=10).contains(&self.version) {
             return Err("unsupported checkpoint version".into());
+        }
+        for individual in &self.entities {
+            individual.learner.validate()?;
         }
         let [a, b, c, d] = self.bounds;
         let mut map = Map::new(a, b, c, d);

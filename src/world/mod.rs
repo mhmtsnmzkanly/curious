@@ -199,10 +199,17 @@ impl World {
             &mut events,
         );
 
-        for trace in &self.last_decisions {
-            if let Some(slot) = self.entities.iter_mut().find(|s| s.id == trace.id) {
-                let after = slot.base.life().clone();
-                slot.learner.finish(slot.id, &trace.before, &after, &events);
+        // Include actors that died before intent collection, not only decision traces.
+        for slot in &mut self.entities {
+            if slot.learner.episode.is_none() {
+                continue;
+            }
+            let alive = slot.base.life().is_alive();
+            if !alive && !self.last_decisions.iter().any(|trace| trace.id == slot.id) {
+                slot.learner
+                    .interrupt(crate::entity::learning::WaterEnd::Died);
+            } else {
+                slot.learner.finish(slot.id, alive, &events);
             }
         }
         for trace in &mut self.last_decisions {

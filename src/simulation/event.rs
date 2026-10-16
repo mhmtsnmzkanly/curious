@@ -23,6 +23,9 @@ pub enum SimulationEvent {
     },
     EntityMoved {
         id: usize,
+        /// Actual energy charged by locomotion; old records omitted this field.
+        #[serde(default)]
+        energy_cost: usize,
         from: Position,
         to: Position,
     },
