@@ -1,0 +1,524 @@
+{
+  "candidate": "c4d2b35e6f1f0089bd7ffd46114067289e474431",
+  "previous": "d36a10a1947dbe02153dd49ead5c7c88407969b1",
+  "scenario_sha256": "33cb6ebf9d73df017b65b9ee9831be8446c2a81077f3a0e313fe06b05f0b19ac",
+  "seed_summaries": [
+    {
+      "seed": 1,
+      "candidate_end": {
+        "Carnivore": 46,
+        "Herbivore": 522
+      },
+      "candidate_extinction": null,
+      "previous_end": {
+        "Carnivore": 44,
+        "Herbivore": 518
+      },
+      "previous_extinction": null,
+      "first_different_sample": 100,
+      "source_sha256": "e9396f1f97e4b8efc5a273c248161e6fb583ac8081f47c16d2c93893a46d147d",
+      "previous_sha256": "ceeb540224b9fe34f0c69550369ea795944a2bb2826c78bfa576d9c2ddd7a8c2",
+      "candidate_predator_preparations": 915,
+      "previous_predator_preparations": 80
+    },
+    {
+      "seed": 2,
+      "candidate_end": {
+        "Carnivore": 5
+      },
+      "candidate_extinction": 17660,
+      "previous_end": {
+        "Carnivore": 46,
+        "Herbivore": 524
+      },
+      "previous_extinction": null,
+      "first_different_sample": 100,
+      "source_sha256": "0f890c4c1db05c0c852b3594839e0cd6f6135435f998c4376973653018c8e87b",
+      "previous_sha256": "ab6a7f315287107e744fdac55aa1682caf8b355eb301f5e9675840257f6ca934",
+      "candidate_predator_preparations": 720,
+      "previous_predator_preparations": 67
+    },
+    {
+      "seed": 3,
+      "candidate_end": {
+        "Carnivore": 46,
+        "Herbivore": 518
+      },
+      "candidate_extinction": null,
+      "previous_end": {
+        "Carnivore": 40,
+        "Herbivore": 498
+      },
+      "previous_extinction": null,
+      "first_different_sample": 100,
+      "source_sha256": "4285f38e957aa88a42a7e308626e094bec8020444aa65062caef630c8b8dcd23",
+      "previous_sha256": "08d5afe02eae0dd85b1526e36da11bd95705fb5068e95a5d6ca520d7390f6065",
+      "candidate_predator_preparations": 894,
+      "previous_predator_preparations": 68
+    },
+    {
+      "seed": 4,
+      "candidate_end": {
+        "Carnivore": 58,
+        "Herbivore": 477
+      },
+      "candidate_extinction": null,
+      "previous_end": {
+        "Carnivore": 52,
+        "Herbivore": 375
+      },
+      "previous_extinction": null,
+      "first_different_sample": 200,
+      "source_sha256": "cdfd3a2f841dcf2360c956fa691f84cd2e91732742edbfb5ffe31925c534e002",
+      "previous_sha256": "cb3fc4f1dffdca1e76ae5b6237ca51f145f7624e1699ec36015aaad8dd4f8a15",
+      "candidate_predator_preparations": 898,
+      "previous_predator_preparations": 70
+    },
+    {
+      "seed": 5,
+      "candidate_end": {
+        "Carnivore": 47,
+        "Herbivore": 407
+      },
+      "candidate_extinction": null,
+      "previous_end": {
+        "Carnivore": 52,
+        "Herbivore": 474
+      },
+      "previous_extinction": null,
+      "first_different_sample": 100,
+      "source_sha256": "1e6632a8595155898d02965996f026572401e03925c21e4efe5ecb96eab5879b",
+      "previous_sha256": "b567c48f679a95fba158b613f4062d00a64102ed4866e78868b0e35cac3ec69e",
+      "candidate_predator_preparations": 875,
+      "previous_predator_preparations": 76
+    },
+    {
+      "seed": 42,
+      "candidate_end": {
+        "Carnivore": 60,
+        "Herbivore": 512
+      },
+      "candidate_extinction": null,
+      "previous_end": {
+        "Carnivore": 49,
+        "Herbivore": 580
+      },
+      "previous_extinction": null,
+      "first_different_sample": 100,
+      "source_sha256": "8708a07bb0f3086ea89e027da96eaeb67e2007cc1c3376cba45d1e9c41fb5387",
+      "previous_sha256": "a09f617ee667f79c8440aa9490b77d59971ec242c7cab3d5a263507ac45eff9c",
+      "candidate_predator_preparations": 848,
+      "previous_predator_preparations": 61
+    },
+    {
+      "seed": 12345,
+      "candidate_end": {
+        "Carnivore": 50,
+        "Herbivore": 489
+      },
+      "candidate_extinction": null,
+      "previous_end": {
+        "Carnivore": 50,
+        "Herbivore": 565
+      },
+      "previous_extinction": null,
+      "first_different_sample": 100,
+      "source_sha256": "013ea834a7e2296184acc68a743c8cac62b51ce68b1ecd6b92e32902c6b4c086",
+      "previous_sha256": "6e90b7418b6c416ba085be799fd44cd24afd89c1b7d78d54d13db1fd7fa0355b",
+      "candidate_predator_preparations": 883,
+      "previous_predator_preparations": 60
+    },
+    {
+      "seed": 2026,
+      "candidate_end": {
+        "Carnivore": 43,
+        "Herbivore": 483
+      },
+      "candidate_extinction": null,
+      "previous_end": {
+        "Carnivore": 50,
+        "Herbivore": 479
+      },
+      "previous_extinction": null,
+      "first_different_sample": 100,
+      "source_sha256": "09d2c6f359488f028ac58b27945485ce6c7e005083222fd69eaa483499fa1fd3",
+      "previous_sha256": "707e07c17ecc1ff350633d388361817b6cebd7e72540165a18d8cac9766541e0",
+      "candidate_predator_preparations": 880,
+      "previous_predator_preparations": 74
+    }
+  ],
+  "seed2": {
+    "seed": 2,
+    "candidate_end": {
+      "Carnivore": 5
+    },
+    "candidate_extinction": 17660,
+    "previous_end": {
+      "Carnivore": 46,
+      "Herbivore": 524
+    },
+    "previous_extinction": null,
+    "first_different_sample": 100,
+    "source_sha256": "0f890c4c1db05c0c852b3594839e0cd6f6135435f998c4376973653018c8e87b",
+    "previous_sha256": "ab6a7f315287107e744fdac55aa1682caf8b355eb301f5e9675840257f6ca934",
+    "windows": [
+      {
+        "from_exclusive": 16000,
+        "to_inclusive": 16800,
+        "species": {
+          "Herbivore": {
+            "before": 485,
+            "after": 366,
+            "births": 4274,
+            "deaths": {
+              "Combat": 953,
+              "Dehydration": 58,
+              "OldAge": 3291,
+              "Starvation": 91
+            },
+            "net": -119
+          },
+          "Carnivore": {
+            "before": 54,
+            "after": 65,
+            "births": 51,
+            "deaths": {
+              "Dehydration": 6,
+              "OldAge": 31,
+              "Starvation": 3
+            },
+            "net": 11
+          }
+        }
+      },
+      {
+        "from_exclusive": 16800,
+        "to_inclusive": 17000,
+        "species": {
+          "Herbivore": {
+            "before": 366,
+            "after": 274,
+            "births": 732,
+            "deaths": {
+              "Combat": 255,
+              "Dehydration": 8,
+              "OldAge": 551,
+              "Starvation": 10
+            },
+            "net": -92
+          },
+          "Carnivore": {
+            "before": 65,
+            "after": 56,
+            "births": 6,
+            "deaths": {
+              "Dehydration": 0,
+              "OldAge": 10,
+              "Starvation": 5
+            },
+            "net": -9
+          }
+        }
+      },
+      {
+        "from_exclusive": 17000,
+        "to_inclusive": 17200,
+        "species": {
+          "Herbivore": {
+            "before": 274,
+            "after": 175,
+            "births": 512,
+            "deaths": {
+              "Combat": 241,
+              "Dehydration": 3,
+              "OldAge": 361,
+              "Starvation": 6
+            },
+            "net": -99
+          },
+          "Carnivore": {
+            "before": 56,
+            "after": 49,
+            "births": 11,
+            "deaths": {
+              "Dehydration": 2,
+              "OldAge": 11,
+              "Starvation": 5
+            },
+            "net": -7
+          }
+        }
+      },
+      {
+        "from_exclusive": 17200,
+        "to_inclusive": 17400,
+        "species": {
+          "Herbivore": {
+            "before": 175,
+            "after": 78,
+            "births": 356,
+            "deaths": {
+              "Combat": 211,
+              "Dehydration": 0,
+              "OldAge": 242,
+              "Starvation": 0
+            },
+            "net": -97
+          },
+          "Carnivore": {
+            "before": 49,
+            "after": 41,
+            "births": 5,
+            "deaths": {
+              "Dehydration": 2,
+              "OldAge": 6,
+              "Starvation": 5
+            },
+            "net": -8
+          }
+        }
+      },
+      {
+        "from_exclusive": 17400,
+        "to_inclusive": 17600,
+        "species": {
+          "Herbivore": {
+            "before": 78,
+            "after": 2,
+            "births": 64,
+            "deaths": {
+              "Combat": 70,
+              "Dehydration": 0,
+              "OldAge": 70,
+              "Starvation": 0
+            },
+            "net": -76
+          },
+          "Carnivore": {
+            "before": 41,
+            "after": 12,
+            "births": 0,
+            "deaths": {
+              "Dehydration": 4,
+              "OldAge": 6,
+              "Starvation": 19
+            },
+            "net": -29
+          }
+        }
+      },
+      {
+        "from_exclusive": 17600,
+        "to_inclusive": 17660,
+        "species": {
+          "Herbivore": {
+            "before": 2,
+            "after": 0,
+            "births": 0,
+            "deaths": {
+              "Combat": 0,
+              "Dehydration": 0,
+              "OldAge": 2,
+              "Starvation": 0
+            },
+            "net": -2
+          },
+          "Carnivore": {
+            "before": 12,
+            "after": 5,
+            "births": 0,
+            "deaths": {
+              "Dehydration": 0,
+              "OldAge": 2,
+              "Starvation": 5
+            },
+            "net": -7
+          }
+        }
+      }
+    ],
+    "previous_windows": [
+      {
+        "from_exclusive": 16000,
+        "to_inclusive": 16800,
+        "species": {
+          "Herbivore": {
+            "before": 494,
+            "after": 556,
+            "births": 4565,
+            "deaths": {
+              "Combat": 641,
+              "Dehydration": 83,
+              "OldAge": 3617,
+              "Starvation": 162
+            },
+            "net": 62
+          },
+          "Carnivore": {
+            "before": 49,
+            "after": 47,
+            "births": 34,
+            "deaths": {
+              "Dehydration": 1,
+              "OldAge": 33,
+              "Starvation": 2
+            },
+            "net": -2
+          }
+        }
+      },
+      {
+        "from_exclusive": 16800,
+        "to_inclusive": 17000,
+        "species": {
+          "Herbivore": {
+            "before": 556,
+            "after": 507,
+            "births": 1126,
+            "deaths": {
+              "Combat": 175,
+              "Dehydration": 16,
+              "OldAge": 942,
+              "Starvation": 42
+            },
+            "net": -49
+          },
+          "Carnivore": {
+            "before": 47,
+            "after": 46,
+            "births": 5,
+            "deaths": {
+              "Dehydration": 0,
+              "OldAge": 5,
+              "Starvation": 1
+            },
+            "net": -1
+          }
+        }
+      },
+      {
+        "from_exclusive": 17000,
+        "to_inclusive": 17200,
+        "species": {
+          "Herbivore": {
+            "before": 507,
+            "after": 480,
+            "births": 1046,
+            "deaths": {
+              "Combat": 185,
+              "Dehydration": 20,
+              "OldAge": 830,
+              "Starvation": 38
+            },
+            "net": -27
+          },
+          "Carnivore": {
+            "before": 46,
+            "after": 48,
+            "births": 11,
+            "deaths": {
+              "Dehydration": 0,
+              "OldAge": 9,
+              "Starvation": 0
+            },
+            "net": 2
+          }
+        }
+      },
+      {
+        "from_exclusive": 17200,
+        "to_inclusive": 17400,
+        "species": {
+          "Herbivore": {
+            "before": 480,
+            "after": 532,
+            "births": 1085,
+            "deaths": {
+              "Combat": 201,
+              "Dehydration": 19,
+              "OldAge": 782,
+              "Starvation": 31
+            },
+            "net": 52
+          },
+          "Carnivore": {
+            "before": 48,
+            "after": 48,
+            "births": 5,
+            "deaths": {
+              "Dehydration": 0,
+              "OldAge": 5,
+              "Starvation": 0
+            },
+            "net": 0
+          }
+        }
+      },
+      {
+        "from_exclusive": 17400,
+        "to_inclusive": 17600,
+        "species": {
+          "Herbivore": {
+            "before": 532,
+            "after": 527,
+            "births": 1192,
+            "deaths": {
+              "Combat": 196,
+              "Dehydration": 12,
+              "OldAge": 952,
+              "Starvation": 37
+            },
+            "net": -5
+          },
+          "Carnivore": {
+            "before": 48,
+            "after": 54,
+            "births": 15,
+            "deaths": {
+              "Dehydration": 0,
+              "OldAge": 9,
+              "Starvation": 0
+            },
+            "net": 6
+          }
+        }
+      },
+      {
+        "from_exclusive": 17600,
+        "to_inclusive": 20000,
+        "species": {
+          "Herbivore": {
+            "before": 527,
+            "after": 524,
+            "births": 12769,
+            "deaths": {
+              "Combat": 2256,
+              "Dehydration": 201,
+              "OldAge": 9949,
+              "Starvation": 366
+            },
+            "net": -3
+          },
+          "Carnivore": {
+            "before": 54,
+            "after": 46,
+            "births": 103,
+            "deaths": {
+              "Dehydration": 4,
+              "OldAge": 94,
+              "Starvation": 13
+            },
+            "net": -8
+          }
+        }
+      }
+    ],
+    "candidate_predator_preparations": 720,
+    "previous_predator_preparations": 67
+  },
+  "limits": [
+    "Sample resolution is 100 ticks, except exact terminal totals.",
+    "Different trajectories are not matched individual counterfactuals.",
+    "Cause of death alone does not establish why reproduction failed."
+  ]
+}

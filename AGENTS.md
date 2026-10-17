@@ -14,6 +14,24 @@ Seed 2'de 17.660'ta otçullar tükendi (5 avcı kaldı). Normal kapısı geçilm
 icin sekizli şok çalışmadı. Kaynak varsayılanı false kalır; yeni bir aday için
 bu normal rejim hatasının teşhisi gerekir. Eski deney sonuçları korunur.
 
+## Seed 2 normal rejim teşhisi
+
+Rapor `docs/reports/PREY_COLLAPSE_SEED2.md`; kanıt COMPARISON/REPLAY JSON'ları.
+Ayrıntılı tekrar bütün biyolojik probe çıktısını birebir yeniden üretti.
+16.000→17.000 checkpoint tekrarında tam durum+RNG eşit. 16.000'de hazırlığı
+kapatmak 17.660'ta 535 otçul/44 avcı bırakır; asıl adayda 0/5. Bu, eski
+reproductive kuralının tam tekrarı değildir. Son iki otçul fizyolojik hazır,
+eş görüşü dışında; 17.634/17.660'ta yaşlılıktan ölür. Son 60 adımda 92
+kararın hepsi fizyolojik hazır, doğum0. Av baskısını kopyada 17.400'te kaldırmak
+78→606 otçul getirir; 17.600'de kaldırmak son ikiyi kurtarmaz. Müdahaleler
+teşhistir, çözüm/kabul değildir. Canlı dünya ve varsayılan false korunur.
+
+Ham veri ve sabit teşhis ikilisi/kontrol noktaları:
+`data/experiments/seed2-collapse-diagnosis`. Koşular tamamlandı; yeni uzun
+arama başlamadı. Sonraki öncelik küçük grupta yerel, güvenli eş aramasını
+sınamak ve bu checkpointlerde demografik toparlanmayı ölçmek. Önce mekanizma,
+sonra normal/şok/bağımsız seed kapıları. Yeni denge kanıtı yok.
+
 ## Seed 2 toparlanma takibi
 
 D36a10a açık adayın normal 8/8, şok 7/8 deneyi bitti; seed 2 avcıları

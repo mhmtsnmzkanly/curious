@@ -1,0 +1,1368 @@
+{
+  "original_probe_evidence_equal": true,
+  "ignored_nonbiological_fields": [
+    "process_seconds",
+    "scenario",
+    "seconds"
+  ],
+  "restored_1000_tick_full_state_and_rng_equal": true,
+  "replay_seconds": 591.430065257,
+  "points": [
+    {
+      "tick": 16200,
+      "alive": {
+        "Carnivore": 60,
+        "Herbivore": 566
+      },
+      "plant_stock": 7266,
+      "occupied_grid_bins": 16,
+      "patch_counts": {
+        "0,0": 38,
+        "0,1": 38,
+        "0,2": 41,
+        "0,3": 34,
+        "1,0": 37,
+        "1,1": 39,
+        "1,2": 36,
+        "1,3": 29,
+        "2,0": 34,
+        "2,1": 33,
+        "2,2": 36,
+        "2,3": 33,
+        "3,0": 35,
+        "3,1": 31,
+        "3,2": 38,
+        "3,3": 34
+      },
+      "window_counts": {
+        "Carnivore.birth": 4,
+        "Carnivore.death.Some(OldAge)": 5,
+        "Carnivore.decision.ApproachMate": 10,
+        "Carnivore.decision.Explore": 957,
+        "Carnivore.decision.HuntPrey": 1137,
+        "Carnivore.decision.Mate": 8,
+        "Carnivore.decision.NoEligibleMate": 85,
+        "Carnivore.decision.PrepareReproduction": 6,
+        "Carnivore.decision.RecallMate": 98,
+        "Carnivore.decision.RecoverStamina": 13,
+        "Carnivore.decision.Rest": 2179,
+        "Carnivore.decision.SeekFood": 477,
+        "Carnivore.decision.SeekWater": 1128,
+        "Carnivore.food_intake": 16143,
+        "Carnivore.reject.Approach.OutOfRange": 239,
+        "Carnivore.reject.Attack.Inactive": 17,
+        "Carnivore.reject.Attack.NoPath": 121,
+        "Carnivore.reject.Attack.OutOfRange": 29,
+        "Carnivore.reject.Drink.MissingResource": 212,
+        "Carnivore.reject.Eat.MissingResource": 110,
+        "Carnivore.reject.Mate.Cooldown": 4,
+        "Carnivore.reject.Move.Occupied": 294,
+        "Herbivore.birth": 602,
+        "Herbivore.blocker.None": 6253,
+        "Herbivore.blocker.Some(Cooldown)": 25266,
+        "Herbivore.blocker.Some(Immature)": 11034,
+        "Herbivore.blocker.Some(InsufficientEnergy)": 6394,
+        "Herbivore.blocker.Some(InsufficientWater)": 795,
+        "Herbivore.blocker.Some(PoorHealth)": 855,
+        "Herbivore.death.Some(Combat)": 115,
+        "Herbivore.death.Some(Dehydration)": 3,
+        "Herbivore.death.Some(OldAge)": 391,
+        "Herbivore.death.Some(Starvation)": 7,
+        "Herbivore.decision.ApproachMate": 476,
+        "Herbivore.decision.EscapeThreat": 2,
+        "Herbivore.decision.Explore": 665,
+        "Herbivore.decision.Mate": 1144,
+        "Herbivore.decision.NoEligibleMate": 87,
+        "Herbivore.decision.RecallMate": 120,
+        "Herbivore.decision.Rest": 1640,
+        "Herbivore.decision.SearchWater": 5,
+        "Herbivore.decision.SeekFood": 15610,
+        "Herbivore.decision.SeekShelter": 11279,
+        "Herbivore.decision.SeekWater": 19569,
+        "Herbivore.food_intake": 124231,
+        "Herbivore.reject.Approach.OutOfRange": 5272,
+        "Herbivore.reject.Drink.MissingResource": 6133,
+        "Herbivore.reject.Eat.MissingResource": 1812,
+        "Herbivore.reject.Mate.Cooldown": 526,
+        "Herbivore.reject.Mate.InsufficientEnergy": 1,
+        "Herbivore.reject.Mate.NoBirthSpace": 1,
+        "Herbivore.reject.Mate.OutOfRange": 14,
+        "Herbivore.reject.Move.NoPath": 4996,
+        "Herbivore.reject.Move.Occupied": 7159
+      }
+    },
+    {
+      "tick": 16500,
+      "alive": {
+        "Carnivore": 61,
+        "Herbivore": 497
+      },
+      "plant_stock": 8572,
+      "occupied_grid_bins": 16,
+      "patch_counts": {
+        "0,0": 41,
+        "0,1": 42,
+        "0,2": 35,
+        "0,3": 40,
+        "1,0": 46,
+        "1,1": 32,
+        "1,2": 39,
+        "1,3": 24,
+        "2,0": 32,
+        "2,1": 39,
+        "2,2": 37,
+        "2,3": 14,
+        "3,0": 25,
+        "3,1": 31,
+        "3,2": 18,
+        "3,3": 2
+      },
+      "window_counts": {
+        "Carnivore.birth": 4,
+        "Carnivore.death.Some(Dehydration)": 1,
+        "Carnivore.death.Some(OldAge)": 4,
+        "Carnivore.death.Some(Starvation)": 2,
+        "Carnivore.decision.ApproachMate": 7,
+        "Carnivore.decision.Explore": 741,
+        "Carnivore.decision.HuntLowEnergy": 60,
+        "Carnivore.decision.HuntPrey": 1563,
+        "Carnivore.decision.HuntTooCostly": 11,
+        "Carnivore.decision.Mate": 8,
+        "Carnivore.decision.NoEligibleMate": 82,
+        "Carnivore.decision.PrepareReproduction": 5,
+        "Carnivore.decision.RecallMate": 102,
+        "Carnivore.decision.RecoverStamina": 37,
+        "Carnivore.decision.Rest": 1791,
+        "Carnivore.decision.SearchFood": 53,
+        "Carnivore.decision.SeekFood": 611,
+        "Carnivore.decision.SeekWater": 1259,
+        "Carnivore.food_intake": 15960,
+        "Carnivore.reject.Approach.OutOfRange": 328,
+        "Carnivore.reject.Attack.Inactive": 39,
+        "Carnivore.reject.Attack.NoPath": 140,
+        "Carnivore.reject.Attack.OutOfRange": 28,
+        "Carnivore.reject.Drink.MissingResource": 278,
+        "Carnivore.reject.Eat.MissingResource": 210,
+        "Carnivore.reject.Mate.Cooldown": 4,
+        "Carnivore.reject.Move.Occupied": 440,
+        "Herbivore.birth": 542,
+        "Herbivore.blocker.None": 6302,
+        "Herbivore.blocker.Some(Cooldown)": 23274,
+        "Herbivore.blocker.Some(Immature)": 9949,
+        "Herbivore.blocker.Some(InsufficientEnergy)": 8509,
+        "Herbivore.blocker.Some(InsufficientWater)": 1078,
+        "Herbivore.blocker.Some(PoorHealth)": 782,
+        "Herbivore.death.Some(Combat)": 132,
+        "Herbivore.death.Some(Dehydration)": 10,
+        "Herbivore.death.Some(OldAge)": 407,
+        "Herbivore.death.Some(Starvation)": 7,
+        "Herbivore.decision.ApproachMate": 369,
+        "Herbivore.decision.CorneredDefense": 1,
+        "Herbivore.decision.Explore": 375,
+        "Herbivore.decision.Mate": 1082,
+        "Herbivore.decision.NoEligibleMate": 121,
+        "Herbivore.decision.RecallMate": 87,
+        "Herbivore.decision.Rest": 923,
+        "Herbivore.decision.SearchWater": 1,
+        "Herbivore.decision.SeekFood": 13815,
+        "Herbivore.decision.SeekShelter": 9070,
+        "Herbivore.decision.SeekWater": 24050,
+        "Herbivore.food_intake": 113503,
+        "Herbivore.reject.Approach.OutOfRange": 6269,
+        "Herbivore.reject.Attack.OutOfRange": 1,
+        "Herbivore.reject.Drink.MissingResource": 9800,
+        "Herbivore.reject.Eat.MissingResource": 1372,
+        "Herbivore.reject.Mate.Cooldown": 522,
+        "Herbivore.reject.Mate.NoBirthSpace": 1,
+        "Herbivore.reject.Mate.OutOfRange": 17,
+        "Herbivore.reject.Move.NoPath": 3959,
+        "Herbivore.reject.Move.Occupied": 7693
+      }
+    },
+    {
+      "tick": 16800,
+      "alive": {
+        "Carnivore": 65,
+        "Herbivore": 366
+      },
+      "plant_stock": 9660,
+      "occupied_grid_bins": 15,
+      "patch_counts": {
+        "0,0": 37,
+        "0,1": 41,
+        "0,2": 29,
+        "0,3": 21,
+        "1,0": 37,
+        "1,1": 34,
+        "1,2": 22,
+        "1,3": 10,
+        "2,0": 29,
+        "2,1": 24,
+        "2,2": 14,
+        "2,3": 5,
+        "3,0": 34,
+        "3,1": 23,
+        "3,2": 6
+      },
+      "window_counts": {
+        "Carnivore.birth": 5,
+        "Carnivore.death.Some(Dehydration)": 2,
+        "Carnivore.death.Some(OldAge)": 3,
+        "Carnivore.decision.ApproachMate": 12,
+        "Carnivore.decision.Explore": 712,
+        "Carnivore.decision.HuntLowEnergy": 17,
+        "Carnivore.decision.HuntPrey": 1748,
+        "Carnivore.decision.HuntTooCostly": 13,
+        "Carnivore.decision.Mate": 10,
+        "Carnivore.decision.NoEligibleMate": 63,
+        "Carnivore.decision.PrepareReproduction": 5,
+        "Carnivore.decision.RecallMate": 75,
+        "Carnivore.decision.RecoverStamina": 42,
+        "Carnivore.decision.Rest": 1755,
+        "Carnivore.decision.SearchFood": 253,
+        "Carnivore.decision.SeekFood": 599,
+        "Carnivore.decision.SeekWater": 1156,
+        "Carnivore.food_intake": 15760,
+        "Carnivore.reject.Approach.OutOfRange": 304,
+        "Carnivore.reject.Attack.Inactive": 37,
+        "Carnivore.reject.Attack.NoPath": 190,
+        "Carnivore.reject.Attack.OutOfRange": 32,
+        "Carnivore.reject.Drink.MissingResource": 209,
+        "Carnivore.reject.Eat.MissingResource": 216,
+        "Carnivore.reject.Mate.Cooldown": 5,
+        "Carnivore.reject.Move.Occupied": 380,
+        "Herbivore.birth": 436,
+        "Herbivore.blocker.None": 5127,
+        "Herbivore.blocker.Some(Cooldown)": 18807,
+        "Herbivore.blocker.Some(Immature)": 8033,
+        "Herbivore.blocker.Some(InsufficientEnergy)": 6973,
+        "Herbivore.blocker.Some(InsufficientWater)": 734,
+        "Herbivore.blocker.Some(PoorHealth)": 656,
+        "Herbivore.death.Some(Combat)": 133,
+        "Herbivore.death.Some(Dehydration)": 5,
+        "Herbivore.death.Some(OldAge)": 364,
+        "Herbivore.death.Some(Starvation)": 13,
+        "Herbivore.decision.ApproachMate": 328,
+        "Herbivore.decision.Explore": 417,
+        "Herbivore.decision.Mate": 858,
+        "Herbivore.decision.NoEligibleMate": 97,
+        "Herbivore.decision.RecallMate": 122,
+        "Herbivore.decision.Rest": 969,
+        "Herbivore.decision.SearchWater": 2,
+        "Herbivore.decision.SeekFood": 11688,
+        "Herbivore.decision.SeekShelter": 8035,
+        "Herbivore.decision.SeekWater": 17814,
+        "Herbivore.food_intake": 96138,
+        "Herbivore.reject.Approach.OutOfRange": 4650,
+        "Herbivore.reject.Drink.MissingResource": 6622,
+        "Herbivore.reject.Eat.MissingResource": 1102,
+        "Herbivore.reject.Mate.Cooldown": 410,
+        "Herbivore.reject.Mate.OutOfRange": 12,
+        "Herbivore.reject.Move.NoPath": 3478,
+        "Herbivore.reject.Move.Occupied": 5963
+      }
+    },
+    {
+      "tick": 17000,
+      "alive": {
+        "Carnivore": 56,
+        "Herbivore": 274
+      },
+      "plant_stock": 11615,
+      "occupied_grid_bins": 15,
+      "patch_counts": {
+        "0,0": 38,
+        "0,1": 32,
+        "0,2": 14,
+        "0,3": 1,
+        "1,0": 37,
+        "1,1": 25,
+        "1,2": 3,
+        "1,3": 1,
+        "2,0": 38,
+        "2,1": 20,
+        "2,2": 3,
+        "2,3": 1,
+        "3,0": 36,
+        "3,1": 17,
+        "3,2": 8
+      },
+      "window_counts": {
+        "Carnivore.birth": 2,
+        "Carnivore.death.Some(OldAge)": 3,
+        "Carnivore.death.Some(Starvation)": 1,
+        "Carnivore.decision.ApproachMate": 11,
+        "Carnivore.decision.Explore": 606,
+        "Carnivore.decision.HuntLowEnergy": 40,
+        "Carnivore.decision.HuntPrey": 1513,
+        "Carnivore.decision.HuntTooCostly": 9,
+        "Carnivore.decision.Mate": 4,
+        "Carnivore.decision.NoEligibleMate": 64,
+        "Carnivore.decision.PrepareReproduction": 8,
+        "Carnivore.decision.RecallMate": 84,
+        "Carnivore.decision.RecoverStamina": 73,
+        "Carnivore.decision.Rest": 1498,
+        "Carnivore.decision.SearchFood": 346,
+        "Carnivore.decision.SeekFood": 533,
+        "Carnivore.decision.SeekWater": 856,
+        "Carnivore.food_intake": 13320,
+        "Carnivore.reject.Approach.OutOfRange": 255,
+        "Carnivore.reject.Attack.Inactive": 46,
+        "Carnivore.reject.Attack.NoPath": 175,
+        "Carnivore.reject.Attack.OutOfRange": 28,
+        "Carnivore.reject.Drink.MissingResource": 103,
+        "Carnivore.reject.Eat.MissingResource": 186,
+        "Carnivore.reject.Mate.Cooldown": 2,
+        "Carnivore.reject.Move.Occupied": 292,
+        "Herbivore.birth": 330,
+        "Herbivore.blocker.None": 4072,
+        "Herbivore.blocker.Some(Cooldown)": 14014,
+        "Herbivore.blocker.Some(Immature)": 5864,
+        "Herbivore.blocker.Some(InsufficientEnergy)": 3776,
+        "Herbivore.blocker.Some(InsufficientWater)": 393,
+        "Herbivore.blocker.Some(PoorHealth)": 614,
+        "Herbivore.death.Some(Combat)": 111,
+        "Herbivore.death.Some(Dehydration)": 5,
+        "Herbivore.death.Some(OldAge)": 250,
+        "Herbivore.death.Some(Starvation)": 6,
+        "Herbivore.decision.ApproachMate": 282,
+        "Herbivore.decision.EscapeThreat": 1,
+        "Herbivore.decision.Explore": 383,
+        "Herbivore.decision.Mate": 639,
+        "Herbivore.decision.NoEligibleMate": 119,
+        "Herbivore.decision.RecallMate": 115,
+        "Herbivore.decision.Rest": 877,
+        "Herbivore.decision.SearchWater": 2,
+        "Herbivore.decision.SeekFood": 8470,
+        "Herbivore.decision.SeekShelter": 5860,
+        "Herbivore.decision.SeekWater": 11985,
+        "Herbivore.food_intake": 70606,
+        "Herbivore.reject.Approach.OutOfRange": 3139,
+        "Herbivore.reject.Drink.MissingResource": 4258,
+        "Herbivore.reject.Eat.MissingResource": 745,
+        "Herbivore.reject.Mate.Cooldown": 299,
+        "Herbivore.reject.Mate.OutOfRange": 10,
+        "Herbivore.reject.Move.NoPath": 2493,
+        "Herbivore.reject.Move.Occupied": 4015
+      }
+    },
+    {
+      "tick": 17200,
+      "alive": {
+        "Carnivore": 49,
+        "Herbivore": 175
+      },
+      "plant_stock": 12780,
+      "occupied_grid_bins": 11,
+      "patch_counts": {
+        "0,0": 19,
+        "0,1": 12,
+        "0,2": 1,
+        "1,0": 29,
+        "1,1": 11,
+        "1,2": 1,
+        "2,0": 33,
+        "2,1": 18,
+        "3,0": 33,
+        "3,1": 17,
+        "3,2": 1
+      },
+      "window_counts": {
+        "Carnivore.birth": 5,
+        "Carnivore.death.Some(OldAge)": 8,
+        "Carnivore.death.Some(Starvation)": 2,
+        "Carnivore.decision.ApproachMate": 19,
+        "Carnivore.decision.Explore": 628,
+        "Carnivore.decision.HuntLowEnergy": 55,
+        "Carnivore.decision.HuntPrey": 1307,
+        "Carnivore.decision.HuntTooCostly": 3,
+        "Carnivore.decision.Mate": 10,
+        "Carnivore.decision.NoEligibleMate": 64,
+        "Carnivore.decision.PrepareReproduction": 4,
+        "Carnivore.decision.RecallMate": 108,
+        "Carnivore.decision.RecoverStamina": 28,
+        "Carnivore.decision.Rest": 1461,
+        "Carnivore.decision.SearchFood": 299,
+        "Carnivore.decision.SearchWater": 1,
+        "Carnivore.decision.SeekFood": 447,
+        "Carnivore.decision.SeekWater": 718,
+        "Carnivore.food_intake": 12800,
+        "Carnivore.reject.Approach.OutOfRange": 160,
+        "Carnivore.reject.Attack.Inactive": 33,
+        "Carnivore.reject.Attack.NoPath": 130,
+        "Carnivore.reject.Attack.OutOfRange": 15,
+        "Carnivore.reject.Drink.MissingResource": 65,
+        "Carnivore.reject.Eat.MissingResource": 140,
+        "Carnivore.reject.Mate.Cooldown": 5,
+        "Carnivore.reject.Move.Occupied": 259,
+        "Herbivore.birth": 239,
+        "Herbivore.blocker.None": 2614,
+        "Herbivore.blocker.Some(Cooldown)": 9950,
+        "Herbivore.blocker.Some(Immature)": 4250,
+        "Herbivore.blocker.Some(InsufficientEnergy)": 1080,
+        "Herbivore.blocker.Some(InsufficientWater)": 116,
+        "Herbivore.blocker.Some(PoorHealth)": 632,
+        "Herbivore.death.Some(Combat)": 115,
+        "Herbivore.death.Some(OldAge)": 167,
+        "Herbivore.death.Some(Starvation)": 2,
+        "Herbivore.decision.ApproachMate": 207,
+        "Herbivore.decision.EscapeThreat": 1,
+        "Herbivore.decision.Explore": 427,
+        "Herbivore.decision.Mate": 439,
+        "Herbivore.decision.NoEligibleMate": 116,
+        "Herbivore.decision.RecallMate": 105,
+        "Herbivore.decision.Rest": 924,
+        "Herbivore.decision.SeekFood": 5932,
+        "Herbivore.decision.SeekShelter": 5262,
+        "Herbivore.decision.SeekWater": 5229,
+        "Herbivore.food_intake": 50548,
+        "Herbivore.reject.Approach.OutOfRange": 1288,
+        "Herbivore.reject.Drink.MissingResource": 901,
+        "Herbivore.reject.Eat.MissingResource": 404,
+        "Herbivore.reject.Mate.Cooldown": 194,
+        "Herbivore.reject.Mate.OutOfRange": 6,
+        "Herbivore.reject.Move.NoPath": 2327,
+        "Herbivore.reject.Move.Occupied": 2143
+      }
+    },
+    {
+      "tick": 17400,
+      "alive": {
+        "Carnivore": 41,
+        "Herbivore": 78
+      },
+      "plant_stock": 14402,
+      "occupied_grid_bins": 11,
+      "patch_counts": {
+        "0,0": 4,
+        "0,1": 2,
+        "1,0": 8,
+        "1,1": 9,
+        "1,2": 1,
+        "2,0": 23,
+        "2,1": 7,
+        "2,2": 1,
+        "3,0": 10,
+        "3,1": 9,
+        "3,2": 4
+      },
+      "window_counts": {
+        "Carnivore.birth": 3,
+        "Carnivore.death.Some(OldAge)": 3,
+        "Carnivore.death.Some(Starvation)": 3,
+        "Carnivore.decision.ApproachMate": 2,
+        "Carnivore.decision.Explore": 447,
+        "Carnivore.decision.HuntLowEnergy": 53,
+        "Carnivore.decision.HuntPrey": 1515,
+        "Carnivore.decision.HuntTooCostly": 19,
+        "Carnivore.decision.Mate": 6,
+        "Carnivore.decision.NoEligibleMate": 47,
+        "Carnivore.decision.PrepareReproduction": 4,
+        "Carnivore.decision.RecallMate": 57,
+        "Carnivore.decision.RecoverStamina": 26,
+        "Carnivore.decision.Rest": 985,
+        "Carnivore.decision.SearchFood": 137,
+        "Carnivore.decision.SeekFood": 431,
+        "Carnivore.decision.SeekWater": 515,
+        "Carnivore.food_intake": 10330,
+        "Carnivore.reject.Approach.OutOfRange": 136,
+        "Carnivore.reject.Attack.Inactive": 35,
+        "Carnivore.reject.Attack.NoPath": 182,
+        "Carnivore.reject.Attack.OutOfRange": 10,
+        "Carnivore.reject.Drink.MissingResource": 27,
+        "Carnivore.reject.Eat.MissingResource": 173,
+        "Carnivore.reject.Mate.Cooldown": 3,
+        "Carnivore.reject.Move.Occupied": 216,
+        "Herbivore.birth": 145,
+        "Herbivore.blocker.None": 1876,
+        "Herbivore.blocker.Some(Cooldown)": 6382,
+        "Herbivore.blocker.Some(Immature)": 2421,
+        "Herbivore.blocker.Some(InsufficientEnergy)": 333,
+        "Herbivore.blocker.Some(InsufficientWater)": 54,
+        "Herbivore.blocker.Some(PoorHealth)": 625,
+        "Herbivore.death.Some(Combat)": 106,
+        "Herbivore.death.Some(OldAge)": 109,
+        "Herbivore.decision.ApproachMate": 154,
+        "Herbivore.decision.Explore": 330,
+        "Herbivore.decision.Mate": 275,
+        "Herbivore.decision.NoEligibleMate": 75,
+        "Herbivore.decision.RecallMate": 128,
+        "Herbivore.decision.Rest": 870,
+        "Herbivore.decision.SearchWater": 1,
+        "Herbivore.decision.SeekFood": 3750,
+        "Herbivore.decision.SeekShelter": 3400,
+        "Herbivore.decision.SeekWater": 2708,
+        "Herbivore.food_intake": 33239,
+        "Herbivore.reject.Approach.OutOfRange": 587,
+        "Herbivore.reject.Drink.MissingResource": 279,
+        "Herbivore.reject.Eat.MissingResource": 188,
+        "Herbivore.reject.Mate.Cooldown": 123,
+        "Herbivore.reject.Mate.OutOfRange": 7,
+        "Herbivore.reject.Move.NoPath": 1464,
+        "Herbivore.reject.Move.Occupied": 1141
+      }
+    },
+    {
+      "tick": 17500,
+      "alive": {
+        "Carnivore": 35,
+        "Herbivore": 16
+      },
+      "plant_stock": 15439,
+      "occupied_grid_bins": 8,
+      "patch_counts": {
+        "1,0": 3,
+        "1,1": 3,
+        "2,0": 1,
+        "2,1": 1,
+        "2,2": 4,
+        "3,0": 2,
+        "3,1": 1,
+        "3,3": 1
+      },
+      "window_counts": {
+        "Carnivore.death.Some(Dehydration)": 2,
+        "Carnivore.death.Some(OldAge)": 2,
+        "Carnivore.death.Some(Starvation)": 2,
+        "Carnivore.decision.ApproachMate": 2,
+        "Carnivore.decision.Explore": 259,
+        "Carnivore.decision.HuntLowEnergy": 77,
+        "Carnivore.decision.HuntPrey": 1169,
+        "Carnivore.decision.HuntTooCostly": 18,
+        "Carnivore.decision.NoEligibleMate": 36,
+        "Carnivore.decision.PrepareReproduction": 4,
+        "Carnivore.decision.RecallMate": 40,
+        "Carnivore.decision.RecoverStamina": 98,
+        "Carnivore.decision.Rest": 602,
+        "Carnivore.decision.SearchFood": 858,
+        "Carnivore.decision.SeekFood": 279,
+        "Carnivore.decision.SeekWater": 377,
+        "Carnivore.food_intake": 5440,
+        "Carnivore.reject.Approach.OutOfRange": 139,
+        "Carnivore.reject.Attack.Inactive": 21,
+        "Carnivore.reject.Attack.NoPath": 150,
+        "Carnivore.reject.Attack.OutOfRange": 11,
+        "Carnivore.reject.Drink.MissingResource": 7,
+        "Carnivore.reject.Eat.MissingResource": 126,
+        "Carnivore.reject.Move.Occupied": 207,
+        "Herbivore.birth": 57,
+        "Herbivore.blocker.None": 925,
+        "Herbivore.blocker.Some(Cooldown)": 2495,
+        "Herbivore.blocker.Some(Immature)": 886,
+        "Herbivore.blocker.Some(InsufficientEnergy)": 22,
+        "Herbivore.blocker.Some(InsufficientWater)": 4,
+        "Herbivore.blocker.Some(PoorHealth)": 449,
+        "Herbivore.death.Some(Combat)": 59,
+        "Herbivore.death.Some(OldAge)": 60,
+        "Herbivore.decision.ApproachMate": 74,
+        "Herbivore.decision.Explore": 185,
+        "Herbivore.decision.Mate": 96,
+        "Herbivore.decision.NoEligibleMate": 85,
+        "Herbivore.decision.RecallMate": 114,
+        "Herbivore.decision.Rest": 547,
+        "Herbivore.decision.SeekFood": 1563,
+        "Herbivore.decision.SeekShelter": 1276,
+        "Herbivore.decision.SeekWater": 841,
+        "Herbivore.food_intake": 14696,
+        "Herbivore.reject.Approach.OutOfRange": 109,
+        "Herbivore.reject.Drink.MissingResource": 23,
+        "Herbivore.reject.Eat.MissingResource": 28,
+        "Herbivore.reject.Mate.Cooldown": 39,
+        "Herbivore.reject.Move.NoPath": 478,
+        "Herbivore.reject.Move.Occupied": 276
+      }
+    },
+    {
+      "tick": 17600,
+      "alive": {
+        "Carnivore": 12,
+        "Herbivore": 2
+      },
+      "plant_stock": 15666,
+      "occupied_grid_bins": 2,
+      "patch_counts": {
+        "2,3": 1,
+        "3,2": 1
+      },
+      "window_counts": {
+        "Carnivore.death.Some(Dehydration)": 2,
+        "Carnivore.death.Some(OldAge)": 4,
+        "Carnivore.death.Some(Starvation)": 17,
+        "Carnivore.decision.Explore": 60,
+        "Carnivore.decision.HuntLowEnergy": 92,
+        "Carnivore.decision.HuntPrey": 165,
+        "Carnivore.decision.HuntTooCostly": 3,
+        "Carnivore.decision.NoEligibleMate": 5,
+        "Carnivore.decision.RecallMate": 15,
+        "Carnivore.decision.RecoverStamina": 51,
+        "Carnivore.decision.Rest": 175,
+        "Carnivore.decision.SearchFood": 1347,
+        "Carnivore.decision.SeekFood": 108,
+        "Carnivore.decision.SeekWater": 304,
+        "Carnivore.food_intake": 1880,
+        "Carnivore.reject.Approach.OutOfRange": 185,
+        "Carnivore.reject.Attack.Inactive": 4,
+        "Carnivore.reject.Attack.NoPath": 26,
+        "Carnivore.reject.Attack.OutOfRange": 1,
+        "Carnivore.reject.Eat.MissingResource": 19,
+        "Carnivore.reject.Move.Occupied": 18,
+        "Herbivore.birth": 7,
+        "Herbivore.blocker.None": 234,
+        "Herbivore.blocker.Some(Cooldown)": 345,
+        "Herbivore.blocker.Some(Immature)": 108,
+        "Herbivore.blocker.Some(PoorHealth)": 99,
+        "Herbivore.death.Some(Combat)": 11,
+        "Herbivore.death.Some(OldAge)": 10,
+        "Herbivore.decision.ApproachMate": 7,
+        "Herbivore.decision.Explore": 41,
+        "Herbivore.decision.Mate": 12,
+        "Herbivore.decision.NoEligibleMate": 69,
+        "Herbivore.decision.RecallMate": 20,
+        "Herbivore.decision.Rest": 119,
+        "Herbivore.decision.SeekFood": 255,
+        "Herbivore.decision.SeekShelter": 154,
+        "Herbivore.decision.SeekWater": 109,
+        "Herbivore.food_intake": 2508,
+        "Herbivore.reject.Approach.OutOfRange": 3,
+        "Herbivore.reject.Eat.MissingResource": 2,
+        "Herbivore.reject.Mate.Cooldown": 5,
+        "Herbivore.reject.Move.NoPath": 57,
+        "Herbivore.reject.Move.Occupied": 21
+      }
+    },
+    {
+      "tick": 17660,
+      "alive": {
+        "Carnivore": 5
+      },
+      "plant_stock": 15672,
+      "occupied_grid_bins": 0,
+      "patch_counts": {},
+      "window_counts": {
+        "Carnivore.death.Some(OldAge)": 2,
+        "Carnivore.death.Some(Starvation)": 5,
+        "Carnivore.decision.HuntPrey": 8,
+        "Carnivore.decision.RecoverStamina": 9,
+        "Carnivore.decision.SearchFood": 326,
+        "Carnivore.decision.SeekFood": 7,
+        "Carnivore.decision.SeekWater": 89,
+        "Carnivore.food_intake": 10,
+        "Carnivore.reject.Approach.OutOfRange": 74,
+        "Carnivore.reject.Attack.NoPath": 2,
+        "Herbivore.blocker.None": 92,
+        "Herbivore.death.Some(OldAge)": 2,
+        "Herbivore.decision.NoEligibleMate": 54,
+        "Herbivore.decision.SeekFood": 27,
+        "Herbivore.decision.SeekShelter": 3,
+        "Herbivore.decision.SeekWater": 8,
+        "Herbivore.food_intake": 270
+      }
+    }
+  ],
+  "last_two_at_17600": [
+    {
+      "id": 92153,
+      "last_decision": {
+        "life": {
+          "age": 72,
+          "death_cause": null,
+          "energy": 59,
+          "exertion": 0,
+          "health": 106,
+          "maturity_age": 20,
+          "max_age": 105,
+          "max_energy": 80,
+          "max_health": 120,
+          "max_meal": 10,
+          "max_stamina": 16,
+          "max_water": 60,
+          "move_energy_cost": 1,
+          "moves_used": 0,
+          "reproduction_cooldown": 0,
+          "reproduction_interval": 25,
+          "reproduction_reserve_per_mille": 500,
+          "speed": 3,
+          "stamina": 14,
+          "vision_range": 6,
+          "water": 43
+        },
+        "outcome": {
+          "events": [
+            {
+              "EntityDrank": {
+                "amount": 10,
+                "id": 92153,
+                "pos": {
+                  "x": 37,
+                  "y": 25
+                }
+              }
+            }
+          ],
+          "life": {
+            "age": 72,
+            "death_cause": null,
+            "energy": 59,
+            "exertion": 0,
+            "health": 106,
+            "maturity_age": 20,
+            "max_age": 105,
+            "max_energy": 80,
+            "max_health": 120,
+            "max_meal": 10,
+            "max_stamina": 16,
+            "max_water": 60,
+            "move_energy_cost": 1,
+            "moves_used": 0,
+            "reproduction_cooldown": 0,
+            "reproduction_interval": 25,
+            "reproduction_reserve_per_mille": 500,
+            "speed": 3,
+            "stamina": 14,
+            "vision_range": 6,
+            "water": 53
+          },
+          "phase": "Active",
+          "pos": {
+            "x": 38,
+            "y": 24
+          }
+        },
+        "pos": {
+          "x": 38,
+          "y": 24
+        },
+        "reason": "SeekWater",
+        "seen": {
+          "entities": [],
+          "foods": 24,
+          "waters": 5
+        },
+        "tick": 17600
+      },
+      "life": {
+        "age": 72,
+        "death_cause": null,
+        "energy": 59,
+        "exertion": 0,
+        "health": 106,
+        "maturity_age": 20,
+        "max_age": 105,
+        "max_energy": 80,
+        "max_health": 120,
+        "max_meal": 10,
+        "max_stamina": 16,
+        "max_water": 60,
+        "move_energy_cost": 1,
+        "moves_used": 0,
+        "reproduction_cooldown": 0,
+        "reproduction_interval": 25,
+        "reproduction_reserve_per_mille": 500,
+        "speed": 3,
+        "stamina": 14,
+        "vision_range": 6,
+        "water": 53
+      },
+      "pos": {
+        "x": 38,
+        "y": 24
+      },
+      "sheltered": true
+    },
+    {
+      "id": 92156,
+      "last_decision": {
+        "life": {
+          "age": 46,
+          "death_cause": null,
+          "energy": 59,
+          "exertion": 0,
+          "health": 89,
+          "maturity_age": 20,
+          "max_age": 105,
+          "max_energy": 80,
+          "max_health": 120,
+          "max_meal": 10,
+          "max_stamina": 16,
+          "max_water": 60,
+          "move_energy_cost": 1,
+          "moves_used": 0,
+          "reproduction_cooldown": 0,
+          "reproduction_interval": 25,
+          "reproduction_reserve_per_mille": 500,
+          "speed": 3,
+          "stamina": 16,
+          "vision_range": 6,
+          "water": 44
+        },
+        "outcome": {
+          "events": [
+            {
+              "EntityDrank": {
+                "amount": 10,
+                "id": 92156,
+                "pos": {
+                  "x": 31,
+                  "y": 39
+                }
+              }
+            }
+          ],
+          "life": {
+            "age": 46,
+            "death_cause": null,
+            "energy": 59,
+            "exertion": 0,
+            "health": 89,
+            "maturity_age": 20,
+            "max_age": 105,
+            "max_energy": 80,
+            "max_health": 120,
+            "max_meal": 10,
+            "max_stamina": 16,
+            "max_water": 60,
+            "move_energy_cost": 1,
+            "moves_used": 0,
+            "reproduction_cooldown": 0,
+            "reproduction_interval": 25,
+            "reproduction_reserve_per_mille": 500,
+            "speed": 3,
+            "stamina": 16,
+            "vision_range": 6,
+            "water": 54
+          },
+          "phase": "Active",
+          "pos": {
+            "x": 31,
+            "y": 38
+          }
+        },
+        "pos": {
+          "x": 31,
+          "y": 38
+        },
+        "reason": "SeekWater",
+        "seen": {
+          "entities": [],
+          "foods": 18,
+          "waters": 6
+        },
+        "tick": 17600
+      },
+      "life": {
+        "age": 46,
+        "death_cause": null,
+        "energy": 59,
+        "exertion": 0,
+        "health": 89,
+        "maturity_age": 20,
+        "max_age": 105,
+        "max_energy": 80,
+        "max_health": 120,
+        "max_meal": 10,
+        "max_stamina": 16,
+        "max_water": 60,
+        "move_energy_cost": 1,
+        "moves_used": 0,
+        "reproduction_cooldown": 0,
+        "reproduction_interval": 25,
+        "reproduction_reserve_per_mille": 500,
+        "speed": 3,
+        "stamina": 16,
+        "vision_range": 6,
+        "water": 54
+      },
+      "pos": {
+        "x": 31,
+        "y": 38
+      },
+      "sheltered": true
+    }
+  ],
+  "last_two_deaths": [
+    {
+      "cause": "OldAge",
+      "id": 92153,
+      "last_decision": {
+        "life": {
+          "age": 105,
+          "death_cause": null,
+          "energy": 61,
+          "exertion": 0,
+          "health": 120,
+          "maturity_age": 20,
+          "max_age": 105,
+          "max_energy": 80,
+          "max_health": 120,
+          "max_meal": 10,
+          "max_stamina": 16,
+          "max_water": 60,
+          "move_energy_cost": 1,
+          "moves_used": 0,
+          "reproduction_cooldown": 0,
+          "reproduction_interval": 25,
+          "reproduction_reserve_per_mille": 500,
+          "speed": 3,
+          "stamina": 16,
+          "vision_range": 6,
+          "water": 50
+        },
+        "outcome": {
+          "events": [],
+          "life": {
+            "age": 105,
+            "death_cause": null,
+            "energy": 61,
+            "exertion": 0,
+            "health": 120,
+            "maturity_age": 20,
+            "max_age": 105,
+            "max_energy": 80,
+            "max_health": 120,
+            "max_meal": 10,
+            "max_stamina": 16,
+            "max_water": 60,
+            "move_energy_cost": 1,
+            "moves_used": 0,
+            "reproduction_cooldown": 0,
+            "reproduction_interval": 25,
+            "reproduction_reserve_per_mille": 500,
+            "speed": 3,
+            "stamina": 16,
+            "vision_range": 6,
+            "water": 50
+          },
+          "phase": "Active",
+          "pos": {
+            "x": 31,
+            "y": 4
+          }
+        },
+        "pos": {
+          "x": 31,
+          "y": 4
+        },
+        "reason": "NoEligibleMate",
+        "seen": {
+          "entities": [],
+          "foods": 18,
+          "waters": 5
+        },
+        "tick": 17633
+      },
+      "life": {
+        "age": 106,
+        "death_cause": "OldAge",
+        "energy": 61,
+        "exertion": 0,
+        "health": 0,
+        "maturity_age": 20,
+        "max_age": 105,
+        "max_energy": 80,
+        "max_health": 120,
+        "max_meal": 10,
+        "max_stamina": 16,
+        "max_water": 60,
+        "move_energy_cost": 1,
+        "moves_used": 0,
+        "reproduction_cooldown": 0,
+        "reproduction_interval": 25,
+        "reproduction_reserve_per_mille": 500,
+        "speed": 3,
+        "stamina": 16,
+        "vision_range": 6,
+        "water": 50
+      },
+      "parents": [
+        92130,
+        92131
+      ],
+      "pos": {
+        "x": 31,
+        "y": 4
+      },
+      "tick": 17634
+    },
+    {
+      "cause": "OldAge",
+      "id": 92156,
+      "last_decision": {
+        "life": {
+          "age": 105,
+          "death_cause": null,
+          "energy": 58,
+          "exertion": 0,
+          "health": 120,
+          "maturity_age": 20,
+          "max_age": 105,
+          "max_energy": 80,
+          "max_health": 120,
+          "max_meal": 10,
+          "max_stamina": 16,
+          "max_water": 60,
+          "move_energy_cost": 1,
+          "moves_used": 0,
+          "reproduction_cooldown": 0,
+          "reproduction_interval": 25,
+          "reproduction_reserve_per_mille": 500,
+          "speed": 3,
+          "stamina": 12,
+          "vision_range": 6,
+          "water": 45
+        },
+        "outcome": {
+          "events": [
+            {
+              "EntityAte": {
+                "amount": 10,
+                "id": 92156,
+                "pos": {
+                  "x": 26,
+                  "y": 42
+                }
+              }
+            }
+          ],
+          "life": {
+            "age": 105,
+            "death_cause": null,
+            "energy": 68,
+            "exertion": 0,
+            "health": 120,
+            "maturity_age": 20,
+            "max_age": 105,
+            "max_energy": 80,
+            "max_health": 120,
+            "max_meal": 10,
+            "max_stamina": 16,
+            "max_water": 60,
+            "move_energy_cost": 1,
+            "moves_used": 0,
+            "reproduction_cooldown": 0,
+            "reproduction_interval": 25,
+            "reproduction_reserve_per_mille": 500,
+            "speed": 3,
+            "stamina": 12,
+            "vision_range": 6,
+            "water": 45
+          },
+          "phase": "Active",
+          "pos": {
+            "x": 25,
+            "y": 42
+          }
+        },
+        "pos": {
+          "x": 25,
+          "y": 42
+        },
+        "reason": "SeekFood",
+        "seen": {
+          "entities": [],
+          "foods": 18,
+          "waters": 7
+        },
+        "tick": 17659
+      },
+      "life": {
+        "age": 106,
+        "death_cause": "OldAge",
+        "energy": 68,
+        "exertion": 0,
+        "health": 0,
+        "maturity_age": 20,
+        "max_age": 105,
+        "max_energy": 80,
+        "max_health": 120,
+        "max_meal": 10,
+        "max_stamina": 16,
+        "max_water": 60,
+        "move_energy_cost": 1,
+        "moves_used": 0,
+        "reproduction_cooldown": 0,
+        "reproduction_interval": 25,
+        "reproduction_reserve_per_mille": 500,
+        "speed": 3,
+        "stamina": 16,
+        "vision_range": 6,
+        "water": 45
+      },
+      "parents": [
+        92131,
+        92153
+      ],
+      "pos": {
+        "x": 25,
+        "y": 42
+      },
+      "tick": 17660
+    }
+  ],
+  "last_64_death_causes": {
+    "OldAge": 34,
+    "Combat": 30
+  },
+  "last_64_combat_juveniles": 15,
+  "counterfactuals": [
+    {
+      "case": "16000-reserve-off",
+      "end": {
+        "alive": {
+          "Carnivore": 44,
+          "Herbivore": 535
+        },
+        "births": {
+          "Carnivore": 79,
+          "Herbivore": 8886
+        },
+        "deaths": {
+          "Carnivore.Some(Dehydration)": 1,
+          "Carnivore.Some(OldAge)": 75,
+          "Carnivore.Some(Starvation)": 13,
+          "Herbivore.Some(Combat)": 1709,
+          "Herbivore.Some(Dehydration)": 115,
+          "Herbivore.Some(OldAge)": 6794,
+          "Herbivore.Some(Starvation)": 218
+        },
+        "rng": 8526438751323630364,
+        "start": 16000,
+        "tick": 17660,
+        "treatment": "reserve-off"
+      },
+      "points": [
+        {
+          "alive": {
+            "Carnivore": 65,
+            "Herbivore": 392
+          },
+          "births": {
+            "Carnivore": 45,
+            "Herbivore": 4360
+          },
+          "deaths": {
+            "Carnivore.Some(OldAge)": 31,
+            "Carnivore.Some(Starvation)": 3,
+            "Herbivore.Some(Combat)": 916,
+            "Herbivore.Some(Dehydration)": 54,
+            "Herbivore.Some(OldAge)": 3370,
+            "Herbivore.Some(Starvation)": 113
+          },
+          "tick": 16800
+        },
+        {
+          "alive": {
+            "Carnivore": 57,
+            "Herbivore": 346
+          },
+          "births": {
+            "Carnivore": 52,
+            "Herbivore": 5173
+          },
+          "deaths": {
+            "Carnivore.Some(OldAge)": 41,
+            "Carnivore.Some(Starvation)": 8,
+            "Herbivore.Some(Combat)": 1175,
+            "Herbivore.Some(Dehydration)": 58,
+            "Herbivore.Some(OldAge)": 3958,
+            "Herbivore.Some(Starvation)": 121
+          },
+          "tick": 17000
+        },
+        {
+          "alive": {
+            "Carnivore": 50,
+            "Herbivore": 587
+          },
+          "births": {
+            "Carnivore": 74,
+            "Herbivore": 7427
+          },
+          "deaths": {
+            "Carnivore.Some(Dehydration)": 1,
+            "Carnivore.Some(OldAge)": 64,
+            "Carnivore.Some(Starvation)": 13,
+            "Herbivore.Some(Combat)": 1497,
+            "Herbivore.Some(Dehydration)": 91,
+            "Herbivore.Some(OldAge)": 5564,
+            "Herbivore.Some(Starvation)": 173
+          },
+          "tick": 17400
+        },
+        {
+          "alive": {
+            "Carnivore": 44,
+            "Herbivore": 535
+          },
+          "births": {
+            "Carnivore": 79,
+            "Herbivore": 8886
+          },
+          "deaths": {
+            "Carnivore.Some(Dehydration)": 1,
+            "Carnivore.Some(OldAge)": 75,
+            "Carnivore.Some(Starvation)": 13,
+            "Herbivore.Some(Combat)": 1709,
+            "Herbivore.Some(Dehydration)": 115,
+            "Herbivore.Some(OldAge)": 6794,
+            "Herbivore.Some(Starvation)": 218
+          },
+          "tick": 17660
+        }
+      ]
+    },
+    {
+      "case": "16000-unchanged",
+      "end": {
+        "alive": {
+          "Carnivore": 56,
+          "Herbivore": 274
+        },
+        "births": {
+          "Carnivore": 57,
+          "Herbivore": 5006
+        },
+        "deaths": {
+          "Carnivore.Some(Dehydration)": 6,
+          "Carnivore.Some(OldAge)": 41,
+          "Carnivore.Some(Starvation)": 8,
+          "Herbivore.Some(Combat)": 1208,
+          "Herbivore.Some(Dehydration)": 66,
+          "Herbivore.Some(OldAge)": 3842,
+          "Herbivore.Some(Starvation)": 101
+        },
+        "rng": 587626495818737977,
+        "start": 16000,
+        "tick": 17000,
+        "treatment": "unchanged"
+      },
+      "points": [
+        {
+          "alive": {
+            "Carnivore": 65,
+            "Herbivore": 366
+          },
+          "births": {
+            "Carnivore": 51,
+            "Herbivore": 4274
+          },
+          "deaths": {
+            "Carnivore.Some(Dehydration)": 6,
+            "Carnivore.Some(OldAge)": 31,
+            "Carnivore.Some(Starvation)": 3,
+            "Herbivore.Some(Combat)": 953,
+            "Herbivore.Some(Dehydration)": 58,
+            "Herbivore.Some(OldAge)": 3291,
+            "Herbivore.Some(Starvation)": 91
+          },
+          "tick": 16800
+        },
+        {
+          "alive": {
+            "Carnivore": 56,
+            "Herbivore": 274
+          },
+          "births": {
+            "Carnivore": 57,
+            "Herbivore": 5006
+          },
+          "deaths": {
+            "Carnivore.Some(Dehydration)": 6,
+            "Carnivore.Some(OldAge)": 41,
+            "Carnivore.Some(Starvation)": 8,
+            "Herbivore.Some(Combat)": 1208,
+            "Herbivore.Some(Dehydration)": 66,
+            "Herbivore.Some(OldAge)": 3842,
+            "Herbivore.Some(Starvation)": 101
+          },
+          "tick": 17000
+        }
+      ]
+    },
+    {
+      "case": "17400-without-predators",
+      "end": {
+        "alive": {
+          "Herbivore": 606
+        },
+        "births": {
+          "Herbivore": 1184
+        },
+        "deaths": {
+          "Herbivore.Some(Dehydration)": 9,
+          "Herbivore.Some(OldAge)": 616,
+          "Herbivore.Some(Starvation)": 31
+        },
+        "rng": 501119659397701214,
+        "start": 17400,
+        "tick": 17700,
+        "treatment": "without-predators"
+      },
+      "points": [
+        {
+          "alive": {
+            "Herbivore": 606
+          },
+          "births": {
+            "Herbivore": 1184
+          },
+          "deaths": {
+            "Herbivore.Some(Dehydration)": 9,
+            "Herbivore.Some(OldAge)": 616,
+            "Herbivore.Some(Starvation)": 31
+          },
+          "tick": 17700
+        }
+      ]
+    },
+    {
+      "case": "17600-without-predators",
+      "end": {
+        "alive": {},
+        "births": {},
+        "deaths": {
+          "Herbivore.Some(OldAge)": 2
+        },
+        "rng": 8949015883398613252,
+        "start": 17600,
+        "tick": 17800,
+        "treatment": "without-predators"
+      },
+      "points": [
+        {
+          "alive": {},
+          "births": {},
+          "deaths": {
+            "Herbivore.Some(OldAge)": 2
+          },
+          "tick": 17700
+        },
+        {
+          "alive": {},
+          "births": {},
+          "deaths": {
+            "Herbivore.Some(OldAge)": 2
+          },
+          "tick": 17800
+        }
+      ]
+    }
+  ],
+  "source_sha256": {
+    "data/experiments/policy-mature-validation/normal/seed-2.json": "0f890c4c1db05c0c852b3594839e0cd6f6135435f998c4376973653018c8e87b",
+    "data/experiments/seed2-collapse-diagnosis/result.json": "1a94d42a201a08120bfb52d4b49ab0b2a026a40d9408b13c2fadede0c04e8b11",
+    "data/experiments/seed2-collapse-diagnosis/detail/seed-2/windows.jsonl": "5f1094f319fb30907d7e858d16a88c6001ce0b7f92fa79e0a34fa03270c339fc",
+    "data/experiments/seed2-collapse-diagnosis/detail/seed-2/last-herbivore-deaths.json": "3abab19467f71b36b4589664d5edc26b7560e08623fdeaf704ce114a887c3dc0",
+    "data/experiments/seed2-collapse-diagnosis/branch-manifest.json": "b57564eb0a19d067682f45e6d075f423385f5bfd35bedd62e9a5b09acba013fc",
+    "data/experiments/seed2-collapse-diagnosis/branches/17600-without-predators.jsonl": "f3a2014e0046bdad802534fb94376cc14ca6987f297161afb7c82c40ea7503bd",
+    "data/experiments/seed2-collapse-diagnosis/branches/17400-without-predators.jsonl": "15f2954361559ff1b00159e0d9e7eabec18973b42d03cbc9fa5f716fe9779ecc",
+    "data/experiments/seed2-collapse-diagnosis/branches/16000-unchanged.jsonl": "4672373c4759fce584245e620e19229b61ca5f7b3985f474861e69319fd01fda",
+    "data/experiments/seed2-collapse-diagnosis/branches/16000-reserve-off.jsonl": "28933e5715884c72505b063a7b50e8099c58cd6316cb4104981f43bd4ed1f581"
+  },
+  "limits": [
+    "Counterfactuals are copied fixed-mode worlds, not an ecological fix or acceptance.",
+    "Reserve-off disables all preparation, not only the mature vs reproductive difference.",
+    "Changing actions or removing predators changes subsequent RNG consumption.",
+    "Grid bins use floor((coordinate+6)/14); these are spatial summaries, not closed populations.",
+    "A single seed and short counterfactuals do not establish unseen-seed or shock stability."
+  ]
+}

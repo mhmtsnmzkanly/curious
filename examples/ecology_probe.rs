@@ -5,6 +5,8 @@ use std::{
     env, fs,
     time::Instant,
 };
+#[path = "support/collapse_diagnostics.rs"]
+mod collapse_diagnostics;
 fn main() {
     let args: Vec<_> = env::args().collect();
     let file = &args[1];
@@ -50,6 +52,16 @@ fn main() {
         let mut predator_ready_with_mate = 0usize;
         let mut recent = BTreeMap::<usize, VecDeque<serde_json::Value>>::new();
         let mut last_predator_deaths = VecDeque::new();
+        let mut diagnostics = args
+            .iter()
+            .find_map(|a| a.strip_prefix("--diagnostic-dir="))
+            .map(|dir| {
+                collapse_diagnostics::Diagnostics::new(
+                    dir,
+                    setting("--diagnostic-from=", 16000),
+                    seed,
+                )
+            });
         let start = Instant::now();
         for _ in 0..ticks {
             // Explicit laboratory intervention, never an automatic population repair.
@@ -72,6 +84,9 @@ fn main() {
                 e.memory.companions_enabled = companions;
             }
             let events = w.tick();
+            if let Some(observer) = &mut diagnostics {
+                observer.observe(&w, &events);
+            }
             for trace in &w.last_decisions {
                 if trace.species != curious::entity::species::Species::Carnivore {
                     continue;

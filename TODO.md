@@ -16,6 +16,11 @@ Hedef [VISION](docs/VISION.md), kullanıcı sırası ve dürüst durum
   geçmeli; sonra normal/şok sekizli kontroller. Varsayılan kapalı kalır.
   C4d2b35 hedefli şokta 2/2 geçti, normal kontrolde 7/8 ile reddedildi:
   seed 2 otçulları 17.660 adımda tükendi; kalan şok sekizlisi başlatılmadı.
+  Teşhis: av baskısı altında yerel gruplar dağılıyor; son iki birey hazır ama
+  görüş dışındaki eşi bulamadan yaşlanıyor. Aynı 16.000 kaydında hazırlık
+  kapalıysa 17.660'ta 535 otçul/44 avcı var. Ayrıntı/karşı-olgular:
+  [PREY_COLLAPSE_SEED2](docs/reports/PREY_COLLAPSE_SEED2.md). Sıradaki dar
+  mekanizma testi küçük grupta güvenli eş arama; henüz düzeltme/kabul değil.
   [RESERVE_POLICY_ISOLATION](docs/reports/RESERVE_POLICY_ISOLATION.md) ve
   [önceki aday](docs/reports/RESERVE_OPPORTUNITY.md).
 - [ ] Su öğrenmesinin ortam değişimi deneyini değerlendir (`learning_trial` reversal);
