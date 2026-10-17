@@ -28,6 +28,7 @@ fn main() {
             .unwrap()
             .build(seed)
             .unwrap();
+        w.policy.mate_rendezvous = args.iter().any(|a| a == "--mate-rendezvous");
         w.policy.reserve_opportunities = args.iter().any(|a| a == "--reserve-opportunities");
         let mode = args.get(4).map(String::as_str).unwrap_or("both");
         let stop_early = args.iter().any(|a| a == "--stop-on-extinction");
@@ -259,7 +260,7 @@ fn main() {
         }
         println!(
             "{}",
-            serde_json::json!({"scenario":file,"seed":seed,"mode":mode,"companions":companions,"reserve_opportunities":w.policy.reserve_opportunities,"ticks":w.tick_counter,"requested_ticks":ticks,"first_extinction":first_extinction,"alive":alive,"last_alive":last_alive,"births":births,"descendant_breeders":reproduced,"late_births":late_births,"late_descendant_breeders":late_reproduced,"max_generation":generations,"samples":samples,"death_causes":death_causes,"predator_reasons":predator_reasons,"predator_ready_ticks":predator_ready,"predator_ready_with_mate_ticks":predator_ready_with_mate,"last_predator_deaths":last_predator_deaths,"shock": {"at":shock_at,"duration":shock_duration,"percent":shock_percent},"seconds":start.elapsed().as_secs_f64()})
+            serde_json::json!({"scenario":file,"seed":seed,"mode":mode,"companions":companions,"reserve_opportunities":w.policy.reserve_opportunities,"mate_rendezvous":w.policy.mate_rendezvous,"ticks":w.tick_counter,"requested_ticks":ticks,"first_extinction":first_extinction,"alive":alive,"last_alive":last_alive,"births":births,"descendant_breeders":reproduced,"late_births":late_births,"late_descendant_breeders":late_reproduced,"max_generation":generations,"samples":samples,"death_causes":death_causes,"predator_reasons":predator_reasons,"predator_ready_ticks":predator_ready,"predator_ready_with_mate_ticks":predator_ready_with_mate,"last_predator_deaths":last_predator_deaths,"shock": {"at":shock_at,"duration":shock_duration,"percent":shock_percent},"seconds":start.elapsed().as_secs_f64()})
         );
     }
 }

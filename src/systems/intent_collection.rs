@@ -38,6 +38,26 @@ impl IntentCollectionSystem {
                     }
                 }
             };
+            let decision = if world.policy.mate_rendezvous
+                && slot.base.species() == crate::entity::species::Species::Herbivore
+                && memory.enabled
+                && memory.companions_enabled
+                && matches!(slot.controller, EntityController::AI)
+                && !world.command_inputs.contains_key(&slot.id)
+            {
+                memory.social.decide(
+                    slot.pos,
+                    slot.base.life(),
+                    &view,
+                    &memory.companions,
+                    &memory.dangers,
+                    world.tick_counter,
+                    decision,
+                )
+            } else {
+                memory.social = Default::default();
+                decision
+            };
             let decision = if world.policy.reserve_opportunities
                 && matches!(slot.controller, EntityController::AI)
                 && !world.command_inputs.contains_key(&slot.id)

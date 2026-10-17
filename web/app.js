@@ -20,6 +20,8 @@ const reasons = {
   SearchWater: "Su arıyor",
   RecallWater: "Hatırladığı suya dönüyor",
   RecallFood: "Hatırladığı yiyeceğe dönüyor",
+  SeekCompanion: "Gördüğü veya hatırladığı türdeşle buluşmaya çalışıyor",
+  WaitForMate: "Türdeşinin yanında kısa süre bekliyor",
   RecallMate: "Daha önce gördüğü eşin son konumunu arıyor",
   LearnedWater: "Deneyimine göre su seçti",
   PrepareReproduction: "Üreme öncesi hazır besinden rezerv tamamlıyor",
@@ -306,6 +308,12 @@ function renderIndividual() {
   $("knowledge").textContent =
     `${e.memory?.sites.length || 0} kaynak, ${e.memory?.dangers.length || 0} tehlike ve ${e.memory?.companions?.length || 0} türdeş konumu hatırlıyor. Su seçimini öğrenme ${e.learner?.enabled ? "açık" : "kapalı"}.`;
   $("values").replaceChildren();
+  const rendezvous = e.memory?.social?.target;
+  if (rendezvous) {
+    const line = document.createElement("small");
+    line.textContent = `Buluşma hedefi #${rendezvous.id} · son görüldüğü yer (${rendezvous.at.x}, ${rendezvous.at.y}), ${rendezvous.seen}. adım · ${rendezvous.searching ? "çevresinde arıyor" : "yaklaşma/bekleme"}. Hedef en çok 30 adım sürer.`;
+    $("values").append(line);
+  }
   const episode = e.learner?.episode;
   const result = e.learner?.last_episode;
   const ends = { Reached: "Su içti", Failed: "Kaynak kalmadı", TimedOut: "Deneme süresi doldu", Interrupted: "Önceliği veya görünen hedefi değişti", Disabled: "Öğrenme kapatıldı", Died: "Yaşamı sona erdi" };

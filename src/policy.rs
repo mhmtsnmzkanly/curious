@@ -11,6 +11,9 @@ use serde::{Deserialize, Serialize};
 #[derive(Debug, Clone, Default, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct PolicySettings {
+    /// Unqualified herbivore-only rendezvous; opt in independently of reserves.
+    #[serde(default)]
+    pub mate_rendezvous: bool,
     /// Not ecologically qualified: always opt in, including after legacy restore.
     #[serde(default)]
     pub reserve_opportunities: bool,

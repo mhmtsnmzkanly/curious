@@ -72,7 +72,7 @@ impl State {
         commands.sort_by_key(|(id, _)| *id);
         Self {
             policy: world.policy.clone(),
-            version: 11,
+            version: 12,
             genetics: world.genetics.clone(),
             observation: world.observation.clone(),
             environment: world.environment.clone(),
@@ -107,11 +107,18 @@ impl State {
                 .collect(),
         }
     }
-    pub fn restore(self) -> Result<World> {
-        if !(1..=11).contains(&self.version) {
+    pub fn restore(mut self) -> Result<World> {
+        if !(1..=12).contains(&self.version) {
             return Err("unsupported checkpoint version".into());
         }
+        if self.version < 12 {
+            self.policy.mate_rendezvous = false;
+            for individual in &mut self.entities {
+                individual.memory.social = Default::default();
+            }
+        }
         for individual in &self.entities {
+            individual.memory.validate()?;
             individual.learner.validate()?;
         }
         let [a, b, c, d] = self.bounds;

@@ -11,6 +11,7 @@ pub mod lifestate;
 pub mod memory;
 pub mod perception;
 pub mod phase;
+pub mod social;
 pub mod species;
 
 use crate::entity::{intent::Intent, lifestate::LifeState, perception::*, species::Species};

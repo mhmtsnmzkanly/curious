@@ -1,5 +1,37 @@
 # Kalıcı kayıt ve kontrol servisi
 
+## V12: deneysel otçul buluşması
+
+Checkpoint V12, SQLite V2. `policy.mate_rendezvous=false` varsayılanı;
+rezerv hazırlığı bayrağından bağımsızdır. Kabul edilmeden canlı dünyaya açılmaz.
+V1–V11 göçünde buluşma kapalı, bireysel `memory.social` boş başlar; eski rezerv
+bayrağı korunur. V12 eski motorla açılmaz. Yeni eylem/fiziksel avantaj yoktur.
+
+Yalnız AI otçulları, hafıza ve türdeş hafızası açıkken kullanır. Ayrı
+`entity/social.rs`, algı ve en fazla sekiz mevcut türdeş anısından kısa bir
+buluşma hedefi çıkarır. Yetişkin ama henüz hazır olmayan türdeşin yanında
+bekleyebilir; hazır eş fırsatı önce gelir. Açlık, susuzluk, tehlike, toparlanma,
+fiilî çiftleşme, özel politika ve dış komut korunur. Kaynak ararken hedefin
+saati durmaz. Hedef en çok30 dünya adımı sürer; ardından10 adım yeniden
+başlama arası vardır. Körü körüne süresiz bekleme yoktur.
+
+Hedefe algılanmış yolun tek adımıyla yaklaşılır. Güncel/son30 adımdaki bilinen
+avcı konumunun iki hücre çevresi sosyal yaklaşımda dışlanır; sığınak fiziksel
+koruması korunur. Bilinmeyen avcı için güvenlik garantisi değildir. Yeterli
+kalan ömür ve enerji bütçesi yoksa yolculuk başlatılmaz. Kayıp türdeşin son
+bilinen çevresinde sınırlı, ziyaret edilmiş hücreleri hatırlayan arama yapılır;
+koordinat güncellemek için dünya veya küresel nüfus bilgisi kullanılmaz.
+Birey başına tek hedef ve en çok32 ziyaret konumu; yavruya boş hafıza geçer.
+
+Gözlem gerekçeleri `SeekCompanion` ve `WaitForMate`; arayüz hedef kimliğini,
+son görülme yerini/zamanını ve arama evresini gösterir. `ecology_probe` için
+`--mate-rendezvous`; `collapse_branch` için `rendezvous` deney kolu vardır.
+Bu ilk sürüm yerel adım seçer; genel güvenli rota planlayıcısı veya bütün
+popülasyonda kalıcı denge değildir. Kabul öncesi küçük mekanizma testleri,
+aynı kontrol noktalarının açık/kapalı karşılaştırması ve sonra normal/şok/
+bağımsız seed kapıları gerekir. Eski uzun deneylerin kaynak ve ikilileri korunur.
+
+
 ## V11: deneysel politikanın ayrılması
 
 Checkpoint V11, SQLite V2. Varsayılan `policy.reserve_opportunities=false`.

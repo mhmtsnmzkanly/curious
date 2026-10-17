@@ -27,6 +27,8 @@ pub struct KnownCompanion {
 }
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Memory {
+    #[serde(default)]
+    pub social: super::social::SocialMemory,
     pub enabled: bool,
     #[serde(default = "enabled_by_default")]
     pub companions_enabled: bool,
@@ -38,6 +40,7 @@ pub struct Memory {
 impl Default for Memory {
     fn default() -> Self {
         Self {
+            social: Default::default(),
             enabled: true,
             companions_enabled: true,
             sites: vec![],
@@ -58,6 +61,7 @@ impl Memory {
             self.sites.clear();
             self.dangers.clear();
             self.companions.clear();
+            self.social = Default::default();
             return;
         }
         self.sites.retain(|s|tick.saturating_sub(s.seen)<=100 && !view.cells.iter().any(|(p,c)|*p==s.pos && !matches!((s.kind,c),(ResourceKind::Food,Cell::Food{amount})|(ResourceKind::Water,Cell::Water{amount}) if *amount>0)));
@@ -209,6 +213,7 @@ impl Memory {
         ))
     }
     pub fn validate(&self) -> crate::Result<()> {
+        self.social.validate()?;
         if self.sites.len() > 32
             || self.dangers.len() > 8
             || self.companions.len() > 8

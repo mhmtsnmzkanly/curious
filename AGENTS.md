@@ -3,6 +3,15 @@
 Başlamadan `docs/VISION.md`, `docs/CONTROL.md`, `docs/ROADMAP.md` ve `TODO.md`
 okunur. Kullanıcının sonraki talimatları bu notların önündedir.
 
+## V12 deneysel eş buluşması
+
+Kaynakta `policy.mate_rendezvous` varsayılan false; sadece AI otçulu,
+hafıza/türdeş hafızası açıkken uygular. `entity/social.rs`, tek hedef30tick,
+retry10tick, visited32; gereksinim/tehlike/gerçek çiftleşme önceliği korunur.
+V1–V11 kayıt göçünde kapalı/boş başlar; SQLite V2 değişmez. Kontrol noktası
+örneklerinde bayrak göçten SONRA açıkça açılır. Ayrıntı CONTROL.md V12.
+Bu adayın uzun denge kabulü henüz yok; canlı servisler güncellenmez.
+
 ## Soy arayüzü ve son aday sonucu
 
 Soy arayüzü web/archive.js üzerinden mevcut salt okunur query API'sini kullanır;

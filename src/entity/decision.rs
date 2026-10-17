@@ -21,6 +21,8 @@ pub enum Reason {
     LearnedWater,
     RecallFood,
     RecallMate,
+    SeekCompanion,
+    WaitForMate,
     SeekFood,
     PrepareReproduction,
     HuntPrey,

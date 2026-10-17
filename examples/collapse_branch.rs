@@ -22,7 +22,18 @@ fn main() {
     );
     let ticks: usize = args[2].parse().unwrap();
     let treatment = args[3].as_str();
-    assert!(["unchanged", "reserve-off", "without-predators"].contains(&treatment));
+    assert!(
+        [
+            "unchanged",
+            "reserve-off",
+            "without-predators",
+            "rendezvous"
+        ]
+        .contains(&treatment)
+    );
+    if treatment == "rendezvous" {
+        w.policy.mate_rendezvous = true;
+    }
     if treatment == "reserve-off" {
         w.policy.reserve_opportunities = false;
     }
@@ -31,6 +42,7 @@ fn main() {
             .retain(|e| e.base.species() != Species::Carnivore);
     }
     let start = w.tick_counter;
+    let mut reasons = BTreeMap::<String, usize>::new();
     let mut births = BTreeMap::<String, usize>::new();
     let mut deaths = BTreeMap::<String, usize>::new();
     for _ in 0..ticks {
@@ -49,6 +61,13 @@ fn main() {
                 _ => {}
             }
         }
+        for trace in &w.last_decisions {
+            if trace.species == Species::Herbivore {
+                *reasons
+                    .entry(format!("{:?}", trace.decision.reason))
+                    .or_default() += 1;
+            }
+        }
         if w.tick_counter % 100 == 0 || w.tick_counter == start + ticks {
             let mut alive = BTreeMap::<String, usize>::new();
             for e in &w.entities {
@@ -58,7 +77,7 @@ fn main() {
             }
             println!(
                 "{}",
-                json!({"tick":w.tick_counter,"start":start,"treatment":treatment,"alive":alive,"births":births,"deaths":deaths,"rng":w.rng.state()})
+                json!({"tick":w.tick_counter,"start":start,"treatment":treatment,"mate_rendezvous":w.policy.mate_rendezvous,"herbivore_reasons":reasons,"alive":alive,"births":births,"deaths":deaths,"rng":w.rng.state()})
             );
         }
     }
