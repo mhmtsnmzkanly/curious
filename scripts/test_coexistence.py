@@ -52,7 +52,7 @@ class CoexistenceValidationTests(unittest.TestCase):
             probe.chmod(0o700)
             args = argparse.Namespace(probe=str(probe), scenario=str(scenario), output=str(root / 'run'),
                                       seeds='1', ticks=100000, mode='fixed', timeout=10,
-                                      no_companions=False, allow_dirty=True, resume=False, notify=False)
+                                      no_companions=False, reserve_opportunities=False, allow_dirty=True, resume=False, notify=False)
             args.shock_at, args.shock_duration, args.shock_percent, args.jobs = 0, 500, 50, 2
             with contextlib.redirect_stdout(io.StringIO()):
                 self.assertTrue(run(args)['accepted'])
@@ -61,6 +61,10 @@ class CoexistenceValidationTests(unittest.TestCase):
                 args.resume = True
                 self.assertTrue(run(args)['accepted'])
             self.assertEqual(saved.stat().st_mtime_ns, before)
+            args.reserve_opportunities = True
+            with self.assertRaisesRegex(ValueError, 'Refusing resume'):
+                run(args)
+            args.reserve_opportunities = False
             probe.write_text(probe.read_text() + '# changed\n')
             with self.assertRaisesRegex(ValueError, 'Refusing resume'):
                 run(args)

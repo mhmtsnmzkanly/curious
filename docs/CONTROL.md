@@ -1,5 +1,26 @@
 # Kalıcı kayıt ve kontrol servisi
 
+## V11: deneysel politikanın ayrılması
+
+Checkpoint V11, SQLite V2. Varsayılan `policy.reserve_opportunities=false`.
+Başarısız dad97e9 rezerv kuralı ortak açlık değerlendirmesinden kaldırıldı;
+normal içgüdü kodu ae7f0df ile aynıdır. Bu, kaynak şokunun çözüldüğü anlamına gelmez.
+
+Deneysel davranış ayrı `policy.rs` katmanında yalnız açıkça etkinleştirilince
+uygulanır. Sağlıklı, yetişkin, bekleme süresi bitmiş birey; bitişikte hazır eş
+ve yerinden ayrılmadan tüketebileceği yeterli besin varsa rezerv tamamlar.
+Bir sonraki adımın bazal maliyeti için bir enerji payı gerekir. Uzak veya küçük
+bir besine yönelmez; tehdit, susuzluk, mevcut açlık, dış komut ve özel politika
+kararlarını değiştirmez. Gerekçe `PrepareReproduction`; fiziksel doğrulama ve
+ödemeler aynı çözümleyicide kalır. Rakip besini önce tüketirse başarı garanti edilmez.
+
+`ecology_probe` ve `validate_coexistence.py --reserve-opportunities` ile
+etkinleştirilir; seçeneğin değeri deney manifestine girer ve değişirse resume
+reddedilir. Canlı HTTP kontrolüne yeni bir açma eylemi eklenmedi. Policy bir dünya
+ayarını temsil eder, kalıtsal bir beden özelliği veya öğrenilmiş anı değildir.
+Yeni senaryolar kapalı başlar. V1–V10 kayıtta alan yoksa kapalı yüklenir;
+V11'de açık kaydedilmiş dünya açık sürer. V11 eski motorla açılmaz.
+
 ## V10 geliştirme ekleri
 
 Checkpoint V10, SQLite V2. Mevcut servisler ve `ae7f0df` sabit araştırması

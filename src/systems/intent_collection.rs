@@ -38,6 +38,19 @@ impl IntentCollectionSystem {
                     }
                 }
             };
+            let decision = if world.policy.reserve_opportunities
+                && matches!(slot.controller, EntityController::AI)
+                && !world.command_inputs.contains_key(&slot.id)
+            {
+                crate::policy::prepare_reserve(
+                    slot.base.species(),
+                    slot.base.life(),
+                    &view,
+                    decision,
+                )
+            } else {
+                decision
+            };
             let decision = if matches!(slot.controller, EntityController::AI)
                 && !world.command_inputs.contains_key(&slot.id)
             {

@@ -65,6 +65,7 @@ def run(args):
     if dirty and not args.allow_dirty:
         raise ValueError('Commit source first, or explicitly label the run --allow-dirty as exploratory')
     manifest = {'revision': revision, 'dirty': dirty, 'binary_sha256': hashlib.sha256(probe.read_bytes()).hexdigest(),
+                'reserve_opportunities': args.reserve_opportunities,
                 'scenario_sha256': hashlib.sha256(scenario.read_bytes()).hexdigest(),
                 'seeds': seeds, 'ticks': args.ticks, 'mode': args.mode, 'companions': not args.no_companions,
                 'shock': {'at': args.shock_at, 'duration': args.shock_duration, 'percent': args.shock_percent},
@@ -107,6 +108,8 @@ def execute(args, output, manifest):
         command.append('--progress-every=1000')
         if args.shock_at:
             command += [f'--shock-at={args.shock_at}', f'--shock-duration={args.shock_duration}', f'--shock-percent={args.shock_percent}']
+        if args.reserve_opportunities:
+            command.append('--reserve-opportunities')
         if args.no_companions:
             command.append('--no-companions')
         started = time.monotonic()
@@ -166,6 +169,7 @@ if __name__ == '__main__':
     p.add_argument('--timeout', type=int, default=3600)
     p.add_argument('--jobs', type=int, default=1)
     p.add_argument('--no-companions', action='store_true')
+    p.add_argument('--reserve-opportunities', action='store_true')
     p.add_argument('--shock-at', type=int, default=0)
     p.add_argument('--shock-duration', type=int, default=500)
     p.add_argument('--shock-percent', type=int, default=50)

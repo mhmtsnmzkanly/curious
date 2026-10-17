@@ -14,6 +14,7 @@ pub use entity_slot::EntitySlot;
 /// Simülasyon dünyasını yöneten ana yapı.
 /// Bu yapı, simülasyonun merkezi (authoritative simulation core) olarak görev yapar.
 pub struct World {
+    pub policy: crate::policy::PolicySettings,
     pub genetics: crate::entity::genetics::Genetics,
     pub observation: crate::entity::decision::ObservationSettings,
     pub last_decisions: Vec<crate::entity::decision::DecisionTrace>,
@@ -74,6 +75,7 @@ impl World {
         let next_entity_id = entities.iter().map(|s| s.id).max().unwrap_or(0) + 1;
         let environment = crate::environment::Environment::from_map(&map);
         World {
+            policy: Default::default(),
             genetics: Default::default(),
             observation: Default::default(),
             last_decisions: Vec::new(),

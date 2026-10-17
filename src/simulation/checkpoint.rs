@@ -34,6 +34,8 @@ pub struct Individual {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct State {
     #[serde(default)]
+    pub policy: crate::policy::PolicySettings,
+    #[serde(default)]
     pub genetics: crate::entity::genetics::Genetics,
     #[serde(default)]
     pub observation: crate::entity::decision::ObservationSettings,
@@ -69,7 +71,8 @@ impl State {
             .collect();
         commands.sort_by_key(|(id, _)| *id);
         Self {
-            version: 10,
+            policy: world.policy.clone(),
+            version: 11,
             genetics: world.genetics.clone(),
             observation: world.observation.clone(),
             environment: world.environment.clone(),
@@ -105,7 +108,7 @@ impl State {
         }
     }
     pub fn restore(self) -> Result<World> {
-        if !(1..=10).contains(&self.version) {
+        if !(1..=11).contains(&self.version) {
             return Err("unsupported checkpoint version".into());
         }
         for individual in &self.entities {
@@ -147,6 +150,7 @@ impl State {
             self.environment
         };
         Ok(World {
+            policy: self.policy,
             genetics: self.genetics,
             observation: self.observation,
             last_decisions: Vec::new(),

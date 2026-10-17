@@ -22,6 +22,7 @@ const reasons = {
   RecallFood: "Hatırladığı yiyeceğe dönüyor",
   RecallMate: "Daha önce gördüğü eşin son konumunu arıyor",
   LearnedWater: "Deneyimine göre su seçti",
+  PrepareReproduction: "Üreme öncesi hazır besinden rezerv tamamlıyor",
   SeekFood: "Beslenmeye yöneliyor",
   HuntPrey: "Avını takip ediyor",
   SearchFood: "Yiyecek arıyor",

@@ -1,0 +1,21 @@
+{
+  "seed": 3,
+  "ticks": 6000,
+  "samples_compared": 61,
+  "population_energy_shelter_match_old": true,
+  "comparison_fields": [
+    "tick",
+    "alive",
+    "total_energy",
+    "sheltered"
+  ],
+  "default_final": {
+    "Carnivore": 41,
+    "Herbivore": 559
+  },
+  "experimental_final": {
+    "Carnivore": 52,
+    "Herbivore": 513
+  },
+  "limitation": "Not a full body/RNG or long-run/shock qualification"
+}

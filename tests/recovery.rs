@@ -158,53 +158,60 @@ fn version_eight_keeps_original_body_limits_when_new_fields_are_absent() {
 }
 
 #[test]
-fn reproduction_reserve_goal_matches_the_physical_gate_without_overriding_thirst() {
+fn preparation_is_not_part_of_default_hunger_and_preserves_priority() {
     use curious::entity::{
+        decision::{Decision, Reason},
         instinct::{Instinct, InstinctEvaluator},
+        intent::Intent,
         perception::Perception,
         species::Species,
     };
+    use curious::map::movement::Steps;
     let mut actor = CarnivoreEntity::default();
     let life = actor.life_mut();
     life.max_energy = 270;
+    life.max_meal = 60;
     life.energy = 220;
     life.reproduction_reserve_per_mille = 885;
     life.age = life.maturity_age;
     life.water = life.max_water;
+    let mut view = Perception::empty();
+    view.add_food(60, true, Steps(vec![]));
+    view.add_entity(2, Species::Carnivore, 100, Steps(vec![]), true);
     assert_eq!(life.reproduction_energy_required(), 238);
-    let mut food_view = Perception::empty();
-    food_view.add_food(60, true, curious::map::movement::Steps(vec![]));
     assert_eq!(
-        InstinctEvaluator::evaluate(life, &food_view, Species::Carnivore).instinct,
+        InstinctEvaluator::evaluate(life, &view, Species::Carnivore).instinct,
         Instinct::Idle
     );
-    food_view.add_entity(
-        2,
-        Species::Carnivore,
-        100,
-        curious::map::movement::Steps(vec![]),
-        true,
-    );
+    let base = || Decision::new(Intent::Idle { duration: 1 }, Reason::Rest);
     assert_eq!(
-        InstinctEvaluator::evaluate(life, &Perception::empty(), Species::Carnivore).instinct,
-        Instinct::Idle
+        curious::policy::prepare_reserve(Species::Carnivore, life, &view, base()).reason,
+        Reason::PrepareReproduction
     );
-    let evaluate = |life: &curious::entity::lifestate::LifeState| {
-        InstinctEvaluator::evaluate(life, &food_view, Species::Carnivore).instinct
-    };
-    assert_eq!(evaluate(life), Instinct::Hunger);
-    life.energy = 238;
-    assert!(life.can_reproduce());
-    assert_eq!(evaluate(life), Instinct::Mating);
-    life.energy = 220;
-    life.water = 1;
-    assert_eq!(evaluate(life), Instinct::Thirst);
-    life.water = life.max_water;
+    for reason in [
+        Reason::SeekWater,
+        Reason::EscapeThreat,
+        Reason::SeekFood,
+        Reason::ExternalCommand,
+        Reason::CustomPolicy,
+    ] {
+        let decision = Decision::new(Intent::Idle { duration: 1 }, reason);
+        assert_eq!(
+            curious::policy::prepare_reserve(Species::Carnivore, life, &view, decision).reason,
+            reason
+        );
+    }
     life.reproduction_cooldown = 1;
-    assert_eq!(evaluate(life), Instinct::Idle);
+    assert_eq!(
+        curious::policy::prepare_reserve(Species::Carnivore, life, &view, base()).reason,
+        Reason::Rest
+    );
     life.reproduction_cooldown = 0;
     life.age = 0;
-    assert_eq!(evaluate(life), Instinct::Idle);
+    assert_eq!(
+        curious::policy::prepare_reserve(Species::Carnivore, life, &view, base()).reason,
+        Reason::Rest
+    );
 }
 
 #[test]
@@ -264,7 +271,27 @@ fn adult_uses_existing_carcass_for_reserve_but_does_not_start_extra_hunt() {
     let mut w = World::with_seed(0, 2, 0, 2, vec![actor, dead, partner], 1);
     w.map = Map::new(0, 2, 0, 2);
     w.environment = Default::default();
+    assert!(!w.policy.reserve_opportunities);
+    let mut control = curious::simulation::checkpoint::State::capture(&w)
+        .restore()
+        .unwrap();
+    let control_events = control.tick();
+    assert!(
+        !control_events
+            .iter()
+            .any(|e| matches!(e, SimulationEvent::EntityAte { id: 1, .. }))
+    );
+    w.policy.reserve_opportunities = true;
     let events = w.tick();
+    assert_eq!(
+        w.last_decisions
+            .iter()
+            .find(|d| d.id == 1)
+            .unwrap()
+            .decision
+            .reason,
+        Reason::PrepareReproduction
+    );
     assert!(events.iter().any(|e| matches!(
         e,
         SimulationEvent::EntityAte {
@@ -275,4 +302,10 @@ fn adult_uses_existing_carcass_for_reserve_but_does_not_start_extra_hunt() {
     )));
     assert!(w.entities[0].base.life().can_reproduce());
     assert_eq!(w.entities[1].corpse_energy, 0);
+    let events = w.tick();
+    assert!(
+        events
+            .iter()
+            .any(|e| matches!(e, SimulationEvent::EntityBorn { .. }))
+    );
 }

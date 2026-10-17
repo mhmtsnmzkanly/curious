@@ -22,6 +22,7 @@ pub mod environment;
 pub mod logger;
 pub mod map;
 pub mod persistence;
+pub mod policy;
 pub mod random;
 pub mod rules;
 pub mod scenario;

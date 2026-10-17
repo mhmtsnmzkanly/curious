@@ -9,9 +9,10 @@ Hedef [VISION](docs/VISION.md), kullanıcı sırası ve dürüst durum
   202 beslenme hedefi / 238 üreme eşiği uyumsuzluğunu ve daralmada yerel eş
   bulmayı ayrı ölç. Otçul toparlanması avcı soyunun toparlanması anlamına gelmez.
   Öğrenme/mutasyon kapıları çalışmadı, yeni dünya açılmadı. Gizli takviye ekleme.
-  Yerel üreme fırsatında mevcut besinden rezerv tamamlama düzeltmesi kısa 2/2
-  elemesini geçti; sonraki sınırlı kontrol/şok protokolü
-  [RESERVE_OPPORTUNITY](docs/reports/RESERVE_OPPORTUNITY.md).
+  Dad97e9 adayı normalde 7/8, şokta 6/8 ile reddedildi. V11 varsayılanı eski
+  kurala döndürür; tek adımlık rezerv adayı açık tercih gerektirir.
+  [RESERVE_POLICY_ISOLATION](docs/reports/RESERVE_POLICY_ISOLATION.md) ve
+  [önceki aday](docs/reports/RESERVE_OPPORTUNITY.md).
 - [ ] Su öğrenmesinin ortam değişimi deneyini değerlendir (`learning_trial` reversal);
   V10 su denemeleri gecikmiş sonucu ve gerçek hareket maliyetini izliyor.
   [Öğrenme sözleşmesine](docs/LEARNING_NEXT.md) göre sıradaki iş sınırlı av

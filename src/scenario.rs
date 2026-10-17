@@ -105,6 +105,7 @@ impl Scenario {
         }
         let next_entity_id = entities.len() + 1;
         Ok(World {
+            policy: Default::default(),
             genetics: Default::default(),
             observation: Default::default(),
             last_decisions: Vec::new(),

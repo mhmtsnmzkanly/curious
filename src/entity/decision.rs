@@ -22,6 +22,7 @@ pub enum Reason {
     RecallFood,
     RecallMate,
     SeekFood,
+    PrepareReproduction,
     HuntPrey,
     SearchFood,
     ApproachMate,

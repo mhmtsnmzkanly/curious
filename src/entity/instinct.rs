@@ -79,34 +79,11 @@ impl InstinctEvaluator {
         // Injured animals need a reserve above the healing threshold. Stopping
         // feeding at that same threshold lets basal metabolism switch healing
         // off again, leaving damaged juveniles below reproductive health.
-        let mut food_target = if life.health <= life.max_health / 2 {
+        let food_target = if life.health <= life.max_health / 2 {
             life.max_energy.saturating_mul(9) / 10
         } else {
             life.max_energy.saturating_mul(3) / 4
         };
-        // Complete a reproductive reserve from a profitable visible meal, not
-        // by starting extra hunts above the normal hunger threshold. A blanket
-        // higher appetite overconsumes prey in the coexistence fixture. Only
-        // prepare for an actual adjacent ready partner, not a hypothetical one.
-        let available_meal = perception.foods.iter().any(|food| {
-            food.amount > 0
-                && if food.is_corpse {
-                    own_species.eats_meat()
-                } else {
-                    own_species.eats_plants()
-                }
-                && super::foraging::value(food.amount, food.steps.len(), life, false) > 0
-        });
-        if life.is_mature()
-            && life.reproduction_cooldown == 0
-            && life.health >= life.max_health / 2
-            && available_meal
-            && perception.entities.iter().any(|mate| {
-                mate.species == own_species && mate.reproductive && mate.steps.len() <= 1
-            })
-        {
-            food_target = food_target.max(life.reproduction_energy_required());
-        }
         let needs_food = life.energy < food_target;
         let needs_water = life.water < life.max_water.saturating_mul(3) / 4;
         if needs_water

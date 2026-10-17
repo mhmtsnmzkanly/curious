@@ -3,18 +3,21 @@
 Başlamadan `docs/VISION.md`, `docs/CONTROL.md`, `docs/ROADMAP.md` ve `TODO.md`
 okunur. Kullanıcının sonraki talimatları bu notların önündedir.
 
-## Üreme rezervi düzeltmesi
+## V11: reddedilen rezerv davranışının ayrılması
 
-V9 araştırma 30/30 uzun normal koşuyu geçti, kaynak şokunda 4/8 ile durdu.
-Ana kaynakta üreme rezervi yalnız bitişik hazır eş ve görünür, pozitif değerli
-mevcut besin fırsatında tamamlanır; normal açlık üstünde yeni av başlatılmaz.
-İlk iki daha geniş yaklaşım kısa deneyde elendi. Kanıt, sınırlı kontrol/şok
-protokolü ve çalışma yolları `docs/reports/RESERVE_OPPORTUNITY.md` içinde.
-Yeni davranışın uzun ekolojik kabulü henüz yok; eski 30/30'u buna sayma.
+Dad97e9 normal kontrolde 7/8, kaynak şokunda 6/8 kaldı; başarısız adaydır.
+Ana kaynak V11'de varsayılan açlık davranışı ae7f0df'ye geri getirildi.
+`World.policy.reserve_opportunities` varsayılan false; deneysel yeni aday
+`policy.rs` içinde sadece bitişik ve yeterli besinle tek adımlık fırsat uygular.
+Uzak besine gidip eşten uzaklaşma yolu kaldırıldı. Kanıt/protokol
+`docs/reports/RESERVE_POLICY_ISOLATION.md`; kontrol seçenekleri CONTROL.md V11.
+Deneysel davranış kabul edilmeden varsayılanı true yapma. Dünya ayarı kayıtta
+saklanır; eski V1–V10 kayıtlarda eksikse false. SQLite V2 değişmedi. Eski V9 ve
+dad97e9 deney worktree/ikili/verilerini değiştirme; canlı dünyalar güncellenmedi.
 
 ## V10 geliştirme — gecikmiş su sonucu
 
-Ana kaynak V10 checkpoint üretir; SQLite V2 değişmedi. `ae7f0df` araştırma
+V10 gecikmiş öğrenmeyi ekledi; güncel checkpoint V11, SQLite V2 değişmedi. `ae7f0df` araştırma
 worktree'si hâlâ V9 ve temiz tutulur; ikilisi, config'i ve çalışan dünyalar
 bu geliştirmede değiştirilmez. Yeni kaynak henüz canlı servise dağıtılmadı.
 Su seçimi tek bir denemeyi en çok 20 yürütülmüş adım izler. Kesintiler puanlanmaz;
