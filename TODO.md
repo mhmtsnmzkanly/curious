@@ -20,7 +20,10 @@ Hedef [VISION](docs/VISION.md), kullanıcı sırası ve dürüst durum
   görüş dışındaki eşi bulamadan yaşlanıyor. Aynı 16.000 kaydında hazırlık
   kapalıysa 17.660'ta 535 otçul/44 avcı var. Ayrıntı/karşı-olgular:
   [PREY_COLLAPSE_SEED2](docs/reports/PREY_COLLAPSE_SEED2.md). Sıradaki dar
-  mekanizma testi küçük grupta güvenli eş arama; henüz düzeltme/kabul değil.
+  mekanizma testi küçük grupta güvenli eş arama. V12 opt-in ilk buluşma adayı
+  erken kopyada20.000'e449 otçul/51 avcıyla ulaştı,17.400 geç kopyasını
+  kurtaramadı; kabul ve uzun tarama yok. [MATE_RENDEZVOUS](docs/reports/MATE_RENDEZVOUS.md).
+  Sonraki dar inceleme geç koldaki üreme/tehlike/beslenme kesintileri.
   [RESERVE_POLICY_ISOLATION](docs/reports/RESERVE_POLICY_ISOLATION.md) ve
   [önceki aday](docs/reports/RESERVE_OPPORTUNITY.md).
 - [ ] Su öğrenmesinin ortam değişimi deneyini değerlendir (`learning_trial` reversal);

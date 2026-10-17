@@ -9,7 +9,7 @@ from check_reserve_policy import run
 
 
 class ReserveGateTests(unittest.TestCase):
-    def trial(self, outcomes, focus=None):
+    def trial(self, outcomes, focus=None, mate=False):
         self.calls = []
         case = self
         class Child:
@@ -17,13 +17,14 @@ class ReserveGateTests(unittest.TestCase):
                 stage = Path(command[command.index('--output') + 1])
                 case.calls.append(stage.name)
                 case.assertIn('--reserve-opportunities', command)
+                case.assertEqual('--mate-rendezvous' in command, mate)
                 case.assertEqual('--shock-at' in command, stage.name.endswith('shock'))
                 stage.mkdir(parents=True, exist_ok=True)
                 (stage / 'summary.json').write_text(json.dumps(outcomes[stage.name]))
             def wait(self, timeout): return 0
             def poll(self): return 0
         with tempfile.TemporaryDirectory() as directory:
-            args = argparse.Namespace(probe='frozen-probe', scenario='frozen-scenario', output=directory, focus_seeds=focus)
+            args = argparse.Namespace(probe='frozen-probe', scenario='frozen-scenario', output=directory, focus_seeds=focus, mate_rendezvous=mate)
             with patch('check_reserve_policy.subprocess.Popen', Child):
                 try: run(args)
                 finally:
@@ -39,6 +40,10 @@ class ReserveGateTests(unittest.TestCase):
         self.trial({s: {'complete': True, 'accepted': True} for s in ['normal', 'shock']})
         self.assertEqual(self.calls, ['normal', 'shock'])
         self.assertEqual(self.state['status'], 'passed-training-comparison')
+
+    def test_rendezvous_setting_reaches_both_gated_stages(self):
+        self.trial({s: {'complete': True, 'accepted': True} for s in ['normal', 'shock']}, mate=True)
+        self.assertEqual(self.calls, ['normal', 'shock'])
 
     def test_incomplete_results_never_open_next_gate(self):
         with self.assertRaisesRegex(RuntimeError, 'Incomplete'):

@@ -48,7 +48,7 @@ class CoexistenceValidationTests(unittest.TestCase):
             scenario = root / 'scenario.json'
             scenario.write_text('{}')
             probe = root / 'fake-probe'
-            probe.write_text('#!/usr/bin/env python3\nimport json,sys\nr=' + repr(result()) + '\nr["seed"]=int(sys.argv[3])\nprint(json.dumps(r))\n')
+            probe.write_text('#!/usr/bin/env python3\nimport json,sys\nr=' + repr(result()) + '\nr["seed"]=int(sys.argv[3])\nr["mate_rendezvous"]="--mate-rendezvous" in sys.argv\nprint(json.dumps(r))\n')
             probe.chmod(0o700)
             args = argparse.Namespace(probe=str(probe), scenario=str(scenario), output=str(root / 'run'),
                                       seeds='1', ticks=100000, mode='fixed', timeout=10,
@@ -65,6 +65,20 @@ class CoexistenceValidationTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, 'Refusing resume'):
                 run(args)
             args.reserve_opportunities = False
+            args.mate_rendezvous = True
+            with self.assertRaisesRegex(ValueError, 'Refusing resume'):
+                run(args)
+            args.output, args.resume = str(root / 'social'), False
+            with contextlib.redirect_stdout(io.StringIO()):
+                self.assertTrue(run(args)['accepted'])
+            self.assertTrue(json.loads((root / 'social' / 'manifest.json').read_text())['mate_rendezvous'])
+            self.assertTrue(json.loads((root / 'social' / 'seed-1.json').read_text())['mate_rendezvous'])
+            args.output, args.resume, args.mate_rendezvous = str(root / 'run'), True, False
+            probe.write_text(probe.read_text().replace('r["mate_rendezvous"]="--mate-rendezvous" in sys.argv', 'r["mate_rendezvous"]=False'))
+            args.output, args.resume, args.mate_rendezvous = str(root / 'ignored-setting'), False, True
+            with self.assertRaisesRegex(ValueError, 'did not apply'):
+                run(args)
+            args.output, args.resume, args.mate_rendezvous = str(root / 'run'), True, False
             probe.write_text(probe.read_text() + '# changed\n')
             with self.assertRaisesRegex(ValueError, 'Refusing resume'):
                 run(args)

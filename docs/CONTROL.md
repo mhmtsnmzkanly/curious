@@ -25,7 +25,9 @@ Birey başına tek hedef ve en çok32 ziyaret konumu; yavruya boş hafıza geçe
 
 Gözlem gerekçeleri `SeekCompanion` ve `WaitForMate`; arayüz hedef kimliğini,
 son görülme yerini/zamanını ve arama evresini gösterir. `ecology_probe` için
-`--mate-rendezvous`; `collapse_branch` için `rendezvous` deney kolu vardır.
+`--mate-rendezvous`; doğrulayıcı ve kapılı karşılaştırıcı da aynı bayrağı alır.
+Ayar manifest kimliğine katılır; değişirse resume reddedilir ve probe ayarı
+uygulamamışsa sonuç kabul edilmez. `collapse_branch` için `rendezvous` deney kolu vardır.
 Bu ilk sürüm yerel adım seçer; genel güvenli rota planlayıcısı veya bütün
 popülasyonda kalıcı denge değildir. Kabul öncesi küçük mekanizma testleri,
 aynı kontrol noktalarının açık/kapalı karşılaştırması ve sonra normal/şok/

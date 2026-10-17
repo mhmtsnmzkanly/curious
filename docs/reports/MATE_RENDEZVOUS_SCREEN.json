@@ -1,0 +1,118 @@
+{
+  "candidate_revision": "bba1495fa22a8044766df919929979455b06cb54",
+  "binary_sha256": "a42a8f16e21070498c4680563dce02450b5c32e1274898e9ce541f6c69359c6c",
+  "opt_out_full_state_rng_equal_after_explicit_schema_normalization": true,
+  "long_validation_started": false,
+  "assessment": "partial checkpoint improvement; late recovery failed; not ecologically accepted",
+  "cases": [
+    {
+      "label": "control",
+      "start": 16000,
+      "end": 17000,
+      "treatment": "unchanged",
+      "alive": {
+        "Carnivore": 56,
+        "Herbivore": 274
+      },
+      "births": {
+        "Carnivore": 57,
+        "Herbivore": 5006
+      },
+      "deaths": {
+        "Carnivore.Some(Dehydration)": 6,
+        "Carnivore.Some(OldAge)": 41,
+        "Carnivore.Some(Starvation)": 8,
+        "Herbivore.Some(Combat)": 1208,
+        "Herbivore.Some(Dehydration)": 66,
+        "Herbivore.Some(OldAge)": 3842,
+        "Herbivore.Some(Starvation)": 101
+      },
+      "herbivore_social_decisions": {
+        "SeekCompanion": 0,
+        "WaitForMate": 0
+      },
+      "first_sample_without_herbivores": null,
+      "source_sha256": "2cdb20604573acfab7848a1eb0870c054c1049992790812935309a5b488bb46b"
+    },
+    {
+      "label": "late",
+      "start": 17400,
+      "end": 20000,
+      "treatment": "rendezvous",
+      "alive": {},
+      "births": {
+        "Herbivore": 50
+      },
+      "deaths": {
+        "Carnivore.Some(Dehydration)": 6,
+        "Carnivore.Some(OldAge)": 7,
+        "Carnivore.Some(Starvation)": 28,
+        "Herbivore.Some(Combat)": 61,
+        "Herbivore.Some(OldAge)": 67
+      },
+      "herbivore_social_decisions": {
+        "SeekCompanion": 254,
+        "WaitForMate": 794
+      },
+      "first_sample_without_herbivores": 17700,
+      "source_sha256": "9636a7b57a25b6b0d76f8e39444684dc6fa9c83df41358fc0b4bea8e57fa70b4"
+    },
+    {
+      "label": "early",
+      "start": 16000,
+      "end": 20000,
+      "treatment": "rendezvous",
+      "alive": {
+        "Carnivore": 51,
+        "Herbivore": 449
+      },
+      "births": {
+        "Carnivore": 187,
+        "Herbivore": 20781
+      },
+      "deaths": {
+        "Carnivore.Some(Dehydration)": 10,
+        "Carnivore.Some(OldAge)": 155,
+        "Carnivore.Some(Starvation)": 25,
+        "Herbivore.Some(Combat)": 3878,
+        "Herbivore.Some(Dehydration)": 298,
+        "Herbivore.Some(OldAge)": 16176,
+        "Herbivore.Some(Starvation)": 465
+      },
+      "herbivore_social_decisions": {
+        "SeekCompanion": 34263,
+        "WaitForMate": 42867
+      },
+      "first_sample_without_herbivores": null,
+      "source_sha256": "dcee45a0d41004b0fbebf168ae52ca8ad578f2a4d689cf5cb3c5370eb51065b0",
+      "births_last_400_ticks": {
+        "Herbivore": 2072,
+        "Carnivore": 21
+      },
+      "sampled_minimum_alive": {
+        "Herbivore": 337,
+        "Carnivore": 37
+      }
+    },
+    {
+      "label": "unseen-negative",
+      "start": 17600,
+      "end": 17800,
+      "treatment": "rendezvous",
+      "alive": {},
+      "births": {},
+      "deaths": {
+        "Carnivore.Some(Dehydration)": 1,
+        "Carnivore.Some(OldAge)": 2,
+        "Carnivore.Some(Starvation)": 9,
+        "Herbivore.Some(OldAge)": 2
+      },
+      "herbivore_social_decisions": {
+        "SeekCompanion": 0,
+        "WaitForMate": 0
+      },
+      "first_sample_without_herbivores": 17700,
+      "source_sha256": "2ef159d51ad3f0162d18dc764939c76316004d07dd1f34ed21cda531f8c3dee4"
+    }
+  ]
+}

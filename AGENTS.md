@@ -23,6 +23,17 @@ Seed 2'de 17.660'ta otçullar tükendi (5 avcı kaldı). Normal kapısı geçilm
 icin sekizli şok çalışmadı. Kaynak varsayılanı false kalır; yeni bir aday için
 bu normal rejim hatasının teşhisi gerekir. Eski deney sonuçları korunur.
 
+## Buluşma adayının kısa sonucu
+
+`docs/reports/MATE_RENDEZVOUS.md` ve SCREEN.json. `bba1495` erken16.000
+kopyasını20.000'e449 otçul/51 avcıyla taşır; geç17.400 kopyası toparlanmaz,
+iki tür de biter.17.600 negatif kolunda hedef/sosyal karar0. Kapalı kontrolün
+bütün eski alanları+RNG eşit; V12 aktif hedef devamı da eşit.71 Rust/30 Python
+ve HTTP kurtarma kontrolleri geçti. Varsayılan kapalı, dağıtım ve yeni uzun
+arama yok. Veriler `data/experiments/mate-rendezvous-checkpoints`; dört kol bitti.
+Sıradaki dar inceleme geç koldaki üreme/tehlike/beslenme kesintileridir;
+başarısız kol anlaşılmadan parametre veya ömür körlemesine ayarlanmaz.
+
 ## Seed 2 normal rejim teşhisi
 
 Rapor `docs/reports/PREY_COLLAPSE_SEED2.md`; kanıt COMPARISON/REPLAY JSON'ları.

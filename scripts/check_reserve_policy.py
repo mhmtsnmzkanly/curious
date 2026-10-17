@@ -24,6 +24,7 @@ def run(args):
                 '--probe', args.probe, '--scenario', args.scenario, '--output', str(output),
                 '--seeds', args.focus_seeds if stage == 'focused-shock' else '1,2,3,4,5,42,12345,2026', '--ticks', '20000',
                 '--mode', 'fixed', '--reserve-opportunities', '--jobs', '2', '--timeout', '14400', '--notify']
+            if getattr(args, 'mate_rendezvous', False): command.append('--mate-rendezvous')
             if output.exists(): command.append('--resume')
             if stage.endswith('shock'): command += ['--shock-at', '10000', '--shock-duration', '1000', '--shock-percent', '50']
             with (root / (stage + '.log')).open('a') as log:
@@ -59,5 +60,6 @@ if __name__ == '__main__':
     p.add_argument('--probe', required=True)
     p.add_argument('--scenario', required=True)
     p.add_argument('--output', required=True)
+    p.add_argument('--mate-rendezvous', action='store_true')
     p.add_argument('--focus-seeds', help='Optional training precheck before the full normal/shock comparison')
     run(p.parse_args())

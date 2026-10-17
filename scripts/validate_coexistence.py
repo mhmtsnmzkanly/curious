@@ -70,6 +70,8 @@ def run(args):
                 'seeds': seeds, 'ticks': args.ticks, 'mode': args.mode, 'companions': not args.no_companions,
                 'shock': {'at': args.shock_at, 'duration': args.shock_duration, 'percent': args.shock_percent},
                 'acceptance': '90% complete; no species extinction; >=2 alive and >=2 descendant breeders per species in final 10%, with births'}
+    if getattr(args, 'mate_rendezvous', False):
+        manifest['mate_rendezvous'] = True
     if output.exists():
         if not args.resume:
             raise ValueError('Output already exists; use a fresh directory or --resume')
@@ -97,7 +99,8 @@ def execute(args, output, manifest):
         saved = output / f'seed-{seed}.json'
         if saved.exists():
             row = json.loads(saved.read_text())
-            if row['seed'] != seed or row['requested_ticks'] != args.ticks:
+            if (row['seed'] != seed or row['requested_ticks'] != args.ticks
+                    or bool(row.get('mate_rendezvous', False)) != getattr(args, 'mate_rendezvous', False)):
                 raise ValueError('Invalid cached seed result')
             rows.append(row)
             continue
@@ -110,6 +113,8 @@ def execute(args, output, manifest):
             command += [f'--shock-at={args.shock_at}', f'--shock-duration={args.shock_duration}', f'--shock-percent={args.shock_percent}']
         if args.reserve_opportunities:
             command.append('--reserve-opportunities')
+        if getattr(args, 'mate_rendezvous', False):
+            command.append('--mate-rendezvous')
         if args.no_companions:
             command.append('--no-companions')
         started = time.monotonic()
@@ -118,6 +123,8 @@ def execute(args, output, manifest):
         row = json.loads(child.stdout)
         if row['seed'] != seed or row['requested_ticks'] != args.ticks or row['mode'] != args.mode:
             raise ValueError('Probe returned a different experiment')
+        if bool(row.get('mate_rendezvous', False)) != getattr(args, 'mate_rendezvous', False):
+            raise ValueError('Probe did not apply the rendezvous setting')
         row['process_seconds'] = time.monotonic() - started
         return row
 
@@ -170,6 +177,7 @@ if __name__ == '__main__':
     p.add_argument('--jobs', type=int, default=1)
     p.add_argument('--no-companions', action='store_true')
     p.add_argument('--reserve-opportunities', action='store_true')
+    p.add_argument('--mate-rendezvous', action='store_true')
     p.add_argument('--shock-at', type=int, default=0)
     p.add_argument('--shock-duration', type=int, default=500)
     p.add_argument('--shock-percent', type=int, default=50)
