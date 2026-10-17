@@ -3,6 +3,22 @@
 Başlamadan `docs/VISION.md`, `docs/CONTROL.md`, `docs/ROADMAP.md` ve `TODO.md`
 okunur. Kullanıcının sonraki talimatları bu notların önündedir.
 
+## Seed 2 toparlanma takibi
+
+D36a10a açık adayın normal 8/8, şok 7/8 deneyi bitti; seed 2 avcıları
+13.752'de tükendi. Şokta hiç doğum olmadığı iddiası yanlış: 10.100–11.000
+arasında 3 doğum/52 ölüm, 11.000–12.600 arasında 4 doğum/7 ölüm var.
+Son 10 avcı ölümü OldAge. Kanıt POLICY_SEED2_FOLLOWUP.json ve açıklama
+RESERVE_POLICY_ISOLATION.md son bölümünde.
+
+Sonraki deneysel düzeltme, rezerv hazırlığında türdeşin reproductive yerine
+mature olmasını arar. İki düşük rezervli yetişkinin karşılıklı hazır olma
+beklentisini kaldırır; çiftleşmenin fiziksel eşiği değişmez. Varsayılan kapalıdır.
+Hedefli ön elemede 2/3 seedleri aynı kaynak şokuyla sınanır; geçerse normal 8,
+sonra şok 8. Kod üretme/otomatik parametre değiştirme veya dağıtım yoktur.
+Çalışma yolu `data/experiments/policy-mature-validation`, servis
+`curious-policy-mature-validation.service`; yalnız dosya/servis varsa başlamıştır.
+
 ## V11: reddedilen rezerv davranışının ayrılması
 
 Dad97e9 normal kontrolde 7/8, kaynak şokunda 6/8 kaldı; başarısız adaydır.

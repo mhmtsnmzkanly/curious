@@ -82,3 +82,36 @@ fn settings_are_opt_in_and_preserved_only_when_explicitly_saved() {
         serde_json::to_value(State::capture(&resumed)).unwrap()
     );
 }
+
+#[test]
+fn adjacent_mature_partners_can_prepare_before_either_is_reproductively_ready() {
+    let mut actor = CarnivoreEntity::default();
+    let life = actor.life_mut();
+    life.max_energy = 270;
+    life.energy = 220;
+    life.max_meal = 60;
+    life.reproduction_reserve_per_mille = 885;
+    life.age = 30;
+    let mut view = Perception::empty();
+    view.add_entity(
+        2,
+        Species::Carnivore,
+        100,
+        Steps(vec![Direction::Down]),
+        false,
+    );
+    view.entities[0].mature = true;
+    view.add_food(40, true, Steps(vec![Direction::Right]));
+    let base = || Decision::new(Intent::Idle { duration: 1 }, Reason::Rest);
+    assert!(!life.can_reproduce());
+    assert!(!view.entities[0].reproductive);
+    assert_eq!(
+        prepare_reserve(Species::Carnivore, life, &view, base()).reason,
+        Reason::PrepareReproduction
+    );
+    view.entities[0].mature = false;
+    assert_eq!(
+        prepare_reserve(Species::Carnivore, life, &view, base()).reason,
+        Reason::Rest
+    );
+}

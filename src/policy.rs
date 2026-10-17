@@ -31,10 +31,12 @@ pub fn prepare_reserve(
         != Some(crate::simulation::event::RejectionReason::InsufficientEnergy)
         || life.health != life.max_health
         || life.water < life.max_water * 3 / 4
+        // Preparing requires a potential adult partner, not an already ready
+        // one: otherwise two under-reserved adults wait for each other forever.
         || !view
             .entities
             .iter()
-            .any(|mate| mate.species == species && mate.reproductive && mate.steps.len() <= 1)
+            .any(|mate| mate.species == species && mate.mature && mate.steps.len() <= 1)
     {
         return base;
     }

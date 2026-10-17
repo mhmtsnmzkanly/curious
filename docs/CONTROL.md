@@ -7,7 +7,7 @@ Başarısız dad97e9 rezerv kuralı ortak açlık değerlendirmesinden kaldırı
 normal içgüdü kodu ae7f0df ile aynıdır. Bu, kaynak şokunun çözüldüğü anlamına gelmez.
 
 Deneysel davranış ayrı `policy.rs` katmanında yalnız açıkça etkinleştirilince
-uygulanır. Sağlıklı, yetişkin, bekleme süresi bitmiş birey; bitişikte hazır eş
+uygulanır. Sağlıklı, yetişkin, bekleme süresi bitmiş birey; bitişikte yetişkin bir türdeş
 ve yerinden ayrılmadan tüketebileceği yeterli besin varsa rezerv tamamlar.
 Bir sonraki adımın bazal maliyeti için bir enerji payı gerekir. Uzak veya küçük
 bir besine yönelmez; tehdit, susuzluk, mevcut açlık, dış komut ve özel politika
@@ -16,7 +16,10 @@ kararlarını değiştirmez. Gerekçe `PrepareReproduction`; fiziksel doğrulama
 
 `ecology_probe` ve `validate_coexistence.py --reserve-opportunities` ile
 etkinleştirilir; seçeneğin değeri deney manifestine girer ve değişirse resume
-reddedilir. Canlı HTTP kontrolüne yeni bir açma eylemi eklenmedi. Policy bir dünya
+reddedilir. Türdeşin zaten üremeye hazır olması rezerv hazırlığı için şart değildir;
+aksi halde iki rezervi düşük yetişkin birbirinin hazır olmasını bekler.
+Gerçek çiftleşmede iki bireyin fizyolojik uygunluğu yine çözümleyicide aranır.
+Canlı HTTP kontrolüne yeni bir açma eylemi eklenmedi. Policy bir dünya
 ayarını temsil eder, kalıtsal bir beden özelliği veya öğrenilmiş anı değildir.
 Yeni senaryolar kapalı başlar. V1–V10 kayıtta alan yoksa kapalı yüklenir;
 V11'de açık kaydedilmiş dünya açık sürer. V11 eski motorla açılmaz.

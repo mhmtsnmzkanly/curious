@@ -1,0 +1,202 @@
+{
+  "source_revision": "d36a10a",
+  "rows": [
+    {
+      "seed": 1,
+      "extinction": null,
+      "periods": [
+        {
+          "from": 10100,
+          "to": 11000,
+          "births": 10,
+          "deaths": 41,
+          "population_before": 43,
+          "population_after": 12
+        },
+        {
+          "from": 11000,
+          "to": 12600,
+          "births": 28,
+          "deaths": 19,
+          "population_before": 12,
+          "population_after": 21
+        }
+      ],
+      "input_sha256": "fdcf7696954acf15655841154d6db77bbb0af9ed1d7cbf32c9a471bef15ad762"
+    },
+    {
+      "seed": 2,
+      "extinction": 13752,
+      "periods": [
+        {
+          "from": 10100,
+          "to": 11000,
+          "births": 3,
+          "deaths": 52,
+          "population_before": 55,
+          "population_after": 6
+        },
+        {
+          "from": 11000,
+          "to": 12600,
+          "births": 4,
+          "deaths": 7,
+          "population_before": 6,
+          "population_after": 3
+        }
+      ],
+      "input_sha256": "9587952004a17e606ae220a013c17184efb9a526bb32e1387d21c7b447042ab6",
+      "sampled_ready_counts_11000_13300": {
+        "0": 20,
+        "1": 3,
+        "2": 1
+      },
+      "last_ten_death_causes": {
+        "OldAge": 10
+      },
+      "last_birth_sample_interval": [
+        12500,
+        12600
+      ]
+    },
+    {
+      "seed": 3,
+      "extinction": null,
+      "periods": [
+        {
+          "from": 10100,
+          "to": 11000,
+          "births": 4,
+          "deaths": 47,
+          "population_before": 50,
+          "population_after": 7
+        },
+        {
+          "from": 11000,
+          "to": 12600,
+          "births": 22,
+          "deaths": 11,
+          "population_before": 7,
+          "population_after": 18
+        }
+      ],
+      "input_sha256": "91f4f1c3c748facc7a03edd664de2778f2279dfb20bbd7fd79e64c62a60d0baf"
+    },
+    {
+      "seed": 4,
+      "extinction": null,
+      "periods": [
+        {
+          "from": 10100,
+          "to": 11000,
+          "births": 7,
+          "deaths": 39,
+          "population_before": 43,
+          "population_after": 11
+        },
+        {
+          "from": 11000,
+          "to": 12600,
+          "births": 22,
+          "deaths": 15,
+          "population_before": 11,
+          "population_after": 18
+        }
+      ],
+      "input_sha256": "3031d721c3a76d1aeda125d307867cbbf7725226be6581de624d3b598cbdc25e"
+    },
+    {
+      "seed": 5,
+      "extinction": null,
+      "periods": [
+        {
+          "from": 10100,
+          "to": 11000,
+          "births": 10,
+          "deaths": 36,
+          "population_before": 40,
+          "population_after": 14
+        },
+        {
+          "from": 11000,
+          "to": 12600,
+          "births": 29,
+          "deaths": 20,
+          "population_before": 14,
+          "population_after": 23
+        }
+      ],
+      "input_sha256": "7f2fe8e2f70fd55b14ad181ad094c04636bf978f300c211ba3536cff186a36e2"
+    },
+    {
+      "seed": 42,
+      "extinction": null,
+      "periods": [
+        {
+          "from": 10100,
+          "to": 11000,
+          "births": 6,
+          "deaths": 41,
+          "population_before": 42,
+          "population_after": 7
+        },
+        {
+          "from": 11000,
+          "to": 12600,
+          "births": 6,
+          "deaths": 8,
+          "population_before": 7,
+          "population_after": 5
+        }
+      ],
+      "input_sha256": "4b85125f1a48fbec608ec3402ef4dd9c365496b15d821f0ae4d19b7ec1ef0d3d"
+    },
+    {
+      "seed": 12345,
+      "extinction": null,
+      "periods": [
+        {
+          "from": 10100,
+          "to": 11000,
+          "births": 6,
+          "deaths": 41,
+          "population_before": 43,
+          "population_after": 8
+        },
+        {
+          "from": 11000,
+          "to": 12600,
+          "births": 11,
+          "deaths": 10,
+          "population_before": 8,
+          "population_after": 9
+        }
+      ],
+      "input_sha256": "9a0d033fd5dc0d20d008beccad3f79e3ea40acb03d89095648b4199462d9a21c"
+    },
+    {
+      "seed": 2026,
+      "extinction": null,
+      "periods": [
+        {
+          "from": 10100,
+          "to": 11000,
+          "births": 7,
+          "deaths": 41,
+          "population_before": 43,
+          "population_after": 9
+        },
+        {
+          "from": 11000,
+          "to": 12600,
+          "births": 16,
+          "deaths": 12,
+          "population_before": 9,
+          "population_after": 13
+        }
+      ],
+      "input_sha256": "56aae4610494fe37bfea57a9b8c44c71ece4b7d64ccf1a1f2ddacb03eccfd243"
+    }
+  ],
+  "limits": "Ready counts are point samples every 100 ticks; they do not prove all between-sample pairing opportunities. Final ten deaths are not all deaths."
+}

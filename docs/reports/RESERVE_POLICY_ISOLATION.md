@@ -73,3 +73,31 @@ açık adayda 52 avcı/513 otçul var. Varsayılanın 61 nüfus/enerji/sığına
 eski V9 kontrolle birebir eşleşti. Bilinen 5016. adım çöküşü varsayılanda
 giderildi; bu kaynak şoku veya açık adayın uzun kabulü değildir. Makinece
 okunur karşılaştırma `POLICY_REPLAY_RESULT.json` içindedir.
+
+## Seed 2 sonrası daraltılmış teşhis
+
+D36a10a karşılaştırması tamamlandı: normal 8/8, şok 7/8. Seed 2'de avcılar
+13.752. adımda tükendi. Şok sırasında doğum tamamen kesilmemiştir: 10.100–11.000
+arasında 3 doğum ve 52 ölüm ile avcı sayısı 55→6; 11.000–12.600 arasında
+4 doğum ve 7 ölüm ile 6→3 oldu. Aynı ikinci aralıkta başarılı seed 1'de
+28 doğum/19 ölüm, seed 3'te 22 doğum/11 ölüm var. Son 10 ölümün tamamı yaşlılık.
+
+Seed 2'nin 11.000–13.300 arasındaki 24 örneğinin 20'sinde üremeye hazır
+avcı yok, üçünde bir ve birinde iki var. Bunlar 100 adımlık anlık örneklerdir;
+arada hiç fırsat olmadığı veya yerel eş aramanın tek neden olduğu kanıtlanmaz.
+Kaynak JSON SHA'ları ve bütün sekiz seedin aynı aralıkları POLICY_SEED2_FOLLOWUP.json.
+
+Kodda rezervi düşük iki yetişkin için bağımlılık var: hazırlık ancak diğer
+yetişkin zaten reproductive ise çalışıyor. Birbirini gören iki sağlıklı,
+düşük rezervli yetişkin ve yeterli mevcut besin durumunda bu, iki tarafın da
+hazırlığa başlamamasına yol açar. Yeni regresyon testi bu durumu kapsar.
+Deneysel aday yalnız bu kontrolü mature olarak değiştirir. Yavru eş sayılmaz;
+uzak besin, yetersiz öğün, ek av, tehdit/susuzluk önceliği ve fiziksel çiftleşme
+eşikleri aynı kalır. Varsayılan false korunur. Bu kod düzeltmesinin seed 2
+yok oluşunu tek başına gidereceği henüz gösterilmedi.
+
+Hedefli ön eleme, önce aynı şokla seed 2 ve 3 ×20.000 adım; yalnız geçerse
+normal sekiz, o da geçerse şok sekiz eğitim koşusu. Aynı seedlerin tekrarları
+yeni bağımsız kanıt sayılmaz; uzun kabul için ayrı görülmemiş küme gerekir.
+Çalışma yolu data/experiments/policy-mature-validation; program değiştirilmez
+profil kullanır ve dağıtım yapmaz. 59 Rust ve 26 Python testi geçti.

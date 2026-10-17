@@ -9,7 +9,7 @@ from check_reserve_policy import run
 
 
 class ReserveGateTests(unittest.TestCase):
-    def trial(self, outcomes):
+    def trial(self, outcomes, focus=None):
         self.calls = []
         case = self
         class Child:
@@ -17,13 +17,13 @@ class ReserveGateTests(unittest.TestCase):
                 stage = Path(command[command.index('--output') + 1])
                 case.calls.append(stage.name)
                 case.assertIn('--reserve-opportunities', command)
-                case.assertEqual('--shock-at' in command, stage.name == 'shock')
+                case.assertEqual('--shock-at' in command, stage.name.endswith('shock'))
                 stage.mkdir(parents=True, exist_ok=True)
                 (stage / 'summary.json').write_text(json.dumps(outcomes[stage.name]))
             def wait(self, timeout): return 0
             def poll(self): return 0
         with tempfile.TemporaryDirectory() as directory:
-            args = argparse.Namespace(probe='frozen-probe', scenario='frozen-scenario', output=directory)
+            args = argparse.Namespace(probe='frozen-probe', scenario='frozen-scenario', output=directory, focus_seeds=focus)
             with patch('check_reserve_policy.subprocess.Popen', Child):
                 try: run(args)
                 finally:
@@ -44,3 +44,12 @@ class ReserveGateTests(unittest.TestCase):
         with self.assertRaisesRegex(RuntimeError, 'Incomplete'):
             self.trial({'normal': {'complete': False, 'accepted': True}})
         self.assertEqual(self.calls, ['normal'])
+
+    def test_failed_focus_stops_before_the_full_comparison(self):
+        self.trial({'focused-shock': {'complete': True, 'accepted': False}}, focus='2,3')
+        self.assertEqual(self.calls, ['focused-shock'])
+        self.assertEqual(self.state['status'], 'rejected')
+
+    def test_focus_passes_through_the_same_normal_gate(self):
+        self.trial({s: {'complete': True, 'accepted': True} for s in ['focused-shock', 'normal', 'shock']}, focus='2,3')
+        self.assertEqual(self.calls, ['focused-shock', 'normal', 'shock'])

@@ -11,6 +11,9 @@ Hedef [VISION](docs/VISION.md), kullanıcı sırası ve dürüst durum
   Öğrenme/mutasyon kapıları çalışmadı, yeni dünya açılmadı. Gizli takviye ekleme.
   Dad97e9 adayı normalde 7/8, şokta 6/8 ile reddedildi. V11 varsayılanı eski
   kurala döndürür; tek adımlık rezerv adayı açık tercih gerektirir.
+  D36a10a normal 8/8, şok 7/8: seed 2 yaşlılıkla tükendi. Karşılıklı hazır
+  olma şartını kaldıran yeni deneysel aday önce seed 2/3 hedefli şok elemesinden
+  geçmeli; sonra normal/şok sekizli kontroller. Varsayılan kapalı kalır.
   [RESERVE_POLICY_ISOLATION](docs/reports/RESERVE_POLICY_ISOLATION.md) ve
   [önceki aday](docs/reports/RESERVE_OPPORTUNITY.md).
 - [ ] Su öğrenmesinin ortam değişimi deneyini değerlendir (`learning_trial` reversal);
