@@ -23,6 +23,7 @@ pub enum Reason {
     RecallMate,
     SeekCompanion,
     WaitForMate,
+    PauseMateSearch,
     SeekFood,
     PrepareReproduction,
     HuntPrey,

@@ -3,6 +3,26 @@
 Başlamadan `docs/VISION.md`, `docs/CONTROL.md`, `docs/ROADMAP.md` ve `TODO.md`
 okunur. Kullanıcının sonraki talimatları bu notların önündedir.
 
+## Geç kopya: iki somut karar düzeltmesi
+
+Rapor `docs/reports/LATE_RENDEZVOUS_FIXES.md` ve JSON. Tam algılı eski geç tekrar
+bütün çıktı+RNG ile eşit.1.109 sığınma kararının486'sı bilinen dolu hedef;
+476'sında boş alternatif var. Kaynak artık bunları eler (buluşma bayrağından
+BAĞIMSIZ temel politika düzeltmesi). Deneysel buluşmada57 güvenli görünür
+hazır eş fırsatı yeniden deneme arasıyla engellenmiş; artık süreyi sıfırlamadan
+tek adım yapılabilir. Gerçek bekleme WaitForMate, ertelenme PauseMateSearch.
+V12/SQLiteV2 değişmez; rezerv ve buluşma varsayılan false, eski canlılar korunur.
+
+Aynı geç kayıtta yalnız eş düzeltmesi yine0/0; yalnız sığınak650 otçul/0 avcı;
+birleşik646/0. Erken16.000→20.000 birleşik597 otçul/45 avcı. Geç avcı nesli
+hâlâ yenilenmez:4 doğum/45 ölüm (25 açlık/15 yaş/5 su). Uzun tarama/dağıtım yok.
+76 Rust/33 Python +HTTP kurtarma geçti. Ham audit ve patch/SHA varyantları
+`data/experiments/rendezvous-late-{audit,corrections}`. Son kaynak birleşik
+varyant hash'leriyle aynı; geçici retry-only kaynak değişikliği geri alındı.
+Sıradaki inceleme geç avcıların besine erişimi ve üreme rezervidir; otçulun
+hatalı kaçışına geri dönerek dengeyi taklit etme. Eski V9 uzun kabul yeni temel
+kaçış düzeltmesinin kabulü sayılamaz.
+
 ## V12 deneysel eş buluşması
 
 Kaynakta `policy.mate_rendezvous` varsayılan false; sadece AI otçulu,

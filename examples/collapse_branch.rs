@@ -5,6 +5,8 @@ use curious::{
 };
 use serde_json::json;
 use std::{collections::BTreeMap, env, fs};
+#[path = "support/rendezvous_audit.rs"]
+mod rendezvous_audit;
 fn main() {
     let args: Vec<_> = env::args().collect();
     let mut w: curious::world::World =
@@ -41,6 +43,10 @@ fn main() {
         w.entities
             .retain(|e| e.base.species() != Species::Carnivore);
     }
+    let mut audit = args.get(5).map(|path| rendezvous_audit::Audit::new(path));
+    if audit.is_some() {
+        w.observation.full_all = true;
+    }
     let start = w.tick_counter;
     let mut reasons = BTreeMap::<String, usize>::new();
     let mut births = BTreeMap::<String, usize>::new();
@@ -50,7 +56,11 @@ fn main() {
             e.learner.enabled = false;
             e.memory.companions_enabled = true;
         }
-        for event in w.tick() {
+        let events = w.tick();
+        if let Some(audit) = &mut audit {
+            audit.observe(&w, &events);
+        }
+        for event in events {
             match event {
                 SimulationEvent::EntityBorn { species, .. } => {
                     *births.entry(format!("{species:?}")).or_default() += 1

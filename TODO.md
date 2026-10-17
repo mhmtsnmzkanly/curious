@@ -23,7 +23,10 @@ Hedef [VISION](docs/VISION.md), kullanıcı sırası ve dürüst durum
   mekanizma testi küçük grupta güvenli eş arama. V12 opt-in ilk buluşma adayı
   erken kopyada20.000'e449 otçul/51 avcıyla ulaştı,17.400 geç kopyasını
   kurtaramadı; kabul ve uzun tarama yok. [MATE_RENDEZVOUS](docs/reports/MATE_RENDEZVOUS.md).
-  Sonraki dar inceleme geç koldaki üreme/tehlike/beslenme kesintileri.
+  Bu incelemede bilinen dolu sığınağa kaçma ve yeniden denemede güvenli hazır
+  eşi kaçırma düzeltildi. Birleşik erken597 otçul/45 avcı; geç646/0.
+  [LATE_RENDEZVOUS_FIXES](docs/reports/LATE_RENDEZVOUS_FIXES.md).
+  Sonraki dar inceleme geç avcıların besine erişimi ve üreme rezervi.
   [RESERVE_POLICY_ISOLATION](docs/reports/RESERVE_POLICY_ISOLATION.md) ve
   [önceki aday](docs/reports/RESERVE_OPPORTUNITY.md).
 - [ ] Su öğrenmesinin ortam değişimi deneyini değerlendir (`learning_trial` reversal);

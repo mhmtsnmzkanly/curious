@@ -99,7 +99,7 @@ fn unsafe_paths_and_retry_cannot_fall_back_to_old_unsafe_recall() {
         1,
         base(Reason::RecallMate),
     );
-    assert_eq!(d.reason, Reason::WaitForMate);
+    assert_eq!(d.reason, Reason::PauseMateSearch);
     assert!(m.social.target.is_none());
     let d = m.social.decide(
         Position::new(0, 0),
@@ -110,7 +110,7 @@ fn unsafe_paths_and_retry_cannot_fall_back_to_old_unsafe_recall() {
         2,
         base(Reason::RecallMate),
     );
-    assert_eq!(d.reason, Reason::WaitForMate);
+    assert_eq!(d.reason, Reason::PauseMateSearch);
 }
 #[test]
 fn approaching_is_one_affordable_step_and_not_an_occupied_cell() {
@@ -295,4 +295,31 @@ fn an_available_mate_is_not_ignored_to_wait_for_an_unready_contact() {
         Reason::SeekCompanion
     );
     assert_eq!(m.social.target.as_ref().unwrap().id, 3);
+}
+
+#[test]
+fn backoff_does_not_suppress_a_safe_visible_ready_mate_or_restart_the_goal() {
+    let mut m = Memory::default();
+    m.social.retry_after = 20;
+    let e = adult();
+    let p = view(3, true);
+    let d = choose(&mut m, &e, &p, 2, Reason::ApproachMate);
+    assert_eq!(d.reason, Reason::SeekCompanion);
+    assert_eq!(
+        d.intent,
+        Intent::Move {
+            steps: Steps(vec![Direction::Right])
+        }
+    );
+    assert_eq!(m.social.retry_after, 20);
+    assert!(m.social.target.is_none());
+    assert_eq!(
+        choose(&mut m, &e, &p, 3, Reason::SeekShelter).reason,
+        Reason::SeekShelter
+    );
+    m.dangers.push((Position::new(2, 2), 3));
+    assert_eq!(
+        choose(&mut m, &e, &p, 4, Reason::ApproachMate).reason,
+        Reason::PauseMateSearch
+    );
 }

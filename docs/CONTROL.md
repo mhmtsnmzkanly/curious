@@ -1,5 +1,15 @@
 # Kalıcı kayıt ve kontrol servisi
 
+## V12 karar düzeltmeleri
+
+Durum/SQLite sürümü değişmedi. Temel otçul sığınma kararı, algıda dolu olduğunu
+bildiği sığınak yerine boş alternatifi seçer; yoksa olağan kaçış/savunmaya döner.
+Bu düzeltme buluşma bayrağından bağımsızdır. Mevcut canlı servisler yükseltilmedi.
+Deneysel buluşmanın tekrar arası, görülen hazır eşe güvenli/ödenebilir tek adım
+fırsatını engellemez; yeni hedef başlatmaz veya süreleri sıfırlamaz.
+`PauseMateSearch` ertelenen/engelli aramayı, `WaitForMate` türdeş yanında gerçek
+beklemeyi gösterir. Kanıt/sınırlar `reports/LATE_RENDEZVOUS_FIXES.md`.
+
 ## V12: deneysel otçul buluşması
 
 Checkpoint V12, SQLite V2. `policy.mate_rendezvous=false` varsayılanı;

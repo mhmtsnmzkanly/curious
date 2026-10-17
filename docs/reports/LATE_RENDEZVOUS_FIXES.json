@@ -1,0 +1,245 @@
+{
+  "audit": {
+    "source_sha256": "260a9402c99af6cbbb017210394dec5fb7437eaf02494f45690ab83d77fd9fb9",
+    "counts": {
+      "decisions": 5283,
+      "shelter_decisions": 1109,
+      "shelter_target_occupied": 486,
+      "occupied_shelter_with_open_alternative": 476,
+      "shelter_rejections": 543,
+      "rejected_shelter_target_occupied": 442,
+      "ready_waits_with_visible_ready_mate": 330,
+      "ready_waits_with_safe_opportunity": 66,
+      "safe_opportunity_waits_during_retry": 57
+    },
+    "reasons": {
+      "Explore": 93,
+      "SeekShelter": 1109,
+      "SeekWater": 855,
+      "SeekFood": 1641,
+      "WaitForMate": 794,
+      "SeekCompanion": 254,
+      "Mate": 89,
+      "Rest": 232,
+      "NoEligibleMate": 216
+    },
+    "physiological_blockers": {
+      "Cooldown": 2286,
+      "Ready": 1792,
+      "InsufficientEnergy": 21,
+      "PoorHealth": 287,
+      "Immature": 897
+    },
+    "decisions_with_active_goal": {
+      "WaitForMate": 259,
+      "SeekCompanion": 254,
+      "SeekWater": 226,
+      "SeekFood": 467,
+      "SeekShelter": 286,
+      "Mate": 45
+    },
+    "rejections": {
+      "NoPath": 440,
+      "MissingResource": 46,
+      "Occupied": 221,
+      "Cooldown": 39,
+      "OutOfRange": 98
+    },
+    "death_causes": {
+      "OldAge": 67,
+      "Combat": 61
+    },
+    "occupied_refuge_examples": [
+      {
+        "tick": 17401,
+        "id": 91937,
+        "origin": {
+          "x": 17,
+          "y": 11
+        },
+        "selected": [
+          "Up"
+        ],
+        "open_alternative": [
+          "Down",
+          "Down",
+          "Down",
+          "Down",
+          "Down",
+          "Down"
+        ]
+      },
+      {
+        "tick": 17401,
+        "id": 91955,
+        "origin": {
+          "x": 19,
+          "y": 9
+        },
+        "selected": [
+          "Left"
+        ],
+        "open_alternative": [
+          "UpRight",
+          "Right",
+          "Right",
+          "DownRight"
+        ]
+      },
+      {
+        "tick": 17401,
+        "id": 91971,
+        "origin": {
+          "x": 19,
+          "y": -5
+        },
+        "selected": [
+          "Left"
+        ],
+        "open_alternative": [
+          "Right",
+          "Right",
+          "Right",
+          "Right"
+        ]
+      }
+    ],
+    "missed_opportunity_examples": [
+      {
+        "tick": 17411,
+        "id": 92074,
+        "mate": 91982,
+        "distance": 6,
+        "retry_after": 17418
+      },
+      {
+        "tick": 17414,
+        "id": 91991,
+        "mate": 92085,
+        "distance": 6,
+        "retry_after": 17421
+      },
+      {
+        "tick": 17415,
+        "id": 91991,
+        "mate": 92055,
+        "distance": 2,
+        "retry_after": 17421
+      }
+    ],
+    "limits": [
+      "Safety uses only visible/remembered danger; it does not prove an entire route safe.",
+      "Counts are entity-decisions, not distinct individuals or births.",
+      "Post-decision active targets omit goals that expired during the decision."
+    ]
+  },
+  "audit_biological_state_rng_and_all_samples_equal": true,
+  "late_start": 17400,
+  "end": 20000,
+  "reserve_opportunities": true,
+  "mate_rendezvous": true,
+  "cases": [
+    {
+      "variant": "old",
+      "alive": {},
+      "births": {
+        "Herbivore": 50
+      },
+      "deaths": {
+        "Carnivore.Some(Dehydration)": 6,
+        "Carnivore.Some(OldAge)": 7,
+        "Carnivore.Some(Starvation)": 28,
+        "Herbivore.Some(Combat)": 61,
+        "Herbivore.Some(OldAge)": 67
+      },
+      "first_sample_without_herbivores": 17700,
+      "first_sample_without_carnivores": 17800,
+      "source_sha256": "9636a7b57a25b6b0d76f8e39444684dc6fa9c83df41358fc0b4bea8e57fa70b4"
+    },
+    {
+      "variant": "retry-only",
+      "alive": {},
+      "births": {
+        "Herbivore": 60
+      },
+      "deaths": {
+        "Carnivore.Some(Dehydration)": 6,
+        "Carnivore.Some(OldAge)": 7,
+        "Carnivore.Some(Starvation)": 28,
+        "Herbivore.Some(Combat)": 63,
+        "Herbivore.Some(OldAge)": 75
+      },
+      "first_sample_without_herbivores": 17600,
+      "first_sample_without_carnivores": 17800,
+      "source_sha256": "2222a4024e8bae8ace7cfb2a56a8db670f4f044aa2c441e94ba2d4e99b004c40"
+    },
+    {
+      "variant": "refuge-only",
+      "alive": {
+        "Herbivore": 650
+      },
+      "births": {
+        "Herbivore": 15003
+      },
+      "deaths": {
+        "Carnivore.Some(Dehydration)": 4,
+        "Carnivore.Some(OldAge)": 14,
+        "Carnivore.Some(Starvation)": 23,
+        "Herbivore.Some(Combat)": 17,
+        "Herbivore.Some(Dehydration)": 535,
+        "Herbivore.Some(OldAge)": 13063,
+        "Herbivore.Some(Starvation)": 816
+      },
+      "first_sample_without_herbivores": null,
+      "first_sample_without_carnivores": 18000,
+      "source_sha256": "bd81d618cb8c9ecbbe7de3dcb0a65107100019e274ec82c499c397f6f96d289a"
+    },
+    {
+      "variant": "both",
+      "alive": {
+        "Herbivore": 646
+      },
+      "births": {
+        "Carnivore": 4,
+        "Herbivore": 14887
+      },
+      "deaths": {
+        "Carnivore.Some(Dehydration)": 5,
+        "Carnivore.Some(OldAge)": 15,
+        "Carnivore.Some(Starvation)": 25,
+        "Herbivore.Some(Combat)": 30,
+        "Herbivore.Some(Dehydration)": 512,
+        "Herbivore.Some(OldAge)": 13008,
+        "Herbivore.Some(Starvation)": 769
+      },
+      "first_sample_without_herbivores": null,
+      "first_sample_without_carnivores": 19900,
+      "source_sha256": "582e30d6b02d0a04ec35dea0263578b6ff477cec05f178112129284024e336e7"
+    }
+  ],
+  "early_combined": {
+    "start": 16000,
+    "end": 20000,
+    "alive": {
+      "Carnivore": 45,
+      "Herbivore": 597
+    },
+    "births_last_400_ticks": {
+      "Herbivore": 2318,
+      "Carnivore": 16
+    },
+    "sampled_minimum_alive": {
+      "Herbivore": 554,
+      "Carnivore": 38
+    },
+    "source_sha256": "16141ce9601b54f3d7141b92fb05496c84063f801c29ff6a889bb36d94428430"
+  },
+  "qualified": false,
+  "long_validation_started": false,
+  "limitations": [
+    "Late/early are one known seed and fixed histories, not independent acceptance.",
+    "Temporary code variants are exploratory and fingerprinted; the final source matches the combined variant.",
+    "Refuge occupancy is local knowledge; concurrent arrivals can still collide.",
+    "Safe opportunity means an affordable safe first step, not guaranteed safe travel or reproduction."
+  ]
+}

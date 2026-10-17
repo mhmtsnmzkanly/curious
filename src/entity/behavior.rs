@@ -39,6 +39,19 @@ pub fn decide(species: Species, life: &LifeState, view: Perception, rng: &mut Ra
                     .shelters
                     .iter()
                     .filter(|p| !p.is_empty())
+                    // Perception paths include occupied endpoints so entities
+                    // remain visible. A refuge must actually be enterable.
+                    .filter(|path| {
+                        let end = path
+                            .iter()
+                            .fold(crate::map::movement::Position::new(0, 0), |p, d| p + *d);
+                        !view.entities.iter().any(|e| {
+                            e.steps
+                                .iter()
+                                .fold(crate::map::movement::Position::new(0, 0), |p, d| p + *d)
+                                == end
+                        })
+                    })
                     .min_by_key(|p| p.len())
                 {
                     return Decision::new(

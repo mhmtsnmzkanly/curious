@@ -21,6 +21,7 @@ const reasons = {
   RecallWater: "Hatırladığı suya dönüyor",
   RecallFood: "Hatırladığı yiyeceğe dönüyor",
   SeekCompanion: "Gördüğü veya hatırladığı türdeşle buluşmaya çalışıyor",
+  PauseMateSearch: "Buluşma aramasına ara veriyor",
   WaitForMate: "Türdeşinin yanında kısa süre bekliyor",
   RecallMate: "Daha önce gördüğü eşin son konumunu arıyor",
   LearnedWater: "Deneyimine göre su seçti",
