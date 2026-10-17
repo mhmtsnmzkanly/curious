@@ -3,6 +3,17 @@
 Başlamadan `docs/VISION.md`, `docs/CONTROL.md`, `docs/ROADMAP.md` ve `TODO.md`
 okunur. Kullanıcının sonraki talimatları bu notların önündedir.
 
+## Soy arayüzü ve son aday sonucu
+
+Soy arayüzü web/archive.js üzerinden mevcut salt okunur query API'sini kullanır;
+CONTROL.md soy bölümü kapsam/sınırlar, scripts/test_archive.cjs SQL doğrulamasıdır.
+UI değişikliği için uzun süreli dünyaları veya deney ikililerini güncelleme.
+
+C4d2b35 mature adayı hedefli şokta 2/2 geçti, normalde 7/8 ile reddedildi.
+Seed 2'de 17.660'ta otçullar tükendi (5 avcı kaldı). Normal kapısı geçilmediği
+icin sekizli şok çalışmadı. Kaynak varsayılanı false kalır; yeni bir aday için
+bu normal rejim hatasının teşhisi gerekir. Eski deney sonuçları korunur.
+
 ## Seed 2 toparlanma takibi
 
 D36a10a açık adayın normal 8/8, şok 7/8 deneyi bitti; seed 2 avcıları

@@ -359,6 +359,10 @@ pub fn serve(mut runtime: Runtime, bind: &str, token: Option<String>) -> Result<
                 ("GET", "/ui.css") => {
                     Some((include_str!("../web/style.css"), "text/css; charset=utf-8"))
                 }
+                ("GET", "/archive.js") => Some((
+                    include_str!("../web/archive.js"),
+                    "text/javascript; charset=utf-8",
+                )),
                 ("GET", "/ui.js") => Some((
                     include_str!("../web/app.js"),
                     "text/javascript; charset=utf-8",

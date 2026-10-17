@@ -44,6 +44,78 @@ let token = "",
   busy = false,
   geometry = null,
   online = false;
+const archiveReaders = new Map(), familyHints = new Map();
+let archiveBusy = false, archiveView = null;
+function currentIndividual(id) { return state?.entities.find((e) => e.id === id); }
+function archiveReader(id, reset = false) {
+  if (reset) archiveReaders.delete(id);
+  if (!archiveReaders.has(id)) {
+    if (archiveReaders.size >= 8) archiveReaders.delete(archiveReaders.keys().next().value);
+    archiveReaders.set(id, new CuriousArchive.Reader(api, id, familyHints.get(id)));
+  }
+  return archiveReaders.get(id);
+}
+function familyButton(id, hint) {
+  const button = document.createElement("button");
+  const e = currentIndividual(id) || archiveReaders.get(id)?.individual;
+  button.textContent = `#${id}` + (e ? ` · ${names[e.species]}` : "");
+  button.className = "quiet";
+  button.onclick = () => {
+    if (hint) {
+      if (familyHints.size >= 200) familyHints.delete(familyHints.keys().next().value);
+      familyHints.set(id, hint);
+    }
+    select(id);
+  };
+  return button;
+}
+function renderFamily() {
+  for (const key of ["parents", "self", "children"]) $("family-" + key).replaceChildren();
+  const reader = archiveReaders.get(selected);
+  const e = currentIndividual(selected) || reader?.individual;
+  const parents = e?.parents || reader?.parents || familyHints.get(selected)?.parents || [];
+  for (const id of parents) $("family-parents").append(familyButton(id));
+  if (!parents.length) $("family-parents").textContent = e?.generation === 0 ? "Kurucu birey" : "Ebeveyn kaydı henüz bulunmadı.";
+  if (selected !== null) {
+    const label = document.createElement("strong");
+    label.textContent = `#${selected}` + (e?.generation != null ? ` · ${e.generation}. nesil` : "");
+    $("family-self").append(label);
+  }
+  const children = new Map(reader?.children || []);
+  for (const child of state?.entities || []) if (child.parents?.includes(selected)) children.set(child.id, {id:child.id, parents:child.parents});
+  for (const [id, hint] of children) $("family-children").append(familyButton(id, hint));
+  if (!children.size) $("family-children").textContent = reader?.done ? "Taranan karar kayıtlarında yavru bulunmadı." : "Henüz yavru kaydı bulunmadı; arşiv taranmadı veya tamamlanmadı.";
+  $("ancestry-note").textContent = selected === null ? "Bir birey seç veya numarasıyla geçmişteki bir bireyi ara." :
+    archiveBusy ? "Soy ve geçmiş kayıtları okunuyor…" : reader ?
+      `${reader.scanned}/${reader.shards?.length || 0} arşiv parçası tarandı. ${reader.done ? "Mevcut karar arşivinin sonuna ulaşıldı." : "Soy kaydı henüz tamamlanmadı; daha eski kayıtlara devam edebilirsin."}${reader.familyLimited ? " İlk 200 yavru bağlantısı gösteriliyor." : ""}` :
+      "Şimdilik güncel dünyadaki bağlar gösteriliyor. Ölmüş akrabalar için soy ve geçmişi getir.";
+  $("archive-load").disabled = selected === null || archiveBusy || !online;
+  $("archive-more").hidden = !reader || reader.done;
+  $("archive-more").disabled = archiveBusy || !online;
+  $("archive-latest").hidden = !reader;
+  $("archive-latest").disabled = archiveBusy || !online;
+  $("history").disabled = selected === null || archiveBusy || !online;
+}
+async function loadArchive(reset = false) {
+  if (selected === null || archiveBusy) return;
+  const id = selected, reader = archiveReader(id, reset);
+  archiveBusy = true; renderFamily();
+  try {
+    await reader.more();
+    if (selected === id) {
+      archiveView = id;
+      renderIndividual(); renderJournal();
+      $("journal-note").textContent = reader.page.length ?
+        `Kalıcı kayıtlardan #${id}: ${reader.page[reader.page.length-1].tick}–${reader.page[0].tick}. adımlar. Daha eski kayıtlar ayrı sayfada açılır.` :
+        `#${id} için bu arşiv bölümünde karar yok. ${reader.done ? "Mevcut arşivin sonuna ulaşıldı." : "Eski kayıtlara devam edebilirsin."}`;
+      message("");
+    }
+  } catch (error) { if (selected === id) message("Geçmiş getirilemedi: " + error.message); }
+  finally {
+    archiveBusy = false; renderFamily(); renderControls();
+    if (selected !== id && selected !== null && !currentIndividual(selected)) loadArchive();
+  }
+}
 function message(text) {
   $("error").textContent = text;
   $("error").hidden = !text;
@@ -86,6 +158,8 @@ async function control(body) {
 function renderControls() {
   for (const id of ["toggle", "step", "steps", "speed", "full"])
     $(id).disabled = busy || !online;
+  $("full").disabled = busy || !online || !currentIndividual(selected) || currentIndividual(selected).life.health <= 0;
+  $("follow").disabled = !currentIndividual(selected) || currentIndividual(selected).life.health <= 0;
   const paused = status?.paused;
   $("toggle").textContent = paused ? "▶ Başlat" : "Ⅱ Duraklat";
   $("step").disabled = busy || !online || !paused;
@@ -120,7 +194,7 @@ function labelEvent(event) {
 function renderJournal() {
   const list = $("journal");
   list.replaceChildren();
-  const records = journal
+  const records = (archiveView === selected ? archiveReaders.get(selected)?.page || [] : journal)
     .filter((d) => selected === null || d.id === selected)
     .slice(0, 80);
   if (!records.length) {
@@ -145,22 +219,29 @@ function renderJournal() {
   }
 }
 function renderIndividual() {
-  const e = state?.entities.find((e) => e.id === selected);
+  const reader = archiveReaders.get(selected);
+  const current = currentIndividual(selected);
+  const e = current || reader?.individual;
+  const archived = !current;
   $("individual-body").hidden = !e;
   if (!e) {
     $("individual-title").textContent =
       selected === null
         ? "Bir birey seç"
-        : "#" + selected + " artık haritada değil";
+        : "#" + selected + " güncel gözlemde bulunamadı";
     $("individual-sub").textContent =
       selected === null
         ? "Haritadaki bir canlıya veya altındaki numaraya dokun."
-        : "Kayıtlı kararları alan günlüğünden inceleyebilirsin.";
+        : reader?.done ? "Taranan karar arşivinde birey kaydı bulunamadı." : "Soy ve geçmiş kayıtlarından aramaya devam edebilirsin.";
     return;
   }
   $("individual-title").textContent = names[e.species] + " #" + e.id;
+  const death = reader?.death?.event?.EntityDied;
+  const deathNames = {OldAge:"yaşlılık",Starvation:"açlık",Dehydration:"susuzluk",Combat:"saldırı"};
   $("individual-sub").textContent =
-    `${e.generation}. nesil · ${e.life.age} adımlık yaşam · ${e.life.age >= e.life.maturity_age ? "yetişkin" : "yavru"}`;
+    `${e.generation ?? "?"}. nesil · ${e.life.age} adımlık yaşam · ` +
+    (archived ? `arşiv görüntüsü, son görülme ${reader.lastTick ?? "bilinmiyor"}. adım` : e.life.health > 0 ? "güncel gözlem" : "yaşamı sona ermiş") +
+    (death && archived ? ` · ölüm: ${reader.death.tick}. adım (${deathNames[death.cause] || "neden belirsiz"})` : "");
   $("vitals").replaceChildren();
   for (const [key, name, color] of [
     ["health", "Sağlık", "#d9a594"],
@@ -176,10 +257,10 @@ function renderIndividual() {
       track = document.createElement("div"),
       fill = document.createElement("i");
     title.textContent = name;
-    value.textContent = e.life[key] + " / " + e.life["max_" + key];
+    value.textContent = (e.life[key] ?? "?") + " / " + (e.life["max_" + key] ?? "?");
     line.append(title, value);
     track.className = "track";
-    fill.style.width = (100 * e.life[key]) / e.life["max_" + key] + "%";
+    fill.style.width = (e.life["max_" + key] ? (100 * (e.life[key] || 0)) / e.life["max_" + key] : 0) + "%";
     fill.style.background = color;
     track.append(fill);
     div.append(line, track);
@@ -190,8 +271,8 @@ function renderIndividual() {
     ["Konum", `${e.pos.x}, ${e.pos.y}`],
     [
       "Ebeveynler",
-      e.parents.length
-        ? e.parents.map((id) => "#" + id).join(" & ")
+      (e.parents || []).length
+        ? (e.parents || []).map((id) => "#" + id).join(" & ")
         : "Kurucu birey",
     ],
     [
@@ -215,10 +296,10 @@ function renderIndividual() {
     dd.textContent = value;
     $("details").append(dt, dd);
   }
-  const d = decisions.find((d) => d.id === selected);
+  const d = archived ? reader?.latestTrace : decisions.find((d) => d.id === selected);
   $("reason").textContent = d
     ? reasons[d.decision.reason] || d.decision.reason
-    : "Yeni bir karar bekleniyor";
+    : archived ? "Bu arşiv sayfasında karar bulunmadı" : "Yeni bir karar bekleniyor";
   $("outcome").textContent = d
     ? `Gördükleri: ${d.seen.entities.length} birey, ${d.seen.waters} su, ${d.seen.foods} besin noktası.`
     : "";
@@ -245,11 +326,15 @@ function renderIndividual() {
   }
 }
 function select(id) {
-  selected = id;
+  try { selected = CuriousArchive.validId(id); } catch (error) { message(error.message); return; }
+  archiveView = null;
+  $("journal-note").textContent = "Son gözlenen kararlar. Arşivden geçmiş kayıtları açabilirsin.";
   renderIndividual();
   renderRoster();
   renderJournal();
+  renderFamily(); renderControls();
   draw();
+  if (!currentIndividual(selected) && !archiveBusy) loadArchive();
 }
 function renderRoster() {
   $("roster").replaceChildren();
@@ -423,6 +508,7 @@ async function poll() {
     renderRoster();
     renderIndividual();
     renderJournal();
+    renderFamily();
     draw();
   } catch (error) {
     online = false;
@@ -430,6 +516,7 @@ async function poll() {
     message(error.message);
   }
   renderControls();
+  renderFamily();
 }
 $("toggle").onclick = () =>
   control({ action: status?.paused ? "resume" : "pause" });
@@ -459,38 +546,13 @@ canvas.onclick = (event) => {
   const e = state.entities.find((e) => e.pos.x === x && e.pos.y === y);
   if (e) select(e.id);
 };
-$("history").onclick = async () => {
-  if (selected === null) {
-    message("Önce bir birey seç.");
-    return;
-  }
-  const id = selected;
-  $("history").disabled = true;
-  try {
-    const shards = await api("/databases");
-    let records = [];
-    for (const shard of [...shards].reverse()) {
-      const result = await api("/query", {
-        shard: shard.shard,
-        sql: `SELECT d.trace_json FROM decision_traces d JOIN records r ON r.id=d.record_id WHERE r.kind='tick' AND d.entity_id=${Number(id)} ORDER BY d.record_id DESC LIMIT 50`,
-      });
-      for (const row of result.rows) records.push(JSON.parse(row[0]));
-      if (records.length >= 50) break;
-    }
-    if (selected === id) {
-      journal = [...records, ...journal.filter((d) => d.id !== id)]
-        .sort((a, b) => b.tick - a.tick)
-        .slice(0, 500);
-      renderJournal();
-      $("journal-note").textContent =
-        "Kalıcı kayıtlardan #" + id + " bireyinin son kararları.";
-    }
-    message("");
-  } catch (error) {
-    message("Geçmiş getirilemedi: " + error.message);
-  } finally {
-    $("history").disabled = false;
-  }
+$("history").onclick = () => loadArchive(true);
+$("archive-load").onclick = () => loadArchive(true);
+$("archive-more").onclick = () => loadArchive();
+$("archive-latest").onclick = () => loadArchive(true);
+$("archive-search").onsubmit = (event) => {
+  event.preventDefault();
+  try { select(CuriousArchive.validId($("archive-id").value)); } catch (error) { message(error.message); }
 };
 new ResizeObserver(draw).observe(canvas);
 (async function loop() {

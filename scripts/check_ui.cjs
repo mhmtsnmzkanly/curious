@@ -20,6 +20,8 @@ const assert = require("node:assert/strict");
     [
       "--serve",
       "--paused",
+      "--shard-mb",
+      "1",
       "--scenario",
       path.resolve(process.argv[3] || "scenarios/meadow.json"),
       "--data-dir",
@@ -111,9 +113,42 @@ const assert = require("node:assert/strict");
     await page.waitForFunction(() =>
       document.querySelector("#toggle").textContent.includes("Başlat"),
     );
+    // Founders have left the current world: selection must recover their archive.
+    await request({ action: "step", ticks: 60 });
+    await request({ action: "step", ticks: 60 });
+    const inventory = await fetch(base + "/databases", {headers: {Authorization: "Bearer " + token}}).then(r => r.json());
+    assert.ok(inventory.some(s => s.compressed), "genealogy must traverse compressed archives");
+    await page.locator("#archive-id").fill("1");
+    await page.locator("#archive-search button").click();
+    await page.waitForFunction(() => !document.querySelector("#archive-load").disabled);
+    for (let i = 0; i < 40; i++) {
+      if (await page.locator("#individual-sub").textContent().then(t => t.includes("arşiv görüntüsü"))) break;
+      if (await page.locator("#archive-more").isHidden()) break;
+      await page.locator("#archive-more").click();
+      await page.waitForFunction(() => !document.querySelector("#archive-load").disabled);
+    }
+    assert.match(await page.locator("#individual-sub").textContent(), /arşiv görüntüsü/);
+    assert.equal(await page.locator("#full").isDisabled(), true);
+    assert.equal(await page.locator("#follow").isDisabled(), true);
+    await page.waitForTimeout(1200); // Live observation must preserve historical selection.
+    assert.match(await page.locator("#individual-title").textContent(), /#1$/);
+    for (let i = 0; i < 40 && !await page.locator("#family-children button").count(); i++) {
+      if (await page.locator("#archive-more").isHidden()) break;
+      await page.locator("#archive-more").click();
+      await page.waitForFunction(() => !document.querySelector("#archive-load").disabled);
+    }
+    assert.ok(await page.locator("#family-children button").count(), "archived parent links to offspring");
+    await page.locator("#family-children button").first().click();
+    await page.waitForFunction(() => !document.querySelector("#archive-load").disabled);
+    assert.ok(await page.locator("#family-parents button").count(), "offspring links back to parents");
+    await page.setViewportSize({ width: 1440, height: 1100 });
+    await page.screenshot({ path: path.join(output, "lineage-desktop.png"), fullPage: true });
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.screenshot({ path: path.join(output, "lineage-mobile.png"), fullPage: true });
+    assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false);
     assert.deepEqual(errors, []);
     console.log(
-      "Browser: auth, coherent observation, selection, history, step, speed, pause/resume, mobile overflow: OK",
+      "Browser: auth, coherent observation, selection, history, step, speed, pause/resume, mobile overflow, deceased ancestor and offspring navigation: OK",
     );
   } finally {
     if (browser) await browser.close();

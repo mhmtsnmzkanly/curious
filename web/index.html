@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Curious · Gözlem Evi</title>
     <link rel="stylesheet" href="/ui.css" />
+    <script defer src="/archive.js"></script>
     <script defer src="/ui.js"></script>
   </head>
   <body>
@@ -110,6 +111,27 @@
           </div>
         </aside>
       </div>
+      <section class="panel ancestry" aria-labelledby="ancestry-title">
+        <div class="section-title">
+          <div><p class="eyebrow">NESİLLERİN İZİNDE</p><h2 id="ancestry-title">Soy ve yaşam arşivi</h2></div>
+          <form id="archive-search">
+            <label for="archive-id">Birey numarası</label>
+            <input id="archive-id" type="number" min="1" step="1" required placeholder="Örn. 12" />
+            <button type="submit">Bireyi bul</button>
+          </form>
+        </div>
+        <p class="muted" id="ancestry-note" role="status">Bir birey seçerek ebeveynlerine ve yavrularına geçebilirsin.</p>
+        <div class="family-grid">
+          <div><h3>Ebeveynler</h3><div id="family-parents" class="family-links"></div></div>
+          <div><h3>Seçili birey</h3><div id="family-self" class="family-links"></div></div>
+          <div><h3>Yavrular</h3><div id="family-children" class="family-links"></div></div>
+        </div>
+        <div class="archive-actions">
+          <button id="archive-load">Soy ve geçmişi getir</button>
+          <button id="archive-more" class="quiet" hidden>Daha eski kayıtlara devam et</button>
+          <button id="archive-latest" class="quiet" hidden>En yeni kayıtlara dön</button>
+        </div>
+      </section>
       <section class="panel journal">
         <div class="section-title">
           <div>

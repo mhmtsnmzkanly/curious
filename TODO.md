@@ -14,6 +14,8 @@ Hedef [VISION](docs/VISION.md), kullanıcı sırası ve dürüst durum
   D36a10a normal 8/8, şok 7/8: seed 2 yaşlılıkla tükendi. Karşılıklı hazır
   olma şartını kaldıran yeni deneysel aday önce seed 2/3 hedefli şok elemesinden
   geçmeli; sonra normal/şok sekizli kontroller. Varsayılan kapalı kalır.
+  C4d2b35 hedefli şokta 2/2 geçti, normal kontrolde 7/8 ile reddedildi:
+  seed 2 otçulları 17.660 adımda tükendi; kalan şok sekizlisi başlatılmadı.
   [RESERVE_POLICY_ISOLATION](docs/reports/RESERVE_POLICY_ISOLATION.md) ve
   [önceki aday](docs/reports/RESERVE_OPPORTUNITY.md).
 - [ ] Su öğrenmesinin ortam değişimi deneyini değerlendir (`learning_trial` reversal);
@@ -22,7 +24,8 @@ Hedef [VISION](docs/VISION.md), kullanıcı sırası ve dürüst durum
   tercihi; yeni öğreniciyi ayrıca karma ekosistemde doğrula.
 - [ ] Gerçek 1/7/30 gün gözlemini değerlendirme; raporlayıcı otomatik Notify gönderir.
 - [ ] Kalıtım deneyini av baskısında tekrarlama; dağılım değişimini sürüklenmeden ayırma.
-- [ ] Soy ağacı ve ölmüş ataların arayüzden doğrudan seçilmesini geliştirme.
+- [x] İlk soy görünümü: ebeveyn–birey–yavru bağlantıları, numarayla ölmüş birey
+  seçimi ve sayfalı karar arşivi. Kullanım/sınırlar CONTROL.md soy bölümü.
 - [ ] Daha büyük nüfusta SQLite/HTTP maliyetini ölçme; motor-only hızını kayıt hızı sanma.
 - [ ] Disk dolmadan uzun vadeli arşiv kapasitesi planı; geçmişi sessizce silme.
 - [ ] Host dışından gözetim: aynı sunucudaki bütün izleyiciler birlikte durursa içeride

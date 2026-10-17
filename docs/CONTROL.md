@@ -339,3 +339,33 @@ Güncel kaynak ve 7880 laboratuvar V8; 7881 sürekli öğrenme/kalıtım çayır
 ikilisiyle sabit kalır. 7879 eski çayır eski sürümdedir. Gerçek süreli raporlar
 1/7/30 gün ve yeterli 15 dakikalık kapsam oluşmadan gönderilmez. Operasyon
 komutları ve güncel sürümler AGENTS.md'de tutulur.
+
+## Soy ve yaşam arşivi
+
+Gözlem ekranında birey numarasıyla arama yapılabilir. Ebeveyn, seçili birey
+ve yavru bağlantıları arasında geçiş yapılır; ölmüş bireyler de seçilebilir.
+Güncel dünyada bulunmayan bireyin son kayıtlı bedeni açıkça arşiv görüntüsü
+olarak gösterilir. Bu seçim haritada canlı oluşturmaz; takip ve ayrıntılı güncel
+algı kaydı devre dışıdır. Arşiv kararı, güncel kararla karıştırılmaz.
+
+“Soy ve geçmişi getir” en yeni kayıtlardan başlar. “Daha eski kayıtlara devam et”
+her istekte en çok 50 karar ve dört boş arşiv parçası tarar. SQLite ve gzip
+arşivleri mevcut salt okunur `/query` API'siyle açılır; yeni tablo yoktur.
+Soy bağlantıları güncel ebeveyn alanlarından ve kayıtlı çiftleşme olaylarından
+çıkarılır. Henüz karar vermemiş yavru, doğum kaydındaki bedeninden açılabilir.
+Tarama tamamlanmadan yavru bulunmaması, yavru olmadığı anlamına gelmez;
+arayüz tarama kapsamını gösterir. En çok sekiz bireyin arşiv okuyucusu ve
+okuyucu başına 200 arşiv yavru bağlantısı bellekte tutulur. Soy görünümü bütün
+nesilleri aynı anda çizen sınırsız bir grafik değildir; bağlantılarla ilerlenir.
+
+Ölüm kaydı son kararın ardından 32 kayıtlık aralıkta ve gerekirse hemen sonraki
+parçanın ilk 32 kaydında aranır. Bulunursa adım ve neden gösterilir; bulunamaması
+hayatta olduğu sonucunu doğurmaz. Karar vermeden ölen ve hiçbir bilinen doğum
+bağlantısıyla açılmayan bireyler için numara araması kayıt bulamayabilir.
+Arşiv sorguları her saniyelik gözlem döngüsünde tekrarlanmaz. Açık okuyucu
+arşiv envanterini sabit tutar; yeni kayıtlar için “En yeni kayıtlara dön” kullanılır.
+
+Doğrulama: `node scripts/test_archive.cjs` gerçek SQLite üzerinde SQL, sayfalama,
+parça sınırında ölüm, henüz karar vermemiş yavru ve eksik kayıt durumlarını sınar.
+`scripts/check_ui.cjs` izole dünyada masaüstü/mobil ve ölmüş ata–yavru geçişlerini
+sınar; dışarıdan Playwright gerekir. Canlı dünyaları ve deney verilerini değiştirmez.
