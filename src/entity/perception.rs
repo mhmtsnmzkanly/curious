@@ -33,7 +33,8 @@ pub struct PerceivedFood {
     pub amount: usize,
     /// Algılanan yemek ceset mi?
     pub is_corpse: bool,
-    /// Algılanan yemeğin yön ve mesafe bilgisi
+    /// Approach plus final interaction step. Eat stops before that last step;
+    /// the corpse's own cell may be unwalkable while the meal is reachable.
     pub steps: Steps,
 }
 

@@ -3,6 +3,20 @@
 Başlamadan `docs/VISION.md`, `docs/CONTROL.md`, `docs/ROADMAP.md` ve `TODO.md`
 okunur. Kullanıcının sonraki talimatları bu notların önündedir.
 
+## Avcı leşi algı düzeltmesi ve doğrulama
+
+Geç avcı tükenmesinde erişilebilir sığınak leşi yürünebilirlik filtresiyle
+gizleniyordu; algı artık mevcut Eat fiziğine uygun bitişik yaklaşımı kurar.
+Canlı sığınak avı korunur. Rapor `docs/reports/PREDATOR_CORPSE_ACCESS.md`/JSON.
+Geç20.000:628/5; devam24.000:606/28 (otçul/avcı), devamda53 avcı doğumu.
+Erken20.000:576/69. 81 Rust/35 Python+Node+HTTP kurtarma geçti.
+Bu tek tohum deneyi kalıcı denge kabulü değildir. Sonraki bounded normal8,
+yalnız geçerse shock8 çalışmasının kimliği/durumu
+`data/experiments/corpse-access-validation/{study,state}.json` ve
+`curious-corpse-access-validation.service` üzerinden kontrol edilir. Eski
+canlılar yükseltilmez; V12/SQLiteV2 ve kapalı varsayılanlar korunur.
+Aşağıdaki eski raporlar tarihsel sonuçtur; yeni algı için kabul sayılmaz.
+
 ## Geç kopya: iki somut karar düzeltmesi
 
 Rapor `docs/reports/LATE_RENDEZVOUS_FIXES.md` ve JSON. Tam algılı eski geç tekrar

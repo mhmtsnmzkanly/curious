@@ -43,7 +43,14 @@ fn main() {
         w.entities
             .retain(|e| e.base.species() != Species::Carnivore);
     }
-    let mut audit = args.get(5).map(|path| rendezvous_audit::Audit::new(path));
+    let species = match args.get(6).map(String::as_str).unwrap_or("Herbivore") {
+        "Herbivore" => Species::Herbivore,
+        "Carnivore" => Species::Carnivore,
+        _ => panic!("unsupported audit species"),
+    };
+    let mut audit = args
+        .get(5)
+        .map(|path| rendezvous_audit::Audit::new(path, species));
     if audit.is_some() {
         w.observation.full_all = true;
     }
@@ -55,6 +62,9 @@ fn main() {
         for e in &mut w.entities {
             e.learner.enabled = false;
             e.memory.companions_enabled = true;
+        }
+        if let Some(audit) = &mut audit {
+            audit.before_tick(&w);
         }
         let events = w.tick();
         if let Some(audit) = &mut audit {

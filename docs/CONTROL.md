@@ -1,5 +1,12 @@
 # Kalıcı kayıt ve kontrol servisi
 
+## Besin yolu sözleşmesi
+
+`PerceivedFood.steps` erişilebilir yaklaşım ve son etkileşim adımını içerir.
+Leş hücresinin yürünebilir olması şart değildir; mevcut Eat son adımı yürümez.
+Algı yerel görüş ve ulaşılabilir boş komşu şartını korur. Canlı sığınak avı
+bu istisnaya girmez. Kanıt: `reports/PREDATOR_CORPSE_ACCESS.md`.
+
 ## V12 karar düzeltmeleri
 
 Durum/SQLite sürümü değişmedi. Temel otçul sığınma kararı, algıda dolu olduğunu

@@ -26,7 +26,9 @@ Hedef [VISION](docs/VISION.md), kullanıcı sırası ve dürüst durum
   Bu incelemede bilinen dolu sığınağa kaçma ve yeniden denemede güvenli hazır
   eşi kaçırma düzeltildi. Birleşik erken597 otçul/45 avcı; geç646/0.
   [LATE_RENDEZVOUS_FIXES](docs/reports/LATE_RENDEZVOUS_FIXES.md).
-  Sonraki dar inceleme geç avcıların besine erişimi ve üreme rezervi.
+  Erişilebilir leş algısı düzeltildi; geç24.000 kopyasında606 otçul/28 avcı.
+  [PREDATOR_CORPSE_ACCESS](docs/reports/PREDATOR_CORPSE_ACCESS.md).
+  Sıradaki kapı yeni kaynakta normal8; geçerse shock8. Uzun kabul bekliyor.
   [RESERVE_POLICY_ISOLATION](docs/reports/RESERVE_POLICY_ISOLATION.md) ve
   [önceki aday](docs/reports/RESERVE_OPPORTUNITY.md).
 - [ ] Su öğrenmesinin ortam değişimi deneyini değerlendir (`learning_trial` reversal);

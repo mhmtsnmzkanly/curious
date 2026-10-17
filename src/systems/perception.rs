@@ -74,7 +74,39 @@ impl PerceptionSystem {
             if other.id == current.id {
                 continue;
             }
-            let Some(steps) = paths.get(&other.pos) else {
+            // Eating stops beside a resource. Requiring the corpse's own
+            // cell to be walkable hides meals the resolver can already eat.
+            // Extend only a locally reachable, unoccupied approach by its last
+            // interaction step; this never opens a path through the corpse cell.
+            let steps = paths.get(&other.pos).cloned().or_else(|| {
+                if !matches!(other.phase, EntityPhase::Corpse { .. })
+                    || other.corpse_energy == 0
+                    || current.pos.distance_to(other.pos) > radius
+                {
+                    return None;
+                }
+                DIRECTION_ARRAY
+                    .into_iter()
+                    .filter_map(|dir| {
+                        let approach = other.pos + dir;
+                        if approach != current.pos && blocked.contains(&approach) {
+                            return None;
+                        }
+                        let path = paths.get(&approach)?;
+                        if path.len() >= radius {
+                            return None;
+                        }
+                        let last = DIRECTION_ARRAY
+                            .into_iter()
+                            .find(|d| approach + *d == other.pos)?;
+                        let mut steps = path.clone();
+                        steps.0.push(last);
+                        Some((steps, approach))
+                    })
+                    .min_by_key(|(steps, p)| (steps.len(), p.y, p.x))
+                    .map(|(steps, _)| steps)
+            });
+            let Some(steps) = steps else {
                 continue;
             };
             if matches!(other.phase, EntityPhase::Corpse { .. }) && other.corpse_energy > 0 {

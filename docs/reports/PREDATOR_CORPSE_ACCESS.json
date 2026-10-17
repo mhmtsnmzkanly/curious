@@ -1,0 +1,264 @@
+{
+  "baseline_revision": "f2ea544",
+  "audit": {
+    "source_sha256": "3f3100f7175208e43ac18112e8c98986ac5c57e76fcae9ef77aa9bf339e07123",
+    "decisions": 11804,
+    "reasons": {
+      "HuntPrey": 2698,
+      "SearchFood": 793,
+      "Explore": 974,
+      "Rest": 2313,
+      "SeekFood": 653,
+      "SeekWater": 2660,
+      "HuntLowEnergy": 664,
+      "RecoverStamina": 167,
+      "RecallMate": 193,
+      "Mate": 8,
+      "HuntTooCostly": 130,
+      "NoEligibleMate": 541,
+      "ApproachMate": 7,
+      "PrepareReproduction": 3
+    },
+    "physiological_blockers": {
+      "Cooldown": 3669,
+      "Fatigued": 154,
+      "InsufficientEnergy": 6771,
+      "Immature": 113,
+      "Ready": 1062,
+      "PoorHealth": 35
+    },
+    "attacks": {
+      "intents": 763,
+      "landed": 186,
+      "NoPath": 435,
+      "OutOfRange": 138,
+      "Inactive": 4
+    },
+    "death_causes": {
+      "OldAge": 15,
+      "Starvation": 25,
+      "Dehydration": 5
+    },
+    "hidden_adjacent_decisions": 73,
+    "hidden_adjacent_burrow_decisions": 72,
+    "hidden_below_hunger_target": 43,
+    "unique_hidden_corpses": 42,
+    "examples": [
+      {
+        "tick": 17401,
+        "id": 87933,
+        "reason": "Explore",
+        "energy": 236,
+        "corpses": [
+          {
+            "amount": 60,
+            "burrow": false,
+            "id": 92030,
+            "pos": {
+              "x": 39,
+              "y": 10
+            }
+          }
+        ]
+      },
+      {
+        "tick": 17412,
+        "id": 88214,
+        "reason": "HuntPrey",
+        "energy": 191,
+        "corpses": [
+          {
+            "amount": 60,
+            "burrow": true,
+            "id": 91950,
+            "pos": {
+              "x": 24,
+              "y": 3
+            }
+          }
+        ]
+      },
+      {
+        "tick": 17413,
+        "id": 88214,
+        "reason": "HuntPrey",
+        "energy": 187,
+        "corpses": [
+          {
+            "amount": 60,
+            "burrow": true,
+            "id": 91950,
+            "pos": {
+              "x": 24,
+              "y": 3
+            }
+          }
+        ]
+      },
+      {
+        "tick": 17414,
+        "id": 88214,
+        "reason": "HuntPrey",
+        "energy": 185,
+        "corpses": [
+          {
+            "amount": 60,
+            "burrow": true,
+            "id": 91950,
+            "pos": {
+              "x": 24,
+              "y": 3
+            }
+          }
+        ]
+      }
+    ],
+    "limits": [
+      "Hidden corpses are pre-existing observer knowledge, never policy input.",
+      "New deaths and near-expiry corpses are omitted: this is a conservative sample.",
+      "Another consumer may take a meal during resolution; availability is not guaranteed intake."
+    ]
+  },
+  "checkpoint_replays": {
+    "late": {
+      "final": {
+        "alive": {
+          "Carnivore": 5,
+          "Herbivore": 628
+        },
+        "births": {
+          "Carnivore": 9,
+          "Herbivore": 14786
+        },
+        "deaths": {
+          "Carnivore.Some(Dehydration)": 3,
+          "Carnivore.Some(OldAge)": 22,
+          "Carnivore.Some(Starvation)": 20,
+          "Herbivore.Some(Combat)": 37,
+          "Herbivore.Some(Dehydration)": 550,
+          "Herbivore.Some(OldAge)": 12888,
+          "Herbivore.Some(Starvation)": 761
+        },
+        "herbivore_reasons": {
+          "CorneredDefense": 3,
+          "EscapeThreat": 2166,
+          "Explore": 4363,
+          "Mate": 30911,
+          "NoEligibleMate": 411,
+          "PauseMateSearch": 4089,
+          "RecallWater": 2,
+          "Rest": 10006,
+          "SearchWater": 10,
+          "SeekCompanion": 31464,
+          "SeekFood": 428497,
+          "SeekShelter": 33375,
+          "SeekWater": 928450,
+          "WaitForMate": 10463
+        },
+        "mate_rendezvous": true,
+        "rng": 6904278672029144804,
+        "start": 17400,
+        "tick": 20000,
+        "treatment": "rendezvous"
+      },
+      "sha256": "a166614ac42834ae4a024b8b027148479901e3c0ba00bf3aaf898c4c091c7a87",
+      "path": "data/experiments/predator-corpse-access/late.jsonl"
+    },
+    "continued": {
+      "final": {
+        "alive": {
+          "Carnivore": 28,
+          "Herbivore": 606
+        },
+        "births": {
+          "Carnivore": 53,
+          "Herbivore": 24203
+        },
+        "deaths": {
+          "Carnivore.Some(OldAge)": 30,
+          "Herbivore.Some(Combat)": 155,
+          "Herbivore.Some(Dehydration)": 725,
+          "Herbivore.Some(OldAge)": 22108,
+          "Herbivore.Some(Starvation)": 1237
+        },
+        "herbivore_reasons": {
+          "CorneredDefense": 15,
+          "EscapeThreat": 8883,
+          "Explore": 4972,
+          "Mate": 50709,
+          "NoEligibleMate": 320,
+          "PauseMateSearch": 4963,
+          "Rest": 11310,
+          "SearchWater": 26,
+          "SeekCompanion": 43878,
+          "SeekFood": 706186,
+          "SeekShelter": 98738,
+          "SeekWater": 1540770,
+          "WaitForMate": 11554
+        },
+        "mate_rendezvous": true,
+        "rng": 10095400388585963652,
+        "start": 20000,
+        "tick": 24000,
+        "treatment": "unchanged"
+      },
+      "sha256": "5c779be62cb5da6d6becac1c3a8f508c8e6a2c224df358bae6a859634e562e6c",
+      "path": "data/experiments/predator-corpse-access/continued.jsonl"
+    },
+    "early": {
+      "final": {
+        "alive": {
+          "Carnivore": 69,
+          "Herbivore": 576
+        },
+        "births": {
+          "Carnivore": 248,
+          "Herbivore": 22142
+        },
+        "deaths": {
+          "Carnivore.Some(Dehydration)": 11,
+          "Carnivore.Some(OldAge)": 193,
+          "Carnivore.Some(Starvation)": 29,
+          "Herbivore.Some(Combat)": 1688,
+          "Herbivore.Some(Dehydration)": 372,
+          "Herbivore.Some(OldAge)": 19413,
+          "Herbivore.Some(Starvation)": 578
+        },
+        "herbivore_reasons": {
+          "CorneredDefense": 55,
+          "EscapeThreat": 32292,
+          "Explore": 4533,
+          "Mate": 45990,
+          "NoEligibleMate": 672,
+          "PauseMateSearch": 11657,
+          "RecallWater": 7,
+          "Rest": 10457,
+          "SearchWater": 52,
+          "SeekCompanion": 25037,
+          "SeekFood": 677402,
+          "SeekShelter": 356300,
+          "SeekWater": 1034440,
+          "WaitForMate": 10163
+        },
+        "mate_rendezvous": true,
+        "rng": 10492699644627184660,
+        "start": 16000,
+        "tick": 20000,
+        "treatment": "rendezvous"
+      },
+      "sha256": "65fda9c73cd9d13fcdce6125117b4d47cd4f403abd9838b6532422a22911b5f6",
+      "path": "data/experiments/predator-corpse-access/early.jsonl"
+    }
+  },
+  "limits": [
+    "Same seed/checkpoint exploratory replays; no independent long-run acceptance.",
+    "Fixed genetics and learning disabled; no claim of ML or evolutionary acceptance.",
+    "No live service deployment."
+  ],
+  "verification": {
+    "rust_tests": 81,
+    "python_tests": 35,
+    "archive_node": "passed",
+    "http_recovery": "passed"
+  }
+}
