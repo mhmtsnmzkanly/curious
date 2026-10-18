@@ -162,6 +162,17 @@ class ResearchGateTests(unittest.TestCase):
             self.assertIn('source drift', state['error'])
             notice.assert_called_once()
 
+    def test_terminal_qualification_queues_one_final_success_on_timer(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            config = self.campaign(Path(temporary)); root = Path(config['output']); root.mkdir()
+            (root/'state.json').write_text(json.dumps({'status':'qualified','last_result':{'passed':30,'planned':30}}))
+            with patch.object(research, 'dispatch'):
+                research.notices(config); research.notices(config)
+            state = json.loads((root/'notifications.json').read_text())
+            self.assertEqual(len(state['pending']), 1)
+            self.assertEqual(state['pending'][0]['type'], 'success')
+            self.assertEqual(state['enqueued'], ['qualified'])
+
 
 if __name__ == '__main__':
     unittest.main()

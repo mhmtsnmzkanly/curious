@@ -25,8 +25,16 @@ def notices(config, key=None, title=None, message=None, details=None):
     with (root / '.notifications.lock').open('a') as guard:
         fcntl.flock(guard, fcntl.LOCK_EX)
         state = json.loads(path.read_text()) if path.exists() else {'pending': [], 'enqueued': [], 'history': []}
+        pipeline = root / 'state.json'
+        if key is None and pipeline.exists():
+            final = json.loads(pipeline.read_text())
+            if final.get('status') == 'qualified':
+                key = 'qualified'
+                title = 'Curious: bütün tanımlı kabul kapıları geçti'
+                message = 'Uzun kurallı ve öğrenme/mutasyon birlikte doğrulamaları kabul eşiğini geçti. Gerçek süreli karma dünya aşaması hazır; gün/hafta ölçümü ayrı.'
+                details = final.get('last_result')
         if key and key not in state['enqueued']:
-            payload = {'title': title, 'message': message, 'type': 'error' if key.startswith(('rejected-', 'infrastructure-')) or key == 'calibration-exhausted' else 'info',
+            payload = {'title': title, 'message': message, 'type': 'success' if key == 'qualified' else 'error' if key.startswith(('rejected-', 'infrastructure-')) or key == 'calibration-exhausted' else 'info',
                        'target': {'user': 'u_e049630155fc'},
                        'idempotency_key': 'curious-research-' + hashlib.sha256((config['revision'] + config['scenario_sha256'] + config['output']).encode()).hexdigest()[:16] + '-' + key}
             if config.get('page_id'):

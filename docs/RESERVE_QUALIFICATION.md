@@ -53,6 +53,9 @@ geçerse uzun fixed+both ile toplam yaklaşık2gün. Nüfus ve host yükü süre
 
 Notify sayfası dakika başına aşama, tamamlanan seedler ve son adımlarla güncellenir.
 Aynı bildirim tekrarlanmaz; önemli aşamalar kalıcı kuyrukla iletilir.
+Final qualified durumu da timer tarafından tek başarı bildirimi olarak kuyruğa
+alınır. Bildirim kaynağı ana deneyden bağımsız sabitlenebilir; kimliği
+`source.json` ve configte `notification_revision` ile kaydedilir.
 `curious-reserve-qualification-notify.timer` tekrar/heartbeat sağlar.
 Mevcut bağımsız watchdog `experiments/*/protocol.json` çalışmalarının running/error
 heartbeat'ini ve bildirim kuyruğunu ayrı izler. Aynı hostun tamamen durması için
@@ -66,7 +69,7 @@ canlı dünyaları ve eski araştırma worktree/ikili/verileri korunur.
 
 ## Doğrulama
 
-48 Python testi; gerçek32ddfb2 probe ile iki seedlik100adım treatment/resume
+49 Python testi; gerçek32ddfb2 probe ile iki seedlik100adım treatment/resume
 kontrolü; Node arşiv kontrolü geçti.100adım kontrolü keşif amaçlıdır, biyolojik
 kabul sayılmaz. Rust kaynakları aynı olduğu için yeni Rust derlemesi yapılmadı;
 önceki83 Rust+HTTP kurtarma kanıtı değişmez motor sürümüne aittir.

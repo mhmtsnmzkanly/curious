@@ -19,12 +19,13 @@ Notify timer aynı adın `-notify.timer` varyantı. Saf Python çalıştırıcı
 Rust/ikili32ddfb2 korunur. Derleme kimliği ile runner commit'i farklıdır;
 src/Cargo.toml/Cargo.lock aynı olmalı. Bayraklar her aşamada geçer ve çıktıda
 teyit edilir. Geçmiş normal/şok ham sonuçları SHA+ayar eşitliğinde yeniden
-hesaplanır; eski deney dosyaları değişmez.48 Python+gerçek probe/resume+Node geçti.
+hesaplanır; eski deney dosyaları değişmez.49 Python+gerçek probe/resume+Node geçti.
 
 Protokol değişiminde resume reddedilir; biyolojik ret sonraki kapıyı durdurur.
 İlerleme sayfası timer ile güncellenir, önemli sonuçlar kalıcı Notify outbox'tan
 iletilir. Global watchdog yeni protocol.json kampanyalarının ana heartbeat ve
-bildirim kuyruğunu ayrı izler. İki işçi,%180CPU/512MiB; tüm kapılar geçerse
+bildirim kuyruğunu ayrı izler. Final qualified bildirimi timerda teklenir;
+bildirim worktree/revision kimliği source.json/configte ayrıca kaydedilir. İki işçi,%180CPU/512MiB; tüm kapılar geçerse
 ~2gün sürebilir. Ajan arka planda yeni kod üretmez. Otomatik dağıtım kapalı:
 eski live_deploy açık deneysel bayrakları taşımadığı için artık o durum reddedilir.
 Kabulden sonra ayrı karma dünyaya aynı ayarlarla kayıtlı başlangıç işi kalır.
