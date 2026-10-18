@@ -3,6 +3,28 @@
 Başlamadan `docs/VISION.md`, `docs/CONTROL.md`, `docs/ROADMAP.md` ve `TODO.md`
 okunur. Kullanıcının sonraki talimatları bu notların önündedir.
 
+## Şok sonrası avcı rezervi — 18 Ekim
+
+C2d9da8 normal8/8, shock6/8 ile reddedildi. Seed3/2026 avcı tükenmeleri
+13584/14751. Eski biyolojik çıktılar tekrarlandı (süre/istenen son pencere
+sayaçları hariç);11000→13000 audit bütün durum+RNG ile eşit.27/23 yerinde
+hazırlık fırsatı yalnız türdeş bitişik değil diye kaçmış. Yeni dar aday avcıya
+aynı görünür yetişkin için bitişik öğünle hazırlanma izni verir; yemek yolculuğu,
+fizik, otçul ve varsayılan kapalı bayrak değişmez. V12/SQLiteV2 korunur.
+Kopyadan15000'de578/47 ve572/60 (otçul/avcı), son1000'de38/51 avcı doğumu;
+11000 avcıları tamamen değişmiş, yaşayan yavru ebeveynler var. Kalıcı kabul değil.
+Rapor `docs/reports/SHOCK_PREDATOR_RECOVERY.md`/JSON;83 Rust/37 Python,
+Node ve HTTP kurtarma geçti. Eski ve kapalı kontrol çıktıları eşit.
+
+Yeni adayın başlangıçtan kapıları hedefli3/2026 şok→normal8→shock8.
+`data/experiments/visible-adult-reserve-validation/{study,state}.json` ve
+`curious-visible-adult-reserve-validation` gerçek başlangıç/durum kaynağıdır.
+Biyolojik ret sonraki aşamayı durdurur; program kod değiştirmez/dağıtmaz.
+Eski `curious-corpse-access-validation` inactive/rejected beklenir. Observer
+tekrarları ve kısa kollar bitti; ham veriler
+`data/experiments/{shock-predator-diagnosis,visible-adult-reserve}` korunur.
+Canlı dünyalar yükseltilmedi. Uzun görülmemiş seed kabulü hâlâ bekliyor.
+
 ## Avcı leşi algı düzeltmesi ve doğrulama
 
 Geç avcı tükenmesinde erişilebilir sığınak leşi yürünebilirlik filtresiyle

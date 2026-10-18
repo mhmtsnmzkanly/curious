@@ -1,5 +1,15 @@
 # Kalıcı kayıt ve kontrol servisi
 
+## Deneysel avcı rezerv hazırlığı
+
+`policy.reserve_opportunities` kapalı varsayılanını korur. Açıkken avcı,
+görüşündeki yetişkin türdeş bitişikte olmasa da tek adımda, yer değiştirmeden
+yenebilen öğünle üreme rezervini tamamlayabilir. Öğün eşiği ve bütün fiziksel
+üreme engelleri korunur; uzak besine yolculuk başlatılmaz. Otçulun bitişik
+türdeş şartı değişmez. Bu aday henüz normal/şok kabulünü geçmedi; canlı
+servisler yükseltilmez. Kanıt: `reports/SHOCK_PREDATOR_RECOVERY.md`.
+Checkpoint V12 ve SQLite V2 değişmedi.
+
 ## Besin yolu sözleşmesi
 
 `PerceivedFood.steps` erişilebilir yaklaşım ve son etkileşim adımını içerir.

@@ -20,6 +20,7 @@ pub struct PolicySettings {
 }
 
 /// One immediately executable meal, not an abandoned multi-tick journey.
+/// Carnivores can prepare for a visible adult before the pair is adjacent.
 /// Never overrides survival, thirst, threats, existing hunger, or custom policies.
 pub fn prepare_reserve(
     species: Species,
@@ -36,10 +37,17 @@ pub fn prepare_reserve(
         || life.water < life.max_water * 3 / 4
         // Preparing requires a potential adult partner, not an already ready
         // one: otherwise two under-reserved adults wait for each other forever.
+        // A carnivore meal can be brief and sparse: eat in place while an adult
+        // is visible, rather than requiring adjacency before preparing to meet.
+        // This does not authorize travel to food or chasing an unseen partner.
         || !view
             .entities
             .iter()
-            .any(|mate| mate.species == species && mate.mature && mate.steps.len() <= 1)
+            .any(|mate| {
+                mate.species == species
+                    && mate.mature
+                    && (species == Species::Carnivore || mate.steps.len() <= 1)
+            })
     {
         return base;
     }

@@ -115,3 +115,71 @@ fn adjacent_mature_partners_can_prepare_before_either_is_reproductively_ready() 
         Reason::Rest
     );
 }
+
+#[test]
+fn carnivore_can_prepare_in_place_for_a_visible_nonadjacent_adult() {
+    let mut actor = CarnivoreEntity::default();
+    let life = actor.life_mut();
+    life.max_energy = 270;
+    life.energy = 220;
+    life.max_meal = 60;
+    life.reproduction_reserve_per_mille = 885;
+    life.age = 30;
+    let mut view = Perception::empty();
+    view.add_entity(
+        2,
+        Species::Carnivore,
+        100,
+        Steps(vec![Direction::Down; 3]),
+        false,
+    );
+    view.entities[0].mature = true;
+    view.add_food(60, true, Steps(vec![Direction::Right]));
+    let base = || Decision::new(Intent::Idle { duration: 1 }, Reason::Rest);
+    let prepared = prepare_reserve(Species::Carnivore, life, &view, base());
+    assert_eq!(prepared.reason, Reason::PrepareReproduction);
+    assert!(matches!(prepared.intent, Intent::Eat { at, .. } if at.len() == 1));
+    // Preparation never overrides a survival action, or starts a food journey.
+    let thirsty = Decision::new(Intent::Idle { duration: 1 }, Reason::SeekWater);
+    assert_eq!(
+        prepare_reserve(Species::Carnivore, life, &view, thirsty).reason,
+        Reason::SeekWater
+    );
+    view.foods[0].steps = Steps(vec![Direction::Right; 2]);
+    assert_eq!(
+        prepare_reserve(Species::Carnivore, life, &view, base()).reason,
+        Reason::Rest
+    );
+    view.foods[0].steps = Steps(vec![Direction::Right]);
+    view.entities.clear();
+    assert_eq!(
+        prepare_reserve(Species::Carnivore, life, &view, base()).reason,
+        Reason::Rest
+    );
+}
+
+#[test]
+fn visible_nonadjacent_reserve_change_does_not_expand_herbivore_policy() {
+    let mut actor = CarnivoreEntity::default();
+    let life = actor.life_mut();
+    life.max_energy = 270;
+    life.energy = 220;
+    life.max_meal = 60;
+    life.reproduction_reserve_per_mille = 885;
+    life.age = 30;
+    let mut view = Perception::empty();
+    view.add_entity(
+        2,
+        Species::Herbivore,
+        100,
+        Steps(vec![Direction::Down; 3]),
+        false,
+    );
+    view.entities[0].mature = true;
+    view.add_food(60, false, Steps(vec![Direction::Right]));
+    let base = Decision::new(Intent::Idle { duration: 1 }, Reason::Rest);
+    assert_eq!(
+        prepare_reserve(Species::Herbivore, life, &view, base).reason,
+        Reason::Rest
+    );
+}

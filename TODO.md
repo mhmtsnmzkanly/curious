@@ -28,7 +28,14 @@ Hedef [VISION](docs/VISION.md), kullanıcı sırası ve dürüst durum
   [LATE_RENDEZVOUS_FIXES](docs/reports/LATE_RENDEZVOUS_FIXES.md).
   Erişilebilir leş algısı düzeltildi; geç24.000 kopyasında606 otçul/28 avcı.
   [PREDATOR_CORPSE_ACCESS](docs/reports/PREDATOR_CORPSE_ACCESS.md).
-  Sıradaki kapı yeni kaynakta normal8; geçerse shock8. Uzun kabul bekliyor.
+  Yeni kaynak normal8/8 geçti; shock6/8 reddedildi. Seed3/2026 avcıları
+  şok sonrası az sayıda doğumla yaşlanarak tükendi. Aynı durum+RNG auditinde
+  27/23 yerinde rezerv öğünü yalnız eş mesafesi yüzünden engellenmiş.
+  Deneysel avcı hazırlığında görünür yetişkin yeterli; yerinde öğün şartı
+  korunur. Otçul ve fizik değişmedi.
+  [SHOCK_PREDATOR_RECOVERY](docs/reports/SHOCK_PREDATOR_RECOVERY.md).
+  Yeni aday önce hedefli3/2026 şok, sonra normal8→shock8 kapılarında sınanır.
+  Uzun kabul bekliyor.
   [RESERVE_POLICY_ISOLATION](docs/reports/RESERVE_POLICY_ISOLATION.md) ve
   [önceki aday](docs/reports/RESERVE_OPPORTUNITY.md).
 - [ ] Su öğrenmesinin ortam değişimi deneyini değerlendir (`learning_trial` reversal);

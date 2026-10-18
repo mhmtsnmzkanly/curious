@@ -1,0 +1,289 @@
+{
+  "base_revision": "c2d9da8",
+  "replay": {
+    "3": {
+      "biological_output_equal": true,
+      "excluded_fields": [
+        "late_births",
+        "late_descendant_breeders",
+        "process_seconds",
+        "requested_ticks",
+        "seconds"
+      ],
+      "extinction": 13584
+    },
+    "2026": {
+      "biological_output_equal": true,
+      "excluded_fields": [
+        "late_births",
+        "late_descendant_breeders",
+        "process_seconds",
+        "requested_ticks",
+        "seconds"
+      ],
+      "extinction": 14751
+    }
+  },
+  "audit": {
+    "3": {
+      "state_rng_equal": true,
+      "totals": {
+        "decisions": 8704,
+        "reason.SeekWater": 3092,
+        "blocker.Cooldown": 3013,
+        "idle": 4770,
+        "visible_adult": 3367,
+        "adjacent_adult": 830,
+        "idle_with_visible_adult": 1840,
+        "idle_energy_blocked_with_adult": 762,
+        "reason.Explore": 1140,
+        "blocker.InsufficientEnergy": 4311,
+        "reason.Rest": 2797,
+        "reason.SeekFood": 447,
+        "ready": 1257,
+        "reason.NoEligibleMate": 612,
+        "blocker.Ready": 1257,
+        "idle_with_distant_adult": 1579,
+        "reason.HuntPrey": 383,
+        "visible_ready": 515,
+        "reason.RecallMate": 209,
+        "idle_energy_blocked_with_meal_and_distant_adult": 31,
+        "reserve_blocked_only_by_mate_distance": 27,
+        "ready_with_visible_ready": 25,
+        "reason.ApproachMate": 12,
+        "ready_with_adjacent_ready": 8,
+        "reason.Mate": 8,
+        "blocker.Immature": 96,
+        "reason.PrepareReproduction": 3,
+        "blocker.Fatigued": 27,
+        "reason.RecoverStamina": 1
+      },
+      "audit_sha256": "c30d51ce8698482c37bb59fac54a1d2bf25a24cde57a862a9d07be9851c22055"
+    },
+    "2026": {
+      "state_rng_equal": true,
+      "totals": {
+        "decisions": 10714,
+        "visible_adult": 3252,
+        "visible_ready": 361,
+        "adjacent_adult": 736,
+        "reason.SeekWater": 3679,
+        "blocker.Cooldown": 4760,
+        "idle": 5850,
+        "reason.Explore": 1461,
+        "blocker.InsufficientEnergy": 4372,
+        "reason.Rest": 3452,
+        "ready": 1370,
+        "idle_with_visible_adult": 1675,
+        "reason.NoEligibleMate": 756,
+        "blocker.Ready": 1370,
+        "blocker.Immature": 190,
+        "idle_with_distant_adult": 1484,
+        "idle_energy_blocked_with_adult": 593,
+        "reason.HuntPrey": 564,
+        "reason.SeekFood": 588,
+        "reason.RecallMate": 162,
+        "idle_energy_blocked_with_meal_and_distant_adult": 28,
+        "reserve_blocked_only_by_mate_distance": 23,
+        "reason.RecoverStamina": 11,
+        "reason.HuntTooCostly": 2,
+        "reason.HuntLowEnergy": 2,
+        "ready_with_visible_ready": 44,
+        "reason.ApproachMate": 19,
+        "ready_with_adjacent_ready": 14,
+        "reason.Mate": 14,
+        "blocker.Fatigued": 22,
+        "reason.PrepareReproduction": 4
+      },
+      "audit_sha256": "ff63d78065bf349f272c6f2a1e61af2ff125dd6c578d880b6642e5d28256d3e1"
+    }
+  },
+  "short_counterfactuals": {
+    "3": {
+      "at_14000": {
+        "alive": {
+          "Carnivore": 32,
+          "Herbivore": 607
+        },
+        "births": {
+          "Carnivore": 52,
+          "Herbivore": 18187
+        },
+        "deaths": {
+          "Carnivore.Some(Dehydration)": 1,
+          "Carnivore.Some(OldAge)": 27,
+          "Herbivore.Some(Combat)": 128,
+          "Herbivore.Some(Dehydration)": 611,
+          "Herbivore.Some(OldAge)": 16220,
+          "Herbivore.Some(Starvation)": 937
+        },
+        "herbivore_reasons": {
+          "CorneredDefense": 17,
+          "EscapeThreat": 8068,
+          "Explore": 4255,
+          "Mate": 37973,
+          "NoEligibleMate": 260,
+          "PauseMateSearch": 4372,
+          "RecallWater": 4,
+          "Rest": 10054,
+          "SearchWater": 23,
+          "SeekCompanion": 34473,
+          "SeekFood": 536295,
+          "SeekShelter": 85776,
+          "SeekWater": 1114352,
+          "WaitForMate": 9637
+        },
+        "mate_rendezvous": true,
+        "rng": 11686541410169557025,
+        "start": 11000,
+        "tick": 14000,
+        "treatment": "unchanged"
+      },
+      "at_15000": {
+        "alive": {
+          "Carnivore": 47,
+          "Herbivore": 578
+        },
+        "births": {
+          "Carnivore": 38,
+          "Herbivore": 5784
+        },
+        "deaths": {
+          "Carnivore.Some(OldAge)": 23,
+          "Herbivore.Some(Combat)": 165,
+          "Herbivore.Some(Dehydration)": 143,
+          "Herbivore.Some(OldAge)": 5271,
+          "Herbivore.Some(Starvation)": 234
+        },
+        "herbivore_reasons": {
+          "CorneredDefense": 9,
+          "EscapeThreat": 5624,
+          "Explore": 1117,
+          "Mate": 12118,
+          "NoEligibleMate": 107,
+          "PauseMateSearch": 2019,
+          "Rest": 2499,
+          "SearchWater": 16,
+          "SeekCompanion": 8160,
+          "SeekFood": 175100,
+          "SeekShelter": 61505,
+          "SeekWater": 322779,
+          "WaitForMate": 2402
+        },
+        "mate_rendezvous": true,
+        "rng": 12369818750561388165,
+        "start": 14000,
+        "tick": 15000,
+        "treatment": "unchanged"
+      },
+      "predator_births_11000_to_15000": 90,
+      "surviving_predator_max_generation": 65,
+      "surviving_original_predators": 0,
+      "surviving_descendant_breeders": 39,
+      "source_sha256": {
+        "seed-3.jsonl": "2d4ab7a3efded7c8e41f94e24676fdc4de696aa84020b0093646636e4d15d193",
+        "continued-3.jsonl": "0f85ce09700b45ffec44459aee77d269da5260114efbceb9b3c93f568fe0d8ca",
+        "continued-3-state.json": "bb253df931d15f00af9ae798a95aa092078cbc1a7f75e56e11ec0bc141a34c1e"
+      }
+    },
+    "2026": {
+      "at_14000": {
+        "alive": {
+          "Carnivore": 37,
+          "Herbivore": 601
+        },
+        "births": {
+          "Carnivore": 57,
+          "Herbivore": 18076
+        },
+        "deaths": {
+          "Carnivore.Some(OldAge)": 28,
+          "Herbivore.Some(Combat)": 157,
+          "Herbivore.Some(Dehydration)": 548,
+          "Herbivore.Some(OldAge)": 16218,
+          "Herbivore.Some(Starvation)": 856
+        },
+        "herbivore_reasons": {
+          "CorneredDefense": 15,
+          "EscapeThreat": 8248,
+          "Explore": 4048,
+          "Mate": 37810,
+          "NoEligibleMate": 252,
+          "PauseMateSearch": 4272,
+          "RecallWater": 2,
+          "Rest": 9765,
+          "SearchWater": 26,
+          "SeekCompanion": 34133,
+          "SeekFood": 535321,
+          "SeekShelter": 92948,
+          "SeekWater": 1100863,
+          "WaitForMate": 9521
+        },
+        "mate_rendezvous": true,
+        "rng": 5821726211180492624,
+        "start": 11000,
+        "tick": 14000,
+        "treatment": "unchanged"
+      },
+      "at_15000": {
+        "alive": {
+          "Carnivore": 60,
+          "Herbivore": 572
+        },
+        "births": {
+          "Carnivore": 51,
+          "Herbivore": 5637
+        },
+        "deaths": {
+          "Carnivore.Some(OldAge)": 28,
+          "Herbivore.Some(Combat)": 232,
+          "Herbivore.Some(Dehydration)": 111,
+          "Herbivore.Some(OldAge)": 5131,
+          "Herbivore.Some(Starvation)": 192
+        },
+        "herbivore_reasons": {
+          "CorneredDefense": 7,
+          "EscapeThreat": 6840,
+          "Explore": 1059,
+          "Mate": 11721,
+          "NoEligibleMate": 140,
+          "PauseMateSearch": 2371,
+          "RecallWater": 1,
+          "Rest": 2436,
+          "SearchWater": 14,
+          "SeekCompanion": 7393,
+          "SeekFood": 173547,
+          "SeekShelter": 75220,
+          "SeekWater": 291971,
+          "WaitForMate": 2429
+        },
+        "mate_rendezvous": true,
+        "rng": 17871826830197797474,
+        "start": 14000,
+        "tick": 15000,
+        "treatment": "unchanged"
+      },
+      "predator_births_11000_to_15000": 108,
+      "surviving_predator_max_generation": 67,
+      "surviving_original_predators": 0,
+      "surviving_descendant_breeders": 45,
+      "source_sha256": {
+        "seed-2026.jsonl": "b0c7016aa1202be534be0de6285a03336a978518ddba4ca0b59497478ee57d07",
+        "continued-2026.jsonl": "8c380117899420983fa66856778df6ff84cbf93bf4752a9cec80f790a378dbfa",
+        "continued-2026-state.json": "abc2e3e18e3b339d841b7417c102a85b9d6b1dc44ba93a92e98ce215ed6fbfac"
+      }
+    }
+  },
+  "tests": {
+    "rust": 83,
+    "python": 37,
+    "node_archive": true,
+    "http_recovery": true,
+    "default_off_500_ticks_equal": true
+  },
+  "limitations": [
+    "Only two previously failed training seeds at copied post-shock checkpoints.",
+    "No from-start acceptance yet; no deployment.",
+    "Learning and mutation disabled."
+  ]
+}

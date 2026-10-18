@@ -63,6 +63,20 @@ fn main() {
                     seed,
                 )
             });
+        // Observer-only checkpoints for short, reproducible failure branches.
+        let checkpoint_dir = args
+            .iter()
+            .find_map(|a| a.strip_prefix("--checkpoint-dir="));
+        let checkpoint_ticks: Vec<usize> = args
+            .iter()
+            .find_map(|a| a.strip_prefix("--checkpoint-at="))
+            .map(|v| v.split(',').map(|n| n.parse().unwrap()).collect())
+            .unwrap_or_default();
+        let checkpoint_dir = checkpoint_dir.map(|root| {
+            let dir = std::path::Path::new(root).join(format!("seed-{seed}"));
+            fs::create_dir(&dir).expect("checkpoint directory must be fresh");
+            dir
+        });
         let start = Instant::now();
         for _ in 0..ticks {
             // Explicit laboratory intervention, never an automatic population repair.
@@ -85,6 +99,21 @@ fn main() {
                 e.memory.companions_enabled = companions;
             }
             let events = w.tick();
+            if checkpoint_ticks.contains(&w.tick_counter) {
+                if let Some(dir) = &checkpoint_dir {
+                    use std::io::Write;
+                    let mut out = fs::OpenOptions::new()
+                        .write(true)
+                        .create_new(true)
+                        .open(dir.join(format!("checkpoint-{}.json", w.tick_counter)))
+                        .unwrap();
+                    out.write_all(
+                        &serde_json::to_vec(&curious::simulation::checkpoint::State::capture(&w))
+                            .unwrap(),
+                    )
+                    .unwrap();
+                }
+            }
             if let Some(observer) = &mut diagnostics {
                 observer.observe(&w, &events);
             }
