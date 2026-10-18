@@ -3,6 +3,33 @@
 Başlamadan `docs/VISION.md`, `docs/CONTROL.md`, `docs/ROADMAP.md` ve `TODO.md`
 okunur. Kullanıcının sonraki talimatları bu notların önündedir.
 
+## Rezerv adayının uzun kabul kampanyası — 18 Ekim
+
+32ddfb2 hedefli şok2/2, normal8/8, şok8/8 geçti; önceki unit bitti.
+Kanıt `docs/reports/RESERVE_TRAINING_ACCEPTANCE.json`. Sıradaki protokol
+`docs/RESERVE_QUALIFICATION.md`: dört±%10 duyarlılık×4seed→yeni20001–20030
+fixed100k→geçmişshock8 salt okunur doğrulama→learning/mutation/both eğitim8
+→aynı sabit30seed both100k. Yeni liste mevcut manifestlerde kullanılmamıştı;
+sonuç sonrası liste/eşik değiştirilmez,27/30 ve son%10 soy/doğum şartı korunur.
+Eski10001–10030 artık görülmüş olduğundan yeni kabul diye sunulmaz.
+
+Kök `data/experiments/reserve-qualification`; gerçek `config/protocol/state.json`
+ve aşama `progress.json`/log'larından okunur. Unit `curious-reserve-qualification`;
+Notify timer aynı adın `-notify.timer` varyantı. Saf Python çalıştırıcı güncellendi;
+Rust/ikili32ddfb2 korunur. Derleme kimliği ile runner commit'i farklıdır;
+src/Cargo.toml/Cargo.lock aynı olmalı. Bayraklar her aşamada geçer ve çıktıda
+teyit edilir. Geçmiş normal/şok ham sonuçları SHA+ayar eşitliğinde yeniden
+hesaplanır; eski deney dosyaları değişmez.48 Python+gerçek probe/resume+Node geçti.
+
+Protokol değişiminde resume reddedilir; biyolojik ret sonraki kapıyı durdurur.
+İlerleme sayfası timer ile güncellenir, önemli sonuçlar kalıcı Notify outbox'tan
+iletilir. Global watchdog yeni protocol.json kampanyalarının ana heartbeat ve
+bildirim kuyruğunu ayrı izler. İki işçi,%180CPU/512MiB; tüm kapılar geçerse
+~2gün sürebilir. Ajan arka planda yeni kod üretmez. Otomatik dağıtım kapalı:
+eski live_deploy açık deneysel bayrakları taşımadığı için artık o durum reddedilir.
+Kabulden sonra ayrı karma dünyaya aynı ayarlarla kayıtlı başlangıç işi kalır.
+7878–7881 veya eski frozen worktree/deneyleri değiştirme.
+
 ## Şok sonrası avcı rezervi — 18 Ekim
 
 C2d9da8 normal8/8, shock6/8 ile reddedildi. Seed3/2026 avcı tükenmeleri

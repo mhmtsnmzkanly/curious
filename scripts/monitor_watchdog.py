@@ -21,17 +21,26 @@ def evaluate(previous,observations,now):
    state['pending'].append({'title':'Curious — izleyici gözetimi','message':message,'type':'error' if incident else 'success','target':{'user':'u_e049630155fc'},'idempotency_key':f'curious-watchdog-{name}-{incident or "recovery"}-{now}'})
  state['last_check']=now;return state
 
+def research_checks(root):
+ checks=[]
+ campaigns=[('coexistence-research',root/'coexistence-research')]
+ campaigns += [(p.parent.name,p.parent) for p in (root/'experiments').glob('*/protocol.json')]
+ for name,directory in campaigns:
+  state=directory/'state.json'
+  if state.exists():
+   try:active=json.loads(state.read_text()).get('status') in ('running','error')
+   except (OSError,ValueError):active=True
+   if active:checks.append((name,str(state.relative_to(root)),180,'last_check'))
+  notify=directory/'notifications.json'
+  if notify.exists():checks.append((name+'-notify',str(notify.relative_to(root)),180,'last_check'))
+ return checks
+
 def main():
  p=argparse.ArgumentParser();p.add_argument('--root',default='/root/curious/data');p.add_argument('--token-file',default='/root/notify/token.json');p.add_argument('--notify-cli',default='/root/notify/bin/notify.js');a=p.parse_args();root=Path(a.root);path=root/'watchdog.json';now=int(time.time());observations={}
  checks=[('meadow','meadow-monitor.json',180,'last_check'),('evolution','evolution-monitor.json',180,'last_check'),('sample-meadow','soak/latest.json',2100,'at'),('sample-evolution','soak-evolution/latest.json',2100,'at')]
  if (root/'coexistence-deployment.json').exists():
   checks += [('coexistence','coexistence-monitor.json',180,'last_check'),('sample-coexistence','soak-coexistence/latest.json',2100,'at')]
- research=root/'coexistence-research/state.json'
- if research.exists():
-  try:
-   if json.loads(research.read_text()).get('status') in ('running','error'):checks.append(('coexistence-research','coexistence-research/state.json',180,'last_check'))
-  except (OSError,ValueError):checks.append(('coexistence-research','coexistence-research/state.json',180,'last_check'))
- if (root/'coexistence-research/notifications.json').exists():checks.append(('coexistence-research-notify','coexistence-research/notifications.json',180,'last_check'))
+ checks += research_checks(root)
  for name,filename,limit,key in checks:
   try:data=json.loads((root/filename).read_text())
   except (OSError,ValueError):data={}

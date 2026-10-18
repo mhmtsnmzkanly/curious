@@ -90,6 +90,20 @@ def run(args):
         return execute(args, output, manifest)
 
 
+def validate_treatment(row, args, seed):
+    if row['seed'] != seed or row['requested_ticks'] != args.ticks or row['mode'] != args.mode:
+        raise ValueError('Probe returned a different experiment')
+    if bool(row.get('mate_rendezvous', False)) != getattr(args, 'mate_rendezvous', False):
+        raise ValueError('Probe did not apply the rendezvous setting')
+    if bool(row.get('reserve_opportunities', False)) != args.reserve_opportunities:
+        raise ValueError('Probe did not apply the reserve setting')
+    if bool(row.get('companions', True)) != (not args.no_companions):
+        raise ValueError('Probe did not apply the companion setting')
+    expected_shock = {'at': args.shock_at, 'duration': args.shock_duration, 'percent': args.shock_percent}
+    if args.shock_at and row.get('shock') != expected_shock:
+        raise ValueError('Probe did not apply the shock setting')
+
+
 def execute(args, output, manifest):
     seeds = manifest['seeds']
     # Per-seed atomic files allow recovery even if killed midway through a seed.
@@ -99,9 +113,7 @@ def execute(args, output, manifest):
         saved = output / f'seed-{seed}.json'
         if saved.exists():
             row = json.loads(saved.read_text())
-            if (row['seed'] != seed or row['requested_ticks'] != args.ticks
-                    or bool(row.get('mate_rendezvous', False)) != getattr(args, 'mate_rendezvous', False)):
-                raise ValueError('Invalid cached seed result')
+            validate_treatment(row, args, seed)
             rows.append(row)
             continue
         pending.append(seed)
@@ -121,10 +133,7 @@ def execute(args, output, manifest):
         with (output / f'seed-{seed}.log').open('w') as log:
             child = subprocess.run(command, text=True, stdout=subprocess.PIPE, stderr=log, timeout=args.timeout, check=True)
         row = json.loads(child.stdout)
-        if row['seed'] != seed or row['requested_ticks'] != args.ticks or row['mode'] != args.mode:
-            raise ValueError('Probe returned a different experiment')
-        if bool(row.get('mate_rendezvous', False)) != getattr(args, 'mate_rendezvous', False):
-            raise ValueError('Probe did not apply the rendezvous setting')
+        validate_treatment(row, args, seed)
         row['process_seconds'] = time.monotonic() - started
         return row
 

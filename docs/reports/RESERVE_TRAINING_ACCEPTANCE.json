@@ -1,0 +1,243 @@
+{
+  "engine_revision": "32ddfb257f9f09485d197715fe80699e68a1c8c2",
+  "probe_sha256": "e1ffa03754fc964d503b6a6e04bffe19ad868b3d2090e0a8b2f9c48e3506f636",
+  "scenario_sha256": "33cb6ebf9d73df017b65b9ee9831be8446c2a81077f3a0e313fe06b05f0b19ac",
+  "reserve_opportunities": true,
+  "mate_rendezvous": true,
+  "mode": "fixed",
+  "phases": {
+    "focused-shock": {
+      "path": "data/experiments/visible-adult-reserve-validation/focused-shock",
+      "manifest_sha256": "819b48d7ea1cb92be126d61202713c544d407f722776bf33f46a59fde0952b68",
+      "summary_sha256": "218d494a54ef77a454dea4cf2c474510b394ca8d89f829e27cef58d57433cf0e",
+      "result": {
+        "finished": 2,
+        "planned": 2,
+        "passed": 2,
+        "required": 2,
+        "accepted": true,
+        "qualified": false,
+        "complete": true,
+        "seed_results": [
+          {
+            "seed": 3,
+            "ticks": 20000,
+            "first_extinction": null,
+            "alive": {
+              "Carnivore": 83,
+              "Herbivore": 517
+            },
+            "passed": true
+          },
+          {
+            "seed": 2026,
+            "ticks": 20000,
+            "first_extinction": null,
+            "alive": {
+              "Carnivore": 81,
+              "Herbivore": 551
+            },
+            "passed": true
+          }
+        ]
+      }
+    },
+    "normal": {
+      "path": "data/experiments/visible-adult-reserve-validation/normal",
+      "manifest_sha256": "9577b17aba658f489f732af83079778dae68e598e19d4d6a996aa23ed8cd76a6",
+      "summary_sha256": "747f286e7f13546b3f268b56fe917c2fce3538db7c7bdd9ca3dcb30a7bf7442f",
+      "result": {
+        "finished": 8,
+        "planned": 8,
+        "passed": 8,
+        "required": 8,
+        "accepted": true,
+        "qualified": false,
+        "complete": true,
+        "seed_results": [
+          {
+            "seed": 1,
+            "ticks": 20000,
+            "first_extinction": null,
+            "alive": {
+              "Carnivore": 85,
+              "Herbivore": 538
+            },
+            "passed": true
+          },
+          {
+            "seed": 2,
+            "ticks": 20000,
+            "first_extinction": null,
+            "alive": {
+              "Carnivore": 85,
+              "Herbivore": 530
+            },
+            "passed": true
+          },
+          {
+            "seed": 3,
+            "ticks": 20000,
+            "first_extinction": null,
+            "alive": {
+              "Carnivore": 79,
+              "Herbivore": 535
+            },
+            "passed": true
+          },
+          {
+            "seed": 4,
+            "ticks": 20000,
+            "first_extinction": null,
+            "alive": {
+              "Carnivore": 83,
+              "Herbivore": 550
+            },
+            "passed": true
+          },
+          {
+            "seed": 5,
+            "ticks": 20000,
+            "first_extinction": null,
+            "alive": {
+              "Carnivore": 89,
+              "Herbivore": 516
+            },
+            "passed": true
+          },
+          {
+            "seed": 42,
+            "ticks": 20000,
+            "first_extinction": null,
+            "alive": {
+              "Carnivore": 77,
+              "Herbivore": 543
+            },
+            "passed": true
+          },
+          {
+            "seed": 12345,
+            "ticks": 20000,
+            "first_extinction": null,
+            "alive": {
+              "Carnivore": 77,
+              "Herbivore": 522
+            },
+            "passed": true
+          },
+          {
+            "seed": 2026,
+            "ticks": 20000,
+            "first_extinction": null,
+            "alive": {
+              "Carnivore": 77,
+              "Herbivore": 527
+            },
+            "passed": true
+          }
+        ]
+      }
+    },
+    "shock": {
+      "path": "data/experiments/visible-adult-reserve-validation/shock",
+      "manifest_sha256": "2c1a71006d5dc7ed9a5d973768727444079d6e5a744e92f06489e7b15bd96794",
+      "summary_sha256": "1a54265575caacd95627a2d3c05a931e2bb4542aa788586bb03a9c54a425d1a9",
+      "result": {
+        "finished": 8,
+        "planned": 8,
+        "passed": 8,
+        "required": 8,
+        "accepted": true,
+        "qualified": false,
+        "complete": true,
+        "seed_results": [
+          {
+            "seed": 1,
+            "ticks": 20000,
+            "first_extinction": null,
+            "alive": {
+              "Carnivore": 77,
+              "Herbivore": 539
+            },
+            "passed": true
+          },
+          {
+            "seed": 2,
+            "ticks": 20000,
+            "first_extinction": null,
+            "alive": {
+              "Carnivore": 76,
+              "Herbivore": 552
+            },
+            "passed": true
+          },
+          {
+            "seed": 3,
+            "ticks": 20000,
+            "first_extinction": null,
+            "alive": {
+              "Carnivore": 83,
+              "Herbivore": 517
+            },
+            "passed": true
+          },
+          {
+            "seed": 4,
+            "ticks": 20000,
+            "first_extinction": null,
+            "alive": {
+              "Carnivore": 85,
+              "Herbivore": 524
+            },
+            "passed": true
+          },
+          {
+            "seed": 5,
+            "ticks": 20000,
+            "first_extinction": null,
+            "alive": {
+              "Carnivore": 91,
+              "Herbivore": 499
+            },
+            "passed": true
+          },
+          {
+            "seed": 42,
+            "ticks": 20000,
+            "first_extinction": null,
+            "alive": {
+              "Carnivore": 85,
+              "Herbivore": 498
+            },
+            "passed": true
+          },
+          {
+            "seed": 12345,
+            "ticks": 20000,
+            "first_extinction": null,
+            "alive": {
+              "Carnivore": 86,
+              "Herbivore": 514
+            },
+            "passed": true
+          },
+          {
+            "seed": 2026,
+            "ticks": 20000,
+            "first_extinction": null,
+            "alive": {
+              "Carnivore": 81,
+              "Herbivore": 551
+            },
+            "passed": true
+          }
+        ]
+      }
+    }
+  },
+  "limits": [
+    "Focused shock seeds 3/2026 also occur in shock8; these are not 18 independent conditions.",
+    "Training comparison is not unseen 30x100000 qualification.",
+    "No live-world deployment."
+  ]
+}

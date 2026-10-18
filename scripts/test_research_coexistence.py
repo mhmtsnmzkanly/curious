@@ -106,6 +106,62 @@ class ResearchGateTests(unittest.TestCase):
                 research.notices(config)
             transport.assert_not_called()
 
+    def test_every_stage_uses_declared_policies_and_new_holdouts(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            config = self.campaign(Path(temporary))
+            config.update(reserve_opportunities=True, mate_rendezvous=True,
+                          held_out_seeds=list(range(20001, 20031)), deploy_after_pass=False)
+            seen, commands = [], []
+            factory = self.fake_process(None, seen)
+            def spawn(command, **kwargs):
+                commands.append(command)
+                return factory(command, **kwargs)
+            with patch.object(research.subprocess, 'check_output', return_value=config['revision']), patch.object(research.subprocess, 'Popen', spawn), patch.object(research, 'notices'):
+                research.run(config)
+            for command in commands:
+                self.assertIn('--reserve-opportunities', command)
+                self.assertIn('--mate-rendezvous', command)
+                if command[command.index('--ticks') + 1] == '100000':
+                    self.assertEqual(command[command.index('--seeds') + 1], ','.join(map(str, config['held_out_seeds'])))
+            config['held_out_seeds'] = list(range(30001, 30031))
+            with patch.object(research.subprocess, 'check_output', return_value=config['revision']):
+                with self.assertRaisesRegex(ValueError, 'protocol changed'): research.run(config)
+
+    def test_verified_training_is_reused_without_repeating_eight_seed_runs(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            config = self.campaign(Path(temporary)); config['deploy_after_pass'] = False
+            seen = []
+            def reuse(config, name, *args):
+                if name in ('canary-fixed', 'resource-shock'):
+                    return {'accepted': True, 'passed': 8, 'planned': 8, 'required': 8}, {'source': 'verified-fixture'}
+                return None
+            with patch.object(research.subprocess, 'check_output', return_value=config['revision']), patch.object(research.subprocess, 'Popen', self.fake_process(None, seen)), patch.object(research, 'notices'), patch.object(research, 'reused_stage', reuse):
+                research.run(config)
+            self.assertNotIn('canary-fixed', seen); self.assertNotIn('resource-shock', seen)
+            self.assertEqual(len(seen), 9)
+
+    def test_sensitivity_failure_stops_before_long_holdouts(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            config = self.campaign(Path(temporary)); seen = []
+            with patch.object(research.subprocess, 'check_output', return_value=config['revision']), patch.object(research.subprocess, 'Popen', self.fake_process('sensitivity-fixed-max_energy-90', seen)), patch.object(research, 'notices'), patch.object(research, 'live_deploy') as deploy:
+                research.run(config)
+            self.assertEqual(seen, ['canary-fixed', 'sensitivity-fixed-max_energy-90'])
+            deploy.assert_not_called()
+
+    def test_deployment_cannot_silently_drop_experimental_policy(self):
+        with self.assertRaisesRegex(ValueError, 'runtime policy support'):
+            research.live_deploy({'reserve_opportunities': True}, None, None)
+
+    def test_identity_preflight_error_is_visible_to_watchdog_and_notifications(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            config = self.campaign(Path(temporary))
+            with patch.object(research, 'run', side_effect=ValueError('source drift')), patch.object(research, 'notices') as notice:
+                with self.assertRaisesRegex(ValueError, 'source drift'): research.run_guarded(config)
+            state = json.loads((Path(config['output']) / 'state.json').read_text())
+            self.assertEqual(state['status'], 'error')
+            self.assertIn('source drift', state['error'])
+            notice.assert_called_once()
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -34,8 +34,10 @@ Hedef [VISION](docs/VISION.md), kullanıcı sırası ve dürüst durum
   Deneysel avcı hazırlığında görünür yetişkin yeterli; yerinde öğün şartı
   korunur. Otçul ve fizik değişmedi.
   [SHOCK_PREDATOR_RECOVERY](docs/reports/SHOCK_PREDATOR_RECOVERY.md).
-  Yeni aday önce hedefli3/2026 şok, sonra normal8→shock8 kapılarında sınanır.
-  Uzun kabul bekliyor.
+  32ddfb2 hedefli2/2, normal8/8, shock8/8 geçti.
+  [Uzun protokol](docs/RESERVE_QUALIFICATION.md):±%10 duyarlılık, yeni
+  20001–20030 fixed100k, öğrenme/mutasyon kontrolleri, both100k.
+  Kalıcı kabul ve ayrı karma gerçek süreli dünya bekliyor.
   [RESERVE_POLICY_ISOLATION](docs/reports/RESERVE_POLICY_ISOLATION.md) ve
   [önceki aday](docs/reports/RESERVE_OPPORTUNITY.md).
 - [ ] Su öğrenmesinin ortam değişimi deneyini değerlendir (`learning_trial` reversal);

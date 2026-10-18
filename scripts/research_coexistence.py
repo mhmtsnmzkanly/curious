@@ -11,6 +11,7 @@ import time
 import urllib.request
 
 from monitor_runtime import dispatch, save
+from research_protocol import TRAINING_SEEDS, policy_flags, protocol, freeze, reused_stage, progress_text, progress_block
 
 
 def digest(path):
@@ -25,7 +26,7 @@ def notices(config, key=None, title=None, message=None, details=None):
         fcntl.flock(guard, fcntl.LOCK_EX)
         state = json.loads(path.read_text()) if path.exists() else {'pending': [], 'enqueued': [], 'history': []}
         if key and key not in state['enqueued']:
-            payload = {'title': title, 'message': message, 'type': 'info',
+            payload = {'title': title, 'message': message, 'type': 'error' if key.startswith(('rejected-', 'infrastructure-')) or key == 'calibration-exhausted' else 'info',
                        'target': {'user': 'u_e049630155fc'},
                        'idempotency_key': 'curious-research-' + hashlib.sha256((config['revision'] + config['scenario_sha256'] + config['output']).encode()).hexdigest()[:16] + '-' + key}
             if config.get('page_id'):
@@ -40,6 +41,11 @@ def notices(config, key=None, title=None, message=None, details=None):
         save(path, state)
         if config.get('page_id'):
             manifest = json.loads(Path(config['page_manifest']).read_text())
+            pipeline = root / 'state.json'
+            if pipeline.exists():
+                manifest['blocks'].append({'id': 'current-stage', 'type': 'markdown',
+                    'content': progress_text(root, json.loads(pipeline.read_text()))})
+                manifest['blocks'].append(progress_block(root, json.loads(pipeline.read_text())))
             for item in state.get('history', []):
                 manifest['blocks'].append({'id': 'research-' + item['key'], 'type': 'markdown',
                     'content': '### ' + item['title'] + '\n\n' + item['message'] + ('\n\n```json\n' + json.dumps(item['details'], indent=2, ensure_ascii=False) + '\n```' if item['details'] else '')})
@@ -63,7 +69,7 @@ def notices(config, key=None, title=None, message=None, details=None):
             pipeline = root / 'state.json'
             if pipeline.exists():
                 status = json.loads(pipeline.read_text()).get('status')
-                wanted = 'failed' if status == 'rejected' else 'completed' if status == 'qualified' else 'running'
+                wanted = 'failed' if status in ('rejected', 'error') else 'completed' if status == 'qualified' else 'running'
                 if wanted != state.get('page_task_status'):
                     state['task_update_pending'] = True
                     save(path, state)
@@ -82,6 +88,8 @@ def notices(config, key=None, title=None, message=None, details=None):
 
 def live_deploy(config, source, qualification):
     """First deployment only after every gate; existing worlds are never upgraded."""
+    if policy_flags(config):
+        raise ValueError('Experimental policy deployment needs explicit runtime policy support')
     root = Path(config['project_root'])
     engine = Path(config['engine'])
     if digest(engine) != config['engine_sha256']:
@@ -150,6 +158,12 @@ def run(config):
         raise ValueError('Research initial condition changed')
     root = Path(config['output'])
     root.mkdir(parents=True, exist_ok=True)
+    declaration = protocol(config)
+    if config.get('engine_source'):
+        actual_source = subprocess.check_output(['git', 'rev-parse', 'HEAD:src', 'HEAD:Cargo.toml', 'HEAD:Cargo.lock'], cwd=source, text=True).splitlines()
+        if actual_source != config['engine_source']:
+            raise ValueError('Research engine source differs from the compiled baseline')
+    freeze(root / 'protocol.json', declaration)
     path = root / 'state.json'
     state = json.loads(path.read_text()) if path.exists() else {'completed': []}
     if state.get('status') in ('rejected', 'qualified', 'observing'):
@@ -166,31 +180,37 @@ def run(config):
             raise ValueError('Frozen campaign artifacts changed between stages')
         output = root / name
         heartbeat(status='running', stage=name)
-        command = ['/usr/bin/python3', '-u', str(source / 'scripts/validate_coexistence.py'),
-                   '--probe', config['probe'], '--scenario', str(scenario), '--output', str(output),
-                   '--seeds', ','.join(map(str, seeds)), '--ticks', str(ticks), '--mode', mode,
-                   '--jobs', '2', '--timeout', '14400']
-        if output.exists():
-            command.append('--resume')
-        if shock:
-            command += ['--shock-at', '10000', '--shock-duration', '1000', '--shock-percent', '50']
-        with (root / (name + '.log')).open('a') as log:
-            child = subprocess.Popen(command, stdout=log, stderr=subprocess.STDOUT)
-            try:
-                while True:
-                    heartbeat()
-                    try:
-                        child.wait(timeout=20)
-                        break
-                    except subprocess.TimeoutExpired:
-                        pass
-                if child.returncode:
-                    raise RuntimeError(f'{name}: validation process failed ({child.returncode})')
-            finally:
-                if child.poll() is None:
-                    child.terminate()
-                    child.wait(timeout=30)
-        result = json.loads((output / 'summary.json').read_text())
+        reused = reused_stage(config, name, scenario, seeds, ticks, mode, shock)
+        if reused:
+            result, evidence = reused
+            save(root / (name + '-reused.json'), evidence)
+        else:
+            command = ['/usr/bin/python3', '-u', str(source / 'scripts/validate_coexistence.py'),
+                       '--probe', config['probe'], '--scenario', str(scenario), '--output', str(output),
+                       '--seeds', ','.join(map(str, seeds)), '--ticks', str(ticks), '--mode', mode,
+                       '--jobs', '2', '--timeout', '14400']
+            command += policy_flags(config)
+            if output.exists():
+                command.append('--resume')
+            if shock:
+                command += ['--shock-at', '10000', '--shock-duration', '1000', '--shock-percent', '50']
+            with (root / (name + '.log')).open('a') as log:
+                child = subprocess.Popen(command, stdout=log, stderr=subprocess.STDOUT)
+                try:
+                    while True:
+                        heartbeat()
+                        try:
+                            child.wait(timeout=20)
+                            break
+                        except subprocess.TimeoutExpired:
+                            pass
+                    if child.returncode:
+                        raise RuntimeError(f'{name}: validation process failed ({child.returncode})')
+                finally:
+                    if child.poll() is None:
+                        child.terminate()
+                        child.wait(timeout=30)
+            result = json.loads((output / 'summary.json').read_text())
         if result['accepted'] and ticks >= 100000 and len(seeds) >= 30 and not result.get('qualified'):
             raise ValueError('Long-run result lacks formal qualification')
         if name not in state['completed']:
@@ -206,8 +226,8 @@ def run(config):
         return result
 
     try:
-        research_seeds = [1, 2, 3, 4, 5, 42, 12345, 2026]
-        held_out = list(range(10001, 10031))
+        research_seeds = TRAINING_SEEDS
+        held_out = declaration['held_out_seeds']
         selection = config.get('candidates')
         candidates = selection or [{'name': 'fixed', 'scenario': config['scenario'], 'sha256': config['scenario_sha256']}]
         selected = None
@@ -299,6 +319,26 @@ def run(config):
         raise
 
 
+def run_guarded(config):
+    """Record identity/preflight errors too, so the independent watchdog sees them."""
+    try:
+        return run(config)
+    except Exception as error:
+        root = Path(config['output'])
+        root.mkdir(parents=True, exist_ok=True)
+        path = root / 'state.json'
+        try:
+            state = json.loads(path.read_text())
+        except (OSError, ValueError):
+            state = {'completed': []}
+        state.update(status='error', error=f'{type(error).__name__}: {error}', last_check=int(time.time()))
+        save(path, state)
+        notices(config, 'infrastructure-' + hashlib.sha256(str(error).encode()).hexdigest()[:12],
+                'Curious: deney çalıştırıcısında hata',
+                str(error)[:1000] + '. Sonuçlar korunuyor; teknik hata biyolojik kabul sayılmadı.')
+        raise
+
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--config', required=True)
@@ -310,4 +350,4 @@ if __name__ == '__main__':
     else:
         with (Path(config['output']) / '.pipeline.lock').open('a') as guard:
             fcntl.flock(guard, fcntl.LOCK_EX | fcntl.LOCK_NB)
-            run(config)
+            run_guarded(config)

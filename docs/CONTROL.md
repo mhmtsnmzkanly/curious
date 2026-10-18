@@ -1,5 +1,14 @@
 # Kalıcı kayıt ve kontrol servisi
 
+## Donmuş rezerv araştırması
+
+`research_coexistence.py` config alanları `reserve_opportunities`,
+`mate_rendezvous`, `held_out_seeds` bütün aşamalarda uygulanır ve protokolde
+sabitlenir. Kaynak/ikili/senaryo/ayar değişiminde resume reddedilir. Aynı
+kimlikli eski eğitim kanıtı salt okunur doğrulanabilir. Yeni kampanyanın
+config/protocol/state dosyaları `data/experiments/reserve-qualification` altında.
+Kabul sırası, işletim ve sınırlar: [RESERVE_QUALIFICATION](RESERVE_QUALIFICATION.md).
+
 ## Deneysel avcı rezerv hazırlığı
 
 `policy.reserve_opportunities` kapalı varsayılanını korur. Açıkken avcı,
