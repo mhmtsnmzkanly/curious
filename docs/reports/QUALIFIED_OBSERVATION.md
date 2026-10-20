@@ -53,3 +53,21 @@ alanları HTTP ile doğrulanır, sonra sürekli gözlem açılır.7878–7881kor
 Dakikalık tür/sağlık monitörü,15dakikalık RSS/fd/tür örnekleri, saatlik gerçek
 1/7/30gün raporu ve bağımsız watchdog kullanılır. Bu süreçler kod yazmaz,
 canlı eklemez. Gerçek1/7/30gün tamamlanmış sayılmaz; host dışı izleme açıktır.
+
+## Gerçek dağıtım
+
+20 Ekim21:18:47UTC: curious-coexistence.service başlatıldı; sürüm7b157af,
+veri data/coexistence, engine bin/releases/curious-observation-7b157af.
+Pausedtick0HTTP durumunun bütün alanları ve RNG başlangıç kaydıyla eşit;
+normal --resume yeniden başlatması sonrası tick ilerliyor. İlk örnek578otçul,
+32avcı,610yaşayan;~75MiBRSS,9fd,storage_error yok. Monitör ve15dkörnekleyici
+ilk çalışmaları başarılı; üç timer enable/active ve watchdog yeni dünyayı
+izliyor. Masaüstü/mobil gerçek ekranlar data/coexistence-bootstrap/ui içinde;
+JavaScript hatası/taşma yok. Kanıt QUALIFIED_DEPLOYMENT.json. Bu anlık başlangıç
+ölçümüdür; uzun süreli kaynak kullanımı iddiası değildir. Eski dört dünya
+korundu. Port7882yalnızlocalhost; uzak erişim için SSH tüneli gerekir.
+
+Dağıtım sonrası cargo clean yalnız derleme çıktısından652,9MiB kaldırdı.
+Bu iş için geçici kurulmuş Playwright paketi ve sıkıştırma örnekleri temizlendi.
+Paylaşılan tarayıcı/Cargo önbelleği, bütün deneyler, kalıcı geçmiş ve kullanılan
+release/frozen kaynaklar korundu. Git push yapılmadı.

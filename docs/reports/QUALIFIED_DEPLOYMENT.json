@@ -1,0 +1,70 @@
+{
+  "revision": "7b157aff9e68836144c7ba5c0656b041cd017cf6",
+  "scripts_source": "/root/curious-research/observation-7b157af",
+  "accepted_engine_revision": "32ddfb257f9f09485d197715fe80699e68a1c8c2",
+  "engine_sha256": "9e053b88a4a802b5026c7fd9b715cae8f90c05f855cfee5571dc57dec9562264",
+  "initializer_sha256": "2b56d4b3c551ff612d375af1fb973345219693eda4bdb2dbcc72953a8438011f",
+  "seed": 20001,
+  "scenario_sha256": "33cb6ebf9d73df017b65b9ee9831be8446c2a81077f3a0e313fe06b05f0b19ac",
+  "initial_state_sha256": "2915bf7642bba58af0ccfd7276d74451e418fdd8e1ad1ec0c02d5aad53a8fc93",
+  "initial_tick": 0,
+  "policy": {
+    "mate_rendezvous": true,
+    "reserve_opportunities": true
+  },
+  "genetics": {
+    "enabled": true,
+    "mutation_per_mille": 20
+  },
+  "learning_enabled": true,
+  "companions_enabled": true,
+  "tps": 0.03,
+  "history_budget_bytes": 34359738368,
+  "research": "/root/curious/data/experiments/reserve-qualification",
+  "data": "/root/curious/data/coexistence",
+  "engine": "/root/curious/bin/releases/curious-observation-7b157af",
+  "paused_initial_http_state_rng_equal": true,
+  "paused_initial_status": {
+    "alive": 608,
+    "directory": "/root/curious/data/coexistence",
+    "entities": 608,
+    "history_budget_bytes": 34359738368,
+    "history_bytes": 1187840,
+    "paused": true,
+    "shard": 0,
+    "shutdown": false,
+    "storage_error": null,
+    "tick": 0,
+    "ticks_per_second": 0.03
+  },
+  "started_at": "2026-10-20T21:18:56.138320+00:00",
+  "verified_status": {
+    "alive": 610,
+    "directory": "/root/curious/data/coexistence",
+    "entities": 610,
+    "history_budget_bytes": 34359738368,
+    "history_bytes": 5894144,
+    "paused": false,
+    "shard": 0,
+    "shutdown": false,
+    "storage_error": null,
+    "tick": 1,
+    "ticks_per_second": 0.03
+  },
+  "monitor_first_check": 1792531128,
+  "sample_first_at": 1792531128.6131713,
+  "checked_at": "2026-10-20T21:19:38.435104+00:00",
+  "latest_verified_status": {
+    "alive": 616,
+    "directory": "/root/curious/data/coexistence",
+    "entities": 616,
+    "history_budget_bytes": 34359738368,
+    "history_bytes": 9887744,
+    "paused": false,
+    "shard": 0,
+    "shutdown": false,
+    "storage_error": null,
+    "tick": 2,
+    "ticks_per_second": 0.03
+  }
+}

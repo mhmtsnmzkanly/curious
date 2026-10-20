@@ -346,3 +346,15 @@ bildirim gönderme. Tamamlanan aşama, anlamlı bulgu, hata veya müdahale gere�
   debug temizliği yapılmıştı. Target şu an yok; test için yeniden derle.
 - Cargo registry, başka projeler, kalıcı geçmişler ve çalışan sürümler temizlik
   hedefi değildir. Güvenli aralıklarla build çıktısını temizleme döngüsünü sürdür.
+
+## Karma gözlem gerçekten açıldı — 20 Ekim21:18:47UTC
+
+curious-coexistence.service: localhost7882,0,03tick/s,seed20001; frozen kaynak
+/root/curious-research/observation-7b157af, release curious-observation-7b157af.
+Kalıcı açık politika/öğrenme/genetik başlangıcı doğrulandı; --resume kullanılır.
+data/coexistence-deployment.json ve docs/reports/QUALIFIED_DEPLOYMENT.json
+kanıtlarıdır. Üç ayrı monitor/sampler/soak-report timer enable/active; watchdog
+yeni dünyayı görür. İlk578H/32C,~75MiBRSS,9fd; bunlar güncel sanılmamalı.
+Gerçek1/7/30gün henüz dolmadı; mevcut sonraki iş bu gözlemi kontrol etmek,
+kapasiteyi gerçek örneklerle değerlendirmek ve sınırlı av öğrenmesine geçişi
+LEARNING_NEXT sözleşmesine göre ele almak. Yeni uzun denge taraması yok.
