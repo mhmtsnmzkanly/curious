@@ -1,0 +1,363 @@
+{
+  "engine_revision": "32ddfb257f9f09485d197715fe80699e68a1c8c2",
+  "runner_revision": "b4dcef20fdef830c2895806076d972df62741eea",
+  "probe_sha256": "e1ffa03754fc964d503b6a6e04bffe19ad868b3d2090e0a8b2f9c48e3506f636",
+  "scenario_sha256": "33cb6ebf9d73df017b65b9ee9831be8446c2a81077f3a0e313fe06b05f0b19ac",
+  "seed": 20001,
+  "conditions": {
+    "seed": 20001,
+    "policy": {
+      "reserve_opportunities": true,
+      "mate_rendezvous": true
+    },
+    "genetics": {
+      "enabled": true,
+      "mutation_per_mille": 20
+    },
+    "learning_enabled": true,
+    "companions_enabled": true
+  },
+  "evidence": {
+    "canary-fixed": {
+      "source": "/root/curious/data/experiments/visible-adult-reserve-validation/normal",
+      "manifest_sha256": "9577b17aba658f489f732af83079778dae68e598e19d4d6a996aa23ed8cd76a6",
+      "summary_sha256": "747f286e7f13546b3f268b56fe917c2fce3538db7c7bdd9ca3dcb30a7bf7442f",
+      "seed_sha256": {
+        "seed-1.json": "201d7d5a958b9c3d41244f7dd52276ddd63c3bf1f05746ffd04c9ab4a86a693a",
+        "seed-2.json": "93f892b5e9a7e366bcc72727cc54dea51df8da02f8890a0cdd49abfda763c505",
+        "seed-3.json": "f4fb8061a8a1d5cf67bf1e98593ac129749da26aeb6f2de77ce0159ee5e26936",
+        "seed-4.json": "c6809e4dd49b85f7f3215a02df529eb32049a0d63002dddcbb772a8162ee2910",
+        "seed-5.json": "f288007999681da03327a67d4371a1eda5da0f3a1f68c03f0434fb756510f116",
+        "seed-42.json": "a8c044e3a555b3c9ba65be3c8c253733ba66a769a82a23fea9bf4a3a8b74a9d8",
+        "seed-12345.json": "7d5a47d812b796c254d2c1c646be5103bbbe21e8d0f9cb8b345692ee4131b4bc",
+        "seed-2026.json": "68f4b97bdf9ce6076a1c764310b344d1d2388eddb6afa61222ec3fdd65f073cb"
+      }
+    },
+    "sensitivity-fixed-max_energy-90": {
+      "source": "/root/curious/data/experiments/reserve-qualification/sensitivity-fixed-max_energy-90",
+      "manifest_sha256": "9cfcd251b29fd6920034841535dfcb7e5efba97472516896283a5f17268ca335",
+      "summary_sha256": "8e987b7c3dfa2a180f6a46054e741ecec4c9a1bea6ef1fcbeb09da2b0ff09d8c",
+      "seed_sha256": {
+        "seed-1.json": "00cbb837cc1f045f3eb3755ff8bdbba47beeb4aca5f8f5cd454e8944c4224d00",
+        "seed-2.json": "7984830f2f7155b0cf87752d100177f4831ac82e590316afa26a692859c5e679",
+        "seed-3.json": "13cf0c6d168c6b70165f12ede040103e3ffcd881b47b7977760ce23649c8cf58",
+        "seed-4.json": "0af6cd622ba5e258dc067e52c9efb436405fc38dbd7f868a9a76ce3e09d51090"
+      }
+    },
+    "sensitivity-fixed-max_energy-110": {
+      "source": "/root/curious/data/experiments/reserve-qualification/sensitivity-fixed-max_energy-110",
+      "manifest_sha256": "2124489445e7a1c65ad0a8a1034b092cbca3b3ee9e730cc882beebe25753e62e",
+      "summary_sha256": "5172b855fe37a828450670a91ca245bd3f5b69782bc162a10a984af422139804",
+      "seed_sha256": {
+        "seed-1.json": "9f3038df16d5d21083c332ffe7b1a31e387a39a66821568427d0688aefceaf98",
+        "seed-2.json": "477063df2a7b2e70a718a413762bf3af6672db6a049140acfe8c68b4ab0182f1",
+        "seed-3.json": "c1e1306b1ab17d61b1a416150594a6fc4c7396a02deb457602b3a0a937f03994",
+        "seed-4.json": "0a93ed5cd90dc520b4326809d77c7b3c95abed22498b6e4f16b1460569564fa2"
+      }
+    },
+    "sensitivity-fixed-reproduction_interval-90": {
+      "source": "/root/curious/data/experiments/reserve-qualification/sensitivity-fixed-reproduction_interval-90",
+      "manifest_sha256": "8f245161dc8f98efa465d637704d5bcef0e850515c40e4ec761d7b62ae5d7bc5",
+      "summary_sha256": "d17c8ce35f4dd6317a5a98a422ddf7cfcc726e9c52d006f44deaa16374a236ae",
+      "seed_sha256": {
+        "seed-1.json": "83bb63ff5f31b7ee49329d46fdb53c1da63f685e2caf2a460d1c35982548d206",
+        "seed-2.json": "b692ec3cbf152340b7afb2e602c7302244a4cfd11675d1826fc7c5f87b18e92f",
+        "seed-3.json": "9fe1b0134d97a9be68b731aaaae7b15b09a0c104391d31ae57930de61d1a8e12",
+        "seed-4.json": "1e5ad9ea204234a753f194faac3da634012b9c61ac64c4eed75d84beddd7c51c"
+      }
+    },
+    "sensitivity-fixed-reproduction_interval-110": {
+      "source": "/root/curious/data/experiments/reserve-qualification/sensitivity-fixed-reproduction_interval-110",
+      "manifest_sha256": "30827284337cd0ea1061b9b3bcfd3c303250e14db3236fab68015793f4431be3",
+      "summary_sha256": "4a84cf86ecc1332505dead4d0a8be323de3335facda88a5b6efdaad462b9ed38",
+      "seed_sha256": {
+        "seed-1.json": "ea18d1883a25a8d1312b46caf2d11120aa38c7726a318809f2ad9438155283e3",
+        "seed-2.json": "a8221e2c7b07e6fafea1d1a921009a000da37870bcbf44232e452f5782b23bd9",
+        "seed-3.json": "c3314a9b96eb99b630f857bc4e918435f67127e7ae20372af81e4160c03fbf16",
+        "seed-4.json": "927d26a60c5f764483993da837e730d0395dac3c423da34556e0c91f493dc15e"
+      }
+    },
+    "qualification-fixed": {
+      "source": "/root/curious/data/experiments/reserve-qualification/qualification-fixed",
+      "manifest_sha256": "f3fab1b8256442d445c70ec2a9b13f73a4c6148d37ad72a4e7c580ef62d3737d",
+      "summary_sha256": "9d32c6a8b6198fbc9d46af5c319d868eb4d991162f5424092c897ac9e8934f89",
+      "seed_sha256": {
+        "seed-20001.json": "9bdf5429e9518e23388158e7782195fd269ce9aaff37a7e494a753c453723807",
+        "seed-20002.json": "78564cd527870d4dc4693d7331579e6cf9b8d506bbd5322ec622314e822b6677",
+        "seed-20003.json": "3a720a7c816bfc9e0e8365e25a888a4472d52811624edde84b6e757b84a35f8d",
+        "seed-20004.json": "e70959de6ce5db6acfd1a3b82e801ad70eeadfebb9c7cb0b26da18fa852ee205",
+        "seed-20005.json": "adf7dc5abe1140294553c1814ac1daab70ef911d52d203c55a7de9547c7a8a3b",
+        "seed-20006.json": "86ff72a650290a090397dead67ad7a5cd7be46be74f5f980c10a782ee6b3c07a",
+        "seed-20007.json": "5af79f2cf17a8bcedc684ba1b722eec566ddce4457db3a3f03fa98daa6094c02",
+        "seed-20008.json": "1e5cd6544acf64717eccfdb94bb77479c5eaa8fd92f2bde8b48c260c833b60a5",
+        "seed-20009.json": "1cda0b1f0f5cd24fb2f7e659272307dee1153e63dd00f6dde4290dbf82dc73ec",
+        "seed-20010.json": "6a5d0e9502187e1bc662d5025c25c1aaa71742bd649f8a65d9e25855435a43bd",
+        "seed-20011.json": "1ed2bc6031b0726f9d73b8aa53ac1cce2fc11321d7f349fd54960fb09b0d8297",
+        "seed-20012.json": "3e3b64e65caefc0ca837b2a5f06a676100832bb55cfe7e98d770736ebb333630",
+        "seed-20013.json": "e24f436658eab3901d4a714fbea656117090db5dafff75cc2ae7396049ad00ba",
+        "seed-20014.json": "1c21bf2e1165a394b5cb9f418ddd2ab63285a58b218298fdad9fc08ef3fe1025",
+        "seed-20015.json": "94c7bb8e63101f0e8d890858c2fe4a52bbe40fd65443981833c020626ab51867",
+        "seed-20016.json": "332bbf8a7e5b7c0b359543e234b7268cd3f6d4e38f1d5caf83c9a74c60446d35",
+        "seed-20017.json": "d6a6f3af6ee486968178b64c77513d7eadd4c659191aeecc6c1d2f2e596f1ed7",
+        "seed-20018.json": "1c3f1f47d1c452ddc1089fcf07333271e3d778751a547dc71da4c9b7977cc608",
+        "seed-20019.json": "fb5d3b91b51f40b5dddbab60b2e150c73a2f0e902f7a29494652e85e09a1244f",
+        "seed-20020.json": "1a9c1aab19859901ef64ea7d63178a3ad610fad0a64c0c8655b9b36dcee25526",
+        "seed-20021.json": "2276e50e33eb54be763a89d8942a88c5b833bdf1b17716cecb05d981e268f9fd",
+        "seed-20022.json": "dc4153d05fdcddbe9042769b04f8061a4e474f417291c797b31d52222c18ce0c",
+        "seed-20023.json": "7a3bfd47565baa87d1923550623eb7496b94df1be79d1ff8dbec545ee62e8e2c",
+        "seed-20024.json": "e9f1eb4c9d98717fe2eebd6528823ca2d45b61385bb35e7de2f9ac2e6c97579b",
+        "seed-20025.json": "a9b32958f5aae67251d15295f995a1c5fa53f6c42c8daf74d108dd172b9ef1b9",
+        "seed-20026.json": "4bd2fd39ce888aa23aaa8677dc7fdfe48a3de63ce09851873ef584caaf1824e1",
+        "seed-20027.json": "208a79a2b734c66d6df23a35ce441c8c9325466c5baf65461cc77a45cf0a0210",
+        "seed-20028.json": "8141b7332bf01fcb85303ff708e775136e0133ad92a37fe92ac30825d51e2eb1",
+        "seed-20029.json": "570f768e19d9cd8c4f1c88510c2bc21d84aa837d1ff426c3472d6f817f575503",
+        "seed-20030.json": "5d829808d736d1b5354a6c129e994118e8d0b44ab7452470f1d9446cfb07790e"
+      }
+    },
+    "resource-shock": {
+      "source": "/root/curious/data/experiments/visible-adult-reserve-validation/shock",
+      "manifest_sha256": "2c1a71006d5dc7ed9a5d973768727444079d6e5a744e92f06489e7b15bd96794",
+      "summary_sha256": "1a54265575caacd95627a2d3c05a931e2bb4542aa788586bb03a9c54a425d1a9",
+      "seed_sha256": {
+        "seed-1.json": "5ef146e39502bc36e4183c7fc72129328cf1fb91810e7867373398c1684a5dc7",
+        "seed-2.json": "13e4251b60418119c67182d6d4f6231a5cef8b40ece0e223f270c8fca3a2b7a7",
+        "seed-3.json": "0436c125bdf501d2f552fa01e7defdac45997c1213002136fe2af2da02234130",
+        "seed-4.json": "2d55cbea0aee6e2e16d7e0d9c0f2817e918f4547bf24fc27990a1f16bfed020c",
+        "seed-5.json": "793bc1ac59b82c1577312359143066486bd3906b9e2f84596c5e74579d11dc23",
+        "seed-42.json": "b0e1b9002db4fedb7a5d41e3be128998aa63b052d37ffadefd0606495a62ea8a",
+        "seed-12345.json": "19b50aceb8b1fbc6b8b082cab8f2a26b5b095b5cf1d4789c455b55a6be15e820",
+        "seed-2026.json": "30d9234567a1e49822c38d0ca652a774eb26124e10b75992e68961d55f0325f7"
+      }
+    },
+    "canary-learning": {
+      "source": "/root/curious/data/experiments/reserve-qualification/canary-learning",
+      "manifest_sha256": "906c67c99c474efdce0dd9bf94cea9fa1091165685f667845a067d8d9d2a6f77",
+      "summary_sha256": "a4bb65855ff602a7bbc4fb383699bb2b0e4c537dfdde6d4a6a63259cf5a36a77",
+      "seed_sha256": {
+        "seed-1.json": "6c109f64d6e7f857e5d281a7fb4674a19f0785e774886148e173bda91c6bafc6",
+        "seed-2.json": "13f67153b4cf001238f658892a21b3d9f0b2bc76538b3ad96ddc32079bd597df",
+        "seed-3.json": "5e1f5b7ae4b29a78fcfe9637027344eb00cc1e773899d955e0a665fcf322b42f",
+        "seed-4.json": "2e13b3b0837faafd69aec2c32d3197b29f0beeedbb73195cd85ed60e2dea130a",
+        "seed-5.json": "22f5718ab9f80b26b30a138d425dd37363e030c189740f33a8db978c354f55bf",
+        "seed-42.json": "2c2ed84dc7922f9aac40eda5cc6c3f275a6f1a44be811fcb35e3b08c03a166fc",
+        "seed-12345.json": "4bb3106ac38848895c5d39f5fa6c291714e8d6fe72816602b045da4161a36f46",
+        "seed-2026.json": "950e3ef2dcba0c3949c0659d60d5bb5822c94a0b8761311d32b1eac72c149983"
+      }
+    },
+    "canary-mutation": {
+      "source": "/root/curious/data/experiments/reserve-qualification/canary-mutation",
+      "manifest_sha256": "5691e5280d7595a3a7a5ae4c62cbb7cd06c7514493c2efdac4f6961d7df32bc2",
+      "summary_sha256": "569050dbbfea906388080c5e54d3151c81cd44872abd6c48462679655ea5886d",
+      "seed_sha256": {
+        "seed-1.json": "08268f4ed75f4c5555c746d01755afc20501be33b2b7e9ef8109b4e2f6f95145",
+        "seed-2.json": "378b6a03b9ff2e18bfa9528ed0c954fe9ef55e1ef956e0601a58c9ff8123c4f8",
+        "seed-3.json": "04b1788bcffd04335a0deb8ede041de0e12c30aa8731489c24ccf31922502bfa",
+        "seed-4.json": "7215567245f9430b3615b097f7c9b28f605dc1a9f47729f4cbdab4651b3c20cc",
+        "seed-5.json": "7d8025ab1ab3cd323d1db425ff47263bb7282428e0cf42f4be0841069e2e6e05",
+        "seed-42.json": "660e9c1d0546135d0859966572d5a74d9d259c11b04166503a1706e39809c831",
+        "seed-12345.json": "212cba0f64228945138bb90fd290938bf0b25b574275d70bf045c31de3da7cab",
+        "seed-2026.json": "9e012d7ec295ade6016e1a49e1028e928869bca25e2ea3e61e58a5ca1ad092c7"
+      }
+    },
+    "canary-both": {
+      "source": "/root/curious/data/experiments/reserve-qualification/canary-both",
+      "manifest_sha256": "569f2abe2b7ec7e5cb4704dd87e7cf04e56e369dfed318a66465d4d10c7c2330",
+      "summary_sha256": "29f680372f0899169cb7a5cefdf3858839323fc6d5d0f75d3797e7ab71839b1b",
+      "seed_sha256": {
+        "seed-1.json": "0d5af2605cfc36ebddb027d9c4b151dba1768858622f05713390cf52a1730d7b",
+        "seed-2.json": "14f007d930d7d16c906c4599dfff233ca970b8c0766ffa4392bb7b015790db5f",
+        "seed-3.json": "b8eb191f8785e6490f90cf8b49542fb373799a82f01f895cad3997cbdbb72128",
+        "seed-4.json": "fc0cfa2be583bbd9b88a6e530d09fae58c0ca780d45551b8d6c33105e8e7f1b3",
+        "seed-5.json": "8794faafbfa02ce8cc8b8a112e2106ee48b7a5a98b2fc1f1771f8741705b7571",
+        "seed-42.json": "23fca83ab8247dc15f114d44a8340f8718661836ffd2e81ff92823b32e9bd6b1",
+        "seed-12345.json": "267b54f020075eddd1263e39ffa88880f48aead8168e70c4d99162256f64429b",
+        "seed-2026.json": "d7f8fdcec7743251799677da9a52a2d952b03551e7a5c4f4ea14996baf3095de"
+      }
+    },
+    "qualification-both": {
+      "source": "/root/curious/data/experiments/reserve-qualification/qualification-both",
+      "manifest_sha256": "27426d8a4d550fe77ba35be27bfc96f764986341d752a1e8b0656aaa225a01ef",
+      "summary_sha256": "184faecc71dbf849d103cffbd433e875cae0ea548d2742a0376da25b3e93ee19",
+      "seed_sha256": {
+        "seed-20001.json": "784af84737a1943301c48e4ca19a71d5ad63ae286b5a42990dfdc730f85d693b",
+        "seed-20002.json": "956ef6c1cecc834e82627b2aa694faf9a8bbedd35bd5f7d89f63c9318e227e3c",
+        "seed-20003.json": "388f5ef41d60c0e95f6f16dc80dfcfeb7c71284e41ae46a412a5b13bfcdc7c87",
+        "seed-20004.json": "7ffac5c0a566078a276fc096a78ac9e40d51f63dc585baa38ce3375357a42a02",
+        "seed-20005.json": "719b0c6c52b335e6c0876520153342e4aa8509dee2a3c9238d0c191ad7c9bd20",
+        "seed-20006.json": "2c08571b5ea60393af73cc337096ee6db6fc888161c01709eef8800cda2331d4",
+        "seed-20007.json": "5671b87e662c7befbc83bbddb80957b1e4382f0ebe7b20b85d36142c106abf93",
+        "seed-20008.json": "d9738c12c37c92dd57e90bea88d1f8cb75a7bd27c037926d8553990c7957cb82",
+        "seed-20009.json": "8e4dfe898f69ed378c4b0434f1b8b1796ab32c6aa9626dc8475d6059b9747608",
+        "seed-20010.json": "ffbd69090ad3dde587f2aa6b867099881b0ccc026b03a0b61a7fa0c7781a6704",
+        "seed-20011.json": "293e97230299d31151b6a2a92199494fa50c4c86db615b9eb29fcb6cf33b3628",
+        "seed-20012.json": "21270dd4b977d5fb0c8ce40fa0d1633fa161ff0907b4d38dc00a852f3a1cddbd",
+        "seed-20013.json": "78ec64c67e8bf939904a6e916a37022623a9af9e968f562424b15abcdaf07e06",
+        "seed-20014.json": "6a95ea61a853d30a890bbd29ed5f1c5071664541441ff9200088d6796cfbd925",
+        "seed-20015.json": "ae49059453f46c5c0c68079cdb63f506c9f2a17f39326101a4c9a004d79e40fa",
+        "seed-20016.json": "3472f810995bd29e2cae39067c379e2d0a78fd308ee12ca88b7c3ddbe1af7b6c",
+        "seed-20017.json": "cca6f50e454cad19d2a5e13f1cba7fa1e2ba079f9544c4b7e0bca2c120f13077",
+        "seed-20018.json": "610881d46d0490fedc5fda93463bceae56a493ac0725882910f7765b87fa4b9a",
+        "seed-20019.json": "917aaf17dde26c203b5557d47a4183a8b33eba750551d1c7db05300e1b75cefe",
+        "seed-20020.json": "481d294cb2857b25d4ff287910a754110c0cb1c22012314a084e915d1688b3df",
+        "seed-20021.json": "dfb6ec07d7d20813049320d9148e5bb076ee1c7d72b18bf2f9ce6eadb4bf8940",
+        "seed-20022.json": "ce3e24eced3fcdfe1a54d40f715ca0bb49a5b0f78e1e7e0c51213be52434f515",
+        "seed-20023.json": "dd3ce3481f860e79346b1aa24f4cc669069fbf6d20a4bf6ccbc3720ab641ddfe",
+        "seed-20024.json": "6149e78d76b28378decd970ccd9e4f9b7cbc881bc4f92df29ef4f6b125327c39",
+        "seed-20025.json": "10535d9644f8dd88a01626aadf38944713d8417d1998a20f8b719bf28f17ea18",
+        "seed-20026.json": "52b77347b35b61b153f1a23b4767805d5708cd4ae2faf9be5d6a1f84bcd8d892",
+        "seed-20027.json": "c732371bff62646a7366c578d995b107f17b1d3d7d33fd7ac290f4c80966197e",
+        "seed-20028.json": "375d29858e1caccd7e53b746c2af13bcd998ea0157ba57dc9b3e24d0bca07c80",
+        "seed-20029.json": "d6bf9033f9d92f20294599799559864c855ebd0582f75567bf719f75d676724e",
+        "seed-20030.json": "7020872f36944e13de0c098d4aeb3a4d82633def279e73dc1a9b9039d3302086"
+      }
+    }
+  },
+  "phases": {
+    "canary-fixed": {
+      "planned": 8,
+      "finished": 8,
+      "passed": 8,
+      "accepted": true,
+      "qualified": false
+    },
+    "sensitivity-fixed-max_energy-90": {
+      "planned": 4,
+      "finished": 4,
+      "passed": 4,
+      "accepted": true,
+      "qualified": false
+    },
+    "sensitivity-fixed-max_energy-110": {
+      "planned": 4,
+      "finished": 4,
+      "passed": 4,
+      "accepted": true,
+      "qualified": false
+    },
+    "sensitivity-fixed-reproduction_interval-90": {
+      "planned": 4,
+      "finished": 4,
+      "passed": 4,
+      "accepted": true,
+      "qualified": false
+    },
+    "sensitivity-fixed-reproduction_interval-110": {
+      "planned": 4,
+      "finished": 4,
+      "passed": 4,
+      "accepted": true,
+      "qualified": false
+    },
+    "qualification-fixed": {
+      "planned": 30,
+      "finished": 30,
+      "passed": 30,
+      "accepted": true,
+      "qualified": true
+    },
+    "resource-shock": {
+      "planned": 8,
+      "finished": 8,
+      "passed": 8,
+      "accepted": true,
+      "qualified": false
+    },
+    "canary-learning": {
+      "planned": 8,
+      "finished": 8,
+      "passed": 8,
+      "accepted": true,
+      "qualified": false
+    },
+    "canary-mutation": {
+      "planned": 8,
+      "finished": 8,
+      "passed": 8,
+      "accepted": true,
+      "qualified": false
+    },
+    "canary-both": {
+      "planned": 8,
+      "finished": 8,
+      "passed": 8,
+      "accepted": true,
+      "qualified": false
+    },
+    "qualification-both": {
+      "planned": 30,
+      "finished": 30,
+      "passed": 30,
+      "accepted": true,
+      "qualified": true
+    }
+  },
+  "runtime_fidelity": {
+    "tick": 200,
+    "seed": 20001,
+    "full_state_and_rng_equal_at": [
+      100,
+      200
+    ],
+    "sigkill_recovery_equal": true,
+    "existing_run_protected": true,
+    "policy": {
+      "mate_rendezvous": true,
+      "reserve_opportunities": true
+    },
+    "genetics": {
+      "enabled": true,
+      "mutation_per_mille": 20
+    },
+    "alive": {
+      "Carnivore": 37,
+      "Herbivore": 582
+    },
+    "elapsed_recording_seconds": 35.24013225900126,
+    "closed_shards": 15,
+    "closed_tick_records": 188,
+    "closed_archive_bytes": 54705127,
+    "projected_archive_GiB_per_day_at_0_1_tps": 2.3414455021315432,
+    "limits": [
+      "Projection is from a 200-tick isolated sample, not a real-day capacity measurement.",
+      "Active shard, learner growth and future population changes add overhead."
+    ]
+  },
+  "previous_gzip_capacity_sample": {
+    "tick": 200,
+    "seed": 20001,
+    "full_state_and_rng_equal_at": [
+      100,
+      200
+    ],
+    "sigkill_recovery_equal": true,
+    "existing_run_protected": true,
+    "policy": {
+      "mate_rendezvous": true,
+      "reserve_opportunities": true
+    },
+    "genetics": {
+      "enabled": true,
+      "mutation_per_mille": 20
+    },
+    "alive": {
+      "Carnivore": 37,
+      "Herbivore": 582
+    },
+    "elapsed_recording_seconds": 29.79464039200684,
+    "closed_shards": 15,
+    "closed_tick_records": 188,
+    "closed_archive_bytes": 140654224,
+    "projected_archive_GiB_per_day_at_0_1_tps": 6.02017065312,
+    "limits": [
+      "Projection is from a 200-tick isolated sample, not a real-day capacity measurement.",
+      "Active shard, learner growth and future population changes add overhead."
+    ]
+  },
+  "verification": {
+    "rust_tests": 87,
+    "python_tests": 52,
+    "http_controls": true,
+    "chromium_desktop_mobile_and_compressed_lineage": true,
+    "python_zstd_history_query": true
+  }
+}

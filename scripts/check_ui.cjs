@@ -54,7 +54,7 @@ const assert = require("node:assert/strict");
       }
     }
     await request({ action: "step", ticks: 100 });
-    browser = await chromium.launch({ headless: true, args: ["--no-sandbox"] });
+    browser = await chromium.launch({ headless: true, executablePath: process.env.CURIOUS_CHROMIUM, args: ["--no-sandbox"] });
     const page = await browser.newPage({
       viewport: { width: 1440, height: 1100 },
     });
@@ -116,6 +116,8 @@ const assert = require("node:assert/strict");
     // Founders have left the current world: selection must recover their archive.
     await request({ action: "step", ticks: 60 });
     await request({ action: "step", ticks: 60 });
+    const steppedStatus = await request();
+    await page.waitForFunction(tick => Number(document.querySelector("#tick").textContent) >= tick, steppedStatus.tick);
     const inventory = await fetch(base + "/databases", {headers: {Authorization: "Bearer " + token}}).then(r => r.json());
     assert.ok(inventory.some(s => s.compressed), "genealogy must traverse compressed archives");
     await page.locator("#archive-id").fill("1");

@@ -11,7 +11,7 @@ def diagnose(directory):
     totals=Counter(); individuals=defaultdict(lambda:{'reasons':Counter(),'first_tick':None,'last_tick':None})
     examples=[]
     for path in sorted(directory.glob('history-*')):
-        if not path.name.endswith(('.sqlite','.sqlite.gz')):continue
+        if not path.name.endswith(('.sqlite','.sqlite.gz', '.sqlite.zst')):continue
         with history_connection(path) as db:
             if not db.execute("SELECT 1 FROM sqlite_master WHERE name='decision_traces'").fetchone():continue
             for (encoded,) in db.execute('SELECT trace_json FROM decision_traces ORDER BY record_id,entity_id'):

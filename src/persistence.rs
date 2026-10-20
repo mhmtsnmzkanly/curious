@@ -62,7 +62,10 @@ impl Store {
             let Some(name) = p.file_name().and_then(|s| s.to_str()) else {
                 continue;
             };
-            let raw = name.strip_suffix(".gz").unwrap_or(name);
+            let raw = name
+                .strip_suffix(".gz")
+                .or_else(|| name.strip_suffix(".zst"))
+                .unwrap_or(name);
             let Some(n) = raw
                 .strip_prefix("history-")
                 .and_then(|s| s.strip_suffix(".sqlite"))

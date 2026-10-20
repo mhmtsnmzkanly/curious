@@ -33,3 +33,12 @@ Av–avcı için onaylanan yeni11 aşamalı çalışma `COEXISTENCE_PLAN.md` iç
 V8 teşhisi ve V9 düzeltmeleri uygulandı. Kalibrasyon/duyarlılık/uzun testler ve
 koşullu ayrı dünya için çalıştırıcı hazırlandı; biyolojik kabul kapıları henüz
 geçilmiş değildir. Ayrıntı `reports/COEXISTENCE_IMPLEMENTATION.md`.
+
+## 20 Ekim 2026 — karma kabul
+
+32ddfb2 rezerv/buluşma koşulu, sabitlenen yeni30seedde fixed ve both için
+ayrı30/30×100000 adım ve son bölüm üreyen yavru soyu kapısını geçti.
+Duyarlılık ve şok/öğrenme/mutasyon kapıları da tamamlandı. Bu, 1 ve3 için
+sınanmış koşulda güçlü süreklilik kanıtıdır; sonsuz denge veya genel evrim
+iddiası değildir. Gerçek gün/hafta9 hâlâ açık. Ayrı dünya ve işletim kanıtları
+[QUALIFIED_OBSERVATION](reports/QUALIFIED_OBSERVATION.md) raporunda tutulur.

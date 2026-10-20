@@ -37,7 +37,9 @@ Hedef [VISION](docs/VISION.md), kullanıcı sırası ve dürüst durum
   32ddfb2 hedefli2/2, normal8/8, shock8/8 geçti.
   [Uzun protokol](docs/RESERVE_QUALIFICATION.md):±%10 duyarlılık, yeni
   20001–20030 fixed100k, öğrenme/mutasyon kontrolleri, both100k.
-  Kalıcı kabul ve ayrı karma gerçek süreli dünya bekliyor.
+  20 Ekim: bütün11kapı geçti; fixed30/30 ve both30/30×100k.
+  Ayrı karma dünyanın kayıtlı başlangıcı ve gerçek süreli gözlemi:
+  [QUALIFIED_OBSERVATION](docs/reports/QUALIFIED_OBSERVATION.md).
   [RESERVE_POLICY_ISOLATION](docs/reports/RESERVE_POLICY_ISOLATION.md) ve
   [önceki aday](docs/reports/RESERVE_OPPORTUNITY.md).
 - [ ] Su öğrenmesinin ortam değişimi deneyini değerlendir (`learning_trial` reversal);

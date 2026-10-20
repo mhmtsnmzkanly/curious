@@ -8,7 +8,7 @@ def inspect(directory):
     individuals={}
     last_tick=0
     for path in sorted(Path(directory).glob('history-*')):
-        if not path.name.endswith(('.sqlite','.sqlite.gz')):continue
+        if not path.name.endswith(('.sqlite','.sqlite.gz', '.sqlite.zst')):continue
         with history_connection(path) as db:
             for tick,kind,payload in db.execute('SELECT tick,kind,state_json FROM records ORDER BY id'):
                 if kind not in ('initial','tick'):continue

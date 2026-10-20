@@ -1,5 +1,21 @@
 # Curious üzerinde çalışma
 
+## 20 Ekim — kabul tamam, ayrı karma gözleme geçiş
+
+Bütün11kapı ham sonuçlardan yeniden doğrulandı; fixed30/30 ve both30/30×100k,
+duyarlılık4×4/4, shock8/8 ve üç kısa öğrenme/genetik8/8 geçti. Kaynak32ddfb2
+biyolojisi korunur. reports/QUALIFIED_OBSERVATION.md ve JSON nihai kanıttır.
+prepare_observation.py + Rust örneği aynı açık seçeneklerle yeni tick0 oluşturur;
+servis --resume kullanır, eksik veriden yeniden kurucu üretmez. Port7882,
+bin/curious-qualified yeni sürüm; eski curious-coexistence linki kullanılmaz.
+Yeni kapalı shardlar zstd; gzip okunur, her bayt doğrulanmadan ham dosya silinmez.
+0,03tick/s,64MiBshard,32GiB bütçe: kısa örnekten~0,70GiB/gün tahmini, garanti
+değil. Gerçek1/7/30gün ve uzun vadeli disk kapasitesi hâlâ açık. Yeni tarama
+başlatma; ayrı gözlem servisinin gerçek durumunu ve deployment.json kaydını oku.
+87Rust/52Python+HTTP/SIGKILL+Chromium/kompreseli soy geçti. Kaynaklar frozen
+worktree'den çalıştırılır; 7878–7881, eski araştırma/veriler/ikili korunur.
+
+
 Başlamadan `docs/VISION.md`, `docs/CONTROL.md`, `docs/ROADMAP.md` ve `TODO.md`
 okunur. Kullanıcının sonraki talimatları bu notların önündedir.
 

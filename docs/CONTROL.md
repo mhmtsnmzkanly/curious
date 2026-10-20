@@ -329,7 +329,7 @@ Gözlem araçları bu alan değişimine göre güncellenmelidir.
 
 ## Sıkıştırılmış geçmiş ve sürekli gözlem
 
-Kapanmış shardlar artık `history-NNNNNN.sqlite.gz` olarak kayıpsız saklanır.
+Yeni motor kapanmış shardları `history-NNNNNN.sqlite.zst` olarak kayıpsız saklar; eski `.sqlite.gz` geçmişi de okunur. Zstd seviye3, 128MiB pencere ve checksum kullanılır. Yayınlamadan önce her bayt yeniden okunup aslıyla karşılaştırılır. Ham kayıt ancak doğrulama ve fsync sonrasında kaldırılır. Eski motorlar yeni zstd geçmişini okuyamaz; eski dünyaların ikilileri değiştirilmez. Python geçmiş araçları için sistemde `zstd` CLI gerekir.
 `/databases` her shard için `compressed` alanını döndürür. `/query` aynı shard
 numarasıyla çalışır; arşiv geçici olarak açılır. 2 GiB açılmış dosya sınırı vardır.
 Sıkıştırma öncesi WAL checkpoint, arşivi bayt bayt doğrulama ve atomik yayımlama
@@ -419,7 +419,7 @@ olarak gösterilir. Bu seçim haritada canlı oluşturmaz; takip ve ayrıntılı
 algı kaydı devre dışıdır. Arşiv kararı, güncel kararla karıştırılmaz.
 
 “Soy ve geçmişi getir” en yeni kayıtlardan başlar. “Daha eski kayıtlara devam et”
-her istekte en çok 50 karar ve dört boş arşiv parçası tarar. SQLite ve gzip
+her istekte en çok 50 karar ve dört boş arşiv parçası tarar. SQLite, gzip ve zstd
 arşivleri mevcut salt okunur `/query` API'siyle açılır; yeni tablo yoktur.
 Soy bağlantıları güncel ebeveyn alanlarından ve kayıtlı çiftleşme olaylarından
 çıkarılır. Henüz karar vermemiş yavru, doğum kaydındaki bedeninden açılabilir.

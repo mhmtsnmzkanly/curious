@@ -14,7 +14,8 @@ fn a_sealed_last_shard_can_be_queried_and_resumed() {
     let compressed = archive::seal(&raw).unwrap();
     assert!(!raw.exists());
     let mut decoded = Vec::new();
-    flate2::read::GzDecoder::new(std::fs::File::open(&compressed).unwrap())
+    zstd::stream::read::Decoder::new(std::fs::File::open(&compressed).unwrap())
+        .unwrap()
         .read_to_end(&mut decoded)
         .unwrap();
     assert_eq!(original, decoded);
@@ -54,4 +55,29 @@ fn interrupted_archive_scratch_is_cleaned_without_touching_history() {
     let _store = Store::open(dir.path(), 1024 * 1024).unwrap();
     assert!(!temporary.exists());
     assert!(keep.exists());
+}
+
+#[test]
+fn legacy_gzip_history_remains_readable() {
+    use std::io::Write;
+    let dir = tempfile::tempdir().unwrap();
+    let raw = dir.path().join("history-000000.sqlite");
+    let connection = rusqlite::Connection::open(&raw).unwrap();
+    connection
+        .execute_batch("CREATE TABLE test(id INTEGER); INSERT INTO test VALUES(42)")
+        .unwrap();
+    drop(connection);
+    let gzip = raw.with_extension("sqlite.gz");
+    let mut encoder = flate2::write::GzEncoder::new(
+        std::fs::File::create(&gzip).unwrap(),
+        flate2::Compression::fast(),
+    );
+    encoder.write_all(&std::fs::read(&raw).unwrap()).unwrap();
+    encoder.finish().unwrap();
+    std::fs::remove_file(raw).unwrap();
+    let reader = archive::Reader::open(&gzip).unwrap();
+    let value: i64 = reader
+        .query_row("SELECT id FROM test", [], |row| row.get(0))
+        .unwrap();
+    assert_eq!(value, 42);
 }

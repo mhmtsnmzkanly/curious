@@ -11,6 +11,7 @@ rusqlite = { version = "0.40", features = ["bundled", "hooks"] }
 tiny_http = "0.12"
 flate2 = "1"
 tempfile = "3"
+zstd = "0.13"
 
 # Keep development/test artifacts small on the shared server.
 [profile.dev]

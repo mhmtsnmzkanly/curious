@@ -15,7 +15,7 @@ def diagnose(directory):
     samples = []
     last_tick = 0
     for path in sorted(Path(directory).glob('history-*')):
-        if not path.name.endswith(('.sqlite', '.sqlite.gz')):
+        if not path.name.endswith(('.sqlite', '.sqlite.gz', '.sqlite.zst')):
             continue
         with history_connection(path) as db:
             for record, tick, kind, encoded in db.execute(

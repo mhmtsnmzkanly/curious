@@ -24,6 +24,11 @@ def history_connection(path):
             with gzip.open(path,'rb') as source, unpacked.open('wb') as target:
                 shutil.copyfileobj(source,target)
             path = unpacked
+        elif path.suffix == '.zst':
+            unpacked = Path(scratch)/'history.sqlite'
+            with unpacked.open('wb') as target:
+                subprocess.run(['zstd', '-q', '-d', '-c', '--', str(path)], stdout=target, check=True)
+            path = unpacked
         with sqlite3.connect(f'file:{path}?mode=ro', uri=True) as connection:
             yield connection
 
@@ -82,7 +87,7 @@ def measure(binary, directory, seed, ticks, scenario=None, shard_mb=16):
     samples = []
     first_extinction = None
     starvation_floor_ticks = 0
-    histories=sorted(p for p in directory.glob('history-*') if p.name.endswith(('.sqlite','.sqlite.gz')))
+    histories=sorted(p for p in directory.glob('history-*') if p.name.endswith(('.sqlite','.sqlite.gz', '.sqlite.zst')))
     for db in histories:
         with history_connection(db) as connection:
             for tick, kind, encoded, metrics in connection.execute('SELECT tick,kind,state_json,metrics_json FROM records ORDER BY id'):

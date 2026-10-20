@@ -7,10 +7,10 @@ use std::{
 };
 
 pub fn is_archive(path: &Path) -> bool {
-    path.extension().is_some_and(|e| e == "gz")
+    path.extension().is_some_and(|e| e == "gz" || e == "zst")
 }
 pub fn archive_path(raw: &Path) -> PathBuf {
-    PathBuf::from(format!("{}.gz", raw.display()))
+    PathBuf::from(format!("{}.zst", raw.display()))
 }
 
 pub fn seal(raw: &Path) -> Result<PathBuf> {
@@ -20,13 +20,16 @@ pub fn seal(raw: &Path) -> Result<PathBuf> {
         .prefix(".curious-archive-")
         .tempfile_in(parent)?;
     let mut source = File::open(raw)?;
-    let mut encoder =
-        flate2::write::GzEncoder::new(temporary.as_file_mut(), flate2::Compression::fast());
+    let mut encoder = zstd::stream::write::Encoder::new(temporary.as_file_mut(), 3)?;
+    encoder.window_log(27)?;
+    encoder.long_distance_matching(true)?;
+    encoder.include_checksum(true)?;
     std::io::copy(&mut source, &mut encoder)?;
     encoder.finish()?.sync_all()?;
-    // Verify byte-for-byte, including the gzip CRC/footer, before publishing.
+    // Verify every byte and the frame checksum before publishing.
     let mut source = File::open(raw)?;
-    let mut decoded = flate2::read::GzDecoder::new(File::open(temporary.path())?);
+    let mut decoded = zstd::stream::read::Decoder::new(File::open(temporary.path())?)?;
+    decoded.window_log_max(27)?;
     let mut a = [0u8; 65536];
     let mut b = [0u8; 65536];
     loop {
@@ -50,8 +53,14 @@ pub fn seal(raw: &Path) -> Result<PathBuf> {
 }
 
 fn unpack(archive: &Path, target: &Path) -> Result<()> {
-    let mut source =
-        flate2::read::GzDecoder::new(File::open(archive)?).take(2 * 1024 * 1024 * 1024 + 1);
+    let reader: Box<dyn Read> = if archive.extension().is_some_and(|e| e == "gz") {
+        Box::new(flate2::read::GzDecoder::new(File::open(archive)?))
+    } else {
+        let mut decoder = zstd::stream::read::Decoder::new(File::open(archive)?)?;
+        decoder.window_log_max(27)?;
+        Box::new(decoder)
+    };
+    let mut source = reader.take(2 * 1024 * 1024 * 1024 + 1);
     let mut file = std::fs::OpenOptions::new()
         .write(true)
         .create_new(true)
