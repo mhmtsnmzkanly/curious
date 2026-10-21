@@ -428,3 +428,23 @@ raw/manifest/summary +16kısaSQLite örneği saklar. Triallimit kesintisi motor
 başarısızlığı diye puanlanmaz. Bedenenerjibütçesi gerçek food/actioncost ile
 ayrı denetlenir. Sonuçlar görülmeden üstünlük iddiası yok. Çalışan7882/7883
 source/ayarları değişmez. Kullanım docs/HUNT_LAB.md.
+
+## Av lab v1 tamamlandı — sonuç
+
+2672710kaynak/protokol ile6400trial79849tick yaklaşık9,72s, batchtamamlandı.
+Kök data/experiments/hunt-lab-v1-20261021;33MiBham+manifest+immutablebinary+
+16SQLite örneği. Öğrenici politikası/ödülü/epsilon değiştirilmedi; yalnız tam
+audit eklendi. Rapor docs/reports/HUNT_LAB_V1.md/JSON.
+
+Passive-normal eğitimlionline41/320beslenme (12,81%), naive9/320(2,81%),
+rule0. Ama eğitimli751kapanışın710'u puansız (94,54%):434hedefdeğişimi,
+275HuntTooCostly,1HuntLowEnergy. Defensive-ters320başarılıöğünün303'ü hasar
+ambiguous nedeniyle puansız. İkiizdede8eğitimmodelinin4'ü boşkaldı. Genelav
+faydası/ekosistem kabulü denmez.41001–41008artıkgörüldü; finalunseen diye
+yenidensunma. Sonraki hipotez: kendi bütçe kesintisiyle dışmüdahaleyi ve
+kendiavının savunmasıyla başkasının hasarını ayırmak; yeni protokol gerekir.
+
+117Rust/62Python+HTTPkurtarma+closed100/200State/RNG+16SQLite/rawaudit
+eşitliği geçti. Canlı7882/7883hiçgüncellenmedi. Bu jobarkaplanda süreklideğil,
+completed; yeni uzun tarama başlatma. Deney örnekleri manualreadonlyreplay
+ile açılabilir; docs/HUNT_LAB.md komutları var.
