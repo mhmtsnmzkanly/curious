@@ -31,7 +31,7 @@
     }
     return lines;
   }
-  const huntEnds = {Fed:"Kendi avından besin aldı",TargetLost:"Hedef kayboldu",TimedOut:"Süre sınırı doldu",Interrupted:"Kesildi: başka karar öncelik aldı",Died:"Kesildi: yaşam sona erdi",ForeignKill:"Avı başka birey öldürdü"};
+  const huntEnds = {Fed:"Kendi avından besin aldı",TargetLost:"Hedef kayboldu",TimedOut:"Süre sınırı doldu",Interrupted:"Kesildi: karar veya hedef değişti",Died:"Kesildi: yaşam sona erdi",ForeignKill:"Avı başka birey öldürdü"};
   const bands = ["düşük", "orta", "yüksek"];
   function context(c) {
     if (!c) return "bağlam verisi yok";

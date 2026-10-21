@@ -388,3 +388,26 @@ SHA/manifest/ham sonuçlar korunur. Avın kontrol/frozen/naive fiziksel
 karşılaştırması ve ayrı ekosistem kapısı henüz açık; genelML/evrim denmez.
 Yeni uzun denge taraması başlatma. Yeni presenter hemcanlıUI hemreplay'de
 kayıttan deneyim/maliyet/kesinti gösterir; eski kayıtta av verisi yok denir.
+
+## Deneyim ilk tur sonucu ve av adayının durumu
+
+Rapor docs/reports/EXPERIENCE_FIRST.md/JSON. Su ölçümü temizbac0b53: deneyimli
+ilk100tam su edinimi96,375%, deneyimsiz95,375% (yalnız1pp). Çevretersi sonrası
+son100online98,25%, aynıtrainedtablofrozen53,125%; kurallı100%. Öğrenme her
+koşulda üstün değil; yaş herdeneme açıkça reset, gerçek yaşam avantajı denmez.
+
+Av ilk smoke küçük tarihsel senaryoda control121/124adımda, aday87/95'te
+tükendi. V2eşitQ'da temel maliyet sırasını korur:82/109. V3yalnızaday sıralaması
+sözleşmesi için20tickhedefkilidini kaldırır; muhasebe aynıhedefte korunur,
+değişimdepuansızkesilir. V3online96/121,frozenboş98/119; üstünlükkanıtı yok.
+Bu iki görülmüş seed küçük teşhistir, formal kabul/ret veya büyükqualified
+senaryo testi değildir. Bütünhamlar/checkpointler, immutableikili vehashlar
+experience-v1-20261021/hunt-learning-smoke* altında korunur. Başarısız diye
+silme veya yeni görülmemiş kabul diye sunma. Av varsayılan kapalı kalır.
+
+110Rust/58Python+Node presenter, gerçek Chromiumlive/replay/GETonly/hash ve
+HTTP/SIGKILL geçti. FinaldisabledV13biyoloji/RNG100/200'de frozen32ddfb2 ile
+eşit; ek alanların kapalı/boşluğu doğrulandı. StateV13/SQLiteV2; çalışan dünya
+V12/7b157af korunur. Yalnız7883reader yeni presenterla güncellenir; kaynak
+replay-runtime.env'deki frozenpath. İlktercihyeniuzun tarama değil, av için
+öncedensabit kontrollütrain/naive/trained-frozen deneyi ve nedenselölçüm.

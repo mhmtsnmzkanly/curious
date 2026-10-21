@@ -354,3 +354,159 @@ fn episode_timeout_is_twenty_ticks_and_lost_targets_are_uncertain() {
     assert_eq!(l.last_episode.as_ref().unwrap().reward, None);
     assert_eq!(l.last_episode.as_ref().unwrap().end, HuntEnd::TargetLost);
 }
+
+#[test]
+fn v2_equal_values_preserve_rule_cost_ordering_outside_exploration() {
+    for (near_health, near_power, far_health, far_steps) in [
+        (Some(100), 100, Some(20), 3),
+        (None, 200, Some(20), 2),
+        (Some(20), 100, Some(100), 3),
+        (Some(20), 100, Some(20), 1),
+    ] {
+        let mut seen = view();
+        seen.entities[0].health = near_health;
+        seen.entities[0].power = near_power;
+        seen.entities[1].health = far_health;
+        seen.entities[1].steps = Steps(vec![Direction::Up; far_steps]);
+        let body = life();
+        let rule = curious::entity::hunting::decide(Species::Carnivore, &body, &seen).unwrap();
+        assert_eq!(rule.reason, Reason::HuntPrey);
+        for trained_equal in [false, true] {
+            let mut l = learner();
+            if trained_equal {
+                for prey in &seen.entities {
+                    let context = HuntContext::from_seen(&body, prey, 20);
+                    if !l.values.iter().any(|v| v.context == context) {
+                        l.values.push(HuntValue {
+                            context,
+                            value: 17,
+                            visits: 3,
+                        });
+                    }
+                }
+            }
+            // RNG's first value is 50, explicitly outside the 0..9 epsilon arm.
+            let selected = l.choose(
+                Species::Carnivore,
+                &body,
+                &seen,
+                rule.clone(),
+                &mut Random::new(50),
+            );
+            assert_eq!(
+                selected.intent, rule.intent,
+                "equal Q must not replace rule cost ranking"
+            );
+        }
+    }
+}
+#[test]
+fn v2_learned_value_still_overrides_the_rule_cost_tiebreaker() {
+    let body = life();
+    let seen = view();
+    let rule = curious::entity::hunting::decide(Species::Carnivore, &body, &seen).unwrap();
+    assert_eq!(rule.intent, Intent::Attack { target_id: 10 });
+    let mut l = learner();
+    l.values.push(HuntValue {
+        context: HuntContext::from_seen(&body, &seen.entities[1], 20),
+        value: 50,
+        visits: 3,
+    });
+    l.choose(Species::Carnivore, &body, &seen, rule, &mut Random::new(50));
+    assert_eq!(l.episode.as_ref().unwrap().target, 20);
+}
+
+#[test]
+fn v3_reranks_visible_targets_without_transferring_previous_costs() {
+    let body = life();
+    let mut seen = view();
+    let mut l = learner();
+    l.choose(
+        Species::Carnivore,
+        &body,
+        &seen,
+        base(),
+        &mut Random::new(50),
+    );
+    l.finish(
+        1,
+        &HuntLedger {
+            movement_energy: 7,
+            attack_energy: 3,
+            ..Default::default()
+        },
+    );
+    let old = l.episode.as_ref().unwrap().clone();
+    assert_eq!(old.target, 10);
+    // Both still visible; the previously more expensive prey is now wounded.
+    seen.entities[0].health = Some(100);
+    seen.entities[1].health = Some(1);
+    let rule = curious::entity::hunting::decide(Species::Carnivore, &body, &seen).unwrap();
+    assert!(matches!(rule.intent, Intent::Move { .. }));
+    let chosen = l.choose(
+        Species::Carnivore,
+        &body,
+        &seen,
+        rule.clone(),
+        &mut Random::new(50),
+    );
+    assert_eq!(chosen.intent, rule.intent);
+    let closed = l.last_episode.as_ref().unwrap();
+    assert_eq!(closed.end, HuntEnd::Interrupted);
+    assert_eq!(closed.reward, None);
+    assert_eq!(closed.attempt, old);
+    assert!(l.values.is_empty());
+    let new = l.episode.as_ref().unwrap();
+    assert_eq!(new.target, 20);
+    assert_eq!(new.ticks, 0);
+    assert_eq!(new.movement_energy, 0);
+    assert_eq!(new.attack_energy, 0);
+}
+#[test]
+fn v3_same_target_keeps_initial_context_and_complete_accounting() {
+    let body = life();
+    let seen = view();
+    let mut l = learner();
+    l.choose(
+        Species::Carnivore,
+        &body,
+        &seen,
+        base(),
+        &mut Random::new(50),
+    );
+    l.finish(
+        1,
+        &HuntLedger {
+            movement_energy: 2,
+            attack_energy: 3,
+            ..Default::default()
+        },
+    );
+    let previous = l.episode.as_ref().unwrap().clone();
+    let mut changed_body = body;
+    changed_body.energy = 35; // different context band
+    let rule = curious::entity::hunting::decide(Species::Carnivore, &changed_body, &seen).unwrap();
+    let chosen = l.choose(
+        Species::Carnivore,
+        &changed_body,
+        &seen,
+        rule.clone(),
+        &mut Random::new(50),
+    );
+    assert_eq!(chosen.intent, rule.intent);
+    assert_eq!(l.episode.as_ref().unwrap(), &previous);
+    assert!(l.last_episode.is_none());
+    l.finish(
+        1,
+        &HuntLedger {
+            movement_energy: 4,
+            attack_energy: 3,
+            ..Default::default()
+        },
+    );
+    let continued = l.episode.as_ref().unwrap();
+    assert_eq!(continued.ticks, 2);
+    assert_eq!(continued.movement_energy, 6);
+    assert_eq!(continued.attack_energy, 6);
+    assert_eq!(continued.context, previous.context);
+}

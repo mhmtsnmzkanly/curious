@@ -2,3 +2,5 @@
 
 .experience { overflow-wrap: anywhere; }
 .experience p { font-size: 12px; line-height: 1.65; margin: 10px 0; color: var(--muted, #9eafa1); }
+/* Individual tables remain inspectable without pushing the map off screen. */
+.experience{max-height:440px;overflow:auto;overscroll-behavior:contain;scrollbar-width:thin;padding-right:8px}

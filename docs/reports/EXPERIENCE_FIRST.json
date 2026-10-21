@@ -1,0 +1,402 @@
+{
+  "water_source_revision": "bac0b53eecb089e6f982d872b73e86de54f64862",
+  "water_manifest_sha256": "e121d9eaab96d935f750fc11e1e215666264c8dc02d1646bc3aa179793c2a4bf",
+  "water_raw_sha256": "7f38d8bf1667419df3346851ca4af51a30586963606050ce1460617a79eec783",
+  "water_summary_sha256": "b80d5d9b79b399e062377afbce4a1f9b63f79ea6d76262dc461a0794f4a2d270",
+  "pairs": 8,
+  "controlled_body_reset": true,
+  "mean_per_100_trials": {
+    "rule_based": {
+      "before_first_100": {
+        "water": 500.0,
+        "movement_energy": 0.0,
+        "incoming_damage": 0.0,
+        "rejected_actions": 50.0,
+        "full_drinks": 50.0,
+        "partial_drinks": 0.0,
+        "zero_water": 50.0,
+        "unfinished_episodes": 0.0,
+        "scored_episodes": 0.0,
+        "new_experiences": 0.0,
+        "near_choices": 100.0,
+        "far_choices": 0.0,
+        "other_choices": 0.0
+      },
+      "before_last_100": {
+        "water": 500.0,
+        "movement_energy": 0.0,
+        "incoming_damage": 0.0,
+        "rejected_actions": 50.0,
+        "full_drinks": 50.0,
+        "partial_drinks": 0.0,
+        "zero_water": 50.0,
+        "unfinished_episodes": 0.0,
+        "scored_episodes": 0.0,
+        "new_experiences": 0.0,
+        "near_choices": 100.0,
+        "far_choices": 0.0,
+        "other_choices": 0.0
+      },
+      "after_first_100": {
+        "water": 1000.0,
+        "movement_energy": 0.0,
+        "incoming_damage": 0.0,
+        "rejected_actions": 0.0,
+        "full_drinks": 100.0,
+        "partial_drinks": 0.0,
+        "zero_water": 0.0,
+        "unfinished_episodes": 0.0,
+        "scored_episodes": 0.0,
+        "new_experiences": 0.0,
+        "near_choices": 100.0,
+        "far_choices": 0.0,
+        "other_choices": 0.0
+      },
+      "after_last_100": {
+        "water": 1000.0,
+        "movement_energy": 0.0,
+        "incoming_damage": 0.0,
+        "rejected_actions": 0.0,
+        "full_drinks": 100.0,
+        "partial_drinks": 0.0,
+        "zero_water": 0.0,
+        "unfinished_episodes": 0.0,
+        "scored_episodes": 0.0,
+        "new_experiences": 0.0,
+        "near_choices": 100.0,
+        "far_choices": 0.0,
+        "other_choices": 0.0
+      }
+    },
+    "naive_online": {
+      "before_first_100": {
+        "water": 953.75,
+        "movement_energy": 184.5,
+        "incoming_damage": 0.0,
+        "rejected_actions": 4.625,
+        "full_drinks": 95.375,
+        "partial_drinks": 0.0,
+        "zero_water": 4.625,
+        "unfinished_episodes": 0.0,
+        "scored_episodes": 100.0,
+        "new_experiences": 100.0,
+        "near_choices": 7.75,
+        "far_choices": 92.25,
+        "other_choices": 0.0
+      },
+      "before_last_100": {
+        "water": 970.0,
+        "movement_energy": 189.5,
+        "incoming_damage": 0.0,
+        "rejected_actions": 3.0,
+        "full_drinks": 97.0,
+        "partial_drinks": 0.0,
+        "zero_water": 3.0,
+        "unfinished_episodes": 0.0,
+        "scored_episodes": 100.0,
+        "new_experiences": 100.0,
+        "near_choices": 5.25,
+        "far_choices": 94.75,
+        "other_choices": 0.0
+      },
+      "after_first_100": {
+        "water": 928.75,
+        "movement_energy": 26.5,
+        "incoming_damage": 0.0,
+        "rejected_actions": 7.125,
+        "full_drinks": 92.875,
+        "partial_drinks": 0.0,
+        "zero_water": 7.125,
+        "unfinished_episodes": 0.0,
+        "scored_episodes": 100.0,
+        "new_experiences": 100.0,
+        "near_choices": 86.75,
+        "far_choices": 13.25,
+        "other_choices": 0.0
+      },
+      "after_last_100": {
+        "water": 982.5,
+        "movement_energy": 7.25,
+        "incoming_damage": 0.0,
+        "rejected_actions": 1.75,
+        "full_drinks": 98.25,
+        "partial_drinks": 0.0,
+        "zero_water": 1.75,
+        "unfinished_episodes": 0.0,
+        "scored_episodes": 100.0,
+        "new_experiences": 100.0,
+        "near_choices": 96.375,
+        "far_choices": 3.625,
+        "other_choices": 0.0
+      }
+    },
+    "experienced_online": {
+      "before_first_100": {
+        "water": 963.75,
+        "movement_energy": 186.75,
+        "incoming_damage": 0.0,
+        "rejected_actions": 3.625,
+        "full_drinks": 96.375,
+        "partial_drinks": 0.0,
+        "zero_water": 3.625,
+        "unfinished_episodes": 0.0,
+        "scored_episodes": 100.0,
+        "new_experiences": 100.0,
+        "near_choices": 6.625,
+        "far_choices": 93.375,
+        "other_choices": 0.0
+      },
+      "before_last_100": {
+        "water": 970.0,
+        "movement_energy": 189.5,
+        "incoming_damage": 0.0,
+        "rejected_actions": 3.0,
+        "full_drinks": 97.0,
+        "partial_drinks": 0.0,
+        "zero_water": 3.0,
+        "unfinished_episodes": 0.0,
+        "scored_episodes": 100.0,
+        "new_experiences": 100.0,
+        "near_choices": 5.25,
+        "far_choices": 94.75,
+        "other_choices": 0.0
+      },
+      "after_first_100": {
+        "water": 928.75,
+        "movement_energy": 26.5,
+        "incoming_damage": 0.0,
+        "rejected_actions": 7.125,
+        "full_drinks": 92.875,
+        "partial_drinks": 0.0,
+        "zero_water": 7.125,
+        "unfinished_episodes": 0.0,
+        "scored_episodes": 100.0,
+        "new_experiences": 100.0,
+        "near_choices": 86.75,
+        "far_choices": 13.25,
+        "other_choices": 0.0
+      },
+      "after_last_100": {
+        "water": 982.5,
+        "movement_energy": 7.25,
+        "incoming_damage": 0.0,
+        "rejected_actions": 1.75,
+        "full_drinks": 98.25,
+        "partial_drinks": 0.0,
+        "zero_water": 1.75,
+        "unfinished_episodes": 0.0,
+        "scored_episodes": 100.0,
+        "new_experiences": 100.0,
+        "near_choices": 96.375,
+        "far_choices": 3.625,
+        "other_choices": 0.0
+      }
+    },
+    "experienced_frozen": {
+      "before_first_100": {
+        "water": 963.75,
+        "movement_energy": 186.75,
+        "incoming_damage": 0.0,
+        "rejected_actions": 3.625,
+        "full_drinks": 96.375,
+        "partial_drinks": 0.0,
+        "zero_water": 3.625,
+        "unfinished_episodes": 0.0,
+        "scored_episodes": 100.0,
+        "new_experiences": 0.0,
+        "near_choices": 6.625,
+        "far_choices": 93.375,
+        "other_choices": 0.0
+      },
+      "before_last_100": {
+        "water": 970.0,
+        "movement_energy": 189.5,
+        "incoming_damage": 0.0,
+        "rejected_actions": 3.0,
+        "full_drinks": 97.0,
+        "partial_drinks": 0.0,
+        "zero_water": 3.0,
+        "unfinished_episodes": 0.0,
+        "scored_episodes": 100.0,
+        "new_experiences": 0.0,
+        "near_choices": 5.25,
+        "far_choices": 94.75,
+        "other_choices": 0.0
+      },
+      "after_first_100": {
+        "water": 525.0,
+        "movement_energy": 190.5,
+        "incoming_damage": 0.0,
+        "rejected_actions": 47.5,
+        "full_drinks": 52.5,
+        "partial_drinks": 0.0,
+        "zero_water": 47.5,
+        "unfinished_episodes": 0.0,
+        "scored_episodes": 100.0,
+        "new_experiences": 0.0,
+        "near_choices": 4.75,
+        "far_choices": 95.25,
+        "other_choices": 0.0
+      },
+      "after_last_100": {
+        "water": 531.25,
+        "movement_energy": 187.25,
+        "incoming_damage": 0.0,
+        "rejected_actions": 46.875,
+        "full_drinks": 53.125,
+        "partial_drinks": 0.0,
+        "zero_water": 46.875,
+        "unfinished_episodes": 0.0,
+        "scored_episodes": 100.0,
+        "new_experiences": 0.0,
+        "near_choices": 6.375,
+        "far_choices": 93.625,
+        "other_choices": 0.0
+      }
+    }
+  },
+  "per_seed_differences": [
+    {
+      "training_seed": 1,
+      "evaluation_seed": 30001,
+      "initial_experience_water_difference": 10,
+      "late_reversal_update_water_difference": 450
+    },
+    {
+      "training_seed": 2,
+      "evaluation_seed": 30002,
+      "initial_experience_water_difference": 10,
+      "late_reversal_update_water_difference": 450
+    },
+    {
+      "training_seed": 3,
+      "evaluation_seed": 30003,
+      "initial_experience_water_difference": 10,
+      "late_reversal_update_water_difference": 480
+    },
+    {
+      "training_seed": 4,
+      "evaluation_seed": 30004,
+      "initial_experience_water_difference": 10,
+      "late_reversal_update_water_difference": 430
+    },
+    {
+      "training_seed": 5,
+      "evaluation_seed": 30005,
+      "initial_experience_water_difference": 10,
+      "late_reversal_update_water_difference": 410
+    },
+    {
+      "training_seed": 42,
+      "evaluation_seed": 30006,
+      "initial_experience_water_difference": 10,
+      "late_reversal_update_water_difference": 460
+    },
+    {
+      "training_seed": 12345,
+      "evaluation_seed": 30007,
+      "initial_experience_water_difference": 10,
+      "late_reversal_update_water_difference": 490
+    },
+    {
+      "training_seed": 2026,
+      "evaluation_seed": 30008,
+      "initial_experience_water_difference": 10,
+      "late_reversal_update_water_difference": 440
+    }
+  ],
+  "verification": {
+    "rust_tests": 110,
+    "python_tests": 58,
+    "node_experience_presenter": true,
+    "http_control_recovery": true,
+    "chromium_live_replay": true,
+    "fidelity": {
+      "tick": 200,
+      "seed": 20001,
+      "accepted_biological_state_and_rng_equal_at": [
+        100,
+        200
+      ],
+      "new_learning_fields_validated_inactive": true,
+      "sigkill_recovery_equal": true,
+      "existing_run_protected": true,
+      "policy": {
+        "mate_rendezvous": true,
+        "reserve_opportunities": true
+      },
+      "genetics": {
+        "enabled": true,
+        "mutation_per_mille": 20
+      },
+      "alive": {
+        "Carnivore": 37,
+        "Herbivore": 582
+      },
+      "elapsed_recording_seconds": 52.87131245501223,
+      "closed_shards": 16,
+      "closed_tick_records": 199,
+      "closed_archive_bytes": 57930822,
+      "projected_archive_GiB_per_day_at_0_1_tps": 2.342450849374934,
+      "limits": [
+        "Projection is from a 200-tick isolated sample, not a real-day capacity measurement.",
+        "Active shard, learner growth and future population changes add overhead."
+      ]
+    }
+  },
+  "deployment": {
+    "simulation_engine_unchanged": "7b157af",
+    "viewer_source": "final report commit; see data/replay-runtime.env",
+    "viewer_port": 7883,
+    "data_mount_read_only": true
+  },
+  "hunt_smoke_v1": {
+    "scenario": "scenarios/mixed-refuge.json",
+    "seeds": [
+      1,
+      2
+    ],
+    "ticks": 500,
+    "control_carnivore_extinction": [
+      121,
+      124
+    ],
+    "online_carnivore_extinction": [
+      87,
+      95
+    ],
+    "purpose": "diagnostic smoke, not qualification"
+  },
+  "hunt_smoke_v2": {
+    "control_carnivore_extinction": [
+      121,
+      124
+    ],
+    "online_carnivore_extinction": [
+      82,
+      109
+    ],
+    "empty_frozen_carnivore_extinction": [
+      82,
+      109
+    ],
+    "purpose": "same seen seeds, diagnostic, no acceptance claim"
+  },
+  "hunt_smoke_v3": {
+    "control_carnivore_extinction": [
+      121,
+      124
+    ],
+    "online_carnivore_extinction": [
+      96,
+      121
+    ],
+    "empty_frozen_carnivore_extinction": [
+      98,
+      119
+    ],
+    "purpose": "same seen seeds, ranking-only diagnostic; no demonstrated ecological benefit",
+    "qualified": false
+  },
+  "water_preserved_binary": "/root/curious/bin/releases/experience-trial-bac0b53"
+}

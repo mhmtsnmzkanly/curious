@@ -8,7 +8,8 @@ AI bireyin mevcut kararını verir. Yüksek öncelikli kararlar değiştirilemez
 `HuntLearner::choose(species, life, view, base, rng)` yalnız `HuntPrey` kararında,
 görünür ve hareket+ilk saldırı maliyeti karşılanabilen adayları sıralar. Mevcut
 saldırı/dayanıklılık ve uzak av tahmin eşikleri korunur. Yürütme ve son yetki
-çözümleyicidedir. Mesafe ve kimlik eşit puan bağını kararlı çözer; kimlik öğrenilmiş
+çözümleyicidedir. Eşit öğrenilmiş puanda kurallı politikanın tahmini maliyet, mesafe ve kimlik
+sırası bağı kararlı çözer; kimlik öğrenilmiş
 tablonun anahtarı değildir. En az iki aday varken %10 keşif dünya RNG'sini kullanır.
 `update_enabled=false` aynı keşif politikasını ve bölüm muhasebesini koruyup tabloyu
 dondurur; böylece rastgele arama ile bilgi güncellemesi ayrı karşılaştırılabilir.
@@ -66,3 +67,31 @@ boş tabloyu güncellemeden kullanır; eğitimli tabloyla frozen değerlendirme
 yerine geçmez. Doğru eğitimli/frozen av karşılaştırması ayrı deney olarak
 yapılmalıdır. Şu ana kadarki testler mekanizma doğrulamasıdır; av öğrenmesinin
 yiyecek edinme, hayatta kalma veya üreme üstünlüğü kanıtlanmış değildir.
+
+## V2: eşit puanda kurallı sıralama
+
+İlk aday boş tabloda eşit puanlı avları yalnız mesafe/kimlikle sıralıyordu. Bu,
+öğrenme gerçekleşmeden kurallı tahmini av maliyeti tercihini değiştirerek kontrol
+kıyasını kirletiyordu. V2 yalnız eşit öğrenilmiş puanda mevcut kurallı
+`estimated_cost, distance, id` sırasını korur. Farklı öğrenilmiş puan ve açıkça
+yapılan %10 keşif değişmez. V2 sırasında kalan hedef kilidi V3 ile kaldırılır.
+Bu düzeltme kısa negatif smoke sonucunu başarı
+veya ekolojik kabul olarak yeniden yorumlamaz.
+
+## V3: bölüm muhasebedir, hedef kilidi değildir
+
+V1/V2 açık bölümün hâlâ görünen hedefini otomatik sürdürüyordu. Bu, yalnız aday
+sıralama sözleşmesine ek bir takip stratejisi getiriyordu. V3 her `HuntPrey`
+kararında aynı Q/epsilon/kurallı maliyet sırasını yeniden uygular. Aynı hedef
+seçilirse birikmiş maliyet ve ilk bağlam korunur. Yeni hedef seçilirse eski bölüm
+ödülsüz `Interrupted`, eski hedef artık görünmüyorsa `TargetLost` ile kapanır;
+yeni hedefe eski maliyet taşınmaz. Kendi öldürdüğü leşe normal `Eat` geçişi
+korunur. Ödül, keşif oranı veya süre sınırı değiştirilmez.
+
+Kısa iki-seed V2 smoke'unda hem çevrimiçi hem boş/dondurulmuş kol kontrolün
+avcılarından erken tükendi; ikisi aynı sonucu verdi. Bu, öğrenme yararı değildir.
+V3 bir semantik düzeltmedir; önceki olumsuz sonuçları kabul sonucuna dönüştürmez.
+Bu mekanizma hâlâ sık hedef değiştirme nedeniyle puansız kapanan çok bölüm,
+sadece kendi öldürdüğü avdan ilk öğüne kredi ve dış yaralanmayı belirsiz sayan
+muhasebe gibi sınırlara sahiptir. Öğrenilmiş tablonun yararı ayrı eğitimli/frozen
+ve bağımsız koşullarda henüz kanıtlanmamıştır. Varsayılan kapalı kalır.

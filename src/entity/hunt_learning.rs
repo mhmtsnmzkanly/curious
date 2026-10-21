@@ -183,15 +183,19 @@ impl HuntLearner {
                     && (travel == 0 || estimate <= life.energy)
             })
             .collect();
-        if let Some(e) = &self.episode {
-            if let Some(p) = candidates.iter().find(|p| p.id == e.target) {
-                return Self::decision(p, life);
+        // The episode is an accounting window, never a target lock. Re-rank
+        // every HuntPrey tick, using the same Q/epsilon/rule-cost policy.
+        let old_end = self.episode.as_ref().map(|e| {
+            if view.entities.iter().any(|p| p.id == e.target) {
+                HuntEnd::Interrupted
+            } else {
+                HuntEnd::TargetLost
             }
-            // Changing candidate mid-episode would incorrectly assign all costs
-            // to the new prey. Close the old episode without fabricated failure.
-            self.interrupt(HuntEnd::TargetLost);
-        }
+        });
         if candidates.is_empty() {
+            if let Some(end) = old_end {
+                self.interrupt(end);
+            }
             return base;
         }
         let index = if candidates.len() > 1 && rng.range(0, 99) < 10 {
@@ -205,15 +209,38 @@ impl HuntLearner {
                         .iter()
                         .find(|v| v.context == c)
                         .map_or(0, |v| v.value);
+                    // V2: equal learned scores retain the rule policy's
+                    // estimated-cost ordering. Nearest-first here silently
+                    // changed naive behavior before any experience existed.
+                    let prey = candidates[*i];
+                    let hits = prey
+                        .health
+                        .unwrap_or(prey.power)
+                        .div_ceil(profile.damage.max(1));
+                    let estimated_cost = prey
+                        .steps
+                        .len()
+                        .saturating_sub(1)
+                        .saturating_mul(life.move_energy_cost)
+                        .saturating_add(hits.saturating_mul(profile.energy_cost + 1));
                     (
                         q,
-                        std::cmp::Reverse(candidates[*i].steps.len()),
-                        std::cmp::Reverse(candidates[*i].id),
+                        std::cmp::Reverse(estimated_cost),
+                        std::cmp::Reverse(prey.steps.len()),
+                        std::cmp::Reverse(prey.id),
                     )
                 })
                 .unwrap()
         };
         let p = candidates[index];
+        if self.episode.as_ref().is_some_and(|e| e.target == p.id) {
+            // Same selected target: retain initial context, elapsed ticks and
+            // every audited cost. Only a genuinely new target starts fresh.
+            return Self::decision(p, life);
+        }
+        if let Some(end) = old_end {
+            self.interrupt(end);
+        }
         self.episode = Some(HuntEpisode {
             target: p.id,
             context: HuntContext::from_seen(life, p, profile.damage),
