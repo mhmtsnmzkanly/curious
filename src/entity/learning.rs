@@ -16,16 +16,22 @@ pub struct Value {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Learner {
     pub enabled: bool,
+    #[serde(default = "updates_enabled")]
+    pub update_enabled: bool,
     pub values: Vec<Value>,
     #[serde(default)]
     pub episode: Option<WaterEpisode>,
     #[serde(default)]
     pub last_episode: Option<WaterResult>,
 }
+fn updates_enabled() -> bool {
+    true
+}
 impl Default for Learner {
     fn default() -> Self {
         Self {
             enabled: true,
+            update_enabled: true,
             values: vec![],
             episode: None,
             last_episode: None,
@@ -223,18 +229,20 @@ impl Learner {
             - attempt.ticks as i64
             - if water == 0 { 10 } else { 0 })
         .clamp(-1000, 1000) as i32;
-        if let Some(v) = self.values.iter_mut().find(|v| v.pos == attempt.target) {
-            v.value += (reward - v.value) / 4;
-            v.visits = v.visits.saturating_add(1);
-        } else {
-            if self.values.len() == 32 {
-                self.values.remove(0);
+        if self.update_enabled {
+            if let Some(v) = self.values.iter_mut().find(|v| v.pos == attempt.target) {
+                v.value += (reward - v.value) / 4;
+                v.visits = v.visits.saturating_add(1);
+            } else {
+                if self.values.len() == 32 {
+                    self.values.remove(0);
+                }
+                self.values.push(Value {
+                    pos: attempt.target,
+                    value: reward,
+                    visits: 1,
+                });
             }
-            self.values.push(Value {
-                pos: attempt.target,
-                value: reward,
-                visits: 1,
-            });
         }
         self.last_episode = Some(WaterResult {
             attempt,

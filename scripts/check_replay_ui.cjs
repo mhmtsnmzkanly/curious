@@ -16,7 +16,7 @@ for shard in range(3):
  c.executescript('CREATE TABLE records(id INTEGER PRIMARY KEY,tick INTEGER,at_ms TEXT,kind TEXT,state_json TEXT,metrics_json TEXT); CREATE TABLE decision_traces(record_id INTEGER,entity_id INTEGER,trace_json TEXT); CREATE TABLE events(record_id INTEGER,ordinal INTEGER,payload TEXT);')
  for i in range(3):
   tick=shard*3+i
-  e={'id':1,'species':'Herbivore','pos':{'x':i,'y':1},'generation':tick,'parents':[], 'life':{'health':100,'max_health':120,'energy':60,'max_energy':80,'water':30,'max_water':60,'stamina':12,'max_stamina':16,'age':tick},'memory':{},'learner':{},'genome':{}}
+  e={'id':1,'species':'Herbivore','pos':{'x':i,'y':1},'generation':tick,'parents':[], 'life':{'health':100,'max_health':120,'energy':60,'max_energy':80,'water':30,'max_water':60,'stamina':12,'max_stamina':16,'age':tick},'memory':{},'learner':{'enabled':True,'update_enabled':False,'values':[{'pos':{'x':4,'y':3},'value':80,'visits':7}],'episode':None,'last_episode':None},'genome':{}}
   state={'tick':tick,'bounds':[0,5,0,5],'entities':[e],'resources':[[{'x':4,'y':3},{'Water':{'amount':10}}]],'environment':{'sites':[]}}
   c.execute('INSERT INTO records VALUES(?,?,?,?,?,?)',(i+1,tick,str(1700000000000+tick*1000),'tick',json.dumps(state),json.dumps({'alive':1})))
   c.execute('INSERT INTO decision_traces VALUES(?,?,?)',(i+1,1,json.dumps({'id':1,'reason':'SeekWater','intent':'Wait','outcome':{}})))
@@ -43,6 +43,8 @@ for shard in range(3):
   await page.goto(base+'/replay');await page.waitForFunction(()=>document.querySelector('#tick').textContent==='8');
   assert.equal(await page.locator('#map-empty').isVisible(),false,'empty-state overlay on a populated world');
   await page.locator('#roster button').first().click();assert.match(await page.locator('#individual-title').textContent(),/#1/);
+  assert.match(await page.locator('#experience').textContent(),/7 puanlanmış deneme/);
+  assert.match(await page.locator('#experience').textContent(),/tablo sabit tutulur/);
   await page.locator('#timeline').fill('0');await page.locator('#timeline').dispatchEvent('input');await page.waitForFunction(()=>document.querySelector('#tick').textContent==='6');
   await page.locator('#beginning').click();await page.waitForFunction(()=>document.querySelector('#tick').textContent==='0');
   await page.locator('#roster button').first().click();

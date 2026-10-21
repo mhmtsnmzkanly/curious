@@ -21,6 +21,7 @@ impl IntentCollectionSystem {
             let view = PerceptionSystem::with_index(world, slot, &index);
             let rng = world.rng.state();
             let mut learner = slot.learner.clone();
+            let mut hunt_learner = slot.hunt_learner.clone();
             let mut memory = slot.memory.clone();
             memory.observe(slot.pos, &view, world.tick_counter, slot.base.species());
             let decision = if let Some(intent) = world.command_inputs.get(&slot.id) {
@@ -79,6 +80,13 @@ impl IntentCollectionSystem {
                 learner.interrupt(crate::entity::learning::WaterEnd::Interrupted);
                 decision
             };
+            let decision = hunt_learner.choose(
+                slot.base.species(),
+                slot.base.life(),
+                &view,
+                decision,
+                &mut world.rng,
+            );
             let full = world.observation.full_all || world.observation.full_for.contains(&slot.id);
             log.push(format!(
                 "[Decision] @{} {:?} => {:?}",
@@ -98,6 +106,7 @@ impl IntentCollectionSystem {
             ));
             world.entities[slot_index].memory = memory;
             world.entities[slot_index].learner = learner;
+            world.entities[slot_index].hunt_learner = hunt_learner;
         }
         world.last_decisions = traces;
         intents

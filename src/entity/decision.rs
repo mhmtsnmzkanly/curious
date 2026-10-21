@@ -27,6 +27,7 @@ pub enum Reason {
     SeekFood,
     PrepareReproduction,
     HuntPrey,
+    LearnedHunt,
     SearchFood,
     ApproachMate,
     Mate,

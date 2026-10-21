@@ -3,6 +3,7 @@ pub mod controller;
 pub mod decision;
 pub mod foraging;
 pub mod genetics;
+pub mod hunt_learning;
 pub mod hunting;
 pub mod instinct;
 pub mod intent;

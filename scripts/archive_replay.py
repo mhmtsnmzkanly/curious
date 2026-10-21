@@ -170,7 +170,7 @@ class ReplayApplication:
 class ReplayHandler(BaseHTTPRequestHandler):
     app: ReplayApplication
     web: Path
-    routes = {"/", "/replay", "/replay.html", "/replay.js", "/replay.css"}
+    routes = {"/", "/replay", "/replay.html", "/replay.js", "/replay.css", "/experience.js"}
 
     def log_message(self, fmt, *args):
         print(f"{self.client_address[0]} {fmt % args}")

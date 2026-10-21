@@ -30,6 +30,8 @@ pub enum SimulationEvent {
         to: Position,
     },
     EntityAte {
+        #[serde(default)]
+        corpse_id: Option<usize>,
         id: usize,
         pos: Position,
         amount: usize,
@@ -40,6 +42,10 @@ pub enum SimulationEvent {
         amount: usize,
     },
     EntityAttacked {
+        #[serde(default)]
+        energy_cost: usize,
+        #[serde(default)]
+        killed: bool,
         attacker: usize,
         target: usize,
         damage: usize,

@@ -3,7 +3,7 @@ const $ = (id) => document.getElementById(id);
 const canvas = $("world"), ctx = canvas.getContext("2d");
 const colors = {Herbivore:"#bddc94",Carnivore:"#eca080",Omnivore:"#b7a0db"};
 const names = {Herbivore:"Otçul",Carnivore:"Etçil",Omnivore:"Hepçil"};
-const labels = {SeekWater:"Su arıyor",SearchWater:"Su arıyor",RecallWater:"Hatırladığı suya gidiyor",SeekFood:"Besleniyor",SearchFood:"Yiyecek arıyor",HuntPrey:"Avını izliyor",EscapeThreat:"Tehlikeden kaçıyor",SeekShelter:"Sığınağa kaçıyor",Rest:"Dinleniyor",Mate:"Eşleşiyor",Explore:"Çevresini araştırıyor",RecoverStamina:"Dinleniyor",LearnedWater:"Deneyimine göre su seçti"};
+const labels = {SeekWater:"Su arıyor",SearchWater:"Su arıyor",RecallWater:"Hatırladığı suya gidiyor",SeekFood:"Besleniyor",SearchFood:"Yiyecek arıyor",LearnedHunt:"Deneyimine göre av seçti",HuntPrey:"Avını izliyor",EscapeThreat:"Tehlikeden kaçıyor",SeekShelter:"Sığınağa kaçıyor",Rest:"Dinleniyor",Mate:"Eşleşiyor",Explore:"Çevresini araştırıyor",RecoverStamina:"Dinleniyor",LearnedWater:"Deneyimine göre su seçti"};
 let shards=[], records=[], current=null, selected=null, playing=false, timer=null, cursor=0, meta=null, navigation=0, playbackRun=0;
 function api(path) { return fetch(path,{cache:"no-store"}).then(async r=>{const d=await r.json();if(!r.ok)throw Error(d.error||"Arşiv okunamadı");return d;}); }
 function esc(value) { return String(value ?? "—"); }
@@ -59,6 +59,7 @@ function renderSummary() {
   }
   const details=$("details");details.replaceChildren();
   if(e){for(const [k,v] of [["Konum",`${e.pos?.x}, ${e.pos?.y}`],["Tür",names[e.species]||e.species],["Ebeveynler",e.parents?.length?e.parents.map(x=>`#${x}`).join(" & "):"Kurucu"],["Bellek",`${e.memory?.sites?.length||0} kaynak · ${e.memory?.dangers?.length||0} tehlike`]]){const dt=document.createElement("dt"),dd=document.createElement("dd");dt.textContent=k;dd.textContent=esc(v);details.append(dt,dd);}}
+  CuriousExperience.render($("experience"),e,(current?.decisions||[]).find(d=>d.id===selected));
   const decisionBox=$("decisions");decisionBox.replaceChildren();
   const traceList=(current?.decisions||[]).filter(d=>selected===null||d.id===selected);
   const counts={};for(const d of traceList){const reason=d.decision?.reason||"Bilinmiyor";counts[labels[reason]||reason]=(counts[labels[reason]||reason]||0)+1;}

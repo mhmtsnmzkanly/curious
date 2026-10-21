@@ -214,6 +214,7 @@ impl World {
                 slot.learner.finish(slot.id, alive, &events);
             }
         }
+        crate::systems::hunt_outcomes::finish(&mut self.entities, &events);
         for trace in &mut self.last_decisions {
             if let Some(slot) = self.entities.iter().find(|s| s.id == trace.id) {
                 trace.outcome = Some(crate::entity::decision::Outcome {

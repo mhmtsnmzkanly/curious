@@ -55,7 +55,15 @@ def run(args):
             ref.wait(timeout=120);assert ref.returncode==0
             for tick,state in [(100,durable),(200,final)]:
                 expected=json.loads((reference/f'seed-{conditions["seed"]}'/f'checkpoint-{tick}.json').read_text())
-                assert state==expected,f'HTTP runtime differs from the frozen qualified engine at {tick}'
+                # Compare the accepted V12 biology; V13 adds inactive learning fields.
+                comparable=json.loads(json.dumps(state))
+                if state['version']==13 and expected['version']==12:
+                    comparable['version']=12
+                    for individual in comparable['entities']:
+                        hunt=individual.pop('hunt_learner')
+                        assert hunt=={'enabled':False,'update_enabled':True,'values':[],'episode':None,'last_episode':None}
+                        assert individual['learner'].pop('update_enabled') is True
+                assert comparable==expected,f'HTTP runtime differs from the frozen qualified biology at {tick}'
             inventory=request('/databases');sealed=[s for s in inventory if s['compressed']]
             ticks=0
             for shard in sealed:
@@ -67,7 +75,7 @@ def run(args):
                 candidates=list(data.glob(f'history-{last["shard"]:06}.sqlite.*'))
                 assert len(candidates)==1
                 shutil.copy2(candidates[0],args.archive_sample)
-            evidence={'tick':final['tick'],'seed':conditions['seed'],'full_state_and_rng_equal_at':[100,200],
+            evidence={'tick':final['tick'],'seed':conditions['seed'],'accepted_biological_state_and_rng_equal_at':[100,200],'new_learning_fields_validated_inactive':True,
                       'sigkill_recovery_equal':True,'existing_run_protected':True,
                       'policy':final['policy'],'genetics':final['genetics'],
                       'alive':dict(Counter(e['species'] for e in final['entities'] if e['life']['health']>0)),

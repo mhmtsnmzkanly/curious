@@ -84,6 +84,7 @@ impl InteractionSystem {
             if amount > 0 {
                 entities[eater].base.life_mut().restore_energy(amount);
                 events.push(SimulationEvent::EntityAte {
+                    corpse_id: p.corpse_id,
                     id: p.id,
                     pos: p.resource_pos,
                     amount,
@@ -222,6 +223,10 @@ impl InteractionSystem {
                 child,
             ));
             if let Some(child) = new_entities.last_mut() {
+                child.hunt_learner.enabled =
+                    entities[s].hunt_learner.enabled && entities[t].hunt_learner.enabled;
+                child.hunt_learner.update_enabled = entities[s].hunt_learner.update_enabled
+                    && entities[t].hunt_learner.update_enabled;
                 child.genome = genome;
                 child.generation = generation;
                 child.parents = vec![plan.self_id, plan.target_id];
@@ -337,6 +342,8 @@ impl InteractionSystem {
                 target.entity_mut().life_mut().take_damage(combat.damage);
 
                 events.push(SimulationEvent::EntityAttacked {
+                    energy_cost: combat.energy_cost,
+                    killed: !target.base.life().is_alive(),
                     attacker: plan.attacker_id,
                     target: plan.target_id,
                     damage: combat.damage,

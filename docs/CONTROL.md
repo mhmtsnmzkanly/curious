@@ -1,3 +1,26 @@
+# V13 — deneyim ve deneysel av seçimi
+
+Yeni geliştirme StateV13 kullanır; SQLiteV2 değişmez. Individual.hunt_learner
+varsayılan kapalıdır. V1–V12 göçünde boş/kapalı başlar; su update_enabled
+varsayılan true olur. V13 alanları checkpoint/UpdateEntity doğrulamasından
+geçer. Eski motor V13 okuyamaz; çalışan dünyaların frozen ikilileri değiştirilmez.
+
+Su Learner.update_enabled=false, öğrenilmiş tercih ve aynı keşif mekanizmasını
+korurken değer/ziyaret güncellemesini kapatır; sonuç muhasebesi sürer.
+Av öğrenicisi 108 görünür bağlamla/en çok20tick bölümle sınırlıdır. Hareket ve
+saldırı enerjisi resolver olaylarından gelir. EntityAttacked yeni energy_cost
+ve killed alanları, EntityAte corpse_id alanı taşır; eski olaylarda serde
+varsayılanları kullanılır. Yeni fiziksel maliyet eklenmez. Hedefe başka bireyin
+vuruşu veya nedenselliği belirsiz sonuç başarı puanına çevrilmez.
+
+Av öğrenme bayrakları yavruda her iki ebeveyn de açıksa açık, aksi durumda kapalı
+başlar; öğrenilmiş av tablosu, bölüm ve sonuç yavruya kopyalanmaz. Su/genetik
+eski davranışı bu değişiklikle genişletilmez. --hunt-learning probe seçeneği
+açık deneydir; --frozen-hunt ayrıca bu seçeneği gerektirir. Protokol/kanıt
+olmadan canlı karma dünyada açılmaz. Ayrıntılar HUNT_LEARNING.md ve
+EXPERIENCE_PROTOCOL.md. /experience.js canlı UI ve salt okunur replay için
+ortak kayıt sunumudur; yaş/nesil öğrenme başarısı diye gösterilmez.
+
 # Kalıcı kayıt ve kontrol servisi
 
 ## Donmuş rezerv araştırması

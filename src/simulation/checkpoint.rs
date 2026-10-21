@@ -17,6 +17,8 @@ pub struct Individual {
     #[serde(default)]
     pub learner: crate::entity::learning::Learner,
     #[serde(default)]
+    pub hunt_learner: crate::entity::hunt_learning::HuntLearner,
+    #[serde(default)]
     pub memory: crate::entity::memory::Memory,
     #[serde(default)]
     pub generation: usize,
@@ -72,7 +74,7 @@ impl State {
         commands.sort_by_key(|(id, _)| *id);
         Self {
             policy: world.policy.clone(),
-            version: 12,
+            version: 13,
             genetics: world.genetics.clone(),
             observation: world.observation.clone(),
             environment: world.environment.clone(),
@@ -93,6 +95,7 @@ impl State {
                 .map(|s| Individual {
                     genome: s.genome.clone(),
                     learner: s.learner.clone(),
+                    hunt_learner: s.hunt_learner.clone(),
                     memory: s.memory.clone(),
                     generation: s.generation,
                     parents: s.parents.clone(),
@@ -108,7 +111,7 @@ impl State {
         }
     }
     pub fn restore(mut self) -> Result<World> {
-        if !(1..=12).contains(&self.version) {
+        if !(1..=13).contains(&self.version) {
             return Err("unsupported checkpoint version".into());
         }
         if self.version < 12 {
@@ -117,9 +120,16 @@ impl State {
                 individual.memory.social = Default::default();
             }
         }
+        if self.version < 13 {
+            for individual in &mut self.entities {
+                individual.hunt_learner = Default::default();
+                individual.learner.update_enabled = true;
+            }
+        }
         for individual in &self.entities {
             individual.memory.validate()?;
             individual.learner.validate()?;
+            individual.hunt_learner.validate()?;
         }
         let [a, b, c, d] = self.bounds;
         let mut map = Map::new(a, b, c, d);
@@ -139,6 +149,7 @@ impl State {
                 );
                 slot.genome = s.genome;
                 slot.learner = s.learner;
+                slot.hunt_learner = s.hunt_learner;
                 slot.memory = s.memory;
                 slot.generation = s.generation;
                 slot.parents = s.parents;

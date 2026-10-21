@@ -60,3 +60,9 @@ SQLite+arşiv+checkpoint, kontrol/gözlem, hareket sözleşmeleri, bireysel haf�
 sınırlı öğrenme, bedelli kalıtım/mutasyon, responsive gözlem ekranı, nüfus ölçümü,
 izleyici gözetimi, sürümlü ikili/yedekli laboratuvar dağıtımı. Test/commit/temizlik/
 önemli Notify döngüsü devam eder.
+
+21 Ekim öğrenme geliştirmesi: varsayılan kapalı av seçimi adayı+fiziksel
+muhasebe+V13 kurtarma ve deneyim görünümü eklendi. Av öğrenmesinin gerçek
+karşılaştırmalı eğitim/frozen/naive deneyleri ve ayrı ekosistem kabulü açık;
+mevcut7882dünya bu adayla yükseltilmez. Su ölçümü EXPERIENCE_PROTOCOL.md
+sözleşmesiyle çalışır; sonuçlar deneyim raporunda tutulur.

@@ -6,6 +6,7 @@ use crate::{
 /// Canlının yönetim biçimi ve temel verileri
 pub struct EntitySlot {
     pub genome: crate::entity::genetics::Genome,
+    pub hunt_learner: crate::entity::hunt_learning::HuntLearner,
     pub learner: crate::entity::learning::Learner,
     pub memory: crate::entity::memory::Memory,
     pub generation: usize,
@@ -34,6 +35,7 @@ impl EntitySlot {
     ) -> EntitySlot {
         Self {
             learner: Default::default(),
+            hunt_learner: Default::default(),
             genome: Default::default(),
             memory: Default::default(),
             generation: 0,

@@ -102,6 +102,8 @@ fn accounting_uses_actor_and_target_events_not_net_body_deltas() {
                 energy_cost: 100,
             },
             SimulationEvent::EntityAttacked {
+                energy_cost: 1,
+                killed: false,
                 attacker: 9,
                 target: 1,
                 damage: 7,

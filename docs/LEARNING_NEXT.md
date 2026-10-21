@@ -81,3 +81,16 @@ puanlanmaz. Ayrıntı `CONTROL.md` V10 bölümündedir.
 
 Bu dosyanın av öğrenmesi kısmı uygulama sözleşmesi taslağıdır. Genel av öğrenmesi henüz uygulanmadı;
 uzun denge taraması yalnız mevcut su öğrenmesi ve hareket mutasyonunu içerir.
+
+## Uygulama — 21 Ekim
+
+İlk av seçimi adayı entity/hunt_learning.rs içinde varsayılan kapalı olarak
+uygulandı; resolver muhasebesi systems/hunt_outcomes.rs içinde ayrıdır.
+CheckpointV13,108bağlam,20tick sınır, frozenupdates ve kimlikli av/leş kredisi
+vardır. Mekanizma ve gerçek öldürme/beslenme/kurtarma testleri, öğrenmenin
+ekolojik veya hayatta kalma üstünlüğünü kanıtlamaz. Bunun için yukarıdaki
+karşılaştırmalı av deneyi/ayrı karma doğrulama kapıları hâlâ açık.
+
+Su öğrenmesi dört kollu EXPERIENCE_PROTOCOL.md ile ayrıca ölçülür. Canlı ve
+replay deneyim sunumu artık kayıtlardaki tercihleri/puanlanmış denemeleri ve
+bölümün kesilmesini gösterir. Eski kayıtta bulunmayan av verisi uydurulmaz.

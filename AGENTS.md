@@ -369,3 +369,22 @@ ProtectSystem=strict ile korunur; geçici cache256MiB/ençok2shard.
 Simülasyon7882/frozen motor değişmez. Ayrıntı docs/ARCHIVE_REPLAY.md;
 55Python ve bağımsızChromium desktop/mobile/read-only/baythash testi geçti.
 Kaynak data/replay-runtime.env içindeki frozenworktree'den çalıştırılır.
+
+## 21 Ekim — üç ajanla deneyim/av öğrenmesi geliştirmesi
+
+Kullanıcı üç alt ajanla başlamayı onayladı. Su deneyimi için dört kollu
+EXPERIENCE_PROTOCOL.md; deneysel av seçimi için entity/hunt_learning.rs ve
+systems/hunt_outcomes.rs; ortak web/experience.js görünümü eklendi.
+Geliştirme checkpointV13/SQLiteV2: hunt_learner varsayılan kapalı, eski
+V1–V12 göçünde boş/kapalı. Su update_enabled true default; false yalnız
+güncellemeyi durdurur, tercih/keşif/sonuç muhasebesi sürer. Resolver olayları
+saldırıenergy_cost/killed ve yemekte corpse_id audit alanları taşır. Bunlar
+fiziksel kuralı değiştirmez. Avın başka bireyce öldürülmesi/belirsizlik başarı
+ödülü değildir; tablonun yavruya aktarılması yoktur.
+
+Çalışan7882world hâlâ7b157af/V12dir; yükseltme yok. Su16k kontrollü tick
+bedenleri açıkça sıfırlar, gerçek yaş/yaşam üstünlüğü değildir. Deneysource
+SHA/manifest/ham sonuçlar korunur. Avın kontrol/frozen/naive fiziksel
+karşılaştırması ve ayrı ekosistem kapısı henüz açık; genelML/evrim denmez.
+Yeni uzun denge taraması başlatma. Yeni presenter hemcanlıUI hemreplay'de
+kayıttan deneyim/maliyet/kesinti gösterir; eski kayıtta av verisi yok denir.

@@ -231,6 +231,7 @@ impl Runtime {
                 e.life.validate()?;
                 e.memory.validate()?;
                 e.learner.validate()?;
+                e.hunt_learner.validate()?;
                 e.genome.validate()?;
                 let s = self
                     .world
@@ -247,6 +248,7 @@ impl Runtime {
                 );
                 s.genome = e.genome;
                 s.learner = e.learner;
+                s.hunt_learner = e.hunt_learner;
                 s.memory = e.memory;
                 s.generation = e.generation;
                 s.parents = e.parents;
@@ -359,6 +361,10 @@ pub fn serve(mut runtime: Runtime, bind: &str, token: Option<String>) -> Result<
                 ("GET", "/ui.css") => {
                     Some((include_str!("../web/style.css"), "text/css; charset=utf-8"))
                 }
+                ("GET", "/experience.js") => Some((
+                    include_str!("../web/experience.js"),
+                    "text/javascript; charset=utf-8",
+                )),
                 ("GET", "/archive.js") => Some((
                     include_str!("../web/archive.js"),
                     "text/javascript; charset=utf-8",
