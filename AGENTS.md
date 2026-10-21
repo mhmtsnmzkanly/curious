@@ -358,3 +358,14 @@ yeni dünyayı görür. İlk578H/32C,~75MiBRSS,9fd; bunlar güncel sanılmamalı
 Gerçek1/7/30gün henüz dolmadı; mevcut sonraki iş bu gözlemi kontrol etmek,
 kapasiteyi gerçek örneklerle değerlendirmek ve sınırlı av öğrenmesine geçişi
 LEARNING_NEXT sözleşmesine göre ele almak. Yeni uzun denge taraması yok.
+
+## Salt okunur kayıt izleyicisi — Luna alt ajanı
+
+Kullanıcı Luna'ya delegasyonu açıkça istedi. scripts/archive_replay.py +
+web/replay.html/js/css ayrı salt okunur viewer; deploy/curious-replay.service
+7883loopback kullanır. GET sabitAPI, readonlySQLite/WAL, gzip/zstd desteği;
+oynatma sadece tarayıcıda. Veri diziniOSseviyesinde ReadOnlyPaths ve
+ProtectSystem=strict ile korunur; geçici cache256MiB/ençok2shard.
+Simülasyon7882/frozen motor değişmez. Ayrıntı docs/ARCHIVE_REPLAY.md;
+55Python ve bağımsızChromium desktop/mobile/read-only/baythash testi geçti.
+Kaynak data/replay-runtime.env içindeki frozenworktree'den çalıştırılır.

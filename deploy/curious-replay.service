@@ -1,0 +1,22 @@
+[Unit]
+Description=Curious read-only archive viewer
+After=network.target
+[Service]
+Type=simple
+EnvironmentFile=/root/curious/data/replay-runtime.env
+Environment=PYTHONDONTWRITEBYTECODE=1
+WorkingDirectory=/root/curious
+ExecStart=/usr/bin/python3 ${CURIOUS_REPLAY_SOURCE}/scripts/archive_replay.py --data-dir /root/curious/data/coexistence --bind 127.0.0.1 --port 7883
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=10
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=read-only
+ReadOnlyPaths=/root/curious/data/coexistence
+MemoryMax=256M
+CPUQuota=100%
+UMask=0077
+[Install]
+WantedBy=multi-user.target
