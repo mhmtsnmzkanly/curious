@@ -411,3 +411,20 @@ eşit; ek alanların kapalı/boşluğu doğrulandı. StateV13/SQLiteV2; çalış
 V12/7b157af korunur. Yalnız7883reader yeni presenterla güncellenir; kaynak
 replay-runtime.env'deki frozenpath. İlktercihyeniuzun tarama değil, av için
 öncedensabit kontrollütrain/naive/trained-frozen deneyi ve nedenselölçüm.
+
+## Av laboratuvarı v1
+
+Kullanıcı 'av lab kur' istedi. Önceden docs/HUNT_LAB_PROTOCOL.md sabitlendi.
+examples/hunt_lab.rs gerçekWorld/resolver ile passive/defensive iki iz,8ayrı
+eğitim/eval çift ve kurallı/naive/deneyimli/frozen dört kol kullanır.80eğitim
++4×80eval, trialençok20tick; toplam128000ticküst sınır, sonlu300skomut.
+Başlangıç beden/yaş/algı eşit; ilk40evalsonrası kaçan/bekleyen av rolleri değişir.
+Ödül/epsilon/biyolojikparametre değiştirilmez. Bütünsonuçlar HuntEpisodeEnded
+auditolayıyla izlenir (aynıtickte2sonuç dahil); transientqueue checkpointte
+yok, World.tick sonundaboşalır. StateV13/SQLiteV2 değişmez.
+
+run_hunt_lab.py temizsource/freshoutput ister; immutableikili/protokol ve
+raw/manifest/summary +16kısaSQLite örneği saklar. Triallimit kesintisi motor
+başarısızlığı diye puanlanmaz. Bedenenerjibütçesi gerçek food/actioncost ile
+ayrı denetlenir. Sonuçlar görülmeden üstünlük iddiası yok. Çalışan7882/7883
+source/ayarları değişmez. Kullanım docs/HUNT_LAB.md.

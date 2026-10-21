@@ -5,6 +5,10 @@ use crate::map::movement::Position;
 /// Bu olaylar ağ üzerinden istemcilere (clients) gönderilebilir.
 #[derive(serde::Serialize, serde::Deserialize, Debug, Clone)]
 pub enum SimulationEvent {
+    HuntEpisodeEnded {
+        id: usize,
+        result: crate::entity::hunt_learning::HuntResult,
+    },
     ResourceReplenished {
         pos: Position,
         kind: crate::environment::ResourceKind,
@@ -121,7 +125,8 @@ impl SimulationEvent {
     pub fn involves(&self, entity: usize) -> bool {
         match self {
             Self::ResourceReplenished { .. } => false,
-            Self::EntityMoved { id, .. }
+            Self::HuntEpisodeEnded { id, .. }
+            | Self::EntityMoved { id, .. }
             | Self::EntityAte { id, .. }
             | Self::EntityDrank { id, .. }
             | Self::EntityDied { id, .. }

@@ -215,6 +215,14 @@ impl World {
             }
         }
         crate::systems::hunt_outcomes::finish(&mut self.entities, &events);
+        for slot in &mut self.entities {
+            for result in slot.hunt_learner.take_results() {
+                events.push(crate::simulation::SimulationEvent::HuntEpisodeEnded {
+                    id: slot.id,
+                    result,
+                });
+            }
+        }
         for trace in &mut self.last_decisions {
             if let Some(slot) = self.entities.iter().find(|s| s.id == trace.id) {
                 trace.outcome = Some(crate::entity::decision::Outcome {

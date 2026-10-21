@@ -67,6 +67,9 @@ pub struct HuntLearner {
     pub values: Vec<HuntValue>,
     pub episode: Option<HuntEpisode>,
     pub last_episode: Option<HuntResult>,
+    /// Transient audit: at most two endings in one world tick; drained into events.
+    #[serde(skip)]
+    pub pending_results: Vec<HuntResult>,
 }
 impl Default for HuntLearner {
     fn default() -> Self {
@@ -76,6 +79,7 @@ impl Default for HuntLearner {
             values: vec![],
             episode: None,
             last_episode: None,
+            pending_results: Vec::new(),
         }
     }
 }
@@ -272,7 +276,7 @@ impl HuntLearner {
     }
     pub fn interrupt(&mut self, end: HuntEnd) {
         if let Some(attempt) = self.episode.take() {
-            self.last_episode = Some(HuntResult {
+            self.record_result(HuntResult {
                 attempt,
                 end,
                 reward: None,
@@ -370,12 +374,22 @@ impl HuntLearner {
                 });
             }
         }
-        self.last_episode = Some(HuntResult {
+        self.record_result(HuntResult {
             attempt,
             end,
             reward,
             updated,
         });
+    }
+    fn record_result(&mut self, result: HuntResult) {
+        if self.pending_results.len() >= 2 {
+            self.pending_results.remove(0);
+        }
+        self.pending_results.push(result.clone());
+        self.last_episode = Some(result);
+    }
+    pub fn take_results(&mut self) -> Vec<HuntResult> {
+        std::mem::take(&mut self.pending_results)
     }
     pub fn validate(&self) -> crate::Result<()> {
         let valid_episode = |e: &HuntEpisode| {
@@ -392,7 +406,8 @@ impl HuntLearner {
                 .iter()
                 .all(|n| *n <= MAX_ACCOUNT)
         };
-        if self.values.len() > MAX_HUNT_VALUES
+        if self.pending_results.len() > 2
+            || self.values.len() > MAX_HUNT_VALUES
             || self.values.iter().enumerate().any(|(i, v)| {
                 !v.context.valid()
                     || !(-1000..=1000).contains(&v.value)
