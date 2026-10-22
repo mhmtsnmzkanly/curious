@@ -460,3 +460,13 @@ kapalı korunur. Ödül hasarın maliyetini ölçmez; genel av faydası iddiası
 Protokol docs/HUNT_LAB_PROTOCOL_V2.md sonuçlardan önce sabitlenir; --v2 runner
 42001–42008 değerlendirme seedlerini kullanır. V1 veri/rapor korunur. Canlı
 7882/7883 ve frozen kaynaklar değiştirilmez; uzun ekoloji taraması yok.
+
+Av lab v2 tamamlandı: source34973de,6400trial56384tick; ham veriler
+hunt-lab-v2-20261022 altında. Rapor reports/HUNT_LAB_V2.md/JSON. Boş eğitimli
+model0/8; defensive ters online307Fed tamamı puanlı. Deneyimli her koşulda
+naive'den iyi değil; canlıya geçiş/kabul yok.123Rust/64Python+Node+HTTP+
+kapalı100/200State/RNG+16SQLite/raw audit eşitliği geçti. Root denetimi kayıt
+hedefinin predecision kesintiden sonraki ticke taşınmasını ve v2 summary
+hesabını düzelttirdi. Kaynak frozenhunt-feedback-34973de, immutablecandidate
+bin/releases/curious-hunt-feedback-34973de; dağıtılmadı. cargo clean490,2MiB;
+hamlar, release, worktree korunur. Yeni arkaplan deneyi yok;42001–42008 görüldü.
