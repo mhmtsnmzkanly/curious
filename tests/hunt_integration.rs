@@ -10,8 +10,8 @@ use curious::{
         phase::EntityPhase,
     },
     logger::Logger,
-    map::{Map, cell::Cell, movement::Position},
-    simulation::{SimulationEvent, checkpoint::State},
+    map::{cell::Cell, movement::Position, Map},
+    simulation::{checkpoint::State, SimulationEvent},
     world::{EntitySlot, World},
 };
 fn hunt_world(prey_health: usize) -> World {
@@ -89,14 +89,13 @@ fn own_physical_kill_then_real_meal_produces_audited_reward() {
     let hunter = w.entities.iter().find(|s| s.id == 1).unwrap();
     assert!(hunter.hunt_learner.values.is_empty()); // killing is not nutrition
     assert!(hunter.hunt_learner.episode.as_ref().unwrap().own_kill);
-    assert!(
-        w.entities
-            .iter()
-            .find(|s| s.id == 10)
-            .unwrap()
-            .phase
-            .is_corpse()
-    );
+    assert!(w
+        .entities
+        .iter()
+        .find(|s| s.id == 10)
+        .unwrap()
+        .phase
+        .is_corpse());
     let energy_before = hunter.base.life().energy;
     let food_events = w.tick();
     assert_eq!(reason(&w, 1), Reason::SeekFood); // learner preserves the food policy
@@ -191,20 +190,79 @@ fn another_predators_real_kill_has_no_credit_for_the_pursuer() {
     assert!(!result.attempt.own_kill);
     assert!(learner.values.is_empty());
 }
+
+#[test]
+fn resolver_attributes_current_prey_defense_and_sans_censors_third_party_damage() {
+    let mut own = hunt_world(100);
+    own.push_command(10, Intent::Attack { target_id: 1 });
+    let first = own.tick();
+    assert!(first.iter().any(|e| matches!(
+        e,
+        SimulationEvent::EntityAttacked { attacker: 10, target: 1, damage, .. } if *damage > 0
+    )));
+    let episode = own
+        .entities
+        .iter()
+        .find(|s| s.id == 1)
+        .unwrap()
+        .hunt_learner
+        .episode
+        .as_ref()
+        .unwrap();
+    assert!(episode.incoming_damage > 0);
+    assert!(
+        !episode.ambiguous,
+        "damage from the current prey is attributable"
+    );
+
+    let mut mixed = hunt_world(100);
+    mixed.entities.push(EntitySlot::new(
+        2,
+        Position::new(1, 2),
+        EntityPhase::Active,
+        EntityController::Player(2),
+        Box::new(CarnivoreEntity::default()),
+    ));
+    mixed.next_entity_id = 11;
+    mixed.push_command(10, Intent::Attack { target_id: 1 });
+    mixed.push_command(2, Intent::Attack { target_id: 1 });
+    let events = mixed.tick();
+    assert!(events.iter().any(|e| matches!(
+        e,
+        SimulationEvent::EntityAttacked { attacker: 10, target: 1, damage, .. } if *damage > 0
+    )));
+    assert!(events.iter().any(|e| matches!(
+        e,
+        SimulationEvent::EntityAttacked { attacker: 2, target: 1, damage, .. } if *damage > 0
+    )));
+    let episode = mixed
+        .entities
+        .iter()
+        .find(|s| s.id == 1)
+        .unwrap()
+        .hunt_learner
+        .episode
+        .as_ref()
+        .unwrap();
+    assert!(episode.incoming_damage > 0);
+    assert!(
+        episode.ambiguous,
+        "third-party damage remains censored alongside prey defense"
+    );
+}
 #[test]
 fn external_command_and_real_thirst_interrupt_without_becoming_bad_examples() {
     for external in [true, false] {
         let mut w = hunt_world(100);
         w.tick();
-        assert!(
-            w.entities
-                .iter()
-                .find(|s| s.id == 1)
-                .unwrap()
-                .hunt_learner
-                .episode
-                .is_some()
-        );
+        assert!(w
+            .entities
+            .iter()
+            .find(|s| s.id == 1)
+            .unwrap()
+            .hunt_learner
+            .episode
+            .is_some());
         if external {
             w.push_command(1, Intent::Idle { duration: 1 });
         } else {
@@ -258,11 +316,9 @@ fn physical_birth_inherits_mode_flags_but_never_experience() {
         let mut w = bare_world(parents);
         w.push_command(1, Intent::Mate { target_id: 2 });
         let events = w.tick();
-        assert!(
-            events
-                .iter()
-                .any(|e| matches!(e, SimulationEvent::EntityBorn { .. }))
-        );
+        assert!(events
+            .iter()
+            .any(|e| matches!(e, SimulationEvent::EntityBorn { .. })));
         let child = w.entities.iter().find(|s| s.generation == 1).unwrap();
         assert_eq!(child.hunt_learner.enabled, second_enabled);
         assert!(!child.hunt_learner.update_enabled);

@@ -31,7 +31,7 @@
     }
     return lines;
   }
-  const huntEnds = {Fed:"Kendi avından besin aldı",TargetLost:"Hedef kayboldu",TimedOut:"Süre sınırı doldu",Interrupted:"Kesildi: karar veya hedef değişti",Died:"Kesildi: yaşam sona erdi",ForeignKill:"Avı başka birey öldürdü"};
+  const huntEnds = {Fed:"Kendi avından besin aldı",TargetLost:"Hedef kayboldu",TimedOut:"Süre sınırı doldu",Interrupted:"Karar veya hedef değişti; varsa puan ayrıca gösterilir",Died:"Kesildi: yaşam sona erdi",ForeignKill:"Avı başka birey öldürdü"};
   const bands = ["düşük", "orta", "yüksek"];
   function context(c) {
     if (!c) return "bağlam verisi yok";
@@ -40,7 +40,7 @@
     return `enerji ${bands[c.energy] || "veri yok"}, dayanıklılık ${bands[c.stamina] || "veri yok"}, mesafe ${distance[c.distance] || "veri yok"} adım, görünür av sağlığı ${health[c.health] || "veri yok"}`;
   }
   function huntAttempt(a) {
-    return `hedef #${number(a?.target)} · ${number(a?.ticks)}/20 adım · ${number(a?.movement_energy)} hareket + ${number(a?.attack_energy)} saldırı enerjisi · ${number(a?.food)} edinilen besin · ${number(a?.incoming_damage)} dış saldırı hasarı`;
+    return `hedef #${number(a?.target)} · ${number(a?.ticks)}/20 adım · ${number(a?.movement_energy)} hareket + ${number(a?.attack_energy)} saldırı enerjisi · ${number(a?.food)} edinilen besin · ${number(a?.incoming_damage)} alınan toplam hasar (kaynak ayrımı bu kayıtta yok)`;
   }
   function hunt(learner, reason) {
     const lines = [`Av seçimini öğrenme: ${enabled(learner?.enabled)}.`];

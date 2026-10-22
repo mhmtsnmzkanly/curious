@@ -14,6 +14,20 @@ python3 scripts/run_hunt_lab.py \
 klasörüne kopyalar, source/ikili/protokol SHA'larını manifestte tutar. En çok300s
 çalışır. Başarısızlık raw/stderr/manifestte korunur; başarı diye sunulmaz.
 
+Düzeltmenin ayrı, sonuç öncesi sabitlenmiş protokolü
+`HUNT_LAB_PROTOCOL_V2.md` ve seedleri 42001–42008'dir. Yeni temiz bir çıktı
+diziniyle çalıştırmak için:
+
+```bash
+python3 scripts/run_hunt_lab.py \
+  --binary target/release/examples/hunt_lab \
+  --output data/experiments/hunt-lab-v2-<new-run-id> \
+  --v2
+```
+
+V1 varsayılanı ve eski validator yolu korunur. V2 hasar kaynağı toplamlarını
+ayrıca doğrular; kaynağı belirlenemeyen hasar unattributed olarak tutulur.
+
 - raw.jsonl: iki iz×sekiz çift; her satır eğitim+4kolun bütün trial/tick auditleri.
 - summary.json: her seed/kol için normal/ters pencereler, gerçek enerji/besin,
   puanlanan/puanlanmayan bölüm sayıları ve sekizli ortalamalar.

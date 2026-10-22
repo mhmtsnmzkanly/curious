@@ -96,6 +96,10 @@ pub struct HuntLedger {
     pub movement_energy: usize,
     pub attack_energy: usize,
     pub incoming_damage: usize,
+    /// Incoming damage dealt by the current episode's visible prey.
+    pub prey_defense_damage: usize,
+    /// Incoming damage from any source other than the current prey.
+    pub external_damage: usize,
     /// Killer of the pending target, not an arbitrary death in this tick.
     pub target_killed_by: Option<usize>,
     pub food: Vec<HuntMeal>,
@@ -110,6 +114,8 @@ impl Default for HuntLedger {
             movement_energy: 0,
             attack_energy: 0,
             incoming_damage: 0,
+            prey_defense_damage: 0,
+            external_damage: 0,
             target_killed_by: None,
             food: vec![],
             target_lost: false,
@@ -164,6 +170,12 @@ impl HuntLearner {
             }
         }
         if base.reason != Reason::HuntPrey {
+            if matches!(base.reason, Reason::HuntLowEnergy | Reason::HuntTooCostly)
+                && self.is_audited_budget_cutoff(species, life, view, base.reason)
+            {
+                self.close_policy_cutoff();
+                return base;
+            }
             self.interrupt(HuntEnd::Interrupted);
             return base;
         }
@@ -274,6 +286,68 @@ impl HuntLearner {
             Reason::LearnedHunt,
         )
     }
+    fn is_audited_budget_cutoff(
+        &self,
+        species: Species,
+        life: &LifeState,
+        view: &Perception,
+        reason: Reason,
+    ) -> bool {
+        let Some(episode) = &self.episode else {
+            return false;
+        };
+        let Some(prey) = view.entities.iter().find(|p| p.id == episode.target) else {
+            return false;
+        };
+        let profile = species.combat_profile();
+        if !species.hunts(&prey.species)
+            || life.stamina <= life.max_stamina / 4
+            || life.stamina < profile.stamina_cost
+        {
+            return false;
+        }
+        let travel = prey.steps.len().saturating_sub(1);
+        match reason {
+            Reason::HuntLowEnergy => {
+                life.energy
+                    < profile
+                        .energy_cost
+                        .saturating_add(travel.saturating_mul(life.move_energy_cost))
+            }
+            Reason::HuntTooCostly => {
+                if travel == 0 {
+                    return false;
+                }
+                let hits = prey
+                    .health
+                    .unwrap_or(prey.power)
+                    .div_ceil(profile.damage.max(1));
+                let estimate = travel
+                    .saturating_mul(life.move_energy_cost)
+                    .saturating_add(hits.saturating_mul(profile.energy_cost.saturating_add(1)));
+                estimate > life.energy
+            }
+            _ => false,
+        }
+    }
+    fn close_policy_cutoff(&mut self) {
+        let Some(attempt) = self.episode.take() else {
+            return;
+        };
+        // The reason for stopping is own lack of budget. Only prior resolver
+        // action costs can support its negative example; external injury,
+        // own-kill feeding delay, or no audited pursuit cost stays censored.
+        let has_audited_cost = attempt.movement_energy > 0 || attempt.attack_energy > 0;
+        let reward =
+            if attempt.ambiguous || attempt.own_kill || attempt.food > 0 || !has_audited_cost {
+                None
+            } else {
+                Some(reward_for(&attempt))
+            };
+        // Keep the existing serialized ending variant for V13 compatibility;
+        // the decision trace records HuntLowEnergy/HuntTooCostly as the trigger.
+        self.complete(attempt, HuntEnd::Interrupted, reward);
+    }
     pub fn interrupt(&mut self, end: HuntEnd) {
         if let Some(attempt) = self.episode.take() {
             self.record_result(HuntResult {
@@ -305,7 +379,12 @@ impl HuntLearner {
             .saturating_add(ledger.incoming_damage)
             .min(MAX_ACCOUNT);
         // Injury is observable context, but its causal cost is not established.
-        e.ambiguous |= ledger.ambiguous || ledger.incoming_damage > 0;
+        let damage_attribution_matches = ledger
+            .prey_defense_damage
+            .checked_add(ledger.external_damage)
+            == Some(ledger.incoming_damage);
+        e.ambiguous |=
+            ledger.ambiguous || !damage_attribution_matches || ledger.external_damage > 0;
         if let Some(killer) = ledger.target_killed_by {
             e.own_kill = killer == id;
         }
@@ -344,14 +423,11 @@ impl HuntLearner {
             ) {
             None
         } else {
-            Some(
-                (attempt.food as i64 * 10
-                    - attempt.movement_energy as i64 * 2
-                    - attempt.attack_energy as i64 * 2
-                    - attempt.ticks as i64)
-                    .clamp(-1000, 1000) as i32,
-            )
+            Some(reward_for(&attempt))
         };
+        self.complete(attempt, end, reward);
+    }
+    fn complete(&mut self, attempt: HuntEpisode, end: HuntEnd, reward: Option<i32>) {
         let updated = self.update_enabled && reward.is_some();
         if let Some(q) = reward.filter(|_| self.update_enabled) {
             if let Some(v) = self
@@ -430,4 +506,11 @@ impl HuntLearner {
         }
         Ok(())
     }
+}
+fn reward_for(attempt: &HuntEpisode) -> i32 {
+    (attempt.food as i64 * 10
+        - attempt.movement_energy as i64 * 2
+        - attempt.attack_energy as i64 * 2
+        - attempt.ticks as i64)
+        .clamp(-1000, 1000) as i32
 }

@@ -247,6 +247,177 @@ fn injury_and_missing_provenance_do_not_fabricate_rewards() {
     }
     assert_eq!(l.last_episode.as_ref().unwrap().reward, None);
 }
+
+#[test]
+fn only_attributed_prey_defense_damage_can_coexist_with_reward() {
+    let mut own = learner();
+    choose(&mut own, 50);
+    own.finish(
+        1,
+        &HuntLedger {
+            incoming_damage: 5,
+            prey_defense_damage: 5,
+            ..Default::default()
+        },
+    );
+    fed(&mut own, 10);
+    assert_eq!(
+        own.last_episode.as_ref().unwrap().reward,
+        Some(100 - 3 * 2 - 2)
+    );
+
+    let mut mixed = learner();
+    choose(&mut mixed, 50);
+    mixed.finish(
+        1,
+        &HuntLedger {
+            incoming_damage: 7,
+            prey_defense_damage: 5,
+            external_damage: 2,
+            ..Default::default()
+        },
+    );
+    fed(&mut mixed, 10);
+    assert_eq!(mixed.last_episode.as_ref().unwrap().reward, None);
+    assert!(mixed.last_episode.as_ref().unwrap().attempt.ambiguous);
+
+    let mut malformed = learner();
+    choose(&mut malformed, 50);
+    malformed.finish(
+        1,
+        &HuntLedger {
+            incoming_damage: 5,
+            prey_defense_damage: 4,
+            ..Default::default()
+        },
+    );
+    fed(&mut malformed, 10);
+    assert_eq!(malformed.last_episode.as_ref().unwrap().reward, None);
+}
+
+#[test]
+fn visible_target_own_energy_cutoff_scores_only_prior_audited_cost_once() {
+    let mut one_target = view();
+    one_target.entities.truncate(1);
+    one_target.entities[0].steps = Steps(vec![Direction::Right, Direction::Right]);
+    let mut l = learner();
+    l.choose(
+        Species::Carnivore,
+        &life(),
+        &one_target,
+        base(),
+        &mut Random::new(50),
+    );
+    l.finish(
+        1,
+        &HuntLedger {
+            movement_energy: 4,
+            ..Default::default()
+        },
+    );
+    let prior = l.episode.as_ref().unwrap().clone();
+    let mut low = life();
+    low.energy = 3;
+    let reason = curious::entity::hunting::decide(Species::Carnivore, &low, &one_target).unwrap();
+    assert_eq!(reason.reason, Reason::HuntLowEnergy);
+    assert_eq!(
+        l.choose(
+            Species::Carnivore,
+            &low,
+            &one_target,
+            reason.clone(),
+            &mut Random::new(50),
+        )
+        .reason,
+        Reason::HuntLowEnergy
+    );
+    let result = l.last_episode.as_ref().unwrap();
+    assert_eq!(result.end, HuntEnd::Interrupted); // V13 wire value remains stable
+    assert_eq!(result.attempt, prior);
+    assert_eq!(result.reward, Some(-8 - i32::from(prior.ticks)));
+    assert!(result.updated);
+    assert!(l.episode.is_none());
+    assert_eq!(l.values[0].visits, 1);
+
+    // External injury already makes the same apparent budget stop ambiguous.
+    let mut censored = learner();
+    censored.choose(
+        Species::Carnivore,
+        &life(),
+        &one_target,
+        base(),
+        &mut Random::new(50),
+    );
+    censored.finish(
+        1,
+        &HuntLedger {
+            movement_energy: 4,
+            incoming_damage: 2,
+            external_damage: 2,
+            ..Default::default()
+        },
+    );
+    censored.choose(
+        Species::Carnivore,
+        &low,
+        &one_target,
+        reason,
+        &mut Random::new(50),
+    );
+    assert_eq!(censored.last_episode.as_ref().unwrap().reward, None);
+
+    let mut costly_view = one_target.clone();
+    costly_view.entities[0].health = Some(60);
+    let mut costly = learner();
+    costly.choose(
+        Species::Carnivore,
+        &life(),
+        &costly_view,
+        base(),
+        &mut Random::new(50),
+    );
+    costly.finish(
+        1,
+        &HuntLedger {
+            movement_energy: 4,
+            ..Default::default()
+        },
+    );
+    let mut limited = life();
+    limited.energy = 10;
+    let reason =
+        curious::entity::hunting::decide(Species::Carnivore, &limited, &costly_view).unwrap();
+    assert_eq!(reason.reason, Reason::HuntTooCostly);
+    costly.choose(
+        Species::Carnivore,
+        &limited,
+        &costly_view,
+        reason,
+        &mut Random::new(50),
+    );
+    assert!(costly.last_episode.as_ref().unwrap().reward.is_some());
+}
+
+#[test]
+fn old_ambiguous_pending_episode_stays_censored_after_checkpoint_roundtrip() {
+    let mut l = learner();
+    choose(&mut l, 50);
+    l.episode.as_mut().unwrap().ambiguous = true;
+    l.finish(
+        1,
+        &HuntLedger {
+            movement_energy: 4,
+            prey_defense_damage: 6,
+            incoming_damage: 6,
+            ..Default::default()
+        },
+    );
+    let mut restored: HuntLearner =
+        serde_json::from_value(serde_json::to_value(&l).unwrap()).unwrap();
+    fed(&mut restored, 10);
+    assert_eq!(restored.last_episode.as_ref().unwrap().reward, None);
+    assert!(restored.last_episode.as_ref().unwrap().attempt.ambiguous);
+}
 #[test]
 fn priority_physical_filters_and_unknown_health_are_respected() {
     let mut l = learner();

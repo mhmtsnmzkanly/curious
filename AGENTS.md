@@ -448,3 +448,15 @@ kendiavının savunmasıyla başkasının hasarını ayırmak; yeni protokol ger
 eşitliği geçti. Canlı7882/7883hiçgüncellenmedi. Bu jobarkaplanda süreklideğil,
 completed; yeni uzun tarama başlatma. Deney örnekleri manualreadonlyreplay
 ile açılabilir; docs/HUNT_LAB.md komutları var.
+
+## 22 Ekim — Luna av geri bildirim düzeltmesi
+
+Kullanıcı Luna alt ajanıyla uygulama, root denetimi istedi. Kendi görünür avının
+savunma hasarı üçüncü taraf hasarından ayrılır; belirsiz/eski ambiguous sonuçlar
+sansürlü kalır. Görünür hedef için doğrulanmış HuntLowEnergy/HuntTooCostly
+kesintisi yalnız önceki resolver masraflarını mevcut formülle puanlar. Hedef
+değişimi puansız; yeni tick eski bölüme yazılmaz. V13/SQLiteV2 ve varsayılan
+kapalı korunur. Ödül hasarın maliyetini ölçmez; genel av faydası iddiası yok.
+Protokol docs/HUNT_LAB_PROTOCOL_V2.md sonuçlardan önce sabitlenir; --v2 runner
+42001–42008 değerlendirme seedlerini kullanır. V1 veri/rapor korunur. Canlı
+7882/7883 ve frozen kaynaklar değiştirilmez; uzun ekoloji taraması yok.

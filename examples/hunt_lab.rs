@@ -1,6 +1,5 @@
 //! Fixed four-arm physical hunt laboratory. See docs/HUNT_LAB_PROTOCOL.md.
 use curious::{
-    Result,
     creatures::{carnivore::CarnivoreEntity, herbivore::HerbivoreEntity},
     entity::{
         controller::EntityController,
@@ -11,14 +10,15 @@ use curious::{
     },
     logger::Logger,
     map::{
-        Map,
         movement::{Direction, Position, Steps},
+        Map,
     },
     persistence::Store,
     random::Random,
     simulation::SimulationEvent,
     systems::perception::PerceptionSystem,
     world::{EntitySlot, World},
+    Result,
 };
 use serde::{Deserialize, Serialize};
 use std::{
@@ -137,6 +137,9 @@ struct TickAudit {
     attack_energy: usize,
     food: usize,
     incoming_damage: usize,
+    prey_defense_damage: usize,
+    external_damage: usize,
+    unattributed_damage: usize,
     rejected: usize,
     energy: usize,
     stamina: usize,
@@ -155,6 +158,9 @@ struct Trial {
     energy_spent: usize,
     non_action_energy: usize,
     incoming_damage: usize,
+    prey_defense_damage: usize,
+    external_damage: usize,
+    unattributed_damage: usize,
     rejected: usize,
     hunter_died: bool,
     first_food_tick: Option<usize>,
@@ -164,6 +170,18 @@ struct Trial {
     visits_after: u64,
     endings: Vec<EndAudit>,
     timeline: Vec<TickAudit>,
+}
+fn audited_hunt_target(current: Option<usize>, events: &[SimulationEvent]) -> Option<usize> {
+    current.or_else(|| {
+        events.iter().rev().find_map(|event| match event {
+            SimulationEvent::HuntEpisodeEnded { id: 1, result }
+                if result.end != HuntEnd::Interrupted =>
+            {
+                Some(result.attempt.target)
+            }
+            _ => None,
+        })
+    })
 }
 fn trial(
     learner: &mut HuntLearner,
@@ -202,6 +220,9 @@ fn trial(
         movement_energy: 0,
         attack_energy: 0,
         incoming_damage: 0,
+        prey_defense_damage: 0,
+        external_damage: 0,
+        unattributed_damage: 0,
         rejected: 0,
         energy_spent: 0,
         non_action_energy: 0,
@@ -224,11 +245,17 @@ fn trial(
             tick: w.tick_counter,
             decision: trace.map(|t| t.decision.clone()),
             target: trace.and_then(|t| t.target.clone()),
-            episode_target: actor.hunt_learner.episode.as_ref().map(|e| e.target),
+            episode_target: audited_hunt_target(
+                actor.hunt_learner.episode.as_ref().map(|e| e.target),
+                &events,
+            ),
             movement_energy: 0,
             attack_energy: 0,
             food: 0,
             incoming_damage: 0,
+            prey_defense_damage: 0,
+            external_damage: 0,
+            unattributed_damage: 0,
             rejected: 0,
             energy: actor.base.life().energy,
             stamina: actor.base.life().stamina,
@@ -244,20 +271,33 @@ fn trial(
                     ..
                 } => tick.attack_energy += energy_cost,
                 SimulationEvent::EntityAttacked {
-                    target: 1, damage, ..
-                } => tick.incoming_damage += damage,
+                    attacker,
+                    target: 1,
+                    damage,
+                    ..
+                } => {
+                    tick.incoming_damage += damage;
+                    match tick.episode_target {
+                        Some(target) if target == *attacker => tick.prey_defense_damage += damage,
+                        Some(_) => tick.external_damage += damage,
+                        None => tick.unattributed_damage += damage,
+                    }
+                }
                 SimulationEvent::EntityAte { id: 1, amount, .. } => tick.food += amount,
                 SimulationEvent::ActionRejected { id: 1, .. } => tick.rejected += 1,
                 SimulationEvent::HuntEpisodeEnded { id: 1, result } => {
-                    let trigger = if result.end == HuntEnd::Interrupted
-                        && trace
-                            .is_some_and(|t| format!("{:?}", t.decision.reason) == "LearnedHunt")
-                    {
-                        "TargetChanged".into()
-                    } else {
-                        trace
-                            .map(|t| format!("{:?}", t.decision.reason))
-                            .unwrap_or_else(|| "BeforeDecisionDeath".into())
+                    let reason = trace.map(|t| format!("{:?}", t.decision.reason));
+                    let trigger = match reason.as_deref() {
+                        Some("HuntLowEnergy" | "HuntTooCostly")
+                            if result.end == HuntEnd::Interrupted =>
+                        {
+                            format!("OwnBudgetCutoff:{}", reason.unwrap())
+                        }
+                        Some("LearnedHunt") if result.end == HuntEnd::Interrupted => {
+                            "TargetChanged".into()
+                        }
+                        Some(other) => other.to_string(),
+                        None => "BeforeDecisionDeath".into(),
                     };
                     r.endings.push(EndAudit {
                         origin: "engine".into(),
@@ -272,6 +312,9 @@ fn trial(
         r.movement_energy += tick.movement_energy;
         r.attack_energy += tick.attack_energy;
         r.incoming_damage += tick.incoming_damage;
+        r.prey_defense_damage += tick.prey_defense_damage;
+        r.external_damage += tick.external_damage;
+        r.unattributed_damage += tick.unattributed_damage;
         r.rejected += tick.rejected;
         if tick.food > 0 && r.first_food_tick.is_none() {
             r.first_food_tick = Some(w.tick_counter);
@@ -324,6 +367,7 @@ fn run_pair(
     evaluation_seed: u64,
     track: &str,
     samples: Option<&Path>,
+    protocol_v2: bool,
 ) -> Result<serde_json::Value> {
     let defensive = track == "defensive";
     let mut trained = HuntLearner {
@@ -351,7 +395,7 @@ fn run_pair(
         let initial_values = learner.values.clone();
         let mut trials = vec![];
         for (i, seed) in eval_seeds.iter().enumerate() {
-            let sample = if evaluation_seed == PAIRS[0].1 && [0, REVERSAL].contains(&i) {
+            let sample = if training_seed == PAIRS[0].0 && [0, REVERSAL].contains(&i) {
                 samples.map(|root| root.join(track).join(name).join(format!("trial-{i:03}")))
             } else {
                 None
@@ -371,23 +415,50 @@ fn run_pair(
         arms.push(serde_json::json!({"arm":name,"initial_values":initial_values,"final_values":learner.values,"trials":trials}));
     }
     Ok(
-        serde_json::json!({"schema":"curious-hunt-lab-v1","track":track,"training_seed":training_seed,"evaluation_seed":evaluation_seed,"training_trials":TRAIN,"evaluation_trials":EVAL,"reversal_at":REVERSAL,"max_trial_ticks":LIMIT,"controlled_body_reset":true,"training":training,"training_values":training_values,"arms":arms}),
+        serde_json::json!({"schema":if protocol_v2 {"curious-hunt-lab-v2"} else {"curious-hunt-lab-v1"},"track":track,"training_seed":training_seed,"evaluation_seed":evaluation_seed,"training_trials":TRAIN,"evaluation_trials":EVAL,"reversal_at":REVERSAL,"max_trial_ticks":LIMIT,"controlled_body_reset":true,"training":training,"training_values":training_values,"arms":arms}),
     )
 }
 fn run() -> Result<()> {
     let args: Vec<_> = std::env::args().skip(1).collect();
-    let samples = match args.as_slice() {
-        [] => None,
-        [flag, path] if flag == "--samples" => Some(PathBuf::from(path)),
-        _ => return Err("usage: hunt_lab [--samples NEW_DIRECTORY]".into()),
-    };
+    let mut samples = None;
+    let mut evaluation_seed_start = None;
+    let mut i = 0;
+    while i < args.len() {
+        match args[i].as_str() {
+            "--samples" if i + 1 < args.len() && samples.is_none() => {
+                samples = Some(PathBuf::from(&args[i + 1]));
+                i += 2;
+            }
+            "--evaluation-seed-start" if i + 1 < args.len() && evaluation_seed_start.is_none() => {
+                evaluation_seed_start = Some(args[i + 1].parse::<u64>()?);
+                i += 2;
+            }
+            _ => {
+                return Err(
+                    "usage: hunt_lab [--samples NEW_DIRECTORY] [--evaluation-seed-start SEED]"
+                        .into(),
+                )
+            }
+        }
+    }
+    let protocol_v2 = evaluation_seed_start.is_some();
+    let pairs = evaluation_seed_start.map_or(PAIRS.to_vec(), |start| {
+        PAIRS
+            .iter()
+            .enumerate()
+            .map(|(i, (training, _))| (*training, start + i as u64))
+            .collect()
+    });
     if let Some(root) = &samples {
         fs::create_dir(root)?;
     }
     let mut out = std::io::BufWriter::new(std::io::stdout().lock());
     for track in ["passive", "defensive"] {
-        for (a, b) in PAIRS {
-            serde_json::to_writer(&mut out, &run_pair(a, b, track, samples.as_deref())?)?;
+        for (a, b) in &pairs {
+            serde_json::to_writer(
+                &mut out,
+                &run_pair(*a, *b, track, samples.as_deref(), protocol_v2)?,
+            )?;
             writeln!(out)?;
             out.flush()?;
         }
@@ -398,6 +469,56 @@ fn main() {
     if let Err(e) = run() {
         eprintln!("{e}");
         std::process::exit(1);
+    }
+}
+
+#[cfg(test)]
+mod attribution_tests {
+    use super::*;
+    use curious::entity::hunt_learning::{HuntContext, HuntEpisode, HuntResult};
+
+    fn ending(end: HuntEnd, target: usize) -> SimulationEvent {
+        SimulationEvent::HuntEpisodeEnded {
+            id: 1,
+            result: HuntResult {
+                attempt: HuntEpisode {
+                    target,
+                    context: HuntContext {
+                        energy: 1,
+                        stamina: 1,
+                        distance: 1,
+                        health: 1,
+                    },
+                    ticks: 1,
+                    initial_energy: 10,
+                    initial_stamina: 10,
+                    movement_energy: 1,
+                    attack_energy: 0,
+                    incoming_damage: 0,
+                    food: 0,
+                    own_kill: false,
+                    ambiguous: false,
+                },
+                end,
+                reward: None,
+                updated: false,
+            },
+        }
+    }
+
+    #[test]
+    fn predecision_interrupt_does_not_claim_resolver_damage_target() {
+        let events = [ending(HuntEnd::Interrupted, 10)];
+        assert_eq!(audited_hunt_target(None, &events), None);
+        assert_eq!(audited_hunt_target(Some(20), &events), Some(20));
+    }
+
+    #[test]
+    fn fed_or_timed_out_closure_keeps_target_for_last_tick_attribution() {
+        let fed = [ending(HuntEnd::Fed, 10)];
+        let timed = [ending(HuntEnd::TimedOut, 20)];
+        assert_eq!(audited_hunt_target(None, &fed), Some(10));
+        assert_eq!(audited_hunt_target(None, &timed), Some(20));
     }
 }
 #[cfg(test)]
@@ -483,12 +604,11 @@ mod tests {
             r.movement_energy,
             r.timeline.iter().map(|t| t.movement_energy).sum::<usize>()
         );
-        assert!(
-            r.endings
-                .iter()
-                .filter(|e| e.origin == "lab_boundary")
-                .all(|e| e.result.reward.is_none() && !e.result.updated)
-        );
+        assert!(r
+            .endings
+            .iter()
+            .filter(|e| e.origin == "lab_boundary")
+            .all(|e| e.result.reward.is_none() && !e.result.updated));
     }
     #[test]
     fn audit_queue_drains_and_world_checkpoint_replays_events() {

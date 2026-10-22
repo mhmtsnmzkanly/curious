@@ -33,9 +33,13 @@ leş kimliğini/gerçek miktarını toplar. Eksik eski olay alanından maliyet v
 öldürme başarısı uydurulmaz; `ambiguous=true` gerekir. Besin kredisi hem kendi
 öldürmesi hem yediği leşin hedef kimliğiyle eşleşmesini gerektirir. Başkasının
 öldürmesi, ölüm, kesinti, belirsiz muhasebe ve dış yaralanma `reward=None` olur.
-Yaralanma bağlam olarak gösterilir; nedenselliği ispatlanmadığından tahmini av
-maliyeti olarak çıkarılmaz. Başkasına ait leşten gerçek beslenme ekosistemde
-geçerlidir; bu ilk öğrenici ona kendi av başarısı kredisi vermez.
+Çözümleyici, etkin hedefin saldırısını (kendi avının savunması) diğer
+saldırılardan ayırır. Hedef savunması `ambiguous` sayılmaz, ancak mevcut toplam
+`incoming_damage` alanında bağlam olarak kalır ve ödüle maliyet eklenmez.
+Başka veya atfedilemeyen hasar puansız bırakır. Hasar alt toplamı gelen hasara
+eşit değilse muhasebe bozuk sayılır ve puan verilmez. Başkasına ait leşten gerçek
+beslenme ekosistemde geçerlidir; bu ilk öğrenici ona kendi av başarısı kredisi
+vermez.
 
 İlk sabit ödül hipotezi `10*food - 2*movement_energy - 2*attack_energy - ticks`,
 [-1000,1000] aralığına sınırlıdır. Açlık/iyileşme/üreme rezerv farkı ikinci kez
@@ -87,6 +91,34 @@ seçilirse birikmiş maliyet ve ilk bağlam korunur. Yeni hedef seçilirse eski 
 ödülsüz `Interrupted`, eski hedef artık görünmüyorsa `TargetLost` ile kapanır;
 yeni hedefe eski maliyet taşınmaz. Kendi öldürdüğü leşe normal `Eat` geçişi
 korunur. Ödül, keşif oranı veya süre sınırı değiştirilmez.
+
+## V4: doğrulanmış kendi-bütçe kesintisi ve hasar kaynağı
+
+V1 laboratuvarında passive eğitimli-online kapanışlarının çoğu `TargetChanged`
+veya `HuntTooCostly` olarak puansız kalmıştı; defensive ters kolunda avın kendi
+savunma hasarı dış saldırı gibi sansürlenmişti. `HuntLowEnergy` veya
+`HuntTooCostly` kararında eski hedef hâlâ görünür ve aynı görünür beden/enerji
+hesabı hedefin hareket/saldırı bütçesini karşılamadığını doğrularsa eski bölüm
+`Interrupted` kapanır. Yalnız önceki ticklerde çözümleyicinin kaydettiği
+hareket/saldırı maliyeti varsa ve bölümde belirsiz/dış hasar, kendi öldürüp henüz
+yememiş av veya besin yoksa mevcut ödül formülüyle kapanış puanlanabilir. Kesinti
+kararının ticki eski bölüme eklenmez. Maliyet doğrulanamıyorsa puan yoktur.
+
+`HuntEnd::Interrupted` wire değeri V13 okuyucularıyla uyum için korunur; tetik
+kararı `HuntLowEnergy` veya `HuntTooCostly` olarak laboratuvar auditinde
+görünür. `TargetChanged`, hedef kaybı, üstün ihtiyaçlar ve başka kesintiler
+puansız kalır; maliyet yeni hedefe aktarılmaz. `HuntEpisode`, `HuntResult`,
+checkpoint alanları ve SQLiteV2 değiştirilmemiştir. Eski V13 bölümündeki
+`ambiguous=true` bayrağı korunur; tarihsel hasar nedeni yeniden atanmaz ve bu
+bölüm yeni kuraldan puan alamaz. Böylece eski ikili kayıt formatını okuyabilir;
+yeni kodla yazılan puan anlamı eskiden farklı olabilir, serileştirilmiş sonuç
+türü değişmez.
+
+Kapanış puan katsayıları ve keşif oranı değişmez. Kendi avının savunma hasarı
+ayrı geçici ledger sayacında izlenir, ancak kanıtlanmış hasar maliyeti
+olmadığından ödüle eklenmez. Üçüncü taraf/atfedilemeyen hasar ve alt toplamların
+uyuşmaması puansız bırakılır. Bu düzeltme fizik, varsayılan kapalı durumu ve
+yavruya tablo aktarımını değiştirmez.
 
 Kısa iki-seed V2 smoke'unda hem çevrimiçi hem boş/dondurulmuş kol kontrolün
 avcılarından erken tükendi; ikisi aynı sonucu verdi. Bu, öğrenme yararı değildir.

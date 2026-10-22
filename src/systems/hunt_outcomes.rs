@@ -39,6 +39,12 @@ pub fn finish(entities: &mut [EntitySlot], events: &[SimulationEvent]) {
                     }
                     if *victim == slot.id {
                         ledger.incoming_damage = ledger.incoming_damage.saturating_add(*damage);
+                        if *attacker == target {
+                            ledger.prey_defense_damage =
+                                ledger.prey_defense_damage.saturating_add(*damage);
+                        } else {
+                            ledger.external_damage = ledger.external_damage.saturating_add(*damage);
+                        }
                     }
                     if *victim == target && *killed {
                         ledger.target_killed_by = Some(*attacker);
