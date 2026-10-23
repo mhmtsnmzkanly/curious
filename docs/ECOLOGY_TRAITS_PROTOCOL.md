@@ -77,14 +77,20 @@ held constant.
 
 Before evaluation, audit all existing experiment files. Calibration seeds are
 `50041..50044`; run each once through all ten arms to validate serialization,
-exact schedule timing, event accounting, and runner output. They may not be
-used to tune trait sizes, costs, ecological settings, or analysis thresholds.
-Held-out evaluation seeds are `50001..50008`; each seed is run once in each of
-the ten arms. Scan every existing experiment JSON, JSONL, CSV, manifest,
-config, and protocol for these seed values and save the scan result in the new
-manifest. If any held-out or calibration seed is already present, stop before
-evaluation and return this protocol for a new preregistration review; do not
-substitute a seed after seeing outcomes.
+exact schedule timing, event accounting, and runner output. Then run the full
+40-world calibration batch a second time with the same immutable `lab-probe`
+and settings, preserving it in a separate raw JSONL file. The two raw JSONL
+SHA-256 hashes must match exactly; save both hashes and the comparison in
+`repeat-proof.json`. This external full-batch replay is required because the
+in-process mechanism check does not repeat the ecological worlds. Any mismatch
+stops the study before held-out evaluation and requires protocol/source review.
+Calibration results may not tune trait sizes, costs, ecological settings, or
+analysis thresholds. Held-out evaluation seeds are `50001..50008`; each seed
+is run once in each of the ten arms. Scan every existing experiment JSON,
+JSONL, CSV, manifest, config, and protocol for these seed values and save the
+scan result in the new manifest. If any held-out or calibration seed is already
+used, stop before evaluation and return this protocol for a new preregistration
+review; do not substitute a seed after seeing outcomes.
 
 There is no learned policy and therefore no model-training phase. Calibration
 is not a training set and cannot select parameters; only the held-out block is
@@ -95,10 +101,11 @@ Each evaluation world runs for exactly 2,000 ticks unless the world naturally
 has no living individuals; in that case continue the empty world to tick 2,000
 to retain the fixed duration. There is no parameter search, recovery branch,
 long sweep, or automatic follow-up. The cap is 80 evaluation worlds / 160,000
-ticks, plus 40 calibration worlds / 80,000 ticks; each batch is limited to 300
-seconds wall time and 1 GiB output. Stop the entire batch on a source/protocol
-hash mismatch, non-deterministic repeat of a calibration seed, invalid state,
-or output/budget failure. Biological losses are results, not runner failures.
+ticks, plus two calibration batches of 40 worlds each (80 calibration worlds /
+160,000 ticks total). Each of the three batches is limited to 300 seconds wall
+time and 1 GiB output. Stop the entire study on a source/protocol hash mismatch,
+unequal calibration replay raw hashes, invalid state, or output/budget failure.
+Biological losses are results, not runner failures.
 
 ## Outcomes and analysis
 
@@ -131,10 +138,12 @@ Use a new output directory under
 `data/experiments/ecology-traits-v1-20261023` only after the source is clean
 and reviewed. Preserve the immutable `lab-probe`, source revision, scenario,
 copied `protocol.md`, and runner hashes; exact command and flags; seed roles;
-start/end timestamps; `raw.jsonl`; stderr; manifest; `summary.json`; and
-`runreport.md`. Never overwrite a failed run. A runtime or mechanism check is
-not a registered fitness evaluation. No formal evaluation begins before the
-source change and this protocol have been committed and reviewed.
+start/end timestamps; both calibration `raw.jsonl` files; their comparison in
+`repeat-proof.json`; evaluation `raw.jsonl`; stderr; manifests; `summary.json`;
+and `runreport.md`. Never overwrite a failed run. A runtime or mechanism check
+is not a registered fitness evaluation. No held-out evaluation begins before
+both full calibration batches have identical raw hashes and the source change
+and this protocol have been committed and reviewed.
 
 Eight evaluation seeds and 2,000 ticks are a small bounded screen. They do not
 prove persistent ecological balance, broad adaptation, or long-term stability.
