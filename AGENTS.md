@@ -23,9 +23,14 @@ RNG ile kaynak yerleşimini çalıştırıp ardından haritayı fixture ile değ
 beklenen başlangıç RNG'si bu deterministik çağrı dizisiyle hesaplanmalıdır.
 Orijinal raw ve başarısız manifest değişmeden korunur; sıfır-tick validator
 reanalysis'i [`LIFELONG_WATER_REANALYSIS.md`](docs/LIFELONG_WATER_REANALYSIS.md)
-içindedir. 51099 yalnız kalibrasyonda kullanıldı; formal 51001–51008 koşuları
-başlamadı ve kalibrasyon kapısı yeniden doğrulanana kadar başlamaz. Gate,
-biyoloji, fixture ve bütçe değiştirilmez.
+içindedir. İlk formal preflight, 19.44 MB'lık kayıtlı calibration JSONL
+satırını paylaşılan seed scanner'ın 16 MiB varsayılan sınırı reddettiği için
+probe başlamadan durdu; formal koşusu ve seed tüketimi olmadı. Protokolün
+64 MiB/seed sınırıyla tam tarama yapan düzeltilmiş scanner sonrası calibration
+yalnız ham kayıt üzerinden ikinci kez sıfır-tick doğrulanacak. Ayrıntı
+[`LIFELONG_WATER_PREFLIGHT_REPAIR.md`](docs/LIFELONG_WATER_PREFLIGHT_REPAIR.md).
+51099 yalnız kalibrasyonda kullanıldı; formal 51001–51008 koşuları başlamadı.
+Gate, biyoloji, fixture ve bütçe değiştirilmez.
 
 Kök dış runtime'a iki 60 saniyelik completion timer kurdu:
 `curious-lifetime-learning-calibration-completion` ve

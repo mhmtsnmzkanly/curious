@@ -41,10 +41,10 @@ capture. Validation must replay this constructor sequence and compare the
 recorded state; it must not skip RNG validation or demand the raw state equal
 the input seed.
 
-## Zero-tick reanalysis
+## First zero-tick reanalysis
 
-The corrected validator reads the original raw capture and its provenance only.
-It performs no world ticks and launches no probe. Its sidecar belongs in
+The first corrected validator read the original raw capture and its provenance
+only. It performed no world ticks and launched no probe. Its sidecar belongs in
 `data/experiments/lifetime-lab-v2-calibration-reanalysis-20261023/`; it records
 the original manifest/raw/probe/protocol/source/runner identities, the corrected
 validator identity, expected initial RNG by seed, and the validation and
@@ -52,8 +52,19 @@ calibration-gate results. The original calibration manifest/raw/probe/protocol
 remain untouched. The sidecar's validation pass value is evidence only when it
 matches an independent recomputation from the original raw data.
 
+The first formal preflight then found a separate seed-scan bound mismatch and
+stopped before launching a probe or creating a formal run directory. The
+registered calibration JSONL line is 19,443,712 bytes, while the shared seed
+scanner's default was 16 MiB; the protocol and run manifest allow 64 MiB per
+seed record. Because fixing the scanner changes the validator/current source
+identity, root is repeating this validator-only analysis against the same
+immutable raw capture in
+`data/experiments/lifetime-lab-v2-calibration-reanalysis2-20261023/`. See
+[`LIFELONG_WATER_PREFLIGHT_REPAIR.md`](LIFELONG_WATER_PREFLIGHT_REPAIR.md).
+The first sidecar and all original capture artifacts remain preserved.
+
 The reanalysis does not change the registered fixture, biological parameters,
 gates, budgets, or seed plan. Seed `51099` is used only as calibration. Formal
 seeds `51001`–`51008` have not been run and remain unobserved; no formal run is
-authorized until root reviews the completed reanalysis and calibration gate.
+authorized until root reviews the current source-bound reanalysis and calibration gate.
 This document makes no claim about behavior or efficacy.

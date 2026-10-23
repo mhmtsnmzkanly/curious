@@ -16,6 +16,11 @@ SPEC = importlib.util.spec_from_file_location(
 )
 runner = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(runner)
+SEED_SCANNER_SPEC = importlib.util.spec_from_file_location(
+    "run_ecology_traits_lab", ROOT / "scripts/run_ecology_traits_lab.py"
+)
+seed_scanner = importlib.util.module_from_spec(SEED_SCANNER_SPEC)
+SEED_SCANNER_SPEC.loader.exec_module(seed_scanner)
 
 
 class RunnerSafeguardTests(unittest.TestCase):
@@ -262,6 +267,23 @@ class RunnerSafeguardTests(unittest.TestCase):
             result = runner.scan_seeds(registry, (51099,))
             self.assertEqual(result["unseen"], [])
             self.assertTrue(result["matches"]["51099"])
+
+    def test_seed_scanner_accepts_explicit_64mib_bound_and_rejects_larger_line(self):
+        with tempfile.TemporaryDirectory() as temp:
+            registry = Path(temp)
+            raw = registry / "captured.jsonl"
+            raw.write_bytes(b'{"seed":51099,"payload":"' + b"x" * (17 * 1024 * 1024) + b'"}\n')
+            with self.assertRaisesRegex(RuntimeError, "oversized text line"):
+                seed_scanner.audit_seeds(registry, [51099])
+            result = seed_scanner.audit_seeds(
+                registry, [51099], max_line_bytes=64 * 1024 * 1024,
+            )
+            self.assertTrue(result["matches"]["51099"])
+            raw.write_bytes(b'{"seed":51099,"payload":"' + b"x" * (64 * 1024 * 1024) + b'"}\n')
+            with self.assertRaisesRegex(RuntimeError, "oversized text line"):
+                seed_scanner.audit_seeds(
+                    registry, [51099], max_line_bytes=64 * 1024 * 1024,
+                )
 
 
 if __name__ == "__main__":

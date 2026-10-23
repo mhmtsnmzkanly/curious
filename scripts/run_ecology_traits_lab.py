@@ -112,8 +112,11 @@ def _record_array_continuation(line: str, wanted: dict[int, re.Pattern], matches
     return close < 0
 
 
-def audit_seeds(root: Path, seeds: list[int]) -> dict:
+def audit_seeds(root: Path, seeds: list[int],
+                max_line_bytes: int = MAX_SCAN_LINE_BYTES) -> dict:
     """Find declared seed usage without mistaking ticks/counts for seeds."""
+    if not isinstance(max_line_bytes, int) or max_line_bytes < 1:
+        raise ValueError("max_line_bytes must be a positive integer")
     wanted = {seed: re.compile(rf"(?<![0-9]){seed}(?![0-9])") for seed in seeds}
     scanned = 0
     matches: dict[str, list[str]] = {str(seed): [] for seed in seeds}
@@ -133,12 +136,12 @@ def audit_seeds(root: Path, seeds: list[int]) -> dict:
                     if value in wanted and rel not in matches[str(value)]:
                         matches[str(value)].append(rel)
             try:
-                with path.open("r", encoding="utf-8", errors="strict") as stream:
+                with path.open("rb") as stream:
                     csv_reader = None
                     if path.suffix.lower() in {".csv", ".tsv"}:
                         delimiter = "\t" if path.suffix.lower() == ".tsv" else ","
-                        csv.field_size_limit(MAX_SCAN_LINE_BYTES)
-                        csv_reader = csv.reader(stream, delimiter=delimiter)
+                        csv.field_size_limit(max_line_bytes)
+                        csv_reader = csv.reader(_bounded_utf8_lines(stream, path, max_line_bytes), delimiter=delimiter)
                         header = next(csv_reader, [])
                         seed_columns = [
                             i for i, name in enumerate(header)
@@ -146,7 +149,7 @@ def audit_seeds(root: Path, seeds: list[int]) -> dict:
                         ]
                         if seed_columns:
                             for row in csv_reader:
-                                if any(len(cell.encode("utf-8")) > MAX_SCAN_LINE_BYTES for cell in row):
+                                if any(len(cell.encode("utf-8")) > max_line_bytes for cell in row):
                                     raise RuntimeError(f"oversized CSV row in {path}")
                                 for index in seed_columns:
                                     if index < len(row) and row[index].strip().isdigit():
@@ -158,9 +161,7 @@ def audit_seeds(root: Path, seeds: list[int]) -> dict:
                             continue
                         stream.seek(0)
                     seed_array_open = False
-                    for line_no, line in enumerate(stream, 1):
-                        if len(line.encode("utf-8")) > MAX_SCAN_LINE_BYTES:
-                            raise RuntimeError(f"oversized text line in {path}:{line_no}")
+                    for line_no, line in enumerate(_bounded_utf8_lines(stream, path, max_line_bytes), 1):
                         record = f"{rel}:{line_no}"
                         if seed_array_open:
                             seed_array_open = _record_array_continuation(line, wanted, matches, record)
@@ -176,6 +177,20 @@ def audit_seeds(root: Path, seeds: list[int]) -> dict:
         "unseen": [seed for seed in seeds if not matches[str(seed)]],
         "matching_rule": "declared seed fields, seed CSV columns, CLI --seed arguments, or seed-number filenames",
     }
+
+
+def _bounded_utf8_lines(stream, path: Path, max_line_bytes: int):
+    """Yield UTF-8 lines using bounded binary reads, including CSV inputs."""
+    while True:
+        raw = stream.readline(max_line_bytes + 1)
+        if not raw:
+            return
+        if len(raw) > max_line_bytes:
+            raise RuntimeError(f"oversized text line in {path}")
+        try:
+            yield raw.decode("utf-8", errors="strict")
+        except UnicodeError as error:
+            raise UnicodeError(f"invalid UTF-8 in {path}: {error}") from error
 
 
 def median(values: list[float]) -> float | None:

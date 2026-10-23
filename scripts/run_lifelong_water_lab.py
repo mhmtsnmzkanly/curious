@@ -36,7 +36,7 @@ OUTPUT_DIRS = {
     "calibration": "lifetime-lab-v2-calibration-20261023",
     "formal": "lifetime-lab-v2-20261023",
 }
-CALIBRATION_REANALYSIS_DIR = "lifetime-lab-v2-calibration-reanalysis-20261023"
+CALIBRATION_REANALYSIS_DIR = "lifetime-lab-v2-calibration-reanalysis2-20261023"
 SEED_SCHEMA = "curious-lifetime-seed-v2"
 SUMMARY_SCHEMA = "curious-lifetime-summary-v2"
 MANIFEST_SCHEMA = "curious-lifetime-lab-run-v2"
@@ -123,7 +123,8 @@ def source_identity(source_root: Path) -> tuple[str, dict[str, str]]:
     return revision, source_hashes(source_root)
 
 
-def scan_seeds(registry: Path, seeds: tuple[int, ...]) -> dict[str, Any]:
+def scan_seeds(registry: Path, seeds: tuple[int, ...],
+               max_line_bytes: int = MAX_SEED_RECORD_BYTES) -> dict[str, Any]:
     """Use the established declared-seed scanner on the actual experiment archive."""
     module_path = ROOT / SCANNER
     spec = importlib.util.spec_from_file_location("curious_seed_archive_scanner", module_path)
@@ -131,7 +132,7 @@ def scan_seeds(registry: Path, seeds: tuple[int, ...]) -> dict[str, Any]:
         raise RuntimeError("cannot load the archived experiment seed scanner")
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
-    return module.audit_seeds(registry, list(seeds))
+    return module.audit_seeds(registry, list(seeds), max_line_bytes=max_line_bytes)
 
 
 def actor(state: dict[str, Any], actor_id: int) -> dict[str, Any] | None:
@@ -1506,7 +1507,7 @@ def execute_phase(phase: str, binary: Path, archive_root: Path,
     revision, hashes = source_identity(source_root)
     source_sha = source_map_sha256(hashes)
     protocol_path = source_root / PROTOCOL
-    seed_audit = scan_seeds(archive_root, seeds)
+    seed_audit = scan_seeds(archive_root, seeds, max_line_bytes=MAX_SEED_RECORD_BYTES)
     if seed_audit["unseen"] != list(seeds):
         raise RuntimeError(f"preregistered seeds are already present in the experiment archive: {seed_audit['matches']}")
     command = ["./lab-probe", "--calibration" if phase == "calibration" else "--formal"]

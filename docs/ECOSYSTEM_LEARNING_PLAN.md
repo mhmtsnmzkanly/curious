@@ -50,9 +50,17 @@ zero-tick validator reanalysis is documented in
 [`LIFELONG_WATER_REANALYSIS.md`](LIFELONG_WATER_REANALYSIS.md), with separate
 artifacts under
 `data/experiments/lifetime-lab-v2-calibration-reanalysis-20261023/`. No biology,
-fixture, threshold, gate, or budget is being changed. Seed `51099` is now used
-only for calibration; formal seeds `51001`–`51008` have not been run. Root must
-review the reanalysis and calibration gate before any formal authorization.
+fixture, threshold, gate, or budget is being changed. The first formal
+preflight stopped before the probe because the shared seed scanner's default
+16 MiB line cap rejected the valid 19.44 MB calibration record, despite the
+registered 64 MiB per-seed limit. No formal output directory or world ticks
+were created. Root is fixing the scanner's configurable bound and will repeat
+the calibration-only raw validation with zero world ticks in
+`data/experiments/lifetime-lab-v2-calibration-reanalysis2-20261023/`; see
+[`LIFELONG_WATER_PREFLIGHT_REPAIR.md`](LIFELONG_WATER_PREFLIGHT_REPAIR.md).
+Seed `51099` is used only for calibration; formal seeds `51001`–`51008` remain
+unused. Root must review the current source-bound reanalysis and full seed audit
+before authorizing another formal attempt.
 Root owns source/protocol commits, seed freshness scans, formal authorization, and
 the installed completion timer. The v2 completion helper watches only
 `lifetime-lab-v2-20261023` and schema
