@@ -28,6 +28,26 @@ python3 scripts/run_hunt_lab.py \
 V1 varsayılanı ve eski validator yolu korunur. V2 hasar kaynağı toplamlarını
 ayrıca doğrular; kaynağı belirlenemeyen hasar unattributed olarak tutulur.
 
+V3, `HUNT_LAB_PROTOCOL_V3.md` içindeki varsayılan kapalı risk seçimi
+hipotezini altı kolla sınar. Önce protokol ve kaynak temiz commit olarak
+incelenmeli; sonra temiz `hunt_lab` binary'siyle yalnız yeni çıktı dizini
+kullanılmalıdır:
+
+```bash
+python3 scripts/run_hunt_lab_v3.py \
+  --binary target/release/examples/hunt_lab \
+  --output data/experiments/hunt-lab-v3-<new-run-id>
+```
+
+Çalıştırıcı 43001–43008 eşleşmelerini, source/protocol/binary hash'lerini,
+başarı veya hata zamanını ve tamamlanmış sonuçların hash'lerini manifest'e yazar.
+Üst sınır 204800 fiziksel tick ve 300 saniyedir. `summary.json` seed başına ve
+ilk/son normal/ters 20 trial pencerelerinde bütün altı kolu verir; `report.md`
+yalnız validator'dan geçmiş çıktılardan üretilir. Modelin risk sayacı farkı,
+resolver kapanışlarından bağımsız ölçülen episode maruziyeti/yaralanma oranının
+yerine kullanılmaz. V3 çıktısı risk, besin, enerji, ölüm ve son sağlığı yan yana
+gösterir; canlıya kabul ya da dağıtım kararı vermez.
+
 - raw.jsonl: iki iz×sekiz çift; her satır eğitim+4kolun bütün trial/tick auditleri.
 - summary.json: her seed/kol için normal/ters pencereler, gerçek enerji/besin,
   puanlanan/puanlanmayan bölüm sayıları ve sekizli ortalamalar.
@@ -38,7 +58,8 @@ ayrıca doğrular; kaynağı belirlenemeyen hasar unattributed olarak tutulur.
 hedef değişimi ve ölüm gibi iki kapanış da ayrı kaydedilir; eski last_episode
 alanını her tick tekrar saymak kullanılmaz. İki sonuçluk geçici kuyruk World.tick
 sonunda boşaltılır; checkpoint/öğrenilmiş tabloya ek durum yazılmaz. Ödül, seçim,
-RNG veya fizik değişmez; checkpointV13/SQLiteV2 sürer. Ham laboratuvar sınırında
+RNG veya fizik değişmez; V1/V2 ölçümleri oluşturulurken checkpointV13/SQLiteV2
+kullanılmıştı. Yeni geliştirme V14'e geçti. Ham laboratuvar sınırında
 zorunlu kapanış origin=lab_boundary olur, motorun başarısızlığına karıştırılmaz.
 
 Karşılaştırmada reward tek ölçüt değildir. food gerçek EntityAte miktarı;

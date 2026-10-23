@@ -3,8 +3,8 @@ use curious::{
     entity::{
         decision::{Decision, Reason},
         hunt_learning::{
-            HuntContext, HuntEnd, HuntLearner, HuntLedger, HuntMeal, HuntValue, MAX_HUNT_TICKS,
-            MAX_HUNT_VALUES,
+            HuntContext, HuntEnd, HuntLearner, HuntLedger, HuntMeal, HuntRiskValue, HuntValue,
+            MAX_HUNT_TICKS, MAX_HUNT_VALUES,
         },
         intent::Intent,
         perception::Perception,
@@ -99,6 +99,184 @@ fn same_view_same_age_different_real_experience_changes_choice() {
     choose(&mut bad, 50);
     assert_eq!(good.episode.as_ref().unwrap().target, 10);
     assert_eq!(bad.episode.as_ref().unwrap().target, 20);
+}
+fn no_exploration_seed() -> u64 {
+    (0..1000).find(|seed| seed % 100 >= 10).unwrap()
+}
+fn contexts() -> (HuntContext, HuntContext) {
+    let l = life();
+    let v = view();
+    let profile = Species::Carnivore.combat_profile();
+    (
+        HuntContext::from_seen(&l, &v.entities[0], profile.damage),
+        HuntContext::from_seen(&l, &v.entities[1], profile.damage),
+    )
+}
+#[test]
+fn observed_risk_orders_candidates_and_unknown_is_not_zero() {
+    let (near, far) = contexts();
+    let mut l = learner();
+    l.risk_enabled = true;
+    l.values = vec![HuntValue {
+        context: near,
+        value: 900,
+        visits: 1,
+    }];
+    l.risk_values = vec![HuntRiskValue {
+        context: near,
+        exposures: 2,
+        injuries: 2,
+        damage: 8,
+    }];
+    choose(&mut l, no_exploration_seed());
+    assert_eq!(
+        l.episode.as_ref().unwrap().target,
+        10,
+        "unknown risk must not act as zero"
+    );
+
+    l.interrupt_censored(HuntEnd::Interrupted);
+    l.risk_values.push(HuntRiskValue {
+        context: far,
+        exposures: 2,
+        injuries: 0,
+        damage: 0,
+    });
+    choose(&mut l, no_exploration_seed());
+    assert_eq!(
+        l.episode.as_ref().unwrap().target,
+        20,
+        "lower observed injury risk precedes Q"
+    );
+}
+#[test]
+fn risk_counts_only_exact_audited_prey_damage_and_censors_lab_boundary() {
+    let mut l = learner();
+    l.risk_enabled = true;
+    let target = choose(&mut l, no_exploration_seed()).intent;
+    let id = match target {
+        Intent::Attack { target_id } => target_id,
+        _ => 10,
+    };
+    l.finish(
+        1,
+        &HuntLedger {
+            attack_energy: 3,
+            incoming_damage: 4,
+            prey_defense_damage: 4,
+            target_killed_by: Some(1),
+            food: vec![HuntMeal {
+                corpse_id: id,
+                amount: 5,
+            }],
+            ..Default::default()
+        },
+    );
+    assert_eq!(l.risk_values.len(), 1);
+    assert_eq!(
+        (
+            l.risk_values[0].exposures,
+            l.risk_values[0].injuries,
+            l.risk_values[0].damage
+        ),
+        (1, 1, 4)
+    );
+
+    let mut external = learner();
+    external.risk_enabled = true;
+    choose(&mut external, no_exploration_seed());
+    let id = external.episode.as_ref().unwrap().target;
+    external.finish(
+        1,
+        &HuntLedger {
+            attack_energy: 3,
+            incoming_damage: 4,
+            external_damage: 4,
+            target_killed_by: Some(1),
+            food: vec![HuntMeal {
+                corpse_id: id,
+                amount: 5,
+            }],
+            ..Default::default()
+        },
+    );
+    assert!(external.risk_values.is_empty());
+
+    let mut censored = learner();
+    censored.risk_enabled = true;
+    choose(&mut censored, no_exploration_seed());
+    censored.finish(
+        1,
+        &HuntLedger {
+            attack_energy: 3,
+            incoming_damage: 2,
+            prey_defense_damage: 2,
+            ..Default::default()
+        },
+    );
+    censored.interrupt_censored(HuntEnd::Interrupted);
+    assert!(censored.risk_values.is_empty());
+}
+#[test]
+fn risk_state_validation_rejects_impossible_damage_accounting() {
+    let mut l = learner();
+    l.risk_values.push(HuntRiskValue {
+        context: contexts().0,
+        exposures: 1,
+        injuries: 0,
+        damage: 1,
+    });
+    assert!(l.validate().is_err());
+}
+#[test]
+fn risk_exposure_cap_freezes_the_entire_ratio_record() {
+    let mut l = learner();
+    l.risk_enabled = true;
+    choose(&mut l, no_exploration_seed());
+    let context = l.episode.as_ref().unwrap().context;
+    l.risk_values = vec![HuntRiskValue {
+        context,
+        exposures: 1_000_000,
+        injuries: 500_000,
+        damage: 800_000,
+    }];
+    let id = l.episode.as_ref().unwrap().target;
+    l.finish(
+        1,
+        &HuntLedger {
+            attack_energy: 3,
+            incoming_damage: 5,
+            prey_defense_damage: 5,
+            target_killed_by: Some(1),
+            food: vec![HuntMeal {
+                corpse_id: id,
+                amount: 5,
+            }],
+            ..Default::default()
+        },
+    );
+    assert_eq!(l.risk_values[0].exposures, 1_000_000);
+    assert_eq!(l.risk_values[0].injuries, 500_000);
+    assert_eq!(l.risk_values[0].damage, 800_000);
+}
+#[test]
+fn disabled_learner_does_not_update_risk_on_stale_pending_interrupt() {
+    let mut l = learner();
+    l.risk_enabled = true;
+    choose(&mut l, no_exploration_seed());
+    l.finish(
+        1,
+        &HuntLedger {
+            attack_energy: 3,
+            incoming_damage: 3,
+            prey_defense_damage: 3,
+            ..Default::default()
+        },
+    );
+    assert!(l.episode.is_some());
+    l.enabled = false;
+    l.interrupt(HuntEnd::Interrupted);
+    assert!(l.risk_values.is_empty());
 }
 #[test]
 fn old_preference_reverses_after_new_evidence() {

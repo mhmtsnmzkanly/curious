@@ -51,9 +51,10 @@ ayrı karma dünya değerlendirmesi dağıtımdan önce gereklidir.
 
 ## İşletim ve kayıt sınırı
 
-Geliştirme kaydı V13'tür; SQLite şeması değişmez. V12 ve daha eski kayıtlardan
+Geliştirme kaydı V14'tür; SQLite şeması değişmez. V12 ve daha eski kayıtlardan
 geçişte av öğrenicisi kapalı/boş, su öğrenicisinin güncellemesi açık başlatılır.
-V13 kaydını eski motorla açmak desteklenmez. Aktif dünyalar ve replay'in frozen
+V13 risk kanıtı V14 göçünde kapalı/boş olur; bekleyen episode ve ambiguity
+bayrakları korunur. V13/V14 kaydını eski motorla açmak desteklenmez. Aktif dünyalar ve replay'in frozen
 kaynağı otomatik yükseltilmez; yalnız geliştirme testlerinin geçmesi dağıtım
 kararı değildir. Yeni bir gözlem dünyası veya açıkça yedekli göç ayrı iştir.
 
@@ -127,3 +128,22 @@ Bu mekanizma hâlâ sık hedef değiştirme nedeniyle puansız kapanan çok böl
 sadece kendi öldürdüğü avdan ilk öğüne kredi ve dış yaralanmayı belirsiz sayan
 muhasebe gibi sınırlara sahiptir. Öğrenilmiş tablonun yararı ayrı eğitimli/frozen
 ve bağımsız koşullarda henüz kanıtlanmamıştır. Varsayılan kapalı kalır.
+
+## V14: opt-in, resolver-attributed injury risk
+
+V14 adds a separate bounded risk table keyed by the existing visible prey
+context. It is off by default and does not change the food/action-cost reward.
+An observation requires executed attack energy, a completed observed-policy
+episode, and incoming damage exactly attributed to that episode's visible prey;
+external, ambiguous, mismatched, and lab-boundary episodes do not count. A
+non-exploration choice uses only observed risk contexts once any candidate has
+evidence, ordered by injury rate, mean prey-defense damage, then the existing
+learned value and baseline cost ordering. Unknown evidence is never scored as
+zero risk, though the existing 10% exploration branch can select it.
+
+The separate V3 protocol compares risk-aware online, frozen, and same-table
+risk-disabled arms with resolver-outcome exposure counts independent of whether
+model counters update. It reports injury together with food, energy, death, and
+final health. No evaluation has run; this mechanism has no ecological acceptance
+or deployment status. V13 migration preserves any pending episode and its
+ambiguity flag while leaving new risk evidence empty and disabled.

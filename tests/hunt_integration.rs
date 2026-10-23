@@ -5,13 +5,13 @@ use curious::{
     entity::{
         controller::EntityController,
         decision::Reason,
-        hunt_learning::{HuntContext, HuntEnd, HuntValue},
+        hunt_learning::{HuntContext, HuntEnd, HuntRiskValue, HuntValue},
         intent::Intent,
         phase::EntityPhase,
     },
     logger::Logger,
-    map::{cell::Cell, movement::Position, Map},
-    simulation::{checkpoint::State, SimulationEvent},
+    map::{Map, cell::Cell, movement::Position},
+    simulation::{SimulationEvent, checkpoint::State},
     world::{EntitySlot, World},
 };
 fn hunt_world(prey_health: usize) -> World {
@@ -89,13 +89,14 @@ fn own_physical_kill_then_real_meal_produces_audited_reward() {
     let hunter = w.entities.iter().find(|s| s.id == 1).unwrap();
     assert!(hunter.hunt_learner.values.is_empty()); // killing is not nutrition
     assert!(hunter.hunt_learner.episode.as_ref().unwrap().own_kill);
-    assert!(w
-        .entities
-        .iter()
-        .find(|s| s.id == 10)
-        .unwrap()
-        .phase
-        .is_corpse());
+    assert!(
+        w.entities
+            .iter()
+            .find(|s| s.id == 10)
+            .unwrap()
+            .phase
+            .is_corpse()
+    );
     let energy_before = hunter.base.life().energy;
     let food_events = w.tick();
     assert_eq!(reason(&w, 1), Reason::SeekFood); // learner preserves the food policy
@@ -127,7 +128,7 @@ fn pending_own_kill_checkpoint_resumes_all_state_and_rng_identically() {
     let mut original = hunt_world(1);
     original.tick();
     let state = State::capture(&original);
-    assert_eq!(state.version, 13);
+    assert_eq!(state.version, 14);
     assert!(
         state
             .entities
@@ -156,6 +157,83 @@ fn pending_own_kill_checkpoint_resumes_all_state_and_rng_identically() {
         );
         assert_eq!(original.rng.state(), restored.rng.state());
     }
+}
+#[test]
+fn risk_enabled_pending_defense_damage_checkpoint_resumes_state_rng_and_events() {
+    let mut original = hunt_world(100);
+    {
+        let hunter = original.entities.iter_mut().find(|s| s.id == 1).unwrap();
+        hunter.hunt_learner.risk_enabled = true;
+        hunter.hunt_learner.risk_values.push(HuntRiskValue {
+            context: knowledge().context,
+            exposures: 2,
+            injuries: 1,
+            damage: 3,
+        });
+    }
+    original.push_command(10, Intent::Attack { target_id: 1 });
+    let first = original.tick();
+    assert!(first.iter().any(|e| matches!(e, SimulationEvent::EntityAttacked { attacker: 10, target: 1, damage, .. } if *damage > 0)));
+    let state = State::capture(&original);
+    let mut restored = serde_json::from_str::<State>(&serde_json::to_string(&state).unwrap())
+        .unwrap()
+        .restore()
+        .unwrap();
+    for _ in 0..5 {
+        original.push_command(10, Intent::Attack { target_id: 1 });
+        restored.push_command(10, Intent::Attack { target_id: 1 });
+        assert_eq!(
+            serde_json::to_value(original.tick()).unwrap(),
+            serde_json::to_value(restored.tick()).unwrap()
+        );
+        assert_eq!(
+            serde_json::to_value(State::capture(&original)).unwrap(),
+            serde_json::to_value(State::capture(&restored)).unwrap()
+        );
+        assert_eq!(original.rng.state(), restored.rng.state());
+    }
+}
+#[test]
+fn v13_migration_disables_new_risk_evidence_but_preserves_ambiguous_pending_episode() {
+    let mut world = hunt_world(100);
+    world.tick();
+    let mut legacy = serde_json::to_value(State::capture(&world)).unwrap();
+    legacy["version"] = 13.into();
+    let hunter = legacy["entities"]
+        .as_array_mut()
+        .unwrap()
+        .iter_mut()
+        .find(|entity| entity["id"] == 1)
+        .unwrap();
+    hunter["hunt_learner"]
+        .as_object_mut()
+        .unwrap()
+        .remove("risk_enabled");
+    hunter["hunt_learner"]
+        .as_object_mut()
+        .unwrap()
+        .remove("risk_values");
+    hunter["hunt_learner"]["episode"]["ambiguous"] = true.into();
+    hunter["hunt_learner"]["episode"]
+        .as_object_mut()
+        .unwrap()
+        .remove("prey_defense_damage");
+    let restored = serde_json::from_value::<State>(legacy)
+        .unwrap()
+        .restore()
+        .unwrap();
+    let learner = &restored
+        .entities
+        .iter()
+        .find(|entity| entity.id == 1)
+        .unwrap()
+        .hunt_learner;
+    assert!(!learner.risk_enabled);
+    assert!(learner.risk_values.is_empty());
+    let pending = learner.episode.as_ref().unwrap();
+    assert!(pending.ambiguous);
+    assert_eq!(pending.prey_defense_damage, 0);
+    assert_eq!(pending.target, 10);
 }
 #[test]
 fn another_predators_real_kill_has_no_credit_for_the_pursuer() {
@@ -251,18 +329,51 @@ fn resolver_attributes_current_prey_defense_and_sans_censors_third_party_damage(
     );
 }
 #[test]
+fn physical_defense_closure_records_exactly_one_risk_exposure() {
+    let mut w = hunt_world(100);
+    w.entities
+        .iter_mut()
+        .find(|s| s.id == 1)
+        .unwrap()
+        .hunt_learner
+        .risk_enabled = true;
+    w.push_command(10, Intent::Attack { target_id: 1 });
+    let events = w.tick();
+    let damage: usize = events
+        .iter()
+        .filter_map(|e| match e {
+            SimulationEvent::EntityAttacked {
+                attacker: 10,
+                target: 1,
+                damage,
+                ..
+            } => Some(*damage),
+            _ => None,
+        })
+        .sum();
+    assert!(damage > 0);
+    w.push_command(1, Intent::Idle { duration: 1 });
+    w.tick();
+    let learner = &w.entities.iter().find(|s| s.id == 1).unwrap().hunt_learner;
+    assert_eq!(learner.risk_values.len(), 1);
+    assert_eq!(learner.risk_values[0].exposures, 1);
+    assert_eq!(learner.risk_values[0].injuries, 1);
+    assert_eq!(learner.risk_values[0].damage as usize, damage);
+}
+#[test]
 fn external_command_and_real_thirst_interrupt_without_becoming_bad_examples() {
     for external in [true, false] {
         let mut w = hunt_world(100);
         w.tick();
-        assert!(w
-            .entities
-            .iter()
-            .find(|s| s.id == 1)
-            .unwrap()
-            .hunt_learner
-            .episode
-            .is_some());
+        assert!(
+            w.entities
+                .iter()
+                .find(|s| s.id == 1)
+                .unwrap()
+                .hunt_learner
+                .episode
+                .is_some()
+        );
         if external {
             w.push_command(1, Intent::Idle { duration: 1 });
         } else {
@@ -310,19 +421,30 @@ fn physical_birth_inherits_mode_flags_but_never_experience() {
                 slot.hunt_learner.enabled = id == 1 || second_enabled;
                 slot.hunt_learner.update_enabled = id == 1;
                 slot.hunt_learner.values.push(knowledge());
+                slot.hunt_learner.risk_enabled = true;
+                slot.hunt_learner.risk_values.push(HuntRiskValue {
+                    context: knowledge().context,
+                    exposures: 3,
+                    injuries: 1,
+                    damage: 4,
+                });
                 slot
             })
             .collect();
         let mut w = bare_world(parents);
         w.push_command(1, Intent::Mate { target_id: 2 });
         let events = w.tick();
-        assert!(events
-            .iter()
-            .any(|e| matches!(e, SimulationEvent::EntityBorn { .. })));
+        assert!(
+            events
+                .iter()
+                .any(|e| matches!(e, SimulationEvent::EntityBorn { .. }))
+        );
         let child = w.entities.iter().find(|s| s.generation == 1).unwrap();
         assert_eq!(child.hunt_learner.enabled, second_enabled);
         assert!(!child.hunt_learner.update_enabled);
         assert!(child.hunt_learner.values.is_empty());
+        assert!(!child.hunt_learner.risk_enabled);
+        assert!(child.hunt_learner.risk_values.is_empty());
         assert!(child.hunt_learner.episode.is_none());
         assert!(child.hunt_learner.last_episode.is_none());
     }

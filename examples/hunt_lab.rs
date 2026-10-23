@@ -1,24 +1,24 @@
-//! Fixed four-arm physical hunt laboratory. See docs/HUNT_LAB_PROTOCOL.md.
+//! Fixed bounded physical hunt laboratory. See the versioned protocol files.
 use curious::{
+    Result,
     creatures::{carnivore::CarnivoreEntity, herbivore::HerbivoreEntity},
     entity::{
         controller::EntityController,
         decision::{Decision, Target},
-        hunt_learning::{HuntEnd, HuntLearner, HuntResult},
+        hunt_learning::{HuntEnd, HuntLearner, HuntResult, HuntRiskValue},
         intent::Intent,
         phase::EntityPhase,
     },
     logger::Logger,
     map::{
-        movement::{Direction, Position, Steps},
         Map,
+        movement::{Direction, Position, Steps},
     },
     persistence::Store,
     random::Random,
     simulation::SimulationEvent,
     systems::perception::PerceptionSystem,
     world::{EntitySlot, World},
-    Result,
 };
 use serde::{Deserialize, Serialize};
 use std::{
@@ -40,14 +40,43 @@ const PAIRS: [(u64, u64); 8] = [
     (12345, 41007),
     (2026, 41008),
 ];
+const V3_PAIRS: [(u64, u64); 8] = [
+    (1, 43001),
+    (2, 43002),
+    (3, 43003),
+    (4, 43004),
+    (5, 43005),
+    (42, 43006),
+    (12345, 43007),
+    (2026, 43008),
+];
 const ARMS: [&str; 4] = [
     "rule_based",
     "naive_online",
     "experienced_online",
     "experienced_frozen",
 ];
+const V3_ARMS: [&str; 6] = [
+    "rule_based",
+    "naive_online",
+    "experienced_online",
+    "experienced_risk_online",
+    "experienced_risk_frozen",
+    "experienced_risk_ablation_frozen",
+];
 fn visits(l: &HuntLearner) -> u64 {
     l.values.iter().map(|v| u64::from(v.visits)).sum()
+}
+fn risk_totals(values: &[HuntRiskValue]) -> (u64, u64, u64) {
+    values
+        .iter()
+        .fold((0, 0, 0), |(exposures, injuries, damage), value| {
+            (
+                exposures + u64::from(value.exposures),
+                injuries + u64::from(value.injuries),
+                damage + value.damage,
+            )
+        })
 }
 fn schedule(seed: u64, n: usize) -> Vec<u64> {
     let mut rng = Random::new(seed);
@@ -143,6 +172,8 @@ struct TickAudit {
     rejected: usize,
     energy: usize,
     stamina: usize,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    risk_explored_unknown: Option<bool>,
 }
 #[derive(Clone, Debug, Serialize, Deserialize)]
 struct Trial {
@@ -163,11 +194,25 @@ struct Trial {
     unattributed_damage: usize,
     rejected: usize,
     hunter_died: bool,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    final_health: Option<usize>,
     first_food_tick: Option<usize>,
     failed_ticks: usize,
     stop: String,
     visits_before: u64,
     visits_after: u64,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    risk_exposures_before: Option<u64>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    risk_exposures_after: Option<u64>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    risk_injuries_before: Option<u64>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    risk_injuries_after: Option<u64>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    risk_damage_before: Option<u64>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    risk_damage_after: Option<u64>,
     endings: Vec<EndAudit>,
     timeline: Vec<TickAudit>,
 }
@@ -190,11 +235,14 @@ fn trial(
     reversed: bool,
     defensive: bool,
     sample: Option<&Path>,
+    audit_v3: bool,
 ) -> Result<Trial> {
     learner.episode = None;
     learner.last_episode = None;
     learner.take_results();
     let before = visits(learner);
+    let risk_before = risk_totals(&learner.risk_values);
+    let audit_risk = learner.risk_enabled || !learner.risk_values.is_empty();
     let mut w = world(seed, std::mem::take(learner));
     let initial_energy = w.entities[0].base.life().energy;
     let initial_bodies=serde_json::json!(w.entities.iter().map(|s|serde_json::json!({"id":s.id,"life":s.base.life(),"pos":s.pos,"phase":s.phase,"species":s.base.species()})).collect::<Vec<_>>());
@@ -227,11 +275,18 @@ fn trial(
         energy_spent: 0,
         non_action_energy: 0,
         hunter_died: false,
+        final_health: None,
         first_food_tick: None,
         failed_ticks: 0,
         stop: "TrialLimit".into(),
         visits_before: before,
         visits_after: before,
+        risk_exposures_before: audit_risk.then_some(risk_before.0),
+        risk_exposures_after: audit_risk.then_some(risk_before.0),
+        risk_injuries_before: audit_risk.then_some(risk_before.1),
+        risk_injuries_after: audit_risk.then_some(risk_before.1),
+        risk_damage_before: audit_risk.then_some(risk_before.2),
+        risk_damage_after: audit_risk.then_some(risk_before.2),
         endings: vec![],
         timeline: vec![],
     };
@@ -259,6 +314,10 @@ fn trial(
             rejected: 0,
             energy: actor.base.life().energy,
             stamina: actor.base.life().stamina,
+            risk_explored_unknown: actor
+                .hunt_learner
+                .risk_enabled
+                .then_some(actor.hunt_learner.last_choice_explored_unknown),
         };
         for event in &events {
             match event {
@@ -335,7 +394,7 @@ fn trial(
     }
     let actor = w.entities.iter_mut().find(|s| s.id == 1).unwrap();
     if actor.hunt_learner.episode.is_some() {
-        actor.hunt_learner.interrupt(HuntEnd::Interrupted);
+        actor.hunt_learner.interrupt_censored(HuntEnd::Interrupted);
         let ended = actor.hunt_learner.take_results();
         let mut events = vec![];
         for result in ended {
@@ -358,6 +417,16 @@ fn trial(
         .checked_sub(r.movement_energy + r.attack_energy)
         .ok_or("action energy exceeds body accounting")?;
     r.visits_after = visits(&actor.hunt_learner);
+    r.final_health = audit_v3.then_some(actor.base.life().health);
+    let risk_after = risk_totals(&actor.hunt_learner.risk_values);
+    if audit_risk || actor.hunt_learner.risk_enabled || !actor.hunt_learner.risk_values.is_empty() {
+        r.risk_exposures_before = Some(risk_before.0);
+        r.risk_exposures_after = Some(risk_after.0);
+        r.risk_injuries_before = Some(risk_before.1);
+        r.risk_injuries_after = Some(risk_after.1);
+        r.risk_damage_before = Some(risk_before.2);
+        r.risk_damage_after = Some(risk_after.2);
+    }
     r.failed_ticks = if r.food == 0 { r.ticks } else { 0 };
     *learner = std::mem::take(&mut actor.hunt_learner);
     Ok(r)
@@ -377,7 +446,7 @@ fn run_pair(
     let training: Vec<_> = schedule(training_seed, TRAIN)
         .into_iter()
         .enumerate()
-        .map(|(i, seed)| trial(&mut trained, seed, i, false, defensive, None))
+        .map(|(i, seed)| trial(&mut trained, seed, i, false, defensive, None, false))
         .collect::<Result<_>>()?;
     let training_values = trained.values.clone();
     let eval_seeds = schedule(evaluation_seed, EVAL);
@@ -410,6 +479,7 @@ fn run_pair(
                 i >= REVERSAL,
                 defensive,
                 sample.as_deref(),
+                false,
             )?);
         }
         arms.push(serde_json::json!({"arm":name,"initial_values":initial_values,"final_values":learner.values,"trials":trials}));
@@ -418,10 +488,97 @@ fn run_pair(
         serde_json::json!({"schema":if protocol_v2 {"curious-hunt-lab-v2"} else {"curious-hunt-lab-v1"},"track":track,"training_seed":training_seed,"evaluation_seed":evaluation_seed,"training_trials":TRAIN,"evaluation_trials":EVAL,"reversal_at":REVERSAL,"max_trial_ticks":LIMIT,"controlled_body_reset":true,"training":training,"training_values":training_values,"arms":arms}),
     )
 }
+fn run_pair_v3(training_seed: u64, evaluation_seed: u64, track: &str) -> Result<serde_json::Value> {
+    let defensive = track == "defensive";
+    let seeds = schedule(training_seed, TRAIN);
+    let mut plain = HuntLearner {
+        enabled: true,
+        ..Default::default()
+    };
+    let mut risk = HuntLearner {
+        enabled: true,
+        risk_enabled: true,
+        ..Default::default()
+    };
+    let mut plain_training = Vec::with_capacity(TRAIN);
+    let mut risk_training = Vec::with_capacity(TRAIN);
+    for (i, seed) in seeds.into_iter().enumerate() {
+        plain_training.push(trial(&mut plain, seed, i, false, defensive, None, true)?);
+        risk_training.push(trial(&mut risk, seed, i, false, defensive, None, true)?);
+    }
+    let plain_values = plain.values.clone();
+    let risk_values = risk.values.clone();
+    let risk_table = risk.risk_values.clone();
+    let eval_seeds = schedule(evaluation_seed, EVAL);
+    let mut arms = Vec::with_capacity(V3_ARMS.len());
+    for name in V3_ARMS {
+        let mut learner = match name {
+            "rule_based" => HuntLearner::default(),
+            "naive_online" => HuntLearner {
+                enabled: true,
+                ..Default::default()
+            },
+            "experienced_online" => plain.clone(),
+            "experienced_risk_online" => risk.clone(),
+            "experienced_risk_frozen" | "experienced_risk_ablation_frozen" => risk.clone(),
+            _ => unreachable!(),
+        };
+        learner.update_enabled = !matches!(
+            name,
+            "experienced_risk_frozen" | "experienced_risk_ablation_frozen"
+        );
+        if name == "experienced_risk_ablation_frozen" {
+            learner.risk_enabled = false;
+        }
+        let initial_values = learner.values.clone();
+        let initial_risk_values = learner.risk_values.clone();
+        let mut trials = Vec::with_capacity(EVAL);
+        for (i, seed) in eval_seeds.iter().enumerate() {
+            trials.push(trial(
+                &mut learner,
+                *seed,
+                i,
+                i >= REVERSAL,
+                defensive,
+                None,
+                true,
+            )?);
+        }
+        arms.push(serde_json::json!({
+            "arm":name,
+            "enabled":learner.enabled,
+            "risk_enabled":learner.risk_enabled,
+            "update_enabled":learner.update_enabled,
+            "initial_values":initial_values,
+            "final_values":learner.values,
+            "initial_risk_values":initial_risk_values,
+            "final_risk_values":learner.risk_values,
+            "trials":trials
+        }));
+    }
+    Ok(serde_json::json!({
+        "schema":"curious-hunt-lab-v3",
+        "track":track,
+        "training_seed":training_seed,
+        "evaluation_seed":evaluation_seed,
+        "training_trials":TRAIN,
+        "evaluation_trials":EVAL,
+        "reversal_at":REVERSAL,
+        "max_trial_ticks":LIMIT,
+        "controlled_body_reset":true,
+        "training":plain_training,
+        "risk_training":risk_training,
+        "training_values":plain_values,
+        "risk_training_values":risk_values,
+        "risk_training_risk_values":risk_table,
+        "arms":arms
+    }))
+}
 fn run() -> Result<()> {
     let args: Vec<_> = std::env::args().skip(1).collect();
     let mut samples = None;
     let mut evaluation_seed_start = None;
+    let mut protocol_version = 1u8;
     let mut i = 0;
     while i < args.len() {
         match args[i].as_str() {
@@ -433,17 +590,32 @@ fn run() -> Result<()> {
                 evaluation_seed_start = Some(args[i + 1].parse::<u64>()?);
                 i += 2;
             }
+            "--protocol-version" if i + 1 < args.len() && protocol_version == 1 => {
+                protocol_version = args[i + 1].parse::<u8>()?;
+                if !matches!(protocol_version, 1 | 2 | 3) { return Err("protocol version must be 1, 2, or 3".into()); }
+                i += 2;
+            }
             _ => {
                 return Err(
-                    "usage: hunt_lab [--samples NEW_DIRECTORY] [--evaluation-seed-start SEED]"
+                    "usage: hunt_lab [--protocol-version 1|2|3] [--samples NEW_DIRECTORY] [--evaluation-seed-start SEED]"
                         .into(),
                 )
             }
         }
     }
-    let protocol_v2 = evaluation_seed_start.is_some();
-    let pairs = evaluation_seed_start.map_or(PAIRS.to_vec(), |start| {
-        PAIRS
+    if protocol_version < 3 && evaluation_seed_start.is_some() {
+        protocol_version = 2;
+    }
+    if protocol_version == 3 && evaluation_seed_start.is_none() {
+        return Err("protocol v3 requires --evaluation-seed-start".into());
+    }
+    let source_pairs = if protocol_version == 3 {
+        &V3_PAIRS[..]
+    } else {
+        &PAIRS[..]
+    };
+    let pairs = evaluation_seed_start.map_or(source_pairs.to_vec(), |start| {
+        source_pairs
             .iter()
             .enumerate()
             .map(|(i, (training, _))| (*training, start + i as u64))
@@ -455,10 +627,12 @@ fn run() -> Result<()> {
     let mut out = std::io::BufWriter::new(std::io::stdout().lock());
     for track in ["passive", "defensive"] {
         for (a, b) in &pairs {
-            serde_json::to_writer(
-                &mut out,
-                &run_pair(*a, *b, track, samples.as_deref(), protocol_v2)?,
-            )?;
+            let result = if protocol_version == 3 {
+                run_pair_v3(*a, *b, track)?
+            } else {
+                run_pair(*a, *b, track, samples.as_deref(), protocol_version == 2)?
+            };
+            serde_json::to_writer(&mut out, &result)?;
             writeln!(out)?;
             out.flush()?;
         }
@@ -495,6 +669,7 @@ mod attribution_tests {
                     movement_energy: 1,
                     attack_energy: 0,
                     incoming_damage: 0,
+                    prey_defense_damage: 0,
                     food: 0,
                     own_kill: false,
                     ambiguous: false,
@@ -531,7 +706,7 @@ mod tests {
             enabled: true,
             ..Default::default()
         };
-        trial(&mut trained, 1, 0, true, false, None).unwrap();
+        trial(&mut trained, 1, 0, true, false, None, false).unwrap();
         let mut a = world(42, HuntLearner::default());
         let mut b = world(42, trained);
         assert_eq!(
@@ -555,7 +730,7 @@ mod tests {
             enabled: true,
             ..Default::default()
         };
-        let trained = trial(&mut learner, 50, 0, true, false, None).unwrap();
+        let trained = trial(&mut learner, 50, 0, true, false, None, false).unwrap();
         assert!(trained.food > 0);
         assert_eq!(
             trained.endings.iter().filter(|e| e.result.updated).count() as u64,
@@ -563,7 +738,7 @@ mod tests {
         );
         learner.update_enabled = false;
         let values = learner.values.clone();
-        let r = trial(&mut learner, 50, 0, true, false, None).unwrap();
+        let r = trial(&mut learner, 50, 0, true, false, None, false).unwrap();
         assert_eq!(learner.values, values);
         assert_eq!(r.visits_before, r.visits_after);
         assert!(r.endings.iter().all(|e| !e.result.updated));
@@ -597,18 +772,19 @@ mod tests {
             enabled: true,
             ..Default::default()
         };
-        let r = trial(&mut learner, 7, 0, false, true, None).unwrap();
+        let r = trial(&mut learner, 7, 0, false, true, None, false).unwrap();
         assert!(r.ticks <= LIMIT);
         assert_eq!(r.ticks, r.timeline.len());
         assert_eq!(
             r.movement_energy,
             r.timeline.iter().map(|t| t.movement_energy).sum::<usize>()
         );
-        assert!(r
-            .endings
-            .iter()
-            .filter(|e| e.origin == "lab_boundary")
-            .all(|e| e.result.reward.is_none() && !e.result.updated));
+        assert!(
+            r.endings
+                .iter()
+                .filter(|e| e.origin == "lab_boundary")
+                .all(|e| e.result.reward.is_none() && !e.result.updated)
+        );
     }
     #[test]
     fn audit_queue_drains_and_world_checkpoint_replays_events() {

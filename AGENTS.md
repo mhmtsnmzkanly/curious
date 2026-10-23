@@ -27,6 +27,13 @@ worktree'den çalıştırılır; 7878–7881, eski araştırma/veriler/ikili kor
 Başlamadan `docs/VISION.md`, `docs/CONTROL.md`, `docs/ROADMAP.md` ve `TODO.md`
 okunur. Kullanıcının sonraki talimatları bu notların önündedir.
 
+Yeni altı aşamalı ekosistem öğrenme görevinin sahipliği, kabul sınırları ve
+durumu [`docs/ECOSYSTEM_LEARNING_PLAN.md`](docs/ECOSYSTEM_LEARNING_PLAN.md)
+dosyasındadır. Her faz için protokol ve bounded lab kanıtı gerekir; root
+protokolü/commitleri/deneyi denetler, Luna6 kaynak kodu ve ölçüm araçlarını
+hazırlar. Completion timer kurulu olsa da sonraki faz lab adları ayrıca
+uyumlandırılmadan timer kapsamına girmez.
+
 ## Rezerv adayının uzun kabul kampanyası — 18 Ekim
 
 32ddfb2 hedefli şok2/2, normal8/8, şok8/8 geçti; önceki unit bitti.

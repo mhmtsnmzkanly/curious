@@ -1,9 +1,11 @@
-# V13 — deneyim ve deneysel av seçimi
+# V14 — deneyim ve deneysel av seçimi
 
-Yeni geliştirme StateV13 kullanır; SQLiteV2 değişmez. Individual.hunt_learner
+Yeni geliştirme StateV14 kullanır; SQLiteV2 değişmez. Individual.hunt_learner
 varsayılan kapalıdır. V1–V12 göçünde boş/kapalı başlar; su update_enabled
 varsayılan true olur. V13 alanları checkpoint/UpdateEntity doğrulamasından
-geçer. Eski motor V13 okuyamaz; çalışan dünyaların frozen ikilileri değiştirilmez.
+geçer. V14 av risk kanıtı ve `risk_enabled` seçeneği ekler; V13'ten göçte
+kanıt boş ve özellik kapalıdır, bekleyen bölüm/ambiguous bilgisi korunur. Eski
+motor V13/V14 kayıtlarını açamaz; çalışan dünyaların frozen ikilileri değiştirilmez.
 
 Su Learner.update_enabled=false, öğrenilmiş tercih ve aynı keşif mekanizmasını
 korurken değer/ziyaret güncellemesini kapatır; sonuç muhasebesi sürer.

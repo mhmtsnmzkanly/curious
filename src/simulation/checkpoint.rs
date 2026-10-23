@@ -74,7 +74,7 @@ impl State {
         commands.sort_by_key(|(id, _)| *id);
         Self {
             policy: world.policy.clone(),
-            version: 13,
+            version: 14,
             genetics: world.genetics.clone(),
             observation: world.observation.clone(),
             environment: world.environment.clone(),
@@ -111,7 +111,7 @@ impl State {
         }
     }
     pub fn restore(mut self) -> Result<World> {
-        if !(1..=13).contains(&self.version) {
+        if !(1..=14).contains(&self.version) {
             return Err("unsupported checkpoint version".into());
         }
         if self.version < 12 {
@@ -124,6 +124,21 @@ impl State {
             for individual in &mut self.entities {
                 individual.hunt_learner = Default::default();
                 individual.learner.update_enabled = true;
+            }
+        }
+        if self.version < 14 {
+            for individual in &mut self.entities {
+                individual.hunt_learner.risk_enabled = false;
+                individual.hunt_learner.risk_values.clear();
+                if let Some(episode) = &mut individual.hunt_learner.episode {
+                    episode.prey_defense_damage = 0;
+                }
+                if let Some(result) = &mut individual.hunt_learner.last_episode {
+                    result.attempt.prey_defense_damage = 0;
+                }
+                for result in &mut individual.hunt_learner.pending_results {
+                    result.attempt.prey_defense_damage = 0;
+                }
             }
         }
         for individual in &self.entities {
