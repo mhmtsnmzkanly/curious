@@ -36,6 +36,8 @@ the original calibration run and the first reanalysis directory unchanged.
 Formal preflight must bind to this second reanalysis and recheck the seed list
 against the entire 64 MiB scan.
 
-The formal job stopped before any formal capture. No outcomes or learning
-efficacy claims are available. Root must review the corrected source-bound
-reanalysis and freshness audit before authorizing a new formal attempt.
+The first formal job stopped before any formal capture. After the corrected
+source-bound reanalysis and full freshness scan passed, the bounded formal run
+completed on the original held-out set. The final result and its limits are in
+[`reports/LIFELONG_WATER_V2.md`](reports/LIFELONG_WATER_V2.md). The first
+preflight failure consumed no formal seeds or simulation ticks.

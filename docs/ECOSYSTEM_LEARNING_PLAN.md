@@ -39,32 +39,45 @@ serialization/replay tests; no core policy or saved-state behavior changes.
 
 The follow-up aims only to demonstrate a causally attributable decision and a
 physical water/energy/survival effect in at least one held-out continuous
-lifetime. It does not establish general learning efficacy. Root audited
-calibration seed `51099` and formal seeds `51001`–`51008` as unused before any
-new run. The calibration probe then captured 1,400 ticks for seed `51099`, but
-the first validator failed on an incorrect assertion that initial RNG equal the
-input seed. `World::with_seed` consumes deterministic RNG calls while
-populating its temporary map before the probe installs the fixed fixture map.
-The raw capture, failed manifest, probe, and protocol remain unchanged. A
-zero-tick validator reanalysis is documented in
-[`LIFELONG_WATER_REANALYSIS.md`](LIFELONG_WATER_REANALYSIS.md), with separate
-artifacts under
-`data/experiments/lifetime-lab-v2-calibration-reanalysis-20261023/`. No biology,
-fixture, threshold, gate, or budget is being changed. The first formal
-preflight stopped before the probe because the shared seed scanner's default
-16 MiB line cap rejected the valid 19.44 MB calibration record, despite the
-registered 64 MiB per-seed limit. No formal output directory or world ticks
-were created. Root is fixing the scanner's configurable bound and will repeat
-the calibration-only raw validation with zero world ticks in
-`data/experiments/lifetime-lab-v2-calibration-reanalysis2-20261023/`; see
+lifetime. It does not establish general learning efficacy. Calibration seed
+`51099` completed once for 1,400 physical ticks. The first validator had a bad
+initial-RNG-equals-seed assertion; the constructor consumes 25 deterministic
+resource-population calls before the fixed map replaces the temporary map.
+Validator-only reanalysis 1 and source-bound reanalysis 2 both used the same
+immutable raw capture and zero new world ticks. Reanalysis 2 passed the
+calibration exposure gate after the seed scanner was fixed to parse the full
+registered 64 MiB record limit. The original failed run, first reanalysis, and
+second reanalysis are preserved in their separate directories. The intervening
+formal preflight stopped before probe launch because the old scanner default was
+16 MiB; no formal seed was consumed by that attempt. Incident details are in
+[`LIFELONG_WATER_REANALYSIS.md`](LIFELONG_WATER_REANALYSIS.md) and
 [`LIFELONG_WATER_PREFLIGHT_REPAIR.md`](LIFELONG_WATER_PREFLIGHT_REPAIR.md).
-Seed `51099` is used only for calibration; formal seeds `51001`–`51008` remain
-unused. Root must review the current source-bound reanalysis and full seed audit
-before authorizing another formal attempt.
+
+The corrected formal run completed all eight preregistered seeds (`51001`–
+`51008`) and 11,200 physical ticks. The first online-versus-trained-frozen
+fresh choice passed the paired-state and same-exposure greedy-shadow causal
+checks in all eight seeds; a resolver-confirmed physical outcome difference
+followed in each. Only seed `51007` met the preregistered favorable physical
+vector at the common horizon; six showed tradeoffs and the frozen arm
+Pareto-dominated online in seed `51001`. This is one
+continuous-lifetime existence example, not a general expected advantage,
+ecosystem effect, or deployment acceptance. The online arm has no Pareto win
+against the strong rule-based context arm: rule-based dominates in three seeds
+and five are tradeoffs. A possible next preregistered question is whether a
+residual or reliability-adjusted learned value should incorporate currently
+visible amount and route cost; no implementation or new run is authorized.
+Full all-seed/four-arm measures and provenance are in
+[`reports/LIFELONG_WATER_V2.md`](reports/LIFELONG_WATER_V2.md) and its JSON
+companion. The probe-only result did not change core policy, biology, fixture,
+gates, budget, or live defaults.
 Root owns source/protocol commits, seed freshness scans, formal authorization, and
-the installed completion timer. The v2 completion helper watches only
+the installed completion infrastructure. The lifetime calibration and formal
+completion timers are disabled after terminal handling; their frozen helper,
+external configs, and systemd evidence are retained. The formal completion was
+already reviewed, and its queue item is pending chat delivery; do not rerun the
+timer in response to delivery acknowledgement. The helper was scoped to
 `lifetime-lab-v2-20261023` and schema
-`curious-lifetime-lab-run-v2`/protocol 2; its active runtime is external to
+`curious-lifetime-lab-run-v2`/protocol 2; runtime configuration is external to
 this repository.
 
 ## Phase 3 evidence and limits
@@ -119,16 +132,17 @@ risk-online had 248/320 injured trials and 3,558 prey-defense damage versus
 1,476 damage versus 218/320 and 1,308. Keep risk choice disabled in live
 settings; do not tune these parameters based on this result.
 
-The bounded completion timer is installed and active
-(`curious-hunt-lab-completion.timer`); root owns systemd changes. Its actual
+The bounded completion timer was installed and later disabled after terminal
+proof (`curious-hunt-lab-completion.timer`); root owns systemd changes. Its actual
 V3 terminal poll queued exactly once (queue ID
 `01a16693-86a7-7953-91c2-7b9656de2478`, one attempt; root verified the queue
 database and retained completion journal/dedup evidence). It uses
 a frozen helper, external runtime configuration, explicit watched run paths,
 terminal manifest and content-hash checks, durable outbox, and native
 `codex queue` delivery to the configured user/thread. The retired V1 helper/config remains as V3 delivery evidence. The frozen V2
-helper is installed with three active completion timers for lifetime,
-herbivore, and ecology-traits labs. Its source and 12-test suite accept only
+helper is retained; its three bounded completion timers were installed and
+later disabled after terminal proof. Its
+source and 12-test suite accept only
 explicit bounded lab schemas, one exact watched run, and an allowlisted
 immutable artifact filename (`hunt-lab-probe` or `lab-probe`). Runtime configs
 and frozen SHA are outside git and root-owned. New lab runs must use the

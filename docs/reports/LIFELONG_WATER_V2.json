@@ -1,0 +1,2386 @@
+{
+  "aggregate_observations": {
+    "all_components_of_vector": [
+      "resolver-confirmed water acquired (higher is better)",
+      "movement energy paid (lower is better)",
+      "terminal health (higher is better)",
+      "terminal energy (higher is better)",
+      "survival ticks (not shorter is better)"
+    ],
+    "all_four_arms_reached_300_tick_ceiling": true,
+    "causally_attributable_online_vs_frozen_choice": 8,
+    "existence_example_seeds": [
+      51007
+    ],
+    "fork_alive": 8,
+    "no_population_or_general_efficacy_claim": true,
+    "no_weighted_score": true,
+    "nondeteriorating_strict_physical_vector_count": 1,
+    "online_vs_rule_based": {
+      "online_pareto_dominates_seed_count": 0,
+      "otherwise_tradeoff_seed_count": 5,
+      "rule_based_is_strong_contextual_baseline": true,
+      "rule_based_pareto_dominates_seeds": [
+        51003,
+        51006,
+        51007
+      ]
+    },
+    "online_vs_trained_frozen_classification": {
+      "online_favorable_vector_seeds": [
+        51007
+      ],
+      "tradeoff_seeds": [
+        51002,
+        51003,
+        51004,
+        51005,
+        51006,
+        51008
+      ],
+      "trained_frozen_dominates_online_seeds": [
+        51001
+      ]
+    },
+    "online_vs_trained_frozen_nondeteriorating_vector_count": 1,
+    "post_choice_resolver_confirmed_physical_difference": 8,
+    "rank_reversal_seen": 8,
+    "rule_based_is_context_only": true,
+    "same_exposure_greedy_shadow_confirmed": 8,
+    "seeds": 8
+  },
+  "calibration_and_preflight": {
+    "first_formal_preflight": {
+      "reason": "seed scanner 16 MiB default rejected valid 19,443,712-byte calibration JSONL line; no output directory, probe, world ticks, or formal seeds consumed",
+      "status": "failed_before_probe",
+      "time_utc": "2026-10-23T19:36:00Z"
+    },
+    "first_reanalysis": {
+      "calibration_gate_passed": true,
+      "revision": "832420c049841a38715dd27413d55bb5e079e0b9",
+      "sidecar_sha256": "154c7a24d70f687cf60a3064b1a8bebdc739b9b7fdeb767aeb6a595fa4aa67e8",
+      "status": "completed",
+      "validation_passed": true,
+      "zero_new_ticks": true
+    },
+    "io_repair": {
+      "full_scan_fail_closed": true,
+      "reanalysis2_path": "data/experiments/lifetime-lab-v2-calibration-reanalysis2-20261023",
+      "registered_explicit_lab_limit_bytes": 67108864,
+      "revision": "41c3a9fd7e450ab04f844197584f0912af7415cc",
+      "scanner_default_bytes": 16777216
+    },
+    "original_calibration": {
+      "initial_validator_error": "ValueError: calibration seed 51099: initial RNG must equal the registered seed",
+      "manifest_sha256": "a4cd5232b966d5aaebc4f1db083f1a0ccc90b69d83919479e7447f4d2495c20b",
+      "physical_ticks": 1400,
+      "probe_sha256": "bf59d25881e85c7a648c3dd9c6af450511dbbcf824bb9d462d52dc523ae7a693",
+      "protocol_sha256": "49d6653a63464a43679d68c275b15c8090e95f57a77d9067ce9fa4a91e5d2047",
+      "raw_sha256": "47e57608eb28dc4da3cfed512cf4278b94769be28df42634d6810750f1b80b23",
+      "seed": 51099,
+      "status": "failed",
+      "summary_present": false
+    },
+    "rng_correction": {
+      "constructor_calls": 25,
+      "expected_initial_rng_seed_51099": 15382464887130188488,
+      "spawn_roll_hits": 0,
+      "validation_rule": "replay seeded resource-population calls; do not equate captured initial RNG with input seed"
+    },
+    "second_reanalysis": {
+      "calibration_gate_passed": true,
+      "calibration_validity_observations": {
+        "checks": {
+          "both_actors_alive_at_fork": true,
+          "online_suffix_fresh_two_source_choices_at_least_6": true,
+          "online_suffix_nonfull_two_source_choices_at_least_3": true,
+          "online_suffix_resolver_drinks_at_least_3": true,
+          "prefix_fresh_two_source_choices_at_least_6": true,
+          "prefix_nonfull_two_source_choices_at_least_3": true,
+          "prefix_resolver_drinks_at_least_3": true
+        },
+        "observed": {
+          "online_suffix_drinks": 34,
+          "online_suffix_fresh_two_source_choices": 35,
+          "online_suffix_nonfull_choices": 33,
+          "prefix_drinks": 23,
+          "prefix_fresh_two_source_choices": 23,
+          "prefix_nonfull_choices": 21
+        },
+        "passed": true
+      },
+      "physical_ticks_validated": 1400,
+      "probe_launched": false,
+      "protocol_sha256": "49d6653a63464a43679d68c275b15c8090e95f57a77d9067ce9fa4a91e5d2047",
+      "raw_sha256": "47e57608eb28dc4da3cfed512cf4278b94769be28df42634d6810750f1b80b23",
+      "revision": "41c3a9fd7e450ab04f844197584f0912af7415cc",
+      "sidecar_sha256": "195b27fc58313f56bde669b76bea505ea1b3d98773b22953b14fb71d3cfd3453",
+      "status": "completed",
+      "validation_passed": true,
+      "zero_new_ticks": true
+    }
+  },
+  "documentation_report_sha256": "a2a46c3551410029c42df24a83b2d607f3a6583d6bde7bfd10c8e38fa717ac73",
+  "follow_up_design_question": {
+    "candidate_mechanism_note": "stored absolute site Q selected B over A on the focal causal choice; actual visible amount/path length differed (seed 51007 A amount 1, path 3; B amount 12, path 1)",
+    "hypothesis_candidate": "test a residual or reliability-adjusted memory score that incorporates currently perceived resource amount and path/route cost",
+    "status": "separate preregistration required; no implementation or run authorized by this report"
+  },
+  "formal_run": {
+    "analysis_status": "completed",
+    "binary_sha256": "bf59d25881e85c7a648c3dd9c6af450511dbbcf824bb9d462d52dc523ae7a693",
+    "elapsed_seconds": 4.832629987999098,
+    "exit_code": 0,
+    "finished_at": "2026-10-23T19:41:00.927893+00:00",
+    "physical_ticks": 11200,
+    "raw_bytes": 155314610,
+    "raw_sha256": "03aab983f69ec4543eb7d035e6d3e7b7c0e247102fd5480f38f9bb4ab2e1000c",
+    "report_sha256": "396eeefb2c9a018b7495d47b620bff3fa8c9e563138e48664dcd65de1fece5bf",
+    "revision": "41c3a9fd7e450ab04f844197584f0912af7415cc",
+    "runner_sha256": "2f37dda843250b7cd5d5e0383c185bc694b47135937a41f67a7b8a6d61be444a",
+    "seed_audit": {
+      "matches": {
+        "51001": [],
+        "51002": [],
+        "51003": [],
+        "51004": [],
+        "51005": [],
+        "51006": [],
+        "51007": [],
+        "51008": []
+      },
+      "matching_rule": "declared seed fields, seed CSV columns, CLI --seed arguments, or seed-number filenames",
+      "root": "/root/curious/data/experiments",
+      "scanned_text_files": 1048,
+      "unseen": [
+        51001,
+        51002,
+        51003,
+        51004,
+        51005,
+        51006,
+        51007,
+        51008
+      ]
+    },
+    "seeds": [
+      51001,
+      51002,
+      51003,
+      51004,
+      51005,
+      51006,
+      51007,
+      51008
+    ],
+    "source_file_count": 79,
+    "source_sha256": "3b7fb339505624205ad9e736f80130a7a69bc48cea353c198249086c15f6c5da",
+    "started_at": "2026-10-23T19:40:51.816554+00:00",
+    "status": "completed",
+    "stderr_bytes": 0,
+    "summary_sha256": "35dcb3de9c87555de0a18a3fe9dc1f7ec93113e8499ce6b4c259092050370e01",
+    "tick_ceiling": 11200
+  },
+  "protocol": {
+    "path": "docs/LIFELONG_WATER_PROTOCOL.md",
+    "sha256": "49d6653a63464a43679d68c275b15c8090e95f57a77d9067ce9fa4a91e5d2047",
+    "version": 2
+  },
+  "report_path": "docs/reports/LIFELONG_WATER_V2.md",
+  "result": "one preregistered individual existence example; not general efficacy",
+  "root_independent_causal_audit_51007": {
+    "choice_tick_frozen_events": [
+      {
+        "EntityMoved": {
+          "energy_cost": 2,
+          "from": {
+            "x": 3,
+            "y": 1
+          },
+          "id": 1,
+          "to": {
+            "x": 1,
+            "y": 1
+          }
+        }
+      },
+      {
+        "EntityDrank": {
+          "amount": 1,
+          "id": 1,
+          "pos": {
+            "x": 0,
+            "y": 2
+          }
+        }
+      }
+    ],
+    "choice_tick_online_events": [
+      {
+        "EntityDrank": {
+          "amount": 10,
+          "id": 1,
+          "pos": {
+            "x": 4,
+            "y": 2
+          }
+        }
+      }
+    ],
+    "exploration": false,
+    "first_learning_caused_choice_tick": 213,
+    "nondeteriorating_vector_with_strict_physical_improvement": true,
+    "online_choice": {
+      "active_episode_before": null,
+      "base_reason": "SeekWater",
+      "candidates": [
+        {
+          "amount": 1,
+          "pos": {
+            "x": 0,
+            "y": 2
+          },
+          "saved_value": 59,
+          "steps_len": 3
+        },
+        {
+          "amount": 12,
+          "pos": {
+            "x": 4,
+            "y": 2
+          },
+          "saved_value": 60,
+          "steps_len": 1
+        }
+      ],
+      "final_reason": "LearnedWater",
+      "fresh": true,
+      "intent": {
+        "Drink": {
+          "at": [
+            "DownRight"
+          ]
+        }
+      },
+      "selected_target": {
+        "x": 4,
+        "y": 2
+      },
+      "selection_kind": "greedy"
+    },
+    "online_suffix": {
+      "age": 500,
+      "energy": 63,
+      "health": 120,
+      "movement_energy": 214,
+      "ticks": 300,
+      "water": 302
+    },
+    "same_perception_body_rng": true,
+    "same_prechoice_world_except_only_focal_learner_table_flags": true,
+    "scope": "existence example only; all eight seeds must be reported",
+    "seed": 51007,
+    "trained_frozen_choice": {
+      "active_episode_before": null,
+      "base_reason": "SeekWater",
+      "candidates": [
+        {
+          "amount": 1,
+          "pos": {
+            "x": 0,
+            "y": 2
+          },
+          "saved_value": 71,
+          "steps_len": 3
+        },
+        {
+          "amount": 12,
+          "pos": {
+            "x": 4,
+            "y": 2
+          },
+          "saved_value": 60,
+          "steps_len": 1
+        }
+      ],
+      "final_reason": "LearnedWater",
+      "fresh": true,
+      "intent": {
+        "Drink": {
+          "at": [
+            "Left",
+            "Left",
+            "DownLeft"
+          ]
+        }
+      },
+      "selected_target": {
+        "x": 0,
+        "y": 2
+      },
+      "selection_kind": "greedy"
+    },
+    "trained_frozen_suffix": {
+      "age": 500,
+      "energy": 62,
+      "health": 120,
+      "movement_energy": 233,
+      "ticks": 300,
+      "water": 299
+    }
+  },
+  "schema": "curious-lifelong-water-result-v1",
+  "seeds": [
+    {
+      "arms": {
+        "ablated_frozen": {
+          "death_cause": null,
+          "fork_state": {
+            "energy": 61,
+            "health": 120,
+            "water": 52
+          },
+          "fresh_two_source_choices": 41,
+          "movement_energy_paid": 181,
+          "nonfull_two_source_choices": 41,
+          "resolver_drinks": 51,
+          "selected_site_counts": {
+            "A": 22,
+            "B": 19,
+            "other": 0
+          },
+          "status": "ceiling",
+          "survival_ticks": 300,
+          "terminal_state": {
+            "energy": 66,
+            "health": 120,
+            "water": 48
+          },
+          "ticks": 300,
+          "water_acquired": 296
+        },
+        "online": {
+          "death_cause": null,
+          "fork_state": {
+            "energy": 61,
+            "health": 120,
+            "water": 52
+          },
+          "fresh_two_source_choices": 35,
+          "movement_energy_paid": 229,
+          "nonfull_two_source_choices": 35,
+          "resolver_drinks": 37,
+          "selected_site_counts": {
+            "A": 4,
+            "B": 31,
+            "other": 0
+          },
+          "status": "ceiling",
+          "survival_ticks": 300,
+          "terminal_state": {
+            "energy": 64,
+            "health": 120,
+            "water": 48
+          },
+          "ticks": 300,
+          "water_acquired": 296
+        },
+        "rule_based": {
+          "death_cause": null,
+          "fork_state": {
+            "energy": 61,
+            "health": 120,
+            "water": 52
+          },
+          "fresh_two_source_choices": 33,
+          "movement_energy_paid": 201,
+          "nonfull_two_source_choices": 33,
+          "resolver_drinks": 33,
+          "selected_site_counts": {
+            "A": 6,
+            "B": 27,
+            "other": 0
+          },
+          "status": "ceiling",
+          "survival_ticks": 300,
+          "terminal_state": {
+            "energy": 68,
+            "health": 120,
+            "water": 46
+          },
+          "ticks": 300,
+          "water_acquired": 294
+        },
+        "trained_frozen": {
+          "death_cause": null,
+          "fork_state": {
+            "energy": 61,
+            "health": 120,
+            "water": 52
+          },
+          "fresh_two_source_choices": 41,
+          "movement_energy_paid": 216,
+          "nonfull_two_source_choices": 41,
+          "resolver_drinks": 62,
+          "selected_site_counts": {
+            "A": 36,
+            "B": 5,
+            "other": 0
+          },
+          "status": "ceiling",
+          "survival_ticks": 300,
+          "terminal_state": {
+            "energy": 67,
+            "health": 120,
+            "water": 49
+          },
+          "ticks": 300,
+          "water_acquired": 297
+        }
+      },
+      "checkpoint_alive": true,
+      "existence_hypothesis_conditions_met": false,
+      "first_online_vs_trained_frozen_divergence": {
+        "attributable_choice": true,
+        "online_selected": {
+          "x": 4,
+          "y": 2
+        },
+        "paired_check": true,
+        "physical_difference_after_choice": true,
+        "post_choice_matched_horizon": {
+          "attribution_check": "paired_check",
+          "first_compared_tick": 236,
+          "matched_ticks": 265,
+          "movement_energy_paid_delta": 13,
+          "online_movement_energy_paid": 201,
+          "online_water_amount": 268,
+          "physical_outcome_difference": true,
+          "position_or_timing_difference_alone_counts": false,
+          "trained_frozen_movement_energy_paid": 188,
+          "trained_frozen_water_amount": 269,
+          "water_amount_delta": -1
+        },
+        "same_exposure_shadow_check": {
+          "actual_selection_kind": "greedy",
+          "greedy_checkpoint_table": {
+            "x": 0,
+            "y": 2
+          },
+          "greedy_current_online_table": {
+            "x": 4,
+            "y": 2
+          },
+          "same_exposure": true,
+          "selected_online": {
+            "x": 4,
+            "y": 2
+          },
+          "tick": 236
+        },
+        "tick": 236,
+        "trained_frozen_selected": {
+          "x": 0,
+          "y": 2
+        }
+      },
+      "online_minus_trained_frozen_common_horizon": {
+        "classification": "trained_frozen_dominates_online",
+        "differences_online_minus_trained_frozen": {
+          "energy_at_horizon": -3,
+          "health_at_horizon": 0,
+          "movement_energy_paid": 13,
+          "water_acquired": -1
+        },
+        "horizon_ticks": 300,
+        "net_physical_benefit_vector": false,
+        "no_negative_component": false,
+        "online_survival_ticks": 300,
+        "strict_positive_component": false,
+        "survival_nondeteriorating": true,
+        "ticks": 300,
+        "trained_frozen_survival_ticks": 300
+      },
+      "online_vs_rule_based_common_horizon": {
+        "horizon_ticks": 300,
+        "online_minus_rule_based": {
+          "energy_at_horizon": -4,
+          "health_at_horizon": 0,
+          "movement_energy_paid": 28,
+          "survival_ticks": 0,
+          "water_acquired": 2
+        },
+        "online_pareto_dominates": false,
+        "otherwise_tradeoff": true,
+        "rule_based_pareto_dominates": false
+      },
+      "physical_ticks": 1400,
+      "post_reversal_rank_reversal": {
+        "checkpoint_table_argmax_on_last_pre_reversal_exposure": {
+          "x": 0,
+          "y": 2
+        },
+        "checkpoint_table_values": {
+          "0,2": 89,
+          "4,2": 44
+        },
+        "last_pre_reversal_exposure_argmax": {
+          "x": 0,
+          "y": 2
+        },
+        "post_reversal_argmax_reversals": [
+          {
+            "post_reversal_argmax": {
+              "x": 4,
+              "y": 2
+            },
+            "pre_reversal_argmax": {
+              "x": 0,
+              "y": 2
+            },
+            "tick": 236
+          }
+        ],
+        "reversal_observed": true
+      },
+      "prefix": {
+        "death_cause": null,
+        "fork_state": {
+          "energy": 80,
+          "health": 120,
+          "water": 60
+        },
+        "fresh_two_source_choices": 23,
+        "movement_energy_paid": 129,
+        "nonfull_two_source_choices": 22,
+        "resolver_drinks": 23,
+        "selected_site_counts": {
+          "A": 21,
+          "B": 2,
+          "other": 0
+        },
+        "status": "reached_fork",
+        "survival_ticks": 200,
+        "terminal_state": {
+          "energy": 61,
+          "health": 120,
+          "water": 52
+        },
+        "ticks": 200,
+        "water_acquired": 192
+      },
+      "seed": 51001,
+      "trained_frozen_vs_ablated_frozen_common_horizon": {
+        "differences_online_minus_trained_frozen": {
+          "energy_at_horizon": 1,
+          "health_at_horizon": 0,
+          "movement_energy_paid": 35,
+          "water_acquired": 1
+        },
+        "net_physical_benefit_vector": false,
+        "no_negative_component": false,
+        "online_survival_ticks": 300,
+        "strict_positive_component": true,
+        "survival_nondeteriorating": true,
+        "ticks": 300,
+        "trained_frozen_survival_ticks": 300
+      }
+    },
+    {
+      "arms": {
+        "ablated_frozen": {
+          "death_cause": null,
+          "fork_state": {
+            "energy": 60,
+            "health": 120,
+            "water": 52
+          },
+          "fresh_two_source_choices": 39,
+          "movement_energy_paid": 205,
+          "nonfull_two_source_choices": 38,
+          "resolver_drinks": 49,
+          "selected_site_counts": {
+            "A": 24,
+            "B": 15,
+            "other": 0
+          },
+          "status": "ceiling",
+          "survival_ticks": 300,
+          "terminal_state": {
+            "energy": 61,
+            "health": 120,
+            "water": 48
+          },
+          "ticks": 300,
+          "water_acquired": 296
+        },
+        "online": {
+          "death_cause": null,
+          "fork_state": {
+            "energy": 60,
+            "health": 120,
+            "water": 52
+          },
+          "fresh_two_source_choices": 37,
+          "movement_energy_paid": 219,
+          "nonfull_two_source_choices": 37,
+          "resolver_drinks": 39,
+          "selected_site_counts": {
+            "A": 6,
+            "B": 31,
+            "other": 0
+          },
+          "status": "ceiling",
+          "survival_ticks": 300,
+          "terminal_state": {
+            "energy": 59,
+            "health": 120,
+            "water": 54
+          },
+          "ticks": 300,
+          "water_acquired": 302
+        },
+        "rule_based": {
+          "death_cause": null,
+          "fork_state": {
+            "energy": 60,
+            "health": 120,
+            "water": 52
+          },
+          "fresh_two_source_choices": 33,
+          "movement_energy_paid": 206,
+          "nonfull_two_source_choices": 30,
+          "resolver_drinks": 33,
+          "selected_site_counts": {
+            "A": 4,
+            "B": 29,
+            "other": 0
+          },
+          "status": "ceiling",
+          "survival_ticks": 300,
+          "terminal_state": {
+            "energy": 66,
+            "health": 120,
+            "water": 46
+          },
+          "ticks": 300,
+          "water_acquired": 294
+        },
+        "trained_frozen": {
+          "death_cause": null,
+          "fork_state": {
+            "energy": 60,
+            "health": 120,
+            "water": 52
+          },
+          "fresh_two_source_choices": 41,
+          "movement_energy_paid": 221,
+          "nonfull_two_source_choices": 41,
+          "resolver_drinks": 61,
+          "selected_site_counts": {
+            "A": 39,
+            "B": 2,
+            "other": 0
+          },
+          "status": "ceiling",
+          "survival_ticks": 300,
+          "terminal_state": {
+            "energy": 67,
+            "health": 120,
+            "water": 52
+          },
+          "ticks": 300,
+          "water_acquired": 300
+        }
+      },
+      "checkpoint_alive": true,
+      "existence_hypothesis_conditions_met": false,
+      "first_online_vs_trained_frozen_divergence": {
+        "attributable_choice": true,
+        "online_selected": {
+          "x": 4,
+          "y": 2
+        },
+        "paired_check": true,
+        "physical_difference_after_choice": true,
+        "post_choice_matched_horizon": {
+          "attribution_check": "paired_check",
+          "first_compared_tick": 228,
+          "matched_ticks": 273,
+          "movement_energy_paid_delta": -2,
+          "online_movement_energy_paid": 193,
+          "online_water_amount": 282,
+          "physical_outcome_difference": true,
+          "position_or_timing_difference_alone_counts": false,
+          "trained_frozen_movement_energy_paid": 195,
+          "trained_frozen_water_amount": 280,
+          "water_amount_delta": 2
+        },
+        "same_exposure_shadow_check": {
+          "actual_selection_kind": "greedy",
+          "greedy_checkpoint_table": {
+            "x": 0,
+            "y": 2
+          },
+          "greedy_current_online_table": {
+            "x": 4,
+            "y": 2
+          },
+          "same_exposure": true,
+          "selected_online": {
+            "x": 4,
+            "y": 2
+          },
+          "tick": 228
+        },
+        "tick": 228,
+        "trained_frozen_selected": {
+          "x": 0,
+          "y": 2
+        }
+      },
+      "online_minus_trained_frozen_common_horizon": {
+        "classification": "tradeoff",
+        "differences_online_minus_trained_frozen": {
+          "energy_at_horizon": -8,
+          "health_at_horizon": 0,
+          "movement_energy_paid": -2,
+          "water_acquired": 2
+        },
+        "horizon_ticks": 300,
+        "net_physical_benefit_vector": false,
+        "no_negative_component": false,
+        "online_survival_ticks": 300,
+        "strict_positive_component": true,
+        "survival_nondeteriorating": true,
+        "ticks": 300,
+        "trained_frozen_survival_ticks": 300
+      },
+      "online_vs_rule_based_common_horizon": {
+        "horizon_ticks": 300,
+        "online_minus_rule_based": {
+          "energy_at_horizon": -7,
+          "health_at_horizon": 0,
+          "movement_energy_paid": 13,
+          "survival_ticks": 0,
+          "water_acquired": 8
+        },
+        "online_pareto_dominates": false,
+        "otherwise_tradeoff": true,
+        "rule_based_pareto_dominates": false
+      },
+      "physical_ticks": 1400,
+      "post_reversal_rank_reversal": {
+        "checkpoint_table_argmax_on_last_pre_reversal_exposure": {
+          "x": 0,
+          "y": 2
+        },
+        "checkpoint_table_values": {
+          "0,2": 96,
+          "4,2": 77
+        },
+        "last_pre_reversal_exposure_argmax": {
+          "x": 0,
+          "y": 2
+        },
+        "post_reversal_argmax_reversals": [
+          {
+            "post_reversal_argmax": {
+              "x": 4,
+              "y": 2
+            },
+            "pre_reversal_argmax": {
+              "x": 0,
+              "y": 2
+            },
+            "tick": 228
+          }
+        ],
+        "reversal_observed": true
+      },
+      "prefix": {
+        "death_cause": null,
+        "fork_state": {
+          "energy": 80,
+          "health": 120,
+          "water": 60
+        },
+        "fresh_two_source_choices": 19,
+        "movement_energy_paid": 140,
+        "nonfull_two_source_choices": 16,
+        "resolver_drinks": 20,
+        "selected_site_counts": {
+          "A": 17,
+          "B": 2,
+          "other": 0
+        },
+        "status": "reached_fork",
+        "survival_ticks": 200,
+        "terminal_state": {
+          "energy": 60,
+          "health": 120,
+          "water": 52
+        },
+        "ticks": 200,
+        "water_acquired": 192
+      },
+      "seed": 51002,
+      "trained_frozen_vs_ablated_frozen_common_horizon": {
+        "differences_online_minus_trained_frozen": {
+          "energy_at_horizon": 6,
+          "health_at_horizon": 0,
+          "movement_energy_paid": 16,
+          "water_acquired": 4
+        },
+        "net_physical_benefit_vector": false,
+        "no_negative_component": false,
+        "online_survival_ticks": 300,
+        "strict_positive_component": true,
+        "survival_nondeteriorating": true,
+        "ticks": 300,
+        "trained_frozen_survival_ticks": 300
+      }
+    },
+    {
+      "arms": {
+        "ablated_frozen": {
+          "death_cause": null,
+          "fork_state": {
+            "energy": 59,
+            "health": 120,
+            "water": 54
+          },
+          "fresh_two_source_choices": 39,
+          "movement_energy_paid": 236,
+          "nonfull_two_source_choices": 39,
+          "resolver_drinks": 54,
+          "selected_site_counts": {
+            "A": 28,
+            "B": 11,
+            "other": 0
+          },
+          "status": "ceiling",
+          "survival_ticks": 300,
+          "terminal_state": {
+            "energy": 63,
+            "health": 120,
+            "water": 45
+          },
+          "ticks": 300,
+          "water_acquired": 291
+        },
+        "online": {
+          "death_cause": null,
+          "fork_state": {
+            "energy": 59,
+            "health": 120,
+            "water": 54
+          },
+          "fresh_two_source_choices": 35,
+          "movement_energy_paid": 228,
+          "nonfull_two_source_choices": 35,
+          "resolver_drinks": 36,
+          "selected_site_counts": {
+            "A": 4,
+            "B": 31,
+            "other": 0
+          },
+          "status": "ceiling",
+          "survival_ticks": 300,
+          "terminal_state": {
+            "energy": 67,
+            "health": 120,
+            "water": 47
+          },
+          "ticks": 300,
+          "water_acquired": 293
+        },
+        "rule_based": {
+          "death_cause": null,
+          "fork_state": {
+            "energy": 59,
+            "health": 120,
+            "water": 54
+          },
+          "fresh_two_source_choices": 30,
+          "movement_energy_paid": 218,
+          "nonfull_two_source_choices": 29,
+          "resolver_drinks": 30,
+          "selected_site_counts": {
+            "A": 5,
+            "B": 25,
+            "other": 0
+          },
+          "status": "ceiling",
+          "survival_ticks": 300,
+          "terminal_state": {
+            "energy": 69,
+            "health": 120,
+            "water": 50
+          },
+          "ticks": 300,
+          "water_acquired": 296
+        },
+        "trained_frozen": {
+          "death_cause": null,
+          "fork_state": {
+            "energy": 59,
+            "health": 120,
+            "water": 54
+          },
+          "fresh_two_source_choices": 40,
+          "movement_energy_paid": 245,
+          "nonfull_two_source_choices": 40,
+          "resolver_drinks": 61,
+          "selected_site_counts": {
+            "A": 37,
+            "B": 3,
+            "other": 0
+          },
+          "status": "ceiling",
+          "survival_ticks": 300,
+          "terminal_state": {
+            "energy": 66,
+            "health": 120,
+            "water": 49
+          },
+          "ticks": 300,
+          "water_acquired": 295
+        }
+      },
+      "checkpoint_alive": true,
+      "existence_hypothesis_conditions_met": false,
+      "first_online_vs_trained_frozen_divergence": {
+        "attributable_choice": true,
+        "online_selected": {
+          "x": 4,
+          "y": 2
+        },
+        "paired_check": true,
+        "physical_difference_after_choice": true,
+        "post_choice_matched_horizon": {
+          "attribution_check": "paired_check",
+          "first_compared_tick": 241,
+          "matched_ticks": 260,
+          "movement_energy_paid_delta": -17,
+          "online_movement_energy_paid": 193,
+          "online_water_amount": 262,
+          "physical_outcome_difference": true,
+          "position_or_timing_difference_alone_counts": false,
+          "trained_frozen_movement_energy_paid": 210,
+          "trained_frozen_water_amount": 264,
+          "water_amount_delta": -2
+        },
+        "same_exposure_shadow_check": {
+          "actual_selection_kind": "greedy",
+          "greedy_checkpoint_table": {
+            "x": 0,
+            "y": 2
+          },
+          "greedy_current_online_table": {
+            "x": 4,
+            "y": 2
+          },
+          "same_exposure": true,
+          "selected_online": {
+            "x": 4,
+            "y": 2
+          },
+          "tick": 241
+        },
+        "tick": 241,
+        "trained_frozen_selected": {
+          "x": 0,
+          "y": 2
+        }
+      },
+      "online_minus_trained_frozen_common_horizon": {
+        "classification": "tradeoff",
+        "differences_online_minus_trained_frozen": {
+          "energy_at_horizon": 1,
+          "health_at_horizon": 0,
+          "movement_energy_paid": -17,
+          "water_acquired": -2
+        },
+        "horizon_ticks": 300,
+        "net_physical_benefit_vector": false,
+        "no_negative_component": false,
+        "online_survival_ticks": 300,
+        "strict_positive_component": true,
+        "survival_nondeteriorating": true,
+        "ticks": 300,
+        "trained_frozen_survival_ticks": 300
+      },
+      "online_vs_rule_based_common_horizon": {
+        "horizon_ticks": 300,
+        "online_minus_rule_based": {
+          "energy_at_horizon": -2,
+          "health_at_horizon": 0,
+          "movement_energy_paid": 10,
+          "survival_ticks": 0,
+          "water_acquired": -3
+        },
+        "online_pareto_dominates": false,
+        "otherwise_tradeoff": false,
+        "rule_based_pareto_dominates": true
+      },
+      "physical_ticks": 1400,
+      "post_reversal_rank_reversal": {
+        "checkpoint_table_argmax_on_last_pre_reversal_exposure": {
+          "x": 0,
+          "y": 2
+        },
+        "checkpoint_table_values": {
+          "0,2": 80,
+          "4,2": 32
+        },
+        "last_pre_reversal_exposure_argmax": {
+          "x": 0,
+          "y": 2
+        },
+        "post_reversal_argmax_reversals": [
+          {
+            "post_reversal_argmax": {
+              "x": 4,
+              "y": 2
+            },
+            "pre_reversal_argmax": {
+              "x": 0,
+              "y": 2
+            },
+            "tick": 241
+          }
+        ],
+        "reversal_observed": true
+      },
+      "prefix": {
+        "death_cause": null,
+        "fork_state": {
+          "energy": 80,
+          "health": 120,
+          "water": 60
+        },
+        "fresh_two_source_choices": 23,
+        "movement_energy_paid": 137,
+        "nonfull_two_source_choices": 23,
+        "resolver_drinks": 24,
+        "selected_site_counts": {
+          "A": 21,
+          "B": 2,
+          "other": 0
+        },
+        "status": "reached_fork",
+        "survival_ticks": 200,
+        "terminal_state": {
+          "energy": 59,
+          "health": 120,
+          "water": 54
+        },
+        "ticks": 200,
+        "water_acquired": 194
+      },
+      "seed": 51003,
+      "trained_frozen_vs_ablated_frozen_common_horizon": {
+        "differences_online_minus_trained_frozen": {
+          "energy_at_horizon": 3,
+          "health_at_horizon": 0,
+          "movement_energy_paid": 9,
+          "water_acquired": 4
+        },
+        "net_physical_benefit_vector": false,
+        "no_negative_component": false,
+        "online_survival_ticks": 300,
+        "strict_positive_component": true,
+        "survival_nondeteriorating": true,
+        "ticks": 300,
+        "trained_frozen_survival_ticks": 300
+      }
+    },
+    {
+      "arms": {
+        "ablated_frozen": {
+          "death_cause": null,
+          "fork_state": {
+            "energy": 62,
+            "health": 120,
+            "water": 54
+          },
+          "fresh_two_source_choices": 40,
+          "movement_energy_paid": 230,
+          "nonfull_two_source_choices": 40,
+          "resolver_drinks": 52,
+          "selected_site_counts": {
+            "A": 26,
+            "B": 14,
+            "other": 0
+          },
+          "status": "ceiling",
+          "survival_ticks": 300,
+          "terminal_state": {
+            "energy": 62,
+            "health": 120,
+            "water": 50
+          },
+          "ticks": 300,
+          "water_acquired": 296
+        },
+        "online": {
+          "death_cause": null,
+          "fork_state": {
+            "energy": 62,
+            "health": 120,
+            "water": 54
+          },
+          "fresh_two_source_choices": 39,
+          "movement_energy_paid": 222,
+          "nonfull_two_source_choices": 39,
+          "resolver_drinks": 41,
+          "selected_site_counts": {
+            "A": 8,
+            "B": 31,
+            "other": 0
+          },
+          "status": "ceiling",
+          "survival_ticks": 300,
+          "terminal_state": {
+            "energy": 68,
+            "health": 120,
+            "water": 50
+          },
+          "ticks": 300,
+          "water_acquired": 296
+        },
+        "rule_based": {
+          "death_cause": null,
+          "fork_state": {
+            "energy": 62,
+            "health": 120,
+            "water": 54
+          },
+          "fresh_two_source_choices": 30,
+          "movement_energy_paid": 202,
+          "nonfull_two_source_choices": 30,
+          "resolver_drinks": 30,
+          "selected_site_counts": {
+            "A": 3,
+            "B": 27,
+            "other": 0
+          },
+          "status": "ceiling",
+          "survival_ticks": 300,
+          "terminal_state": {
+            "energy": 62,
+            "health": 120,
+            "water": 53
+          },
+          "ticks": 300,
+          "water_acquired": 299
+        },
+        "trained_frozen": {
+          "death_cause": null,
+          "fork_state": {
+            "energy": 62,
+            "health": 120,
+            "water": 54
+          },
+          "fresh_two_source_choices": 45,
+          "movement_energy_paid": 222,
+          "nonfull_two_source_choices": 45,
+          "resolver_drinks": 66,
+          "selected_site_counts": {
+            "A": 42,
+            "B": 3,
+            "other": 0
+          },
+          "status": "ceiling",
+          "survival_ticks": 300,
+          "terminal_state": {
+            "energy": 66,
+            "health": 120,
+            "water": 52
+          },
+          "ticks": 300,
+          "water_acquired": 298
+        }
+      },
+      "checkpoint_alive": true,
+      "existence_hypothesis_conditions_met": false,
+      "first_online_vs_trained_frozen_divergence": {
+        "attributable_choice": true,
+        "online_selected": {
+          "x": 4,
+          "y": 2
+        },
+        "paired_check": true,
+        "physical_difference_after_choice": true,
+        "post_choice_matched_horizon": {
+          "attribution_check": "paired_check",
+          "first_compared_tick": 240,
+          "matched_ticks": 261,
+          "movement_energy_paid_delta": 0,
+          "online_movement_energy_paid": 186,
+          "online_water_amount": 267,
+          "physical_outcome_difference": true,
+          "position_or_timing_difference_alone_counts": false,
+          "trained_frozen_movement_energy_paid": 186,
+          "trained_frozen_water_amount": 269,
+          "water_amount_delta": -2
+        },
+        "same_exposure_shadow_check": {
+          "actual_selection_kind": "greedy",
+          "greedy_checkpoint_table": {
+            "x": 0,
+            "y": 2
+          },
+          "greedy_current_online_table": {
+            "x": 4,
+            "y": 2
+          },
+          "same_exposure": true,
+          "selected_online": {
+            "x": 4,
+            "y": 2
+          },
+          "tick": 240
+        },
+        "tick": 240,
+        "trained_frozen_selected": {
+          "x": 0,
+          "y": 2
+        }
+      },
+      "online_minus_trained_frozen_common_horizon": {
+        "classification": "tradeoff",
+        "differences_online_minus_trained_frozen": {
+          "energy_at_horizon": 2,
+          "health_at_horizon": 0,
+          "movement_energy_paid": 0,
+          "water_acquired": -2
+        },
+        "horizon_ticks": 300,
+        "net_physical_benefit_vector": false,
+        "no_negative_component": false,
+        "online_survival_ticks": 300,
+        "strict_positive_component": true,
+        "survival_nondeteriorating": true,
+        "ticks": 300,
+        "trained_frozen_survival_ticks": 300
+      },
+      "online_vs_rule_based_common_horizon": {
+        "horizon_ticks": 300,
+        "online_minus_rule_based": {
+          "energy_at_horizon": 6,
+          "health_at_horizon": 0,
+          "movement_energy_paid": 20,
+          "survival_ticks": 0,
+          "water_acquired": -3
+        },
+        "online_pareto_dominates": false,
+        "otherwise_tradeoff": true,
+        "rule_based_pareto_dominates": false
+      },
+      "physical_ticks": 1400,
+      "post_reversal_rank_reversal": {
+        "checkpoint_table_argmax_on_last_pre_reversal_exposure": {
+          "x": 0,
+          "y": 2
+        },
+        "checkpoint_table_values": {
+          "0,2": 96,
+          "4,2": 39
+        },
+        "last_pre_reversal_exposure_argmax": {
+          "x": 0,
+          "y": 2
+        },
+        "post_reversal_argmax_reversals": [
+          {
+            "post_reversal_argmax": {
+              "x": 4,
+              "y": 2
+            },
+            "pre_reversal_argmax": {
+              "x": 0,
+              "y": 2
+            },
+            "tick": 240
+          }
+        ],
+        "reversal_observed": true
+      },
+      "prefix": {
+        "death_cause": null,
+        "fork_state": {
+          "energy": 80,
+          "health": 120,
+          "water": 60
+        },
+        "fresh_two_source_choices": 20,
+        "movement_energy_paid": 148,
+        "nonfull_two_source_choices": 19,
+        "resolver_drinks": 20,
+        "selected_site_counts": {
+          "A": 19,
+          "B": 1,
+          "other": 0
+        },
+        "status": "reached_fork",
+        "survival_ticks": 200,
+        "terminal_state": {
+          "energy": 62,
+          "health": 120,
+          "water": 54
+        },
+        "ticks": 200,
+        "water_acquired": 194
+      },
+      "seed": 51004,
+      "trained_frozen_vs_ablated_frozen_common_horizon": {
+        "differences_online_minus_trained_frozen": {
+          "energy_at_horizon": 4,
+          "health_at_horizon": 0,
+          "movement_energy_paid": -8,
+          "water_acquired": 2
+        },
+        "net_physical_benefit_vector": true,
+        "no_negative_component": true,
+        "online_survival_ticks": 300,
+        "strict_positive_component": true,
+        "survival_nondeteriorating": true,
+        "ticks": 300,
+        "trained_frozen_survival_ticks": 300
+      }
+    },
+    {
+      "arms": {
+        "ablated_frozen": {
+          "death_cause": null,
+          "fork_state": {
+            "energy": 66,
+            "health": 120,
+            "water": 47
+          },
+          "fresh_two_source_choices": 45,
+          "movement_energy_paid": 199,
+          "nonfull_two_source_choices": 45,
+          "resolver_drinks": 55,
+          "selected_site_counts": {
+            "A": 21,
+            "B": 24,
+            "other": 0
+          },
+          "status": "ceiling",
+          "survival_ticks": 300,
+          "terminal_state": {
+            "energy": 65,
+            "health": 120,
+            "water": 47
+          },
+          "ticks": 300,
+          "water_acquired": 300
+        },
+        "online": {
+          "death_cause": null,
+          "fork_state": {
+            "energy": 66,
+            "health": 120,
+            "water": 47
+          },
+          "fresh_two_source_choices": 35,
+          "movement_energy_paid": 218,
+          "nonfull_two_source_choices": 35,
+          "resolver_drinks": 37,
+          "selected_site_counts": {
+            "A": 5,
+            "B": 30,
+            "other": 0
+          },
+          "status": "ceiling",
+          "survival_ticks": 300,
+          "terminal_state": {
+            "energy": 60,
+            "health": 120,
+            "water": 52
+          },
+          "ticks": 300,
+          "water_acquired": 305
+        },
+        "rule_based": {
+          "death_cause": null,
+          "fork_state": {
+            "energy": 66,
+            "health": 120,
+            "water": 47
+          },
+          "fresh_two_source_choices": 31,
+          "movement_energy_paid": 203,
+          "nonfull_two_source_choices": 31,
+          "resolver_drinks": 31,
+          "selected_site_counts": {
+            "A": 5,
+            "B": 26,
+            "other": 0
+          },
+          "status": "ceiling",
+          "survival_ticks": 300,
+          "terminal_state": {
+            "energy": 57,
+            "health": 120,
+            "water": 50
+          },
+          "ticks": 300,
+          "water_acquired": 303
+        },
+        "trained_frozen": {
+          "death_cause": null,
+          "fork_state": {
+            "energy": 66,
+            "health": 120,
+            "water": 47
+          },
+          "fresh_two_source_choices": 41,
+          "movement_energy_paid": 235,
+          "nonfull_two_source_choices": 41,
+          "resolver_drinks": 63,
+          "selected_site_counts": {
+            "A": 37,
+            "B": 4,
+            "other": 0
+          },
+          "status": "ceiling",
+          "survival_ticks": 300,
+          "terminal_state": {
+            "energy": 67,
+            "health": 120,
+            "water": 46
+          },
+          "ticks": 300,
+          "water_acquired": 299
+        }
+      },
+      "checkpoint_alive": true,
+      "existence_hypothesis_conditions_met": false,
+      "first_online_vs_trained_frozen_divergence": {
+        "attributable_choice": true,
+        "online_selected": {
+          "x": 4,
+          "y": 2
+        },
+        "paired_check": true,
+        "physical_difference_after_choice": true,
+        "post_choice_matched_horizon": {
+          "attribution_check": "paired_check",
+          "first_compared_tick": 244,
+          "matched_ticks": 257,
+          "movement_energy_paid_delta": -17,
+          "online_movement_energy_paid": 176,
+          "online_water_amount": 264,
+          "physical_outcome_difference": true,
+          "position_or_timing_difference_alone_counts": false,
+          "trained_frozen_movement_energy_paid": 193,
+          "trained_frozen_water_amount": 258,
+          "water_amount_delta": 6
+        },
+        "same_exposure_shadow_check": {
+          "actual_selection_kind": "greedy",
+          "greedy_checkpoint_table": {
+            "x": 0,
+            "y": 2
+          },
+          "greedy_current_online_table": {
+            "x": 4,
+            "y": 2
+          },
+          "same_exposure": true,
+          "selected_online": {
+            "x": 4,
+            "y": 2
+          },
+          "tick": 244
+        },
+        "tick": 244,
+        "trained_frozen_selected": {
+          "x": 0,
+          "y": 2
+        }
+      },
+      "online_minus_trained_frozen_common_horizon": {
+        "classification": "tradeoff",
+        "differences_online_minus_trained_frozen": {
+          "energy_at_horizon": -7,
+          "health_at_horizon": 0,
+          "movement_energy_paid": -17,
+          "water_acquired": 6
+        },
+        "horizon_ticks": 300,
+        "net_physical_benefit_vector": false,
+        "no_negative_component": false,
+        "online_survival_ticks": 300,
+        "strict_positive_component": true,
+        "survival_nondeteriorating": true,
+        "ticks": 300,
+        "trained_frozen_survival_ticks": 300
+      },
+      "online_vs_rule_based_common_horizon": {
+        "horizon_ticks": 300,
+        "online_minus_rule_based": {
+          "energy_at_horizon": 3,
+          "health_at_horizon": 0,
+          "movement_energy_paid": 15,
+          "survival_ticks": 0,
+          "water_acquired": 2
+        },
+        "online_pareto_dominates": false,
+        "otherwise_tradeoff": true,
+        "rule_based_pareto_dominates": false
+      },
+      "physical_ticks": 1400,
+      "post_reversal_rank_reversal": {
+        "checkpoint_table_argmax_on_last_pre_reversal_exposure": {
+          "x": 0,
+          "y": 2
+        },
+        "checkpoint_table_values": {
+          "0,2": 96,
+          "4,2": 46
+        },
+        "last_pre_reversal_exposure_argmax": {
+          "x": 0,
+          "y": 2
+        },
+        "post_reversal_argmax_reversals": [
+          {
+            "post_reversal_argmax": {
+              "x": 4,
+              "y": 2
+            },
+            "pre_reversal_argmax": {
+              "x": 0,
+              "y": 2
+            },
+            "tick": 234
+          }
+        ],
+        "reversal_observed": true
+      },
+      "prefix": {
+        "death_cause": null,
+        "fork_state": {
+          "energy": 80,
+          "health": 120,
+          "water": 60
+        },
+        "fresh_two_source_choices": 19,
+        "movement_energy_paid": 128,
+        "nonfull_two_source_choices": 17,
+        "resolver_drinks": 20,
+        "selected_site_counts": {
+          "A": 16,
+          "B": 3,
+          "other": 0
+        },
+        "status": "reached_fork",
+        "survival_ticks": 200,
+        "terminal_state": {
+          "energy": 66,
+          "health": 120,
+          "water": 47
+        },
+        "ticks": 200,
+        "water_acquired": 187
+      },
+      "seed": 51005,
+      "trained_frozen_vs_ablated_frozen_common_horizon": {
+        "differences_online_minus_trained_frozen": {
+          "energy_at_horizon": 2,
+          "health_at_horizon": 0,
+          "movement_energy_paid": 36,
+          "water_acquired": -1
+        },
+        "net_physical_benefit_vector": false,
+        "no_negative_component": false,
+        "online_survival_ticks": 300,
+        "strict_positive_component": true,
+        "survival_nondeteriorating": true,
+        "ticks": 300,
+        "trained_frozen_survival_ticks": 300
+      }
+    },
+    {
+      "arms": {
+        "ablated_frozen": {
+          "death_cause": null,
+          "fork_state": {
+            "energy": 58,
+            "health": 120,
+            "water": 54
+          },
+          "fresh_two_source_choices": 39,
+          "movement_energy_paid": 154,
+          "nonfull_two_source_choices": 39,
+          "resolver_drinks": 48,
+          "selected_site_counts": {
+            "A": 19,
+            "B": 20,
+            "other": 0
+          },
+          "status": "ceiling",
+          "survival_ticks": 300,
+          "terminal_state": {
+            "energy": 60,
+            "health": 120,
+            "water": 48
+          },
+          "ticks": 300,
+          "water_acquired": 294
+        },
+        "online": {
+          "death_cause": null,
+          "fork_state": {
+            "energy": 58,
+            "health": 120,
+            "water": 54
+          },
+          "fresh_two_source_choices": 32,
+          "movement_energy_paid": 194,
+          "nonfull_two_source_choices": 29,
+          "resolver_drinks": 34,
+          "selected_site_counts": {
+            "A": 4,
+            "B": 28,
+            "other": 0
+          },
+          "status": "ceiling",
+          "survival_ticks": 300,
+          "terminal_state": {
+            "energy": 62,
+            "health": 120,
+            "water": 54
+          },
+          "ticks": 300,
+          "water_acquired": 300
+        },
+        "rule_based": {
+          "death_cause": null,
+          "fork_state": {
+            "energy": 58,
+            "health": 120,
+            "water": 54
+          },
+          "fresh_two_source_choices": 30,
+          "movement_energy_paid": 194,
+          "nonfull_two_source_choices": 30,
+          "resolver_drinks": 30,
+          "selected_site_counts": {
+            "A": 5,
+            "B": 25,
+            "other": 0
+          },
+          "status": "ceiling",
+          "survival_ticks": 300,
+          "terminal_state": {
+            "energy": 64,
+            "health": 120,
+            "water": 54
+          },
+          "ticks": 300,
+          "water_acquired": 300
+        },
+        "trained_frozen": {
+          "death_cause": null,
+          "fork_state": {
+            "energy": 58,
+            "health": 120,
+            "water": 54
+          },
+          "fresh_two_source_choices": 39,
+          "movement_energy_paid": 246,
+          "nonfull_two_source_choices": 39,
+          "resolver_drinks": 64,
+          "selected_site_counts": {
+            "A": 39,
+            "B": 0,
+            "other": 0
+          },
+          "status": "ceiling",
+          "survival_ticks": 300,
+          "terminal_state": {
+            "energy": 66,
+            "health": 120,
+            "water": 49
+          },
+          "ticks": 300,
+          "water_acquired": 295
+        }
+      },
+      "checkpoint_alive": true,
+      "existence_hypothesis_conditions_met": false,
+      "first_online_vs_trained_frozen_divergence": {
+        "attributable_choice": true,
+        "online_selected": {
+          "x": 4,
+          "y": 2
+        },
+        "paired_check": true,
+        "physical_difference_after_choice": true,
+        "post_choice_matched_horizon": {
+          "attribution_check": "paired_check",
+          "first_compared_tick": 236,
+          "matched_ticks": 265,
+          "movement_energy_paid_delta": -52,
+          "online_movement_energy_paid": 160,
+          "online_water_amount": 274,
+          "physical_outcome_difference": true,
+          "position_or_timing_difference_alone_counts": false,
+          "trained_frozen_movement_energy_paid": 212,
+          "trained_frozen_water_amount": 269,
+          "water_amount_delta": 5
+        },
+        "same_exposure_shadow_check": {
+          "actual_selection_kind": "greedy",
+          "greedy_checkpoint_table": {
+            "x": 0,
+            "y": 2
+          },
+          "greedy_current_online_table": {
+            "x": 4,
+            "y": 2
+          },
+          "same_exposure": true,
+          "selected_online": {
+            "x": 4,
+            "y": 2
+          },
+          "tick": 236
+        },
+        "tick": 236,
+        "trained_frozen_selected": {
+          "x": 0,
+          "y": 2
+        }
+      },
+      "online_minus_trained_frozen_common_horizon": {
+        "classification": "tradeoff",
+        "differences_online_minus_trained_frozen": {
+          "energy_at_horizon": -4,
+          "health_at_horizon": 0,
+          "movement_energy_paid": -52,
+          "water_acquired": 5
+        },
+        "horizon_ticks": 300,
+        "net_physical_benefit_vector": false,
+        "no_negative_component": false,
+        "online_survival_ticks": 300,
+        "strict_positive_component": true,
+        "survival_nondeteriorating": true,
+        "ticks": 300,
+        "trained_frozen_survival_ticks": 300
+      },
+      "online_vs_rule_based_common_horizon": {
+        "horizon_ticks": 300,
+        "online_minus_rule_based": {
+          "energy_at_horizon": -2,
+          "health_at_horizon": 0,
+          "movement_energy_paid": 0,
+          "survival_ticks": 0,
+          "water_acquired": 0
+        },
+        "online_pareto_dominates": false,
+        "otherwise_tradeoff": false,
+        "rule_based_pareto_dominates": true
+      },
+      "physical_ticks": 1400,
+      "post_reversal_rank_reversal": {
+        "checkpoint_table_argmax_on_last_pre_reversal_exposure": {
+          "x": 0,
+          "y": 2
+        },
+        "checkpoint_table_values": {
+          "0,2": 96,
+          "4,2": 39
+        },
+        "last_pre_reversal_exposure_argmax": {
+          "x": 0,
+          "y": 2
+        },
+        "post_reversal_argmax_reversals": [
+          {
+            "post_reversal_argmax": {
+              "x": 4,
+              "y": 2
+            },
+            "pre_reversal_argmax": {
+              "x": 0,
+              "y": 2
+            },
+            "tick": 236
+          }
+        ],
+        "reversal_observed": true
+      },
+      "prefix": {
+        "death_cause": null,
+        "fork_state": {
+          "energy": 80,
+          "health": 120,
+          "water": 60
+        },
+        "fresh_two_source_choices": 20,
+        "movement_energy_paid": 130,
+        "nonfull_two_source_choices": 19,
+        "resolver_drinks": 20,
+        "selected_site_counts": {
+          "A": 19,
+          "B": 1,
+          "other": 0
+        },
+        "status": "reached_fork",
+        "survival_ticks": 200,
+        "terminal_state": {
+          "energy": 58,
+          "health": 120,
+          "water": 54
+        },
+        "ticks": 200,
+        "water_acquired": 194
+      },
+      "seed": 51006,
+      "trained_frozen_vs_ablated_frozen_common_horizon": {
+        "differences_online_minus_trained_frozen": {
+          "energy_at_horizon": 6,
+          "health_at_horizon": 0,
+          "movement_energy_paid": 92,
+          "water_acquired": 1
+        },
+        "net_physical_benefit_vector": false,
+        "no_negative_component": false,
+        "online_survival_ticks": 300,
+        "strict_positive_component": true,
+        "survival_nondeteriorating": true,
+        "ticks": 300,
+        "trained_frozen_survival_ticks": 300
+      }
+    },
+    {
+      "arms": {
+        "ablated_frozen": {
+          "death_cause": null,
+          "fork_state": {
+            "energy": 65,
+            "health": 120,
+            "water": 47
+          },
+          "fresh_two_source_choices": 41,
+          "movement_energy_paid": 199,
+          "nonfull_two_source_choices": 41,
+          "resolver_drinks": 51,
+          "selected_site_counts": {
+            "A": 22,
+            "B": 19,
+            "other": 0
+          },
+          "status": "ceiling",
+          "survival_ticks": 300,
+          "terminal_state": {
+            "energy": 64,
+            "health": 120,
+            "water": 48
+          },
+          "ticks": 300,
+          "water_acquired": 301
+        },
+        "online": {
+          "death_cause": null,
+          "fork_state": {
+            "energy": 65,
+            "health": 120,
+            "water": 47
+          },
+          "fresh_two_source_choices": 35,
+          "movement_energy_paid": 214,
+          "nonfull_two_source_choices": 35,
+          "resolver_drinks": 35,
+          "selected_site_counts": {
+            "A": 6,
+            "B": 29,
+            "other": 0
+          },
+          "status": "ceiling",
+          "survival_ticks": 300,
+          "terminal_state": {
+            "energy": 63,
+            "health": 120,
+            "water": 49
+          },
+          "ticks": 300,
+          "water_acquired": 302
+        },
+        "rule_based": {
+          "death_cause": null,
+          "fork_state": {
+            "energy": 65,
+            "health": 120,
+            "water": 47
+          },
+          "fresh_two_source_choices": 35,
+          "movement_energy_paid": 198,
+          "nonfull_two_source_choices": 35,
+          "resolver_drinks": 35,
+          "selected_site_counts": {
+            "A": 3,
+            "B": 32,
+            "other": 0
+          },
+          "status": "ceiling",
+          "survival_ticks": 300,
+          "terminal_state": {
+            "energy": 65,
+            "health": 120,
+            "water": 52
+          },
+          "ticks": 300,
+          "water_acquired": 305
+        },
+        "trained_frozen": {
+          "death_cause": null,
+          "fork_state": {
+            "energy": 65,
+            "health": 120,
+            "water": 47
+          },
+          "fresh_two_source_choices": 40,
+          "movement_energy_paid": 233,
+          "nonfull_two_source_choices": 40,
+          "resolver_drinks": 60,
+          "selected_site_counts": {
+            "A": 35,
+            "B": 5,
+            "other": 0
+          },
+          "status": "ceiling",
+          "survival_ticks": 300,
+          "terminal_state": {
+            "energy": 62,
+            "health": 120,
+            "water": 46
+          },
+          "ticks": 300,
+          "water_acquired": 299
+        }
+      },
+      "checkpoint_alive": true,
+      "existence_hypothesis_conditions_met": true,
+      "first_online_vs_trained_frozen_divergence": {
+        "attributable_choice": true,
+        "online_selected": {
+          "x": 4,
+          "y": 2
+        },
+        "paired_check": true,
+        "physical_difference_after_choice": true,
+        "post_choice_matched_horizon": {
+          "attribution_check": "paired_check",
+          "first_compared_tick": 213,
+          "matched_ticks": 288,
+          "movement_energy_paid_delta": -19,
+          "online_movement_energy_paid": 205,
+          "online_water_amount": 292,
+          "physical_outcome_difference": true,
+          "position_or_timing_difference_alone_counts": false,
+          "trained_frozen_movement_energy_paid": 224,
+          "trained_frozen_water_amount": 289,
+          "water_amount_delta": 3
+        },
+        "same_exposure_shadow_check": {
+          "actual_selection_kind": "greedy",
+          "greedy_checkpoint_table": {
+            "x": 0,
+            "y": 2
+          },
+          "greedy_current_online_table": {
+            "x": 4,
+            "y": 2
+          },
+          "same_exposure": true,
+          "selected_online": {
+            "x": 4,
+            "y": 2
+          },
+          "tick": 213
+        },
+        "tick": 213,
+        "trained_frozen_selected": {
+          "x": 0,
+          "y": 2
+        }
+      },
+      "online_minus_trained_frozen_common_horizon": {
+        "classification": "online_favorable_vector",
+        "differences_online_minus_trained_frozen": {
+          "energy_at_horizon": 1,
+          "health_at_horizon": 0,
+          "movement_energy_paid": -19,
+          "water_acquired": 3
+        },
+        "horizon_ticks": 300,
+        "net_physical_benefit_vector": true,
+        "no_negative_component": true,
+        "online_survival_ticks": 300,
+        "strict_positive_component": true,
+        "survival_nondeteriorating": true,
+        "ticks": 300,
+        "trained_frozen_survival_ticks": 300
+      },
+      "online_vs_rule_based_common_horizon": {
+        "horizon_ticks": 300,
+        "online_minus_rule_based": {
+          "energy_at_horizon": -2,
+          "health_at_horizon": 0,
+          "movement_energy_paid": 16,
+          "survival_ticks": 0,
+          "water_acquired": -3
+        },
+        "online_pareto_dominates": false,
+        "otherwise_tradeoff": false,
+        "rule_based_pareto_dominates": true
+      },
+      "physical_ticks": 1400,
+      "post_reversal_rank_reversal": {
+        "checkpoint_table_argmax_on_last_pre_reversal_exposure": {
+          "x": 0,
+          "y": 2
+        },
+        "checkpoint_table_values": {
+          "0,2": 71,
+          "4,2": 60
+        },
+        "last_pre_reversal_exposure_argmax": {
+          "x": 0,
+          "y": 2
+        },
+        "post_reversal_argmax_reversals": [
+          {
+            "post_reversal_argmax": {
+              "x": 4,
+              "y": 2
+            },
+            "pre_reversal_argmax": {
+              "x": 0,
+              "y": 2
+            },
+            "tick": 213
+          }
+        ],
+        "reversal_observed": true
+      },
+      "prefix": {
+        "death_cause": null,
+        "fork_state": {
+          "energy": 80,
+          "health": 120,
+          "water": 60
+        },
+        "fresh_two_source_choices": 23,
+        "movement_energy_paid": 137,
+        "nonfull_two_source_choices": 22,
+        "resolver_drinks": 23,
+        "selected_site_counts": {
+          "A": 20,
+          "B": 3,
+          "other": 0
+        },
+        "status": "reached_fork",
+        "survival_ticks": 200,
+        "terminal_state": {
+          "energy": 65,
+          "health": 120,
+          "water": 47
+        },
+        "ticks": 200,
+        "water_acquired": 187
+      },
+      "seed": 51007,
+      "trained_frozen_vs_ablated_frozen_common_horizon": {
+        "differences_online_minus_trained_frozen": {
+          "energy_at_horizon": -2,
+          "health_at_horizon": 0,
+          "movement_energy_paid": 34,
+          "water_acquired": -2
+        },
+        "net_physical_benefit_vector": false,
+        "no_negative_component": false,
+        "online_survival_ticks": 300,
+        "strict_positive_component": false,
+        "survival_nondeteriorating": true,
+        "ticks": 300,
+        "trained_frozen_survival_ticks": 300
+      }
+    },
+    {
+      "arms": {
+        "ablated_frozen": {
+          "death_cause": null,
+          "fork_state": {
+            "energy": 63,
+            "health": 120,
+            "water": 48
+          },
+          "fresh_two_source_choices": 40,
+          "movement_energy_paid": 167,
+          "nonfull_two_source_choices": 40,
+          "resolver_drinks": 48,
+          "selected_site_counts": {
+            "A": 20,
+            "B": 20,
+            "other": 0
+          },
+          "status": "ceiling",
+          "survival_ticks": 300,
+          "terminal_state": {
+            "energy": 60,
+            "health": 120,
+            "water": 48
+          },
+          "ticks": 300,
+          "water_acquired": 300
+        },
+        "online": {
+          "death_cause": null,
+          "fork_state": {
+            "energy": 63,
+            "health": 120,
+            "water": 48
+          },
+          "fresh_two_source_choices": 32,
+          "movement_energy_paid": 218,
+          "nonfull_two_source_choices": 32,
+          "resolver_drinks": 33,
+          "selected_site_counts": {
+            "A": 4,
+            "B": 28,
+            "other": 0
+          },
+          "status": "ceiling",
+          "survival_ticks": 300,
+          "terminal_state": {
+            "energy": 59,
+            "health": 120,
+            "water": 54
+          },
+          "ticks": 300,
+          "water_acquired": 306
+        },
+        "rule_based": {
+          "death_cause": null,
+          "fork_state": {
+            "energy": 63,
+            "health": 120,
+            "water": 48
+          },
+          "fresh_two_source_choices": 31,
+          "movement_energy_paid": 223,
+          "nonfull_two_source_choices": 30,
+          "resolver_drinks": 30,
+          "selected_site_counts": {
+            "A": 6,
+            "B": 25,
+            "other": 0
+          },
+          "status": "ceiling",
+          "survival_ticks": 300,
+          "terminal_state": {
+            "energy": 66,
+            "health": 120,
+            "water": 48
+          },
+          "ticks": 300,
+          "water_acquired": 300
+        },
+        "trained_frozen": {
+          "death_cause": null,
+          "fork_state": {
+            "energy": 63,
+            "health": 120,
+            "water": 48
+          },
+          "fresh_two_source_choices": 41,
+          "movement_energy_paid": 221,
+          "nonfull_two_source_choices": 41,
+          "resolver_drinks": 60,
+          "selected_site_counts": {
+            "A": 35,
+            "B": 6,
+            "other": 0
+          },
+          "status": "ceiling",
+          "survival_ticks": 300,
+          "terminal_state": {
+            "energy": 60,
+            "health": 120,
+            "water": 52
+          },
+          "ticks": 300,
+          "water_acquired": 304
+        }
+      },
+      "checkpoint_alive": true,
+      "existence_hypothesis_conditions_met": false,
+      "first_online_vs_trained_frozen_divergence": {
+        "attributable_choice": true,
+        "online_selected": {
+          "x": 4,
+          "y": 2
+        },
+        "paired_check": true,
+        "physical_difference_after_choice": true,
+        "post_choice_matched_horizon": {
+          "attribution_check": "paired_check",
+          "first_compared_tick": 233,
+          "matched_ticks": 268,
+          "movement_energy_paid_delta": -3,
+          "online_movement_energy_paid": 195,
+          "online_water_amount": 277,
+          "physical_outcome_difference": true,
+          "position_or_timing_difference_alone_counts": false,
+          "trained_frozen_movement_energy_paid": 198,
+          "trained_frozen_water_amount": 275,
+          "water_amount_delta": 2
+        },
+        "same_exposure_shadow_check": {
+          "actual_selection_kind": "greedy",
+          "greedy_checkpoint_table": {
+            "x": 0,
+            "y": 2
+          },
+          "greedy_current_online_table": {
+            "x": 4,
+            "y": 2
+          },
+          "same_exposure": true,
+          "selected_online": {
+            "x": 4,
+            "y": 2
+          },
+          "tick": 233
+        },
+        "tick": 233,
+        "trained_frozen_selected": {
+          "x": 0,
+          "y": 2
+        }
+      },
+      "online_minus_trained_frozen_common_horizon": {
+        "classification": "tradeoff",
+        "differences_online_minus_trained_frozen": {
+          "energy_at_horizon": -1,
+          "health_at_horizon": 0,
+          "movement_energy_paid": -3,
+          "water_acquired": 2
+        },
+        "horizon_ticks": 300,
+        "net_physical_benefit_vector": false,
+        "no_negative_component": false,
+        "online_survival_ticks": 300,
+        "strict_positive_component": true,
+        "survival_nondeteriorating": true,
+        "ticks": 300,
+        "trained_frozen_survival_ticks": 300
+      },
+      "online_vs_rule_based_common_horizon": {
+        "horizon_ticks": 300,
+        "online_minus_rule_based": {
+          "energy_at_horizon": -7,
+          "health_at_horizon": 0,
+          "movement_energy_paid": -5,
+          "survival_ticks": 0,
+          "water_acquired": 6
+        },
+        "online_pareto_dominates": false,
+        "otherwise_tradeoff": true,
+        "rule_based_pareto_dominates": false
+      },
+      "physical_ticks": 1400,
+      "post_reversal_rank_reversal": {
+        "checkpoint_table_argmax_on_last_pre_reversal_exposure": {
+          "x": 0,
+          "y": 2
+        },
+        "checkpoint_table_values": {
+          "0,2": 93,
+          "4,2": 66
+        },
+        "last_pre_reversal_exposure_argmax": {
+          "x": 0,
+          "y": 2
+        },
+        "post_reversal_argmax_reversals": [
+          {
+            "post_reversal_argmax": {
+              "x": 4,
+              "y": 2
+            },
+            "pre_reversal_argmax": {
+              "x": 0,
+              "y": 2
+            },
+            "tick": 233
+          }
+        ],
+        "reversal_observed": true
+      },
+      "prefix": {
+        "death_cause": null,
+        "fork_state": {
+          "energy": 80,
+          "health": 120,
+          "water": 60
+        },
+        "fresh_two_source_choices": 20,
+        "movement_energy_paid": 159,
+        "nonfull_two_source_choices": 19,
+        "resolver_drinks": 21,
+        "selected_site_counts": {
+          "A": 17,
+          "B": 3,
+          "other": 0
+        },
+        "status": "reached_fork",
+        "survival_ticks": 200,
+        "terminal_state": {
+          "energy": 63,
+          "health": 120,
+          "water": 48
+        },
+        "ticks": 200,
+        "water_acquired": 188
+      },
+      "seed": 51008,
+      "trained_frozen_vs_ablated_frozen_common_horizon": {
+        "differences_online_minus_trained_frozen": {
+          "energy_at_horizon": 0,
+          "health_at_horizon": 0,
+          "movement_energy_paid": 54,
+          "water_acquired": 4
+        },
+        "net_physical_benefit_vector": false,
+        "no_negative_component": false,
+        "online_survival_ticks": 300,
+        "strict_positive_component": true,
+        "survival_nondeteriorating": true,
+        "ticks": 300,
+        "trained_frozen_survival_ticks": 300
+      }
+    }
+  ],
+  "study": "continuous-lifetime renewable-water choice learning",
+  "study_design": {
+    "all_other_body_fields": "ordinary defaults",
+    "both_actor_birth_body_overrides": {
+      "maturity_age": 501,
+      "max_age": 512
+    },
+    "ending": "all arms at 300 suffix ticks; focal and rival remained alive; no reset, replacement, mating, or offspring",
+    "fixture": "predator-free 5x5 safe habitat with two water sites, renewable food, finite ordinary-AI rival",
+    "timeline": "continuous 200-tick prefix; tick-200 checkpoint; four counterfactual 300-tick suffixes; renewal reversal before tick 201"
+  }
+}

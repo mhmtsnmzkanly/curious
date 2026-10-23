@@ -63,8 +63,10 @@ immutable raw capture in
 [`LIFELONG_WATER_PREFLIGHT_REPAIR.md`](LIFELONG_WATER_PREFLIGHT_REPAIR.md).
 The first sidecar and all original capture artifacts remain preserved.
 
-The reanalysis does not change the registered fixture, biological parameters,
-gates, budgets, or seed plan. Seed `51099` is used only as calibration. Formal
-seeds `51001`–`51008` have not been run and remain unobserved; no formal run is
-authorized until root reviews the current source-bound reanalysis and calibration gate.
-This document makes no claim about behavior or efficacy.
+Neither reanalysis changed the registered fixture, biological parameters,
+gates, budgets, or seed plan. Seed `51099` was used only as calibration. After
+the source-bound second reanalysis passed, formal seeds `51001`–`51008` were run
+once; the bounded outcome is documented in
+[`reports/LIFELONG_WATER_V2.md`](reports/LIFELONG_WATER_V2.md). This file records
+the RNG-validator correction and immutable calibration provenance; it does not
+make an efficacy claim.

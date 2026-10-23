@@ -27,18 +27,38 @@ içindedir. İlk formal preflight, 19.44 MB'lık kayıtlı calibration JSONL
 satırını paylaşılan seed scanner'ın 16 MiB varsayılan sınırı reddettiği için
 probe başlamadan durdu; formal koşusu ve seed tüketimi olmadı. Protokolün
 64 MiB/seed sınırıyla tam tarama yapan düzeltilmiş scanner sonrası calibration
-yalnız ham kayıt üzerinden ikinci kez sıfır-tick doğrulanacak. Ayrıntı
+yalnız ham kayıt üzerinden ikinci kez sıfır-tick doğrulandı. Ayrıntı
 [`LIFELONG_WATER_PREFLIGHT_REPAIR.md`](docs/LIFELONG_WATER_PREFLIGHT_REPAIR.md).
-51099 yalnız kalibrasyonda kullanıldı; formal 51001–51008 koşuları başlamadı.
-Gate, biyoloji, fixture ve bütçe değiştirilmez.
+Scanner düzeltmesi `41c3a9f` ile source-bound oldu; ikinci calibration reanalysis
+aynı 1.400 tick raw kaydı sıfır yeni dünya tick'iyle doğruladı ve gate'i geçti.
+Formal v2 seed 51001–51008 işi tamamlandı: 11.200 tick, bütün eşleştirilmiş
+çatallar 300 tick sınırına ulaştı. Sekiz seed'in hepsinde online tablo ilk
+karşılaştırılabilir seçimde trained-frozen tablosundan farklı greedy kaynak
+seçti ve sonrasında resolver fiziksel farkı oluştu. Yalnız seed 51007
+preregistered tüm-bileşen fiziksel yarar vektörünü geçti; altı seed tradeoff
+gösterdi ve seed 51001’de trained-frozen online’ı Pareto baskıladı. Sonuç ve tüm seed/arm metrikleri
+[`LIFELONG_WATER_V2.md`](docs/reports/LIFELONG_WATER_V2.md)/JSON içindedir.
+Kural tabanlı güçlü karşılaştırmaya karşı online kol hiçbir seed'de Pareto
+üstünlüğü göstermedi; rule-based 51003/51006/51007'de baskın, diğer beşinde
+sonuçlar tradeoff. Trained-frozen, seed 51001'de online'ı su, ödenen hareket
+enerjisi ve son enerji bakımından baskılar; seed 51007 online için tek tam
+olumlu vektördür. Bu tek varoluş örneği genel üstünlük veya ekoloji kabulü
+değildir. İleride ayrı preregistrasyonda güncel algıdaki miktar/rota maliyetini
+öğrenilmiş kaynak değerine nasıl katmak gerektiği incelenebilir; bu rapor hiçbir
+uygulama veya yeni koşu başlatmaz. Core, canlı ayar, protokol, fixture ve
+biyoloji değiştirilmedi. Formal raw, manifest ve kalibrasyon/reanalysis
+arşivleri korunur.
 
-Kök dış runtime'a iki 60 saniyelik completion timer kurdu:
+Kök dış runtime'a iki 60 saniyelik completion timer kurmuştu; terminal kanıt
+ve queue sonrasında ikisi de devre dışı bırakıldı. Handling kaydı
+`data/experiments/lifetime-lab-v2-20261023/completion-handled.json` içindedir.
+Queue ID `01a16a48-9c0b-72c2-93a2-70d8d8679e72` chat teslimini bekliyor; bu
+teslim yanıtı için timerı yeniden çalıştırma. Retained timer adları
 `curious-lifetime-learning-calibration-completion` ve
-`curious-lifetime-learning-completion`. Dondurulmuş helper/config ve systemd
-root sorumluluğundadır. Bunlar sırasıyla
+`curious-lifetime-learning-completion`; dış frozen helper/config ve systemd
+kanıtları korunur. Bunlar sırasıyla
 `data/experiments/lifetime-lab-v2-calibration-20261023/` ve
-`data/experiments/lifetime-lab-v2-20261023/` V2 şemalarını izler. Formal için
-önce ayrı kalibrasyon kanıtını ve kök yetkilendirmesini doğrula. İlerleme
+`data/experiments/lifetime-lab-v2-20261023/` V2 şemalarını izler. İlerleme
 bildirim sayfası `p_20c1696770ea5942`.
 
 Tarihsel ham deneyler, arşivler, canlı dünyalar, frozen release'ler ve eski
