@@ -1,7 +1,6 @@
 # Lifetime continuity and reversal — preregistration
 
-**Status: prepared for root review; do not run a lab before root commits this
-protocol with the source revision.** This lab asks whether one real individual keeps
+**Status: preregistered by root; bounded execution requires a clean source commit and root review.** This lab asks whether one real individual keeps
 its own body state, age, identity, and learner experience across an observed
 environmental reversal and checkpoint/resume. It is a continuity and bounded
 adaptation study, not evidence for a general lifespan-learning claim.
@@ -41,7 +40,7 @@ intervention are harness-side exogenous actions and are not exposed as future
 information. The exact tick ordering (world update, perception, intervention,
 resolver) must be fixed in the runner and asserted in its event log.
 
-After the tick-52 resolver has completed, apply the first reversal and capture
+If the subject dies during tick 52, record `died_at_checkpoint` and do not create a checkpoint or counterfactual branches. Earlier death is `died_before_checkpoint`. If it survives, after the tick-52 resolver has completed, apply the first reversal and capture
 the exact complete `State`, RNG state, and external script cursor before
 decision tick 53. Record one uninterrupted online continuation and one
 restore-from-checkpoint online continuation for the same remaining 52 ticks.

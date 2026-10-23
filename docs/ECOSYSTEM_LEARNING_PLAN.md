@@ -12,11 +12,11 @@ performed by the coding agent.
 | Phase | Feature and minimum evidence | State |
 |---|---|---|
 | 1 | Opt-in hunt injury-risk history, causally tied to resolver-confirmed prey defense and a choice rule with unknown evidence kept unknown. Preregistered six-arm lab compares food, injury, deaths/final health, and energy. | V3 source and bounded runner completed at `67a4e14`; 131 Rust/77 Python and disabled state/RNG fidelity passed. Bounded evaluation completed; risk policy did not reduce injury outcomes (see `reports/HUNT_LAB_V3.md`/JSON). Feature stays default-off; no tuning or deployment. |
-| 2 | Same individual retains its actual identity, age, body history, and learner through resource/predator reversal and checkpoint/resume. Audit raw actor state and RNG equality across uninterrupted/resumed branches. | Prepared preregistration `LIFETIME_CONTINUITY_PROTOCOL.md` is pending root review/commit; no source changes or evaluation before that commit. |
-| 3 | Extend existing danger memory for herbivore escape/shelter choices after observed threat. Measure real movement cost, own received damage, escape success, and blocked/occupied destinations; do not reveal future threat positions. | Prepared preregistration `HERBIVORE_DANGER_PROTOCOL.md` is pending root review/commit; saved-state V16 must integrate after phase-4 V15. |
-| 4 | Population-independent spatial/temporal resource schedule with deterministic site offsets and a closed-feature no-RNG equivalence check. | `ecology_traits_luna6` worktree; pending phase 3 coordination/review. |
+| 2 | Same individual retains its actual identity, age, body history, and learner through resource/predator reversal and checkpoint/resume. Audit raw actor state and RNG equality across uninterrupted/resumed branches. | Root-approved preregistration is committed. A fixed-seed Rust harness and strict Python validator are implemented; targeted compile and validator tests pass. Root review and source commit precede the bounded run. |
+| 3 | Extend existing danger memory for herbivore escape/shelter choices after observed threat. Measure real movement cost, own received damage, escape success, and blocked/occupied destinations; do not reveal future threat positions. | Root-approved preregistration is committed. Implementation waits for phase-4 V15 integration; V16 must preserve V15 defaults and migrate older state explicitly. |
+| 4 | Population-independent spatial/temporal resource schedule with deterministic site offsets and a closed-feature no-RNG equivalence check. | Phase-4 code and preregistration are being integrated by root from the ecology-traits branch; V15 migration is under review. |
 | 5 | Individual decision timeline for seen/remembered evidence, selected action, observed cost, and resulting update; compare first/last genuinely similar subjective encounters. | Implemented as the read-only documentary viewer in source `4c2cef7`; independent browser and 75 Python UI tests passed. The current view presents observed history rows, not a claim of complete lifetime cognition. Read-only deployment health showed 3 individual-history rows and zero world restarts; no Rust server upgrade. |
-| 6 | Separate inherited-allele lab for sight, speed, and endurance. Charge expressed traits through live perception/resolver/metabolism budgets, then measure survival and reproduction costs. | `ecology_traits_luna6` worktree; pending phase 5 coordination/review. |
+| 6 | Separate inherited-allele lab for sight, speed, and endurance. Charge expressed traits through live perception/resolver/metabolism budgets, then measure survival and reproduction costs. | Phase-6 code and preregistration are being integrated by root from the ecology-traits branch; its lab remains separate from phase 4. |
 
 Each phase produces the smallest implementation that can answer its stated
 question, tests its causal measurement, and pins commands, seeds, source and
@@ -56,13 +56,13 @@ V3 terminal poll queued exactly once (queue ID
 database and retained completion journal/dedup evidence). It uses
 a frozen helper, external runtime configuration, explicit watched run paths,
 terminal manifest and content-hash checks, durable outbox, and native
-`codex queue` delivery to the configured user/thread. The active frozen V1
-helper/config still watches the terminal V3 hunt run. A separate V2 helper
-source and 12-test suite now accept only the explicit bounded lab schemas for
-hunt, lifetime, herbivore, and ecology traits, one exact watched run, and an
-explicit allowlisted immutable artifact filename (`hunt-lab-probe` or
-`lab-probe`). V2 is not installed: root must review its SHA, freeze it, and
-update the external config before any later lab relies on completion delivery.
+`codex queue` delivery to the configured user/thread. The retired V1 helper/config remains as V3 delivery evidence. The frozen V2
+helper is installed with three active completion timers for lifetime,
+herbivore, and ecology-traits labs. Its source and 12-test suite accept only
+explicit bounded lab schemas, one exact watched run, and an allowlisted
+immutable artifact filename (`hunt-lab-probe` or `lab-probe`). Runtime configs
+and frozen SHA are outside git and root-owned. New lab runs must use the
+matching schema, watched path, and probe filename.
 Timer completion only queues a message; root must recheck run identity and
 evidence.
 

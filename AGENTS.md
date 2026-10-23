@@ -31,16 +31,17 @@ Yeni altı aşamalı ekosistem öğrenme görevinin sahipliği, kabul sınırlar
 durumu [`docs/ECOSYSTEM_LEARNING_PLAN.md`](docs/ECOSYSTEM_LEARNING_PLAN.md)
 dosyasındadır. Her faz için protokol ve bounded lab kanıtı gerekir; root
 protokolü/commitleri/deneyi denetler, Luna6 kaynak kodu ve ölçüm araçlarını
-hazırlar. Completion timer kurulu olsa da sonraki faz lab adları ayrıca
-uyumlandırılmadan timer kapsamına girmez.
+hazırlar. Completion helper v2 artık hunt/lifetime/herbivore/ecology-traits schema adlarını
+izinli kılar; üç yeni v2 timer root tarafından kuruldu. Runtime config, frozen
+helper SHA ve systemd denetimi root sorumluluğundadır.
 
 Risk V3 bounded lab tamamlandı; ölçüm riski azaltma iddiasını desteklemediği
 için canlı ayarda varsayılan kapalı kalır. Gerçek completion timer poll'u
 terminal manifesti algılayıp bir kez `codex queue` ile iletti; queue ID ve
-kanıt `docs/ECOSYSTEM_LEARNING_PLAN.md` içinde kayıtlıdır. Faz 2/3 yalnız
-protokol taslağındadır; root review/commit öncesi kaynak kodu veya deney yok.
-Yeni sınırlı lab adlarını destekleyen v2 helper testlidir ancak henüz ops
-tarafından kurulmadı; dış config ve frozen helper değişikliğini root denetler.
+kanıt `docs/ECOSYSTEM_LEARNING_PLAN.md` içinde kayıtlıdır. Faz 2/3 protokolleri root tarafından preregister edilmiştir; phase 2 harness
+ve validator kodlanmaktadır, bounded evaluation root commit/review sonrasıdır.
+V2 helper ve lifetime/herbivore/ecology-traits timerları ops tarafından
+kurulmuştur; dış config ve frozen helper değişikliğini root denetler.
 
 ## Rezerv adayının uzun kabul kampanyası — 18 Ekim
 
