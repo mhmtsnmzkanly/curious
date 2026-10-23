@@ -1,5 +1,40 @@
 # Curious üzerinde çalışma
 
+## 23 Ekim 2026 — yeni sürekli-yaşam su öğrenmesi devri
+
+Kullanıcı, bireyin gerçek yaşam geçmişinin karar ve fiziksel sonuca etki
+etmesini görmek istiyor. İlk yaşam-sürekliliği raporu
+[LIFETIME_CONTINUITY.md](docs/reports/LIFETIME_CONTINUITY.md)
+kimlik/beden/yaş/checkpoint devamlılığını doğruladı; sekiz kısa yaşamda online
+ve frozen kararlar aynıydı. Salt-okunur neden incelemesi
+[LEARNING_EXPOSURE_DIAGNOSIS.md](docs/reports/LEARNING_EXPOSURE_DIAGNOSIS.md)
+içindedir. Su öğrenicisi
+yalnız kural kararı SeekWater ve en az iki pozitif algılanan su bulunduğunda
+seçim yapar; mevcut tarihsel sonuçta yeterli tekrar/yenilenme kontrastı yoktu.
+Bu bir motor hata bulgusu değildir.
+
+Yeni dar protokol [LIFELONG_WATER_PROTOCOL.md](docs/LIFELONG_WATER_PROTOCOL.md); kök preregistrasyonu
+`02b3d89` ile sabitledi. Raw-schema eki/son fiziki sonuç sözlüğü sonraki kaynak
+commitinde aynı protokole pinlenecek. Yalnız `examples/lifelong_water_lab.rs`
+deney kodu ve izole testler yazılıyor; Rust çekirdeği/politika/öğrenici
+değiştirilmedi. Yedi Rust örnek testi yalnız seed 123 gibi kayıt dışı geliştirme
+fixture'larıyla geçti. Hiçbir 510xx kalibrasyon/formal dünya koşusu başlatılmadı.
+Kalibrasyon uygunluk kapısı başarısızsa formal çalıştırma durur; fixture veya
+protokol sonuçtan sonra ayarlanmaz.
+
+Kök dış runtime'a iki 60 saniyelik completion timer kurdu:
+`curious-lifetime-learning-calibration-completion` ve
+`curious-lifetime-learning-completion`. Dondurulmuş helper/config ve systemd
+root sorumluluğundadır. Bunlar sırasıyla
+`data/experiments/lifetime-lab-v2-calibration-20261023/` ve
+`data/experiments/lifetime-lab-v2-20261023/` V2 şemalarını izler. Formal için
+önce ayrı kalibrasyon kanıtını ve kök yetkilendirmesini doğrula. İlerleme
+bildirim sayfası `p_20c1696770ea5942`.
+
+Tarihsel ham deneyler, arşivler, canlı dünyalar, frozen release'ler ve eski
+lifetime-lab timerları değiştirilmez. Yeni iş/servis durumunda gerçek manifests
+ve raw kanıtı oku; eski roadmap notlarını güncel çalışma kanıtı sayma.
+
 ## Ajan bağımsız beceriler
 
 Göreve uygun talimatı [.agents/skills/README.md](.agents/skills/README.md)

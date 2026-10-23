@@ -25,6 +25,30 @@ No parameter sweep or tuning after seeing outcomes. If a lab cannot identify
 the claimed effect with current measurements, narrow the claim or design a
 separate preregistered lab before changing the feature.
 
+## Phase 2 follow-up — continuous-lifetime water choices
+
+The first lifetime-continuity result above established same-ID/body/age/learner
+checkpoint replay but found no decision or physical difference in eight short
+reversal histories. A bounded follow-up is preregistered in
+[`LIFELONG_WATER_PROTOCOL.md`](LIFELONG_WATER_PROTOCOL.md), source commit
+`02b3d89`. It uses one 200-tick uninterrupted experience prefix, a checkpoint,
+and four counterfactual suffixes (online, same-table frozen, table-ablated
+frozen, rule-based) in the same physically renewable water-competition
+fixture. The sole candidate implementation is a lab probe and isolated
+serialization/replay tests; no core policy or saved-state behavior changes.
+
+The follow-up aims only to demonstrate a causally attributable decision and a
+physical water/energy/survival effect in at least one held-out continuous
+lifetime. It does not establish general learning efficacy. Root audited
+calibration seed `51099` and formal seeds `51001`–`51008` as unused before any
+new run. No calibration/formal world run has been authorized yet; a separate
+root review follows the isolated unit tests and calibration evidence. Root
+owns source/protocol commits, seed freshness scans, formal authorization, and
+the installed completion timer. The v2 completion helper watches only
+`lifetime-lab-v2-20261023` and schema
+`curious-lifetime-lab-run-v2`/protocol 2; its active runtime is external to
+this repository.
+
 ## Phase 3 evidence and limits
 
 The fixed calibration used 134 physical ticks of its 200-tick ceiling. The

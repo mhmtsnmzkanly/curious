@@ -1,16 +1,21 @@
 # Continuous-lifetime water learning — preregistration
 
 **Protocol version:** 2  
-**Status:** fixture approved by root; protocol awaiting its source commit. No calibration or formal world run is authorized by this draft.  
+**Status:** fixture and core preregistration committed at `02b3d89`; the
+raw-schema and outcome-vector clarifications are pinned with the lab source.
+No calibration or formal world run is authorized by this file alone.
 **Question:** Can one focal individual’s own water-choice experience, accumulated during one continuous life, change a later decision and improve actual water/energy/survival after a real renewal reversal?
 
 This is a bounded individual-learning demonstration. It is not an ecology,
 population, inheritance, general intelligence, or long-term fitness acceptance.
 The focal actor is created once at age zero. Its ID, body, age, health, energy,
-water, position, memory, and learner history are never reset during its life.
-There are no replacement actors, teleports, scripted decisions, forced
-successes, world-state observations in the policy, or post-result parameter
-sweeps.
+water, and position are never reset. The recorded prefix and `online` branch
+continue its learned history; `trained_frozen` is a same-history continuation
+with updates stopped. `ablated_frozen` deliberately clears only the table in a
+counterfactual copy at the fork, as specified below. That counterfactual is not
+a physical reset of the focal animal or a second co-present individual. There
+are no replacement actors, teleports, scripted decisions, forced successes,
+world-state observations in the policy, or post-result parameter sweeps.
 
 ## Hypothesis and contrasts
 
@@ -40,19 +45,28 @@ all of the following in a single focal lifetime: (1) the online table changes
 the focal actor’s selected site relative to `trained_frozen` at a fresh choice
 with two visible sources and a registered causal attribution check below;
 (2) the altered choice is followed by a resolver-confirmed physical difference
-in acquired water; and (3) the online branch has a favorable physical outcome
-vector without any negative component at the common paired horizon. The
+in acquired-water amount or paid movement energy; and (3) the online branch has
+a favorable physical outcome vector without any negative component and at
+least one strictly favorable component at the common paired horizon. The
 common horizon is the shorter of the two focal suffix lifetimes, capped at 300
 ticks after the fork. The vector is cumulative acquired water (higher is
 better), cumulative movement energy paid (lower is better), and health and
 energy at the common horizon (higher is better). Survival ticks are reported
 separately and are nondeteriorating only if online survival is at least as
-long as the paired control. A water gain paired with a larger movement-energy
+long as the paired control; strictly longer survival can be the single strict
+improvement. Identical outcomes are not a benefit. A water gain paired with a larger movement-energy
 cost, lower health/energy, or shorter survival is a tradeoff, not a net
 benefit. Report full-suffix totals and survival separately too. No learner
 reward, table value, or action difference alone counts as benefit. One seed
 supports only an existence example; it does not support a general expected
 advantage.
+
+This outcome vector refers to the focal actor only. Cumulative water is the sum
+of its resolver-confirmed `EntityDrank.amount` events; cumulative movement
+energy is the sum of its `EntityMoved.energy_cost` events; terminal/common-
+horizon energy and health are its recorded body fields. The competing actor’s
+resource use, decisions, costs, health, and death are reported as context, not
+combined into the focal outcome vector.
 
 ## Fixed fixture
 
@@ -94,11 +108,15 @@ an unavailable comparison is not assumed away.
 
 ## Timeline and fixed bounds
 
-Each seed has exactly one continuous prefix of 200 world ticks. Record the
-complete `State`, RNG, learner, actor bodies, environment, and external
-schedule cursor after completed tick 200. If either actor is dead at that
-checkpoint, the seed is invalid for the registered branch comparison; do not
-revive or replace it.
+Each seed has one continuous prefix of at most 200 world ticks. Stop at the
+first world tick where either registered actor dies naturally. If either dies
+before completing tick 200, retain that shorter prefix and the complete state
+at that death tick, mark the seed invalid, and do not continue the world,
+revive, replace an actor, or create counterfactual branches. If both actors
+remain alive through tick 200, record the complete `State`, RNG, learner, actor
+bodies, and environment after that tick and fork as registered. Death of the
+competitor before tick 200 censors the focal history at that tick; it does not
+create a second subject or extend the prefix.
 
 Make four copies of that checkpoint. In `online`, retain the learner unchanged.
 In `trained_frozen`, change only `update_enabled` to false. In
@@ -175,13 +193,18 @@ A fresh choice is a decision where the focal actor’s pre-learner decision is
 positive amounts, and either there was no active water episode before intent
 collection or its previous target is no longer among those perceived sources.
 In the latter case the existing learner interrupts the old episode before
-choosing again. Repeated per-tick continuation of an active, still-perceived
-target is not a new choice. In this fixture, record the pre-learner reason from
+choosing again. In the `rule_based` branch, an inherited active episode is
+ignored by the disabled learner and the base policy makes a fresh choice.
+Repeated per-tick continuation of an active, still-perceived target by an
+enabled learner is not a new choice. In this fixture, record the pre-learner reason from
 the final trace: the water learner emits `LearnedWater` only when the
 pre-learner reason was `SeekWater`, and it otherwise leaves `SeekWater` intact.
 Any final reason outside that pair is not a fresh water choice. This
-classification does not re-run the policy or consume RNG. A completed drink
-must match the focal ID and selected source in a resolver `EntityDrank` event.
+classification does not re-run the policy or consume RNG. Under this fixture’s
+default policy settings, a `SeekWater` rule decision with visible water makes
+no random draw; the learner’s first draw is the registered exploration choice.
+A completed drink must match the focal ID and selected source in a resolver
+`EntityDrank` event.
 
 Before using the registered fixture, add isolated software tests that prove
 checkpoint serialization/restore and per-tick state-plus-RNG replay equality
@@ -219,10 +242,62 @@ Retain raw data for every physical tick and each branch. Record:
   before applying the listed learner treatment. Report any difference caused
   by the branch’s first normal tick rather than masking it.
 
+The raw capture is one JSON object per seed in `raw.jsonl`, with this fixed
+shape (full engine structures use their serde JSON representation):
+
+```text
+SeedRecord {
+  schema: "curious-lifetime-seed-v2", protocol_version: 2,
+  role: "calibration" | "formal", seed, status, physical_ticks,
+  initial_state: State,
+  prefix: [TickRow, ...],                 // through tick 200 or first natural death
+  checkpoint_state: State,                // tick 200 if alive; else first-death tick
+  forks: {
+    online: BranchRecord | null,
+    trained_frozen: BranchRecord | null,
+    ablated_frozen: BranchRecord | null,
+    rule_based: BranchRecord | null
+  }                                      // all null unless both alive at tick 200
+}
+TickRow {
+  tick, state_before: State, rng_before,
+  events: [SimulationEvent, ...],
+  decisions: [full DecisionTrace, ...],
+  focal_choice: ChoiceExposure | null,
+  state_after: State, rng_after
+}
+ChoiceExposure {
+  base_reason, final_reason, intent, fresh, active_episode_before,
+  candidates: [{pos, amount, steps_len, saved_value}, ...],
+  selected_target, selection_kind: "ongoing" | "greedy" | "explore"
+             | "base" | "none" | "unknown"
+}
+BranchRecord {
+  status, learner_treatment,
+  state_before_treatment: State,             // equals checkpoint_state
+  state_after_treatment_before_reversal: State,
+  state_at_tick_201_before_world_tick: State, // reversal applied, no tick yet
+  ticks: [TickRow, ...]
+}
+```
+
+Record `focal_choice` from the pre-tick focal learner plus the already captured
+decision trace; do not invoke a policy a second time. For a learner continuation,
+set `selection_kind="ongoing"`; when no episode exists or its target is no
+longer visible, classify the new choice from the captured RNG and current
+candidate values. If exact classification is ambiguous, preserve
+`selection_kind="unknown"` and exclude it from the causal gate. The prefix
+contains the single continuous tick-1-to-200 life; the four branch arrays are
+counterfactual suffixes. No branch is represented as a separate individual.
+
 From recorded pre-choice state, calculate the candidate argmax from saved
 values and existing deterministic tie-breaks without consuming RNG or
-mutating the learner. Log the actual exploration outcome separately. Do not
-call policy helpers a second time or use hidden world state as a subject input.
+mutating the learner. Log the actual exploration outcome separately. For the
+same-exposure shadow check, compare the recorded online choice against the
+greedy source from the current online values and from the checkpoint’s trained
+values, using the identical captured candidate positions, amounts, paths, and
+RNG state. Do not call policy helpers a second time or use hidden world state
+as a subject input.
 
 Report every seed and branch separately: fresh choice counts, selected source
 counts, source amounts, drinks and water acquired, movement energy, time,
@@ -236,7 +311,14 @@ itself is not success. Missing choice exposure is non-identifiability, not a
 negative learning outcome. Do not infer real time lived, age advantage,
 offspring transfer, evolutionary benefit, or ecosystem persistence.
 
-The immutable raw capture, stderr, manifest, summary, and report belong in
+The summary sidecar uses schema `curious-lifetime-summary-v2` and records each
+seed/branch’s status, tick and survival counts, death cause, fresh and
+non-full two-source choices, selected-site counts, resolver drink count and
+total water, movement energy paid, fork/terminal energy-water-health, full
+suffix water and movement-energy totals, state hashes, rank reversals, causal
+divergence audit, and the common-horizon physical outcome vector. It does not
+combine those components into a weighted score. The immutable raw capture,
+stderr, manifest, summary, and report belong in
 `data/experiments/lifetime-lab-v2-20261023/`; the separate calibration belongs
 in `data/experiments/lifetime-lab-v2-calibration-20261023/`. The completion
 manifest must use schema `curious-lifetime-lab-run-v2`, `protocol_version: 2`,
