@@ -9,6 +9,24 @@ pub enum SimulationEvent {
         id: usize,
         result: crate::entity::hunt_learning::HuntResult,
     },
+    RefugeEpisodeEnded {
+        id: usize,
+        threat_id: usize,
+        threat_species: Species,
+        context_key: crate::entity::memory::RefugeKey,
+        started_tick: usize,
+        ended_tick: usize,
+        endpoint: Position,
+        final_pos: Position,
+        closure: crate::entity::memory::RefugeClosure,
+        completed: bool,
+        safe_arrival: bool,
+        attribution_known: bool,
+        threat_damage: u64,
+        other_damage: u64,
+        movement_energy: u64,
+        unattributed_health_loss: u64,
+    },
     ResourceReplenished {
         pos: Position,
         kind: crate::environment::ResourceKind,
@@ -136,6 +154,7 @@ impl SimulationEvent {
         match self {
             Self::ResourceReplenished { .. } => false,
             Self::HuntEpisodeEnded { id, .. }
+            | Self::RefugeEpisodeEnded { id, .. }
             | Self::EntityMoved { id, .. }
             | Self::EntityMetabolized { id, .. }
             | Self::EntityAte { id, .. }

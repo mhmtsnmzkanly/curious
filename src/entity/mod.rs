@@ -12,6 +12,7 @@ pub mod lifestate;
 pub mod memory;
 pub mod perception;
 pub mod phase;
+pub mod refuge_learning;
 pub mod social;
 pub mod species;
 

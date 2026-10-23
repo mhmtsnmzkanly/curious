@@ -87,6 +87,13 @@ impl IntentCollectionSystem {
                 decision,
                 &mut world.rng,
             );
+            let decision = memory.choose_refuge(
+                slot.pos,
+                slot.base.life(),
+                &view,
+                decision,
+                world.tick_counter,
+            );
             let full = world.observation.full_all || world.observation.full_for.contains(&slot.id);
             log.push(format!(
                 "[Decision] @{} {:?} => {:?}",

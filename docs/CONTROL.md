@@ -1,3 +1,19 @@
+# V16 — bireysel sığınak sonucu hafızası
+
+Yeni geliştirme checkpoint V16 kullanır; SQLite V2 değişmez. Her bireyin
+`Memory.refuge_outcomes_enabled` seçeneği ayrı ve varsayılanı `false`'tur.
+Yalnızca gözlenen tehdit sonrası gerçek `SeekShelter` kararlarının resolver
+sonuçlarını, bireyin kendi belleğinde sınırlar ve sayaçları 1.000.000 kapanışta
+birlikte dondurur. Kayıtlar en çok sekizdir ve 100 tick sonra sona erer.
+Checkpoint V1–V15 göçünde bu özellik kapalı, kayıtlar/aktif bölüm boş başlar;
+V15 schedule/genetics/beden alanları korunur. Yavru özelliği yalnızca iki
+ebeveynin de modu açıksa alır; deneyim ve aktif bölüm her zaman boştur.
+Resolver kanıtı `RefugeEpisodeEnded` ile bir kez kaydedilir; yabancı saldırı veya
+atfedilemeyen sağlık kaybı öğrenmeye katılmaz. Ölüm ve tamamlanmamış rota güvenli
+gözlem sayılmaz; başarı yalnızca gözlenen tehditten alınan saldırı hasarını
+ölçer, genel yaralanmasız kaçış iddiası taşımaz. Ayrıntılar
+[HERBIVORE_DANGER_PROTOCOL](HERBIVORE_DANGER_PROTOCOL.md) içindedir.
+
 # V15 — kaynak takvimi ve bedelli kalıtsal yetenekler
 
 Yeni geliştirme checkpoint V15, SQLite şeması V2'dir. V15, V14 av-risk öğrenici alanlarını korur. V1–V14 kayıtları okunur; yeni V15 schedule/trait alanları daha eski checkpointlerde kapalı/boş yüklenir. V15'i eski motorla açma. Çalışan dünya ve sabitlenmiş ikililer bu geliştirmeyle yükseltilmez.
@@ -8,7 +24,11 @@ Yeni geliştirme checkpoint V15, SQLite şeması V2'dir. V15, V14 av-risk öğre
 
 Kayıtlı mekanizma ve fitness protokolü [ECOLOGY_TRAITS_PROTOCOL](ECOLOGY_TRAITS_PROTOCOL.md) içindedir. Küçük bağımsız popülasyon karşılaştırması genel seçilim, kalıcı denge veya açık uçlu evrim kanıtı değildir.
 
-Held-out evaluation öncesinde 40 dünya/80.000 tick'lik kalibrasyon batch'i\ aynı immutable `lab-probe` ile ikinci kez tamamen tekrarlanır. İki `raw.jsonl`\ SHA-256 eşleşmesi `repeat-proof.json` içinde doğrulanmadan held-out koşusu\ başlamaz. İki kalibrasyon batch'i ve evaluation ayrı 300 saniye/1 GiB bütçelere\ sahiptir; toplam kayıtlı çalışma 320.000 tick ile sınırlıdır.
+Held-out evaluation öncesinde 40 dünya/80.000 tick'lik kalibrasyon batch'i
+aynı immutable `lab-probe` ile ikinci kez tamamen tekrarlanır. İki `raw.jsonl`
+SHA-256 eşleşmesi `repeat-proof.json` içinde doğrulanmadan held-out koşusu
+başlamaz. İki kalibrasyon batch'i ve evaluation ayrı 300 saniye/1 GiB bütçelere
+sahiptir; toplam kayıtlı çalışma 320.000 tick ile sınırlıdır.
 
 # V14 — deneyim ve deneysel av seçimi
 

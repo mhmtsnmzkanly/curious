@@ -472,5 +472,66 @@ fn version_one_checkpoints_migrate_explicitly_to_current_version() {
         .unwrap();
     assert_eq!(restored.environment.sites.len(), 1);
     assert_eq!(restored.entities[0].generation, 0);
-    assert_eq!(State::capture(&restored).version, 15);
+    assert_eq!(State::capture(&restored).version, 16);
+}
+
+#[test]
+fn version_fifteen_migration_preserves_traits_and_disables_empty_refuge_learning() {
+    let w = world(vec![slot(1, 0, Box::new(HerbivoreEntity::default()))]);
+    let mut legacy = serde_json::to_value(State::capture(&w)).unwrap();
+    legacy["version"] = serde_json::json!(15);
+    legacy["genetics"]["extra_traits_enabled"] = serde_json::json!(true);
+    let individual = &mut legacy["entities"][0];
+    individual["genome"]["vision"] = serde_json::json!(1);
+    individual["genome"]["stamina"] = serde_json::json!(2);
+    individual["life"]["vision_metabolic_cost"] = serde_json::json!(1);
+    individual["life"]["stamina_metabolic_cost"] = serde_json::json!(2);
+    individual["memory"]["refuge_outcomes_enabled"] = serde_json::json!(true);
+    let key = serde_json::json!({
+        "threat_id": 2,
+        "threat_species": "Carnivore",
+        "bearing": 0,
+        "threat_distance": 0,
+        "energy_quartile": 3,
+        "stamina_quartile": 3,
+        "refuge_options": [{"x": 1, "y": 0}, {"x": 2, "y": 0}],
+        "endpoint": {"x": 1, "y": 0}
+    });
+    let episode = serde_json::json!({
+        "key": key,
+        "started_tick": 1,
+        "target": {"x": 1, "y": 0},
+        "threat_id": 2,
+        "threat_species": "Carnivore",
+        "movement_energy": 0,
+        "threat_damage": 0,
+        "other_damage": 0,
+        "elapsed_ticks": 0,
+        "unseen_ticks": 0
+    });
+    individual["memory"]["refuge_outcomes"] = serde_json::json!([{
+        "key": key, "last_observed_tick": 1, "completed": 1, "safe_arrivals": 1,
+        "threat_damage": 0, "movement_energy": 0
+    }]);
+    individual["memory"]["refuge_episode"] = episode.clone();
+    individual["memory"]["pending_refuge_closures"] = serde_json::json!([{
+        "episode": episode, "closure": "TargetChanged", "ended_tick": 2,
+        "final_pos": {"x": 0, "y": 0}
+    }]);
+
+    let restored = serde_json::from_value::<State>(legacy)
+        .unwrap()
+        .restore()
+        .unwrap();
+    let individual = &restored.entities[0];
+    assert!(restored.genetics.extra_traits_enabled);
+    assert_eq!(individual.genome.vision, 1);
+    assert_eq!(individual.genome.stamina, 2);
+    assert_eq!(individual.base.life().vision_metabolic_cost, 1);
+    assert_eq!(individual.base.life().stamina_metabolic_cost, 2);
+    assert!(!individual.memory.refuge_outcomes_enabled);
+    assert!(individual.memory.refuge_outcomes.is_empty());
+    assert!(individual.memory.refuge_episode.is_none());
+    assert!(individual.memory.pending_refuge_closures.is_empty());
+    assert_eq!(State::capture(&restored).version, 16);
 }

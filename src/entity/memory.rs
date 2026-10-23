@@ -25,6 +25,12 @@ pub struct KnownCompanion {
     pub pos: Position,
     pub seen: usize,
 }
+
+pub use super::refuge_learning::{
+    MAX_REFUGE_EPISODES_PER_KEY, MAX_REFUGE_OUTCOMES, PendingRefugeClosure, RefugeClosure,
+    RefugeEpisode, RefugeKey, RefugeOutcome,
+};
+
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Memory {
     #[serde(default)]
@@ -36,6 +42,14 @@ pub struct Memory {
     pub dangers: Vec<(Position, usize)>,
     #[serde(default)]
     pub companions: Vec<KnownCompanion>,
+    #[serde(default)]
+    pub refuge_outcomes_enabled: bool,
+    #[serde(default)]
+    pub refuge_outcomes: Vec<RefugeOutcome>,
+    #[serde(default)]
+    pub refuge_episode: Option<RefugeEpisode>,
+    #[serde(default)]
+    pub pending_refuge_closures: Vec<PendingRefugeClosure>,
 }
 impl Default for Memory {
     fn default() -> Self {
@@ -46,6 +60,10 @@ impl Default for Memory {
             sites: vec![],
             dangers: vec![],
             companions: vec![],
+            refuge_outcomes_enabled: false,
+            refuge_outcomes: vec![],
+            refuge_episode: None,
+            pending_refuge_closures: vec![],
         }
     }
 }
@@ -62,7 +80,23 @@ impl Memory {
             self.dangers.clear();
             self.companions.clear();
             self.social = Default::default();
+            self.refuge_outcomes.clear();
+            self.refuge_episode = None;
+            self.pending_refuge_closures.clear();
             return;
+        }
+        self.refuge_outcomes
+            .retain(|r| tick.saturating_sub(r.last_observed_tick) <= 100);
+        if let Some(episode) = &mut self.refuge_episode {
+            let threat_visible = view
+                .entities
+                .iter()
+                .any(|e| e.id == episode.threat_id && e.species == episode.threat_species);
+            episode.unseen_ticks = if threat_visible {
+                0
+            } else {
+                episode.unseen_ticks.saturating_add(1)
+            };
         }
         self.sites.retain(|s|tick.saturating_sub(s.seen)<=100 && !view.cells.iter().any(|(p,c)|*p==s.pos && !matches!((s.kind,c),(ResourceKind::Food,Cell::Food{amount})|(ResourceKind::Water,Cell::Water{amount}) if *amount>0)));
         for (pos, cell) in &view.cells {
@@ -125,6 +159,24 @@ impl Memory {
             self.companions.drain(..self.companions.len() - 8);
         }
     }
+
+    /// Apply the opt-in, resolver-outcome refuge ranking without changing baseline decisions.
+    pub fn choose_refuge(
+        &mut self,
+        origin: Position,
+        life: &LifeState,
+        view: &Perception,
+        decision: Decision,
+        tick: usize,
+    ) -> Decision {
+        super::refuge_learning::choose_refuge(self, origin, life, view, decision, tick)
+    }
+
+    /// Close a route at a bounded experiment boundary as a censored observation.
+    pub fn censor_refuge_at_boundary(&mut self, origin: Position, health: usize, tick: usize) {
+        super::refuge_learning::censor_at_boundary(self, origin, health, tick);
+    }
+
     pub fn recall(
         &self,
         origin: Position,
@@ -214,6 +266,7 @@ impl Memory {
     }
     pub fn validate(&self) -> crate::Result<()> {
         self.social.validate()?;
+        super::refuge_learning::validate(self)?;
         if self.sites.len() > 32
             || self.dangers.len() > 8
             || self.companions.len() > 8
@@ -235,6 +288,7 @@ impl Memory {
         Ok(())
     }
 }
+
 fn enabled_by_default() -> bool {
     true
 }

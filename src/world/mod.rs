@@ -215,6 +215,13 @@ impl World {
             }
         }
         crate::systems::hunt_outcomes::finish(&mut self.entities, &events);
+        let refuge_events = crate::systems::refuge_outcomes::finish(
+            &mut self.entities,
+            &self.map,
+            &events,
+            self.tick_counter,
+        );
+        events.extend(refuge_events);
         for slot in &mut self.entities {
             for result in slot.hunt_learner.take_results() {
                 events.push(crate::simulation::SimulationEvent::HuntEpisodeEnded {

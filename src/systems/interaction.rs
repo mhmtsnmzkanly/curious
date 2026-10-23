@@ -231,6 +231,8 @@ impl InteractionSystem {
                     entities[s].hunt_learner.enabled && entities[t].hunt_learner.enabled;
                 child.hunt_learner.update_enabled = entities[s].hunt_learner.update_enabled
                     && entities[t].hunt_learner.update_enabled;
+                child.memory.refuge_outcomes_enabled = entities[s].memory.refuge_outcomes_enabled
+                    && entities[t].memory.refuge_outcomes_enabled;
                 child.genome = genome;
                 child.generation = generation;
                 child.parents = vec![plan.self_id, plan.target_id];

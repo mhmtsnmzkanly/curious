@@ -57,7 +57,7 @@ def run(args):
                 expected=json.loads((reference/f'seed-{conditions["seed"]}'/f'checkpoint-{tick}.json').read_text())
                 # Compare accepted V12 biology; later checkpoints add inactive learner fields.
                 comparable=json.loads(json.dumps(state))
-                if state['version'] in (14, 15) and expected['version']==12:
+                if state['version'] in (14, 15, 16) and expected['version']==12:
                     comparable['version']=12
                     if state['version'] >= 15:
                         traits=comparable['genetics'].pop('extra_traits_enabled')
@@ -65,6 +65,12 @@ def run(args):
                         for site in comparable['environment']['sites']:
                             assert site.pop('schedule') is None
                     for individual in comparable['entities']:
+                        if state['version'] >= 16:
+                            memory=individual['memory']
+                            assert memory.pop('refuge_outcomes_enabled') is False
+                            assert memory.pop('refuge_outcomes') == []
+                            assert memory.pop('refuge_episode') is None
+                            assert memory.pop('pending_refuge_closures') == []
                         hunt=individual.pop('hunt_learner')
                         assert hunt=={'enabled':False,'update_enabled':True,'risk_enabled':False,'values':[],'risk_values':[],'episode':None,'last_episode':None}
                         assert individual['learner'].pop('update_enabled') is True
