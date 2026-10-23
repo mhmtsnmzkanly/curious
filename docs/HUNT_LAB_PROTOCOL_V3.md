@@ -1,6 +1,6 @@
-# Hunt laboratory v3 — preregistration draft
+# Hunt laboratory v3 — preregistration
 
-This study tests whether a bounded individual can use its own resolver-confirmed
+This preregistered study tests whether a bounded individual can use its own resolver-confirmed
 prey-defense injury history to avoid riskier visible prey contexts. It does not
 test survival, reproduction, lifetime learning, or mixed-ecosystem balance.
 Evaluation has not run. This file must be committed with the source revision
@@ -22,10 +22,15 @@ one exposure only when the resolver ledger contains at least one attack-energy
 cost and all incoming damage is attributed to that episode's visible prey.
 An exposed episode with positive prey-defense damage is an injury. Episodes
 with no executed attack, third-party or unattributed damage, missing/mismatched
-damage totals, or ambiguous audit are not risk observations. Counts and total
-damage are updated once when the episode closes. Evidence is not copied to
+damage totals, or ambiguous audit are not risk observations. Actual policy
+closures record injury within the observed window. A laboratory-forced boundary
+does not count as an exposure, even if an attack occurred; no injury before
+that boundary is not evidence of a safe completed pursuit. Counts and total
+damage are updated once at eligible closure. Evidence is not copied to
 offspring. The existing food/action-energy/tick reward and coefficients remain
-unchanged.
+unchanged. Risk statistics are bounded to 108 contexts, one million eligible
+exposures per context, and at most one million damage units per exposure; their
+damage accumulator remains exact within that bound.
 
 Unknown risk is not zero risk. Before any candidate context has an eligible
 observation, the existing learned-score and rule ordering applies. Once at least
