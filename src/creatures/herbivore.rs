@@ -20,6 +20,8 @@ impl HerbivoreEntity {
                 max_stamina: 16,
                 stamina: 16,
                 exertion: 0,
+                vision_metabolic_cost: 0,
+                stamina_metabolic_cost: 0,
                 death_cause: None,
                 max_age: 105,
                 max_health: 120,

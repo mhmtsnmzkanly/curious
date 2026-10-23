@@ -20,6 +20,8 @@ impl OmnivoreEntity {
                 max_stamina: 20,
                 stamina: 20,
                 exertion: 0,
+                vision_metabolic_cost: 0,
+                stamina_metabolic_cost: 0,
                 death_cause: None,
                 max_age: 110,
                 max_health: 130,

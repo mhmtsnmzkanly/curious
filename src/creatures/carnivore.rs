@@ -20,6 +20,8 @@ impl CarnivoreEntity {
                 max_stamina: 24,
                 stamina: 24,
                 exertion: 0,
+                vision_metabolic_cost: 0,
+                stamina_metabolic_cost: 0,
                 death_cause: None,
                 max_age: 120,
                 max_health: 140,

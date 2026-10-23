@@ -202,6 +202,7 @@ fn depleted_sites_regrow_on_schedule_and_respect_capacity() {
             capacity: 3,
             replenish: 2,
             interval: 2,
+            schedule: None,
         }],
     };
     let mut events = Vec::new();
@@ -372,6 +373,7 @@ fn scarce_food_priority_does_not_permanently_favour_a_founder() {
         capacity: 10,
         replenish: 10,
         interval: 1,
+        schedule: None,
     });
     for s in &mut w.entities {
         s.base.life_mut().energy = 10;
@@ -470,5 +472,5 @@ fn version_one_checkpoints_migrate_explicitly_to_current_version() {
         .unwrap();
     assert_eq!(restored.environment.sites.len(), 1);
     assert_eq!(restored.entities[0].generation, 0);
-    assert_eq!(State::capture(&restored).version, 13);
+    assert_eq!(State::capture(&restored).version, 15);
 }

@@ -18,7 +18,7 @@ impl LifeCycleSystem {
         for slot in entities.iter_mut() {
             slot.phase.tick();
         }
-        crate::systems::metabolism::MetabolismSystem::update(entities);
+        crate::systems::metabolism::MetabolismSystem::update(entities, events);
         Self::finalize_tick(entities, map, events);
     }
 

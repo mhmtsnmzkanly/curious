@@ -26,10 +26,13 @@ pub struct Scenario {
     pub founders: Vec<Founder>,
     pub sites: Vec<ResourceSite>,
     pub resources: Vec<(Position, Cell)>,
+    #[serde(default)]
+    pub genetics: crate::entity::genetics::Genetics,
 }
 impl Scenario {
     pub fn build(self, seed: u64) -> Result<World> {
         let [a, b, c, d] = self.bounds;
+        self.genetics.validate()?;
         if a > b
             || c > d
             || a.unsigned_abs() > 1_000_000
@@ -45,6 +48,7 @@ impl Scenario {
             return Err("too many founders".into());
         }
         let mut map = Map::new(a, b, c, d);
+        let genetics = self.genetics;
         let mut occupied = std::collections::HashSet::new();
         let mut entities = Vec::new();
         for (n, f) in self.founders.into_iter().enumerate() {
@@ -67,6 +71,9 @@ impl Scenario {
             f.genome.validate()?;
             let mut life = life;
             f.genome.express_from(&Default::default(), &mut life);
+            if genetics.extra_traits_enabled {
+                f.genome.express_extra_from(&Default::default(), &mut life);
+            }
             entities.push(EntitySlot::new(
                 n + 1,
                 f.pos,
@@ -78,15 +85,10 @@ impl Scenario {
         }
         let mut environment = Environment::default();
         for site in self.sites {
-            if !map.in_bounds(site.pos)
-                || site.capacity == 0
-                || site.capacity > 1_000_000
-                || site.replenish > site.capacity
-                || site.interval == 0
-                || site.interval > 1_000_000
-            {
+            if !map.in_bounds(site.pos) || site.capacity == 0 {
                 return Err("invalid resource site".into());
             }
+            site.validate()?;
             environment.set_site(site);
         }
         for (pos, cell) in self.resources {
@@ -106,7 +108,7 @@ impl Scenario {
         let next_entity_id = entities.len() + 1;
         Ok(World {
             policy: Default::default(),
-            genetics: Default::default(),
+            genetics,
             observation: Default::default(),
             last_decisions: Vec::new(),
             map,

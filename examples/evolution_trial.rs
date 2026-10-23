@@ -11,6 +11,7 @@ fn main() {
             for (n, e) in w.entities.iter_mut().enumerate() {
                 let g = Genome {
                     mobility: (n % 2) as u8,
+                    ..Genome::default()
                 };
                 g.express_from(&e.genome, e.base.life_mut());
                 e.genome = g;

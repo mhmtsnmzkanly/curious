@@ -48,6 +48,9 @@ Hedef [VISION](docs/VISION.md), kullanıcı sırası ve dürüst durum
   tercihi; yeni öğreniciyi ayrıca karma ekosistemde doğrula.
 - [ ] Gerçek 1/7/30 gün gözlemini değerlendirme; raporlayıcı otomatik Notify gönderir.
 - [ ] Kalıtım deneyini av baskısında tekrarlama; dağılım değişimini sürüklenmeden ayırma.
+- [ ] Ön kayıtlı kaynak döngüsü ve bedelli görüş/dayanıklılık alleli adayını
+  mekanizma testleri, temiz kaynak incelemesi ve sınırlı deneyden geçir;
+  held-out sonuçları görülmeden protokolü veya parametreleri değiştirme.
 - [x] İlk soy görünümü: ebeveyn–birey–yavru bağlantıları, numarayla ölmüş birey
   seçimi ve sayfalı karar arşivi. Kullanım/sınırlar CONTROL.md soy bölümü.
 - [ ] Daha büyük nüfusta SQLite/HTTP maliyetini ölçme; motor-only hızını kayıt hızı sanma.

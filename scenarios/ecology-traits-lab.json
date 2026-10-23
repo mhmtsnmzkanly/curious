@@ -1,0 +1,35 @@
+{
+  "name": "ecology-traits-lab-v1",
+  "bounds": [-6, 5, -6, 5],
+  "founders": [
+    { "species": "Herbivore", "pos": { "x": -2, "y": -1 } },
+    { "species": "Herbivore", "pos": { "x": 0, "y": -1 } },
+    { "species": "Herbivore", "pos": { "x": 2, "y": -1 } },
+    { "species": "Herbivore", "pos": { "x": -2, "y": 1 } },
+    { "species": "Herbivore", "pos": { "x": 0, "y": 1 } },
+    { "species": "Herbivore", "pos": { "x": 2, "y": 1 } },
+    { "species": "Herbivore", "pos": { "x": -1, "y": -2 } },
+    { "species": "Herbivore", "pos": { "x": 1, "y": 2 } }
+  ],
+  "genetics": { "enabled": true, "mutation_per_mille": 0, "extra_traits_enabled": true },
+  "sites": [
+    { "pos": { "x": -5, "y": -5 }, "kind": "Food", "capacity": 20, "replenish": 2, "interval": 1 },
+    { "pos": { "x": 5, "y": -5 }, "kind": "Food", "capacity": 20, "replenish": 2, "interval": 1 },
+    { "pos": { "x": -5, "y": 5 }, "kind": "Food", "capacity": 20, "replenish": 2, "interval": 1 },
+    { "pos": { "x": 5, "y": 5 }, "kind": "Food", "capacity": 20, "replenish": 2, "interval": 1 },
+    { "pos": { "x": -5, "y": 0 }, "kind": "Water", "capacity": 30, "replenish": 4, "interval": 1 },
+    { "pos": { "x": 5, "y": 0 }, "kind": "Water", "capacity": 30, "replenish": 4, "interval": 1 },
+    { "pos": { "x": 0, "y": -5 }, "kind": "Water", "capacity": 30, "replenish": 4, "interval": 1 },
+    { "pos": { "x": 0, "y": 5 }, "kind": "Water", "capacity": 30, "replenish": 4, "interval": 1 }
+  ],
+  "resources": [
+    [{ "x": -5, "y": -5 }, { "Food": { "amount": 12 } }],
+    [{ "x": 5, "y": -5 }, { "Food": { "amount": 12 } }],
+    [{ "x": -5, "y": 5 }, { "Food": { "amount": 12 } }],
+    [{ "x": 5, "y": 5 }, { "Food": { "amount": 12 } }],
+    [{ "x": -5, "y": 0 }, { "Water": { "amount": 20 } }],
+    [{ "x": 5, "y": 0 }, { "Water": { "amount": 20 } }],
+    [{ "x": 0, "y": -5 }, { "Water": { "amount": 20 } }],
+    [{ "x": 0, "y": 5 }, { "Water": { "amount": 20 } }]
+  ]
+}

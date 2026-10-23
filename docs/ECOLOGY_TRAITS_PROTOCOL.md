@@ -28,8 +28,9 @@ coexistence.
 The schedule is optional per resource site and is absent by default. The
 registered schedule uses period 12, four active phases, geographic phase step
 1, and site offset 0. For integer coordinates `x,y`, define the spatial phase
-as Euclidean modulo `x + 3*y + offset` by period; a site's renewal is enabled
-when `(tick + spatial_phase) mod period < active_ticks`. Tick and coordinate
+as Euclidean modulo `((x + 3*y) * geographic_phase_step + phase_offset)` by
+period; a site's renewal is enabled when `(tick + spatial_phase) mod period <
+active_ticks`. Tick and coordinate
 arithmetic must be checked or use bounded modular arithmetic. The schedule
 does not change resource capacity, replenishment amount, consumption, or cell
 type rules. A separate unscheduled profile is the control.
@@ -40,19 +41,26 @@ vision 0, stamina 0. The preregistered arms are mobility 1/vision 0/stamina 0;
 mobility 0/vision 1/stamina 0; mobility 0/vision 0/stamina 1; and mobility
 0/vision 1/stamina 1. Each vision allele step adds one vision-range unit;
 each stamina allele step adds four maximum-stamina units. Each expressed step
-costs one energy per living tick. Traits are bounded to 0..2. The experiment
+requests one energy per living tick. Basal metabolism is charged first;
+`EntityMetabolized` records requested and actually paid vision/stamina amounts.
+Traits are bounded to 0..2. The experiment
 sets mutation to zero to attribute offspring effects to inheritance; normal
 bounded mutation remains a separate implementation property. Trait cost is
-paid in the metabolism system and recorded only when positive. No extra-cost
-event is emitted when the opt-in flag is closed.
+paid in the metabolism system and recorded only when positive. Default and
+migrated closed worlds have zero extra-cost body fields and emit no extra-cost
+events. Changing the flag at runtime does not re-express existing bodies or
+suspend costs already expressed in their body state.
 
 ## Arms and environment
 
 Each replicate is an independent, fresh, 12x12 herbivore-only world with eight
 same-genotype, same-age founders, the same base body values, and a fixed
-resource layout declared in a committed fixture. Expressed capabilities may
-differ only as specified by genotype. There are no spawns, interventions, body
-resets, food additions, or population rescue after tick 0. The five genotype
+resource layout in `scenarios/ecology-traits-lab.json`: four food sites with
+capacity 20 / replenish 2 / initial amount 12, and four water sites with
+capacity 30 / replenish 4 / initial amount 20. All eight sites have interval 1.
+Expressed capabilities may differ only as specified by genotype. There are no
+spawns, interventions, body resets, food additions, or population rescue after
+tick 0. The five genotype
 arms above, including the zero-allele control, are crossed with two environment
 arms:
 
@@ -78,6 +86,11 @@ manifest. If any held-out or calibration seed is already present, stop before
 evaluation and return this protocol for a new preregistration review; do not
 substitute a seed after seeing outcomes.
 
+There is no learned policy and therefore no model-training phase. Calibration
+is not a training set and cannot select parameters; only the held-out block is
+used for fitness comparisons. Offspring breeding over the fixed 2,000-tick
+world is the measured inheritance outcome.
+
 Each evaluation world runs for exactly 2,000 ticks unless the world naturally
 has no living individuals; in that case continue the empty world to tick 2,000
 to retain the fixed duration. There is no parameter search, recovery branch,
@@ -98,9 +111,10 @@ State and RNG must match uninterrupted execution.
 For each ecology replicate, preserve final State and tick summaries. Report by
 seed and arm: alive founders, total births, F1 and F2 births, number of F1
 offspring that bred, maximum generation, genotype counts, lifespan/death causes,
-food eaten, energy spent on movement, and cumulative paid-trait maintenance.
-Validate maintenance against emitted resolver/metabolism audit events and
-energy accounting. Report medians and ranges as well as per-seed values. The
+food eaten, energy spent on movement, nominal requested maintenance, and
+actually paid trait maintenance. Validate actual paid maintenance against
+emitted metabolism audit events and energy accounting. Report medians and
+ranges as well as per-seed values. The
 fitness outcome is descendant breeders per eight founders at tick 2,000;
 survival and births remain separate outcomes. Do not collapse a negative or
 null trait result into a success based on allele inheritance or event count.
@@ -113,13 +127,14 @@ conditions, but not assumed to share later random trajectories.
 
 ## Evidence and interpretation limits
 
-Use a new output directory under `data/experiments/ecology-traits-v1` only
-after the source is clean and reviewed. Preserve the executable, source,
-scenario, protocol, and runner hashes; exact command and flags; seed roles;
-start/end timestamps; raw per-seed output; stderr; manifest; and summary. Never
-overwrite a failed run. A runtime or mechanism check is not a registered
-fitness evaluation. No formal evaluation begins before the source change and
-this protocol have been committed and reviewed.
+Use a new output directory under
+`data/experiments/ecology-traits-v1-20261023` only after the source is clean
+and reviewed. Preserve the immutable `lab-probe`, source revision, scenario,
+copied `protocol.md`, and runner hashes; exact command and flags; seed roles;
+start/end timestamps; `raw.jsonl`; stderr; manifest; `summary.json`; and
+`runreport.md`. Never overwrite a failed run. A runtime or mechanism check is
+not a registered fitness evaluation. No formal evaluation begins before the
+source change and this protocol have been committed and reviewed.
 
 Eight evaluation seeds and 2,000 ticks are a small bounded screen. They do not
 prove persistent ecological balance, broad adaptation, or long-term stability.

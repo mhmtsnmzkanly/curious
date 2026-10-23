@@ -42,3 +42,12 @@ Duyarlılık ve şok/öğrenme/mutasyon kapıları da tamamlandı. Bu, 1 ve3 iç
 sınanmış koşulda güçlü süreklilik kanıtıdır; sonsuz denge veya genel evrim
 iddiası değildir. Gerçek gün/hafta9 hâlâ açık. Ayrı dünya ve işletim kanıtları
 [QUALIFIED_OBSERVATION](reports/QUALIFIED_OBSERVATION.md) raporunda tutulur.
+
+## 23 Ekim 2026 — ekoloji takvimi ve bedelli fizik adayları
+
+İsteğe bağlı coğrafi kaynak takvimi ile kalıtsal görüş/dayanıklılık allelleri
+uygulama ve mekanizma test aşamasında. Yeni fizik maliyeti enerjiyle ödenir;
+varsayılan opt-in kapalıdır. Sabit karşılaştırma tasarımı
+[ECOLOGY_TRAITS_PROTOCOL](ECOLOGY_TRAITS_PROTOCOL.md) içinde önkayıtlıdır;
+henüz calibration veya held-out fitness değerlendirmesi çalıştırılmadı.
+Kayıtlı çalışma temiz kaynak commiti ve incelemesinden sonra yürütülür.
