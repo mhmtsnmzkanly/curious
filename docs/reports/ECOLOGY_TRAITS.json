@@ -1,0 +1,3645 @@
+{
+  "schema": "curious-ecology-traits-audit-v1",
+  "study": "ecology-traits-v1-20261023",
+  "status": "completed",
+  "scope": {
+    "evaluation_worlds": 80,
+    "ticks_per_world": 2000,
+    "total_evaluation_ticks": 160000,
+    "seeds": [
+      50001,
+      50002,
+      50003,
+      50004,
+      50005,
+      50006,
+      50007,
+      50008
+    ],
+    "environments": [
+      "static",
+      "cycle"
+    ],
+    "arms": [
+      "control",
+      "mobility",
+      "vision",
+      "stamina",
+      "vision_stamina"
+    ],
+    "mutation_per_mille": 0
+  },
+  "primary_outcome": {
+    "definition": "living descendant breeders at tick 2000",
+    "per_world": 0,
+    "worlds_with_positive_outcome": 0,
+    "f1_offspring_that_bred_total": 0,
+    "f2_births_total": 0,
+    "all_final_populations_empty": true,
+    "interpretation": "No arm produced a surviving reproducing descendant lineage; identical zero primary outcome prevents fitness ranking."
+  },
+  "mechanism_check": {
+    "checkpoint_tick": 17,
+    "kind": "mechanism_check",
+    "resource_events": 32,
+    "rng_unchanged": true,
+    "schedule": {
+      "active_ticks": 4,
+      "geographic_phase_step": 1,
+      "period": 12,
+      "phase_offset": 0
+    },
+    "state_rng_continuation_equal": true,
+    "status": "passed",
+    "ticks": 48
+  },
+  "calibration_repeat": {
+    "seeds": [
+      50041,
+      50042,
+      50043,
+      50044
+    ],
+    "worlds_per_batch": 40,
+    "ticks_per_world": 2000,
+    "first_raw_sha256": "9eee0369fc44a934c18d526e85ceab32bc849ca2ad15b47ba0a7e14a15493b7d",
+    "repeat_raw_sha256": "9eee0369fc44a934c18d526e85ceab32bc849ca2ad15b47ba0a7e14a15493b7d",
+    "repeat_proof": {
+      "finished_at": "2026-10-23T13:50:06.468679+00:00",
+      "elapsed_seconds": 0.8938975339988247,
+      "exit_code": 0,
+      "timed_out": false,
+      "output_limit_exceeded": false,
+      "raw_bytes": 7224615,
+      "raw_sha256": "9eee0369fc44a934c18d526e85ceab32bc849ca2ad15b47ba0a7e14a15493b7d",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status": "completed",
+      "runner_error": null,
+      "first_raw_sha256": "9eee0369fc44a934c18d526e85ceab32bc849ca2ad15b47ba0a7e14a15493b7d",
+      "match": true,
+      "probe_sha256": "fbba5587e311a0a6e101befe7049ce68fca60bfa543bf7f7e9ea7ac521fb00ed",
+      "command": [
+        "/root/curious/data/experiments/ecology-traits-v1-calibration-20261023/lab-probe",
+        "calibration"
+      ],
+      "source_revision": "260f853e0f8fce53f927fc25a47a9146e90b6390"
+    },
+    "initial_service_failure": "Initial invocation failed before probe execution because PATH was absent; it produced no experiment output. Corrected service run completed."
+  },
+  "provenance": {
+    "revision": "260f853e0f8fce53f927fc25a47a9146e90b6390",
+    "source_sha256": "02a5b298536ae5fbc8b53319be33ce5fcfa663c5aab54beedf058c3d2bdf9d3c",
+    "source_files_sha256": {
+      "Cargo.toml": "a389bffccda7a3608db6780b58c387a9d00ea82f39b1489a4557b8b32ea7031a",
+      "Cargo.lock": "f1b470cfab0d7cb81a8a721832a3d9de326966d2e7e1e37a396409cd1e3bfbc1",
+      "src/control.rs": "bf85c489b57c09da0450f54fdb449455a19747e10c6d01e4da0dcdf1e82013e3",
+      "src/environment.rs": "c38eec1e863e810102548a4d2af789ab4a5da6d53bd63dcf469b7d44c97df63b",
+      "src/scenario.rs": "3ce1daf006504cc4225150602361fb87de475b4acbd602c9441bf793e6335353",
+      "src/entity/genetics.rs": "491fcac1446bb2eeb08c39eefff4138403b3e13237126a23a934563974475dff",
+      "src/entity/lifestate.rs": "e9384a0976479a8602192bde2740b91e6cf4c1ce52bc316919722d14e3ed9e73",
+      "src/creatures/carnivore.rs": "b4425ed7859f2208a4c7aeaf04ab1b935ed947ee31341015bacde437b3a84782",
+      "src/creatures/herbivore.rs": "0cd071cd00b32c58961680c4138f8c4fc4112a5192a4ca393553b8990efe1567",
+      "src/creatures/omnivore.rs": "9d8b69e1bd5192f23483149a4edffa34cd56fe77784a76043f26f069e0c2203e",
+      "src/simulation/checkpoint.rs": "0c7915e080b925d1654d2981de83b505d789e0a584c86ea6e34d018761e71dfc",
+      "src/simulation/event.rs": "2bb4654f4452ea6d6f904bd89a25c4315dd9af080f327696488ce85db167ddec",
+      "src/systems/interaction.rs": "bf55d9cea913d6d73c10701938cec4327b53f6f1e30565a27ff086fa97aab8e7",
+      "src/systems/life_cycle.rs": "520e617b162855ff185981fe844be1269642b14afd943f876c03aad68391533c",
+      "src/systems/metabolism.rs": "03bb5bd178c4c0979ce13fbd84f7b38378436067f870bb7ba541f0ab91f219d5",
+      "examples/ecology_traits_lab.rs": "837d2db64ea7a4cd6973fcda86df1b408359036f3def9b12d93decea04347258",
+      "scenarios/ecology-traits-lab.json": "ffbc782758d15ee0e4e72033ceb7f98feb20aa235c236833ec07a3e75be86e1f",
+      "tests/ecology_traits.rs": "8592274c9225157457d90d06962dd7557396c4385e186744ef1ed82b97a82a76",
+      "tests/genetics.rs": "4523016b6382c44dad8a5ce5787cb9dfe43f4f6472c53e08b12d71dc9d3a6916"
+    },
+    "binary_sha256": "fbba5587e311a0a6e101befe7049ce68fca60bfa543bf7f7e9ea7ac521fb00ed",
+    "protocol_sha256": "53b5af9d9563d39715d379883e2127e1e9bbdde1ea397ff75e39a1697d0686c5",
+    "fixture_sha256": "ffbc782758d15ee0e4e72033ceb7f98feb20aa235c236833ec07a3e75be86e1f",
+    "runner_sha256": "de852e7be9e04f572caa30bd5bd2ebdedf8ea2d98b787b2b11c42e812c655dc0",
+    "rust_runner_sha256": "837d2db64ea7a4cd6973fcda86df1b408359036f3def9b12d93decea04347258",
+    "manifest_path": "data/experiments/ecology-traits-v1-20261023/manifest.json",
+    "raw_path": "data/experiments/ecology-traits-v1-20261023/raw.jsonl",
+    "raw_sha256": "c981f94d5aadd479f0b5158d9034be40943976ec609649dee2a05cefca108784",
+    "summary_path": "data/experiments/ecology-traits-v1-20261023/summary.json",
+    "summary_sha256": "5eff8e49d7cd443fa65ccb2d37f4c17b45b3a0df5885d805968aaf3acd906bb1",
+    "protocol_path": "data/experiments/ecology-traits-v1-20261023/protocol.md",
+    "protocol_header_note": "Frozen preregistration copy retains pre-run header; the manifest and runreport record completed evaluation."
+  },
+  "group_medians_and_ranges": {
+    "cycle/control": {
+      "living_descendant_breeders": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "f1_offspring_that_bred": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "descendant_breeders_that_bred": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "total_births": {
+        "median": 2.0,
+        "min": 1.0,
+        "max": 4.0
+      },
+      "f1_births": {
+        "median": 2.0,
+        "min": 1.0,
+        "max": 4.0
+      },
+      "f2_births": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "food_eaten": {
+        "median": 157.0,
+        "min": 140.0,
+        "max": 174.0
+      },
+      "movement_energy": {
+        "median": 465.5,
+        "min": 451.0,
+        "max": 481.0
+      },
+      "requested_vision_maintenance": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "paid_vision_maintenance": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "requested_stamina_maintenance": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "paid_stamina_maintenance": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "resource_replenishment_events": {
+        "median": 133.5,
+        "min": 127.0,
+        "max": 145.0
+      }
+    },
+    "cycle/mobility": {
+      "living_descendant_breeders": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "f1_offspring_that_bred": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "descendant_breeders_that_bred": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "total_births": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 1.0
+      },
+      "f1_births": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 1.0
+      },
+      "f2_births": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "food_eaten": {
+        "median": 126.0,
+        "min": 98.0,
+        "max": 170.0
+      },
+      "movement_energy": {
+        "median": 572.0,
+        "min": 564.0,
+        "max": 584.0
+      },
+      "requested_vision_maintenance": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "paid_vision_maintenance": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "requested_stamina_maintenance": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "paid_stamina_maintenance": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "resource_replenishment_events": {
+        "median": 93.5,
+        "min": 83.0,
+        "max": 124.0
+      }
+    },
+    "cycle/stamina": {
+      "living_descendant_breeders": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "f1_offspring_that_bred": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "descendant_breeders_that_bred": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "total_births": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "f1_births": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "f2_births": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "food_eaten": {
+        "median": 130.0,
+        "min": 114.0,
+        "max": 166.0
+      },
+      "movement_energy": {
+        "median": 324.0,
+        "min": 310.0,
+        "max": 338.0
+      },
+      "requested_vision_maintenance": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "paid_vision_maintenance": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "requested_stamina_maintenance": {
+        "median": 520.5,
+        "min": 513.0,
+        "max": 532.0
+      },
+      "paid_stamina_maintenance": {
+        "median": 225.0,
+        "min": 211.0,
+        "max": 241.0
+      },
+      "resource_replenishment_events": {
+        "median": 103.5,
+        "min": 91.0,
+        "max": 118.0
+      }
+    },
+    "cycle/vision": {
+      "living_descendant_breeders": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "f1_offspring_that_bred": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "descendant_breeders_that_bred": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "total_births": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 1.0
+      },
+      "f1_births": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 1.0
+      },
+      "f2_births": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "food_eaten": {
+        "median": 155.0,
+        "min": 128.0,
+        "max": 170.0
+      },
+      "movement_energy": {
+        "median": 320.5,
+        "min": 288.0,
+        "max": 331.0
+      },
+      "requested_vision_maintenance": {
+        "median": 524.5,
+        "min": 516.0,
+        "max": 547.0
+      },
+      "paid_vision_maintenance": {
+        "median": 239.5,
+        "min": 221.0,
+        "max": 253.0
+      },
+      "requested_stamina_maintenance": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "paid_stamina_maintenance": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "resource_replenishment_events": {
+        "median": 113.0,
+        "min": 101.0,
+        "max": 120.0
+      }
+    },
+    "cycle/vision_stamina": {
+      "living_descendant_breeders": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "f1_offspring_that_bred": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "descendant_breeders_that_bred": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "total_births": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "f1_births": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "f2_births": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "food_eaten": {
+        "median": 146.0,
+        "min": 130.0,
+        "max": 178.0
+      },
+      "movement_energy": {
+        "median": 248.5,
+        "min": 232.0,
+        "max": 258.0
+      },
+      "requested_vision_maintenance": {
+        "median": 479.0,
+        "min": 475.0,
+        "max": 484.0
+      },
+      "paid_vision_maintenance": {
+        "median": 186.0,
+        "min": 179.0,
+        "max": 206.0
+      },
+      "requested_stamina_maintenance": {
+        "median": 479.0,
+        "min": 475.0,
+        "max": 484.0
+      },
+      "paid_stamina_maintenance": {
+        "median": 165.0,
+        "min": 159.0,
+        "max": 168.0
+      },
+      "resource_replenishment_events": {
+        "median": 101.5,
+        "min": 96.0,
+        "max": 117.0
+      }
+    },
+    "static/control": {
+      "living_descendant_breeders": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "f1_offspring_that_bred": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "descendant_breeders_that_bred": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "total_births": {
+        "median": 3.0,
+        "min": 3.0,
+        "max": 4.0
+      },
+      "f1_births": {
+        "median": 3.0,
+        "min": 3.0,
+        "max": 4.0
+      },
+      "f2_births": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "food_eaten": {
+        "median": 825.0,
+        "min": 578.0,
+        "max": 934.0
+      },
+      "movement_energy": {
+        "median": 492.0,
+        "min": 401.0,
+        "max": 561.0
+      },
+      "requested_vision_maintenance": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "paid_vision_maintenance": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "requested_stamina_maintenance": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "paid_stamina_maintenance": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "resource_replenishment_events": {
+        "median": 592.5,
+        "min": 431.0,
+        "max": 655.0
+      }
+    },
+    "static/mobility": {
+      "living_descendant_breeders": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "f1_offspring_that_bred": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "descendant_breeders_that_bred": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "total_births": {
+        "median": 3.0,
+        "min": 2.0,
+        "max": 4.0
+      },
+      "f1_births": {
+        "median": 3.0,
+        "min": 2.0,
+        "max": 4.0
+      },
+      "f2_births": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "food_eaten": {
+        "median": 712.0,
+        "min": 558.0,
+        "max": 828.0
+      },
+      "movement_energy": {
+        "median": 623.0,
+        "min": 566.0,
+        "max": 680.0
+      },
+      "requested_vision_maintenance": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "paid_vision_maintenance": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "requested_stamina_maintenance": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "paid_stamina_maintenance": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "resource_replenishment_events": {
+        "median": 482.0,
+        "min": 388.0,
+        "max": 548.0
+      }
+    },
+    "static/stamina": {
+      "living_descendant_breeders": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "f1_offspring_that_bred": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "descendant_breeders_that_bred": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "total_births": {
+        "median": 1.5,
+        "min": 0.0,
+        "max": 2.0
+      },
+      "f1_births": {
+        "median": 1.5,
+        "min": 0.0,
+        "max": 2.0
+      },
+      "f2_births": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "food_eaten": {
+        "median": 703.0,
+        "min": 300.0,
+        "max": 760.0
+      },
+      "movement_energy": {
+        "median": 203.0,
+        "min": 96.0,
+        "max": 224.0
+      },
+      "requested_vision_maintenance": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "paid_vision_maintenance": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "requested_stamina_maintenance": {
+        "median": 707.5,
+        "min": 634.0,
+        "max": 728.0
+      },
+      "paid_stamina_maintenance": {
+        "median": 554.0,
+        "min": 419.0,
+        "max": 565.0
+      },
+      "resource_replenishment_events": {
+        "median": 426.0,
+        "min": 181.0,
+        "max": 478.0
+      }
+    },
+    "static/vision": {
+      "living_descendant_breeders": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "f1_offspring_that_bred": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "descendant_breeders_that_bred": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "total_births": {
+        "median": 2.5,
+        "min": 2.0,
+        "max": 3.0
+      },
+      "f1_births": {
+        "median": 2.5,
+        "min": 2.0,
+        "max": 3.0
+      },
+      "f2_births": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "food_eaten": {
+        "median": 616.0,
+        "min": 394.0,
+        "max": 758.0
+      },
+      "movement_energy": {
+        "median": 192.0,
+        "min": 137.0,
+        "max": 233.0
+      },
+      "requested_vision_maintenance": {
+        "median": 724.0,
+        "min": 660.0,
+        "max": 762.0
+      },
+      "paid_vision_maintenance": {
+        "median": 515.0,
+        "min": 447.0,
+        "max": 558.0
+      },
+      "requested_stamina_maintenance": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "paid_stamina_maintenance": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "resource_replenishment_events": {
+        "median": 376.5,
+        "min": 240.0,
+        "max": 465.0
+      }
+    },
+    "static/vision_stamina": {
+      "living_descendant_breeders": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "f1_offspring_that_bred": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "descendant_breeders_that_bred": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "total_births": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "f1_births": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "f2_births": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "food_eaten": {
+        "median": 514.0,
+        "min": 376.0,
+        "max": 528.0
+      },
+      "movement_energy": {
+        "median": 74.5,
+        "min": 51.0,
+        "max": 86.0
+      },
+      "requested_vision_maintenance": {
+        "median": 576.0,
+        "min": 550.0,
+        "max": 582.0
+      },
+      "paid_vision_maintenance": {
+        "median": 380.0,
+        "min": 340.0,
+        "max": 386.0
+      },
+      "requested_stamina_maintenance": {
+        "median": 576.0,
+        "min": 550.0,
+        "max": 582.0
+      },
+      "paid_stamina_maintenance": {
+        "median": 318.5,
+        "min": 282.0,
+        "max": 332.0
+      },
+      "resource_replenishment_events": {
+        "median": 286.5,
+        "min": 216.0,
+        "max": 295.0
+      }
+    }
+  },
+  "per_seed_arm_results": [
+    {
+      "seed": 50001,
+      "environment": "cycle",
+      "arm": "control",
+      "configured_alleles": {
+        "mobility": 0,
+        "vision": 0,
+        "stamina": 0
+      },
+      "ticks": 2000,
+      "metrics": {
+        "living_founders": 0,
+        "living_descendant_breeders": 0,
+        "living_f1_breeders": 0,
+        "f1_offspring_that_bred": 0,
+        "descendant_breeders_that_bred": 0,
+        "total_births": 3,
+        "f1_births": 3,
+        "f2_births": 0,
+        "food_eaten": 154,
+        "movement_energy": 465,
+        "requested_vision_maintenance": 0,
+        "paid_vision_maintenance": 0,
+        "requested_stamina_maintenance": 0,
+        "paid_stamina_maintenance": 0,
+        "resource_replenishment_events": 133
+      },
+      "death_causes": {
+        "Some(Dehydration)": 4,
+        "Some(Starvation)": 7
+      },
+      "final_population": 0,
+      "final_genotype_counts": {},
+      "metabolized_event_count": 0
+    },
+    {
+      "seed": 50001,
+      "environment": "cycle",
+      "arm": "mobility",
+      "configured_alleles": {
+        "mobility": 1,
+        "vision": 0,
+        "stamina": 0
+      },
+      "ticks": 2000,
+      "metrics": {
+        "living_founders": 0,
+        "living_descendant_breeders": 0,
+        "living_f1_breeders": 0,
+        "f1_offspring_that_bred": 0,
+        "descendant_breeders_that_bred": 0,
+        "total_births": 0,
+        "f1_births": 0,
+        "f2_births": 0,
+        "food_eaten": 122,
+        "movement_energy": 584,
+        "requested_vision_maintenance": 0,
+        "paid_vision_maintenance": 0,
+        "requested_stamina_maintenance": 0,
+        "paid_stamina_maintenance": 0,
+        "resource_replenishment_events": 89
+      },
+      "death_causes": {
+        "Some(Dehydration)": 1,
+        "Some(Starvation)": 7
+      },
+      "final_population": 0,
+      "final_genotype_counts": {},
+      "metabolized_event_count": 0
+    },
+    {
+      "seed": 50001,
+      "environment": "cycle",
+      "arm": "vision",
+      "configured_alleles": {
+        "mobility": 0,
+        "vision": 1,
+        "stamina": 0
+      },
+      "ticks": 2000,
+      "metrics": {
+        "living_founders": 0,
+        "living_descendant_breeders": 0,
+        "living_f1_breeders": 0,
+        "f1_offspring_that_bred": 0,
+        "descendant_breeders_that_bred": 0,
+        "total_births": 0,
+        "f1_births": 0,
+        "f2_births": 0,
+        "food_eaten": 168,
+        "movement_energy": 328,
+        "requested_vision_maintenance": 518,
+        "paid_vision_maintenance": 239,
+        "requested_stamina_maintenance": 0,
+        "paid_stamina_maintenance": 0,
+        "resource_replenishment_events": 118
+      },
+      "death_causes": {
+        "Some(Dehydration)": 2,
+        "Some(Starvation)": 6
+      },
+      "final_population": 0,
+      "final_genotype_counts": {},
+      "metabolized_event_count": 518
+    },
+    {
+      "seed": 50001,
+      "environment": "cycle",
+      "arm": "stamina",
+      "configured_alleles": {
+        "mobility": 0,
+        "vision": 0,
+        "stamina": 1
+      },
+      "ticks": 2000,
+      "metrics": {
+        "living_founders": 0,
+        "living_descendant_breeders": 0,
+        "living_f1_breeders": 0,
+        "f1_offspring_that_bred": 0,
+        "descendant_breeders_that_bred": 0,
+        "total_births": 0,
+        "f1_births": 0,
+        "f2_births": 0,
+        "food_eaten": 122,
+        "movement_energy": 338,
+        "requested_vision_maintenance": 0,
+        "paid_vision_maintenance": 0,
+        "requested_stamina_maintenance": 513,
+        "paid_stamina_maintenance": 211,
+        "resource_replenishment_events": 92
+      },
+      "death_causes": {
+        "Some(Dehydration)": 2,
+        "Some(Starvation)": 6
+      },
+      "final_population": 0,
+      "final_genotype_counts": {},
+      "metabolized_event_count": 513
+    },
+    {
+      "seed": 50001,
+      "environment": "cycle",
+      "arm": "vision_stamina",
+      "configured_alleles": {
+        "mobility": 0,
+        "vision": 1,
+        "stamina": 1
+      },
+      "ticks": 2000,
+      "metrics": {
+        "living_founders": 0,
+        "living_descendant_breeders": 0,
+        "living_f1_breeders": 0,
+        "f1_offspring_that_bred": 0,
+        "descendant_breeders_that_bred": 0,
+        "total_births": 0,
+        "f1_births": 0,
+        "f2_births": 0,
+        "food_eaten": 138,
+        "movement_energy": 248,
+        "requested_vision_maintenance": 482,
+        "paid_vision_maintenance": 181,
+        "requested_stamina_maintenance": 482,
+        "paid_stamina_maintenance": 167,
+        "resource_replenishment_events": 97
+      },
+      "death_causes": {
+        "Some(Dehydration)": 1,
+        "Some(Starvation)": 7
+      },
+      "final_population": 0,
+      "final_genotype_counts": {},
+      "metabolized_event_count": 482
+    },
+    {
+      "seed": 50001,
+      "environment": "static",
+      "arm": "control",
+      "configured_alleles": {
+        "mobility": 0,
+        "vision": 0,
+        "stamina": 0
+      },
+      "ticks": 2000,
+      "metrics": {
+        "living_founders": 0,
+        "living_descendant_breeders": 0,
+        "living_f1_breeders": 0,
+        "f1_offspring_that_bred": 0,
+        "descendant_breeders_that_bred": 0,
+        "total_births": 4,
+        "f1_births": 4,
+        "f2_births": 0,
+        "food_eaten": 934,
+        "movement_energy": 561,
+        "requested_vision_maintenance": 0,
+        "paid_vision_maintenance": 0,
+        "requested_stamina_maintenance": 0,
+        "paid_stamina_maintenance": 0,
+        "resource_replenishment_events": 655
+      },
+      "death_causes": {
+        "Some(Dehydration)": 3,
+        "Some(OldAge)": 4,
+        "Some(Starvation)": 5
+      },
+      "final_population": 0,
+      "final_genotype_counts": {},
+      "metabolized_event_count": 0
+    },
+    {
+      "seed": 50001,
+      "environment": "static",
+      "arm": "mobility",
+      "configured_alleles": {
+        "mobility": 1,
+        "vision": 0,
+        "stamina": 0
+      },
+      "ticks": 2000,
+      "metrics": {
+        "living_founders": 0,
+        "living_descendant_breeders": 0,
+        "living_f1_breeders": 0,
+        "f1_offspring_that_bred": 0,
+        "descendant_breeders_that_bred": 0,
+        "total_births": 2,
+        "f1_births": 2,
+        "f2_births": 0,
+        "food_eaten": 792,
+        "movement_energy": 670,
+        "requested_vision_maintenance": 0,
+        "paid_vision_maintenance": 0,
+        "requested_stamina_maintenance": 0,
+        "paid_stamina_maintenance": 0,
+        "resource_replenishment_events": 532
+      },
+      "death_causes": {
+        "Some(Dehydration)": 4,
+        "Some(OldAge)": 3,
+        "Some(Starvation)": 3
+      },
+      "final_population": 0,
+      "final_genotype_counts": {},
+      "metabolized_event_count": 0
+    },
+    {
+      "seed": 50001,
+      "environment": "static",
+      "arm": "vision",
+      "configured_alleles": {
+        "mobility": 0,
+        "vision": 1,
+        "stamina": 0
+      },
+      "ticks": 2000,
+      "metrics": {
+        "living_founders": 0,
+        "living_descendant_breeders": 0,
+        "living_f1_breeders": 0,
+        "f1_offspring_that_bred": 0,
+        "descendant_breeders_that_bred": 0,
+        "total_births": 3,
+        "f1_births": 3,
+        "f2_births": 0,
+        "food_eaten": 678,
+        "movement_energy": 233,
+        "requested_vision_maintenance": 762,
+        "paid_vision_maintenance": 516,
+        "requested_stamina_maintenance": 0,
+        "paid_stamina_maintenance": 0,
+        "resource_replenishment_events": 421
+      },
+      "death_causes": {
+        "Some(Dehydration)": 3,
+        "Some(OldAge)": 1,
+        "Some(Starvation)": 7
+      },
+      "final_population": 0,
+      "final_genotype_counts": {},
+      "metabolized_event_count": 762
+    },
+    {
+      "seed": 50001,
+      "environment": "static",
+      "arm": "stamina",
+      "configured_alleles": {
+        "mobility": 0,
+        "vision": 0,
+        "stamina": 1
+      },
+      "ticks": 2000,
+      "metrics": {
+        "living_founders": 0,
+        "living_descendant_breeders": 0,
+        "living_f1_breeders": 0,
+        "f1_offspring_that_bred": 0,
+        "descendant_breeders_that_bred": 0,
+        "total_births": 2,
+        "f1_births": 2,
+        "f2_births": 0,
+        "food_eaten": 590,
+        "movement_energy": 186,
+        "requested_vision_maintenance": 0,
+        "paid_vision_maintenance": 0,
+        "requested_stamina_maintenance": 707,
+        "paid_stamina_maintenance": 518,
+        "resource_replenishment_events": 356
+      },
+      "death_causes": {
+        "Some(Dehydration)": 4,
+        "Some(OldAge)": 1,
+        "Some(Starvation)": 5
+      },
+      "final_population": 0,
+      "final_genotype_counts": {},
+      "metabolized_event_count": 707
+    },
+    {
+      "seed": 50001,
+      "environment": "static",
+      "arm": "vision_stamina",
+      "configured_alleles": {
+        "mobility": 0,
+        "vision": 1,
+        "stamina": 1
+      },
+      "ticks": 2000,
+      "metrics": {
+        "living_founders": 0,
+        "living_descendant_breeders": 0,
+        "living_f1_breeders": 0,
+        "f1_offspring_that_bred": 0,
+        "descendant_breeders_that_bred": 0,
+        "total_births": 0,
+        "f1_births": 0,
+        "f2_births": 0,
+        "food_eaten": 524,
+        "movement_energy": 86,
+        "requested_vision_maintenance": 575,
+        "paid_vision_maintenance": 380,
+        "requested_stamina_maintenance": 575,
+        "paid_stamina_maintenance": 316,
+        "resource_replenishment_events": 293
+      },
+      "death_causes": {
+        "Some(Dehydration)": 3,
+        "Some(Starvation)": 5
+      },
+      "final_population": 0,
+      "final_genotype_counts": {},
+      "metabolized_event_count": 575
+    },
+    {
+      "seed": 50002,
+      "environment": "cycle",
+      "arm": "control",
+      "configured_alleles": {
+        "mobility": 0,
+        "vision": 0,
+        "stamina": 0
+      },
+      "ticks": 2000,
+      "metrics": {
+        "living_founders": 0,
+        "living_descendant_breeders": 0,
+        "living_f1_breeders": 0,
+        "f1_offspring_that_bred": 0,
+        "descendant_breeders_that_bred": 0,
+        "total_births": 2,
+        "f1_births": 2,
+        "f2_births": 0,
+        "food_eaten": 160,
+        "movement_energy": 471,
+        "requested_vision_maintenance": 0,
+        "paid_vision_maintenance": 0,
+        "requested_stamina_maintenance": 0,
+        "paid_stamina_maintenance": 0,
+        "resource_replenishment_events": 138
+      },
+      "death_causes": {
+        "Some(Dehydration)": 6,
+        "Some(Starvation)": 4
+      },
+      "final_population": 0,
+      "final_genotype_counts": {},
+      "metabolized_event_count": 0
+    },
+    {
+      "seed": 50002,
+      "environment": "cycle",
+      "arm": "mobility",
+      "configured_alleles": {
+        "mobility": 1,
+        "vision": 0,
+        "stamina": 0
+      },
+      "ticks": 2000,
+      "metrics": {
+        "living_founders": 0,
+        "living_descendant_breeders": 0,
+        "living_f1_breeders": 0,
+        "f1_offspring_that_bred": 0,
+        "descendant_breeders_that_bred": 0,
+        "total_births": 0,
+        "f1_births": 0,
+        "f2_births": 0,
+        "food_eaten": 114,
+        "movement_energy": 564,
+        "requested_vision_maintenance": 0,
+        "paid_vision_maintenance": 0,
+        "requested_stamina_maintenance": 0,
+        "paid_stamina_maintenance": 0,
+        "resource_replenishment_events": 88
+      },
+      "death_causes": {
+        "Some(Dehydration)": 4,
+        "Some(Starvation)": 4
+      },
+      "final_population": 0,
+      "final_genotype_counts": {},
+      "metabolized_event_count": 0
+    },
+    {
+      "seed": 50002,
+      "environment": "cycle",
+      "arm": "vision",
+      "configured_alleles": {
+        "mobility": 0,
+        "vision": 1,
+        "stamina": 0
+      },
+      "ticks": 2000,
+      "metrics": {
+        "living_founders": 0,
+        "living_descendant_breeders": 0,
+        "living_f1_breeders": 0,
+        "f1_offspring_that_bred": 0,
+        "descendant_breeders_that_bred": 0,
+        "total_births": 1,
+        "f1_births": 1,
+        "f2_births": 0,
+        "food_eaten": 154,
+        "movement_energy": 319,
+        "requested_vision_maintenance": 547,
+        "paid_vision_maintenance": 236,
+        "requested_stamina_maintenance": 0,
+        "paid_stamina_maintenance": 0,
+        "resource_replenishment_events": 120
+      },
+      "death_causes": {
+        "Some(Dehydration)": 4,
+        "Some(Starvation)": 5
+      },
+      "final_population": 0,
+      "final_genotype_counts": {},
+      "metabolized_event_count": 547
+    },
+    {
+      "seed": 50002,
+      "environment": "cycle",
+      "arm": "stamina",
+      "configured_alleles": {
+        "mobility": 0,
+        "vision": 0,
+        "stamina": 1
+      },
+      "ticks": 2000,
+      "metrics": {
+        "living_founders": 0,
+        "living_descendant_breeders": 0,
+        "living_f1_breeders": 0,
+        "f1_offspring_that_bred": 0,
+        "descendant_breeders_that_bred": 0,
+        "total_births": 0,
+        "f1_births": 0,
+        "f2_births": 0,
+        "food_eaten": 166,
+        "movement_energy": 332,
+        "requested_vision_maintenance": 0,
+        "paid_vision_maintenance": 0,
+        "requested_stamina_maintenance": 513,
+        "paid_stamina_maintenance": 236,
+        "resource_replenishment_events": 111
+      },
+      "death_causes": {
+        "Some(Dehydration)": 1,
+        "Some(Starvation)": 7
+      },
+      "final_population": 0,
+      "final_genotype_counts": {},
+      "metabolized_event_count": 513
+    },
+    {
+      "seed": 50002,
+      "environment": "cycle",
+      "arm": "vision_stamina",
+      "configured_alleles": {
+        "mobility": 0,
+        "vision": 1,
+        "stamina": 1
+      },
+      "ticks": 2000,
+      "metrics": {
+        "living_founders": 0,
+        "living_descendant_breeders": 0,
+        "living_f1_breeders": 0,
+        "f1_offspring_that_bred": 0,
+        "descendant_breeders_that_bred": 0,
+        "total_births": 0,
+        "f1_births": 0,
+        "f2_births": 0,
+        "food_eaten": 154,
+        "movement_energy": 258,
+        "requested_vision_maintenance": 475,
+        "paid_vision_maintenance": 188,
+        "requested_stamina_maintenance": 475,
+        "paid_stamina_maintenance": 159,
+        "resource_replenishment_events": 105
+      },
+      "death_causes": {
+        "Some(Dehydration)": 1,
+        "Some(Starvation)": 7
+      },
+      "final_population": 0,
+      "final_genotype_counts": {},
+      "metabolized_event_count": 475
+    },
+    {
+      "seed": 50002,
+      "environment": "static",
+      "arm": "control",
+      "configured_alleles": {
+        "mobility": 0,
+        "vision": 0,
+        "stamina": 0
+      },
+      "ticks": 2000,
+      "metrics": {
+        "living_founders": 0,
+        "living_descendant_breeders": 0,
+        "living_f1_breeders": 0,
+        "f1_offspring_that_bred": 0,
+        "descendant_breeders_that_bred": 0,
+        "total_births": 3,
+        "f1_births": 3,
+        "f2_births": 0,
+        "food_eaten": 684,
+        "movement_energy": 462,
+        "requested_vision_maintenance": 0,
+        "paid_vision_maintenance": 0,
+        "requested_stamina_maintenance": 0,
+        "paid_stamina_maintenance": 0,
+        "resource_replenishment_events": 481
+      },
+      "death_causes": {
+        "Some(Dehydration)": 2,
+        "Some(OldAge)": 3,
+        "Some(Starvation)": 6
+      },
+      "final_population": 0,
+      "final_genotype_counts": {},
+      "metabolized_event_count": 0
+    },
+    {
+      "seed": 50002,
+      "environment": "static",
+      "arm": "mobility",
+      "configured_alleles": {
+        "mobility": 1,
+        "vision": 0,
+        "stamina": 0
+      },
+      "ticks": 2000,
+      "metrics": {
+        "living_founders": 0,
+        "living_descendant_breeders": 0,
+        "living_f1_breeders": 0,
+        "f1_offspring_that_bred": 0,
+        "descendant_breeders_that_bred": 0,
+        "total_births": 3,
+        "f1_births": 3,
+        "f2_births": 0,
+        "food_eaten": 828,
+        "movement_energy": 652,
+        "requested_vision_maintenance": 0,
+        "paid_vision_maintenance": 0,
+        "requested_stamina_maintenance": 0,
+        "paid_stamina_maintenance": 0,
+        "resource_replenishment_events": 542
+      },
+      "death_causes": {
+        "Some(Dehydration)": 2,
+        "Some(OldAge)": 3,
+        "Some(Starvation)": 6
+      },
+      "final_population": 0,
+      "final_genotype_counts": {},
+      "metabolized_event_count": 0
+    },
+    {
+      "seed": 50002,
+      "environment": "static",
+      "arm": "vision",
+      "configured_alleles": {
+        "mobility": 0,
+        "vision": 1,
+        "stamina": 0
+      },
+      "ticks": 2000,
+      "metrics": {
+        "living_founders": 0,
+        "living_descendant_breeders": 0,
+        "living_f1_breeders": 0,
+        "f1_offspring_that_bred": 0,
+        "descendant_breeders_that_bred": 0,
+        "total_births": 2,
+        "f1_births": 2,
+        "f2_births": 0,
+        "food_eaten": 532,
+        "movement_energy": 172,
+        "requested_vision_maintenance": 660,
+        "paid_vision_maintenance": 466,
+        "requested_stamina_maintenance": 0,
+        "paid_stamina_maintenance": 0,
+        "resource_replenishment_events": 324
+      },
+      "death_causes": {
+        "Some(Dehydration)": 3,
+        "Some(OldAge)": 1,
+        "Some(Starvation)": 6
+      },
+      "final_population": 0,
+      "final_genotype_counts": {},
+      "metabolized_event_count": 660
+    },
+    {
+      "seed": 50002,
+      "environment": "static",
+      "arm": "stamina",
+      "configured_alleles": {
+        "mobility": 0,
+        "vision": 0,
+        "stamina": 1
+      },
+      "ticks": 2000,
+      "metrics": {
+        "living_founders": 0,
+        "living_descendant_breeders": 0,
+        "living_f1_breeders": 0,
+        "f1_offspring_that_bred": 0,
+        "descendant_breeders_that_bred": 0,
+        "total_births": 2,
+        "f1_births": 2,
+        "f2_births": 0,
+        "food_eaten": 300,
+        "movement_energy": 96,
+        "requested_vision_maintenance": 0,
+        "paid_vision_maintenance": 0,
+        "requested_stamina_maintenance": 634,
+        "paid_stamina_maintenance": 419,
+        "resource_replenishment_events": 181
+      },
+      "death_causes": {
+        "Some(Dehydration)": 2,
+        "Some(Starvation)": 8
+      },
+      "final_population": 0,
+      "final_genotype_counts": {},
+      "metabolized_event_count": 634
+    },
+    {
+      "seed": 50002,
+      "environment": "static",
+      "arm": "vision_stamina",
+      "configured_alleles": {
+        "mobility": 0,
+        "vision": 1,
+        "stamina": 1
+      },
+      "ticks": 2000,
+      "metrics": {
+        "living_founders": 0,
+        "living_descendant_breeders": 0,
+        "living_f1_breeders": 0,
+        "f1_offspring_that_bred": 0,
+        "descendant_breeders_that_bred": 0,
+        "total_births": 0,
+        "f1_births": 0,
+        "f2_births": 0,
+        "food_eaten": 526,
+        "movement_energy": 83,
+        "requested_vision_maintenance": 571,
+        "paid_vision_maintenance": 386,
+        "requested_stamina_maintenance": 571,
+        "paid_stamina_maintenance": 308,
+        "resource_replenishment_events": 294
+      },
+      "death_causes": {
+        "Some(Dehydration)": 4,
+        "Some(Starvation)": 4
+      },
+      "final_population": 0,
+      "final_genotype_counts": {},
+      "metabolized_event_count": 571
+    },
+    {
+      "seed": 50003,
+      "environment": "cycle",
+      "arm": "control",
+      "configured_alleles": {
+        "mobility": 0,
+        "vision": 0,
+        "stamina": 0
+      },
+      "ticks": 2000,
+      "metrics": {
+        "living_founders": 0,
+        "living_descendant_breeders": 0,
+        "living_f1_breeders": 0,
+        "f1_offspring_that_bred": 0,
+        "descendant_breeders_that_bred": 0,
+        "total_births": 3,
+        "f1_births": 3,
+        "f2_births": 0,
+        "food_eaten": 158,
+        "movement_energy": 458,
+        "requested_vision_maintenance": 0,
+        "paid_vision_maintenance": 0,
+        "requested_stamina_maintenance": 0,
+        "paid_stamina_maintenance": 0,
+        "resource_replenishment_events": 131
+      },
+      "death_causes": {
+        "Some(Dehydration)": 5,
+        "Some(Starvation)": 6
+      },
+      "final_population": 0,
+      "final_genotype_counts": {},
+      "metabolized_event_count": 0
+    },
+    {
+      "seed": 50003,
+      "environment": "cycle",
+      "arm": "mobility",
+      "configured_alleles": {
+        "mobility": 1,
+        "vision": 0,
+        "stamina": 0
+      },
+      "ticks": 2000,
+      "metrics": {
+        "living_founders": 0,
+        "living_descendant_breeders": 0,
+        "living_f1_breeders": 0,
+        "f1_offspring_that_bred": 0,
+        "descendant_breeders_that_bred": 0,
+        "total_births": 0,
+        "f1_births": 0,
+        "f2_births": 0,
+        "food_eaten": 138,
+        "movement_energy": 570,
+        "requested_vision_maintenance": 0,
+        "paid_vision_maintenance": 0,
+        "requested_stamina_maintenance": 0,
+        "paid_stamina_maintenance": 0,
+        "resource_replenishment_events": 103
+      },
+      "death_causes": {
+        "Some(Dehydration)": 2,
+        "Some(Starvation)": 6
+      },
+      "final_population": 0,
+      "final_genotype_counts": {},
+      "metabolized_event_count": 0
+    },
+    {
+      "seed": 50003,
+      "environment": "cycle",
+      "arm": "vision",
+      "configured_alleles": {
+        "mobility": 0,
+        "vision": 1,
+        "stamina": 0
+      },
+      "ticks": 2000,
+      "metrics": {
+        "living_founders": 0,
+        "living_descendant_breeders": 0,
+        "living_f1_breeders": 0,
+        "f1_offspring_that_bred": 0,
+        "descendant_breeders_that_bred": 0,
+        "total_births": 1,
+        "f1_births": 1,
+        "f2_births": 0,
+        "food_eaten": 156,
+        "movement_energy": 288,
+        "requested_vision_maintenance": 534,
+        "paid_vision_maintenance": 253,
+        "requested_stamina_maintenance": 0,
+        "paid_stamina_maintenance": 0,
+        "resource_replenishment_events": 106
+      },
+      "death_causes": {
+        "Some(Dehydration)": 3,
+        "Some(Starvation)": 6
+      },
+      "final_population": 0,
+      "final_genotype_counts": {},
+      "metabolized_event_count": 534
+    },
+    {
+      "seed": 50003,
+      "environment": "cycle",
+      "arm": "stamina",
+      "configured_alleles": {
+        "mobility": 0,
+        "vision": 0,
+        "stamina": 1
+      },
+      "ticks": 2000,
+      "metrics": {
+        "living_founders": 0,
+        "living_descendant_breeders": 0,
+        "living_f1_breeders": 0,
+        "f1_offspring_that_bred": 0,
+        "descendant_breeders_that_bred": 0,
+        "total_births": 0,
+        "f1_births": 0,
+        "f2_births": 0,
+        "food_eaten": 122,
+        "movement_energy": 310,
+        "requested_vision_maintenance": 0,
+        "paid_vision_maintenance": 0,
+        "requested_stamina_maintenance": 532,
+        "paid_stamina_maintenance": 225,
+        "resource_replenishment_events": 104
+      },
+      "death_causes": {
+        "Some(Dehydration)": 2,
+        "Some(Starvation)": 6
+      },
+      "final_population": 0,
+      "final_genotype_counts": {},
+      "metabolized_event_count": 532
+    },
+    {
+      "seed": 50003,
+      "environment": "cycle",
+      "arm": "vision_stamina",
+      "configured_alleles": {
+        "mobility": 0,
+        "vision": 1,
+        "stamina": 1
+      },
+      "ticks": 2000,
+      "metrics": {
+        "living_founders": 0,
+        "living_descendant_breeders": 0,
+        "living_f1_breeders": 0,
+        "f1_offspring_that_bred": 0,
+        "descendant_breeders_that_bred": 0,
+        "total_births": 0,
+        "f1_births": 0,
+        "f2_births": 0,
+        "food_eaten": 154,
+        "movement_energy": 249,
+        "requested_vision_maintenance": 478,
+        "paid_vision_maintenance": 190,
+        "requested_stamina_maintenance": 478,
+        "paid_stamina_maintenance": 163,
+        "resource_replenishment_events": 105
+      },
+      "death_causes": {
+        "Some(Dehydration)": 1,
+        "Some(Starvation)": 7
+      },
+      "final_population": 0,
+      "final_genotype_counts": {},
+      "metabolized_event_count": 478
+    },
+    {
+      "seed": 50003,
+      "environment": "static",
+      "arm": "control",
+      "configured_alleles": {
+        "mobility": 0,
+        "vision": 0,
+        "stamina": 0
+      },
+      "ticks": 2000,
+      "metrics": {
+        "living_founders": 0,
+        "living_descendant_breeders": 0,
+        "living_f1_breeders": 0,
+        "f1_offspring_that_bred": 0,
+        "descendant_breeders_that_bred": 0,
+        "total_births": 3,
+        "f1_births": 3,
+        "f2_births": 0,
+        "food_eaten": 862,
+        "movement_energy": 508,
+        "requested_vision_maintenance": 0,
+        "paid_vision_maintenance": 0,
+        "requested_stamina_maintenance": 0,
+        "paid_stamina_maintenance": 0,
+        "resource_replenishment_events": 617
+      },
+      "death_causes": {
+        "Some(Dehydration)": 3,
+        "Some(OldAge)": 5,
+        "Some(Starvation)": 3
+      },
+      "final_population": 0,
+      "final_genotype_counts": {},
+      "metabolized_event_count": 0
+    },
+    {
+      "seed": 50003,
+      "environment": "static",
+      "arm": "mobility",
+      "configured_alleles": {
+        "mobility": 1,
+        "vision": 0,
+        "stamina": 0
+      },
+      "ticks": 2000,
+      "metrics": {
+        "living_founders": 0,
+        "living_descendant_breeders": 0,
+        "living_f1_breeders": 0,
+        "f1_offspring_that_bred": 0,
+        "descendant_breeders_that_bred": 0,
+        "total_births": 3,
+        "f1_births": 3,
+        "f2_births": 0,
+        "food_eaten": 686,
+        "movement_energy": 612,
+        "requested_vision_maintenance": 0,
+        "paid_vision_maintenance": 0,
+        "requested_stamina_maintenance": 0,
+        "paid_stamina_maintenance": 0,
+        "resource_replenishment_events": 468
+      },
+      "death_causes": {
+        "Some(Dehydration)": 3,
+        "Some(OldAge)": 3,
+        "Some(Starvation)": 5
+      },
+      "final_population": 0,
+      "final_genotype_counts": {},
+      "metabolized_event_count": 0
+    },
+    {
+      "seed": 50003,
+      "environment": "static",
+      "arm": "vision",
+      "configured_alleles": {
+        "mobility": 0,
+        "vision": 1,
+        "stamina": 0
+      },
+      "ticks": 2000,
+      "metrics": {
+        "living_founders": 0,
+        "living_descendant_breeders": 0,
+        "living_f1_breeders": 0,
+        "f1_offspring_that_bred": 0,
+        "descendant_breeders_that_bred": 0,
+        "total_births": 2,
+        "f1_births": 2,
+        "f2_births": 0,
+        "food_eaten": 604,
+        "movement_energy": 176,
+        "requested_vision_maintenance": 704,
+        "paid_vision_maintenance": 530,
+        "requested_stamina_maintenance": 0,
+        "paid_stamina_maintenance": 0,
+        "resource_replenishment_events": 365
+      },
+      "death_causes": {
+        "Some(Dehydration)": 4,
+        "Some(OldAge)": 2,
+        "Some(Starvation)": 4
+      },
+      "final_population": 0,
+      "final_genotype_counts": {},
+      "metabolized_event_count": 704
+    },
+    {
+      "seed": 50003,
+      "environment": "static",
+      "arm": "stamina",
+      "configured_alleles": {
+        "mobility": 0,
+        "vision": 0,
+        "stamina": 1
+      },
+      "ticks": 2000,
+      "metrics": {
+        "living_founders": 0,
+        "living_descendant_breeders": 0,
+        "living_f1_breeders": 0,
+        "f1_offspring_that_bred": 0,
+        "descendant_breeders_that_bred": 0,
+        "total_births": 0,
+        "f1_births": 0,
+        "f2_births": 0,
+        "food_eaten": 760,
+        "movement_energy": 212,
+        "requested_vision_maintenance": 0,
+        "paid_vision_maintenance": 0,
+        "requested_stamina_maintenance": 710,
+        "paid_stamina_maintenance": 565,
+        "resource_replenishment_events": 478
+      },
+      "death_causes": {
+        "Some(Dehydration)": 2,
+        "Some(OldAge)": 3,
+        "Some(Starvation)": 3
+      },
+      "final_population": 0,
+      "final_genotype_counts": {},
+      "metabolized_event_count": 710
+    },
+    {
+      "seed": 50003,
+      "environment": "static",
+      "arm": "vision_stamina",
+      "configured_alleles": {
+        "mobility": 0,
+        "vision": 1,
+        "stamina": 1
+      },
+      "ticks": 2000,
+      "metrics": {
+        "living_founders": 0,
+        "living_descendant_breeders": 0,
+        "living_f1_breeders": 0,
+        "f1_offspring_that_bred": 0,
+        "descendant_breeders_that_bred": 0,
+        "total_births": 0,
+        "f1_births": 0,
+        "f2_births": 0,
+        "food_eaten": 504,
+        "movement_energy": 60,
+        "requested_vision_maintenance": 579,
+        "paid_vision_maintenance": 376,
+        "requested_stamina_maintenance": 579,
+        "paid_stamina_maintenance": 330,
+        "resource_replenishment_events": 280
+      },
+      "death_causes": {
+        "Some(Dehydration)": 3,
+        "Some(Starvation)": 5
+      },
+      "final_population": 0,
+      "final_genotype_counts": {},
+      "metabolized_event_count": 579
+    },
+    {
+      "seed": 50004,
+      "environment": "cycle",
+      "arm": "control",
+      "configured_alleles": {
+        "mobility": 0,
+        "vision": 0,
+        "stamina": 0
+      },
+      "ticks": 2000,
+      "metrics": {
+        "living_founders": 0,
+        "living_descendant_breeders": 0,
+        "living_f1_breeders": 0,
+        "f1_offspring_that_bred": 0,
+        "descendant_breeders_that_bred": 0,
+        "total_births": 2,
+        "f1_births": 2,
+        "f2_births": 0,
+        "food_eaten": 156,
+        "movement_energy": 451,
+        "requested_vision_maintenance": 0,
+        "paid_vision_maintenance": 0,
+        "requested_stamina_maintenance": 0,
+        "paid_stamina_maintenance": 0,
+        "resource_replenishment_events": 134
+      },
+      "death_causes": {
+        "Some(Dehydration)": 1,
+        "Some(Starvation)": 9
+      },
+      "final_population": 0,
+      "final_genotype_counts": {},
+      "metabolized_event_count": 0
+    },
+    {
+      "seed": 50004,
+      "environment": "cycle",
+      "arm": "mobility",
+      "configured_alleles": {
+        "mobility": 1,
+        "vision": 0,
+        "stamina": 0
+      },
+      "ticks": 2000,
+      "metrics": {
+        "living_founders": 0,
+        "living_descendant_breeders": 0,
+        "living_f1_breeders": 0,
+        "f1_offspring_that_bred": 0,
+        "descendant_breeders_that_bred": 0,
+        "total_births": 1,
+        "f1_births": 1,
+        "f2_births": 0,
+        "food_eaten": 170,
+        "movement_energy": 576,
+        "requested_vision_maintenance": 0,
+        "paid_vision_maintenance": 0,
+        "requested_stamina_maintenance": 0,
+        "paid_stamina_maintenance": 0,
+        "resource_replenishment_events": 124
+      },
+      "death_causes": {
+        "Some(Dehydration)": 2,
+        "Some(Starvation)": 7
+      },
+      "final_population": 0,
+      "final_genotype_counts": {},
+      "metabolized_event_count": 0
+    },
+    {
+      "seed": 50004,
+      "environment": "cycle",
+      "arm": "vision",
+      "configured_alleles": {
+        "mobility": 0,
+        "vision": 1,
+        "stamina": 0
+      },
+      "ticks": 2000,
+      "metrics": {
+        "living_founders": 0,
+        "living_descendant_breeders": 0,
+        "living_f1_breeders": 0,
+        "f1_offspring_that_bred": 0,
+        "descendant_breeders_that_bred": 0,
+        "total_births": 0,
+        "f1_births": 0,
+        "f2_births": 0,
+        "food_eaten": 128,
+        "movement_energy": 325,
+        "requested_vision_maintenance": 524,
+        "paid_vision_maintenance": 221,
+        "requested_stamina_maintenance": 0,
+        "paid_stamina_maintenance": 0,
+        "resource_replenishment_events": 101
+      },
+      "death_causes": {
+        "Some(Dehydration)": 5,
+        "Some(Starvation)": 3
+      },
+      "final_population": 0,
+      "final_genotype_counts": {},
+      "metabolized_event_count": 524
+    },
+    {
+      "seed": 50004,
+      "environment": "cycle",
+      "arm": "stamina",
+      "configured_alleles": {
+        "mobility": 0,
+        "vision": 0,
+        "stamina": 1
+      },
+      "ticks": 2000,
+      "metrics": {
+        "living_founders": 0,
+        "living_descendant_breeders": 0,
+        "living_f1_breeders": 0,
+        "f1_offspring_that_bred": 0,
+        "descendant_breeders_that_bred": 0,
+        "total_births": 0,
+        "f1_births": 0,
+        "f2_births": 0,
+        "food_eaten": 162,
+        "movement_energy": 317,
+        "requested_vision_maintenance": 0,
+        "paid_vision_maintenance": 0,
+        "requested_stamina_maintenance": 524,
+        "paid_stamina_maintenance": 241,
+        "resource_replenishment_events": 118
+      },
+      "death_causes": {
+        "Some(Dehydration)": 3,
+        "Some(Starvation)": 5
+      },
+      "final_population": 0,
+      "final_genotype_counts": {},
+      "metabolized_event_count": 524
+    },
+    {
+      "seed": 50004,
+      "environment": "cycle",
+      "arm": "vision_stamina",
+      "configured_alleles": {
+        "mobility": 0,
+        "vision": 1,
+        "stamina": 1
+      },
+      "ticks": 2000,
+      "metrics": {
+        "living_founders": 0,
+        "living_descendant_breeders": 0,
+        "living_f1_breeders": 0,
+        "f1_offspring_that_bred": 0,
+        "descendant_breeders_that_bred": 0,
+        "total_births": 0,
+        "f1_births": 0,
+        "f2_births": 0,
+        "food_eaten": 134,
+        "movement_energy": 250,
+        "requested_vision_maintenance": 479,
+        "paid_vision_maintenance": 179,
+        "requested_stamina_maintenance": 479,
+        "paid_stamina_maintenance": 165,
+        "resource_replenishment_events": 98
+      },
+      "death_causes": {
+        "Some(Dehydration)": 1,
+        "Some(Starvation)": 7
+      },
+      "final_population": 0,
+      "final_genotype_counts": {},
+      "metabolized_event_count": 479
+    },
+    {
+      "seed": 50004,
+      "environment": "static",
+      "arm": "control",
+      "configured_alleles": {
+        "mobility": 0,
+        "vision": 0,
+        "stamina": 0
+      },
+      "ticks": 2000,
+      "metrics": {
+        "living_founders": 0,
+        "living_descendant_breeders": 0,
+        "living_f1_breeders": 0,
+        "f1_offspring_that_bred": 0,
+        "descendant_breeders_that_bred": 0,
+        "total_births": 3,
+        "f1_births": 3,
+        "f2_births": 0,
+        "food_eaten": 578,
+        "movement_energy": 401,
+        "requested_vision_maintenance": 0,
+        "paid_vision_maintenance": 0,
+        "requested_stamina_maintenance": 0,
+        "paid_stamina_maintenance": 0,
+        "resource_replenishment_events": 431
+      },
+      "death_causes": {
+        "Some(Dehydration)": 1,
+        "Some(OldAge)": 4,
+        "Some(Starvation)": 6
+      },
+      "final_population": 0,
+      "final_genotype_counts": {},
+      "metabolized_event_count": 0
+    },
+    {
+      "seed": 50004,
+      "environment": "static",
+      "arm": "mobility",
+      "configured_alleles": {
+        "mobility": 1,
+        "vision": 0,
+        "stamina": 0
+      },
+      "ticks": 2000,
+      "metrics": {
+        "living_founders": 0,
+        "living_descendant_breeders": 0,
+        "living_f1_breeders": 0,
+        "f1_offspring_that_bred": 0,
+        "descendant_breeders_that_bred": 0,
+        "total_births": 2,
+        "f1_births": 2,
+        "f2_births": 0,
+        "food_eaten": 816,
+        "movement_energy": 680,
+        "requested_vision_maintenance": 0,
+        "paid_vision_maintenance": 0,
+        "requested_stamina_maintenance": 0,
+        "paid_stamina_maintenance": 0,
+        "resource_replenishment_events": 548
+      },
+      "death_causes": {
+        "Some(Dehydration)": 2,
+        "Some(OldAge)": 5,
+        "Some(Starvation)": 3
+      },
+      "final_population": 0,
+      "final_genotype_counts": {},
+      "metabolized_event_count": 0
+    },
+    {
+      "seed": 50004,
+      "environment": "static",
+      "arm": "vision",
+      "configured_alleles": {
+        "mobility": 0,
+        "vision": 1,
+        "stamina": 0
+      },
+      "ticks": 2000,
+      "metrics": {
+        "living_founders": 0,
+        "living_descendant_breeders": 0,
+        "living_f1_breeders": 0,
+        "f1_offspring_that_bred": 0,
+        "descendant_breeders_that_bred": 0,
+        "total_births": 2,
+        "f1_births": 2,
+        "f2_births": 0,
+        "food_eaten": 758,
+        "movement_energy": 224,
+        "requested_vision_maintenance": 749,
+        "paid_vision_maintenance": 558,
+        "requested_stamina_maintenance": 0,
+        "paid_stamina_maintenance": 0,
+        "resource_replenishment_events": 465
+      },
+      "death_causes": {
+        "Some(Dehydration)": 2,
+        "Some(OldAge)": 2,
+        "Some(Starvation)": 6
+      },
+      "final_population": 0,
+      "final_genotype_counts": {},
+      "metabolized_event_count": 749
+    },
+    {
+      "seed": 50004,
+      "environment": "static",
+      "arm": "stamina",
+      "configured_alleles": {
+        "mobility": 0,
+        "vision": 0,
+        "stamina": 1
+      },
+      "ticks": 2000,
+      "metrics": {
+        "living_founders": 0,
+        "living_descendant_breeders": 0,
+        "living_f1_breeders": 0,
+        "f1_offspring_that_bred": 0,
+        "descendant_breeders_that_bred": 0,
+        "total_births": 0,
+        "f1_births": 0,
+        "f2_births": 0,
+        "food_eaten": 726,
+        "movement_energy": 200,
+        "requested_vision_maintenance": 0,
+        "paid_vision_maintenance": 0,
+        "requested_stamina_maintenance": 697,
+        "paid_stamina_maintenance": 560,
+        "resource_replenishment_events": 445
+      },
+      "death_causes": {
+        "Some(Dehydration)": 4,
+        "Some(OldAge)": 2,
+        "Some(Starvation)": 2
+      },
+      "final_population": 0,
+      "final_genotype_counts": {},
+      "metabolized_event_count": 697
+    },
+    {
+      "seed": 50004,
+      "environment": "static",
+      "arm": "vision_stamina",
+      "configured_alleles": {
+        "mobility": 0,
+        "vision": 1,
+        "stamina": 1
+      },
+      "ticks": 2000,
+      "metrics": {
+        "living_founders": 0,
+        "living_descendant_breeders": 0,
+        "living_f1_breeders": 0,
+        "f1_offspring_that_bred": 0,
+        "descendant_breeders_that_bred": 0,
+        "total_births": 0,
+        "f1_births": 0,
+        "f2_births": 0,
+        "food_eaten": 430,
+        "movement_energy": 74,
+        "requested_vision_maintenance": 560,
+        "paid_vision_maintenance": 355,
+        "requested_stamina_maintenance": 560,
+        "paid_stamina_maintenance": 286,
+        "resource_replenishment_events": 249
+      },
+      "death_causes": {
+        "Some(Dehydration)": 5,
+        "Some(Starvation)": 3
+      },
+      "final_population": 0,
+      "final_genotype_counts": {},
+      "metabolized_event_count": 560
+    },
+    {
+      "seed": 50005,
+      "environment": "cycle",
+      "arm": "control",
+      "configured_alleles": {
+        "mobility": 0,
+        "vision": 0,
+        "stamina": 0
+      },
+      "ticks": 2000,
+      "metrics": {
+        "living_founders": 0,
+        "living_descendant_breeders": 0,
+        "living_f1_breeders": 0,
+        "f1_offspring_that_bred": 0,
+        "descendant_breeders_that_bred": 0,
+        "total_births": 1,
+        "f1_births": 1,
+        "f2_births": 0,
+        "food_eaten": 174,
+        "movement_energy": 481,
+        "requested_vision_maintenance": 0,
+        "paid_vision_maintenance": 0,
+        "requested_stamina_maintenance": 0,
+        "paid_stamina_maintenance": 0,
+        "resource_replenishment_events": 129
+      },
+      "death_causes": {
+        "Some(Dehydration)": 1,
+        "Some(Starvation)": 8
+      },
+      "final_population": 0,
+      "final_genotype_counts": {},
+      "metabolized_event_count": 0
+    },
+    {
+      "seed": 50005,
+      "environment": "cycle",
+      "arm": "mobility",
+      "configured_alleles": {
+        "mobility": 1,
+        "vision": 0,
+        "stamina": 0
+      },
+      "ticks": 2000,
+      "metrics": {
+        "living_founders": 0,
+        "living_descendant_breeders": 0,
+        "living_f1_breeders": 0,
+        "f1_offspring_that_bred": 0,
+        "descendant_breeders_that_bred": 0,
+        "total_births": 0,
+        "f1_births": 0,
+        "f2_births": 0,
+        "food_eaten": 98,
+        "movement_energy": 574,
+        "requested_vision_maintenance": 0,
+        "paid_vision_maintenance": 0,
+        "requested_stamina_maintenance": 0,
+        "paid_stamina_maintenance": 0,
+        "resource_replenishment_events": 83
+      },
+      "death_causes": {
+        "Some(Starvation)": 8
+      },
+      "final_population": 0,
+      "final_genotype_counts": {},
+      "metabolized_event_count": 0
+    },
+    {
+      "seed": 50005,
+      "environment": "cycle",
+      "arm": "vision",
+      "configured_alleles": {
+        "mobility": 0,
+        "vision": 1,
+        "stamina": 0
+      },
+      "ticks": 2000,
+      "metrics": {
+        "living_founders": 0,
+        "living_descendant_breeders": 0,
+        "living_f1_breeders": 0,
+        "f1_offspring_that_bred": 0,
+        "descendant_breeders_that_bred": 0,
+        "total_births": 0,
+        "f1_births": 0,
+        "f2_births": 0,
+        "food_eaten": 146,
+        "movement_energy": 331,
+        "requested_vision_maintenance": 518,
+        "paid_vision_maintenance": 227,
+        "requested_stamina_maintenance": 0,
+        "paid_stamina_maintenance": 0,
+        "resource_replenishment_events": 104
+      },
+      "death_causes": {
+        "Some(Dehydration)": 1,
+        "Some(Starvation)": 7
+      },
+      "final_population": 0,
+      "final_genotype_counts": {},
+      "metabolized_event_count": 518
+    },
+    {
+      "seed": 50005,
+      "environment": "cycle",
+      "arm": "stamina",
+      "configured_alleles": {
+        "mobility": 0,
+        "vision": 0,
+        "stamina": 1
+      },
+      "ticks": 2000,
+      "metrics": {
+        "living_founders": 0,
+        "living_descendant_breeders": 0,
+        "living_f1_breeders": 0,
+        "f1_offspring_that_bred": 0,
+        "descendant_breeders_that_bred": 0,
+        "total_births": 0,
+        "f1_births": 0,
+        "f2_births": 0,
+        "food_eaten": 114,
+        "movement_energy": 323,
+        "requested_vision_maintenance": 0,
+        "paid_vision_maintenance": 0,
+        "requested_stamina_maintenance": 515,
+        "paid_stamina_maintenance": 215,
+        "resource_replenishment_events": 91
+      },
+      "death_causes": {
+        "Some(Dehydration)": 3,
+        "Some(Starvation)": 5
+      },
+      "final_population": 0,
+      "final_genotype_counts": {},
+      "metabolized_event_count": 515
+    },
+    {
+      "seed": 50005,
+      "environment": "cycle",
+      "arm": "vision_stamina",
+      "configured_alleles": {
+        "mobility": 0,
+        "vision": 1,
+        "stamina": 1
+      },
+      "ticks": 2000,
+      "metrics": {
+        "living_founders": 0,
+        "living_descendant_breeders": 0,
+        "living_f1_breeders": 0,
+        "f1_offspring_that_bred": 0,
+        "descendant_breeders_that_bred": 0,
+        "total_births": 0,
+        "f1_births": 0,
+        "f2_births": 0,
+        "food_eaten": 130,
+        "movement_energy": 245,
+        "requested_vision_maintenance": 479,
+        "paid_vision_maintenance": 179,
+        "requested_stamina_maintenance": 479,
+        "paid_stamina_maintenance": 165,
+        "resource_replenishment_events": 96
+      },
+      "death_causes": {
+        "Some(Dehydration)": 2,
+        "Some(Starvation)": 6
+      },
+      "final_population": 0,
+      "final_genotype_counts": {},
+      "metabolized_event_count": 479
+    },
+    {
+      "seed": 50005,
+      "environment": "static",
+      "arm": "control",
+      "configured_alleles": {
+        "mobility": 0,
+        "vision": 0,
+        "stamina": 0
+      },
+      "ticks": 2000,
+      "metrics": {
+        "living_founders": 0,
+        "living_descendant_breeders": 0,
+        "living_f1_breeders": 0,
+        "f1_offspring_that_bred": 0,
+        "descendant_breeders_that_bred": 0,
+        "total_births": 3,
+        "f1_births": 3,
+        "f2_births": 0,
+        "food_eaten": 822,
+        "movement_energy": 527,
+        "requested_vision_maintenance": 0,
+        "paid_vision_maintenance": 0,
+        "requested_stamina_maintenance": 0,
+        "paid_stamina_maintenance": 0,
+        "resource_replenishment_events": 581
+      },
+      "death_causes": {
+        "Some(Dehydration)": 1,
+        "Some(OldAge)": 4,
+        "Some(Starvation)": 6
+      },
+      "final_population": 0,
+      "final_genotype_counts": {},
+      "metabolized_event_count": 0
+    },
+    {
+      "seed": 50005,
+      "environment": "static",
+      "arm": "mobility",
+      "configured_alleles": {
+        "mobility": 1,
+        "vision": 0,
+        "stamina": 0
+      },
+      "ticks": 2000,
+      "metrics": {
+        "living_founders": 0,
+        "living_descendant_breeders": 0,
+        "living_f1_breeders": 0,
+        "f1_offspring_that_bred": 0,
+        "descendant_breeders_that_bred": 0,
+        "total_births": 3,
+        "f1_births": 3,
+        "f2_births": 0,
+        "food_eaten": 602,
+        "movement_energy": 606,
+        "requested_vision_maintenance": 0,
+        "paid_vision_maintenance": 0,
+        "requested_stamina_maintenance": 0,
+        "paid_stamina_maintenance": 0,
+        "resource_replenishment_events": 441
+      },
+      "death_causes": {
+        "Some(Dehydration)": 1,
+        "Some(OldAge)": 2,
+        "Some(Starvation)": 8
+      },
+      "final_population": 0,
+      "final_genotype_counts": {},
+      "metabolized_event_count": 0
+    },
+    {
+      "seed": 50005,
+      "environment": "static",
+      "arm": "vision",
+      "configured_alleles": {
+        "mobility": 0,
+        "vision": 1,
+        "stamina": 0
+      },
+      "ticks": 2000,
+      "metrics": {
+        "living_founders": 0,
+        "living_descendant_breeders": 0,
+        "living_f1_breeders": 0,
+        "f1_offspring_that_bred": 0,
+        "descendant_breeders_that_bred": 0,
+        "total_births": 3,
+        "f1_births": 3,
+        "f2_births": 0,
+        "food_eaten": 628,
+        "movement_energy": 198,
+        "requested_vision_maintenance": 741,
+        "paid_vision_maintenance": 517,
+        "requested_stamina_maintenance": 0,
+        "paid_stamina_maintenance": 0,
+        "resource_replenishment_events": 388
+      },
+      "death_causes": {
+        "Some(Dehydration)": 3,
+        "Some(OldAge)": 1,
+        "Some(Starvation)": 7
+      },
+      "final_population": 0,
+      "final_genotype_counts": {},
+      "metabolized_event_count": 741
+    },
+    {
+      "seed": 50005,
+      "environment": "static",
+      "arm": "stamina",
+      "configured_alleles": {
+        "mobility": 0,
+        "vision": 0,
+        "stamina": 1
+      },
+      "ticks": 2000,
+      "metrics": {
+        "living_founders": 0,
+        "living_descendant_breeders": 0,
+        "living_f1_breeders": 0,
+        "f1_offspring_that_bred": 0,
+        "descendant_breeders_that_bred": 0,
+        "total_births": 0,
+        "f1_births": 0,
+        "f2_births": 0,
+        "food_eaten": 714,
+        "movement_energy": 209,
+        "requested_vision_maintenance": 0,
+        "paid_vision_maintenance": 0,
+        "requested_stamina_maintenance": 710,
+        "paid_stamina_maintenance": 561,
+        "resource_replenishment_events": 430
+      },
+      "death_causes": {
+        "Some(Dehydration)": 3,
+        "Some(OldAge)": 2,
+        "Some(Starvation)": 3
+      },
+      "final_population": 0,
+      "final_genotype_counts": {},
+      "metabolized_event_count": 710
+    },
+    {
+      "seed": 50005,
+      "environment": "static",
+      "arm": "vision_stamina",
+      "configured_alleles": {
+        "mobility": 0,
+        "vision": 1,
+        "stamina": 1
+      },
+      "ticks": 2000,
+      "metrics": {
+        "living_founders": 0,
+        "living_descendant_breeders": 0,
+        "living_f1_breeders": 0,
+        "f1_offspring_that_bred": 0,
+        "descendant_breeders_that_bred": 0,
+        "total_births": 0,
+        "f1_births": 0,
+        "f2_births": 0,
+        "food_eaten": 526,
+        "movement_energy": 81,
+        "requested_vision_maintenance": 577,
+        "paid_vision_maintenance": 382,
+        "requested_stamina_maintenance": 577,
+        "paid_stamina_maintenance": 321,
+        "resource_replenishment_events": 294
+      },
+      "death_causes": {
+        "Some(Dehydration)": 4,
+        "Some(Starvation)": 4
+      },
+      "final_population": 0,
+      "final_genotype_counts": {},
+      "metabolized_event_count": 577
+    },
+    {
+      "seed": 50006,
+      "environment": "cycle",
+      "arm": "control",
+      "configured_alleles": {
+        "mobility": 0,
+        "vision": 0,
+        "stamina": 0
+      },
+      "ticks": 2000,
+      "metrics": {
+        "living_founders": 0,
+        "living_descendant_breeders": 0,
+        "living_f1_breeders": 0,
+        "f1_offspring_that_bred": 0,
+        "descendant_breeders_that_bred": 0,
+        "total_births": 4,
+        "f1_births": 4,
+        "f2_births": 0,
+        "food_eaten": 156,
+        "movement_energy": 452,
+        "requested_vision_maintenance": 0,
+        "paid_vision_maintenance": 0,
+        "requested_stamina_maintenance": 0,
+        "paid_stamina_maintenance": 0,
+        "resource_replenishment_events": 140
+      },
+      "death_causes": {
+        "Some(Dehydration)": 7,
+        "Some(Starvation)": 5
+      },
+      "final_population": 0,
+      "final_genotype_counts": {},
+      "metabolized_event_count": 0
+    },
+    {
+      "seed": 50006,
+      "environment": "cycle",
+      "arm": "mobility",
+      "configured_alleles": {
+        "mobility": 1,
+        "vision": 0,
+        "stamina": 0
+      },
+      "ticks": 2000,
+      "metrics": {
+        "living_founders": 0,
+        "living_descendant_breeders": 0,
+        "living_f1_breeders": 0,
+        "f1_offspring_that_bred": 0,
+        "descendant_breeders_that_bred": 0,
+        "total_births": 0,
+        "f1_births": 0,
+        "f2_births": 0,
+        "food_eaten": 138,
+        "movement_energy": 564,
+        "requested_vision_maintenance": 0,
+        "paid_vision_maintenance": 0,
+        "requested_stamina_maintenance": 0,
+        "paid_stamina_maintenance": 0,
+        "resource_replenishment_events": 97
+      },
+      "death_causes": {
+        "Some(Dehydration)": 1,
+        "Some(Starvation)": 7
+      },
+      "final_population": 0,
+      "final_genotype_counts": {},
+      "metabolized_event_count": 0
+    },
+    {
+      "seed": 50006,
+      "environment": "cycle",
+      "arm": "vision",
+      "configured_alleles": {
+        "mobility": 0,
+        "vision": 1,
+        "stamina": 0
+      },
+      "ticks": 2000,
+      "metrics": {
+        "living_founders": 0,
+        "living_descendant_breeders": 0,
+        "living_f1_breeders": 0,
+        "f1_offspring_that_bred": 0,
+        "descendant_breeders_that_bred": 0,
+        "total_births": 0,
+        "f1_births": 0,
+        "f2_births": 0,
+        "food_eaten": 154,
+        "movement_energy": 310,
+        "requested_vision_maintenance": 530,
+        "paid_vision_maintenance": 241,
+        "requested_stamina_maintenance": 0,
+        "paid_stamina_maintenance": 0,
+        "resource_replenishment_events": 114
+      },
+      "death_causes": {
+        "Some(Starvation)": 8
+      },
+      "final_population": 0,
+      "final_genotype_counts": {},
+      "metabolized_event_count": 530
+    },
+    {
+      "seed": 50006,
+      "environment": "cycle",
+      "arm": "stamina",
+      "configured_alleles": {
+        "mobility": 0,
+        "vision": 0,
+        "stamina": 1
+      },
+      "ticks": 2000,
+      "metrics": {
+        "living_founders": 0,
+        "living_descendant_breeders": 0,
+        "living_f1_breeders": 0,
+        "f1_offspring_that_bred": 0,
+        "descendant_breeders_that_bred": 0,
+        "total_births": 0,
+        "f1_births": 0,
+        "f2_births": 0,
+        "food_eaten": 122,
+        "movement_energy": 325,
+        "requested_vision_maintenance": 0,
+        "paid_vision_maintenance": 0,
+        "requested_stamina_maintenance": 521,
+        "paid_stamina_maintenance": 218,
+        "resource_replenishment_events": 95
+      },
+      "death_causes": {
+        "Some(Dehydration)": 4,
+        "Some(Starvation)": 4
+      },
+      "final_population": 0,
+      "final_genotype_counts": {},
+      "metabolized_event_count": 521
+    },
+    {
+      "seed": 50006,
+      "environment": "cycle",
+      "arm": "vision_stamina",
+      "configured_alleles": {
+        "mobility": 0,
+        "vision": 1,
+        "stamina": 1
+      },
+      "ticks": 2000,
+      "metrics": {
+        "living_founders": 0,
+        "living_descendant_breeders": 0,
+        "living_f1_breeders": 0,
+        "f1_offspring_that_bred": 0,
+        "descendant_breeders_that_bred": 0,
+        "total_births": 0,
+        "f1_births": 0,
+        "f2_births": 0,
+        "food_eaten": 130,
+        "movement_energy": 232,
+        "requested_vision_maintenance": 484,
+        "paid_vision_maintenance": 184,
+        "requested_stamina_maintenance": 484,
+        "paid_stamina_maintenance": 168,
+        "resource_replenishment_events": 96
+      },
+      "death_causes": {
+        "Some(Dehydration)": 1,
+        "Some(Starvation)": 7
+      },
+      "final_population": 0,
+      "final_genotype_counts": {},
+      "metabolized_event_count": 484
+    },
+    {
+      "seed": 50006,
+      "environment": "static",
+      "arm": "control",
+      "configured_alleles": {
+        "mobility": 0,
+        "vision": 0,
+        "stamina": 0
+      },
+      "ticks": 2000,
+      "metrics": {
+        "living_founders": 0,
+        "living_descendant_breeders": 0,
+        "living_f1_breeders": 0,
+        "f1_offspring_that_bred": 0,
+        "descendant_breeders_that_bred": 0,
+        "total_births": 3,
+        "f1_births": 3,
+        "f2_births": 0,
+        "food_eaten": 818,
+        "movement_energy": 491,
+        "requested_vision_maintenance": 0,
+        "paid_vision_maintenance": 0,
+        "requested_stamina_maintenance": 0,
+        "paid_stamina_maintenance": 0,
+        "resource_replenishment_events": 587
+      },
+      "death_causes": {
+        "Some(OldAge)": 5,
+        "Some(Starvation)": 6
+      },
+      "final_population": 0,
+      "final_genotype_counts": {},
+      "metabolized_event_count": 0
+    },
+    {
+      "seed": 50006,
+      "environment": "static",
+      "arm": "mobility",
+      "configured_alleles": {
+        "mobility": 1,
+        "vision": 0,
+        "stamina": 0
+      },
+      "ticks": 2000,
+      "metrics": {
+        "living_founders": 0,
+        "living_descendant_breeders": 0,
+        "living_f1_breeders": 0,
+        "f1_offspring_that_bred": 0,
+        "descendant_breeders_that_bred": 0,
+        "total_births": 3,
+        "f1_births": 3,
+        "f2_births": 0,
+        "food_eaten": 614,
+        "movement_energy": 584,
+        "requested_vision_maintenance": 0,
+        "paid_vision_maintenance": 0,
+        "requested_stamina_maintenance": 0,
+        "paid_stamina_maintenance": 0,
+        "resource_replenishment_events": 448
+      },
+      "death_causes": {
+        "Some(Dehydration)": 2,
+        "Some(OldAge)": 2,
+        "Some(Starvation)": 7
+      },
+      "final_population": 0,
+      "final_genotype_counts": {},
+      "metabolized_event_count": 0
+    },
+    {
+      "seed": 50006,
+      "environment": "static",
+      "arm": "vision",
+      "configured_alleles": {
+        "mobility": 0,
+        "vision": 1,
+        "stamina": 0
+      },
+      "ticks": 2000,
+      "metrics": {
+        "living_founders": 0,
+        "living_descendant_breeders": 0,
+        "living_f1_breeders": 0,
+        "f1_offspring_that_bred": 0,
+        "descendant_breeders_that_bred": 0,
+        "total_births": 3,
+        "f1_births": 3,
+        "f2_births": 0,
+        "food_eaten": 572,
+        "movement_energy": 187,
+        "requested_vision_maintenance": 759,
+        "paid_vision_maintenance": 511,
+        "requested_stamina_maintenance": 0,
+        "paid_stamina_maintenance": 0,
+        "resource_replenishment_events": 354
+      },
+      "death_causes": {
+        "Some(Dehydration)": 2,
+        "Some(OldAge)": 1,
+        "Some(Starvation)": 8
+      },
+      "final_population": 0,
+      "final_genotype_counts": {},
+      "metabolized_event_count": 759
+    },
+    {
+      "seed": 50006,
+      "environment": "static",
+      "arm": "stamina",
+      "configured_alleles": {
+        "mobility": 0,
+        "vision": 0,
+        "stamina": 1
+      },
+      "ticks": 2000,
+      "metrics": {
+        "living_founders": 0,
+        "living_descendant_breeders": 0,
+        "living_f1_breeders": 0,
+        "f1_offspring_that_bred": 0,
+        "descendant_breeders_that_bred": 0,
+        "total_births": 2,
+        "f1_births": 2,
+        "f2_births": 0,
+        "food_eaten": 692,
+        "movement_energy": 202,
+        "requested_vision_maintenance": 0,
+        "paid_vision_maintenance": 0,
+        "requested_stamina_maintenance": 728,
+        "paid_stamina_maintenance": 548,
+        "resource_replenishment_events": 422
+      },
+      "death_causes": {
+        "Some(Dehydration)": 1,
+        "Some(OldAge)": 2,
+        "Some(Starvation)": 7
+      },
+      "final_population": 0,
+      "final_genotype_counts": {},
+      "metabolized_event_count": 728
+    },
+    {
+      "seed": 50006,
+      "environment": "static",
+      "arm": "vision_stamina",
+      "configured_alleles": {
+        "mobility": 0,
+        "vision": 1,
+        "stamina": 1
+      },
+      "ticks": 2000,
+      "metrics": {
+        "living_founders": 0,
+        "living_descendant_breeders": 0,
+        "living_f1_breeders": 0,
+        "f1_offspring_that_bred": 0,
+        "descendant_breeders_that_bred": 0,
+        "total_births": 0,
+        "f1_births": 0,
+        "f2_births": 0,
+        "food_eaten": 504,
+        "movement_energy": 51,
+        "requested_vision_maintenance": 579,
+        "paid_vision_maintenance": 380,
+        "requested_stamina_maintenance": 579,
+        "paid_stamina_maintenance": 332,
+        "resource_replenishment_events": 280
+      },
+      "death_causes": {
+        "Some(Dehydration)": 5,
+        "Some(Starvation)": 3
+      },
+      "final_population": 0,
+      "final_genotype_counts": {},
+      "metabolized_event_count": 579
+    },
+    {
+      "seed": 50007,
+      "environment": "cycle",
+      "arm": "control",
+      "configured_alleles": {
+        "mobility": 0,
+        "vision": 0,
+        "stamina": 0
+      },
+      "ticks": 2000,
+      "metrics": {
+        "living_founders": 0,
+        "living_descendant_breeders": 0,
+        "living_f1_breeders": 0,
+        "f1_offspring_that_bred": 0,
+        "descendant_breeders_that_bred": 0,
+        "total_births": 2,
+        "f1_births": 2,
+        "f2_births": 0,
+        "food_eaten": 162,
+        "movement_energy": 466,
+        "requested_vision_maintenance": 0,
+        "paid_vision_maintenance": 0,
+        "requested_stamina_maintenance": 0,
+        "paid_stamina_maintenance": 0,
+        "resource_replenishment_events": 145
+      },
+      "death_causes": {
+        "Some(Dehydration)": 2,
+        "Some(Starvation)": 8
+      },
+      "final_population": 0,
+      "final_genotype_counts": {},
+      "metabolized_event_count": 0
+    },
+    {
+      "seed": 50007,
+      "environment": "cycle",
+      "arm": "mobility",
+      "configured_alleles": {
+        "mobility": 1,
+        "vision": 0,
+        "stamina": 0
+      },
+      "ticks": 2000,
+      "metrics": {
+        "living_founders": 0,
+        "living_descendant_breeders": 0,
+        "living_f1_breeders": 0,
+        "f1_offspring_that_bred": 0,
+        "descendant_breeders_that_bred": 0,
+        "total_births": 0,
+        "f1_births": 0,
+        "f2_births": 0,
+        "food_eaten": 130,
+        "movement_energy": 578,
+        "requested_vision_maintenance": 0,
+        "paid_vision_maintenance": 0,
+        "requested_stamina_maintenance": 0,
+        "paid_stamina_maintenance": 0,
+        "resource_replenishment_events": 99
+      },
+      "death_causes": {
+        "Some(Dehydration)": 1,
+        "Some(Starvation)": 7
+      },
+      "final_population": 0,
+      "final_genotype_counts": {},
+      "metabolized_event_count": 0
+    },
+    {
+      "seed": 50007,
+      "environment": "cycle",
+      "arm": "vision",
+      "configured_alleles": {
+        "mobility": 0,
+        "vision": 1,
+        "stamina": 0
+      },
+      "ticks": 2000,
+      "metrics": {
+        "living_founders": 0,
+        "living_descendant_breeders": 0,
+        "living_f1_breeders": 0,
+        "f1_offspring_that_bred": 0,
+        "descendant_breeders_that_bred": 0,
+        "total_births": 0,
+        "f1_births": 0,
+        "f2_births": 0,
+        "food_eaten": 162,
+        "movement_energy": 322,
+        "requested_vision_maintenance": 516,
+        "paid_vision_maintenance": 240,
+        "requested_stamina_maintenance": 0,
+        "paid_stamina_maintenance": 0,
+        "resource_replenishment_events": 112
+      },
+      "death_causes": {
+        "Some(Dehydration)": 4,
+        "Some(Starvation)": 4
+      },
+      "final_population": 0,
+      "final_genotype_counts": {},
+      "metabolized_event_count": 516
+    },
+    {
+      "seed": 50007,
+      "environment": "cycle",
+      "arm": "stamina",
+      "configured_alleles": {
+        "mobility": 0,
+        "vision": 0,
+        "stamina": 1
+      },
+      "ticks": 2000,
+      "metrics": {
+        "living_founders": 0,
+        "living_descendant_breeders": 0,
+        "living_f1_breeders": 0,
+        "f1_offspring_that_bred": 0,
+        "descendant_breeders_that_bred": 0,
+        "total_births": 0,
+        "f1_births": 0,
+        "f2_births": 0,
+        "food_eaten": 146,
+        "movement_energy": 334,
+        "requested_vision_maintenance": 0,
+        "paid_vision_maintenance": 0,
+        "requested_stamina_maintenance": 520,
+        "paid_stamina_maintenance": 225,
+        "resource_replenishment_events": 109
+      },
+      "death_causes": {
+        "Some(Dehydration)": 3,
+        "Some(Starvation)": 5
+      },
+      "final_population": 0,
+      "final_genotype_counts": {},
+      "metabolized_event_count": 520
+    },
+    {
+      "seed": 50007,
+      "environment": "cycle",
+      "arm": "vision_stamina",
+      "configured_alleles": {
+        "mobility": 0,
+        "vision": 1,
+        "stamina": 1
+      },
+      "ticks": 2000,
+      "metrics": {
+        "living_founders": 0,
+        "living_descendant_breeders": 0,
+        "living_f1_breeders": 0,
+        "f1_offspring_that_bred": 0,
+        "descendant_breeders_that_bred": 0,
+        "total_births": 0,
+        "f1_births": 0,
+        "f2_births": 0,
+        "food_eaten": 178,
+        "movement_energy": 238,
+        "requested_vision_maintenance": 479,
+        "paid_vision_maintenance": 206,
+        "requested_stamina_maintenance": 479,
+        "paid_stamina_maintenance": 167,
+        "resource_replenishment_events": 117
+      },
+      "death_causes": {
+        "Some(Dehydration)": 1,
+        "Some(Starvation)": 7
+      },
+      "final_population": 0,
+      "final_genotype_counts": {},
+      "metabolized_event_count": 479
+    },
+    {
+      "seed": 50007,
+      "environment": "static",
+      "arm": "control",
+      "configured_alleles": {
+        "mobility": 0,
+        "vision": 0,
+        "stamina": 0
+      },
+      "ticks": 2000,
+      "metrics": {
+        "living_founders": 0,
+        "living_descendant_breeders": 0,
+        "living_f1_breeders": 0,
+        "f1_offspring_that_bred": 0,
+        "descendant_breeders_that_bred": 0,
+        "total_births": 3,
+        "f1_births": 3,
+        "f2_births": 0,
+        "food_eaten": 828,
+        "movement_energy": 493,
+        "requested_vision_maintenance": 0,
+        "paid_vision_maintenance": 0,
+        "requested_stamina_maintenance": 0,
+        "paid_stamina_maintenance": 0,
+        "resource_replenishment_events": 602
+      },
+      "death_causes": {
+        "Some(Dehydration)": 2,
+        "Some(OldAge)": 4,
+        "Some(Starvation)": 5
+      },
+      "final_population": 0,
+      "final_genotype_counts": {},
+      "metabolized_event_count": 0
+    },
+    {
+      "seed": 50007,
+      "environment": "static",
+      "arm": "mobility",
+      "configured_alleles": {
+        "mobility": 1,
+        "vision": 0,
+        "stamina": 0
+      },
+      "ticks": 2000,
+      "metrics": {
+        "living_founders": 0,
+        "living_descendant_breeders": 0,
+        "living_f1_breeders": 0,
+        "f1_offspring_that_bred": 0,
+        "descendant_breeders_that_bred": 0,
+        "total_births": 4,
+        "f1_births": 4,
+        "f2_births": 0,
+        "food_eaten": 558,
+        "movement_energy": 566,
+        "requested_vision_maintenance": 0,
+        "paid_vision_maintenance": 0,
+        "requested_stamina_maintenance": 0,
+        "paid_stamina_maintenance": 0,
+        "resource_replenishment_events": 388
+      },
+      "death_causes": {
+        "Some(Dehydration)": 4,
+        "Some(OldAge)": 1,
+        "Some(Starvation)": 7
+      },
+      "final_population": 0,
+      "final_genotype_counts": {},
+      "metabolized_event_count": 0
+    },
+    {
+      "seed": 50007,
+      "environment": "static",
+      "arm": "vision",
+      "configured_alleles": {
+        "mobility": 0,
+        "vision": 1,
+        "stamina": 0
+      },
+      "ticks": 2000,
+      "metrics": {
+        "living_founders": 0,
+        "living_descendant_breeders": 0,
+        "living_f1_breeders": 0,
+        "f1_offspring_that_bred": 0,
+        "descendant_breeders_that_bred": 0,
+        "total_births": 3,
+        "f1_births": 3,
+        "f2_births": 0,
+        "food_eaten": 650,
+        "movement_energy": 197,
+        "requested_vision_maintenance": 707,
+        "paid_vision_maintenance": 514,
+        "requested_stamina_maintenance": 0,
+        "paid_stamina_maintenance": 0,
+        "resource_replenishment_events": 397
+      },
+      "death_causes": {
+        "Some(Dehydration)": 6,
+        "Some(OldAge)": 1,
+        "Some(Starvation)": 4
+      },
+      "final_population": 0,
+      "final_genotype_counts": {},
+      "metabolized_event_count": 707
+    },
+    {
+      "seed": 50007,
+      "environment": "static",
+      "arm": "stamina",
+      "configured_alleles": {
+        "mobility": 0,
+        "vision": 0,
+        "stamina": 1
+      },
+      "ticks": 2000,
+      "metrics": {
+        "living_founders": 0,
+        "living_descendant_breeders": 0,
+        "living_f1_breeders": 0,
+        "f1_offspring_that_bred": 0,
+        "descendant_breeders_that_bred": 0,
+        "total_births": 2,
+        "f1_births": 2,
+        "f2_births": 0,
+        "food_eaten": 652,
+        "movement_energy": 204,
+        "requested_vision_maintenance": 0,
+        "paid_vision_maintenance": 0,
+        "requested_stamina_maintenance": 698,
+        "paid_stamina_maintenance": 529,
+        "resource_replenishment_events": 396
+      },
+      "death_causes": {
+        "Some(Dehydration)": 3,
+        "Some(OldAge)": 2,
+        "Some(Starvation)": 5
+      },
+      "final_population": 0,
+      "final_genotype_counts": {},
+      "metabolized_event_count": 698
+    },
+    {
+      "seed": 50007,
+      "environment": "static",
+      "arm": "vision_stamina",
+      "configured_alleles": {
+        "mobility": 0,
+        "vision": 1,
+        "stamina": 1
+      },
+      "ticks": 2000,
+      "metrics": {
+        "living_founders": 0,
+        "living_descendant_breeders": 0,
+        "living_f1_breeders": 0,
+        "f1_offspring_that_bred": 0,
+        "descendant_breeders_that_bred": 0,
+        "total_births": 0,
+        "f1_births": 0,
+        "f2_births": 0,
+        "food_eaten": 528,
+        "movement_energy": 75,
+        "requested_vision_maintenance": 582,
+        "paid_vision_maintenance": 383,
+        "requested_stamina_maintenance": 582,
+        "paid_stamina_maintenance": 327,
+        "resource_replenishment_events": 295
+      },
+      "death_causes": {
+        "Some(Dehydration)": 1,
+        "Some(Starvation)": 7
+      },
+      "final_population": 0,
+      "final_genotype_counts": {},
+      "metabolized_event_count": 582
+    },
+    {
+      "seed": 50008,
+      "environment": "cycle",
+      "arm": "control",
+      "configured_alleles": {
+        "mobility": 0,
+        "vision": 0,
+        "stamina": 0
+      },
+      "ticks": 2000,
+      "metrics": {
+        "living_founders": 0,
+        "living_descendant_breeders": 0,
+        "living_f1_breeders": 0,
+        "f1_offspring_that_bred": 0,
+        "descendant_breeders_that_bred": 0,
+        "total_births": 1,
+        "f1_births": 1,
+        "f2_births": 0,
+        "food_eaten": 140,
+        "movement_energy": 468,
+        "requested_vision_maintenance": 0,
+        "paid_vision_maintenance": 0,
+        "requested_stamina_maintenance": 0,
+        "paid_stamina_maintenance": 0,
+        "resource_replenishment_events": 127
+      },
+      "death_causes": {
+        "Some(Dehydration)": 2,
+        "Some(Starvation)": 7
+      },
+      "final_population": 0,
+      "final_genotype_counts": {},
+      "metabolized_event_count": 0
+    },
+    {
+      "seed": 50008,
+      "environment": "cycle",
+      "arm": "mobility",
+      "configured_alleles": {
+        "mobility": 1,
+        "vision": 0,
+        "stamina": 0
+      },
+      "ticks": 2000,
+      "metrics": {
+        "living_founders": 0,
+        "living_descendant_breeders": 0,
+        "living_f1_breeders": 0,
+        "f1_offspring_that_bred": 0,
+        "descendant_breeders_that_bred": 0,
+        "total_births": 0,
+        "f1_births": 0,
+        "f2_births": 0,
+        "food_eaten": 118,
+        "movement_energy": 566,
+        "requested_vision_maintenance": 0,
+        "paid_vision_maintenance": 0,
+        "requested_stamina_maintenance": 0,
+        "paid_stamina_maintenance": 0,
+        "resource_replenishment_events": 90
+      },
+      "death_causes": {
+        "Some(Dehydration)": 2,
+        "Some(Starvation)": 6
+      },
+      "final_population": 0,
+      "final_genotype_counts": {},
+      "metabolized_event_count": 0
+    },
+    {
+      "seed": 50008,
+      "environment": "cycle",
+      "arm": "vision",
+      "configured_alleles": {
+        "mobility": 0,
+        "vision": 1,
+        "stamina": 0
+      },
+      "ticks": 2000,
+      "metrics": {
+        "living_founders": 0,
+        "living_descendant_breeders": 0,
+        "living_f1_breeders": 0,
+        "f1_offspring_that_bred": 0,
+        "descendant_breeders_that_bred": 0,
+        "total_births": 0,
+        "f1_births": 0,
+        "f2_births": 0,
+        "food_eaten": 170,
+        "movement_energy": 312,
+        "requested_vision_maintenance": 525,
+        "paid_vision_maintenance": 248,
+        "requested_stamina_maintenance": 0,
+        "paid_stamina_maintenance": 0,
+        "resource_replenishment_events": 119
+      },
+      "death_causes": {
+        "Some(Dehydration)": 2,
+        "Some(Starvation)": 6
+      },
+      "final_population": 0,
+      "final_genotype_counts": {},
+      "metabolized_event_count": 525
+    },
+    {
+      "seed": 50008,
+      "environment": "cycle",
+      "arm": "stamina",
+      "configured_alleles": {
+        "mobility": 0,
+        "vision": 0,
+        "stamina": 1
+      },
+      "ticks": 2000,
+      "metrics": {
+        "living_founders": 0,
+        "living_descendant_breeders": 0,
+        "living_f1_breeders": 0,
+        "f1_offspring_that_bred": 0,
+        "descendant_breeders_that_bred": 0,
+        "total_births": 0,
+        "f1_births": 0,
+        "f2_births": 0,
+        "food_eaten": 138,
+        "movement_energy": 315,
+        "requested_vision_maintenance": 0,
+        "paid_vision_maintenance": 0,
+        "requested_stamina_maintenance": 521,
+        "paid_stamina_maintenance": 231,
+        "resource_replenishment_events": 103
+      },
+      "death_causes": {
+        "Some(Dehydration)": 2,
+        "Some(Starvation)": 6
+      },
+      "final_population": 0,
+      "final_genotype_counts": {},
+      "metabolized_event_count": 521
+    },
+    {
+      "seed": 50008,
+      "environment": "cycle",
+      "arm": "vision_stamina",
+      "configured_alleles": {
+        "mobility": 0,
+        "vision": 1,
+        "stamina": 1
+      },
+      "ticks": 2000,
+      "metrics": {
+        "living_founders": 0,
+        "living_descendant_breeders": 0,
+        "living_f1_breeders": 0,
+        "f1_offspring_that_bred": 0,
+        "descendant_breeders_that_bred": 0,
+        "total_births": 0,
+        "f1_births": 0,
+        "f2_births": 0,
+        "food_eaten": 158,
+        "movement_energy": 254,
+        "requested_vision_maintenance": 477,
+        "paid_vision_maintenance": 190,
+        "requested_stamina_maintenance": 477,
+        "paid_stamina_maintenance": 162,
+        "resource_replenishment_events": 107
+      },
+      "death_causes": {
+        "Some(Dehydration)": 1,
+        "Some(Starvation)": 7
+      },
+      "final_population": 0,
+      "final_genotype_counts": {},
+      "metabolized_event_count": 477
+    },
+    {
+      "seed": 50008,
+      "environment": "static",
+      "arm": "control",
+      "configured_alleles": {
+        "mobility": 0,
+        "vision": 0,
+        "stamina": 0
+      },
+      "ticks": 2000,
+      "metrics": {
+        "living_founders": 0,
+        "living_descendant_breeders": 0,
+        "living_f1_breeders": 0,
+        "f1_offspring_that_bred": 0,
+        "descendant_breeders_that_bred": 0,
+        "total_births": 3,
+        "f1_births": 3,
+        "f2_births": 0,
+        "food_eaten": 838,
+        "movement_energy": 475,
+        "requested_vision_maintenance": 0,
+        "paid_vision_maintenance": 0,
+        "requested_stamina_maintenance": 0,
+        "paid_stamina_maintenance": 0,
+        "resource_replenishment_events": 598
+      },
+      "death_causes": {
+        "Some(Dehydration)": 2,
+        "Some(OldAge)": 5,
+        "Some(Starvation)": 4
+      },
+      "final_population": 0,
+      "final_genotype_counts": {},
+      "metabolized_event_count": 0
+    },
+    {
+      "seed": 50008,
+      "environment": "static",
+      "arm": "mobility",
+      "configured_alleles": {
+        "mobility": 1,
+        "vision": 0,
+        "stamina": 0
+      },
+      "ticks": 2000,
+      "metrics": {
+        "living_founders": 0,
+        "living_descendant_breeders": 0,
+        "living_f1_breeders": 0,
+        "f1_offspring_that_bred": 0,
+        "descendant_breeders_that_bred": 0,
+        "total_births": 2,
+        "f1_births": 2,
+        "f2_births": 0,
+        "food_eaten": 738,
+        "movement_energy": 634,
+        "requested_vision_maintenance": 0,
+        "paid_vision_maintenance": 0,
+        "requested_stamina_maintenance": 0,
+        "paid_stamina_maintenance": 0,
+        "resource_replenishment_events": 496
+      },
+      "death_causes": {
+        "Some(Dehydration)": 1,
+        "Some(OldAge)": 4,
+        "Some(Starvation)": 5
+      },
+      "final_population": 0,
+      "final_genotype_counts": {},
+      "metabolized_event_count": 0
+    },
+    {
+      "seed": 50008,
+      "environment": "static",
+      "arm": "vision",
+      "configured_alleles": {
+        "mobility": 0,
+        "vision": 1,
+        "stamina": 0
+      },
+      "ticks": 2000,
+      "metrics": {
+        "living_founders": 0,
+        "living_descendant_breeders": 0,
+        "living_f1_breeders": 0,
+        "f1_offspring_that_bred": 0,
+        "descendant_breeders_that_bred": 0,
+        "total_births": 2,
+        "f1_births": 2,
+        "f2_births": 0,
+        "food_eaten": 394,
+        "movement_energy": 137,
+        "requested_vision_maintenance": 665,
+        "paid_vision_maintenance": 447,
+        "requested_stamina_maintenance": 0,
+        "paid_stamina_maintenance": 0,
+        "resource_replenishment_events": 240
+      },
+      "death_causes": {
+        "Some(Dehydration)": 4,
+        "Some(Starvation)": 6
+      },
+      "final_population": 0,
+      "final_genotype_counts": {},
+      "metabolized_event_count": 665
+    },
+    {
+      "seed": 50008,
+      "environment": "static",
+      "arm": "stamina",
+      "configured_alleles": {
+        "mobility": 0,
+        "vision": 0,
+        "stamina": 1
+      },
+      "ticks": 2000,
+      "metrics": {
+        "living_founders": 0,
+        "living_descendant_breeders": 0,
+        "living_f1_breeders": 0,
+        "f1_offspring_that_bred": 0,
+        "descendant_breeders_that_bred": 0,
+        "total_births": 1,
+        "f1_births": 1,
+        "f2_births": 0,
+        "food_eaten": 756,
+        "movement_energy": 224,
+        "requested_vision_maintenance": 0,
+        "paid_vision_maintenance": 0,
+        "requested_stamina_maintenance": 708,
+        "paid_stamina_maintenance": 561,
+        "resource_replenishment_events": 468
+      },
+      "death_causes": {
+        "Some(Dehydration)": 2,
+        "Some(OldAge)": 3,
+        "Some(Starvation)": 4
+      },
+      "final_population": 0,
+      "final_genotype_counts": {},
+      "metabolized_event_count": 708
+    },
+    {
+      "seed": 50008,
+      "environment": "static",
+      "arm": "vision_stamina",
+      "configured_alleles": {
+        "mobility": 0,
+        "vision": 1,
+        "stamina": 1
+      },
+      "ticks": 2000,
+      "metrics": {
+        "living_founders": 0,
+        "living_descendant_breeders": 0,
+        "living_f1_breeders": 0,
+        "f1_offspring_that_bred": 0,
+        "descendant_breeders_that_bred": 0,
+        "total_births": 0,
+        "f1_births": 0,
+        "f2_births": 0,
+        "food_eaten": 376,
+        "movement_energy": 53,
+        "requested_vision_maintenance": 550,
+        "paid_vision_maintenance": 340,
+        "requested_stamina_maintenance": 550,
+        "paid_stamina_maintenance": 282,
+        "resource_replenishment_events": 216
+      },
+      "death_causes": {
+        "Some(Dehydration)": 2,
+        "Some(Starvation)": 6
+      },
+      "final_population": 0,
+      "final_genotype_counts": {},
+      "metabolized_event_count": 550
+    }
+  ],
+  "audit_checks": {
+    "raw_world_count": 80,
+    "all_worlds_exactly_2000_ticks": true,
+    "raw_event_birth_counts_match_total_and_f1_births": true,
+    "raw_event_death_counts_match_death_causes": true,
+    "raw_replenishment_event_counts_match_totals": true,
+    "raw_sha_matches_manifest": true,
+    "summary_sha_matches_manifest": true,
+    "binary_sha_matches_manifest": true,
+    "protocol_sha_matches_manifest": true,
+    "calibration_replay_exact_sha_match": true,
+    "event_food_count_not_equated_to_food_energy": "event_rows.eats counts consume events; it is not the food_eaten energy total."
+  },
+  "limitations": [
+    "Eight held-out seeds and 2000 ticks are a bounded mechanism/fitness screen, not long-term selection or acceptance evidence.",
+    "Separate fixed-genotype populations and zero mutation provide no within-population selection or adaptive evolution claim.",
+    "The summary max_generation field is derived from entities in final state and is not the historical maximum when the world is empty."
+  ]
+}
