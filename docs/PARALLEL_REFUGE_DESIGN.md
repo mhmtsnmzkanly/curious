@@ -21,43 +21,35 @@ eligibility, route planning, resolver rules, movement speed, or physical cost.
 Disabled mode must preserve state and RNG behavior. The resolver remains the
 only source of paid movement and damage facts. No hidden predator location,
 future route, physiology, or controller state may enter context or choice.
+The historical evidence is 94 eligible decisions and zero matching completed
+records, so there is no demonstrated reuse opportunity or benefit.
 
 ## Candidate context representation
 
-The prototype deliberately separates three kinds of information:
+The initial prototype separates reusable physical features from active episode
+attribution:
 
-1. **Episode identity for attribution:** retain the visible threat ID/species
-   on the active route so resolver attack events can be attributed to the
-   observed threat. This is transient accounting state, not a reusable context
+1. **Active episode attribution:** retain the currently visible threat ID and
+   species while an escape episode is active, so resolver attack events can be
+   attributed to that threat. Threat ID is not part of the reusable outcome
    key.
-2. **Observable situation:** describe hunted species, coarse relative threat
-   direction and perceived distance, broad subject energy/stamina ranges,
-   locally perceived habitat/terrain class, and current route geometry/cost
-   features. Use current perception and established memory only. Avoid exact
-   threat IDs, exact coordinates, quartiles, and the whole alternative-set
-   signature as required equality fields.
-3. **Candidate route:** describe each valid refuge independently with route
-   length, turns, first-step direction relative to the observed threat, visible
-   terrain along the route, endpoint refuge type, and current resolver-cost
-   estimate from observable path length and the individual's current speed.
-   Record actual movement energy paid after execution; an estimate is not an
-   outcome.
+2. **Observable physical situation:** include subject species, threat species,
+   bearing and distance bands, energy/stamina bands, local habitat, and current
+   subject speed. All are derived from present perception/body state.
+3. **Candidate route:** include each visible route's relative endpoint sector,
+   observed step directions and terrain, refuge kind, turns, and estimated
+   movement energy derived from visible path and current speed. Record actual
+   movement energy after execution; the estimate is not an outcome.
 
-The current pure prototype's feature structs omit the subject species and
-movement speed. That is an integration gap: before production use, add these
-features or preregister and validate a reason they can be omitted. The prototype
-does not establish that outcomes transfer safely across different subjects or
-speeds.
-
-The candidate comparison may share evidence across changed threat IDs and
-changed alternative sets only when the observed situation and route features
-remain inside a preregistered compatibility region. A different species,
-materially different danger geometry, incompatible habitat/terrain, or route
-feature outside support means **no transfer**. Exact feature vocabulary,
-normalization, missing-value handling, context radius, and support threshold
-are open design choices for review; this proposal does not pick numeric cutoffs.
-The prototype uses explicit caller-supplied compatibility decisions so tests
-can cover the gate without smuggling in unreviewed thresholds.
+The current pure prototype implements exact equality over its selected feature
+representation. The threat ID and current alternative-set membership are
+outside the reusable key, so only those two facts may vary at the represented
+feature level. Bearing, distance, energy, and stamina use coarse bands; raw
+physical values may differ within the same band. Such aliases are an unvalidated
+model risk, not evidence of physical or causal equivalence. Missing features,
+different represented species, bands, habitat, speed, route, refuge kind,
+turns, or estimated cost mean **no transfer**. No tolerance or similarity
+radius is introduced without new preregistered empirical calibration.
 
 Store evidence per candidate under a bounded deterministic table. The table
 must not infer safety for an unseen route from a neighboring route merely
@@ -97,32 +89,42 @@ threat-damage rate, then actual movement energy, then the existing deterministic
 route tie-break. The evidence gate and ordering require root review before
 numeric thresholds, model complexity, or formal experiments are selected.
 
-Context similarity must be calibrated against explicit held-out compatible and
-incompatible pairs. Report how often the gate shares evidence, rejects it, and
-falls back. A context accepted as similar is a model assumption, not proof of
-causal equivalence. If support/calibration fails, the decision behavior remains
-the fallback and the study reports no reusable learning opportunity.
+The offline helper is checked against a finite fixed synthetic contract catalog:
+identity/alternative-set-only changes are intended compatible cases, while
+independent selected-feature changes and missing values are incompatible.
+These fixtures test code categorization only; they are neither a held-out
+empirical test nor calibration from world outcomes. Future empirical
+calibration must test raw-value differences within each shared coarse band.
+A future study must report how often the gate shares evidence, rejects it, and
+falls back. If the historical-style audit finds zero transfer opportunities,
+report no opportunity and stop. If a preregistered calibration criterion fails,
+report failure and do not retune the gate against that failed set.
 
 ## Phased work and acceptance
 
 ### Phase A — isolated representation prototype (this change)
 
 Implement only a pure helper under `examples/support/refuge_candidate.rs` with
-no production imports or checkpoint dependencies. Unit tests cover candidate
-evidence matching, ID-independent context aliasing under explicit compatibility,
-rejection of incompatible species/habitat/geometry, unknown/censored outcomes,
-no-evidence fallback, stable tie-breaking, and bounded deterministic retention.
-The helper does not select actions or run a world. Thresholds are supplied by
-the caller and remain unset pending root review.
+no production imports or checkpoint dependencies. Unit tests use a finite
+synthetic contract catalog, test exact selected-feature matching with threat
+identity and alternative-set metadata outside the reusable key, and cover missing and
+censored evidence, no-evidence fallback, distinct-route identity, no row reuse,
+stable tie-breaking, and bounded deterministic retention. The helper does not
+select actions or run a world. The schema and migration proposal are in
+[`REFUGE_GENERALIZATION_SCHEMA.md`](REFUGE_GENERALIZATION_SCHEMA.md).
 
 ### Phase B — root-reviewed protocol and integration proposal
 
-Review the context schema, safe-transfer boundary, bounded-memory policy, audit
-requirements, and proposed support gate. Only after approval, specify a clean
-source revision, default-off implementation, persistence migration, and a
-fresh preregistration. Integrate through the normal perception/decision,
-resolver, outcome ledger, and persistence boundaries. Check disabled exact
-state/RNG equivalence and migration before building an immutable lab binary.
+Wait for root's serial review after the water lab source V17 is frozen. Then
+review the context schema, safe-transfer boundary, bounded-memory policy, audit
+requirements, and proposed support gate. The schema proposes a distinct empty
+generalized table for old checkpoints while preserving legacy exact-key rows;
+checkpoint and SQLite migration still require separate root review. Only after
+approval, specify a clean source revision, default-off implementation, final
+migration, and a fresh preregistration. Integrate through normal
+perception/decision, resolver, outcome ledger, and persistence boundaries.
+Check disabled exact state/RNG equivalence and migration before building an
+immutable lab binary.
 
 ### Phase C — bounded refuge generalization experiment
 

@@ -1,41 +1,56 @@
-//! Isolated prototype for guarded reuse of refuge outcomes.
+//! Offline prototype for narrowly guarded reuse of refuge outcomes.
 //!
-//! This module is intentionally not wired into `World`, `Memory`, checkpoint
-//! state, or a lab runner. Callers must provide an explicitly reviewed
-//! compatibility gate and evidence support minimum.
-
-use std::cmp::Ordering;
+//! This module has no production imports. It permits transfer across a changed
+//! threat identity or visible alternative set only at the selected-feature
+//! level; coarse bands may still alias physically different observations.
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
-pub enum ThreatKind {
+pub enum Species {
+    Herbivore,
     Carnivore,
     Omnivore,
 }
 
-/// Coarse observable features produced from current perception by a caller.
-/// The reusable key deliberately has no individual threat ID or exact position.
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
 pub struct Situation {
-    pub threat: ThreatKind,
-    pub bearing_sector: u8,
-    pub distance_band: u8,
-    pub energy_band: u8,
-    pub stamina_band: u8,
-    pub habitat_class: u8,
-    // This prototype omits subject species and speed. Production integration
-    // must add them or preregister and validate why cross-subject transfer is
-    // safe; this helper does not claim all species/speeds are interchangeable.
+    /// Species of the individual making the choice.
+    pub subject_species: Option<Species>,
+    /// Species of the currently perceived threat.
+    pub threat_species: Option<Species>,
+    /// Observable, coarse context. These remain exact-match fields for now.
+    pub bearing_sector: Option<u8>,
+    pub distance_band: Option<u8>,
+    pub energy_band: Option<u8>,
+    pub stamina_band: Option<u8>,
+    pub habitat_class: Option<u8>,
+    /// Current speed, derived from the individual's own observable state.
+    pub subject_speed: Option<u16>,
 }
 
-/// Current perceived route properties. `terrain` contains only observed cells
-/// along this route; endpoint coordinates and the alternative set are omitted.
+/// One visible step along a candidate route. Direction is relative to the
+/// subject and terrain is the locally observed cell classification.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
+pub struct ObservedStep {
+    pub direction_sector: u8,
+    pub terrain_class: u8,
+}
+
+/// Stable identity for one currently visible route, based on its observable
+/// path. Distinct routes stay distinct even when their scalar lengths match.
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
+pub struct RouteIdentity {
+    pub endpoint_sector: u8,
+    pub steps: Vec<ObservedStep>,
+}
+
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
 pub struct Route {
+    pub identity: RouteIdentity,
     pub refuge_kind: u8,
-    pub length: u16,
     pub turns: u8,
-    pub approach_sector: u8,
-    pub terrain: Vec<u8>,
+    /// Current estimated movement energy for this visible path. Actual energy
+    /// paid remains a separate resolver outcome.
+    pub estimated_movement_energy: Option<u64>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
@@ -44,44 +59,40 @@ pub struct CandidateKey {
     pub route: Route,
 }
 
-/// A review-selected gate. The prototype has no implicit compatibility policy.
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
-pub struct CompatibilityGate {
-    /// Maximum number of allowed differences among bearing, distance, energy,
-    /// and stamina bands. Species and habitat always require an exact match.
-    pub max_situation_band_differences: u8,
-    /// Maximum absolute route length difference.
-    pub max_route_length_difference: u16,
-    /// Maximum absolute turn-count difference.
-    pub max_turn_difference: u8,
-}
-
-pub fn compatible(query: &CandidateKey, observed: &CandidateKey, gate: CompatibilityGate) -> bool {
+/// The initial policy is exact over this selected feature representation.
+/// Coarse bands may alias different raw observations; that is an unvalidated
+/// model risk. There are no caller-set radii or implicit thresholds.
+pub fn compatible(query: &CandidateKey, observed: &CandidateKey) -> bool {
     let q = &query.situation;
     let o = &observed.situation;
-    if q.threat != o.threat || q.habitat_class != o.habitat_class {
-        return false;
-    }
-    let band_differences = [
-        q.bearing_sector.abs_diff(o.bearing_sector),
-        q.distance_band.abs_diff(o.distance_band),
-        q.energy_band.abs_diff(o.energy_band),
-        q.stamina_band.abs_diff(o.stamina_band),
-    ]
-    .into_iter()
-    .filter(|difference| *difference != 0)
-    .count() as u8;
-    if band_differences > gate.max_situation_band_differences {
-        return false;
-    }
-
-    let qr = &query.route;
-    let or = &observed.route;
-    qr.refuge_kind == or.refuge_kind
-        && qr.approach_sector == or.approach_sector
-        && qr.terrain == or.terrain
-        && qr.length.abs_diff(or.length) <= gate.max_route_length_difference
-        && qr.turns.abs_diff(or.turns) <= gate.max_turn_difference
+    let fields_known = q.subject_species.is_some()
+        && q.threat_species.is_some()
+        && q.bearing_sector.is_some()
+        && q.distance_band.is_some()
+        && q.energy_band.is_some()
+        && q.stamina_band.is_some()
+        && q.habitat_class.is_some()
+        && q.subject_speed.is_some()
+        && query.route.estimated_movement_energy.is_some()
+        && o.subject_species.is_some()
+        && o.threat_species.is_some()
+        && o.bearing_sector.is_some()
+        && o.distance_band.is_some()
+        && o.energy_band.is_some()
+        && o.stamina_band.is_some()
+        && o.habitat_class.is_some()
+        && o.subject_speed.is_some()
+        && observed.route.estimated_movement_energy.is_some();
+    fields_known
+        && q.subject_species == o.subject_species
+        && q.threat_species == o.threat_species
+        && q.bearing_sector == o.bearing_sector
+        && q.distance_band == o.distance_band
+        && q.energy_band == o.energy_band
+        && q.stamina_band == o.stamina_band
+        && q.habitat_class == o.habitat_class
+        && q.subject_speed == o.subject_speed
+        && query.route == observed.route
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -127,8 +138,6 @@ impl Outcome {
         else {
             return false;
         };
-        // Keep every field on a common denominator. If any aggregate cannot
-        // accept this episode, freeze the entire row unchanged.
         let Some(completed) = self.completed.checked_add(1) else {
             return false;
         };
@@ -153,8 +162,8 @@ impl Outcome {
     }
 }
 
-/// Store only completed, attributed arrivals. Censored episodes remain in the
-/// caller's audit ledger and never become zero-risk observations.
+/// Store only completed attributed arrivals. Censored evidence stays in the
+/// caller's audit ledger and never becomes a zero-risk observation.
 pub fn record_outcome(
     records: &mut Vec<Outcome>,
     key: CandidateKey,
@@ -169,45 +178,30 @@ pub fn record_outcome(
         records.clear();
         return false;
     }
-    let index = records.iter().position(|row| row.key == key);
-    if let Some(index) = index {
+    if let Some(index) = records.iter().position(|row| row.key == key) {
         let updated = records[index].record(evidence, tick);
-        // Reduce an oversized table by last-completion time and stable key;
-        // the updated row may still be evicted if its recorded time is oldest.
         while records.len() > capacity {
-            let oldest = oldest_record_index(records);
-            records.remove(oldest);
+            records.remove(oldest_record_index(records));
         }
         return updated;
     }
-
-    // For a new key, make room before insertion. Oldest completion is evicted
-    // first, with stable key order as a deterministic tie-break.
     while records.len() >= capacity {
-        let oldest = oldest_record_index(records);
-        records.remove(oldest);
+        records.remove(oldest_record_index(records));
     }
+    let EpisodeEvidence::Completed {
+        threat_damage,
+        movement_energy,
+    } = evidence
+    else {
+        unreachable!("censored evidence returned above")
+    };
     records.push(Outcome {
         key,
         last_completed_tick: tick,
         completed: 1,
-        safe_arrivals: u32::from(matches!(
-            evidence,
-            EpisodeEvidence::Completed {
-                threat_damage: 0,
-                ..
-            }
-        )),
-        threat_damage: match evidence {
-            EpisodeEvidence::Completed { threat_damage, .. } => threat_damage,
-            EpisodeEvidence::Censored(_) => unreachable!("censored evidence returned above"),
-        },
-        movement_energy: match evidence {
-            EpisodeEvidence::Completed {
-                movement_energy, ..
-            } => movement_energy,
-            EpisodeEvidence::Censored(_) => unreachable!("censored evidence returned above"),
-        },
+        safe_arrivals: u32::from(threat_damage == 0),
+        threat_damage,
+        movement_energy,
     });
     true
 }
@@ -223,14 +217,11 @@ fn oldest_record_index(records: &[Outcome]) -> usize {
         .expect("oldest record requested only for a nonempty table")
 }
 
-/// Rank current candidates only when every candidate has compatible evidence
-/// meeting the caller's support gate. `None` means use the existing fallback.
-/// Returned indices are into `candidates`, best first, with input order as the
-/// final deterministic tie-break.
+/// Rank only when every current route has unique supported evidence. `None`
+/// means preserve the existing fallback ordering for the whole choice.
 pub fn rank_candidates(
     candidates: &[CandidateKey],
     records: &[Outcome],
-    gate: CompatibilityGate,
     minimum_completed: u32,
 ) -> Option<Vec<usize>> {
     if candidates.is_empty() || minimum_completed == 0 {
@@ -240,16 +231,10 @@ pub fn rank_candidates(
     let mut used_records = std::collections::BTreeSet::new();
     for (candidate_index, candidate) in candidates.iter().enumerate() {
         let mut matching = records.iter().enumerate().filter(|(_, row)| {
-            row.completed >= minimum_completed && compatible(candidate, &row.key, gate)
+            row.completed >= minimum_completed && compatible(candidate, &row.key)
         });
         let (record_index, first) = matching.next()?;
-        // Multiple compatible rows would make evidence aggregation ambiguous;
-        // fail closed until a reviewed aggregation rule exists.
-        if matching.next().is_some() {
-            return None;
-        }
-        // One stored route may not stand in for two currently distinct options.
-        if !used_records.insert(record_index) {
+        if matching.next().is_some() || !used_records.insert(record_index) {
             return None;
         }
         ranked.push((candidate_index, first));
@@ -258,17 +243,15 @@ pub fn rank_candidates(
     Some(ranked.into_iter().map(|(index, _)| index).collect())
 }
 
-fn compare_outcomes(a: &Outcome, b: &Outcome) -> Ordering {
-    // Higher safe-arrival rate, then lower mean threat damage, then lower mean
-    // movement energy. Cross multiplication keeps ordering deterministic.
-    let safety = (b.safe_arrivals as u128 * a.completed as u128)
+fn compare_outcomes(a: &Outcome, b: &Outcome) -> std::cmp::Ordering {
+    let safe_rate = (b.safe_arrivals as u128 * a.completed as u128)
         .cmp(&(a.safe_arrivals as u128 * b.completed as u128));
-    if safety != Ordering::Equal {
-        return safety;
+    if safe_rate != std::cmp::Ordering::Equal {
+        return safe_rate;
     }
     let damage = (a.threat_damage as u128 * b.completed as u128)
         .cmp(&(b.threat_damage as u128 * a.completed as u128));
-    if damage != Ordering::Equal {
+    if damage != std::cmp::Ordering::Equal {
         return damage;
     }
     (a.movement_energy as u128 * b.completed as u128)
