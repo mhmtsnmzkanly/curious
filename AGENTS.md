@@ -34,6 +34,14 @@ protokolü/commitleri/deneyi denetler, Luna6 kaynak kodu ve ölçüm araçların
 hazırlar. Completion timer kurulu olsa da sonraki faz lab adları ayrıca
 uyumlandırılmadan timer kapsamına girmez.
 
+Risk V3 bounded lab tamamlandı; ölçüm riski azaltma iddiasını desteklemediği
+için canlı ayarda varsayılan kapalı kalır. Gerçek completion timer poll'u
+terminal manifesti algılayıp bir kez `codex queue` ile iletti; queue ID ve
+kanıt `docs/ECOSYSTEM_LEARNING_PLAN.md` içinde kayıtlıdır. Faz 2/3 yalnız
+protokol taslağındadır; root review/commit öncesi kaynak kodu veya deney yok.
+Yeni sınırlı lab adlarını destekleyen v2 helper testlidir ancak henüz ops
+tarafından kurulmadı; dış config ve frozen helper değişikliğini root denetler.
+
 ## Rezerv adayının uzun kabul kampanyası — 18 Ekim
 
 32ddfb2 hedefli şok2/2, normal8/8, şok8/8 geçti; önceki unit bitti.
