@@ -1,5 +1,19 @@
 # Curious üzerinde çalışma
 
+## 23 Ekim 2026 — paralel ekosistem capability planı (taslak)
+
+Kökün isteğiyle A/B/C ilk dalga tasarım çalışması ayrı worktree'lerde ilerliyor.
+Bu worktree yalnızca [PARALLEL_CAPABILITY_PLAN.md](docs/PARALLEL_CAPABILITY_PLAN.md),
+[PARALLEL_ECOLOGY_DESIGN.md](docs/PARALLEL_ECOLOGY_DESIGN.md) ve tek-dünya
+ölçüm taslağı `examples/ecology_candidate.rs` sahibidir. Plan A–F capability
+izlerini ve daha sonraki bounded throughput/storage G izini tanımlar. A/B
+ajanları kendi worktree'lerinde; C ölçüm prototipi yalnızca derlendi, runtime
+ve biyolojik doğrulama yapılmadı. Henüz formal preregistrasyon/seed audit veya
+world batch yoktur. Root dokümanları ve prototipi inceleyip source entegrasyonu
+ve deney protokolünü sıralar; ortak checkpoint sürümü root'un seri incelemesiyle
+değişebilir. Aylar/yıllar reliability soak'u hariçtir; sabit kısa ölçek ve
+storage ölçümleri kapsam içindedir.
+
 ## 23 Ekim 2026 — yeni sürekli-yaşam su öğrenmesi devri
 
 Kullanıcı, bireyin gerçek yaşam geçmişinin karar ve fiziksel sonuca etki

@@ -18,6 +18,17 @@ gelmez. Hızlandırılmış tick gerçek gün/hafta gözleminin yerine geçmez.
 
 ## Süren işler
 
+### 23 Ekim — paralel capability planı
+
+Altı yeni capability izi A–F ile ayrı, bounded performans/storage izi G'nin
+kapsamı ve kanıt kapıları [PARALLEL_CAPABILITY_PLAN.md](PARALLEL_CAPABILITY_PLAN.md)
+içinde. A/B/C ilk dalga taslakları sürüyor; C fixture/soy/bedel tasarımı
+[PARALLEL_ECOLOGY_DESIGN.md](PARALLEL_ECOLOGY_DESIGN.md) ve derlenen fakat
+runtime doğrulaması yapılmayan tek-dünya tanı örneğini içerir. Henüz formal
+protokol, yeni seed veya batch yok; root incelemesi ve preregistrasyon gerekir.
+Kısa sabit ölçek/throughput testleri kapsam içindedir; aylar/yıllar reliability
+soak'u hariçtir. Bu henüz kabul edilmiş özellik veya biyolojik sonuç değildir.
+
 - Asıl açık biyolojik konu: avcı nesillerinin kalıcı olması. Sığınaklı seed
   12345'te 20. nesle ulaştı, 907'den sonra avcı kalmadı. Başarı diye etiketlenmez.
   Sıradaki teşhis bu soyda çift bulma, rezerv ve ölüm zamanlarını ayırmak.

@@ -3,6 +3,18 @@
 Hedef [VISION](docs/VISION.md), kullanıcı sırası ve dürüst durum
 [ROADMAP](docs/ROADMAP.md), ölçümler [sonuç raporu](docs/reports/ROADMAP_RESULTS.md).
 
+## 23 Ekim — paralel ekosistem planı (root incelemesinde)
+
+A/B/C ilk dalga taslakları ve bütün devam eden capability izleri
+[PARALLEL_CAPABILITY_PLAN](docs/PARALLEL_CAPABILITY_PLAN.md) içinde; C'nin
+fixture/soy/metabolik ölçüm tasarımı
+[PARALLEL_ECOLOGY_DESIGN](docs/PARALLEL_ECOLOGY_DESIGN.md) içindedir. Mevcut C
+örneği tek dünya tanı aracı taslağıdır; yalnız compile edildi, runtime
+doğrulaması veya batch yapılmadı. Formal protokol, seed listesi, batch veya
+entegrasyon root incelemesi/preregistrasyonu bekler. Bounded performans/storage
+karşılaştırması kapsam içindedir; months/years reliability soak'u kapsam
+dışıdır.
+
 - [ ] Kaynak şokundan toparlanmayı çöz: V9 sabit kurallı uzun doğrulama 30/30
   geçti; kaynak şoku 4/8 ile araştırmayı durdurdu. Teşhis ve sonraki sınırlı
   deney [RESOURCE_SHOCK_ANALYSIS](docs/reports/RESOURCE_SHOCK_ANALYSIS.md).
