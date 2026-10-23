@@ -14,13 +14,18 @@ seçim yapar; mevcut tarihsel sonuçta yeterli tekrar/yenilenme kontrastı yoktu
 Bu bir motor hata bulgusu değildir.
 
 Yeni dar protokol [LIFELONG_WATER_PROTOCOL.md](docs/LIFELONG_WATER_PROTOCOL.md); kök preregistrasyonu
-`02b3d89` ile sabitledi. Raw-schema eki/son fiziki sonuç sözlüğü sonraki kaynak
-commitinde aynı protokole pinlenecek. Yalnız `examples/lifelong_water_lab.rs`
-deney kodu ve izole testler yazılıyor; Rust çekirdeği/politika/öğrenici
-değiştirilmedi. Yedi Rust örnek testi yalnız seed 123 gibi kayıt dışı geliştirme
-fixture'larıyla geçti. Hiçbir 510xx kalibrasyon/formal dünya koşusu başlatılmadı.
-Kalibrasyon uygunluk kapısı başarısızsa formal çalıştırma durur; fixture veya
-protokol sonuçtan sonra ayarlanmaz.
+`02b3d89` ile sabitledi. Probe ve ham şema `8f58d14` ile sabitlendi; Rust
+çekirdeği/politika/öğrenici değiştirilmedi. Yedi Rust örnek testi yalnız kayıt
+dışı seed 123 fixture'ıyla geçti. Kalibrasyon seed 51099 için 1.400 fiziksel
+tick yakalandı; ilk Python doğrulaması başlangıç RNG'sinin doğrudan seed'e eşit
+olmasını yanlış biçimde şart koştuğu için başarısız oldu. Dünya kurucusu seeded
+RNG ile kaynak yerleşimini çalıştırıp ardından haritayı fixture ile değiştirir;
+beklenen başlangıç RNG'si bu deterministik çağrı dizisiyle hesaplanmalıdır.
+Orijinal raw ve başarısız manifest değişmeden korunur; sıfır-tick validator
+reanalysis'i [`LIFELONG_WATER_REANALYSIS.md`](docs/LIFELONG_WATER_REANALYSIS.md)
+içindedir. 51099 yalnız kalibrasyonda kullanıldı; formal 51001–51008 koşuları
+başlamadı ve kalibrasyon kapısı yeniden doğrulanana kadar başlamaz. Gate,
+biyoloji, fixture ve bütçe değiştirilmez.
 
 Kök dış runtime'a iki 60 saniyelik completion timer kurdu:
 `curious-lifetime-learning-calibration-completion` ve

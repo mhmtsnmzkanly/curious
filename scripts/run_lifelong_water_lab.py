@@ -26,6 +26,7 @@ from typing import Any
 ROOT = Path(__file__).resolve().parents[1]
 CANONICAL_ARCHIVE = Path("/root/curious/data/experiments")
 PROTOCOL = Path("docs/LIFELONG_WATER_PROTOCOL.md")
+REANALYSIS_PROTOCOL = Path("docs/LIFELONG_WATER_REANALYSIS.md")
 SCANNER = Path("scripts/run_ecology_traits_lab.py")
 RUNS = {
     "calibration": (51099,),
@@ -35,6 +36,7 @@ OUTPUT_DIRS = {
     "calibration": "lifetime-lab-v2-calibration-20261023",
     "formal": "lifetime-lab-v2-20261023",
 }
+CALIBRATION_REANALYSIS_DIR = "lifetime-lab-v2-calibration-reanalysis-20261023"
 SEED_SCHEMA = "curious-lifetime-seed-v2"
 SUMMARY_SCHEMA = "curious-lifetime-summary-v2"
 MANIFEST_SCHEMA = "curious-lifetime-lab-run-v2"
@@ -102,6 +104,10 @@ def source_hashes(source_root: Path) -> dict[str, str]:
         str(path.relative_to(source_root)): sha256_file(path)
         for path in source_paths(source_root)
     }
+
+
+def source_map_sha256(hashes: dict[str, str]) -> str:
+    return hashlib.sha256(json.dumps(hashes, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
 
 
 def source_identity(source_root: Path) -> tuple[str, dict[str, str]]:
@@ -352,11 +358,29 @@ def reverse_rates(state: dict[str, Any]) -> dict[str, Any]:
     return reversed_state
 
 
+def expected_initial_rng(seed: int) -> int:
+    """Match the RNG calls made while populating the registered 5x5 map.
+
+    World::with_seed populates its empty map before the lab example replaces
+    the map contents. The population pass makes one draw per cell and two
+    extra draws when the 5% spawn roll succeeds.
+    """
+    state = seed
+    mask = (1 << 64) - 1
+    for _ in range(25):
+        roll = state % 100  # Random::next_u64 returns the previous state.
+        state = (state * 6364136223846793005 + 1) & mask
+        if roll < 5:
+            state = (state * 6364136223846793005 + 1) & mask
+            state = (state * 6364136223846793005 + 1) & mask
+    return state
+
+
 def validate_initial_fixture(initial: dict[str, Any], seed: int, label: str) -> None:
     if initial.get("tick") != 0:
         raise ValueError(f"{label}: initial State tick is not zero")
-    if initial.get("rng") != seed:
-        raise ValueError(f"{label}: initial RNG must equal the registered seed")
+    if initial.get("rng") != expected_initial_rng(seed):
+        raise ValueError(f"{label}: initial RNG does not match seeded map-population draws")
     if initial.get("bounds") != [0, 4, 0, 4]:
         raise ValueError(f"{label}: initial world bounds differ from the registered fixture")
     entities = {entity["id"]: entity for entity in state_entities(initial)}
@@ -1144,17 +1168,65 @@ def parse_raw(raw_path: Path, phase: str, seeds: tuple[int, ...],
     return results
 
 
-def validate_calibration_parent(archive_root: Path, current: dict[str, Any]) -> dict[str, Any]:
+def require_passing_reanalysis_gate(reanalysis: dict[str, Any], gate: dict[str, Any]) -> None:
+    if not gate.get("passed") or gate != reanalysis.get("calibration_validity"):
+        raise RuntimeError("corrected calibration gate does not reproduce from captured raw")
+    validation = reanalysis.get("validation_result")
+    if not isinstance(validation, dict) or validation.get("passed") is not True:
+        raise RuntimeError("corrected calibration reanalysis validation did not pass")
+    if validation.get("errors") != []:
+        raise RuntimeError("corrected calibration reanalysis records validation errors")
+
+
+def validate_calibration_parent(archive_root: Path, current: dict[str, Any],
+                                source_root: Path = ROOT) -> dict[str, Any]:
     calibration = archive_root / OUTPUT_DIRS["calibration"]
-    manifest_path, summary_path = calibration / "manifest.json", calibration / "summary.json"
-    if not manifest_path.is_file() or not summary_path.is_file():
-        raise RuntimeError("formal phase requires a completed canonical calibration run")
+    manifest_path = calibration / "manifest.json"
+    if not manifest_path.is_file():
+        raise RuntimeError("formal phase requires a canonical calibration run")
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    if manifest.get("schema") != MANIFEST_SCHEMA or manifest.get("protocol_version") != PROTOCOL_VERSION:
+        raise RuntimeError("calibration manifest schema mismatch")
+    raw_path = calibration / "raw.jsonl"
+    if not raw_path.is_file() or manifest.get("raw_sha256") != sha256_file(raw_path):
+        raise RuntimeError("calibration raw hash mismatch")
+
+    # A failed capture may be re-analyzed after a validator bug is fixed, but
+    # the original capture and probe remain immutable. This path accepts only
+    # a root-reviewed candidate whose hashes match the original manifest and
+    # whose gate is independently reproduced from the captured raw trace.
+    if manifest.get("status") == "failed":
+        reanalysis_dir = archive_root / CALIBRATION_REANALYSIS_DIR
+        reanalysis_path = reanalysis_dir / "reanalysis.json"
+        if not reanalysis_path.is_file():
+            raise RuntimeError("failed calibration requires the canonical corrected reanalysis")
+        reanalysis = json.loads(reanalysis_path.read_text(encoding="utf-8"))
+        if manifest.get("role") != "calibration":
+            raise RuntimeError("failed calibration manifest role mismatch")
+        reanalysis_identity = validate_calibration_reanalysis(
+            archive_root, current, manifest, manifest_path, raw_path, reanalysis, source_root,
+        )
+        recalculated = parse_raw(raw_path, "calibration", RUNS["calibration"])
+        gate = calibration_gate(recalculated[0])
+        require_passing_reanalysis_gate(reanalysis, gate)
+        summary_path = reanalysis_dir / "summary.json"
+        report_path = reanalysis_dir / "report.md"
+        if (not summary_path.is_file() or not report_path.is_file()
+                or reanalysis.get("summary_sha256") != sha256_file(summary_path)
+                or reanalysis.get("report_sha256") != sha256_file(report_path)):
+            raise RuntimeError("corrected calibration summary/report hash mismatch")
+        summary = json.loads(summary_path.read_text(encoding="utf-8"))
+        if (summary.get("schema") != SUMMARY_SCHEMA or summary.get("role") != "calibration"
+                or summary.get("calibration_validity") != gate or summary.get("status") != "completed"):
+            raise RuntimeError("corrected calibration summary does not reproduce the passing gate")
+        return {**reanalysis_identity, "calibration_validity": gate}
+
+    summary_path = calibration / "summary.json"
+    if not summary_path.is_file():
+        raise RuntimeError("formal phase requires a completed canonical calibration summary")
     summary = json.loads(summary_path.read_text(encoding="utf-8"))
     if manifest.get("status") != "completed" or manifest.get("role") != "calibration":
         raise RuntimeError("formal phase requires calibration manifest status=completed")
-    if manifest.get("schema") != MANIFEST_SCHEMA or manifest.get("protocol_version") != PROTOCOL_VERSION:
-        raise RuntimeError("calibration manifest schema mismatch")
     if (manifest.get("analysis_status") != "completed"
             or not manifest.get("calibration_validity", {}).get("passed")):
         raise RuntimeError("calibration manifest does not record a completed passing fixture gate")
@@ -1169,9 +1241,6 @@ def validate_calibration_parent(archive_root: Path, current: dict[str, Any]) -> 
     for field in ("source_sha256", "source_files_sha256", "binary_sha256", "protocol_sha256", "runner_sha256"):
         if manifest.get(field) != current.get(field):
             raise RuntimeError(f"formal candidate differs from calibration in {field}")
-    raw_path = calibration / "raw.jsonl"
-    if manifest.get("raw_sha256") != sha256_file(raw_path):
-        raise RuntimeError("calibration raw hash mismatch")
     recalculated = parse_raw(raw_path, "calibration", RUNS["calibration"])
     gate = calibration_gate(recalculated[0])
     if not gate["passed"] or gate != summary.get("calibration_validity"):
@@ -1185,6 +1254,216 @@ def validate_calibration_parent(archive_root: Path, current: dict[str, Any]) -> 
             "source_sha256": manifest["source_sha256"],
             "source_files_sha256": manifest["source_files_sha256"],
             "runner_sha256": manifest["runner_sha256"]}
+
+
+def biological_source_hashes(files: Any) -> dict[str, str]:
+    if not isinstance(files, dict):
+        raise RuntimeError("calibration source hash map is malformed")
+    selected = {
+        path: digest for path, digest in files.items()
+        if path in ("Cargo.toml", "Cargo.lock") or
+        (path.endswith(".rs") and (path.startswith("src/") or path.startswith("examples/")))
+    }
+    if "Cargo.toml" not in selected or "Cargo.lock" not in selected or not any(
+        path.startswith("src/") for path in selected
+    ) or not any(path.startswith("examples/") for path in selected):
+        raise RuntimeError("calibration biological source hash map is incomplete")
+    return selected
+
+
+def validate_calibration_reanalysis(archive_root: Path, current: dict[str, Any],
+                                    original: dict[str, Any], manifest_path: Path,
+                                    raw_path: Path, reanalysis: dict[str, Any],
+                                    source_root: Path = ROOT) -> dict[str, Any]:
+    if reanalysis.get("schema") != "curious-lifetime-lab-reanalysis-v2":
+        raise RuntimeError("calibration reanalysis schema mismatch")
+    if (reanalysis.get("status") != "completed" or reanalysis.get("role") != "calibration"
+            or reanalysis.get("seeds") != list(RUNS["calibration"])
+            or reanalysis.get("ticks_replayed") != 0
+            or reanalysis.get("zero_new_ticks") is not True
+            or reanalysis.get("probe_launched") is not False):
+        raise RuntimeError("calibration reanalysis is incomplete or has an unexpected run scope")
+    if reanalysis.get("revision") != current.get("revision"):
+        raise RuntimeError("calibration reanalysis revision differs from formal candidate")
+    if (reanalysis.get("current_source_sha256") != current.get("source_sha256")
+            or reanalysis.get("current_source_files_sha256") != current.get("source_files_sha256")):
+        raise RuntimeError("calibration reanalysis source identity differs from formal candidate")
+    if reanalysis.get("original_run_dir") != OUTPUT_DIRS["calibration"]:
+        raise RuntimeError("calibration reanalysis names a different original run")
+    if (original.get("exit_code") != 0 or original.get("timed_out") is True
+            or original.get("output_limit_exceeded") is True
+            or original.get("raw_bytes") != raw_path.stat().st_size):
+        raise RuntimeError("original calibration probe did not complete a bounded successful capture")
+    original_dir = archive_root / OUTPUT_DIRS["calibration"]
+    probe_path = original_dir / "lab-probe"
+    protocol_path = original_dir / "protocol.md"
+    if not probe_path.is_file() or sha256_file(probe_path) != original.get("binary_sha256"):
+        raise RuntimeError("original calibration probe artifact hash mismatch")
+    if not protocol_path.is_file() or sha256_file(protocol_path) != original.get("protocol_sha256"):
+        raise RuntimeError("original calibration protocol artifact hash mismatch")
+    expected = {
+        "original_manifest_sha256": sha256_file(manifest_path),
+        "original_raw_sha256": sha256_file(raw_path),
+        "original_probe_sha256": original.get("binary_sha256"),
+        "protocol_sha256": original.get("protocol_sha256"),
+        "original_source_sha256": original.get("source_sha256"),
+        "original_source_files_sha256": original.get("source_files_sha256"),
+        "original_runner_sha256": original.get("runner_sha256"),
+    }
+    if original.get("raw_sha256") != expected["original_raw_sha256"]:
+        raise RuntimeError("original calibration raw artifact hash mismatch")
+    for key, value in expected.items():
+        if reanalysis.get(key) != value:
+            raise RuntimeError(f"calibration reanalysis provenance mismatch: {key}")
+    if (reanalysis.get("original_summary_present") is not False
+            or reanalysis.get("original_summary_sha256") is not None):
+        raise RuntimeError("calibration reanalysis misstates the absent original summary")
+    for key, value in (("binary_sha256", original.get("binary_sha256")),
+                       ("protocol_sha256", original.get("protocol_sha256"))):
+        if current.get(key) != value:
+            raise RuntimeError(f"formal candidate differs from original calibration in {key}")
+    original_biology = biological_source_hashes(original.get("source_files_sha256"))
+    current_biology = biological_source_hashes(current.get("source_files_sha256"))
+    if original_biology != current_biology:
+        raise RuntimeError("formal candidate biological source differs from original calibration")
+    if reanalysis.get("validator_sha256") != current.get("runner_sha256"):
+        raise RuntimeError("calibration reanalysis validator differs from formal candidate")
+    reanalysis_protocol_path = source_root / REANALYSIS_PROTOCOL
+    if (not reanalysis_protocol_path.is_file()
+            or reanalysis.get("reanalysis_protocol_sha256") != sha256_file(reanalysis_protocol_path)):
+        raise RuntimeError("calibration reanalysis protocol hash mismatch")
+    copied_protocol = archive_root / CALIBRATION_REANALYSIS_DIR / "protocol.md"
+    if not copied_protocol.is_file() or sha256_file(copied_protocol) != sha256_file(reanalysis_protocol_path):
+        raise RuntimeError("calibration reanalysis protocol copy is missing or changed")
+    expected_rng = {str(seed): expected_initial_rng(seed) for seed in RUNS["calibration"]}
+    if reanalysis.get("expected_initial_rng_by_seed") != expected_rng:
+        raise RuntimeError("calibration reanalysis expected RNG values mismatch")
+    return {"manifest_sha256": sha256_file(manifest_path),
+            "reanalysis_sha256": sha256_file(archive_root / CALIBRATION_REANALYSIS_DIR / "reanalysis.json"),
+            "revision": original["revision"],
+            "summary_sha256": reanalysis.get("summary_sha256"),
+            "report_sha256": reanalysis.get("report_sha256"),
+            "raw_sha256": expected["original_raw_sha256"],
+            "probe_sha256": expected["original_probe_sha256"],
+            "protocol_sha256": expected["protocol_sha256"],
+            "source_sha256": expected["original_source_sha256"],
+            "source_files_sha256": expected["original_source_files_sha256"],
+            "runner_sha256": current["runner_sha256"]}
+
+
+def execute_calibration_reanalysis(archive_root: Path, source_root: Path = ROOT) -> dict[str, Any]:
+    """Revalidate the immutable failed capture without launching a probe."""
+    archive_root = archive_root.resolve()
+    source_root = source_root.resolve()
+    output = archive_root / CALIBRATION_REANALYSIS_DIR
+    require_new_output(output)
+    original_dir = archive_root / OUTPUT_DIRS["calibration"]
+    manifest_path, raw_path = original_dir / "manifest.json", original_dir / "raw.jsonl"
+    probe_path = original_dir / "lab-probe"
+    if not all(path.is_file() for path in (manifest_path, raw_path, probe_path)):
+        raise RuntimeError("immutable failed calibration is missing its manifest, raw, or probe")
+    original = json.loads(manifest_path.read_text(encoding="utf-8"))
+    if original.get("schema") != MANIFEST_SCHEMA or original.get("role") != "calibration":
+        raise RuntimeError("original calibration manifest schema/role mismatch")
+    if original.get("status") != "failed":
+        raise RuntimeError("reanalysis is only registered for the immutable failed capture")
+    if (original.get("exit_code") != 0 or original.get("timed_out") is True
+            or original.get("output_limit_exceeded") is True):
+        raise RuntimeError("reanalysis cannot rescue an unsuccessful or incomplete probe capture")
+    original_manifest_sha = sha256_file(manifest_path)
+    original_raw_sha = sha256_file(raw_path)
+    if original.get("raw_sha256") != original_raw_sha:
+        raise RuntimeError("original calibration raw hash mismatch")
+    original_probe_sha = sha256_file(probe_path)
+    if original.get("binary_sha256") != original_probe_sha:
+        raise RuntimeError("original calibration probe hash mismatch")
+    revision, hashes = source_identity(source_root)
+    protocol_path = source_root / PROTOCOL
+    protocol_sha = sha256_file(protocol_path)
+    if original.get("protocol_sha256") != protocol_sha:
+        raise RuntimeError("candidate frozen protocol differs from original calibration")
+    if sha256_file(original_dir / "protocol.md") != original.get("protocol_sha256"):
+        raise RuntimeError("original calibration protocol artifact hash mismatch")
+    original_bio = biological_source_hashes(original.get("source_files_sha256"))
+    candidate_bio = biological_source_hashes(hashes)
+    if original_bio != candidate_bio:
+        raise RuntimeError("candidate biological source differs from original calibration")
+    current_runner_sha = sha256_file(Path(__file__).resolve())
+    if current_runner_sha != hashes.get(str(Path(__file__).resolve().relative_to(source_root))):
+        raise RuntimeError("reanalysis runner differs from its clean source identity")
+    if original.get("summary_sha256") is not None or (original_dir / "summary.json").exists():
+        raise RuntimeError("expected the original failed capture to have no summary")
+
+    errors: list[str] = []
+    gate: dict[str, Any] | None = None
+    physical_ticks = 0
+    records: list[dict[str, Any]] = []
+    try:
+        records = parse_raw(raw_path, "calibration", RUNS["calibration"])
+        physical_ticks = sum(record["physical_ticks"] for record in records)
+        gate = calibration_gate(records[0])
+        if not gate.get("passed"):
+            errors.append("calibration fixture validity gate did not pass")
+    except Exception as error:
+        errors.append(f"{type(error).__name__}: {error}")
+    analysis_protocol = source_root / REANALYSIS_PROTOCOL
+    if not analysis_protocol.is_file():
+        raise RuntimeError("registered calibration reanalysis protocol is missing")
+    protocol_reanalysis_sha = sha256_file(analysis_protocol)
+    result = {
+        "schema": "curious-lifetime-lab-reanalysis-v2",
+        "status": "completed" if gate is not None else "failed",
+        "original_run_dir": OUTPUT_DIRS["calibration"],
+        "original_manifest_sha256": original_manifest_sha,
+        "original_raw_sha256": original_raw_sha,
+        "original_probe_sha256": original_probe_sha,
+        "protocol_sha256": protocol_sha,
+        "original_source_sha256": original.get("source_sha256"),
+        "original_source_files_sha256": original.get("source_files_sha256"),
+        "original_runner_sha256": original.get("runner_sha256"),
+        "original_summary_present": False,
+        "original_summary_sha256": None,
+        "revision": revision,
+        "current_source_sha256": source_map_sha256(hashes),
+        "current_source_files_sha256": hashes,
+        "role": "calibration",
+        "seeds": list(RUNS["calibration"]),
+        "ticks_replayed": 0,
+        "zero_new_ticks": True,
+        "probe_launched": False,
+        "physical_ticks_validated": physical_ticks,
+        "expected_initial_rng_by_seed": {
+            str(seed): expected_initial_rng(seed) for seed in RUNS["calibration"]
+        },
+        "validator_sha256": current_runner_sha,
+        "reanalysis_protocol_sha256": protocol_reanalysis_sha,
+        "calibration_validity": gate,
+        "validation_result": {
+            "passed": gate is not None and gate.get("passed") is True and not errors,
+            "errors": errors,
+            "checks": {"raw_sha256_verified": True,
+                       "probe_sha256_verified": True,
+                       "frozen_protocol_sha256_verified": True,
+                       "biological_source_hashes_verified": True,
+                       "physical_ticks": physical_ticks},
+        },
+        "created_at": now(),
+    }
+    output.mkdir(parents=True, exist_ok=False)
+    shutil.copyfile(analysis_protocol, output / "protocol.md")
+    if records:
+        seed_audit = original.get("seed_audit", {"seeds": list(RUNS["calibration"])})
+        probe_run = {key: original[key] for key in (
+            "exit_code", "elapsed_seconds", "raw_bytes", "stderr_bytes", "status",
+            "timed_out", "output_limit_exceeded", "max_output_bytes",
+            "max_seed_record_bytes", "max_child_memory_bytes", "timeout_seconds",
+        ) if key in original}
+        probe_run["status"] = "completed"
+        summary = write_summary_and_report(output, "calibration", records, seed_audit, probe_run)
+        result["summary_sha256"] = summary["summary_sha256"]
+        result["report_sha256"] = summary["report_sha256"]
+    atomic_json(output / "reanalysis.json", result)
+    return result
 
 
 def write_summary_and_report(outdir: Path, phase: str, records: list[dict[str, Any]],
@@ -1225,7 +1504,7 @@ def execute_phase(phase: str, binary: Path, archive_root: Path,
     require_new_output(outdir)
     binary = binary.resolve(strict=True)
     revision, hashes = source_identity(source_root)
-    source_sha = hashlib.sha256(json.dumps(hashes, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
+    source_sha = source_map_sha256(hashes)
     protocol_path = source_root / PROTOCOL
     seed_audit = scan_seeds(archive_root, seeds)
     if seed_audit["unseen"] != list(seeds):
@@ -1249,7 +1528,7 @@ def execute_phase(phase: str, binary: Path, archive_root: Path,
         "summary_file": "summary.json", "report_file": "report.md",
     }
     if phase == "formal":
-        manifest["calibration_identity"] = validate_calibration_parent(archive_root, manifest)
+        manifest["calibration_identity"] = validate_calibration_parent(archive_root, manifest, source_root)
     outdir.mkdir(parents=True, exist_ok=False)
     manifest_path = outdir / "manifest.json"
     atomic_json(manifest_path, manifest)

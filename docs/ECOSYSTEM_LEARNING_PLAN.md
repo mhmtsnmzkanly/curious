@@ -41,9 +41,19 @@ The follow-up aims only to demonstrate a causally attributable decision and a
 physical water/energy/survival effect in at least one held-out continuous
 lifetime. It does not establish general learning efficacy. Root audited
 calibration seed `51099` and formal seeds `51001`–`51008` as unused before any
-new run. No calibration/formal world run has been authorized yet; a separate
-root review follows the isolated unit tests and calibration evidence. Root
-owns source/protocol commits, seed freshness scans, formal authorization, and
+new run. The calibration probe then captured 1,400 ticks for seed `51099`, but
+the first validator failed on an incorrect assertion that initial RNG equal the
+input seed. `World::with_seed` consumes deterministic RNG calls while
+populating its temporary map before the probe installs the fixed fixture map.
+The raw capture, failed manifest, probe, and protocol remain unchanged. A
+zero-tick validator reanalysis is documented in
+[`LIFELONG_WATER_REANALYSIS.md`](LIFELONG_WATER_REANALYSIS.md), with separate
+artifacts under
+`data/experiments/lifetime-lab-v2-calibration-reanalysis-20261023/`. No biology,
+fixture, threshold, gate, or budget is being changed. Seed `51099` is now used
+only for calibration; formal seeds `51001`–`51008` have not been run. Root must
+review the reanalysis and calibration gate before any formal authorization.
+Root owns source/protocol commits, seed freshness scans, formal authorization, and
 the installed completion timer. The v2 completion helper watches only
 `lifetime-lab-v2-20261023` and schema
 `curious-lifetime-lab-run-v2`/protocol 2; its active runtime is external to
