@@ -1,0 +1,104 @@
+{
+  "schema": "curious-learning-exposure-diagnosis-v1",
+  "status": "historical_read_only_diagnostic",
+  "simulation_ticks_run": 0,
+  "reports": {
+    "lifetime_water": {
+      "raw": "data/experiments/lifetime-lab-v1-20261023/raw.jsonl",
+      "revision": "ba71b7fd63268201ed7889f9a3c572c6c0dae215",
+      "protocol_sha256": "4acef82df8d66dc3fd84b8682f6cc8534fe9ed78221ebaa4ba2ab216045d0ca1",
+      "raw_sha256": "5549f6b0bad9fc75a5216d523b51c184dbd81dc83479e04b6fb62008e59130ae",
+      "seed_count": 8,
+      "primary_branch": "uninterrupted",
+      "fresh_multi_option_definition": "Subject decision reason is LearnedWater, no active learner episode targets any currently perceived water candidate in the preceding full state, and current ordinary perception has at least two water candidates.",
+      "fresh_multi_option_decisions": 27,
+      "fresh_multi_option_decisions_by_seed": {
+        "44001": 3,
+        "44002": 3,
+        "44003": 3,
+        "44004": 5,
+        "44005": 3,
+        "44006": 3,
+        "44007": 4,
+        "44008": 3
+      },
+      "window_counts": {
+        "ticks_1_52": 15,
+        "ticks_53_78": 2,
+        "ticks_79_104": 10
+      },
+      "decisions_with_unequal_predecision_candidate_q": 14,
+      "decisions_where_learner_exploit_winner_differs_from_shortest_path_reference": 9,
+      "reference_comparison_caveat": "Shortest path is only a diagnostic reference; the actual rule-based water policy ranks with foraging::value(amount, path_length, life, true). No learned-versus-rule-based selected-site difference count is asserted.",
+      "paired_post_checkpoint": {
+        "resumed_online_vs_frozen_decision_event_physical_state_rng_differences": 0,
+        "subjects_with_post_checkpoint_water_acquisition_and_online_table_updates": 4,
+        "post_checkpoint_water_units_acquired_in_uninterrupted_histories": 90,
+        "post_checkpoint_visit_increments_in_uninterrupted_histories": 9,
+        "unique_fresh_multi_option_decisions_after_checkpoint": 12,
+        "note": "Frozen updates do not freeze choice-time exploration."
+      },
+      "resource_state": {
+        "subjects_reaching_zero_energy_in_ticks_53_78": 8,
+        "movement_energy_range_ticks_53_78": [
+          8,
+          32
+        ],
+        "subjects_with_zero_movement_energy_ticks_79_104": 8,
+        "subjects_dying_before_tick_104": 7,
+        "subject_alive_at_tick_104_health": 1,
+        "subject_alive_at_tick_104_energy": 0
+      }
+    },
+    "herbivore_refuge": {
+      "raw": "data/experiments/herbivore-lab-v1-20261023/raw.jsonl",
+      "revision": "60ab1519022bb50dfe91977892b67be3da178e9f",
+      "raw_sha256": "deee6bbcb78f2af731ef20a476cd43c3f3c8d127bf7eb76a00d14d734eb7f10a",
+      "seed_count": 8,
+      "candidate_counting_unit": "one branch history",
+      "seek_shelter_decisions_with_at_least_two_visible_unoccupied_shelters_per_branch": 94,
+      "decisions_with_at_least_one_exact_matching_completed_outcome_record": 0,
+      "decisions_with_two_exact_matching_completed_outcome_records": 0,
+      "decisions_with_data_driven_learned_ordering_between_alternatives": 0,
+      "observer_episode_closures_per_branch": 65,
+      "observer_verified_safe_arrivals_per_branch": 52,
+      "censored_or_unresolved_closures_per_branch": 13,
+      "repeated_matching_visible_context": {
+        "seed": 45002,
+        "ticks": [
+          66,
+          82
+        ],
+        "closure_types": [
+          "threat_lost",
+          "died"
+        ],
+        "both_censored": true
+      },
+      "natural_death_tick_range_across_16_histories": [
+        62,
+        82
+      ],
+      "interpretation": "Outcome records were emitted, but no exact completed record matched a later multi-option decision context in the audited traces. No refuge choice or mortality benefit is established.",
+      "protocol_sha256": "537901bac12ac406b4895f315b09ee60f38a512e5e10ab0d5631c0e836c4a9d6"
+    },
+    "next_lab_design_constraints": {
+      "classification": "inference_and_preregistration_guidance",
+      "basal_energy_cost_per_tick": 1,
+      "basal_water_cost_per_tick": 1,
+      "drink_maximum_units_per_action": 10,
+      "keep_two_nonempty_walkable_water_candidates_simultaneously_visible": true,
+      "use_ordinary_perception_only": true,
+      "sustain_food_and_water_after_measured_movement_costs": true,
+      "hide_distant_reserve_from_ordinary_perception": true,
+      "avoid_body_resets_rescue_or_omniscient_policy_inputs": true,
+      "report_fresh_choices_updates_candidate_estimates_and_subsequent_choices": true
+    },
+    "limitations": [
+      "Historical fixed seeds are already seen, not unseen acceptance seeds.",
+      "The paired online/frozen comparison found identical physical choices and outcomes in these small samples; it does not prove that learning cannot alter behavior under other eligible exposure.",
+      "The shortest-path diagnostic comparison is not an actual rule-based policy comparison.",
+      "No population fitness or ecosystem benefit follows from these individual mechanism labs."
+    ]
+  }
+}
