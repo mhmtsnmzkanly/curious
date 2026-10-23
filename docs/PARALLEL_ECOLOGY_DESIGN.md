@@ -107,46 +107,35 @@ prototipi çoklu batch, parametre taraması veya büyük nüfus çalıştırmaz.
 
 Örnek [`ecology_candidate.rs`](../examples/ecology_candidate.rs) tek bir input
 senaryosunu değiştirmeden tek dünya çalıştırabilir; CLI sınırı 1–100.000 tick,
-örnek sayısı en çok 1.001 ve output dosyası `create_new` ile açılır. Her
-çağrıda seed, scenario adı, kurucu/descendant census'u, F1 doğum/üreme
-sayısı, toplam beslenme/içme/hareket maliyeti, başlangıç/son kaynak stoku,
-yenilenen toplam kaynak miktarı, bakım istek/ödeme toplanır. Bu kod yalnızca
-derlenmiş bir taslak prototiptir; runtime fixture/muhasebe validasyonu yapılmadı,
-preregistration veya seed audit yerine geçmez. Seed argümanı audit edilene kadar
-kullanım biçimi placeholder bırakılmıştır:
+örnek sayısı en çok 1.001 ve output dosyası `create_new` ile açılır. Schema v2,
+tick başına kaynak akışını ve açıklanamayan artığı uzlaştırır; bitki ve leş
+öğünlerini ayırır; tür bazında besin/su edinimini, hareket maliyetini ve
+özellik bakım isteği/ödemesini kaydeder. ID→tür/nesil/ebeveyn defteri ölüm veya
+slot kaldırma sonrasında kalır; ebeveyn/doğum tutarsızlıklarını işaretler ve
+founder/yavru genotype ile phenotype snapshot'larını tutar. Bazal enerji ve
+diğer enerji kayıpları mevcut olaylarla tam çıkarılamadığı için unknown olarak
+kalır. Bu aday preregistration veya seed audit yerine geçmez:
 
 ```sh
 cargo run --example ecology_candidate -- \
   scenarios/ecology-traits-lab.json SEED TICKS SAMPLE_EVERY candidate.json
 ```
 
-Bu komut yalnız biçimi gösterir; bu aşamada çalıştırılmadı. Candidate yalnız
-sabit input senaryosunu çalıştırır; seed tazeliğini, protokolü ve temiz source
-hash'ini root-owned runner doğrulamalıdır. Sonuç dosyası başka dosyanın üstüne
-yazılmaz.
+Bu komut sabit input senaryosunu çalıştırır; seed tazeliğini, protokolü ve temiz
+source hash'ini root-owned runner doğrulamalıdır. Sonuç dosyası başka dosyanın
+üstüne yazılmaz. Targeted fixture doğrulama sınırları ve ölçüm sözleşmesi
+[`ECOLOGY_MEASUREMENT_AUDIT.md`](ECOLOGY_MEASUREMENT_AUDIT.md) içindedir.
 
-## Prototipte henüz ölçülmeyenler
+## Açık ölçüm sınırları
 
-Derleme, ölçüm doğruluğunu veya fixture geçerliliğini doğrulamaz. Aşağıdaki
-eksikler kapatılmadan throughput ya da biyolojik sonuç iddiası yapılmaz:
-
-- Sayaçlarda tick-0 ve final toplamları şimdilik bulunur; besin/su açılış
-  bakiyesinden yenileme, tüketim ve kapanışa conservation reconciliation
-  henüz uygulanmadı. `EntityReplenished` miktarı ile `EntityAte/EntityDrank`
-  miktarları event sırasına göre doğrulanmalıdır.
-- `EntityAte`/`EntityDrank` toplamları tür bazında ayrıştırılmaz; gövde soy
-  kimliği kaybolduğunda olay türünü doğru yakalamak için ID→tür/nesil sözlüğü
-  kurulmalıdır.
-- `EntityMetabolized` yalnızca ekstra vision/stamina istek/ödemelerini verir;
-  bazal metabolizma, açlık/susuzluk kaybı, üreme rezervi ve trait bedeli sonrası
-  gerçek enerji hesabı ayrıca resolver/life-state üzerinden tutarlı
-  doğrulanmadı.
-- Başlangıç ve yavru allele/genotype dağılımı ve fenotip ifade edilmesi henüz
-  kaydedilmez; bu nedenle şu an cost/fitness trade-off karşılaştırması
-  üretilemez.
-- Kurucu/descendant türetimi generation alanı ve `EntityMated` ebeveynleriyle
-  başlatılmıştır; ölmüş ebeveynlerin soy/nesil sınıflaması, aynı tick doğum-
-  ölüm olay sırası ve yaşam durumu için event replay doğrulaması gerekir.
+Kaynak residual'ı ve kind replacement ölçüm eksikliğini görünür kılar; nedensel
+açıklama üretmez. Olay akışı `EntityMated` ve `EntityBorn` kimliklerini verir;
+fakat basal metabolism, hunger/dehydration loss, reproduction transfer,
+passive healing ve tüm body-energy değişimleri için tam muhasebe sağlamaz.
+Bu nedenle çıktı enerji bilançosu, trait fitness, sustainable habitat veya
+evolutionary advantage sonucu değildir. Ölçüm sözleşmesi için bounded testler
+geçse bile formal biyoloji değerlendirmesi ayrı preregistration ve seed audit
+gerektirir.
 
 ## Sonraki bağımlılık
 
