@@ -167,6 +167,9 @@ def subject_trace(row):
 
 
 AUDIT_PREDECISION_CLOSURES = {"threat_lost", "target_changed", "priority_interrupted", "options_invalid", "feature_disabled"}
+KNOWN_CLOSURES = {"arrived", "threatlost", "died", "timedout", "targetchanged",
+                  "priorityinterrupted", "optionsinvalid", "featuredisabled",
+                  "labboundary", "endpointambiguous"}
 DIRS = {"Up": (0, -1), "UpRight": (1, -1), "Right": (1, 0), "DownRight": (1, 1),
         "Down": (0, 1), "DownLeft": (-1, 1), "Left": (-1, 0), "UpLeft": (-1, -1)}
 
@@ -181,6 +184,15 @@ def visible_context(value):
     fields = ("threat_id", "threat_species", "bearing", "threat_distance",
               "energy_quartile", "stamina_quartile", "refuge_options")
     return {name: value.get(name) for name in fields}
+
+
+def normalize_closure(value):
+    if not isinstance(value, str):
+        raise ValueError("closure name must be a string")
+    normalized = value.replace("_", "").lower()
+    if normalized not in KNOWN_CLOSURES:
+        raise ValueError(f"unknown closure name: {value}")
+    return normalized
 
 
 def decode_steps(value):
@@ -457,6 +469,7 @@ def validate_branch(branch, seed, label):
         if type(episode.get("completed")) is not bool or type(episode.get("attribution_known")) is not bool:
             raise ValueError(f"{label}: completed/attribution flags must be booleans")
         normalized_closure = str(episode.get("closure", "")).lower()
+        normalize_closure(episode.get("closure"))
         if (normalized_closure == "arrived") != episode["completed"]:
             raise ValueError(f"{label}: completed route must correspond exactly to arrived closure")
         if normalized_closure == "endpoint_ambiguous" and (episode["completed"] or episode.get("safe_arrival")):
@@ -600,6 +613,7 @@ def validate_branch(branch, seed, label):
     unmatched = list(episode_rows)
     unmapped_engine_events = []
     for ended_tick, event in engine_closures:
+        normalize_closure(event.get("closure"))
         event_context = visible_context(event.get("context_key"))
         candidate = next((row for row in unmatched
                           if row["ended_tick"] == ended_tick
@@ -609,15 +623,24 @@ def validate_branch(branch, seed, label):
                           and (row.get("endpoint") is None or row.get("endpoint") == event.get("endpoint"))), None)
         if candidate is None:
             raise ValueError(f"{label}: engine RefugeEpisodeEnded lacks any matching observer closure")
-        if candidate.get("endpoint_resolution") != "unique":
-            unmapped_engine_events.append({"event": event, "observer_reason": candidate.get("endpoint_resolution")})
+        if (candidate.get("endpoint_resolution") != "unique"
+                or str(candidate.get("closure", "")).lower() == "endpoint_ambiguous"):
+            unmapped_engine_events.append({
+                "started_tick": event.get("started_tick"), "ended_tick": ended_tick,
+                "threat_id": event.get("threat_id"), "engine_closure": event.get("closure"),
+                "engine_endpoint": event.get("endpoint"), "engine_safe_arrival": event.get("safe_arrival"),
+                "observer_reason": candidate.get("endpoint_resolution"),
+                "observer_closure": candidate.get("closure"),
+                "observer_endpoint_candidates": candidate.get("endpoint_candidates"),
+                "observer_safe_arrival": candidate.get("safe_arrival"),
+            })
             unmatched.remove(candidate)
             continue
         for field in ("movement_energy", "threat_damage", "other_damage", "unattributed_health_loss", "final_pos"):
             if candidate.get(field) != event.get(field):
                 raise ValueError(f"{label}: observer and engine episode audit disagree on {field}")
         if candidate.get("endpoint_resolution") == "unique":
-            if str(candidate.get("closure")).lower() != str(event.get("closure")).lower():
+            if normalize_closure(candidate.get("closure")) != normalize_closure(event.get("closure")):
                 raise ValueError(f"{label}: observer and engine closure reasons disagree")
             if candidate.get("safe_arrival") != event.get("safe_arrival"):
                 raise ValueError(f"{label}: observer and engine safe-arrival audit disagree")

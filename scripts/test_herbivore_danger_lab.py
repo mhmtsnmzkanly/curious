@@ -179,6 +179,118 @@ class ContractTests(unittest.TestCase):
         self.assertEqual(parsed["status"], "natural_death")
         self.assertEqual(parsed["episodes"][0]["threat_damage"], 20)
 
+    def test_arrived_engine_event_with_ambiguous_observer_prefix_stays_unmapped_and_censored(self):
+        value = branch(True)
+        options = [{"x": 1, "y": 3}, {"x": 2, "y": 3}]
+        context = {"threat_id": 2, "threat_species": "Carnivore", "bearing": 0,
+                   "threat_distance": 0, "energy_quartile": 3, "stamina_quartile": 3,
+                   "refuge_options": options}
+        engine_key = {**context, "endpoint": options[0]}
+        stored_memory = state(0, True)["entities"][0]["memory"]
+        stored_memory["refuge_outcomes"].append({
+            "key": engine_key, "last_observed_tick": 1, "completed": 1, "safe_arrivals": 1,
+            "threat_damage": 0, "movement_energy": 5,
+        })
+        value["timeline"][0]["state"] = state(1, True)
+        value["timeline"][0]["state"]["entities"][0]["pos"] = options[0]
+        value["timeline"][0]["state"]["entities"][0]["memory"] = stored_memory
+        value["timeline"][0]["memory_after"] = stored_memory
+        value["timeline"][0]["events"] = [
+            {"EntityMoved": {"id": 1, "energy_cost": 5, "from": {"x": 3, "y": 3}, "to": options[0]}},
+            {"RefugeEpisodeEnded": {"id": 1, "threat_id": 2, "threat_species": "Carnivore",
+                "context_key": engine_key, "started_tick": 1, "ended_tick": 1,
+                "endpoint": options[0], "final_pos": options[0], "closure": "Arrived",
+                "completed": True, "safe_arrival": True, "attribution_known": True,
+                "threat_damage": 0, "other_damage": 0, "movement_energy": 5,
+                "unattributed_health_loss": 0}},
+        ]
+        value["timeline"][0]["decisions"] = [{"tick": 1, "id": 1, "pos": {"x": 3, "y": 3},
+            "before": {"health": 100, "energy": 100, "max_energy": 100, "stamina": 100, "max_stamina": 100},
+            "perception": {"entities": [{"id": 2, "species": "Carnivore", "steps": ["Up"]}],
+                           "shelters": [["Left"], ["Left", "Left"]]},
+            "decision": {"reason": "SeekShelter", "intent": {"Move": {"steps": ["Left"]}}}}]
+        value["timeline"][0]["episode_audit"] = [{
+            "id": 1, "threat_id": 2, "threat_species": "Carnivore", "context_key": context,
+            "started_tick": 1, "ended_tick": 1, "endpoint": None,
+            "endpoint_resolution": "ambiguous_prefix", "endpoint_candidates": options,
+            "final_pos": options[0], "closure": "endpoint_ambiguous", "completed": False,
+            "safe_arrival": False, "attribution_known": True, "threat_damage": 0,
+            "other_damage": 0, "unattributed_health_loss": 0, "movement_energy": 5,
+            "starting_health": 100, "final_health": 100, "initial_reason": "SeekShelter",
+            "initial_intent": {"Move": {"steps": ["Left"]}}, "initial_selected_path": ["Left"],
+            "visible_threat_position": {"x": 3, "y": 2}}]
+        for row in value["timeline"][1:]:
+            row["state"]["entities"][0]["memory"] = stored_memory
+            row["memory_before"] = stored_memory
+            row["memory_after"] = stored_memory
+        checkpoint_state = value["timeline"][49]["state"]
+        value["checkpoint_roundtrip"] = {
+            "tick": 50, "serialized_state": checkpoint_state, "restored_state": checkpoint_state,
+            "state_equal": True, "rng_before": 123, "rng_after": 123,
+            "patrol_index_before": 0, "patrol_index_after": 0,
+        }
+        parsed = runner.validate_branch(value, 45001, "refuge_memory")
+        self.assertEqual(parsed["episodes"][0]["closure"], "endpoint_ambiguous")
+        self.assertFalse(parsed["episodes"][0]["safe_arrival"])
+        self.assertEqual(parsed["engine_events_unmapped_to_unique_observer_endpoint"][0]["engine_closure"], "Arrived")
+
+    def test_unique_engine_closure_names_normalize_to_observer_snake_case(self):
+        for audit_closure, engine_closure in (("target_changed", "TargetChanged"),
+                                              ("threat_lost", "ThreatLost")):
+            with self.subTest(closure=audit_closure):
+                value = branch(True)
+                options = [{"x": 1, "y": 3}, {"x": 5, "y": 3}]
+                context = {"threat_id": 2, "threat_species": "Carnivore", "bearing": 0,
+                           "threat_distance": 0, "energy_quartile": 3, "stamina_quartile": 3,
+                           "refuge_options": options}
+                key = {**context, "endpoint": options[0]}
+                first_trace = {"tick": 1, "id": 1, "pos": {"x": 3, "y": 3},
+                    "before": {"health": 100, "energy": 100, "max_energy": 100, "stamina": 100, "max_stamina": 100},
+                    "perception": {"entities": [{"id": 2, "species": "Carnivore", "steps": ["Up"]}],
+                                   "shelters": [["Left", "Left"], ["Right", "Right"]]},
+                    "decision": {"reason": "SeekShelter", "intent": {"Move": {"steps": ["Left"]}}}}
+                if audit_closure == "target_changed":
+                    end_perception = {"entities": [{"id": 2, "species": "Carnivore", "steps": ["Up"]}],
+                                      "shelters": [["DownLeft", "Left"], ["DownRight", "Right"]]}
+                    end_decision = {"reason": "SeekShelter", "intent": {"Move": {"steps": ["DownRight"]}}}
+                else:
+                    end_perception = {"entities": [{"id": 2, "species": "Carnivore", "steps": ["Up", "Up", "Up"]}],
+                                      "shelters": [["DownLeft", "Left"], ["DownRight", "Right"]]}
+                    end_decision = {"reason": "SeekFood", "intent": {"Idle": {"duration": 1}}}
+                end_trace = {"tick": 2, "id": 1, "pos": {"x": 3, "y": 2},
+                    "before": {"health": 100, "energy": 100, "max_energy": 100, "stamina": 100, "max_stamina": 100},
+                    "perception": end_perception, "decision": end_decision}
+                value["timeline"][0]["state"] = state(1, True)
+                value["timeline"][0]["state"]["entities"][0]["pos"] = {"x": 3, "y": 2}
+                value["timeline"][0]["decisions"] = [first_trace]
+                value["timeline"][0]["events"] = [{"EntityMoved": {"id": 1, "energy_cost": 5,
+                    "from": {"x": 3, "y": 3}, "to": {"x": 3, "y": 2}}}]
+                value["timeline"][1]["state"] = state(2, True)
+                value["timeline"][1]["state"]["entities"][0]["pos"] = {"x": 3, "y": 2}
+                value["timeline"][1]["decisions"] = [end_trace]
+                value["timeline"][1]["events"] = [{"RefugeEpisodeEnded": {
+                    "id": 1, "threat_id": 2, "threat_species": "Carnivore", "context_key": key,
+                    "started_tick": 1, "ended_tick": 2, "endpoint": options[0],
+                    "final_pos": {"x": 3, "y": 2}, "closure": engine_closure,
+                    "completed": False, "safe_arrival": False, "attribution_known": True,
+                    "threat_damage": 0, "other_damage": 0, "movement_energy": 5,
+                    "unattributed_health_loss": 0}}]
+                value["timeline"][1]["episode_audit"] = [{
+                    "id": 1, "threat_id": 2, "threat_species": "Carnivore", "context_key": context,
+                    "started_tick": 1, "ended_tick": 2, "endpoint": options[0],
+                    "endpoint_resolution": "unique", "endpoint_candidates": options,
+                    "final_pos": {"x": 3, "y": 2}, "closure": audit_closure, "completed": False,
+                    "safe_arrival": False, "attribution_known": True, "threat_damage": 0,
+                    "other_damage": 0, "unattributed_health_loss": 0, "movement_energy": 5,
+                    "starting_health": 100, "final_health": 100, "initial_reason": "SeekShelter",
+                    "initial_intent": {"Move": {"steps": ["Left"]}}, "initial_selected_path": ["Left"],
+                    "visible_threat_position": {"x": 3, "y": 2}}]
+                for row in value["timeline"][2:]:
+                    row["state"]["entities"][0]["pos"] = {"x": 3, "y": 2}
+                parsed = runner.validate_branch(value, 45001, "refuge_memory")
+                self.assertEqual(parsed["episodes"][0]["closure"], audit_closure)
+                self.assertEqual(parsed["engine_events_unmapped_to_unique_observer_endpoint"], [])
+
     def test_death_requires_terminal_zero_health_and_event(self):
         value = branch(False)
         value["status"] = "natural_death"
