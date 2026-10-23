@@ -35,6 +35,12 @@ Kayıtlı mekanizma ve fitness protokolü [ECOLOGY_TRAITS_PROTOCOL](ECOLOGY_TRAI
 içindedir. Küçük bağımsız popülasyon karşılaştırması genel seçilim, kalıcı
 denge veya açık uçlu evrim kanıtı değildir.
 
+Held-out evaluation öncesinde 40 dünya/80.000 tick'lik kalibrasyon batch'i
+aynı immutable `lab-probe` ile ikinci kez tamamen tekrarlanır. İki `raw.jsonl`
+SHA-256 eşleşmesi `repeat-proof.json` içinde doğrulanmadan held-out koşusu
+başlamaz. İki kalibrasyon batch'i ve evaluation ayrı 300 saniye/1 GiB bütçelere
+sahiptir; toplam kayıtlı çalışma 320.000 tick ile sınırlıdır.
+
 # V13 — deneyim ve deneysel av seçimi
 
 Yeni geliştirme StateV13 kullanır; SQLiteV2 değişmez. Individual.hunt_learner
