@@ -21,6 +21,8 @@ pub enum Command {
     Genetics {
         enabled: bool,
         mutation_per_mille: u16,
+        #[serde(default)]
+        extra_traits_enabled: Option<bool>,
     },
     Observation {
         full_all: bool,
@@ -100,6 +102,7 @@ impl Runtime {
             Command::Genetics {
                 enabled,
                 mutation_per_mille,
+                extra_traits_enabled,
             } => {
                 if mutation_per_mille > 1000 {
                     return Err("mutation rate must be 0..1000 per mille".into());
@@ -107,6 +110,8 @@ impl Runtime {
                 self.world.genetics = crate::entity::genetics::Genetics {
                     enabled,
                     mutation_per_mille,
+                    extra_traits_enabled: extra_traits_enabled
+                        .unwrap_or(self.world.genetics.extra_traits_enabled),
                 };
                 json!({"genetics":self.world.genetics})
             }
@@ -257,13 +262,7 @@ impl Runtime {
             }
             Command::SetResourceSite { site } => {
                 self.validate_pos(site.pos)?;
-                if site.capacity > 1_000_000
-                    || site.replenish > site.capacity
-                    || site.interval == 0
-                    || site.interval > 1_000_000
-                {
-                    return Err("invalid resource site".into());
-                }
+                site.validate()?;
                 self.world.environment.set_site(site);
                 json!({"configured":true})
             }

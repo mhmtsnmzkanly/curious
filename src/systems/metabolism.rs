@@ -4,7 +4,10 @@ use crate::{rules::biology, world::EntitySlot};
 pub struct MetabolismSystem;
 
 impl MetabolismSystem {
-    pub fn update(entities: &mut [EntitySlot]) {
+    pub fn update(
+        entities: &mut [EntitySlot],
+        events: &mut Vec<crate::simulation::SimulationEvent>,
+    ) {
         for slot in entities {
             if matches!(
                 slot.phase,
@@ -30,7 +33,27 @@ impl MetabolismSystem {
                 continue;
             }
             life.reproduction_cooldown = life.reproduction_cooldown.saturating_sub(1);
-            life.consume_energy(biology::BMR_ENERGY_COST);
+            let vision_cost = life.vision_metabolic_cost;
+            let stamina_cost = life.stamina_metabolic_cost;
+            let energy_before = life.energy;
+            let basal_paid = energy_before.min(biology::BMR_ENERGY_COST);
+            let after_basal = energy_before.saturating_sub(basal_paid);
+            let vision_paid = after_basal.min(vision_cost);
+            let stamina_paid = after_basal.saturating_sub(vision_paid).min(stamina_cost);
+            life.consume_energy(
+                biology::BMR_ENERGY_COST
+                    .saturating_add(vision_cost)
+                    .saturating_add(stamina_cost),
+            );
+            if vision_cost > 0 || stamina_cost > 0 {
+                events.push(crate::simulation::SimulationEvent::EntityMetabolized {
+                    id: slot.id,
+                    vision_cost,
+                    stamina_cost,
+                    vision_paid,
+                    stamina_paid,
+                });
+            }
             life.consume_water(biology::BMR_WATER_COST);
             if life.energy == 0 {
                 life.damage_from(
@@ -60,7 +83,7 @@ impl MetabolismSystem {
 mod tests {
     use super::*;
     use crate::creatures::herbivore::HerbivoreEntity;
-    use crate::entity::{Entity, controller::EntityController, phase::EntityPhase};
+    use crate::entity::{controller::EntityController, phase::EntityPhase, Entity};
     use crate::map::movement::Position;
 
     #[test]
@@ -78,11 +101,11 @@ mod tests {
         );
         let mut slots = [slot];
 
-        MetabolismSystem::update(&mut slots);
+        MetabolismSystem::update(&mut slots, &mut Vec::new());
         assert!(slots[0].base.life().age > 999);
 
         // Bir sonraki tick'te ölecek mi?
-        MetabolismSystem::update(&mut slots);
+        MetabolismSystem::update(&mut slots, &mut Vec::new());
         assert!(!slots[0].base.life().is_alive());
     }
 
@@ -101,7 +124,7 @@ mod tests {
         );
         let mut slots = [slot];
 
-        MetabolismSystem::update(&mut slots);
+        MetabolismSystem::update(&mut slots, &mut Vec::new());
 
         // Enerji 0 olduğu için candan yemeli ve bir miktar "starvation energy" gelmeli
         assert!(slots[0].base.life().health < 100);
@@ -123,7 +146,7 @@ mod tests {
         );
         let mut slots = [slot];
 
-        MetabolismSystem::update(&mut slots);
+        MetabolismSystem::update(&mut slots, &mut Vec::new());
         assert!(slots[0].base.life().health > 50);
         assert!(slots[0].base.life().energy < 100);
     }

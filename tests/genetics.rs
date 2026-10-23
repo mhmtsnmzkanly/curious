@@ -13,6 +13,7 @@ fn mutation_is_bounded_and_expression_has_a_real_energy_cost() {
     let settings = Genetics {
         enabled: true,
         mutation_per_mille: 1000,
+        extra_traits_enabled: false,
     };
     let mut g = Genome::default();
     for _ in 0..1000 {
@@ -26,7 +27,11 @@ fn mutation_is_bounded_and_expression_has_a_real_energy_cost() {
     let mut body = curious::creatures::herbivore::HerbivoreEntity::default();
     let energy = body.life().energy;
     let speed = body.life().speed;
-    Genome { mobility: 1 }.express_from(&Genome::default(), body.life_mut());
+    Genome {
+        mobility: 1,
+        ..Genome::default()
+    }
+    .express_from(&Genome::default(), body.life_mut());
     assert_eq!(body.life().speed, speed + 1);
     body.life_mut().on_move(3);
     assert_eq!(body.life().energy, energy - 6);
@@ -40,4 +45,41 @@ fn mutation_is_bounded_and_expression_has_a_real_energy_cost() {
     assert_eq!(child.genome.mobility, 1);
     assert!(child.learner.values.is_empty());
     assert!(child.memory.sites.is_empty());
+}
+
+#[test]
+fn paid_alleles_are_opt_in_expressed_and_inherited() {
+    let mut settings = Genetics::default();
+    settings.mutation_per_mille = 0;
+    settings.extra_traits_enabled = true;
+    let parent = Genome {
+        vision: 2,
+        stamina: 1,
+        ..Genome::default()
+    };
+    let child = parent.child(&parent, &mut Random::new(9), &settings);
+    assert_eq!(child.vision, 2);
+    assert_eq!(child.stamina, 1);
+
+    let mut body = curious::creatures::herbivore::HerbivoreEntity::default();
+    child.express_extra_from(&Genome::default(), body.life_mut());
+    assert_eq!(body.life().vision_range, 8);
+    assert_eq!(body.life().max_stamina, 20);
+    assert_eq!(body.life().stamina, 20);
+    assert_eq!(body.life().vision_metabolic_cost, 2);
+    assert_eq!(body.life().stamina_metabolic_cost, 1);
+    body.life().validate().unwrap();
+
+    settings.extra_traits_enabled = false;
+    let mut expected_rng = Random::new(991);
+    let expected_child = if expected_rng.range(0, 1) == 0 {
+        parent.clone()
+    } else {
+        parent.clone()
+    };
+    let _ = expected_rng.range(0, 999); // mutation rate is zero
+    let mut actual_rng = Random::new(991);
+    let actual_child = parent.child(&parent, &mut actual_rng, &settings);
+    assert_eq!(expected_child, actual_child);
+    assert_eq!(expected_rng.state(), actual_rng.state());
 }

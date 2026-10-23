@@ -18,6 +18,12 @@ pub struct LifeState {
     pub stamina: usize,
     #[serde(default)]
     pub exertion: usize,
+    /// Per-tick energy paid for expressed extra vision physiology.
+    #[serde(default)]
+    pub vision_metabolic_cost: usize,
+    /// Per-tick energy paid for expressed extra stamina physiology.
+    #[serde(default)]
+    pub stamina_metabolic_cost: usize,
     #[serde(default)]
     pub death_cause: Option<crate::simulation::event::DeathCause>,
     // -------- GENETİK (SABİT) --------
@@ -81,6 +87,8 @@ impl LifeState {
             || self.max_stamina > 1000
             || self.stamina > self.max_stamina
             || self.exertion > 1_000_000
+            || self.vision_metabolic_cost > 2
+            || self.stamina_metabolic_cost > 2
             || self.max_health == 0
             || self.max_energy == 0
             || self.max_water == 0

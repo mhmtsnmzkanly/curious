@@ -33,6 +33,16 @@ pub enum SimulationEvent {
         from: Position,
         to: Position,
     },
+    /// Positive only when an opt-in extra physiological trait was expressed.
+    EntityMetabolized {
+        id: usize,
+        /// Requested per-tick maintenance from the expressed traits.
+        vision_cost: usize,
+        stamina_cost: usize,
+        /// Amount actually paid after basal metabolism consumed energy first.
+        vision_paid: usize,
+        stamina_paid: usize,
+    },
     EntityAte {
         #[serde(default)]
         corpse_id: Option<usize>,
@@ -127,6 +137,7 @@ impl SimulationEvent {
             Self::ResourceReplenished { .. } => false,
             Self::HuntEpisodeEnded { id, .. }
             | Self::EntityMoved { id, .. }
+            | Self::EntityMetabolized { id, .. }
             | Self::EntityAte { id, .. }
             | Self::EntityDrank { id, .. }
             | Self::EntityDied { id, .. }

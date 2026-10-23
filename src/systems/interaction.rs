@@ -211,6 +211,10 @@ impl InteractionSystem {
             child.life_mut().water = water_budget.min(child.life().max_water);
             let genome = entities[t].genome.child(&entities[s].genome, rng, genetics);
             genome.express_from(&entities[t].genome, child.life_mut());
+            if genetics.extra_traits_enabled {
+                genome.express_extra_from(&entities[t].genome, child.life_mut());
+                child.life_mut().stamina = child.life().max_stamina;
+            }
             let species = child.species();
             let id = *next_entity_id;
             *next_entity_id += 1;

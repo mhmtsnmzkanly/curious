@@ -52,6 +52,7 @@ fn main() {
         founders: vec![],
         sites: vec![],
         resources: vec![],
+        genetics: base.genetics.clone(),
     };
     for y in 0..n {
         for x in 0..n {

@@ -74,7 +74,7 @@ impl State {
         commands.sort_by_key(|(id, _)| *id);
         Self {
             policy: world.policy.clone(),
-            version: 14,
+            version: 15,
             genetics: world.genetics.clone(),
             observation: world.observation.clone(),
             environment: world.environment.clone(),
@@ -111,8 +111,24 @@ impl State {
         }
     }
     pub fn restore(mut self) -> Result<World> {
-        if !(1..=14).contains(&self.version) {
+        if !(1..=15).contains(&self.version) {
             return Err("unsupported checkpoint version".into());
+        }
+        if self.version >= 15 {
+            self.genetics.validate()?;
+            let [min_x, max_x, min_y, max_y] = self.bounds;
+            let mut sites = std::collections::HashSet::new();
+            for site in &self.environment.sites {
+                site.validate()?;
+                if site.pos.x < min_x
+                    || site.pos.x > max_x
+                    || site.pos.y < min_y
+                    || site.pos.y > max_y
+                    || !sites.insert(site.pos)
+                {
+                    return Err("invalid or duplicate resource site in checkpoint".into());
+                }
+            }
         }
         if self.version < 12 {
             self.policy.mate_rendezvous = false;
@@ -141,7 +157,22 @@ impl State {
                 }
             }
         }
+        if self.version < 15 {
+            self.genetics.extra_traits_enabled = false;
+            for site in &mut self.environment.sites {
+                site.schedule = None;
+            }
+            for individual in &mut self.entities {
+                individual.genome.vision = 0;
+                individual.genome.stamina = 0;
+                individual.life.vision_metabolic_cost = 0;
+                individual.life.stamina_metabolic_cost = 0;
+            }
+        }
         for individual in &self.entities {
+            if self.version >= 15 {
+                individual.genome.validate()?;
+            }
             individual.memory.validate()?;
             individual.learner.validate()?;
             individual.hunt_learner.validate()?;

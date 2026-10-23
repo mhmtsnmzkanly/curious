@@ -1,3 +1,13 @@
+# V15 — kaynak takvimi ve bedelli kalıtsal yetenekler
+
+Yeni geliştirme checkpoint V15, SQLite şeması V2'dir. V15, V14 av-risk öğrenici alanlarını korur. V1–V14 kayıtları okunur; yeni V15 schedule/trait alanları daha eski checkpointlerde kapalı/boş yüklenir. V15'i eski motorla açma. Çalışan dünya ve sabitlenmiş ikililer bu geliştirmeyle yükseltilmez.
+
+`ResourceSite.schedule` isteğe bağlıdır ve eski senaryolarda/checkpointlerde eksikse kapalıdır. Açık takvim, dünya ticki ve kaynak koordinatlarından deterministik faz hesaplar; popülasyona ve RNG'ye bakmaz. Kapalı dönemde yenileme yapılmaz, hücredeki mevcut kaynak korunur ve olağan tüketim devam eder. Takvim kapasiteyi, yenilenme miktarını veya kaynak tüketimini değiştirmez. Senaryo ve kontrol girdileri period, aktif pencere, coğrafi faz adımı ve offset sınırları için doğrulanır.
+
+`Genetics.enabled` mevcut anlamını ve varsayılan `true` değerini korur. `extra_traits_enabled` ayrı bir opt-in ve varsayılanı `false`'tur. Genome'daki vision/stamina allelleri 0..2 ile sınırlıdır. Her vision adımı görüş menzilini 1; her stamina adımı maksimum dayanıklılığı 4 artırır. Her ifade edilen adım, canlı başına tick başına 1 enerji ister. Metabolizma önce BMR'yi öder; yeni `EntityMetabolized` olayı istenen ve fiilen ödenen vision/stamina maliyetini ayrı taşır. Yetersiz enerjide olay tam ödemeyi iddia etmez. Kapalı ayarda yeni olay oluşmaz ve mobility mirası/mutasyon RNG yolu korunur; varsayılan ve eski migrated bedenlerde yeni maliyet alanları sıfırdır. Bayrak yeni kurucu/yavru ifadesini ve yeni allel mutasyonunu yönetir; çalışma sırasında açılıp kapanması mevcut bedenleri yeniden ifade etmez. Daha önce ifade edilmiş bedenin maliyet alanları bayrak sonradan kapansa da metabolizmada ödenmeye devam eder. `Genetics.enabled=false` mevcut davranışını koruyarak ebeveyn genomunun tamamını kopyalar; ekstra alleller kapalıyken bu alleller genomda kalabilir ama yeni bedene ifade edilmez. Açıkken yavru iki yeni alleli mevcut mobility aktarımından ayrı ifade eder ve sınırlandırılmış mutasyon uygular; öğrenilmiş tablolar yine aktarılmaz.
+
+Kayıtlı mekanizma ve fitness protokolü [ECOLOGY_TRAITS_PROTOCOL](ECOLOGY_TRAITS_PROTOCOL.md) içindedir. Küçük bağımsız popülasyon karşılaştırması genel seçilim, kalıcı denge veya açık uçlu evrim kanıtı değildir.
+
 # V14 — deneyim ve deneysel av seçimi
 
 Yeni geliştirme StateV14 kullanır; SQLiteV2 değişmez. Individual.hunt_learner
