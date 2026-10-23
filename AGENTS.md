@@ -35,13 +35,24 @@ hazırlar. Completion helper v2 artık hunt/lifetime/herbivore/ecology-traits sc
 izinli kılar; üç yeni v2 timer root tarafından kuruldu. Runtime config, frozen
 helper SHA ve systemd denetimi root sorumluluğundadır.
 
-Risk V3 bounded lab tamamlandı; ölçüm riski azaltma iddiasını desteklemediği
-için canlı ayarda varsayılan kapalı kalır. Gerçek completion timer poll'u
-terminal manifesti algılayıp bir kez `codex queue` ile iletti; queue ID ve
-kanıt `docs/ECOSYSTEM_LEARNING_PLAN.md` içinde kayıtlıdır. Faz 2/3 protokolleri root tarafından preregister edilmiştir; phase 2 harness
-ve validator kodlanmaktadır, bounded evaluation root commit/review sonrasıdır.
-V2 helper ve lifetime/herbivore/ecology-traits timerları ops tarafından
-kurulmuştur; dış config ve frozen helper değişikliğini root denetler.
+Hunt-risk V3 ve aynı bireyin yaşam sürekliliği laboratuvarları tamamlandı;
+sonuç ve sınırlamalar `docs/ECOSYSTEM_LEARNING_PLAN.md` ile bağlı raporlardadır.
+Risk seçimi canlı ayarda varsayılan kapalıdır. Completion timer V3 ve lifetime
+çalışmalarını doğal terminal poll'unda bir kez `codex queue` ile iletti; gerçek
+queue kanıtı plan belgesindedir. V2 helper ile lifetime/herbivore/ecology-traits
+timerları ops tarafından kuruldu; dış config, frozen helper ve systemd denetimi
+root sorumluluğundadır.
+
+Faz 3 V16 core `970b974` içinde varsayılan kapalıdır; 153 Rust testi,
+HTTP/SIGKILL kontrolü ve 100/200 tick frozen-source/State/RNG eşitliği root
+testlerinden geçti; eski checkpoint göçü V15 alanlarını korur. `examples/herbivore_danger_lab.rs`
+iki kol için yalnız gözlemsel kapatış defteri üretir; Python validator iki kola
+eşit denetim uygular. Faz 3 prereg protokol güncellemeleri source hash/seed/
+commands ve 1.600 tick sınırıyla formal run başlamadan önce root tarafından
+commit/review edilmelidir. Önsınama, sabit seed 45999 ile en çok 200 ticklik
+ölçüm/serde kalibrasyonudur; held-out formal run seed45001–45008 ve en çok
+1.600 ticktir. Canlı dünya, dondurulmuş ikili ve tarihsel ham deney arşivleri
+değiştirilmez.
 
 ## Rezerv adayının uzun kabul kampanyası — 18 Ekim
 
