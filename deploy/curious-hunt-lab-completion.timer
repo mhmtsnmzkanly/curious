@@ -1,0 +1,10 @@
+[Unit]
+Description=Check bounded hunt lab completion once per minute
+
+[Timer]
+OnBootSec=60
+OnUnitActiveSec=60
+Unit=curious-hunt-lab-completion.service
+
+[Install]
+WantedBy=timers.target

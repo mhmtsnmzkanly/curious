@@ -1,0 +1,15 @@
+{
+  "schema": "curious-hunt-lab-completion-v1",
+  "helper_sha256": "REPLACE_WITH_SHA256_OF_hunt_lab_completion_dispatch_v1.py",
+  "allowed_schema": "curious-hunt-lab-run-v3",
+  "protocol_version": 3,
+  "thread_id": "REPLACE_WITH_ACTIVE_THREAD_UUID",
+  "expires_at": "2099-01-01T00:00:00Z",
+  "outbox_dir": "/root/curious-runtime/hunt-lab-outbox",
+  "watched_runs": [
+    {
+      "name": "hunt-lab-v3-REPLACE_WITH_RUN_ID",
+      "output_dir": "/root/curious/data/experiments/hunt-lab-v3-REPLACE_WITH_RUN_ID"
+    }
+  ]
+}

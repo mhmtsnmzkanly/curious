@@ -1,0 +1,16 @@
+[Unit]
+Description=Queue terminal bounded hunt lab result for the active Codex thread
+After=network.target
+
+[Service]
+Type=oneshot
+WorkingDirectory=/root/curious
+ExecStart=/usr/bin/python3 /root/curious-runtime/releases/REPLACE_WITH_HELPER_SHA256/hunt_lab_completion_dispatch_v1.py --config /root/curious-runtime/hunt-lab-completion-v1.json
+TimeoutStartSec=30
+NoNewPrivileges=true
+PrivateTmp=true
+UMask=0077
+ProtectSystem=strict
+ReadOnlyPaths=/root/curious/data/experiments
+ReadOnlyPaths=/root/curious-runtime/releases
+ReadWritePaths=/root/curious-runtime/hunt-lab-outbox
