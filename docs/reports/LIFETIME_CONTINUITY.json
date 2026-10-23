@@ -1,0 +1,1686 @@
+{
+  "schema": "curious-lifetime-continuity-audit-v1",
+  "study": "lifetime-lab-v1-20261023",
+  "status": "completed",
+  "registered_scope": {
+    "seeds": [
+      44001,
+      44002,
+      44003,
+      44004,
+      44005,
+      44006,
+      44007,
+      44008
+    ],
+    "one_continuous_subject_per_seed": true,
+    "subject_start_age": 0,
+    "checkpoint_tick": 52,
+    "reversal_windows": [
+      [
+        1,
+        52
+      ],
+      [
+        53,
+        78
+      ],
+      [
+        79,
+        104
+      ]
+    ],
+    "physical_tick_ceiling": 1664,
+    "actual_physical_ticks": 1529
+  },
+  "primary_conclusion": "Same-individual identity/body/age/learner continuity and exact online resume were demonstrated in all eight seeds. No lifespan or learning advantage is demonstrated.",
+  "adaptation_evidence": {
+    "precheckpoint_water_updates_all_seeds": true,
+    "postcheckpoint_water_and_updates_are_sparse_not_absent": true,
+    "postcheckpoint_water_observed_seed_count": 4,
+    "online_resumed_table_updates_match": true,
+    "frozen_branches_acquired_same_water_but_did_not_update": true,
+    "online_vs_frozen_decisions_or_physical_outcomes_differed": false,
+    "interpretation": "The few post-reversal learner updates did not change recorded decisions or physical world/body timecourses in these eight paired histories; no general learning benefit or age advantage follows."
+  },
+  "provenance": {
+    "revision": "ba71b7fd63268201ed7889f9a3c572c6c0dae215",
+    "git_dirty": false,
+    "binary_sha256": "257bcf6aa48e74a85201ae5ad3890d9409949c43abf509dbd26f8eda87fc3a93",
+    "protocol_sha256": "4acef82df8d66dc3fd84b8682f6cc8534fe9ed78221ebaa4ba2ab216045d0ca1",
+    "source_file_sha256": {
+      "examples/lifetime_continuity_lab.rs": "2f0f464387cd9f75314f6c2d8e9cdbe620caa2366a93a3f52ca9489cc2b3f505",
+      "scripts/run_lifetime_continuity_lab.py": "a6e2fbc963e7ca6c640f1fe39c8a57070db5397748c497c11bb3775f199e4bf4",
+      "Cargo.toml": "a389bffccda7a3608db6780b58c387a9d00ea82f39b1489a4557b8b32ea7031a",
+      "Cargo.lock": "f1b470cfab0d7cb81a8a721832a3d9de326966d2e7e1e37a396409cd1e3bfbc1"
+    },
+    "raw_sha256": "5549f6b0bad9fc75a5216d523b51c184dbd81dc83479e04b6fb62008e59130ae",
+    "summary_sha256": "42bfa131fb64de14e47e90a7fb9ddacee1f4cdaf23251c227d7e5d77df96cdb1",
+    "manifest_path": "data/experiments/lifetime-lab-v1-20261023/manifest.json",
+    "protocol_copy_path": "data/experiments/lifetime-lab-v1-20261023/protocol.md",
+    "raw_path": "data/experiments/lifetime-lab-v1-20261023/raw.jsonl",
+    "summary_path": "data/experiments/lifetime-lab-v1-20261023/summary.json",
+    "artifact_path": "data/experiments/lifetime-lab-v1-20261023/lab-probe",
+    "started_at": "2026-10-23T02:45:54.645304+00:00",
+    "finished_at": "2026-10-23T02:45:55.298024+00:00",
+    "completion_received_path": "data/experiments/lifetime-lab-v1-20261023/completion-received.json",
+    "run_report_sha256": "ccf0b481ca40d1c4a4156573974377c29440d9041090c9f0dd84afb14467562c",
+    "run_report_path": "data/experiments/lifetime-lab-v1-20261023/report.md"
+  },
+  "audit_checks": {
+    "raw_records": 8,
+    "sum_physical_ticks": 1529,
+    "checkpoint_exact_state_and_rng_all_seeds": true,
+    "restored_online_equals_uninterrupted_each_postcheckpoint_tick": true,
+    "frozen_checkpoint_differs_only_in_water_learner_update_flag": true,
+    "online_frozen_decisions_events_interventions_equal_all_seeds": true,
+    "online_frozen_full_state_equal_ignoring_only_learner_flag_and_table": true,
+    "stable_subject_id_and_age_progression": true,
+    "predator_damage_total": 0,
+    "raw_summary_report_protocol_binary_hashes_match_manifest": true
+  },
+  "per_seed": [
+    {
+      "seed": 44001,
+      "subject_id": 1,
+      "initial_age": 0,
+      "max_age": 105,
+      "status": "died_after_checkpoint",
+      "final_age": 95,
+      "end_tick": 95,
+      "death_cause": "Starvation",
+      "physical_ticks_all_branches": 181,
+      "ticks": {
+        "uninterrupted": 95,
+        "resumed_online": 43,
+        "frozen": 43
+      },
+      "checkpoint": {
+        "available": true,
+        "tick": 52,
+        "age": 52,
+        "rng": 9432641689932517508,
+        "restored_state_exact": true,
+        "frozen_diff_only_update_flag": true
+      },
+      "resumed_matches_uninterrupted_every_postcheckpoint_tick": true,
+      "online_vs_frozen": {
+        "decisions_events_and_interventions_equal": true,
+        "complete_state_equal_after_ignoring_learner_update_flag_and_table_values": true
+      },
+      "windows": {
+        "uninterrupted": [
+          {
+            "ticks": [
+              1,
+              52
+            ],
+            "observed_ticks": 52,
+            "water_acquired": 20,
+            "movement_energy": 86,
+            "received_damage": 0,
+            "health_start": 120,
+            "health_end": 120,
+            "energy_start": 80,
+            "energy_end": 18,
+            "learner_table_delta": [
+              {
+                "position": {
+                  "x": 1,
+                  "y": 3
+                },
+                "value_delta": 95,
+                "visits_delta": 1
+              },
+              {
+                "position": {
+                  "x": 5,
+                  "y": 3
+                },
+                "value_delta": 90,
+                "visits_delta": 1
+              }
+            ]
+          },
+          {
+            "ticks": [
+              53,
+              78
+            ],
+            "observed_ticks": 26,
+            "water_acquired": 0,
+            "movement_energy": 20,
+            "received_damage": 0,
+            "health_start": 120,
+            "health_end": 81,
+            "energy_start": 18,
+            "energy_end": 0,
+            "learner_table_delta": []
+          },
+          {
+            "ticks": [
+              79,
+              104
+            ],
+            "observed_ticks": 17,
+            "water_acquired": 0,
+            "movement_energy": 0,
+            "received_damage": 0,
+            "health_start": 81,
+            "health_end": 0,
+            "energy_start": 0,
+            "energy_end": 0,
+            "learner_table_delta": []
+          }
+        ],
+        "resumed": [
+          {
+            "ticks": [
+              1,
+              52
+            ],
+            "observed_ticks": 0,
+            "water_acquired": 0,
+            "movement_energy": 0,
+            "received_damage": 0,
+            "health_start": 120,
+            "health_end": 120,
+            "energy_start": 18,
+            "energy_end": 18,
+            "learner_table_delta": []
+          },
+          {
+            "ticks": [
+              53,
+              78
+            ],
+            "observed_ticks": 26,
+            "water_acquired": 0,
+            "movement_energy": 20,
+            "received_damage": 0,
+            "health_start": 120,
+            "health_end": 81,
+            "energy_start": 18,
+            "energy_end": 0,
+            "learner_table_delta": []
+          },
+          {
+            "ticks": [
+              79,
+              104
+            ],
+            "observed_ticks": 17,
+            "water_acquired": 0,
+            "movement_energy": 0,
+            "received_damage": 0,
+            "health_start": 81,
+            "health_end": 0,
+            "energy_start": 0,
+            "energy_end": 0,
+            "learner_table_delta": []
+          }
+        ],
+        "frozen": [
+          {
+            "ticks": [
+              1,
+              52
+            ],
+            "observed_ticks": 0,
+            "water_acquired": 0,
+            "movement_energy": 0,
+            "received_damage": 0,
+            "health_start": 120,
+            "health_end": 120,
+            "energy_start": 18,
+            "energy_end": 18,
+            "learner_table_delta": []
+          },
+          {
+            "ticks": [
+              53,
+              78
+            ],
+            "observed_ticks": 26,
+            "water_acquired": 0,
+            "movement_energy": 20,
+            "received_damage": 0,
+            "health_start": 120,
+            "health_end": 81,
+            "energy_start": 18,
+            "energy_end": 0,
+            "learner_table_delta": []
+          },
+          {
+            "ticks": [
+              79,
+              104
+            ],
+            "observed_ticks": 17,
+            "water_acquired": 0,
+            "movement_energy": 0,
+            "received_damage": 0,
+            "health_start": 81,
+            "health_end": 0,
+            "energy_start": 0,
+            "energy_end": 0,
+            "learner_table_delta": []
+          }
+        ]
+      }
+    },
+    {
+      "seed": 44002,
+      "subject_id": 1,
+      "initial_age": 0,
+      "max_age": 105,
+      "status": "died_after_checkpoint",
+      "final_age": 97,
+      "end_tick": 97,
+      "death_cause": "Dehydration",
+      "physical_ticks_all_branches": 187,
+      "ticks": {
+        "uninterrupted": 97,
+        "resumed_online": 45,
+        "frozen": 45
+      },
+      "checkpoint": {
+        "available": true,
+        "tick": 52,
+        "age": 52,
+        "rng": 10033567943445047587,
+        "restored_state_exact": true,
+        "frozen_diff_only_update_flag": true
+      },
+      "resumed_matches_uninterrupted_every_postcheckpoint_tick": true,
+      "online_vs_frozen": {
+        "decisions_events_and_interventions_equal": true,
+        "complete_state_equal_after_ignoring_learner_update_flag_and_table_values": true
+      },
+      "windows": {
+        "uninterrupted": [
+          {
+            "ticks": [
+              1,
+              52
+            ],
+            "observed_ticks": 52,
+            "water_acquired": 20,
+            "movement_energy": 76,
+            "received_damage": 0,
+            "health_start": 120,
+            "health_end": 120,
+            "energy_start": 80,
+            "energy_end": 31,
+            "learner_table_delta": [
+              {
+                "position": {
+                  "x": 1,
+                  "y": 3
+                },
+                "value_delta": 99,
+                "visits_delta": 1
+              },
+              {
+                "position": {
+                  "x": 5,
+                  "y": 3
+                },
+                "value_delta": 95,
+                "visits_delta": 1
+              }
+            ]
+          },
+          {
+            "ticks": [
+              53,
+              78
+            ],
+            "observed_ticks": 26,
+            "water_acquired": 0,
+            "movement_energy": 31,
+            "received_damage": 0,
+            "health_start": 120,
+            "health_end": 93,
+            "energy_start": 31,
+            "energy_end": 0,
+            "learner_table_delta": []
+          },
+          {
+            "ticks": [
+              79,
+              104
+            ],
+            "observed_ticks": 19,
+            "water_acquired": 0,
+            "movement_energy": 0,
+            "received_damage": 0,
+            "health_start": 93,
+            "health_end": 0,
+            "energy_start": 0,
+            "energy_end": 0,
+            "learner_table_delta": []
+          }
+        ],
+        "resumed": [
+          {
+            "ticks": [
+              1,
+              52
+            ],
+            "observed_ticks": 0,
+            "water_acquired": 0,
+            "movement_energy": 0,
+            "received_damage": 0,
+            "health_start": 120,
+            "health_end": 120,
+            "energy_start": 31,
+            "energy_end": 31,
+            "learner_table_delta": []
+          },
+          {
+            "ticks": [
+              53,
+              78
+            ],
+            "observed_ticks": 26,
+            "water_acquired": 0,
+            "movement_energy": 31,
+            "received_damage": 0,
+            "health_start": 120,
+            "health_end": 93,
+            "energy_start": 31,
+            "energy_end": 0,
+            "learner_table_delta": []
+          },
+          {
+            "ticks": [
+              79,
+              104
+            ],
+            "observed_ticks": 19,
+            "water_acquired": 0,
+            "movement_energy": 0,
+            "received_damage": 0,
+            "health_start": 93,
+            "health_end": 0,
+            "energy_start": 0,
+            "energy_end": 0,
+            "learner_table_delta": []
+          }
+        ],
+        "frozen": [
+          {
+            "ticks": [
+              1,
+              52
+            ],
+            "observed_ticks": 0,
+            "water_acquired": 0,
+            "movement_energy": 0,
+            "received_damage": 0,
+            "health_start": 120,
+            "health_end": 120,
+            "energy_start": 31,
+            "energy_end": 31,
+            "learner_table_delta": []
+          },
+          {
+            "ticks": [
+              53,
+              78
+            ],
+            "observed_ticks": 26,
+            "water_acquired": 0,
+            "movement_energy": 31,
+            "received_damage": 0,
+            "health_start": 120,
+            "health_end": 93,
+            "energy_start": 31,
+            "energy_end": 0,
+            "learner_table_delta": []
+          },
+          {
+            "ticks": [
+              79,
+              104
+            ],
+            "observed_ticks": 19,
+            "water_acquired": 0,
+            "movement_energy": 0,
+            "received_damage": 0,
+            "health_start": 93,
+            "health_end": 0,
+            "energy_start": 0,
+            "energy_end": 0,
+            "learner_table_delta": []
+          }
+        ]
+      }
+    },
+    {
+      "seed": 44003,
+      "subject_id": 1,
+      "initial_age": 0,
+      "max_age": 105,
+      "status": "died_after_checkpoint",
+      "final_age": 103,
+      "end_tick": 103,
+      "death_cause": "Starvation",
+      "physical_ticks_all_branches": 205,
+      "ticks": {
+        "uninterrupted": 103,
+        "resumed_online": 51,
+        "frozen": 51
+      },
+      "checkpoint": {
+        "available": true,
+        "tick": 52,
+        "age": 52,
+        "rng": 10436828982598016070,
+        "restored_state_exact": true,
+        "frozen_diff_only_update_flag": true
+      },
+      "resumed_matches_uninterrupted_every_postcheckpoint_tick": true,
+      "online_vs_frozen": {
+        "decisions_events_and_interventions_equal": true,
+        "complete_state_equal_after_ignoring_learner_update_flag_and_table_values": true
+      },
+      "windows": {
+        "uninterrupted": [
+          {
+            "ticks": [
+              1,
+              52
+            ],
+            "observed_ticks": 52,
+            "water_acquired": 30,
+            "movement_energy": 68,
+            "received_damage": 0,
+            "health_start": 120,
+            "health_end": 120,
+            "energy_start": 80,
+            "energy_end": 30,
+            "learner_table_delta": [
+              {
+                "position": {
+                  "x": 1,
+                  "y": 3
+                },
+                "value_delta": 95,
+                "visits_delta": 1
+              },
+              {
+                "position": {
+                  "x": 5,
+                  "y": 3
+                },
+                "value_delta": 97,
+                "visits_delta": 2
+              }
+            ]
+          },
+          {
+            "ticks": [
+              53,
+              78
+            ],
+            "observed_ticks": 26,
+            "water_acquired": 0,
+            "movement_energy": 32,
+            "received_damage": 0,
+            "health_start": 120,
+            "health_end": 99,
+            "energy_start": 30,
+            "energy_end": 0,
+            "learner_table_delta": []
+          },
+          {
+            "ticks": [
+              79,
+              104
+            ],
+            "observed_ticks": 25,
+            "water_acquired": 0,
+            "movement_energy": 0,
+            "received_damage": 0,
+            "health_start": 99,
+            "health_end": 0,
+            "energy_start": 0,
+            "energy_end": 0,
+            "learner_table_delta": []
+          }
+        ],
+        "resumed": [
+          {
+            "ticks": [
+              1,
+              52
+            ],
+            "observed_ticks": 0,
+            "water_acquired": 0,
+            "movement_energy": 0,
+            "received_damage": 0,
+            "health_start": 120,
+            "health_end": 120,
+            "energy_start": 30,
+            "energy_end": 30,
+            "learner_table_delta": []
+          },
+          {
+            "ticks": [
+              53,
+              78
+            ],
+            "observed_ticks": 26,
+            "water_acquired": 0,
+            "movement_energy": 32,
+            "received_damage": 0,
+            "health_start": 120,
+            "health_end": 99,
+            "energy_start": 30,
+            "energy_end": 0,
+            "learner_table_delta": []
+          },
+          {
+            "ticks": [
+              79,
+              104
+            ],
+            "observed_ticks": 25,
+            "water_acquired": 0,
+            "movement_energy": 0,
+            "received_damage": 0,
+            "health_start": 99,
+            "health_end": 0,
+            "energy_start": 0,
+            "energy_end": 0,
+            "learner_table_delta": []
+          }
+        ],
+        "frozen": [
+          {
+            "ticks": [
+              1,
+              52
+            ],
+            "observed_ticks": 0,
+            "water_acquired": 0,
+            "movement_energy": 0,
+            "received_damage": 0,
+            "health_start": 120,
+            "health_end": 120,
+            "energy_start": 30,
+            "energy_end": 30,
+            "learner_table_delta": []
+          },
+          {
+            "ticks": [
+              53,
+              78
+            ],
+            "observed_ticks": 26,
+            "water_acquired": 0,
+            "movement_energy": 32,
+            "received_damage": 0,
+            "health_start": 120,
+            "health_end": 99,
+            "energy_start": 30,
+            "energy_end": 0,
+            "learner_table_delta": []
+          },
+          {
+            "ticks": [
+              79,
+              104
+            ],
+            "observed_ticks": 25,
+            "water_acquired": 0,
+            "movement_energy": 0,
+            "received_damage": 0,
+            "health_start": 99,
+            "health_end": 0,
+            "energy_start": 0,
+            "energy_end": 0,
+            "learner_table_delta": []
+          }
+        ]
+      }
+    },
+    {
+      "seed": 44004,
+      "subject_id": 1,
+      "initial_age": 0,
+      "max_age": 105,
+      "status": "completed",
+      "final_age": 104,
+      "end_tick": 208,
+      "death_cause": null,
+      "physical_ticks_all_branches": 208,
+      "ticks": {
+        "uninterrupted": 104,
+        "resumed_online": 52,
+        "frozen": 52
+      },
+      "checkpoint": {
+        "available": true,
+        "tick": 52,
+        "age": 52,
+        "rng": 11000066739466593736,
+        "restored_state_exact": true,
+        "frozen_diff_only_update_flag": true
+      },
+      "resumed_matches_uninterrupted_every_postcheckpoint_tick": true,
+      "online_vs_frozen": {
+        "decisions_events_and_interventions_equal": true,
+        "complete_state_equal_after_ignoring_learner_update_flag_and_table_values": true
+      },
+      "windows": {
+        "uninterrupted": [
+          {
+            "ticks": [
+              1,
+              52
+            ],
+            "observed_ticks": 52,
+            "water_acquired": 20,
+            "movement_energy": 72,
+            "received_damage": 0,
+            "health_start": 120,
+            "health_end": 120,
+            "energy_start": 80,
+            "energy_end": 24,
+            "learner_table_delta": [
+              {
+                "position": {
+                  "x": 1,
+                  "y": 3
+                },
+                "value_delta": 95,
+                "visits_delta": 1
+              },
+              {
+                "position": {
+                  "x": 5,
+                  "y": 3
+                },
+                "value_delta": 95,
+                "visits_delta": 1
+              }
+            ]
+          },
+          {
+            "ticks": [
+              53,
+              78
+            ],
+            "observed_ticks": 26,
+            "water_acquired": 0,
+            "movement_energy": 26,
+            "received_damage": 0,
+            "health_start": 120,
+            "health_end": 93,
+            "energy_start": 24,
+            "energy_end": 0,
+            "learner_table_delta": []
+          },
+          {
+            "ticks": [
+              79,
+              104
+            ],
+            "observed_ticks": 26,
+            "water_acquired": 30,
+            "movement_energy": 0,
+            "received_damage": 0,
+            "health_start": 93,
+            "health_end": 1,
+            "energy_start": 0,
+            "energy_end": 0,
+            "learner_table_delta": [
+              {
+                "position": {
+                  "x": 5,
+                  "y": 3
+                },
+                "value_delta": 1,
+                "visits_delta": 3
+              }
+            ]
+          }
+        ],
+        "resumed": [
+          {
+            "ticks": [
+              1,
+              52
+            ],
+            "observed_ticks": 0,
+            "water_acquired": 0,
+            "movement_energy": 0,
+            "received_damage": 0,
+            "health_start": 120,
+            "health_end": 120,
+            "energy_start": 24,
+            "energy_end": 24,
+            "learner_table_delta": []
+          },
+          {
+            "ticks": [
+              53,
+              78
+            ],
+            "observed_ticks": 26,
+            "water_acquired": 0,
+            "movement_energy": 26,
+            "received_damage": 0,
+            "health_start": 120,
+            "health_end": 93,
+            "energy_start": 24,
+            "energy_end": 0,
+            "learner_table_delta": []
+          },
+          {
+            "ticks": [
+              79,
+              104
+            ],
+            "observed_ticks": 26,
+            "water_acquired": 30,
+            "movement_energy": 0,
+            "received_damage": 0,
+            "health_start": 93,
+            "health_end": 1,
+            "energy_start": 0,
+            "energy_end": 0,
+            "learner_table_delta": [
+              {
+                "position": {
+                  "x": 5,
+                  "y": 3
+                },
+                "value_delta": 1,
+                "visits_delta": 3
+              }
+            ]
+          }
+        ],
+        "frozen": [
+          {
+            "ticks": [
+              1,
+              52
+            ],
+            "observed_ticks": 0,
+            "water_acquired": 0,
+            "movement_energy": 0,
+            "received_damage": 0,
+            "health_start": 120,
+            "health_end": 120,
+            "energy_start": 24,
+            "energy_end": 24,
+            "learner_table_delta": []
+          },
+          {
+            "ticks": [
+              53,
+              78
+            ],
+            "observed_ticks": 26,
+            "water_acquired": 0,
+            "movement_energy": 26,
+            "received_damage": 0,
+            "health_start": 120,
+            "health_end": 93,
+            "energy_start": 24,
+            "energy_end": 0,
+            "learner_table_delta": []
+          },
+          {
+            "ticks": [
+              79,
+              104
+            ],
+            "observed_ticks": 26,
+            "water_acquired": 30,
+            "movement_energy": 0,
+            "received_damage": 0,
+            "health_start": 93,
+            "health_end": 1,
+            "energy_start": 0,
+            "energy_end": 0,
+            "learner_table_delta": []
+          }
+        ]
+      }
+    },
+    {
+      "seed": 44005,
+      "subject_id": 1,
+      "initial_age": 0,
+      "max_age": 105,
+      "status": "died_after_checkpoint",
+      "final_age": 99,
+      "end_tick": 99,
+      "death_cause": "Starvation",
+      "physical_ticks_all_branches": 193,
+      "ticks": {
+        "uninterrupted": 99,
+        "resumed_online": 47,
+        "frozen": 47
+      },
+      "checkpoint": {
+        "available": true,
+        "tick": 52,
+        "age": 52,
+        "rng": 2652386615516807470,
+        "restored_state_exact": true,
+        "frozen_diff_only_update_flag": true
+      },
+      "resumed_matches_uninterrupted_every_postcheckpoint_tick": true,
+      "online_vs_frozen": {
+        "decisions_events_and_interventions_equal": true,
+        "complete_state_equal_after_ignoring_learner_update_flag_and_table_values": true
+      },
+      "windows": {
+        "uninterrupted": [
+          {
+            "ticks": [
+              1,
+              52
+            ],
+            "observed_ticks": 52,
+            "water_acquired": 20,
+            "movement_energy": 82,
+            "received_damage": 0,
+            "health_start": 120,
+            "health_end": 120,
+            "energy_start": 80,
+            "energy_end": 22,
+            "learner_table_delta": [
+              {
+                "position": {
+                  "x": 1,
+                  "y": 3
+                },
+                "value_delta": 95,
+                "visits_delta": 1
+              }
+            ]
+          },
+          {
+            "ticks": [
+              53,
+              78
+            ],
+            "observed_ticks": 26,
+            "water_acquired": 0,
+            "movement_energy": 22,
+            "received_damage": 0,
+            "health_start": 120,
+            "health_end": 81,
+            "energy_start": 22,
+            "energy_end": 0,
+            "learner_table_delta": []
+          },
+          {
+            "ticks": [
+              79,
+              104
+            ],
+            "observed_ticks": 21,
+            "water_acquired": 20,
+            "movement_energy": 0,
+            "received_damage": 0,
+            "health_start": 81,
+            "health_end": 0,
+            "energy_start": 0,
+            "energy_end": 0,
+            "learner_table_delta": [
+              {
+                "position": {
+                  "x": 5,
+                  "y": 3
+                },
+                "value_delta": 99,
+                "visits_delta": 2
+              }
+            ]
+          }
+        ],
+        "resumed": [
+          {
+            "ticks": [
+              1,
+              52
+            ],
+            "observed_ticks": 0,
+            "water_acquired": 0,
+            "movement_energy": 0,
+            "received_damage": 0,
+            "health_start": 120,
+            "health_end": 120,
+            "energy_start": 22,
+            "energy_end": 22,
+            "learner_table_delta": []
+          },
+          {
+            "ticks": [
+              53,
+              78
+            ],
+            "observed_ticks": 26,
+            "water_acquired": 0,
+            "movement_energy": 22,
+            "received_damage": 0,
+            "health_start": 120,
+            "health_end": 81,
+            "energy_start": 22,
+            "energy_end": 0,
+            "learner_table_delta": []
+          },
+          {
+            "ticks": [
+              79,
+              104
+            ],
+            "observed_ticks": 21,
+            "water_acquired": 20,
+            "movement_energy": 0,
+            "received_damage": 0,
+            "health_start": 81,
+            "health_end": 0,
+            "energy_start": 0,
+            "energy_end": 0,
+            "learner_table_delta": [
+              {
+                "position": {
+                  "x": 5,
+                  "y": 3
+                },
+                "value_delta": 99,
+                "visits_delta": 2
+              }
+            ]
+          }
+        ],
+        "frozen": [
+          {
+            "ticks": [
+              1,
+              52
+            ],
+            "observed_ticks": 0,
+            "water_acquired": 0,
+            "movement_energy": 0,
+            "received_damage": 0,
+            "health_start": 120,
+            "health_end": 120,
+            "energy_start": 22,
+            "energy_end": 22,
+            "learner_table_delta": []
+          },
+          {
+            "ticks": [
+              53,
+              78
+            ],
+            "observed_ticks": 26,
+            "water_acquired": 0,
+            "movement_energy": 22,
+            "received_damage": 0,
+            "health_start": 120,
+            "health_end": 81,
+            "energy_start": 22,
+            "energy_end": 0,
+            "learner_table_delta": []
+          },
+          {
+            "ticks": [
+              79,
+              104
+            ],
+            "observed_ticks": 21,
+            "water_acquired": 20,
+            "movement_energy": 0,
+            "received_damage": 0,
+            "health_start": 81,
+            "health_end": 0,
+            "energy_start": 0,
+            "energy_end": 0,
+            "learner_table_delta": []
+          }
+        ]
+      }
+    },
+    {
+      "seed": 44006,
+      "subject_id": 1,
+      "initial_age": 0,
+      "max_age": 105,
+      "status": "died_after_checkpoint",
+      "final_age": 94,
+      "end_tick": 94,
+      "death_cause": "Dehydration",
+      "physical_ticks_all_branches": 178,
+      "ticks": {
+        "uninterrupted": 94,
+        "resumed_online": 42,
+        "frozen": 42
+      },
+      "checkpoint": {
+        "available": true,
+        "tick": 52,
+        "age": 52,
+        "rng": 15714059349847233168,
+        "restored_state_exact": true,
+        "frozen_diff_only_update_flag": true
+      },
+      "resumed_matches_uninterrupted_every_postcheckpoint_tick": true,
+      "online_vs_frozen": {
+        "decisions_events_and_interventions_equal": true,
+        "complete_state_equal_after_ignoring_learner_update_flag_and_table_values": true
+      },
+      "windows": {
+        "uninterrupted": [
+          {
+            "ticks": [
+              1,
+              52
+            ],
+            "observed_ticks": 52,
+            "water_acquired": 10,
+            "movement_energy": 87,
+            "received_damage": 0,
+            "health_start": 120,
+            "health_end": 120,
+            "energy_start": 80,
+            "energy_end": 9,
+            "learner_table_delta": [
+              {
+                "position": {
+                  "x": 1,
+                  "y": 3
+                },
+                "value_delta": 95,
+                "visits_delta": 1
+              }
+            ]
+          },
+          {
+            "ticks": [
+              53,
+              78
+            ],
+            "observed_ticks": 26,
+            "water_acquired": 10,
+            "movement_energy": 8,
+            "received_damage": 0,
+            "health_start": 120,
+            "health_end": 60,
+            "energy_start": 9,
+            "energy_end": 0,
+            "learner_table_delta": [
+              {
+                "position": {
+                  "x": 5,
+                  "y": 3
+                },
+                "value_delta": 95,
+                "visits_delta": 1
+              }
+            ]
+          },
+          {
+            "ticks": [
+              79,
+              104
+            ],
+            "observed_ticks": 16,
+            "water_acquired": 10,
+            "movement_energy": 0,
+            "received_damage": 0,
+            "health_start": 60,
+            "health_end": 0,
+            "energy_start": 0,
+            "energy_end": 0,
+            "learner_table_delta": [
+              {
+                "position": {
+                  "x": 5,
+                  "y": 3
+                },
+                "value_delta": 1,
+                "visits_delta": 1
+              }
+            ]
+          }
+        ],
+        "resumed": [
+          {
+            "ticks": [
+              1,
+              52
+            ],
+            "observed_ticks": 0,
+            "water_acquired": 0,
+            "movement_energy": 0,
+            "received_damage": 0,
+            "health_start": 120,
+            "health_end": 120,
+            "energy_start": 9,
+            "energy_end": 9,
+            "learner_table_delta": []
+          },
+          {
+            "ticks": [
+              53,
+              78
+            ],
+            "observed_ticks": 26,
+            "water_acquired": 10,
+            "movement_energy": 8,
+            "received_damage": 0,
+            "health_start": 120,
+            "health_end": 60,
+            "energy_start": 9,
+            "energy_end": 0,
+            "learner_table_delta": [
+              {
+                "position": {
+                  "x": 5,
+                  "y": 3
+                },
+                "value_delta": 95,
+                "visits_delta": 1
+              }
+            ]
+          },
+          {
+            "ticks": [
+              79,
+              104
+            ],
+            "observed_ticks": 16,
+            "water_acquired": 10,
+            "movement_energy": 0,
+            "received_damage": 0,
+            "health_start": 60,
+            "health_end": 0,
+            "energy_start": 0,
+            "energy_end": 0,
+            "learner_table_delta": [
+              {
+                "position": {
+                  "x": 5,
+                  "y": 3
+                },
+                "value_delta": 1,
+                "visits_delta": 1
+              }
+            ]
+          }
+        ],
+        "frozen": [
+          {
+            "ticks": [
+              1,
+              52
+            ],
+            "observed_ticks": 0,
+            "water_acquired": 0,
+            "movement_energy": 0,
+            "received_damage": 0,
+            "health_start": 120,
+            "health_end": 120,
+            "energy_start": 9,
+            "energy_end": 9,
+            "learner_table_delta": []
+          },
+          {
+            "ticks": [
+              53,
+              78
+            ],
+            "observed_ticks": 26,
+            "water_acquired": 10,
+            "movement_energy": 8,
+            "received_damage": 0,
+            "health_start": 120,
+            "health_end": 60,
+            "energy_start": 9,
+            "energy_end": 0,
+            "learner_table_delta": []
+          },
+          {
+            "ticks": [
+              79,
+              104
+            ],
+            "observed_ticks": 16,
+            "water_acquired": 10,
+            "movement_energy": 0,
+            "received_damage": 0,
+            "health_start": 60,
+            "health_end": 0,
+            "energy_start": 0,
+            "energy_end": 0,
+            "learner_table_delta": []
+          }
+        ]
+      }
+    },
+    {
+      "seed": 44007,
+      "subject_id": 1,
+      "initial_age": 0,
+      "max_age": 105,
+      "status": "died_after_checkpoint",
+      "final_age": 101,
+      "end_tick": 101,
+      "death_cause": "Dehydration",
+      "physical_ticks_all_branches": 199,
+      "ticks": {
+        "uninterrupted": 101,
+        "resumed_online": 49,
+        "frozen": 49
+      },
+      "checkpoint": {
+        "available": true,
+        "tick": 52,
+        "age": 52,
+        "rng": 7556606269950613395,
+        "restored_state_exact": true,
+        "frozen_diff_only_update_flag": true
+      },
+      "resumed_matches_uninterrupted_every_postcheckpoint_tick": true,
+      "online_vs_frozen": {
+        "decisions_events_and_interventions_equal": true,
+        "complete_state_equal_after_ignoring_learner_update_flag_and_table_values": true
+      },
+      "windows": {
+        "uninterrupted": [
+          {
+            "ticks": [
+              1,
+              52
+            ],
+            "observed_ticks": 52,
+            "water_acquired": 30,
+            "movement_energy": 74,
+            "received_damage": 0,
+            "health_start": 120,
+            "health_end": 120,
+            "energy_start": 80,
+            "energy_end": 34,
+            "learner_table_delta": [
+              {
+                "position": {
+                  "x": 1,
+                  "y": 3
+                },
+                "value_delta": 95,
+                "visits_delta": 2
+              },
+              {
+                "position": {
+                  "x": 5,
+                  "y": 3
+                },
+                "value_delta": 95,
+                "visits_delta": 1
+              }
+            ]
+          },
+          {
+            "ticks": [
+              53,
+              78
+            ],
+            "observed_ticks": 26,
+            "water_acquired": 0,
+            "movement_energy": 29,
+            "received_damage": 0,
+            "health_start": 120,
+            "health_end": 93,
+            "energy_start": 34,
+            "energy_end": 0,
+            "learner_table_delta": []
+          },
+          {
+            "ticks": [
+              79,
+              104
+            ],
+            "observed_ticks": 23,
+            "water_acquired": 0,
+            "movement_energy": 0,
+            "received_damage": 0,
+            "health_start": 93,
+            "health_end": 0,
+            "energy_start": 0,
+            "energy_end": 0,
+            "learner_table_delta": []
+          }
+        ],
+        "resumed": [
+          {
+            "ticks": [
+              1,
+              52
+            ],
+            "observed_ticks": 0,
+            "water_acquired": 0,
+            "movement_energy": 0,
+            "received_damage": 0,
+            "health_start": 120,
+            "health_end": 120,
+            "energy_start": 34,
+            "energy_end": 34,
+            "learner_table_delta": []
+          },
+          {
+            "ticks": [
+              53,
+              78
+            ],
+            "observed_ticks": 26,
+            "water_acquired": 0,
+            "movement_energy": 29,
+            "received_damage": 0,
+            "health_start": 120,
+            "health_end": 93,
+            "energy_start": 34,
+            "energy_end": 0,
+            "learner_table_delta": []
+          },
+          {
+            "ticks": [
+              79,
+              104
+            ],
+            "observed_ticks": 23,
+            "water_acquired": 0,
+            "movement_energy": 0,
+            "received_damage": 0,
+            "health_start": 93,
+            "health_end": 0,
+            "energy_start": 0,
+            "energy_end": 0,
+            "learner_table_delta": []
+          }
+        ],
+        "frozen": [
+          {
+            "ticks": [
+              1,
+              52
+            ],
+            "observed_ticks": 0,
+            "water_acquired": 0,
+            "movement_energy": 0,
+            "received_damage": 0,
+            "health_start": 120,
+            "health_end": 120,
+            "energy_start": 34,
+            "energy_end": 34,
+            "learner_table_delta": []
+          },
+          {
+            "ticks": [
+              53,
+              78
+            ],
+            "observed_ticks": 26,
+            "water_acquired": 0,
+            "movement_energy": 29,
+            "received_damage": 0,
+            "health_start": 120,
+            "health_end": 93,
+            "energy_start": 34,
+            "energy_end": 0,
+            "learner_table_delta": []
+          },
+          {
+            "ticks": [
+              79,
+              104
+            ],
+            "observed_ticks": 23,
+            "water_acquired": 0,
+            "movement_energy": 0,
+            "received_damage": 0,
+            "health_start": 93,
+            "health_end": 0,
+            "energy_start": 0,
+            "energy_end": 0,
+            "learner_table_delta": []
+          }
+        ]
+      }
+    },
+    {
+      "seed": 44008,
+      "subject_id": 1,
+      "initial_age": 0,
+      "max_age": 105,
+      "status": "died_after_checkpoint",
+      "final_age": 94,
+      "end_tick": 94,
+      "death_cause": "Dehydration",
+      "physical_ticks_all_branches": 178,
+      "ticks": {
+        "uninterrupted": 94,
+        "resumed_online": 42,
+        "frozen": 42
+      },
+      "checkpoint": {
+        "available": true,
+        "tick": 52,
+        "age": 52,
+        "rng": 13469605028985677861,
+        "restored_state_exact": true,
+        "frozen_diff_only_update_flag": true
+      },
+      "resumed_matches_uninterrupted_every_postcheckpoint_tick": true,
+      "online_vs_frozen": {
+        "decisions_events_and_interventions_equal": true,
+        "complete_state_equal_after_ignoring_learner_update_flag_and_table_values": true
+      },
+      "windows": {
+        "uninterrupted": [
+          {
+            "ticks": [
+              1,
+              52
+            ],
+            "observed_ticks": 52,
+            "water_acquired": 10,
+            "movement_energy": 88,
+            "received_damage": 0,
+            "health_start": 120,
+            "health_end": 120,
+            "energy_start": 80,
+            "energy_end": 8,
+            "learner_table_delta": [
+              {
+                "position": {
+                  "x": 1,
+                  "y": 3
+                },
+                "value_delta": 95,
+                "visits_delta": 1
+              }
+            ]
+          },
+          {
+            "ticks": [
+              53,
+              78
+            ],
+            "observed_ticks": 26,
+            "water_acquired": 10,
+            "movement_energy": 8,
+            "received_damage": 0,
+            "health_start": 120,
+            "health_end": 60,
+            "energy_start": 8,
+            "energy_end": 0,
+            "learner_table_delta": [
+              {
+                "position": {
+                  "x": 5,
+                  "y": 3
+                },
+                "value_delta": 95,
+                "visits_delta": 1
+              }
+            ]
+          },
+          {
+            "ticks": [
+              79,
+              104
+            ],
+            "observed_ticks": 16,
+            "water_acquired": 10,
+            "movement_energy": 0,
+            "received_damage": 0,
+            "health_start": 60,
+            "health_end": 0,
+            "energy_start": 0,
+            "energy_end": 0,
+            "learner_table_delta": [
+              {
+                "position": {
+                  "x": 5,
+                  "y": 3
+                },
+                "value_delta": 1,
+                "visits_delta": 1
+              }
+            ]
+          }
+        ],
+        "resumed": [
+          {
+            "ticks": [
+              1,
+              52
+            ],
+            "observed_ticks": 0,
+            "water_acquired": 0,
+            "movement_energy": 0,
+            "received_damage": 0,
+            "health_start": 120,
+            "health_end": 120,
+            "energy_start": 8,
+            "energy_end": 8,
+            "learner_table_delta": []
+          },
+          {
+            "ticks": [
+              53,
+              78
+            ],
+            "observed_ticks": 26,
+            "water_acquired": 10,
+            "movement_energy": 8,
+            "received_damage": 0,
+            "health_start": 120,
+            "health_end": 60,
+            "energy_start": 8,
+            "energy_end": 0,
+            "learner_table_delta": [
+              {
+                "position": {
+                  "x": 5,
+                  "y": 3
+                },
+                "value_delta": 95,
+                "visits_delta": 1
+              }
+            ]
+          },
+          {
+            "ticks": [
+              79,
+              104
+            ],
+            "observed_ticks": 16,
+            "water_acquired": 10,
+            "movement_energy": 0,
+            "received_damage": 0,
+            "health_start": 60,
+            "health_end": 0,
+            "energy_start": 0,
+            "energy_end": 0,
+            "learner_table_delta": [
+              {
+                "position": {
+                  "x": 5,
+                  "y": 3
+                },
+                "value_delta": 1,
+                "visits_delta": 1
+              }
+            ]
+          }
+        ],
+        "frozen": [
+          {
+            "ticks": [
+              1,
+              52
+            ],
+            "observed_ticks": 0,
+            "water_acquired": 0,
+            "movement_energy": 0,
+            "received_damage": 0,
+            "health_start": 120,
+            "health_end": 120,
+            "energy_start": 8,
+            "energy_end": 8,
+            "learner_table_delta": []
+          },
+          {
+            "ticks": [
+              53,
+              78
+            ],
+            "observed_ticks": 26,
+            "water_acquired": 10,
+            "movement_energy": 8,
+            "received_damage": 0,
+            "health_start": 120,
+            "health_end": 60,
+            "energy_start": 8,
+            "energy_end": 0,
+            "learner_table_delta": []
+          },
+          {
+            "ticks": [
+              79,
+              104
+            ],
+            "observed_ticks": 16,
+            "water_acquired": 10,
+            "movement_energy": 0,
+            "received_damage": 0,
+            "health_start": 60,
+            "health_end": 0,
+            "energy_start": 0,
+            "energy_end": 0,
+            "learner_table_delta": []
+          }
+        ]
+      }
+    }
+  ],
+  "limitations": [
+    "Seven of eight subjects died from starvation or dehydration before tick 104; one reached the cutoff alive at age 104.",
+    "Post-checkpoint water and updates occurred in only four of eight subjects and did not alter actions or physical outcomes in the frozen comparison.",
+    "A 104-tick single-life history is not a long-term lifespan, population fitness, or ecological acceptance test.",
+    "Accelerated simulation ticks are not real elapsed lifetime or real-time ecosystem throughput."
+  ]
+}
