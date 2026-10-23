@@ -1,0 +1,537 @@
+{
+  "schema": "curious-herbivore-danger-report-v1",
+  "study": "herbivore-lab-v1-20261023",
+  "report_status": "reanalysis_completed_original_formal_manifest_failed",
+  "conclusion": "The original probe raw was validated by a corrected analysis-only validator without rerunning biology. Paired branches had identical decisions, physical state, RNG and physical outcomes after removing the feature memory fields and audit events. The lab records refuge outcome updates but demonstrates no observed behavior or mortality benefit.",
+  "calibration": {
+    "status": "completed",
+    "seed": 45999,
+    "python_validation": "passed",
+    "physical_ticks": 134,
+    "limit": 200,
+    "raw_sha256": "77ed0d56d576daead06cfdb65ec553880f2a7c7c30ca02aee2c54b4afe972756",
+    "summary_sha256": "b3e6ef87ea226a035c3497b28c9943484f7213306bb8b95ad033bee60c9e9bc2",
+    "manifest_path": "data/experiments/herbivore-lab-v1-calibration-20261023/manifest.json",
+    "raw_path": "data/experiments/herbivore-lab-v1-calibration-20261023/raw.jsonl",
+    "summary_path": "data/experiments/herbivore-lab-v1-calibration-20261023/summary.json",
+    "tuning_or_source_changes": false
+  },
+  "original_formal_run": {
+    "manifest_status": "failed",
+    "unit_result": "failed_postrun_validation",
+    "probe_exit_code": 0,
+    "revision": "60ab1519022bb50dfe91977892b67be3da178e9f",
+    "source_sha256": "a2e6c94189934cdc851a502bc138dcb95a56b8618d0961b2bcaf24d33dd953f4",
+    "binary_sha256": "02432ca516a5afbfa50b5f5ce602db5c2c4cabe8ef23d7a018e95cb781c9b88a",
+    "protocol_sha256": "537901bac12ac406b4895f315b09ee60f38a512e5e10ab0d5631c0e836c4a9d6",
+    "seed_audit_unseen": [
+      45001,
+      45002,
+      45003,
+      45004,
+      45005,
+      45006,
+      45007,
+      45008
+    ],
+    "raw_sha256": "deee6bbcb78f2af731ef20a476cd43c3f3c8d127bf7eb76a00d14d734eb7f10a",
+    "raw_bytes": 11889496,
+    "raw_rows": 8,
+    "stderr_bytes": 0,
+    "timeout": false,
+    "output_limit_exceeded": false,
+    "elapsed_seconds": 0.5172148709971225,
+    "error": "ValueError: refuge_memory: observer and engine closure reasons disagree",
+    "first_validator_exception": {
+      "seed": 45002,
+      "branch": "refuge_memory",
+      "tick": 65,
+      "episode_started_tick": 61,
+      "observer": "target_changed",
+      "engine": "TargetChanged",
+      "cause": "Snake_case and PascalCase spellings were compared without underscore normalization; semantically equivalent closure labels."
+    }
+  },
+  "reanalysis": {
+    "status": "completed",
+    "analysis_revision": "976683f",
+    "validator_sha256": "e6a3e6264e2bf205b14a4754e9ff838bf2afa5633d4664819762a831b579f28b",
+    "analysis_protocol_sha256": "a96a19e7e876b3f1725178747b45c95c79145d03c73b284b7f6db9cd026b7d66",
+    "summary_sha256": "7d199ee26918e582e8551e61dc9bd5402900952dc9b87b97aee8d530fd33085e",
+    "generated_report_sha256": "02076aa5f63788bc728d1590923dfd02d42d66118e6de94fed5bfcdabd05402d",
+    "original_formal_manifest_sha256": "5c2fd200647451e5e0266b818c88330fb77de6453a8c8a5b9e791de2babe2210",
+    "original_status": "failed",
+    "original_error": "ValueError: refuge_memory: observer and engine closure reasons disagree",
+    "biological_revision": "60ab1519022bb50dfe91977892b67be3da178e9f",
+    "original_raw_sha256": "deee6bbcb78f2af731ef20a476cd43c3f3c8d127bf7eb76a00d14d734eb7f10a",
+    "original_binary_sha256": "02432ca516a5afbfa50b5f5ce602db5c2c4cabe8ef23d7a018e95cb781c9b88a",
+    "original_protocol_sha256": "537901bac12ac406b4895f315b09ee60f38a512e5e10ab0d5631c0e836c4a9d6",
+    "biology_source_hashes_unchanged": true,
+    "probe_launched": false,
+    "additional_biological_ticks": 0,
+    "physical_ticks_in_original_capture": 1148,
+    "analysis_path": "data/experiments/herbivore-lab-v1-reanalysis-20261023",
+    "root_physical_audit_path": "data/experiments/herbivore-lab-v1-reanalysis-20261023/root-physical-audit.json",
+    "root_physical_audit_sha256": "a6e6604c2f4289d46b6d1b4276e3a59785d6f772a9f7e3a2dccc069e42ce9e35"
+  },
+  "protocol_outcomes": {
+    "physical_tick_ceiling": 1600,
+    "formal_physical_ticks": 1148,
+    "calibration_physical_ticks": 134,
+    "combined_actual_ticks": 1282,
+    "combined_ceiling": 1800,
+    "additional_reanalysis_ticks": 0,
+    "seeds_now_seen": [
+      45001,
+      45002,
+      45003,
+      45004,
+      45005,
+      45006,
+      45007,
+      45008
+    ],
+    "per_arm": {
+      "baseline": {
+        "physical_ticks": 574,
+        "closures": 65,
+        "observer_verified_safe_arrivals": 52,
+        "safe_arrival_rate": 0.8,
+        "censored_or_unresolved_closures": 13,
+        "closure_types": {
+          "endpoint_ambiguous": 3,
+          "arrived": 52,
+          "died": 6,
+          "target_changed": 1,
+          "threat_lost": 3
+        },
+        "whole_life_threat_damage": 360,
+        "whole_life_other_damage": 0,
+        "episode_ledger_threat_damage_sum": 360,
+        "episode_ledger_other_damage_sum": 0,
+        "episode_ledger_unattributed_health_loss_sum": 134,
+        "episode_ledger_movement_energy_sum": 101,
+        "post_first_safe_resource_seeking_ticks": 369,
+        "post_first_safe_resource_seeking_movement_energy": 366,
+        "post_first_safe_food": 295,
+        "post_first_safe_water": 80
+      },
+      "refuge_memory": {
+        "physical_ticks": 574,
+        "closures": 65,
+        "observer_verified_safe_arrivals": 52,
+        "safe_arrival_rate": 0.8,
+        "censored_or_unresolved_closures": 13,
+        "closure_types": {
+          "endpoint_ambiguous": 3,
+          "arrived": 52,
+          "died": 6,
+          "target_changed": 1,
+          "threat_lost": 3
+        },
+        "whole_life_threat_damage": 360,
+        "whole_life_other_damage": 0,
+        "episode_ledger_threat_damage_sum": 360,
+        "episode_ledger_other_damage_sum": 0,
+        "episode_ledger_unattributed_health_loss_sum": 134,
+        "episode_ledger_movement_energy_sum": 101,
+        "post_first_safe_resource_seeking_ticks": 369,
+        "post_first_safe_resource_seeking_movement_energy": 366,
+        "post_first_safe_food": 295,
+        "post_first_safe_water": 80
+      }
+    },
+    "core_refuge_memory_safe_arrival_events_total": 55,
+    "observer_independently_verified_safe_arrivals_total": 52,
+    "engine_events_unmapped_by_shared_observer_total": 3,
+    "unmapped_seeds": [
+      45001,
+      45005,
+      45006
+    ],
+    "terminal_bounded_memory_completed_safe_counter_sum": 53,
+    "terminal_table_note": "The memory table is capped at eight records and evicts older records in seeds 45001 and 45006. The terminal counter sum is not cumulative lifetime updates."
+  },
+  "paired_physical_audit": {
+    "passed": true,
+    "paired_ticks": 574,
+    "normalization": "Exclude only four new refuge-memory fields from full-state comparison, and feature-owned RefugeEpisodeEnded audit rows from decision outcome events. All other decisions, resolver physical events, controller cursor, world state and RNG matched."
+  },
+  "endpoint_observability": {
+    "observer_unmapped_cases": 3,
+    "seed_ticks": [
+      {
+        "seed": 45001,
+        "tick": 4
+      },
+      {
+        "seed": 45005,
+        "tick": 10
+      },
+      {
+        "seed": 45006,
+        "tick": 10
+      }
+    ],
+    "interpretation": "The core selects and stores its full endpoint before truncating the Move path to speed; the resolver records arrival only when the subject reaches that stored burrow. The symmetric observer sees a prefix shared by both visible refuge routes and leaves the endpoint unknown. Keep 55 core-recorded arrivals separate from 52 observer-verified arrivals; do not impute the three observer endpoints."
+  },
+  "per_seed": [
+    {
+      "seed": 45001,
+      "status": "natural_death",
+      "ticks_each_branch": 67,
+      "death_cause": "Starvation",
+      "observer": {
+        "closures_per_branch": 10,
+        "verified_safe_arrivals_per_branch": 8,
+        "verified_safe_rate_per_branch": 0.8,
+        "censored_or_unresolved_per_branch": 2,
+        "closure_types": {
+          "endpoint_ambiguous": 1,
+          "arrived": 8,
+          "died": 1
+        }
+      },
+      "paired_physical": {
+        "same_decisions_state_rng_and_resolver_outcomes": true,
+        "movement_energy_per_branch": 69,
+        "whole_life_threat_damage_per_branch": 60,
+        "other_lifetime_damage_per_branch": 0
+      },
+      "feature_memory": {
+        "engine_safe_arrival_events": 9,
+        "observer_unmapped_safe_arrivals": 1,
+        "terminal_retained_completed_safe_counters": 8,
+        "terminal_record_count": 8
+      }
+    },
+    {
+      "seed": 45002,
+      "status": "natural_death",
+      "ticks_each_branch": 82,
+      "death_cause": "Starvation",
+      "observer": {
+        "closures_per_branch": 10,
+        "verified_safe_arrivals_per_branch": 7,
+        "verified_safe_rate_per_branch": 0.7,
+        "censored_or_unresolved_per_branch": 3,
+        "closure_types": {
+          "arrived": 7,
+          "target_changed": 1,
+          "threat_lost": 1,
+          "died": 1
+        }
+      },
+      "paired_physical": {
+        "same_decisions_state_rng_and_resolver_outcomes": true,
+        "movement_energy_per_branch": 72,
+        "whole_life_threat_damage_per_branch": 0,
+        "other_lifetime_damage_per_branch": 0
+      },
+      "feature_memory": {
+        "engine_safe_arrival_events": 7,
+        "observer_unmapped_safe_arrivals": 0,
+        "terminal_retained_completed_safe_counters": 7,
+        "terminal_record_count": 7
+      }
+    },
+    {
+      "seed": 45003,
+      "status": "natural_death",
+      "ticks_each_branch": 67,
+      "death_cause": "Combat",
+      "observer": {
+        "closures_per_branch": 6,
+        "verified_safe_arrivals_per_branch": 5,
+        "verified_safe_rate_per_branch": 0.8333333333333334,
+        "censored_or_unresolved_per_branch": 1,
+        "closure_types": {
+          "arrived": 5,
+          "died": 1
+        }
+      },
+      "paired_physical": {
+        "same_decisions_state_rng_and_resolver_outcomes": true,
+        "movement_energy_per_branch": 71,
+        "whole_life_threat_damage_per_branch": 60,
+        "other_lifetime_damage_per_branch": 0
+      },
+      "feature_memory": {
+        "engine_safe_arrival_events": 5,
+        "observer_unmapped_safe_arrivals": 0,
+        "terminal_retained_completed_safe_counters": 5,
+        "terminal_record_count": 5
+      }
+    },
+    {
+      "seed": 45004,
+      "status": "natural_death",
+      "ticks_each_branch": 80,
+      "death_cause": "Dehydration",
+      "observer": {
+        "closures_per_branch": 8,
+        "verified_safe_arrivals_per_branch": 7,
+        "verified_safe_rate_per_branch": 0.875,
+        "censored_or_unresolved_per_branch": 1,
+        "closure_types": {
+          "arrived": 7,
+          "threat_lost": 1
+        }
+      },
+      "paired_physical": {
+        "same_decisions_state_rng_and_resolver_outcomes": true,
+        "movement_energy_per_branch": 71,
+        "whole_life_threat_damage_per_branch": 0,
+        "other_lifetime_damage_per_branch": 0
+      },
+      "feature_memory": {
+        "engine_safe_arrival_events": 7,
+        "observer_unmapped_safe_arrivals": 0,
+        "terminal_retained_completed_safe_counters": 7,
+        "terminal_record_count": 7
+      }
+    },
+    {
+      "seed": 45005,
+      "status": "natural_death",
+      "ticks_each_branch": 67,
+      "death_cause": "Combat",
+      "observer": {
+        "closures_per_branch": 8,
+        "verified_safe_arrivals_per_branch": 6,
+        "verified_safe_rate_per_branch": 0.75,
+        "censored_or_unresolved_per_branch": 2,
+        "closure_types": {
+          "endpoint_ambiguous": 1,
+          "arrived": 6,
+          "died": 1
+        }
+      },
+      "paired_physical": {
+        "same_decisions_state_rng_and_resolver_outcomes": true,
+        "movement_energy_per_branch": 70,
+        "whole_life_threat_damage_per_branch": 80,
+        "other_lifetime_damage_per_branch": 0
+      },
+      "feature_memory": {
+        "engine_safe_arrival_events": 7,
+        "observer_unmapped_safe_arrivals": 1,
+        "terminal_retained_completed_safe_counters": 7,
+        "terminal_record_count": 7
+      }
+    },
+    {
+      "seed": 45006,
+      "status": "natural_death",
+      "ticks_each_branch": 69,
+      "death_cause": "Combat",
+      "observer": {
+        "closures_per_branch": 10,
+        "verified_safe_arrivals_per_branch": 8,
+        "verified_safe_rate_per_branch": 0.8,
+        "censored_or_unresolved_per_branch": 2,
+        "closure_types": {
+          "endpoint_ambiguous": 1,
+          "arrived": 8,
+          "died": 1
+        }
+      },
+      "paired_physical": {
+        "same_decisions_state_rng_and_resolver_outcomes": true,
+        "movement_energy_per_branch": 70,
+        "whole_life_threat_damage_per_branch": 60,
+        "other_lifetime_damage_per_branch": 0
+      },
+      "feature_memory": {
+        "engine_safe_arrival_events": 9,
+        "observer_unmapped_safe_arrivals": 1,
+        "terminal_retained_completed_safe_counters": 8,
+        "terminal_record_count": 8
+      }
+    },
+    {
+      "seed": 45007,
+      "status": "natural_death",
+      "ticks_each_branch": 62,
+      "death_cause": "Combat",
+      "observer": {
+        "closures_per_branch": 7,
+        "verified_safe_arrivals_per_branch": 6,
+        "verified_safe_rate_per_branch": 0.8571428571428571,
+        "censored_or_unresolved_per_branch": 1,
+        "closure_types": {
+          "arrived": 6,
+          "died": 1
+        }
+      },
+      "paired_physical": {
+        "same_decisions_state_rng_and_resolver_outcomes": true,
+        "movement_energy_per_branch": 68,
+        "whole_life_threat_damage_per_branch": 100,
+        "other_lifetime_damage_per_branch": 0
+      },
+      "feature_memory": {
+        "engine_safe_arrival_events": 6,
+        "observer_unmapped_safe_arrivals": 0,
+        "terminal_retained_completed_safe_counters": 6,
+        "terminal_record_count": 6
+      }
+    },
+    {
+      "seed": 45008,
+      "status": "natural_death",
+      "ticks_each_branch": 80,
+      "death_cause": "Dehydration",
+      "observer": {
+        "closures_per_branch": 6,
+        "verified_safe_arrivals_per_branch": 5,
+        "verified_safe_rate_per_branch": 0.8333333333333334,
+        "censored_or_unresolved_per_branch": 1,
+        "closure_types": {
+          "arrived": 5,
+          "threat_lost": 1
+        }
+      },
+      "paired_physical": {
+        "same_decisions_state_rng_and_resolver_outcomes": true,
+        "movement_energy_per_branch": 71,
+        "whole_life_threat_damage_per_branch": 0,
+        "other_lifetime_damage_per_branch": 0
+      },
+      "feature_memory": {
+        "engine_safe_arrival_events": 5,
+        "observer_unmapped_safe_arrivals": 0,
+        "terminal_retained_completed_safe_counters": 5,
+        "terminal_record_count": 5
+      }
+    }
+  ],
+  "first_last_same_context": {
+    "available_pairs": [
+      {
+        "seed": 45002,
+        "branch": "baseline",
+        "context": {
+          "threat_id": 2,
+          "threat_species": "Carnivore",
+          "bearing": 7,
+          "threat_distance": 1,
+          "energy_quartile": 0,
+          "stamina_quartile": 3,
+          "refuge_options": [
+            {
+              "x": 1,
+              "y": 3
+            },
+            {
+              "x": 5,
+              "y": 3
+            }
+          ]
+        },
+        "first": {
+          "closed_tick": 66,
+          "closure": "threat_lost",
+          "safe_arrival": false,
+          "completed": false,
+          "attribution_known": null,
+          "threat_damage": 0,
+          "other_damage": 0
+        },
+        "last": {
+          "closed_tick": 82,
+          "closure": "died",
+          "safe_arrival": false,
+          "completed": false,
+          "attribution_known": null,
+          "threat_damage": 0,
+          "other_damage": 0
+        },
+        "interpretation": "Both closures censored; false safe_arrival indicates not verified safe, not a confirmed unsafe outcome."
+      },
+      {
+        "seed": 45002,
+        "branch": "refuge_memory",
+        "context": {
+          "threat_id": 2,
+          "threat_species": "Carnivore",
+          "bearing": 7,
+          "threat_distance": 1,
+          "energy_quartile": 0,
+          "stamina_quartile": 3,
+          "refuge_options": [
+            {
+              "x": 1,
+              "y": 3
+            },
+            {
+              "x": 5,
+              "y": 3
+            }
+          ]
+        },
+        "first": {
+          "closed_tick": 66,
+          "closure": "threat_lost",
+          "safe_arrival": false,
+          "completed": false,
+          "attribution_known": null,
+          "threat_damage": 0,
+          "other_damage": 0
+        },
+        "last": {
+          "closed_tick": 82,
+          "closure": "died",
+          "safe_arrival": false,
+          "completed": false,
+          "attribution_known": null,
+          "threat_damage": 0,
+          "other_damage": 0
+        },
+        "interpretation": "Both closures censored; false safe_arrival indicates not verified safe, not a confirmed unsafe outcome."
+      }
+    ],
+    "unavailable_seeds": [
+      45001,
+      45003,
+      45004,
+      45005,
+      45006,
+      45007,
+      45008
+    ],
+    "note": "Only seed45002 had a repeated matching context in each branch; both closures are censored."
+  },
+  "provenance_paths": {
+    "formal_manifest": "data/experiments/herbivore-lab-v1-20261023/manifest.json",
+    "formal_raw": "data/experiments/herbivore-lab-v1-20261023/raw.jsonl",
+    "formal_raw_sha256": "deee6bbcb78f2af731ef20a476cd43c3f3c8d127bf7eb76a00d14d734eb7f10a",
+    "calibration_manifest": "data/experiments/herbivore-lab-v1-calibration-20261023/manifest.json",
+    "reanalysis_manifest": "data/experiments/herbivore-lab-v1-reanalysis-20261023/manifest.json",
+    "reanalysis_analysis_protocol": "data/experiments/herbivore-lab-v1-reanalysis-20261023/analysis-protocol.md",
+    "reanalysis_summary": "data/experiments/herbivore-lab-v1-reanalysis-20261023/summary.json",
+    "formal_protocol": "docs/HERBIVORE_DANGER_PROTOCOL.md",
+    "formal_manifest_sha256": "5c2fd200647451e5e0266b818c88330fb77de6453a8c8a5b9e791de2babe2210",
+    "calibration_manifest_sha256": "9c9b952ccec0e58519774f0a37b2c095f6c314bd730c914bc6a7a385f2497f39",
+    "reanalysis_manifest_sha256": "1e090081b234d5d7f134a30fb9e03aaa6b03a50d3a82233fafdf426c6c190fae",
+    "reanalysis_report_sha256": "02076aa5f63788bc728d1590923dfd02d42d66118e6de94fed5bfcdabd05402d",
+    "calibration_binary_sha256": "02432ca516a5afbfa50b5f5ce602db5c2c4cabe8ef23d7a018e95cb781c9b88a"
+  },
+  "limitations": [
+    "All sixteen branches ended by natural death between ticks 62 and 82; paired causes and durations were identical.",
+    "The sole repeated visible context per arm was censored at both first and last observation; not verified safe is not the same as confirmed unsafe.",
+    "Three engine-reported arrivals cannot be independently endpoint-mapped from the shared observer movement prefix; endpoints remain unknown in common observer outcomes.",
+    "Learning update/event totals are not a mortality benefit; no paired behavioral or physical divergence occurred.",
+    "The eight seeds are now seen and the reanalysis is not an independent replication."
+  ],
+  "core_behavior_review": {
+    "reviewed_biological_revision": "60ab1519022bb50dfe91977892b67be3da178e9f",
+    "selected_full_endpoint_stored_before_speed_truncation": true,
+    "resolver_arrival_requires_subject_at_stored_target_burrow": true,
+    "paths": {
+      "src/entity/refuge_learning.rs": "17ef35816f43c7af342e6e2a7431537bcebe8bc9d050f0b6d5917cf54b1ee31d",
+      "src/systems/refuge_outcomes.rs": "422e01c9da196e7bdb33327429702e7b41e2c64c67637f81ce3eaf7e59eb20f4"
+    },
+    "observer_limit": "The same visible movement prefix can match two shelter paths, so the symmetric observer keeps the endpoint unknown even when the core recorded its selected target."
+  }
+}

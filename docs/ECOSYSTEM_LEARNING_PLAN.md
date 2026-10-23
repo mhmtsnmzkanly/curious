@@ -13,9 +13,9 @@ performed by the coding agent.
 |---|---|---|
 | 1 | Opt-in hunt injury-risk history, causally tied to resolver-confirmed prey defense and a choice rule with unknown evidence kept unknown. Preregistered six-arm lab compares food, injury, deaths/final health, and energy. | V3 source and bounded runner completed at `67a4e14`; 131 Rust/77 Python and disabled state/RNG fidelity passed. Bounded evaluation completed; risk policy did not reduce injury outcomes (see `reports/HUNT_LAB_V3.md`/JSON). Feature stays default-off; no tuning or deployment. |
 | 2 | Same individual retains its actual identity, age, body history, and learner through resource/predator reversal and checkpoint/resume. Audit raw actor state and RNG equality across uninterrupted/resumed branches. | Bounded run completed at source `ba71b7f`: 1,529/1,664 physical ticks; all eight checkpoint/resume states and RNG matched. Seven subjects died naturally; four had sparse post-reversal water/table updates. Online and frozen had identical decisions and physical outcomes. The result supports continuity only, not a lifespan or learning advantage; see `reports/LIFETIME_CONTINUITY.md`/JSON. |
-| 3 | Extend existing danger memory for herbivore escape/shelter choices after observed threat. Measure resolver-paid movement, own received damage, safe arrival, censoring, and blocked/occupied destinations; do not reveal future threat positions. | Root-approved V16 core committed at `970b974`; 153 Rust tests, 11 refuge tests, 2 physical patrol tests, HTTP/SIGKILL control checks, and 100/200-tick frozen-source/RNG fidelity pass. The bounded example adds the same observation-only episode ledger to both arms because feature-off baseline does not emit learning events. The preregistration now includes one 45999 two-arm/200-tick serde-measurement calibration before the 45001–45008 held-out/1,600-tick batch; no calibration or formal result has started. Runner/validator are under review; only measurement/serialization fixes may follow calibration, and the feature stays default-off. |
+| 3 | Extend existing danger memory for herbivore escape/shelter choices after observed threat. Measure resolver-paid movement, own received damage, safe arrival, censoring, and blocked/occupied destinations; do not reveal future threat positions. | Source/protocol `60ab151`; 153 Rust tests, 5 harness tests, calibration (seed 45999, 134 ticks), formal held-out run (1,148/1,600 ticks), and immutable-raw validator-only reanalysis completed. Every seed's paired summaries and all 574 paired physical ticks matched. The only repeated comparable context was seed 45002 at ticks 66 and 82; both episodes were censored (`threat_lost`, then `died`), so neither was verified safe and no improvement comparison is identifiable. No behavioral or physical benefit was observed; keep the feature default-off. See `reports/HERBIVORE_DANGER.md` and `HERBIVORE_DANGER_REANALYSIS.md`. |
 | 4 | Population-independent spatial/temporal resource schedule with deterministic site offsets and a closed-feature no-RNG equivalence check. | V15 schedule mechanism check passed. The preregistered 80-world / 160,000-tick screen had zero reproducing descendant lineages in every arm; no relative fitness ranking is supported. Exact repeated calibration raw hashes matched before evaluation. Keep schedules opt-in; see `reports/ECOLOGY_TRAITS.md`/JSON. |
-| 5 | Individual decision timeline for seen/remembered evidence, selected action, observed cost, and resulting update; compare first/last genuinely similar subjective encounters. | Implemented as the read-only documentary viewer in source `4c2cef7`; independent browser and 75 Python UI tests passed. The current view presents observed history rows, not a claim of complete lifetime cognition. Read-only deployment health showed 3 individual-history rows and zero world restarts; no Rust server upgrade. |
+| 5 | Individual decision timeline for seen/remembered evidence, selected action, observed cost, and resulting update; compare first/last genuinely similar subjective encounters. | Implemented as the read-only documentary viewer in `4c2cef7`, with bounded-panel refinement in `5736e6d`; independent browser and 75 Python UI tests passed. The deployed read-only viewer uses the frozen `ba71b7f` release and presents observed history rows, not a claim of complete lifetime cognition. Health showed 3 individual-history rows and zero world restarts; no Rust server upgrade. |
 | 6 | Separate inherited-allele lab for sight, speed, and endurance. Charge expressed traits through live perception/resolver/metabolism budgets, then measure survival and reproduction costs. | Separate V15 paid-trait arms were included in the ecology-traits preregistration; requested and actually paid vision/stamina costs were measured. The combined vision+stamina arm had no births, and no arm produced a reproducing descendant lineage. No trait advantage or evolutionary benefit is accepted; keep the feature default-off and see the ecology-traits report. |
 
 Each phase produces the smallest implementation that can answer its stated
@@ -24,6 +24,34 @@ protocol SHAs, manifest schema, tick ceiling, and stop rule before evaluation.
 No parameter sweep or tuning after seeing outcomes. If a lab cannot identify
 the claimed effect with current measurements, narrow the claim or design a
 separate preregistered lab before changing the feature.
+
+## Phase 3 evidence and limits
+
+The fixed calibration used 134 physical ticks of its 200-tick ceiling. The
+formal run used all eight held-out seeds and 1,148 ticks of the 1,600-tick
+ceiling; all 16 branches ended by natural death at ticks 62–82. A validator
+enum-spelling defect initially marked the run failed after the probe had
+completed. The analysis was corrected and rerun from the immutable original
+raw capture only: zero new simulation ticks, no probe rerun, and no biological
+parameter changes. The original failed manifest and raw data remain preserved;
+the corrected analysis and provenance are in
+`data/experiments/herbivore-lab-v1-reanalysis-20261023/`.
+
+Across 574 paired ticks, physical state and RNG matched after removing only
+the four refuge-memory fields. Decisions, perception, body state, and physical
+resolver events also matched after excluding the new memory audit event. All
+paired seed summaries matched. The only repeated comparable visible context
+was seed 45002 at ticks 66 and 82. The closures were `threat_lost` and then
+`died`, and both were censored: `safe_arrival=false` does not establish that an
+episode was unsafe. Thus no first/last improvement comparison is identifiable.
+The lab found no observed behavioral or physical benefit, with little
+repeated-context evidence for assessing learned improvement. Keep refuge
+outcome learning default-off; do not infer efficacy from the mechanism or
+update counts.
+
+The overall measured phase-3 work used 134 calibration ticks plus 1,148 formal
+ticks (1,282 total), below the preregistered 1,800-tick combined ceiling.
+Validator-only reanalysis consumed no additional biological ticks.
 
 ## Phase 1 protocol boundary
 

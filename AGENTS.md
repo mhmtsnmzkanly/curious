@@ -31,8 +31,9 @@ Yeni altı aşamalı ekosistem öğrenme görevinin sahipliği, kabul sınırlar
 durumu [`docs/ECOSYSTEM_LEARNING_PLAN.md`](docs/ECOSYSTEM_LEARNING_PLAN.md)
 dosyasındadır. Her faz için protokol ve bounded lab kanıtı gerekir; root
 protokolü/commitleri/deneyi denetler, Luna6 kaynak kodu ve ölçüm araçlarını
-hazırlar. Completion helper v2 artık hunt/lifetime/herbivore/ecology-traits schema adlarını
-izinli kılar; üç yeni v2 timer root tarafından kuruldu. Runtime config, frozen
+hazırlar. Completion helper v2 hunt/lifetime/herbivore/ecology-traits schema
+adlarını izinli kılar. Üç yeni bounded-lab timerı root tarafından kuruldu;
+terminal kanıtlar alındıktan sonra devre dışı bırakıldı. Runtime config, frozen
 helper SHA ve systemd denetimi root sorumluluğundadır.
 
 Hunt-risk V3 ve aynı bireyin yaşam sürekliliği laboratuvarları tamamlandı;
@@ -45,14 +46,24 @@ root sorumluluğundadır.
 
 Faz 3 V16 core `970b974` içinde varsayılan kapalıdır; 153 Rust testi,
 HTTP/SIGKILL kontrolü ve 100/200 tick frozen-source/State/RNG eşitliği root
-testlerinden geçti; eski checkpoint göçü V15 alanlarını korur. `examples/herbivore_danger_lab.rs`
-iki kol için yalnız gözlemsel kapatış defteri üretir; Python validator iki kola
-eşit denetim uygular. Faz 3 prereg protokol güncellemeleri source hash/seed/
-commands ve 1.600 tick sınırıyla formal run başlamadan önce root tarafından
-commit/review edilmelidir. Önsınama, sabit seed 45999 ile en çok 200 ticklik
-ölçüm/serde kalibrasyonudur; held-out formal run seed45001–45008 ve en çok
-1.600 ticktir. Canlı dünya, dondurulmuş ikili ve tarihsel ham deney arşivleri
-değiştirilmez.
+testlerinden geçti; eski checkpoint göçü V15 alanlarını korur. Prereg ve
+bounded lab source/protocol `60ab151` ile sabitlendi. Calibration seed45999
+134 tickte, formal seed45001–45008 toplam1.148 tickte tamamlandı. İlk validator
+denemesi enum isimlerini normalize etmediği için başarısız oldu; düzeltilmiş
+analiz yalnız korunmuş ham çıktıyı kullandı ve sıfır yeni tick çalıştırdı.
+574 eşleşmiş tickte fiziksel state/RNG ve fiziksel resolver olayları aynıydı;
+tek tekrarlanan benzer bağlam seed45002'de tick66 ve82'ydi. Kapatışlar
+`threat_lost` sonra `died` olarak sansürlendi; güvenli oldukları doğrulanmadı,
+ancak `safe_arrival=false` da güvensiz olduklarını kanıtlamaz. Bu nedenle
+iyileşme karşılaştırması tanımlanabilir değildir. Gözlenen davranış/fiziksel
+yarar yok; özellik varsayılan kapalı kalır. Kanıt ve sınırlamalar
+`docs/ECOSYSTEM_LEARNING_PLAN.md` ile bağlı raporlardadır. Canlı dünya,
+dondurulmuş ikili ve tarihsel ham deney arşivleri değiştirilmez.
+
+Faz 5 salt okunur bireysel geçmiş görünümü `4c2cef7` içinde uygulanıp
+`5736e6d` içinde sınırlandırılmış panellerle iyileştirildi. Güncel salt okunur
+dağıtım frozen `ba71b7f` kullanır; üç bireysel geçmiş kaydı gözlendi, dünya
+yeniden başlatılmadı. Bu görünüm tam yaşam boyu biliş iddiası değildir.
 
 ## Rezerv adayının uzun kabul kampanyası — 18 Ekim
 
