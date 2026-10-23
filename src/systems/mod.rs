@@ -12,6 +12,7 @@ pub mod perception;
 pub mod planning;
 pub mod refuge_outcomes;
 pub mod spatial;
+pub mod water_outcomes;
 
 /// Herhangi bir sistemi temsil eden temel yapı (İleride trait'e dönüşebilir)
 pub struct System;

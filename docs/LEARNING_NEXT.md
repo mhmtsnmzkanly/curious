@@ -94,3 +94,42 @@ karşılaştırmalı av deneyi/ayrı karma doğrulama kapıları hâlâ açık.
 Su öğrenmesi dört kollu EXPERIENCE_PROTOCOL.md ile ayrıca ölçülür. Canlı ve
 replay deneyim sunumu artık kayıtlardaki tercihleri/puanlanmış denemeleri ve
 bölümün kesilmesini gösterir. Eski kayıtta bulunmayan av verisi uydurulmaz.
+
+## V17 uygulama adayı — güncel tabana eklenen su kaynağı artığı
+
+`PolicySettings.water_residual_enabled` senaryo ve runtime kontrolünden ayrı
+açılan, varsayılanı kapalı bir seçenek. Açıkken her algılanan su kaynağı için
+mevcut `foraging::value(miktar, rota, beden, water=true)` puanına yalnızca o
+konumun bireysel resolver-artığı ortalaması eklenir; kaynaklar filtrelenmez.
+Keşif oranı, tie-break ve resolver fiziği değişmez. Kapalı dal eski su seçimini
+ve RNG çağrı sırasını korur.
+
+Seçim tabanı yeni bölüm açılırken bir kez kaydedilir ve bölüm sürerken miktar,
+rota ya da yaşam durumu değişse bile yeniden hesaplanmaz. Runtime bayrağını
+kapatmak yalnız sonraki seçimleri etkiler; başlamış aday bölümü kendi tabanıyla
+kapanabilir. `learner.update_enabled=false` bütün su tercih/değer ziyaretlerini
+ve artık sum/count güncellemelerini dondurur.
+
+Artık için fiziksel para birimi `(2 × edinilen su − kendi resolver hareket
+enerjisi − bölüm ticki) × 100 / bölüm ticki` olur. Yalnız aynı bireyin seçilen
+kaynaktaki `EntityDrank` ve `EntityMoved` olayları hesaba girer. Doğrulanmış aynı
+kaynak için kendi `MissingResource` reddi sıfır edinim sayılabilir; karar izindeki
+başlangıç konumundan çözülen mevcut Drink hedefinin bölüm kaynağıyla eşleşmesi
+gerekir. Ölüm, timeout, dış kesinti, yanlış kaynak içimi veya limit taşması
+artık güncellemesini sansürler. Resolver ve eski su ödülü değişmez; maliyet net
+enerji değişiminden yeniden düşülmez.
+
+Tablo en çok 32 konumu, konum başına en çok 1.000.000 örneği saklar. Her
+artığın tam tamsayı toplamı `i64`, sayacı `u32`'tür; sınır kontrolleri toplamı
+taşırmadan atomik reddeder. Seçim anındaki ortalama sıfıra doğru yuvarlanır,
+ancak geçmiş toplama bu yuvarlanmış değer yazılmaz. Checkpoint V17'dir, SQLite
+V2'dir. V1–V16 restore özelliği kapalı ve yeni tablo/baseline/sansür alanları
+boş olacak şekilde normalize eder; eski hedef ve sayaçları korur. V17'yi eski
+motor açamaz. Yavru birey tabloları boş alır.
+
+Odak testleri kapalı seçimde greedy ve exploration RNG altınlarını, aynı gerçek
+resolver ticklerinde checkpoint devamını, kendi aktör/kaynak muhasebesini, yeni
+ve devam eden tabanı, sansür/dondurma/sınır ve V16 göçünü denetler. Bunlar yalnız
+mekanizma ve deterministik devam kanıtıdır; seçim kalitesi ya da ekolojik fayda
+kanıtı değildir. Formal karşılaştırma başlamadı; kök preregistrasyon ve görülmemiş
+seed kapılarını ayrıca tamamlamalıdır.

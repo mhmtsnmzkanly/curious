@@ -1,24 +1,34 @@
 # Kalan ekosistem ve yetenekler için paralel çalışma planı
 
-**Durum (23 Ekim 2026):** İlk dalga A/B/C izole tasarım ve prototipleri root
-tarafından incelendi; A water prototype `769f683` ile ana dala alındı, B/C
-tasarım/prototipleri de ana worktree'de mevcut. Bu durum araştırma araçlarının
-review/entegrasyon durumudur; A/B özellikleri üretim politikasına alınmış,
-öğrenme/ekoloji kabulü sağlanmış veya formal deney yetkilendirilmiş değildir.
-İlk dalga prototip işi tamamlandı; sonraki tasarım ve bağımsız örnekleme işleri
-paralel ilerleyebilir. Ortak `src/`/checkpoint değişiklikleri root incelemesiyle
-seri yapılır. Kullanıcı onayı bekleyen bir adım yoktur; root'un teknik incelemesi
-ve her formal iş için preregistrasyon ayrı kapılardır.
+**Durum (23 Ekim 2026):** İlk dalga A/B/C tasarım/prototipleri root tarafından
+incelendi. A su artığı öğrenicisi V17 source integration adayı olarak
+uygulandı; B/C ayrı açık izlerdir, bu turda yalnız A üzerinde çalışıldı. A
+default-off'tur, `foraging::value`
+tabanına bireyin own-source resolver artığını ekler; choice baseline episode
+boyunca tutulur ve exact bounded sum/count saklanır. Checkpoint V1–V16 göçü
+kapalı/boş başlar; SQLite V2 değişmez; yavru tabloyu almaz. Bu entegrasyon ve
+kontrol kapıları ekolojik fayda kabulü değildir. Root final kontrolleri: Rust
+191 passed / 0 failed (39 summaries), Python 132/0, release build exit 0,
+HTTP/control/auth/SIGKILL-resume check exit 0, scoped Rust format check geçti.
+
+Yeni seed seçilmedi, formal batch/protocol, live world veya deployment
+başlatılmadı. A'nın sıradaki kapısı yeni preregistrasyon ve seed audit'idir;
+güçlü rule baseline, naive online, trained online, aynı trained tabloda
+frozen-update kolları kıyaslanır. Önceki su çalışması ve seed 51001–51008
+held-out olarak tekrar kullanılamaz. B compatibility calibration/schema ve C
+fixture/resource accounting-runtime denetimi ayrı işlerdir. Ortak
+`src/`/checkpoint değişiklikleri seri root incelemesiyle yapılır.
 
 ## İlk dalga teslimi ve mevcut doğrulama
 
 - **A — su politikası:** [`PARALLEL_WATER_DESIGN.md`](PARALLEL_WATER_DESIGN.md),
   [`water_candidate.rs`](../examples/water_candidate.rs) ve
   [`water_candidate.rs` helper](../examples/support/water_candidate.rs).
-  Prototype commit `769f683`; root review'da fiziksel toplamı clamp etmek yerine
-  geçersiz değerler reddedildi, explicit censor admission ve `<=32` table guard
-  eklendi; integer mean hassasiyeti sınırlaması belgeli. Ajanın 7 focused testi
-  geçti. Core policy/checkpoint migration ve formal ölçüm hâlâ sonraki işlerdir.
+  Bunlar ilk prototipin tarihsel araçlarıdır (`769f683`). Root review sonrası
+  production integration adayı `src/entity/learning.rs` ve resolver-atıf helperı
+  `src/systems/water_outcomes.rs` içindedir; tam `i64 sum/u32 count` kullanır.
+  Odak testleri 18/18, genetics inheritance testi 2/2 geçti. Core politika /
+  checkpoint entegrasyonu tamamlandı; formal ölçüm hâlâ bekliyor.
 - **B — sığınak bağlamı:** [`PARALLEL_REFUGE_DESIGN.md`](PARALLEL_REFUGE_DESIGN.md),
   [`refuge_candidate.rs`](../examples/support/refuge_candidate.rs) ve
   [`refuge_candidate.rs` testleri](../tests/refuge_candidate.rs).
@@ -30,12 +40,14 @@ ve her formal iş için preregistrasyon ayrı kapılardır.
 - **C — fixture/throughput:** [`PARALLEL_ECOLOGY_DESIGN.md`](PARALLEL_ECOLOGY_DESIGN.md)
   ve [`ecology_candidate.rs`](../examples/ecology_candidate.rs). Targeted
   `cargo check` geçti; runtime/muhasebe validasyonu yapılmadı.
-- Root doğrulaması tamamlandı: `cargo test --all-targets` 181 passed / 0 failed,
-  Python 132 passed, `cargo build --release` exit 0. Scoped Rust format check
-  (`rustfmt --edition 2024 --check` on five first-wave Rust files) passed.
+- Root final doğrulaması tamamlandı: `cargo test --all-targets` 191 passed / 0
+  failed (39 summaries), Python 132/0, incremental release build exit 0,
+  `scripts/check_control.py` HTTP/control/auth/crash-resume exit 0 ve scoped
+  Rust format check passed. Root disposable target build outputlarını temizledi;
+  retained formal binary yoktur.
 
 Henüz A/B/C için registered ecology batch'i, yeni seed koşusu veya deployment
-yapılmadı. İlk dalga prototip/plan durumu biyolojik sonuç değildir.
+yapılmadı. A'nın core integration adayı biyolojik sonuç veya kabul değildir.
 
 ## Mevcut kanıt ve sınır
 
@@ -65,7 +77,7 @@ sınırında uygulanır. Bir izin başarısı diğer iz için kabul yerine geçm
 
 | İz | Soru / somut çıktı | Bağımlılık | İlk kabul kanıtı |
 |---|---|---|---|
-| **A — Su değerini mevcut koşulla birleştirme** (`water_policy_wave1_luna6`) | Her görünür aday için güncel `foraging::value(amount, path, body)` tabanı + o bireyin konum-özel deneyim artık değeri. Aday filtreleme yok; bilinmeyen artık 0. Deneyimi kendi gerçek içme, hareket enerjisi ve süre olaylarıyla güncelleme. | Mevcut su öğrenimi ve kendi resolver sonuçlarının doğru eşleştirilmesi. | Aynı durum/algı/RNG'de online ve aynı tablosu dondurulmuş seçimi greedy biçimde ayrışır; gerçek içme/ödeme farkı izler. Rule-based, naive, online ve trained-frozen kolların fiziksel vektörleri ayrı raporlanır. |
+| **A — Su değerini mevcut koşulla birleştirme** (`water_policy_wave1_luna6`; V17 source integration adayı hazır) | Her görünür aday için güncel `foraging::value(amount, path, body)` tabanı + bireyin own-source exact residual sum/count ortalaması. Choice-time baseline episode boyunca tutulur; candidate censoring ve <=32 konum sınırı vardır. | Root formal preregistration, held-out seed audit ve güçlü rule baseline. | Aynı durum/algı/RNG'de online ve aynı tablosu dondurulmuş seçimi greedy biçimde ayrışır; resolver fiziksel fark izler. Rule-based, naive, online ve trained-frozen kolların ölçütleri ayrı raporlanır. Entegrasyon testleri bunu henüz göstermiş sayılmaz. |
 | **B — Sığınak bağlamını genelleme; sonra av seçimi** (`refuge_policy_wave1_luna6`) | Kalıcı karar bağlamında tehdit ID'si ve tam alternatif listesi anahtar olmaktan çıkar; tehdit ID'si yalnız resolver hasarını atfetmekte tutulur. Bağlam görünür threat geometry, subject budget, habitat ve candidate route özelliklerinden kurulur. Uyumluluk eşiği henüz seçilmez; belirsiz destekte mevcut içgüdüye dönüş. | Mevcut algı ve resolver-atıf sözleşmeleri; sansürlü olayları bilinmeyen tutmak. | Uyumlu bağlamda bireyin kendi tamamlanmış, güvenli-varış kanıtı karar sırasını değiştirir; uyumsuz tür/habitat/geometri kanıtı reddedilir. Av öğrenmesi sığınak kabulüne karıştırılmaz ve ayrı sonraki preregistrasyon gerektirir. |
 | **C — Sürdürülebilir fixture, habitat ve kalıtsal bedeller** (bu planın sahibi) | Kabul edilmiş 32ddfb2 tabanını tekrarlanabilir başlangıç olarak kullanarak sürdürülebilir fixture/throughput tasarımı. Kurucular, F1/F2, üreyen yavru-soyları, yaşayan üreyen soy ve doğal yok oluş ayrılır. Habitat kaynak şoku ve tür dağılımı için sınırlı matris tasarlanır. | Önce fixture geçerliliği; sonra D/E değişkenleriyle ayrı faktöriyel çalışmalar. | Temiz prototipte kaynak arzı/tüketimi, kurucu ve yavru-soy demografisi, maliyet istek/ödeme farkı doğrulanır. Sonra kökün preregistrasyonu ile held-out başlangıç biyolojisi testi; var olan kabul seedleri yeniden “yeni” sayılmaz. |
 | **D — Sonlu ve birleştirilebilir eylem/yetenek parçaları** | Küçük tasarlanmış katalog: yönelme/kaçınma, dinlenme, su/yiyecek arama, rota takibi ve sınırlı sosyal koordinasyon gibi mevcut eylem bileşimleri. Yeni kod/strateji kendiliğinden doğmaz. Birey primitifleri deneyimle seçebilir; kalıtsal repertuvar değişimi ayrı, açıkça tasarlanmış gene/allele bağlıdır. | A/B ve C'nin karar, algı, maliyet, bellek, resolver sınırları. | Her primitif için uygun algı girdisi, izinli niyet, resolver doğrulaması, maliyet, sonlu kullanım belleği, devre dışı eşitliği ve nedensel davranış örneği. Sosyal davranış yalnız görünür komşu/iletişim olayıyla sınırlı. |
@@ -97,11 +109,11 @@ primatif kataloğu ve ölçülebilir bedellerle denenecektir.
    koşusu bu iş kapsamında başlatılmaz. C, ek özellik başarısı iddia etmeden
    fixture nedenini teşhis edecek ölçümleri ve kaynak/besin throughput
    bütçesini somutlaştırır.
-2. **Kök incelemesi ve tekil birleştirme.** Kök doküman/prototipleri inceler,
-   çakışan bellek/persistence taleplerini sıralar. Paylaşılan checkpoint sürümü
-   yalnızca kökün gözden geçirdiği seri entegrasyonla değişir. Her aday için
-   temiz kaynak, migration, kapalı mod State+RNG eşitliği ve targeted test
-   gereklidir. Entegrasyon tek başına biyolojik kabul değildir.
+2. **Kök incelemesi ve tekil birleştirme.** A'nın V17 source entegrasyonu ve
+   root migration/disabled/resume test kapıları tamamlandı; B/C ortak
+   `src/`/checkpoint değişiklikleri yine root'un seri incelemesiyle yapılır.
+   Her aday için temiz kaynak, migration, kapalı mod State+RNG eşitliği ve
+   targeted test gerekir. Entegrasyon tek başına biyolojik kabul değildir.
 3. **Her iz için protokol ve sınırlı kalibrasyon.** Hipotez, sabit fixture,
    arms, seed rolleri, eşik, örnek boyutu, tick/duvar zamanı/bellek/çıktı
    bütçesi, durdurma koşulu, ham şema ve analiz formal seed görülmeden önce

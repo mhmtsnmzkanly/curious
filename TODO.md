@@ -5,19 +5,22 @@ Hedef [VISION](docs/VISION.md), kullanıcı sırası ve dürüst durum
 
 ## 23 Ekim — paralel ekosistem planı ve sıradaki işler
 
-Root A/B/C ilk dalga tasarım/prototiplerini inceledi; A water example `769f683`
-ile ana dala alındı. A/B/C henüz üretim öğrenme politikası veya ekoloji kabulü
-değildir. Ajan 7 A testi ve 11 B targeted kontrolü bildirdi; root `cargo test --all-targets`
-181 passed / 0 failed, Python 132 passed ve `cargo build --release` exit 0
-bildirdi. Scoped `rustfmt --edition 2024 --check` geçti. C yalnız `cargo check`
-aldı; runtime muhasebe doğrulaması yok. Yeni ecology batch'i veya seed koşusu yapılmadı.
+Root, A/B/C ilk dalga teslimlerini inceledi; A'nın source integration adayı V17
+olarak tamamlandı. `policy.water_residual_enabled` varsayılan kapalıdır; açıkken
+güncel foraging puanına bireyin own-source resolver artığı eklenir. Choice-time
+baseline episode boyunca sabit kalır. Exact bounded sum/count, own actor/source
+attribution, persistent censoring, frozen update, V1–V16 migration, SQLite V2
+unchanged, default-off RNG goldens ve yavruya boş learner doğrulandı.
 
-Sıradaki işler: A'nın default-off production entegrasyonu, baseline snapshot,
-residual persistence ve checkpoint değişikliği; B compatibility calibration/schema
-tasarımı; C kaynak accounting ve single-world runtime audit. Ayrıntı ve ilk dalga
-dosyaları [PARALLEL_CAPABILITY_PLAN](docs/PARALLEL_CAPABILITY_PLAN.md) içindedir.
-Kullanıcı onayı beklenmiyor; root'un teknik incelemesi ve her formal işin
-preregistrasyonu ayrı mühendislik kapılarıdır.
+Root final checks: Rust 191 passed / 0 failed (39 summaries), Python 132/0,
+release build exit 0, HTTP/control/auth/SIGKILL-resume check exit 0, scoped
+Rust formatting passed. A için formal deney veya seed seçilmedi; deployment,
+live world ve yeni ecology batch yok. Sıradaki iş root preregistration ve seed
+audit'tir: strong rule baseline, naive online, trained online, aynı eğitimli
+tabloyla trained-frozen. Önceki 51001–51008 ve tarihsel su seedleri held-out
+olarak tekrar kullanılmaz. B'nin compatibility calibration/schema tasarımı ve
+C'nin fixture/resource muhasebesi ayrı açık işlerdir. Ayrıntı:
+[PARALLEL_CAPABILITY_PLAN](docs/PARALLEL_CAPABILITY_PLAN.md).
 - [ ] Kaynak şokundan toparlanmayı çöz: V9 sabit kurallı uzun doğrulama 30/30
   geçti; kaynak şoku 4/8 ile araştırmayı durdurdu. Teşhis ve sonraki sınırlı
   deney [RESOURCE_SHOCK_ANALYSIS](docs/reports/RESOURCE_SHOCK_ANALYSIS.md).

@@ -45,6 +45,22 @@ def start(directory,resume=False):
 with tempfile.TemporaryDirectory(prefix='curious-http-') as directory:
     child=start(directory)
     try:
+        initial_state=request('/state')[1]
+        assert initial_state.get('policy',{}).get('water_residual_enabled',False) is False
+        before_invalid_water=request('/state')[1]
+        assert request('/control',{'action':'water_residual','enabled':'true'})[0]==400
+        assert request('/state')[1]==before_invalid_water
+        assert request('/control',{'action':'water_residual','enabled':True,'unexpected':1})[0]==400
+        assert request('/state')[1]==before_invalid_water
+        assert request('/control',{'action':'water_residual','enabled':True})[0]==200
+        enabled_state=request('/state')[1]
+        assert enabled_state['policy']['water_residual_enabled'] is True
+        shard=request('/status')[1]['shard']
+        water_control=request('/query',{'shard':shard,'sql':"SELECT request_json,result_json FROM interventions WHERE request_json LIKE '%water_residual%' ORDER BY id DESC LIMIT 1"})
+        assert water_control[0]==200 and len(water_control[1]['rows'])==1
+        recorded_request,recorded_result=map(json.loads,water_control[1]['rows'][0])
+        assert recorded_request=={'action':'water_residual','enabled':True}
+        assert recorded_result=={'water_residual_enabled':True}
         assert request('/state',authorized=False)[0]==401
         foreign=urllib.request.Request(base+'/control',data=b'{"action":"pause"}',headers={'Origin':'https://unrelated.invalid','Content-Type':'application/json','Authorization':f'Bearer {token}'})
         try:urllib.request.urlopen(foreign);raise AssertionError('cross-origin mutation allowed')
@@ -84,6 +100,7 @@ with tempfile.TemporaryDirectory(prefix='curious-http-') as directory:
         child.kill(); child.wait(timeout=5)
         child=start(directory,True)
         assert request('/state')[1]==durable
+        assert request('/state')[1]['policy']['water_residual_enabled'] is True
         shard=request('/status')[1]['shard']
         data=request('/query',{'shard':shard,'sql':'SELECT COUNT(*) FROM interventions'})
         assert data[0]==200 and data[1]['rows'][0][0]>=4
@@ -106,6 +123,9 @@ with tempfile.TemporaryDirectory(prefix='curious-http-') as directory:
         paused=request('/status')[1]['tick']
         time.sleep(.05)
         assert request('/status')[1]['tick']==paused and paused>3
+        assert request('/control',{'action':'water_residual','enabled':False})[0]==200
+        disabled_state=request('/state')[1]
+        assert disabled_state.get('policy',{}).get('water_residual_enabled',False) is False
         # A second writer is refused by the OS lock, including after crash recovery.
         duplicate=subprocess.run([binary,'--serve','--resume','--data-dir',directory],env=env,capture_output=True,timeout=5)
         assert duplicate.returncode!=0

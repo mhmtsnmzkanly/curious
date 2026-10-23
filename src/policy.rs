@@ -17,6 +17,13 @@ pub struct PolicySettings {
     /// Not ecologically qualified: always opt in, including after legacy restore.
     #[serde(default)]
     pub reserve_opportunities: bool,
+    /// Experimental current-foraging baseline plus own-source residual choice.
+    #[serde(default, skip_serializing_if = "is_false")]
+    pub water_residual_enabled: bool,
+}
+
+fn is_false(value: &bool) -> bool {
+    !value
 }
 
 /// One immediately executable meal, not an abandoned multi-tick journey.

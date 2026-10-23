@@ -1,5 +1,14 @@
 # Parallel water policy candidate
 
+> **Current status (23 October 2026):** This file preserves the original
+> design/prototype rationale. The source integration candidate is now in V17:
+> default-off `PolicySettings.water_residual_enabled`, current foraging baseline
+> plus per-source exact bounded `i64 sum / u32 count`, and a serialized
+> choice-time baseline retained for the episode. `CONTROL.md` and
+> `LEARNING_NEXT.md` describe the implemented contract. Root checks passed
+> (Rust 191/0, Python 132/0, release exit 0, HTTP/control check exit 0). No
+> formal comparison, new seed run, deployment or live-world update occurred.
+
 ## Scope and hypothesis
 
 The rule policy already compares the water sites visible now with
@@ -16,9 +25,11 @@ winner; it must not discard candidates through a hard dominance rule.
 
 The candidate is a decision-layer policy experiment. It does not change water
 availability, renewal, movement, drinking, thirst priority, or resolver rules.
-It is default-off. With it off, decision, state, and RNG behavior must match the
-legacy learner. This work does not change shared `src/`, checkpoint or SQLite
-versions, a live binary/world, or start a world batch.
+It is default-off. With it off, decision and RNG behavior match the legacy
+learner (new serde fields omit empty/false values). The initial example
+prototype did not change shared source or persistence. The later reviewed source
+integration bumps checkpoint V16 to V17; SQLite stays V2. It does not change a
+live binary/world or start a world batch.
 
 ## Candidate score and outcome currency
 
@@ -34,7 +45,7 @@ An unexperienced location has residual zero. The existing deterministic tie
 break (shorter route, then perception order) remains after score comparison.
 The existing exploration rate and candidate set remain unchanged.
 
-The residual is an online running-mean approximation of
+The residual is the exact bounded sum/count mean of
 `actual_score - choice_time_baseline` for completed, attributable attempts at
 that coordinate. The baseline is captured
 when the learner first selects the source and uses the same visible amount,
@@ -71,21 +82,20 @@ quantity. The example rejects rather than clamps outcomes outside the existing
 episode accounting caps: `MAX_WATER_TICKS` is 20 and the learner's `MAX_ACCOUNT`
 is 1,000,000; `WaterResult.water` is validated at 100. Its current outcome
 formula therefore has conservative score range `[-100,000,100, 19,900]`: the
-lower endpoint charges the maximum movement account in one tick; the upper
-endpoint uses 100 units, zero movement cost, and one tick. The baseline uses
-the bounded body and perception inputs to `foraging::value`; integration must
-preserve checked or saturating arithmetic across both score terms. A small-sample shrinkage or decay rule is not part of
+lower endpoint charges the maximum movement account in one tick plus one time
+tick; the upper endpoint uses 100 units, zero movement cost, and one tick. The
+source validates a derived 104,000 baseline bound and 101,000,000 residual
+bound, persists overrun censoring across ticks, and uses checked sum updates. A
+small-sample shrinkage or decay rule is not part of
 the first candidate; if analysis shows it is required, it needs a model-based
 reason and a new preregistered version. The per-source table remains bounded by
 the existing water memory limit. Source identity is position, as in the current
 learner; the value is not inherited by offspring.
 
-The prototype's integer recursive mean is bounded but is not an exact
-arithmetic mean: integer division truncates each adjustment, so small corrections
-can stop changing the stored value after enough samples. Before core integration,
-choose and test a representation that states its precision and overflow bounds
-(for example, a fixed-point mean or a bounded sum/count). No exact-mean or
-long-run precision claim is made here.
+The original prototype's recursive integer mean was bounded but not exact.
+Source integration replaced it with exact `i64 sum/u32 count`; each source stops
+accepting updates after 1,000,000 samples. Only the selection-time mean is
+rounded toward zero; rounded means are never accumulated back into history.
 
 ## Boundaries and dependencies
 
@@ -96,16 +106,16 @@ long-run precision claim is made here.
   future RNG, or inferred renewal schedule.
 - **Physics:** unchanged `World` / resolver; choice cannot bypass a rejected
   or unaffordable action.
-- **Persistence:** no core persistence change in this prototype. If approved
-  for integration, the episode needs a validated choice-time baseline and the
-  residual table needs independently reviewed checkpoint migration/defaults.
-  SQLite event rows do not gain fields unless separately justified.
+- **Persistence:** the initial prototype had no core persistence. V17 now stores
+  the validated choice baseline and bounded residual table; V1–V16 migration
+  forces the option off and clears candidate-only residual/baseline markers
+  while retaining old water state. SQLite event rows gain no fields.
 - **Other tracks:** refuge and ecology changes remain isolated; no shared
   source files are edited in this phase.
 
 ## Preregistered evaluation outline (not authorization to run)
 
-1. Before source integration, root audits all manifests/raw records and freezes
+1. Before formal evaluation, root audits all manifests/raw records and freezes
    unseen seed roles, scenario, candidate/control source hashes, limits, and
    analysis. Seeds `51001..51008` and existing water-study seeds are seen and
    cannot be reused as held-out evaluation. The historical V2 report remains
@@ -140,16 +150,14 @@ long-run precision claim is made here.
 
 ## Acceptance and model cost
 
-The example prototype is reviewable only when its score computation and
-residual update have focused unit tests for current amount/cost scoring,
-historical residual changing a choice without filtering either candidate,
-own-target outcome attribution, censored outcomes, bounded values, and exact
-default-off parity. Tests are local to the owned example; they do not establish
-world behavior, improvement over the rule baseline, or correct end-to-end event
-accounting. The current admission API distinguishes `CompletedDrink` from
-`Censored`, leaves censored and actor/source-mismatched evidence unchanged, and
-rejects out-of-contract physical totals; integration still has to bind it to
-the resolver ledger.
+The initial example prototype had focused tests for scoring and admission.
+Source integration adds world/resolver and checkpoint tests for those
+boundaries; current focused and root test totals are recorded above. These
+tests do not establish improvement over the rule baseline or ecological utility.
+The missing-resource path requires the own issued Drink target to resolve from
+the pre-intent trace origin to the active source, plus the subject's own
+resolver rejection. Censored, mismatched, dead, timed-out, or overrun candidate
+episodes do not update the residual.
 
 The computational cost per choice is `O(W × V)` for scoring `W` currently
 visible water sites against a linear scan of the bounded learned table `V` (at
@@ -161,5 +169,9 @@ remain byte-for-byte the legacy sequence when the new option is disabled.
 
 ## Current status
 
-Design/prototype only. No source integration, checkpoint version change,
-preregistration, world ticks, or deployment is authorized by this document.
+Source integration candidate V17 is complete and reviewed, but it has not been
+formally evaluated. The next work is a root-owned preregistration with a strong
+rule baseline, naive-online, trained-online, and same-trained-table
+frozen-update arms. No held-out seed has been selected; prior water seeds and
+51001–51008 are already seen and cannot be reused as held-out. No formal world
+ticks, deployment, or live-world change was authorized or performed here.

@@ -75,7 +75,14 @@ impl IntentCollectionSystem {
             let decision = if matches!(slot.controller, EntityController::AI)
                 && !world.command_inputs.contains_key(&slot.id)
             {
-                learner.choose(slot.pos, &view, decision, &mut world.rng)
+                learner.choose_with_residual(
+                    slot.pos,
+                    slot.base.life(),
+                    &view,
+                    decision,
+                    &mut world.rng,
+                    world.policy.water_residual_enabled,
+                )
             } else {
                 learner.interrupt(crate::entity::learning::WaterEnd::Interrupted);
                 decision

@@ -39,11 +39,21 @@ fn mutation_is_bounded_and_expression_has_a_real_energy_cost() {
     for e in &mut w.entities {
         e.base.life_mut().age = 30;
     }
+    w.entities[0]
+        .learner
+        .residuals
+        .push(curious::entity::learning::ResidualValue {
+            pos: curious::map::movement::Position::new(3, 3),
+            sum: 700,
+            visits: 2,
+        });
     w.push_command(1, Intent::Mate { target_id: 2 });
     w.tick();
     let child = w.entities.iter().find(|e| e.generation == 1).unwrap();
     assert_eq!(child.genome.mobility, 1);
     assert!(child.learner.values.is_empty());
+    assert!(child.learner.residuals.is_empty());
+    assert!(child.learner.episode.is_none());
     assert!(child.memory.sites.is_empty());
 }
 

@@ -1,3 +1,36 @@
+# V17 — opsiyonel kaynak artığı su seçimi
+
+Yeni geliştirme checkpoint V17 kullanır; SQLite şeması V2 değişmez. Eski
+motorlar V17 checkpoint'i açamaz. V1–V16 göçünde `policy.water_residual_enabled`
+kapalıdır; yeni artık tablosu boşaltılır, etkin/biten su bölümlerindeki yeni
+seçim tabanı ve aday sansür işaretleri temizlenir. Eski su değerleri, ziyaretleri
+ve devam eden bölümün hedef/maliyet sayaçları korunur. Bu nedenle eski bir
+bölüm açılıştan sonra yeniden puanlanmaz.
+
+Özellik varsayılan olarak kapalıdır. Yeni senaryoda `policy` içine
+`water_residual_enabled: true` verilebilir; çalışan dünya kontrolüne
+`{"action":"water_residual","enabled":true}` gönderilebilir. Bayrak yeni
+seçimlerde, mevcut `foraging::value` tabanına o bireyin seçilen kaynağa ait
+resolver artığının ortalamasını ekler. Algıdaki güncel miktar, rota ve beden
+durumu her yeni seçimde hesaba katılır. 10% keşif ve eşitlik sırası değişmez.
+Kapalıyken eski seçim dalı ve RNG çağrı sırası korunur.
+
+Aktif bölüm başlangıçtaki seçim tabanını taşır; bayrağı kapatmak o bölümü yeniden
+tabanlamaz. Böyle bir bölüm kapanırsa kendi başlangıç tabanına göre öğrenebilir;
+`learner.update_enabled=false` ise eski değerler/ziyaretler ve artık toplamı/
+sayacı birlikte değişmeden kalır. Yalnızca kendi seçtiği kaynaktan içilen su ve
+kendi hareket enerjisi resolver olaylarıyla hesaba katılır. Doğrulanmış aynı
+kaynaktaki `MissingResource` reddi sıfır su sonucu olabilir; ölüm, zaman aşımı,
+başka kaynağa içme, dış kesinti veya belirsiz kanıt artık güncellemez. Sayaçların
+1.000.000 sınırını aşan/taşan episode aday öğrenmesi için sansürlenir.
+
+Kaynak başına toplam ve örnek sayısı saklanır; ortalama yalnız seçim sırasında
+sıfıra doğru tamsayıya yuvarlanır, güncelleme sırasında yuvarlanmış ortalama
+geri toplanmaz. Her kaynak en çok 1.000.000 örnek alır; sınıra ulaşınca geçmiş
+değer sabit kalır. En çok 32 kaynak saklanır. Artıklar bireye aittir ve yavruya
+aktarılmaz. Bu politika deneysel adaydır; mekanizma testleri ekolojik üstünlük
+göstermez. Ayrıntı ve sonraki kabul kapıları `LEARNING_NEXT.md` içindedir.
+
 # V16 — bireysel sığınak sonucu hafızası
 
 Yeni geliştirme checkpoint V16 kullanır; SQLite V2 değişmez. Her bireyin

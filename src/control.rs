@@ -24,6 +24,9 @@ pub enum Command {
         #[serde(default)]
         extra_traits_enabled: Option<bool>,
     },
+    WaterResidual {
+        enabled: bool,
+    },
     Observation {
         full_all: bool,
         full_for: Vec<usize>,
@@ -122,6 +125,10 @@ impl Runtime {
                 self.world.observation =
                     crate::entity::decision::ObservationSettings { full_all, full_for };
                 json!({"observation":self.world.observation})
+            }
+            Command::WaterResidual { enabled } => {
+                self.world.policy.water_residual_enabled = enabled;
+                json!({"water_residual_enabled":enabled})
             }
             Command::Pause => {
                 self.paused = true;

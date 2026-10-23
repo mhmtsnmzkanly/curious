@@ -28,6 +28,8 @@ pub struct Scenario {
     pub resources: Vec<(Position, Cell)>,
     #[serde(default)]
     pub genetics: crate::entity::genetics::Genetics,
+    #[serde(default)]
+    pub policy: crate::policy::PolicySettings,
 }
 impl Scenario {
     pub fn build(self, seed: u64) -> Result<World> {
@@ -107,7 +109,7 @@ impl Scenario {
         }
         let next_entity_id = entities.len() + 1;
         Ok(World {
-            policy: Default::default(),
+            policy: self.policy,
             genetics,
             observation: Default::default(),
             last_decisions: Vec::new(),

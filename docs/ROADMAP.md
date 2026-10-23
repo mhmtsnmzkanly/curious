@@ -22,21 +22,23 @@ gelmez. Hızlandırılmış tick gerçek gün/hafta gözleminin yerine geçmez.
 
 Altı capability izi A–F ile bounded performans/storage izi G'nin kapsamı ve
 kanıt kapıları [PARALLEL_CAPABILITY_PLAN.md](PARALLEL_CAPABILITY_PLAN.md) içinde.
-Root A/B/C izole tasarım/prototiplerini inceledi; A water prototype `769f683` ile
-ana dala alındı. Bunlar üretim öğrenme politikası veya ekoloji kabulü değildir.
-Ajan 7 A testi ve 11 B targeted kontrolü bildirdi; root `cargo test --all-targets`
-sonucunu 181 passed / 0 failed, Python'ı 132 passed ve release build'i exit 0
-bildirdi. Scoped `rustfmt --edition 2024 --check` geçti. C örneği yalnız derlendi;
-runtime fixture/muhasebe audit'i yok. Üç geçici target dizini temizlendi. Yeni
-registered ecology batch'i veya seed koşusu yapılmadı.
+Root A/B/C izole teslimlerini inceledi; A su residual learner'ı V17 source
+integration adayı olarak tamamlandı. Varsayılan kapalıdır; açıkken mevcut
+`foraging::value` tabanına bireyin kendi resolver doğrulamalı su/movement/time
+artığı eklenir. Choice-time baseline episode boyunca tutulur; exact bounded
+sum/count kullanılır. V1–V16 göçü policy/table/baseline'ı kapalı/boş yapar,
+SQLite V2 değişmez, yavru öğrenilmiş residual almaz. Default-off RNG goldens,
+resolver+resume, census/frozen/migration ve sınır testleri geçti.
 
-Sonraki işler: A'nın default-off production integration/baseline snapshot/residual
-persistence'i; B compatibility calibration/schema tasarımı; C fixture accounting
-ve single-world runtime audit. Ortak source/checkpoint değişiklikleri seri root
-review ile yapılır; tasarım ve bağımsız örnekler paralel ilerleyebilir. Yeni
-formal çalışma için protocol ve seed audit gerekir; kullanıcı onayı beklenmiyor.
-Aylar/yıllar reliability soak'u hariçtir; kısa sabit ölçek/throughput testleri
-kapsamdadır. Bu henüz kabul edilmiş özellik veya biyolojik sonuç değildir.
+Root final doğrulaması: Rust 191 passed / 0 failed (39 summaries), Python 132/0,
+incremental release build exit 0, HTTP/control/auth/SIGKILL-resume script exit 0,
+scoped Rust format check geçti. Bu mekanizma/entegrasyon kontrolüdür; ekolojik
+yarar kabulü değildir. A'nın formal online-vs-frozen/naive/rule experiment,
+seed seçimi ve preregistration açık; hiçbir formal batch, deployment veya yeni
+world başlatılmadı. B compatibility calibration/schema tasarımı ve C fixture
+resource accounting/runtime audit açık. Ortak source/checkpoint değişiklikleri
+root'un seri review'undan geçer. Formal çalışma için protocol/seed audit gerekir.
+Aylar/yıllar reliability soak'u kapsam dışıdır.
 - Asıl açık biyolojik konu: avcı nesillerinin kalıcı olması. Sığınaklı seed
   12345'te 20. nesle ulaştı, 907'den sonra avcı kalmadı. Başarı diye etiketlenmez.
   Sıradaki teşhis bu soyda çift bulma, rezerv ve ölüm zamanlarını ayırmak.

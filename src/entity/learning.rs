@@ -23,6 +23,9 @@ pub struct Learner {
     pub episode: Option<WaterEpisode>,
     #[serde(default)]
     pub last_episode: Option<WaterResult>,
+    /// Exact bounded correction sum/count for resolver-confirmed outcomes.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub residuals: Vec<ResidualValue>,
 }
 fn updates_enabled() -> bool {
     true
@@ -35,12 +38,33 @@ impl Default for Learner {
             values: vec![],
             episode: None,
             last_episode: None,
+            residuals: vec![],
         }
     }
 }
 /// Maximum number of executed water-choice ticks in one attempt.
 pub const MAX_WATER_TICKS: u8 = 20;
 const MAX_ACCOUNT: usize = 1_000_000;
+/// Refuse further samples at this count so sum arithmetic stays exact and bounded.
+pub const MAX_RESIDUAL_SAMPLES: u32 = 1_000_000;
+/// `finish` accounts at most 100 water and 1,000,000 movement energy, with at
+/// least one tick: actual score is within [-100,000,100, 19,900]. In foraging,
+/// travel / ceil(travel / speed) <= speed <= 32, move cost <= 32, and water
+/// benefit <= 20, so the baseline magnitude is below 104,000 independently of
+/// path length. 101M bounds the residual difference without tuning a parameter.
+const MAX_RESIDUAL: i64 = 101_000_000;
+/// Valid body bounds are speed/move cost <=32 and water benefit <=20. The
+/// travel/ticks ratio is at most speed, so current baseline magnitude stays
+/// below 104k independent of route length.
+const MAX_CHOICE_BASELINE: i64 = 104_000;
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ResidualValue {
+    pub pos: Position,
+    /// Sum of exact integer score residuals; mean is `sum / visits`.
+    pub sum: i64,
+    pub visits: u32,
+}
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct WaterEpisode {
@@ -48,6 +72,19 @@ pub struct WaterEpisode {
     pub ticks: u8,
     pub movement_energy: usize,
     pub incoming_damage: usize,
+    /// Current foraging score captured when this episode's source was selected.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub choice_baseline: Option<i64>,
+    /// Candidate evidence is censored if the legacy bounded ledger would clip.
+    #[serde(default, skip_serializing_if = "is_false")]
+    pub outcome_overflowed: bool,
+    /// Own drink evidence for another source makes the episode unattributable.
+    #[serde(default, skip_serializing_if = "is_false")]
+    pub candidate_censored: bool,
+}
+
+fn is_false(value: &bool) -> bool {
+    !value
 }
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
 pub enum WaterEnd {
@@ -73,6 +110,31 @@ impl Learner {
         view: &Perception,
         base: Decision,
         rng: &mut Random,
+    ) -> Decision {
+        self.choose_inner(origin, None, view, base, rng, false)
+    }
+
+    /// Choose with the default-off source-residual policy enabled by world config.
+    pub fn choose_with_residual(
+        &mut self,
+        origin: Position,
+        life: &crate::entity::lifestate::LifeState,
+        view: &Perception,
+        base: Decision,
+        rng: &mut Random,
+        residual_enabled: bool,
+    ) -> Decision {
+        self.choose_inner(origin, Some(life), view, base, rng, residual_enabled)
+    }
+
+    fn choose_inner(
+        &mut self,
+        origin: Position,
+        life: Option<&crate::entity::lifestate::LifeState>,
+        view: &Perception,
+        base: Decision,
+        rng: &mut Random,
+        residual_enabled: bool,
     ) -> Decision {
         if !self.enabled {
             self.interrupt(WaterEnd::Disabled);
@@ -118,19 +180,53 @@ impl Learner {
                         .find(|v| v.pos == positions[*i])
                         .map(|v| v.value)
                         .unwrap_or(200);
+                    let residual = if residual_enabled {
+                        self.residuals
+                            .iter()
+                            .find(|v| v.pos == positions[*i] && v.visits > 0)
+                            .map(|v| v.sum / v.visits as i64)
+                            .unwrap_or(0)
+                    } else {
+                        0
+                    };
+                    let baseline = if residual_enabled {
+                        crate::entity::foraging::value(
+                            view.waters[*i].amount,
+                            view.waters[*i].steps.len(),
+                            life.expect("residual policy requires life state"),
+                            true,
+                        ) as i64
+                    } else {
+                        0
+                    };
                     (
-                        q,
+                        if residual_enabled {
+                            baseline.saturating_add(residual)
+                        } else {
+                            q as i64
+                        },
                         std::cmp::Reverse(view.waters[*i].steps.len()),
                         std::cmp::Reverse(*i),
                     )
                 })
                 .unwrap()
         };
+        let choice_baseline = residual_enabled.then(|| {
+            crate::entity::foraging::value(
+                view.waters[index].amount,
+                view.waters[index].steps.len(),
+                life.expect("residual policy requires life state"),
+                true,
+            ) as i64
+        });
         self.episode = Some(WaterEpisode {
             target: positions[index],
             ticks: 0,
             movement_energy: 0,
             incoming_damage: 0,
+            choice_baseline,
+            outcome_overflowed: false,
+            candidate_censored: false,
         });
         Decision::new(
             Intent::Drink {
@@ -152,6 +248,17 @@ impl Learner {
     }
 
     pub fn finish(&mut self, id: usize, alive: bool, events: &[SimulationEvent]) {
+        self.finish_with_evidence(id, alive, events, false);
+    }
+
+    /// Finish with world-verified intent evidence for missing-resource failures.
+    pub fn finish_with_evidence(
+        &mut self,
+        id: usize,
+        alive: bool,
+        events: &[SimulationEvent],
+        missing_resource_target_matches: bool,
+    ) {
         if !self.enabled {
             self.interrupt(WaterEnd::Disabled);
             return;
@@ -162,6 +269,7 @@ impl Learner {
         attempt.ticks = attempt.ticks.saturating_add(1);
         let mut water = 0usize;
         let mut failed = false;
+        let mut mismatched_drink = false;
         for event in events {
             match event {
                 SimulationEvent::EntityMoved {
@@ -169,6 +277,11 @@ impl Learner {
                     energy_cost,
                     ..
                 } if *actor == id => {
+                    if attempt.choice_baseline.is_some()
+                        && attempt.movement_energy.saturating_add(*energy_cost) > MAX_ACCOUNT
+                    {
+                        attempt.outcome_overflowed = true;
+                    }
                     attempt.movement_energy = attempt
                         .movement_energy
                         .saturating_add(*energy_cost)
@@ -186,7 +299,16 @@ impl Learner {
                     pos,
                     amount,
                 } if *actor == id && *pos == attempt.target => {
+                    if attempt.choice_baseline.is_some() && water.saturating_add(*amount) > 100 {
+                        attempt.outcome_overflowed = true;
+                    }
                     water = water.saturating_add(*amount).min(100);
+                }
+                SimulationEvent::EntityDrank { id: actor, .. } if *actor == id => {
+                    mismatched_drink = true;
+                    if attempt.choice_baseline.is_some() {
+                        attempt.candidate_censored = true;
+                    }
                 }
                 SimulationEvent::ActionRejected {
                     id: actor,
@@ -221,7 +343,7 @@ impl Learner {
         } else {
             return;
         };
-        let attempt = self.episode.take().unwrap();
+        let mut attempt = self.episode.take().unwrap();
         // Explicit resolver cost only: metabolism, healing and reproduction are not
         // subtracted again through a net energy delta. Time is a separate cost.
         let reward = (water as i64 * 10
@@ -244,12 +366,59 @@ impl Learner {
                 });
             }
         }
+        if self.update_enabled
+            && !mismatched_drink
+            && !attempt.outcome_overflowed
+            && !attempt.candidate_censored
+            && (end == WaterEnd::Reached
+                || (end == WaterEnd::Failed && missing_resource_target_matches))
+        {
+            if let Some(baseline) = attempt.choice_baseline {
+                let actual = (water as i64 * 2)
+                    .checked_sub(attempt.movement_energy as i64)
+                    .and_then(|v| v.checked_sub(attempt.ticks as i64))
+                    .and_then(|v| v.checked_mul(100))
+                    .map(|v| v / attempt.ticks.max(1) as i64);
+                if let Some(residual) = actual.and_then(|v| v.checked_sub(baseline)) {
+                    if !self.record_residual(attempt.target, residual) {
+                        attempt.candidate_censored = true;
+                    }
+                } else {
+                    attempt.candidate_censored = true;
+                }
+            }
+        }
         self.last_episode = Some(WaterResult {
             attempt,
             water,
             end,
             reward: Some(reward),
         });
+    }
+    fn record_residual(&mut self, pos: Position, residual: i64) -> bool {
+        if residual.unsigned_abs() > MAX_RESIDUAL as u64 {
+            return false;
+        }
+        if let Some(value) = self.residuals.iter_mut().find(|v| v.pos == pos) {
+            if value.visits >= MAX_RESIDUAL_SAMPLES {
+                return false;
+            }
+            let Some(sum) = value.sum.checked_add(residual) else {
+                return false;
+            };
+            value.sum = sum;
+            value.visits += 1;
+        } else {
+            while self.residuals.len() >= 32 {
+                self.residuals.remove(0);
+            }
+            self.residuals.push(ResidualValue {
+                pos,
+                sum: residual,
+                visits: 1,
+            });
+        }
+        true
     }
     pub fn validate(&self) -> crate::Result<()> {
         let valid_pos =
@@ -259,6 +428,8 @@ impl Learner {
                 && a.ticks <= MAX_WATER_TICKS
                 && a.movement_energy <= MAX_ACCOUNT
                 && a.incoming_damage <= MAX_ACCOUNT
+                && a.choice_baseline
+                    .is_none_or(|b| b.unsigned_abs() <= MAX_CHOICE_BASELINE as u64)
         };
         if self
             .episode
@@ -270,6 +441,18 @@ impl Learner {
                     || r.reward.is_some_and(|q| !(-1000..=1000).contains(&q))
             })
             || self.values.len() > 32
+            || self.residuals.len() > 32
+            || self.residuals.iter().any(|v| {
+                v.visits == 0
+                    || v.visits > MAX_RESIDUAL_SAMPLES
+                    || v.sum.unsigned_abs() > (MAX_RESIDUAL as u64).saturating_mul(v.visits as u64)
+                    || !valid_pos(v.pos)
+            })
+            || self
+                .residuals
+                .iter()
+                .enumerate()
+                .any(|(i, v)| self.residuals[..i].iter().any(|old| old.pos == v.pos))
             || self.values.iter().any(|v| {
                 !(-1000..=1000).contains(&v.value)
                     || v.pos.x.unsigned_abs() > 1_000_000

@@ -3,24 +3,30 @@
 ## 23 Ekim 2026 — paralel ekosistem capability planı
 
 [PARALLEL_CAPABILITY_PLAN.md](docs/PARALLEL_CAPABILITY_PLAN.md) altı capability
-izini A–F ve ayrı bounded throughput/storage izi G'yi tanımlar. A/B/C ilk
-dalganın izole tasarım/prototip teslimleri root tarafından incelendi. A'nın
-water example/prototype'u `769f683` ile ana dala alındı; core policy ve
-checkpoint migration henüz yapılmadı. B/C tasarım ve helperlar ana worktree'de
-mevcut; C örneği targeted olarak derlendi, runtime fixture/muhasebe doğrulaması
-yok. Ajan 7 A testi ve 11 B targeted kontrolü bildirdi. Root bağımsız `cargo test --all-targets` için 181 passed / 0 failed,
-Python için 132 passed ve `cargo build --release` exit 0 doğruladı. İlk dalga
-Rust dosyalarının scoped `rustfmt --edition 2024 --check` kontrolü de geçti.
-Üç geçici target dizini temizlendi.
+izini A–F ve ayrı bounded throughput/storage izi G'yi tanımlar. A su artığı
+öğrenicisi V17 core entegrasyon adayı tamamlandı ve root tarafından gözden
+geçirildi. Varsayılan kapalıdır; güncel `foraging::value` tabanı + bireyin kendi
+kaynaktaki resolver sonucu artığı kullanılır. Choice-time baseline bölüm boyunca
+korunur; toplam/sayaç exact bounded sum/count'tur; eski V1–V16 checkpoint göçü
+kapalı/boş başlar, SQLite V2 değişmez ve öğrenilmiş bilgi yavruya geçmez.
+Kapalı dalın RNG/tercih davranışı için greedy ve exploration altınları, gerçek
+resolver/checkpoint devamı ve censor/frozen/migration kontrolleri geçmiştir.
+B ve C ayrı açık izlerdir; bu turda yalnız A üzerinde çalışıldı ve C'nin
+runtime muhasebesi henüz doğrulanmadı.
 
-İlk dalga prototip işi tamamlandı; tasarım ve bağımsız örnekleme paralel
-sürdürülebilir. Ortak `src/`/checkpoint değişiklikleri root review ile seri
-yapılır. Sonraki işler: A'nın production integration/default-off parity,
-choice-time baseline snapshot ve residual persistence; B compatibility
-calibration/schema; C resource accounting ve tek-world runtime audit. Henüz
-registered ecology batch/yeni seed koşusu yoktur; önce root preregistration ve
-seed audit gerekir. Kullanıcı onayı beklenmiyor. Aylar/yıllar reliability
-soak'u hariçtir; sabit kısa ölçek ve storage ölçümleri kapsam içindedir.
+Root final doğrulaması: `cargo test --all-targets` 191 passed / 0 failed
+(39 summaries), Python 132 passed / 0 failed, incremental release build exit 0,
+`scripts/check_control.py` HTTP/control/auth/crash-resume kontrolü exit 0 ve
+scoped `rustfmt --edition 2024 --check` geçti. A için formal karşılaştırma,
+seed seçimi, preregistrasyon, ecology batch, yeni dünya veya deployment
+yapılmadı. Sıradaki A işi: root unseen seed ve bütçe seçmeden önce güçlü
+rule-based baseline, naive online, trained online ve aynı trained tabloda
+frozen-update kollarıyla sınırlı formal protokolü preregistre etmek. Tarihsel
+seed 51001–51008/önceki su çalışmaları held-out diye yeniden kullanılamaz.
+B'nin compatibility calibration/schema tasarımı ve C'nin fixture/resource
+accounting-runtime denetimi ayrı sürer. Aylar/yıllar reliability soak'u kapsam
+dışıdır; kısa sabit ölçek/throughput ölçümleri kapsamdadır. Root geçici build
+target'larını temizledi; formal koşuya ait retained binary yoktur.
 
 ## 23 Ekim 2026 — yeni sürekli-yaşam su öğrenmesi devri
 

@@ -79,6 +79,7 @@ mod tests {
             policy: PolicySettings {
                 reserve_opportunities: true,
                 mate_rendezvous: true,
+                ..Default::default()
             },
             genetics: Genetics::default(),
             learning_enabled: true,

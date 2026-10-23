@@ -74,7 +74,7 @@ impl State {
         commands.sort_by_key(|(id, _)| *id);
         Self {
             policy: world.policy.clone(),
-            version: 16,
+            version: 17,
             genetics: world.genetics.clone(),
             observation: world.observation.clone(),
             environment: world.environment.clone(),
@@ -111,7 +111,7 @@ impl State {
         }
     }
     pub fn restore(mut self) -> Result<World> {
-        if !(1..=16).contains(&self.version) {
+        if !(1..=17).contains(&self.version) {
             return Err("unsupported checkpoint version".into());
         }
         if self.version >= 15 {
@@ -175,6 +175,22 @@ impl State {
                 individual.memory.refuge_outcomes.clear();
                 individual.memory.refuge_episode = None;
                 individual.memory.pending_refuge_closures.clear();
+            }
+        }
+        if self.version < 17 {
+            self.policy.water_residual_enabled = false;
+            for individual in &mut self.entities {
+                individual.learner.residuals.clear();
+                if let Some(attempt) = &mut individual.learner.episode {
+                    attempt.choice_baseline = None;
+                    attempt.outcome_overflowed = false;
+                    attempt.candidate_censored = false;
+                }
+                if let Some(result) = &mut individual.learner.last_episode {
+                    result.attempt.choice_baseline = None;
+                    result.attempt.outcome_overflowed = false;
+                    result.attempt.candidate_censored = false;
+                }
             }
         }
         for individual in &self.entities {
