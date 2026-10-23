@@ -1,5 +1,13 @@
 # Curious üzerinde çalışma
 
+## Ajan bağımsız beceriler
+
+Göreve uygun talimatı [.agents/skills/README.md](.agents/skills/README.md)
+kataloğundan seçip ilgili `SKILL.md` dosyasını oku: geliştirme, deney, işletim veya
+denetim. Dört beceri de düz Markdown kullanır; özel ajan/model/araç gerektirmez.
+Otomatik keşif yoksa dosyayı doğrudan okuyarak uygula. Katalog görev kapsamını veya
+mevcut kullanıcı yetkisini genişletmez; tarihsel durum yerine güncel kanıtı doğrula.
+
 ## 20 Ekim — kabul tamam, ayrı karma gözleme geçiş
 
 Bütün11kapı ham sonuçlardan yeniden doğrulandı; fixed30/30 ve both30/30×100k,
