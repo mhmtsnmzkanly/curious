@@ -5,6 +5,7 @@ const colors = {Herbivore:"#bddc94",Carnivore:"#eca080",Omnivore:"#b7a0db"};
 const names = {Herbivore:"Otçul",Carnivore:"Etçil",Omnivore:"Hepçil"};
 const labels = {SeekWater:"Su arıyor",SearchWater:"Su arıyor",RecallWater:"Hatırladığı suya gidiyor",SeekFood:"Besleniyor",SearchFood:"Yiyecek arıyor",LearnedHunt:"Deneyimine göre av seçti",HuntPrey:"Avını izliyor",EscapeThreat:"Tehlikeden kaçıyor",SeekShelter:"Sığınağa kaçıyor",Rest:"Dinleniyor",Mate:"Eşleşiyor",Explore:"Çevresini araştırıyor",RecoverStamina:"Dinleniyor",LearnedWater:"Deneyimine göre su seçti"};
 let shards=[], records=[], current=null, selected=null, playing=false, timer=null, cursor=0, meta=null, navigation=0, playbackRun=0;
+let lifeRows=[], lifeKey="", lifeShardIndex=-1, lifeBefore=0, lifeGeneration=0, lifeOlderAvailable=false, lifeAnchor=null, lifeLoadBusy=false, lifeBudgetLimited=false;
 function api(path) { return fetch(path,{cache:"no-store"}).then(async r=>{const d=await r.json();if(!r.ok)throw Error(d.error||"Arşiv okunamadı");return d;}); }
 function esc(value) { return String(value ?? "—"); }
 function setError(error) { $("error").textContent=error?.message||""; $("error").hidden=!error; }
@@ -60,6 +61,7 @@ function renderSummary() {
   const details=$("details");details.replaceChildren();
   if(e){for(const [k,v] of [["Konum",`${e.pos?.x}, ${e.pos?.y}`],["Tür",names[e.species]||e.species],["Ebeveynler",e.parents?.length?e.parents.map(x=>`#${x}`).join(" & "):"Kurucu"],["Bellek",`${e.memory?.sites?.length||0} kaynak · ${e.memory?.dangers?.length||0} tehlike`]]){const dt=document.createElement("dt"),dd=document.createElement("dd");dt.textContent=k;dd.textContent=esc(v);details.append(dt,dd);}}
   CuriousExperience.render($("experience"),e,(current?.decisions||[]).find(d=>d.id===selected));
+  loadLife(e).catch(setError);
   const decisionBox=$("decisions");decisionBox.replaceChildren();
   const traceList=(current?.decisions||[]).filter(d=>selected===null||d.id===selected);
   const counts={};for(const d of traceList){const reason=d.decision?.reason||"Bilinmiyor";counts[labels[reason]||reason]=(counts[labels[reason]||reason]||0)+1;}
@@ -69,6 +71,75 @@ function renderSummary() {
   const countsBy=metrics.by_species||{};for(const [kind,count] of Object.entries(countsBy)){const p=document.createElement("p");p.textContent=`${names[kind]||kind}: ${count}`;species.append(p);}
   if(!Object.keys(countsBy).length){const p=document.createElement("p");p.textContent=`Yaşayan: ${metrics.alive??entities.filter(x=>x.life?.health>0).length} · Doğum: ${metrics.births??0} · Ölüm: ${metrics.deaths??0}`;species.append(p);}
 }
+function addText(parent, tag, value, className="") { const node=document.createElement(tag);node.textContent=String(value??"—");if(className)node.className=className;parent.append(node);return node; }
+function renderLife() {
+  const box=$("documentary");box.replaceChildren();
+  if(selected===null){addText(box,"p","Bir birey seçerek kayıtlı yaşam izini aç.");$("older-life").hidden=true;return;}
+  if(lifeBudgetLimited)addText(box,"p","Bu sayfa okuma bütçesi nedeniyle kısmi. Daha eski kayıtları aynı arşiv parçasında sürdürmek için yeniden deneyin.","documentary-note");
+  if(!lifeRows.length){addText(box,"p","Seçili birey için bu arşiv aralığında karar kaydı bulunamadı.");$("older-life").hidden=!lifeOlderAvailable;return;}
+  const view=lifeRows.map(r=>({...r,summary:CuriousDocumentary.displayData(r)}));
+  const comparison=CuriousDocumentary.encounterComparison(view,lifeAnchor);
+  const rule=document.createElement("p");rule.className="documentary-note";
+  rule.textContent=`Benzer karşılaşma kuralı: saklanan HuntContext içindeki enerji, dayanıklılık, mesafe ve av sağlığı sınıflarının dördü de aynı olmalı. Yalnız kaydedilmiş attempt bağlamı kullanılır; eksik sınıf eşleşmez ve algıdan tahmin edilmez. Benzerlik nedensel üstünlük göstermez. Karşılaştırma şu an taranmış ${view.length} kaydın kapsamındadır.`;box.append(rule);
+  if(comparison.count){
+    const compare=document.createElement("div");compare.className="life-compare";
+    addText(compare,"strong",`Benzer av karşılaşması · ${CuriousDocumentary.contextLabel(comparison.context)}`);
+    for(const [label,item] of [["İlk taranan",comparison.first],["Son taranan",comparison.last]])if(item){const s=item.summary;addText(compare,"p",`${label}: #${s.id} · tick ${s.tick} · karar öncesi yaş ${s.beforeAge??"bilinmiyor"} · ${s.reason}`);}
+    addText(compare,"p",`${comparison.count} benzer karşılaşma grubu; artan attempt tick'leri tek bölüm sayılır. Bu sayı başarı veya öğrenme etkisi değildir.`);box.append(compare);
+  } else addText(box,"p",lifeAnchor?"Bu yüklü kayıtlarda eşleşme ölçütünü karşılayan av karşılaşması yok.":"Seçili tick için bireysel karar izi yok; karşılaştırma başlatılamadı.");
+  for(let index=view.length-1;index>=0;index--){
+    const row=view[index],s=row.summary,previous=index>0?view[index-1]:null,card=document.createElement("article");card.className="life-entry";
+    addText(card,"strong",`${s.identity} · ${s.reason}`);
+    addText(card,"p",`Gördüğü: ${s.perception}`);
+    addText(card,"p",`Hatırladığı: ${s.memory}`);
+    addText(card,"p",`Hedef: ${s.target===null?"kayıtlı hedef yok":(typeof s.target==="number"?`#${s.target}`:s.target)}. ${s.cost}`);
+    addText(card,"p",`Öğrendiği: ${s.learned} ${s.outcome}`);
+    addText(card,"p",`Su Q tablosu: ${CuriousDocumentary.waterDelta(previous,row)}`);
+    addText(card,"p",s.risk);
+    if(row.trace?.perception?.entities?.length){const seen=row.trace.perception.entities.slice(0,12).map(x=>`#${x.id} ${x.species}, ${x.steps?.length??"?"} adım${x.health==null?", sağlık bilinmiyor":`, sağlık ${x.health}`}`).join("; ");addText(card,"p",`Görülen canlılar: ${seen}${row.trace.perception.entities.length>12?"; …":""}`);}
+    box.append(card);
+  }
+  $("older-life").hidden=!lifeOlderAvailable;$("older-life").disabled=lifeLoadBusy;
+}
+async function loadLife(entity) {
+  if(!entity||selected===null||!current){lifeRows=[];lifeKey="";renderLife();return;}
+  const shard=Number($("shard").value),key=`${selected}:${shard}:${current.id}`;
+  if(key===lifeKey)return;
+  const generation=++lifeGeneration;lifeLoadBusy=false;lifeKey=key;lifeRows=[];lifeAnchor=null;lifeShardIndex=shards.findIndex(s=>s.shard===shard);lifeBefore=Number(current.id)+1;lifeOlderAvailable=true;renderLife();
+  let page;
+  try{page=await api(`/api/individual-history?shard=${shard}&id=${selected}&before=${lifeBefore}&limit=50`);}catch(e){if(generation===lifeGeneration)lifeKey="";throw e;}
+  if(generation!==lifeGeneration||selected!==entity.id||Number($("shard").value)!==shard)return;
+  lifeRows=page.items;lifeAnchor=page.items.find(r=>r.id===current.id&&r.shard===shard)||null;
+  lifeBudgetLimited=page.budget_limited;
+  lifeBefore=page.next_before??(page.items.length?page.items[0].id:lifeBefore);
+  lifeOlderAvailable=page.has_more||lifeShardIndex>0;renderLife();
+}
+$("older-life").onclick=async()=>{
+  if(!lifeOlderAvailable||selected===null||lifeLoadBusy)return;
+  const generation=lifeGeneration, id=selected;
+  lifeLoadBusy=true;$("older-life").disabled=true;
+  try{
+    let response={items:[],has_more:false,next_before:null,budget_limited:false},candidateIndex=lifeShardIndex,candidateBefore=lifeBefore,attempts=0;
+    while(!response.items.length&&candidateIndex>=0&&attempts<3){
+      const shard=shards[candidateIndex]?.shard;if(shard===undefined)break;
+      if(candidateBefore<=1){candidateIndex--;candidateBefore=Number.MAX_SAFE_INTEGER;attempts++;continue;}
+      const before=candidateBefore;
+      const limit=Math.min(50,500-lifeRows.length);
+      if(limit<=0)break;
+      response=await api(`/api/individual-history?shard=${shard}&id=${id}&before=${before}&limit=${limit}`);
+      if(response.budget_limited){candidateBefore=response.next_before??before;break;}
+      if(!response.items.length){candidateIndex--;candidateBefore=Number.MAX_SAFE_INTEGER;attempts++;}
+    }
+    if(generation!==lifeGeneration||id!==selected)return;
+    lifeShardIndex=candidateIndex;
+    lifeBudgetLimited=response.budget_limited;
+    if(response.items.length){lifeRows=[...response.items,...lifeRows];lifeBefore=response.next_before??response.items[0].id;}
+    else if(response.budget_limited){lifeBefore=response.next_before??candidateBefore;}
+    else {lifeBefore=Number.MAX_SAFE_INTEGER;if(candidateIndex<0)lifeOlderAvailable=false;}
+    lifeOlderAvailable=lifeRows.length<500&&(response.has_more||response.budget_limited||(lifeShardIndex>=0&&(lifeBefore>1||lifeShardIndex>0)));
+    renderLife();
+  }catch(e){setError(e);}finally{if(generation===lifeGeneration){lifeLoadBusy=false;$("older-life").disabled=!lifeOlderAvailable;}}
+};
 function draw() {
   if(!current?.state)return;const rect=canvas.getBoundingClientRect(),dpr=devicePixelRatio||1;canvas.width=Math.round(rect.width*dpr);canvas.height=Math.round(rect.height*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);const w=rect.width,h=rect.height;ctx.fillStyle="#14251a";ctx.fillRect(0,0,w,h);
   const b=current.state.bounds||[0,1,0,1],[minX,maxX,minY,maxY]=b;const cell=Math.min((w-30)/(maxX-minX+1),(h-30)/(maxY-minY+1)),ox=(w-cell*(maxX-minX+1))/2,oy=(h-cell*(maxY-minY+1))/2;

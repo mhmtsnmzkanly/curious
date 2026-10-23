@@ -21,6 +21,9 @@ from urllib.parse import parse_qs, quote, urlsplit
 
 MAX_UNPACKED = 2 * 1024 * 1024 * 1024
 MAX_CACHE = 256 * 1024 * 1024
+MAX_HISTORY_STATE_ROW = 8 * 1024 * 1024
+MAX_HISTORY_READ = 64 * 1024 * 1024
+MAX_HISTORY_SECONDS = 2.0
 SHARD_RE = re.compile(r"^history-(\d{6,})\.sqlite(?:\.(?:gz|zst))?$")
 
 
@@ -166,11 +169,111 @@ class ReplayApplication:
                 "state": json.loads(row["state_json"]), "metrics": json.loads(row["metrics_json"]),
                 "decisions": decisions, "events": events}
 
+    def individual_history(self, shard: int, entity_id: int, after: int = 0, limit: int = 50, before: int | None = None):
+        """Return a bounded page of this individual's recorded decisions in one shard."""
+        if entity_id < 0 or after < 0 or limit < 1 or limit > 100 or (before is not None and before < 1):
+            raise ReplayError("invalid individual history page")
+        started = time.monotonic()
+        db_deadline = started + MAX_HISTORY_SECONDS
+        with self.store.connection(shard) as db:
+            db.set_progress_handler(lambda: 1 if time.monotonic() > db_deadline else 0, 1000)
+            try:
+                if before is None:
+                    rows = db.execute(
+                        "SELECT r.id,r.tick,r.at_ms,r.kind,length(r.state_json) AS state_bytes, "
+                        "CASE WHEN length(r.state_json)<=? THEN r.state_json ELSE NULL END AS state_json, "
+                        "length(t.trace_json) AS trace_bytes, "
+                        "CASE WHEN length(t.trace_json)<=? THEN t.trace_json ELSE NULL END AS trace_json "
+                        "FROM decision_traces t JOIN records r ON r.id=t.record_id "
+                        "WHERE t.entity_id=? AND r.id>? ORDER BY r.id LIMIT ?",
+                        (MAX_HISTORY_STATE_ROW, 1024 * 1024, entity_id, after, limit),
+                    )
+                else:
+                    rows = db.execute(
+                        "SELECT r.id,r.tick,r.at_ms,r.kind,length(r.state_json) AS state_bytes, "
+                        "CASE WHEN length(r.state_json)<=? THEN r.state_json ELSE NULL END AS state_json, "
+                        "length(t.trace_json) AS trace_bytes, "
+                        "CASE WHEN length(t.trace_json)<=? THEN t.trace_json ELSE NULL END AS trace_json "
+                        "FROM decision_traces t JOIN records r ON r.id=t.record_id "
+                        "WHERE t.entity_id=? AND r.id<? ORDER BY r.id DESC LIMIT ?",
+                        (MAX_HISTORY_STATE_ROW, 1024 * 1024, entity_id, before, limit),
+                    )
+            except sqlite3.OperationalError as exc:
+                # Old shards may predate decision_traces entirely.
+                if "no such table" in str(exc):
+                    return {"items": [], "has_more": False, "next_before": None,
+                            "next_after": None, "budget_limited": False}
+                raise
+            result = []
+            bytes_read = 0
+            budget_limited = False
+            continuation = None
+            for row in rows:
+                if time.monotonic() - started > MAX_HISTORY_SECONDS:
+                    budget_limited = True
+                    continuation = row["id"] + 1 if before is not None else row["id"] - 1
+                    break
+                bytes_read += min(int(row["state_bytes"] or 0), MAX_HISTORY_STATE_ROW) + min(int(row["trace_bytes"] or 0), 1024 * 1024)
+                if bytes_read > MAX_HISTORY_READ:
+                    budget_limited = True
+                    continuation = row["id"] + 1 if before is not None else row["id"] - 1
+                    break
+                trace = json.loads(row["trace_json"]) if row["trace_json"] else None
+                try:
+                    event_rows = db.execute(
+                        "SELECT CASE WHEN length(payload)<=65536 THEN payload ELSE NULL END FROM events WHERE record_id=? AND ("
+                        "json_extract(payload,'$.EntityMoved.id')=? OR "
+                        "json_extract(payload,'$.EntityAte.id')=? OR "
+                        "json_extract(payload,'$.EntityDrank.id')=? OR "
+                        "json_extract(payload,'$.EntityDied.id')=? OR "
+                        "json_extract(payload,'$.EntityBorn.id')=? OR "
+                        "json_extract(payload,'$.EntitySlept.id')=? OR "
+                        "json_extract(payload,'$.HuntEpisodeEnded.id')=? OR "
+                        "json_extract(payload,'$.ActionRejected.id')=? OR "
+                        "json_extract(payload,'$.EntityAttacked.attacker')=? OR "
+                        "json_extract(payload,'$.EntityAttacked.target')=? OR "
+                        "json_extract(payload,'$.EntityMated.parent1')=? OR "
+                        "json_extract(payload,'$.EntityMated.parent2')=? OR "
+                        "json_extract(payload,'$.EntityMated.child')=? OR "
+                        "json_extract(payload,'$.CorpseConsumed.id')=? OR "
+                        "json_extract(payload,'$.CorpseConsumed.eater')=?) ORDER BY ordinal LIMIT 50",
+                        (row["id"], *([entity_id] * 15)),
+                    ).fetchall()
+                except sqlite3.OperationalError as exc:
+                    if "no such table" in str(exc):
+                        event_rows = []
+                    else:
+                        raise
+                events = [json.loads(e[0]) for e in event_rows if e[0] is not None]
+                state = json.loads(row["state_json"]) if row["state_json"] else {}
+                actor = next((e for e in state.get("entities", []) if e.get("id") == entity_id), None)
+                result.append({
+                    "id": row["id"], "shard": shard, "tick": row["tick"], "at_ms": row["at_ms"],
+                    "kind": row["kind"], "trace": trace, "actor": actor,
+                    "entity_id": entity_id,
+                    "state_available": row["state_json"] is not None,
+                    "trace_available": row["trace_json"] is not None,
+                    "events_truncated": len(event_rows) >= 50 or any(e[0] is None for e in event_rows),
+                    "events": events,
+                })
+            db.set_progress_handler(None, 0)
+        if before is not None:
+            result.reverse()
+            next_before = continuation if budget_limited else (result[0]["id"] if result else None)
+            has_more = budget_limited or len(result) == limit
+        else:
+            next_after = continuation if budget_limited else (result[-1]["id"] if result else None)
+            has_more = budget_limited or len(result) == limit
+            next_before = None
+        return {"items": result, "has_more": has_more,
+                "next_before": next_before, "next_after": None if before is not None else next_after,
+                "budget_limited": budget_limited}
+
 
 class ReplayHandler(BaseHTTPRequestHandler):
     app: ReplayApplication
     web: Path
-    routes = {"/", "/replay", "/replay.html", "/replay.js", "/replay.css", "/experience.js"}
+    routes = {"/", "/replay", "/replay.html", "/replay.js", "/replay.css", "/experience.js", "/documentary.js"}
 
     def log_message(self, fmt, *args):
         print(f"{self.client_address[0]} {fmt % args}")
@@ -206,8 +309,10 @@ class ReplayHandler(BaseHTTPRequestHandler):
             def integer(key, default=None):
                 raw = q.get(key, [default])[0]
                 if raw is None: raise ReplayError(f"missing {key}")
-                if not re.fullmatch(r"\d{1,18}", str(raw)): raise ReplayError(f"invalid {key}")
-                return int(raw)
+                if not re.fullmatch(r"\d{1,19}", str(raw)): raise ReplayError(f"invalid {key}")
+                value = int(raw)
+                if value > (1 << 63) - 1: raise ReplayError(f"invalid {key}")
+                return value
             if parsed.path == "/api/shards" and not q:
                 data = self.app.shards()
             elif parsed.path == "/api/timeline" and set(q) <= {"shard", "after", "limit"}:
@@ -219,6 +324,8 @@ class ReplayHandler(BaseHTTPRequestHandler):
                 data = {"shard": shard, "first_tick": row[0], "last_tick": row[1], "records": row[2]}
             elif parsed.path == "/api/record" and set(q) == {"shard", "id"}:
                 data = self.app.record(integer("shard"), integer("id"))
+            elif parsed.path == "/api/individual-history" and set(q) <= {"shard", "id", "after", "before", "limit"} and {"shard", "id"} <= set(q):
+                data = self.app.individual_history(integer("shard"), integer("id"), integer("after", "0"), integer("limit", "50"), integer("before") if "before" in q else None)
             else:
                 self.send_json({"error":"unknown read-only endpoint"}, 404); return
             self.send_json(data)

@@ -1,0 +1,32 @@
+"use strict";
+const assert = require("node:assert/strict");
+const D = require("../web/documentary.js");
+const context={energy:1,stamina:0,distance:2,health:2};
+function row(id,tick,ctx=context,events=[],episodeTicks=1) {
+  return {id,tick,shard:0,events,actor:{life:{age:tick-10},memory:{sites:[],dangers:[]},hunt_learner:{risk_enabled:false,risk_values:[],episode:{target:44,context:ctx,ticks:episodeTicks,movement_energy:3},last_episode:{end:"Fed",reward:7}}},trace:{id:7,tick,before:{age:tick-11},decision:{reason:"LearnedHunt",intent:{Move:{steps:[]}}},target:{Position:{x:2,y:4}}}};
+}
+const rows=[row(1,11,context,[],1),row(2,12,{...context,health:0},[],2),row(3,13,{...context,distance:1},[],1),row(4,14,context,[],1),row(5,15,context,[],2)];
+const comparison=D.encounterComparison(rows,rows[0]);
+assert.equal(comparison.count,2,"actual recorded context matches only exact known classes");
+assert.equal(comparison.first.id,1);
+assert.equal(comparison.last.id,4,"last similar encounter is the latest attempt start, not a later tick in that attempt");
+assert.equal(comparison.count,2,"repeated ticks within one target/context episode count as one encounter");
+assert.equal(D.sameContext(context,{...context,health:0}),false,"health class 0 means unknown and must not match");
+const rendered=D.displayData(rows[0]);
+assert.match(rendered.identity,/karar öncesi yaş 0/);
+assert.match(rendered.memory,/Tick sonrası bellek/);
+assert.equal(rendered.target,"(2, 4)");
+assert.match(rendered.learned,/Son deneme alanı tek başına yeni güncelleme kanıtı değildir/,"repeated last_episode is not counted as a new learning update");
+assert.match(rendered.risk,/Risk öğrenmesi kapalı/);
+const riskRow=row(5,15);riskRow.actor.hunt_learner.risk_enabled=true;riskRow.actor.hunt_learner.risk_values=[{context:{energy:1},exposures:3,injuries:1,damage:2}];riskRow.actor.hunt_learner.episode={...riskRow.actor.hunt_learner.episode,prey_defense_damage:4};
+assert.match(D.displayData(riskRow).risk,/prey_defense_damage/);
+const noCost=row(6,16);noCost.events=[{EntityMoved:{id:7,from:{x:0,y:0},to:{x:1,y:0}}}];
+assert.match(D.displayData(noCost).cost,/eksik\/eski olay var; toplam bilinmiyor/);
+const waterBefore={actor:{learner:{values:[{pos:{x:1,y:2},value:12,visits:2}]}}};
+const waterAfter={actor:{learner:{values:[{pos:{x:1,y:2},value:7,visits:3}]}}};
+assert.match(D.waterDelta(waterBefore,waterAfter),/Q Δ-5, ziyaret Δ1/);
+assert.match(D.waterDelta(null,waterAfter),/farkı bilinmiyor/);
+const missing=D.displayData({id:2,tick:2,trace:{id:2,decision:{reason:"Explore"}},events:[]});
+assert.match(missing.memory,/Bellek kaydı yok/);
+assert.equal(D.huntContext({decision:{reason:"LearnedHunt"}}),null,"old sparse records do not invent a comparison context");
+console.log("documentary projection checks passed");

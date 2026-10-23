@@ -4,3 +4,4 @@
 .experience p { font-size: 12px; line-height: 1.65; margin: 10px 0; color: var(--muted, #9eafa1); }
 /* Individual tables remain inspectable without pushing the map off screen. */
 .experience{max-height:440px;overflow:auto;overscroll-behavior:contain;scrollbar-width:thin;padding-right:8px}
+.documentary{max-height:560px;overflow:auto;overscroll-behavior:contain;scrollbar-width:thin;padding-right:7px}.documentary-note,.life-compare,.life-entry{font-size:11px;color:var(--muted)}.life-compare{border:1px solid var(--line);border-radius:8px;padding:10px;margin:10px 0;background:#1d2b21}.life-entry{border-top:1px solid var(--line);padding:10px 0}.life-entry strong,.life-compare strong{display:block;color:var(--text);font-size:11px}.life-entry p,.life-compare p{font-size:11px;line-height:1.55;margin:5px 0}.life-entry p:last-child{color:#b5c9a4}

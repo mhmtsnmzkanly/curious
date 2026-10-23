@@ -42,7 +42,20 @@ for shard in range(3):
   page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>methods.push(r.method()));
   await page.goto(base+'/replay');await page.waitForFunction(()=>document.querySelector('#tick').textContent==='8');
   assert.equal(await page.locator('#map-empty').isVisible(),false,'empty-state overlay on a populated world');
+  let budgetPage=true;
+  await page.route('**/api/individual-history?*',async route=>{
+   if(budgetPage){budgetPage=false;await route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({items:[],has_more:true,next_before:4,budget_limited:true})});}
+   else await route.continue();
+  });
   await page.locator('#roster button').first().click();assert.match(await page.locator('#individual-title').textContent(),/#1/);
+  await page.waitForFunction(()=>document.querySelector('#documentary').textContent.includes('okuma bütçesi nedeniyle kısmi'));
+  assert.equal(await page.locator('#older-life').isVisible(),true,'empty budget-limited page was mistaken for shard end');
+  await page.locator('#older-life').click();
+  await page.waitForFunction(()=>document.querySelector('#documentary').textContent.includes('taranmış 3 kaydın kapsamındadır'));
+  assert.match(await page.locator('#documentary').textContent(),/Benzer karşılaşma kuralı/);
+  assert.equal(await page.locator('#older-life').isVisible(),true,'bounded older-life pagination was not offered');
+  await page.locator('#older-life').click();await page.waitForFunction(()=>document.querySelector('#documentary').textContent.includes('taranmış 6 kaydın kapsamındadır'));
+  const lifeText=await page.locator('#documentary').textContent();assert.match(lifeText,/shard 1 \/ kayıt 1/);assert.match(lifeText,/shard 2 \/ kayıt 1/,'record IDs repeated across shards were treated as one identity');
   assert.match(await page.locator('#experience').textContent(),/7 puanlanmış deneme/);
   assert.match(await page.locator('#experience').textContent(),/tablo sabit tutulur/);
   await page.locator('#timeline').fill('0');await page.locator('#timeline').dispatchEvent('input');await page.waitForFunction(()=>document.querySelector('#tick').textContent==='6');
