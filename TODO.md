@@ -3,18 +3,21 @@
 Hedef [VISION](docs/VISION.md), kullanıcı sırası ve dürüst durum
 [ROADMAP](docs/ROADMAP.md), ölçümler [sonuç raporu](docs/reports/ROADMAP_RESULTS.md).
 
-## 23 Ekim — paralel ekosistem planı (root incelemesinde)
+## 23 Ekim — paralel ekosistem planı ve sıradaki işler
 
-A/B/C ilk dalga taslakları ve bütün devam eden capability izleri
-[PARALLEL_CAPABILITY_PLAN](docs/PARALLEL_CAPABILITY_PLAN.md) içinde; C'nin
-fixture/soy/metabolik ölçüm tasarımı
-[PARALLEL_ECOLOGY_DESIGN](docs/PARALLEL_ECOLOGY_DESIGN.md) içindedir. Mevcut C
-örneği tek dünya tanı aracı taslağıdır; yalnız compile edildi, runtime
-doğrulaması veya batch yapılmadı. Formal protokol, seed listesi, batch veya
-entegrasyon root incelemesi/preregistrasyonu bekler. Bounded performans/storage
-karşılaştırması kapsam içindedir; months/years reliability soak'u kapsam
-dışıdır.
+Root A/B/C ilk dalga tasarım/prototiplerini inceledi; A water example `769f683`
+ile ana dala alındı. A/B/C henüz üretim öğrenme politikası veya ekoloji kabulü
+değildir. Ajan 7 A testi ve 11 B targeted kontrolü bildirdi; root `cargo test --all-targets`
+181 passed / 0 failed, Python 132 passed ve `cargo build --release` exit 0
+bildirdi. Scoped `rustfmt --edition 2024 --check` geçti. C yalnız `cargo check`
+aldı; runtime muhasebe doğrulaması yok. Yeni ecology batch'i veya seed koşusu yapılmadı.
 
+Sıradaki işler: A'nın default-off production entegrasyonu, baseline snapshot,
+residual persistence ve checkpoint değişikliği; B compatibility calibration/schema
+tasarımı; C kaynak accounting ve single-world runtime audit. Ayrıntı ve ilk dalga
+dosyaları [PARALLEL_CAPABILITY_PLAN](docs/PARALLEL_CAPABILITY_PLAN.md) içindedir.
+Kullanıcı onayı beklenmiyor; root'un teknik incelemesi ve her formal işin
+preregistrasyonu ayrı mühendislik kapılarıdır.
 - [ ] Kaynak şokundan toparlanmayı çöz: V9 sabit kurallı uzun doğrulama 30/30
   geçti; kaynak şoku 4/8 ile araştırmayı durdurdu. Teşhis ve sonraki sınırlı
   deney [RESOURCE_SHOCK_ANALYSIS](docs/reports/RESOURCE_SHOCK_ANALYSIS.md).

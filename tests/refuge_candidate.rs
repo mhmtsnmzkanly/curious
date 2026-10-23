@@ -129,16 +129,18 @@ fn one_observation_cannot_be_reused_for_two_distinct_current_routes() {
         1,
         4,
     );
-    assert!(rank_candidates(
-        &[short, long],
-        &rows,
-        CompatibilityGate {
-            max_route_length_difference: 1,
-            ..gate()
-        },
-        1,
-    )
-    .is_none());
+    assert!(
+        rank_candidates(
+            &[short, long],
+            &rows,
+            CompatibilityGate {
+                max_route_length_difference: 1,
+                ..gate()
+            },
+            1,
+        )
+        .is_none()
+    );
 }
 
 #[test]

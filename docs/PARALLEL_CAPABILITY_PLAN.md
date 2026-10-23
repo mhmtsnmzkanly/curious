@@ -1,9 +1,41 @@
 # Kalan ekosistem ve yetenekler için paralel çalışma planı
 
-**Durum:** İç plan taslağı; kök incelemesine sunulacak. Bu belge preregistrasyon,
-deney başlatma, canlı değişikliği veya entegrasyon izni değildir. Luna6 taslağı
-hazırlar; kök planı, kaynak birleştirmesini, protokolleri, commitleri ve işletimi
-inceler.
+**Durum (23 Ekim 2026):** İlk dalga A/B/C izole tasarım ve prototipleri root
+tarafından incelendi; A water prototype `769f683` ile ana dala alındı, B/C
+tasarım/prototipleri de ana worktree'de mevcut. Bu durum araştırma araçlarının
+review/entegrasyon durumudur; A/B özellikleri üretim politikasına alınmış,
+öğrenme/ekoloji kabulü sağlanmış veya formal deney yetkilendirilmiş değildir.
+İlk dalga prototip işi tamamlandı; sonraki tasarım ve bağımsız örnekleme işleri
+paralel ilerleyebilir. Ortak `src/`/checkpoint değişiklikleri root incelemesiyle
+seri yapılır. Kullanıcı onayı bekleyen bir adım yoktur; root'un teknik incelemesi
+ve her formal iş için preregistrasyon ayrı kapılardır.
+
+## İlk dalga teslimi ve mevcut doğrulama
+
+- **A — su politikası:** [`PARALLEL_WATER_DESIGN.md`](PARALLEL_WATER_DESIGN.md),
+  [`water_candidate.rs`](../examples/water_candidate.rs) ve
+  [`water_candidate.rs` helper](../examples/support/water_candidate.rs).
+  Prototype commit `769f683`; root review'da fiziksel toplamı clamp etmek yerine
+  geçersiz değerler reddedildi, explicit censor admission ve `<=32` table guard
+  eklendi; integer mean hassasiyeti sınırlaması belgeli. Ajanın 7 focused testi
+  geçti. Core policy/checkpoint migration ve formal ölçüm hâlâ sonraki işlerdir.
+- **B — sığınak bağlamı:** [`PARALLEL_REFUGE_DESIGN.md`](PARALLEL_REFUGE_DESIGN.md),
+  [`refuge_candidate.rs`](../examples/support/refuge_candidate.rs) ve
+  [`refuge_candidate.rs` testleri](../tests/refuge_candidate.rs).
+  Root isolated prototype'i inceledi; ajan 11 targeted kontrol bildirdi.
+  Bağımsız root `cargo test --all-targets` sonucu 181 passed / 0 failed olup
+  A'nın 7 ve B'nin 11 testini içerir. Eski kayıtlı çalışmada 94 çoklu-sığınak
+  kararının hiçbirinde tamamlanmış bağlam eşleşmesi yoktu; bu calibration
+  sorusudur, geçmişte başarı veya yeni kullanıcı onayı değildir.
+- **C — fixture/throughput:** [`PARALLEL_ECOLOGY_DESIGN.md`](PARALLEL_ECOLOGY_DESIGN.md)
+  ve [`ecology_candidate.rs`](../examples/ecology_candidate.rs). Targeted
+  `cargo check` geçti; runtime/muhasebe validasyonu yapılmadı.
+- Root doğrulaması tamamlandı: `cargo test --all-targets` 181 passed / 0 failed,
+  Python 132 passed, `cargo build --release` exit 0. Scoped Rust format check
+  (`rustfmt --edition 2024 --check` on five first-wave Rust files) passed.
+
+Henüz A/B/C için registered ecology batch'i, yeni seed koşusu veya deployment
+yapılmadı. İlk dalga prototip/plan durumu biyolojik sonuç değildir.
 
 ## Mevcut kanıt ve sınır
 
@@ -108,10 +140,10 @@ primatif kataloğu ve ölçülebilir bedellerle denenecektir.
 
 ## Dosya ve sorumluluk sınırı
 
-Bu plan ve [`PARALLEL_ECOLOGY_DESIGN.md`](PARALLEL_ECOLOGY_DESIGN.md) bu
-çalışma dalının sahipliğindedir. İlk dalga ajanları kendi ayrı tasarım ve
-prototip yollarını yönetir; bu dosyalarla ilgili kararlar root üzerinden
-paylaşılır. `AGENTS.md`, `ROADMAP.md`, `TODO.md`, `src/`, ortak protokoller,
-canlı servisler, release'ler, deney arşivleri ve root commitleri değiştirilmez.
-Kabul edilen 32ddfb2 deney kanıtı tarihsel bağlamdır; yeni bir kaynak/protokol
-kimliği veya seed listesi olarak kullanılmaz.
+Bu plan, [`PARALLEL_ECOLOGY_DESIGN.md`](PARALLEL_ECOLOGY_DESIGN.md) ve A/B
+bağlantıları ilk dalga teslimidir. Shared `src/`/checkpoint entegrasyonu, formal
+protokoller, canlı servisler, release'ler, deney arşivleri ve root commitleri
+ayrı root sahipliği ve incelemesine tabidir. Ana dalda `AGENTS.md`, `ROADMAP.md`
+ve `TODO.md` içine güncel durum için kısa handoff eklendi. Kabul edilen 32ddfb2
+kanıtı tarihsel bağlamdır; yeni kaynak/protokol kimliği veya seed listesi olarak
+kullanılmaz.

@@ -20,15 +20,23 @@ gelmez. Hızlandırılmış tick gerçek gün/hafta gözleminin yerine geçmez.
 
 ### 23 Ekim — paralel capability planı
 
-Altı yeni capability izi A–F ile ayrı, bounded performans/storage izi G'nin
-kapsamı ve kanıt kapıları [PARALLEL_CAPABILITY_PLAN.md](PARALLEL_CAPABILITY_PLAN.md)
-içinde. A/B/C ilk dalga taslakları sürüyor; C fixture/soy/bedel tasarımı
-[PARALLEL_ECOLOGY_DESIGN.md](PARALLEL_ECOLOGY_DESIGN.md) ve derlenen fakat
-runtime doğrulaması yapılmayan tek-dünya tanı örneğini içerir. Henüz formal
-protokol, yeni seed veya batch yok; root incelemesi ve preregistrasyon gerekir.
-Kısa sabit ölçek/throughput testleri kapsam içindedir; aylar/yıllar reliability
-soak'u hariçtir. Bu henüz kabul edilmiş özellik veya biyolojik sonuç değildir.
+Altı capability izi A–F ile bounded performans/storage izi G'nin kapsamı ve
+kanıt kapıları [PARALLEL_CAPABILITY_PLAN.md](PARALLEL_CAPABILITY_PLAN.md) içinde.
+Root A/B/C izole tasarım/prototiplerini inceledi; A water prototype `769f683` ile
+ana dala alındı. Bunlar üretim öğrenme politikası veya ekoloji kabulü değildir.
+Ajan 7 A testi ve 11 B targeted kontrolü bildirdi; root `cargo test --all-targets`
+sonucunu 181 passed / 0 failed, Python'ı 132 passed ve release build'i exit 0
+bildirdi. Scoped `rustfmt --edition 2024 --check` geçti. C örneği yalnız derlendi;
+runtime fixture/muhasebe audit'i yok. Üç geçici target dizini temizlendi. Yeni
+registered ecology batch'i veya seed koşusu yapılmadı.
 
+Sonraki işler: A'nın default-off production integration/baseline snapshot/residual
+persistence'i; B compatibility calibration/schema tasarımı; C fixture accounting
+ve single-world runtime audit. Ortak source/checkpoint değişiklikleri seri root
+review ile yapılır; tasarım ve bağımsız örnekler paralel ilerleyebilir. Yeni
+formal çalışma için protocol ve seed audit gerekir; kullanıcı onayı beklenmiyor.
+Aylar/yıllar reliability soak'u hariçtir; kısa sabit ölçek/throughput testleri
+kapsamdadır. Bu henüz kabul edilmiş özellik veya biyolojik sonuç değildir.
 - Asıl açık biyolojik konu: avcı nesillerinin kalıcı olması. Sığınaklı seed
   12345'te 20. nesle ulaştı, 907'den sonra avcı kalmadı. Başarı diye etiketlenmez.
   Sıradaki teşhis bu soyda çift bulma, rezerv ve ölüm zamanlarını ayırmak.

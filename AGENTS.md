@@ -1,18 +1,26 @@
 # Curious üzerinde çalışma
 
-## 23 Ekim 2026 — paralel ekosistem capability planı (taslak)
+## 23 Ekim 2026 — paralel ekosistem capability planı
 
-Kökün isteğiyle A/B/C ilk dalga tasarım çalışması ayrı worktree'lerde ilerliyor.
-Bu worktree yalnızca [PARALLEL_CAPABILITY_PLAN.md](docs/PARALLEL_CAPABILITY_PLAN.md),
-[PARALLEL_ECOLOGY_DESIGN.md](docs/PARALLEL_ECOLOGY_DESIGN.md) ve tek-dünya
-ölçüm taslağı `examples/ecology_candidate.rs` sahibidir. Plan A–F capability
-izlerini ve daha sonraki bounded throughput/storage G izini tanımlar. A/B
-ajanları kendi worktree'lerinde; C ölçüm prototipi yalnızca derlendi, runtime
-ve biyolojik doğrulama yapılmadı. Henüz formal preregistrasyon/seed audit veya
-world batch yoktur. Root dokümanları ve prototipi inceleyip source entegrasyonu
-ve deney protokolünü sıralar; ortak checkpoint sürümü root'un seri incelemesiyle
-değişebilir. Aylar/yıllar reliability soak'u hariçtir; sabit kısa ölçek ve
-storage ölçümleri kapsam içindedir.
+[PARALLEL_CAPABILITY_PLAN.md](docs/PARALLEL_CAPABILITY_PLAN.md) altı capability
+izini A–F ve ayrı bounded throughput/storage izi G'yi tanımlar. A/B/C ilk
+dalganın izole tasarım/prototip teslimleri root tarafından incelendi. A'nın
+water example/prototype'u `769f683` ile ana dala alındı; core policy ve
+checkpoint migration henüz yapılmadı. B/C tasarım ve helperlar ana worktree'de
+mevcut; C örneği targeted olarak derlendi, runtime fixture/muhasebe doğrulaması
+yok. Ajan 7 A testi ve 11 B targeted kontrolü bildirdi. Root bağımsız `cargo test --all-targets` için 181 passed / 0 failed,
+Python için 132 passed ve `cargo build --release` exit 0 doğruladı. İlk dalga
+Rust dosyalarının scoped `rustfmt --edition 2024 --check` kontrolü de geçti.
+Üç geçici target dizini temizlendi.
+
+İlk dalga prototip işi tamamlandı; tasarım ve bağımsız örnekleme paralel
+sürdürülebilir. Ortak `src/`/checkpoint değişiklikleri root review ile seri
+yapılır. Sonraki işler: A'nın production integration/default-off parity,
+choice-time baseline snapshot ve residual persistence; B compatibility
+calibration/schema; C resource accounting ve tek-world runtime audit. Henüz
+registered ecology batch/yeni seed koşusu yoktur; önce root preregistration ve
+seed audit gerekir. Kullanıcı onayı beklenmiyor. Aylar/yıllar reliability
+soak'u hariçtir; sabit kısa ölçek ve storage ölçümleri kapsam içindedir.
 
 ## 23 Ekim 2026 — yeni sürekli-yaşam su öğrenmesi devri
 
