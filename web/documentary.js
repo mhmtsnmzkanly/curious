@@ -25,6 +25,13 @@
     if (!c) return "Karşılaşma bağlamı kayıtlı algıda yok.";
     return `enerji ${bands[c.energy] || "bilinmiyor"}, dayanıklılık ${bands[c.stamina] || "bilinmiyor"}, mesafe ${c.distance === null ? "bilinmiyor" : ["0–1","2–3","4+"][c.distance]} adım, av sağlığı ${healthNames[c.health] || "bilinmiyor"}`;
   }
+  function riskSampleLabel(value) {
+    const parts=[];
+    if(finite(value?.exposures))parts.push(`${value.exposures} riskli karşılaşma`);
+    if(finite(value?.injuries))parts.push(`${value.injuries} yaralanma`);
+    if(finite(value?.damage))parts.push(`${value.damage} kayıtlı hasar`);
+    return `${contextLabel(value?.context)}${parts.length?` · ${parts.join(", ")}`:""}`;
+  }
   // Fixed matching rule: all four stored HuntContext bands must be known and
   // equal. Health band zero means unknown and therefore never matches.
   function sameContext(a,b) { return !!a && !!b && ["energy","stamina","distance","health"].every(k=>a[k]!==null && a[k]!==undefined && a[k]===b[k]) && a.health>0; }
@@ -72,10 +79,14 @@
     const risk=actor?.hunt_learner;
     const riskRows=Array.isArray(risk?.risk_values)?risk.risk_values.slice(0,8):[];
     const riskAttempt=risk?.episode??risk?.last_episode?.attempt;
-    const riskEvidence={};for(const key of ["exposures","injuries","damage","prey_defense_damage"])if(Object.hasOwn(riskAttempt||{},key))riskEvidence[key]=riskAttempt[key];
-    const riskStatus=risk?.risk_enabled===true?"Risk öğrenmesi açık":risk?.risk_enabled===false?"Risk öğrenmesi kapalı": "risk_enabled alanı yok (eski kayıt)";
-    const riskTable=Array.isArray(risk?.risk_values)?`${risk.risk_values.length} kayıtlı risk bağlamı${riskRows.length?`: ${riskRows.map(v=>JSON.stringify(v)).join("; ")}`:""}`:"risk_values alanı yok";
-    const riskText = `${riskStatus}; ${riskTable}${Object.keys(riskEvidence).length?`; kayıtlı episode riski ${JSON.stringify(riskEvidence)}`:""}.`;
+    const riskEvidence=[];
+    if(finite(riskAttempt?.exposures))riskEvidence.push(`${riskAttempt.exposures} riskli karşılaşma`);
+    if(finite(riskAttempt?.injuries))riskEvidence.push(`${riskAttempt.injuries} yaralanma`);
+    if(finite(riskAttempt?.damage))riskEvidence.push(`${riskAttempt.damage} kayıtlı hasar`);
+    if(finite(riskAttempt?.prey_defense_damage))riskEvidence.push(`avın verdiği hasar ${riskAttempt.prey_defense_damage}`);
+    const riskStatus=risk?.risk_enabled===true?"Risk öğrenmesi açık":risk?.risk_enabled===false?"Risk öğrenmesi kapalı": "Eski kayıtta risk öğrenmesinin durumu bilinmiyor";
+    const riskTable=Array.isArray(risk?.risk_values)?`${risk.risk_values.length} kayıtlı risk örneği${riskRows.length?`: ${riskRows.map(riskSampleLabel).join("; ")}`:""}`:"Risk örnekleri bu kayıtta yok";
+    const riskText = `${riskStatus}; ${riskTable}${riskEvidence.length?`; kayıtlı karşılaşma: ${riskEvidence.join(", ")}`:""}.`;
     const huntResults=ends.map(r=>{const a=r.attempt||{};const defense=Object.hasOwn(a,"prey_defense_damage")?`av savunması hasarı ${a.prey_defense_damage}`:"av savunması hasarı kaydedilmemiş";return `${r.end??"sonuç bilinmiyor"}: ${a.movement_energy??"hareket maliyeti yok"} hareket + ${a.attack_energy??"saldırı maliyeti yok"} saldırı enerjisi, ${a.food??"besin miktarı yok"} besin, gelen hasar ${a.incoming_damage??"bilinmiyor"}, ${defense}${a.ambiguous===true?", nedensellik belirsiz":""}${r.reward==null?"; puan yok":`; puan ${r.reward}`}`;});
     const traceNote=item.trace_available===false?" Karar izi bulunamadı veya boyut sınırını aştı; gerekçe/algı bilinmiyor.":"";
     const partial=item.events_truncated===true;

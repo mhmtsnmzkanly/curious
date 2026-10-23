@@ -80,7 +80,7 @@ function renderLife() {
   const view=lifeRows.map(r=>({...r,summary:CuriousDocumentary.displayData(r)}));
   const comparison=CuriousDocumentary.encounterComparison(view,lifeAnchor);
   const rule=document.createElement("p");rule.className="documentary-note";
-  rule.textContent=`Benzer karşılaşma kuralı: saklanan HuntContext içindeki enerji, dayanıklılık, mesafe ve av sağlığı sınıflarının dördü de aynı olmalı. Yalnız kaydedilmiş attempt bağlamı kullanılır; eksik sınıf eşleşmez ve algıdan tahmin edilmez. Benzerlik nedensel üstünlük göstermez. Karşılaştırma şu an taranmış ${view.length} kaydın kapsamındadır.`;box.append(rule);
+  rule.textContent=`Benzer karşılaşma kuralı: kaydedilmiş enerji, dayanıklılık, mesafe ve av sağlığı sınıflarının dördü de aynı olmalı. Yalnız kayıtlı av karşılaşması bilgisi kullanılır; eksik sınıf eşleşmez ve algıdan tahmin edilmez. Benzerlik nedensel üstünlük göstermez. Karşılaştırma şu an taranmış ${view.length} kaydın kapsamındadır.`;box.append(rule);
   if(comparison.count){
     const compare=document.createElement("div");compare.className="life-compare";
     addText(compare,"strong",`Benzer av karşılaşması · ${CuriousDocumentary.contextLabel(comparison.context)}`);

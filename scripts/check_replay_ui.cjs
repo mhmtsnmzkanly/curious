@@ -53,9 +53,13 @@ for shard in range(3):
   await page.locator('#older-life').click();
   await page.waitForFunction(()=>document.querySelector('#documentary').textContent.includes('taranmış 3 kaydın kapsamındadır'));
   assert.match(await page.locator('#documentary').textContent(),/Benzer karşılaşma kuralı/);
+  assert.doesNotMatch(await page.locator('#documentary').textContent(),/(HuntContext|risk_enabled|risk_values|prey_defense_damage)/,'documentary labels should not expose storage names');
+  assert.equal(await page.locator('#documentary').evaluate(e=>getComputedStyle(e).maxHeight),'600px');
   assert.equal(await page.locator('#older-life').isVisible(),true,'bounded older-life pagination was not offered');
   await page.locator('#older-life').click();await page.waitForFunction(()=>document.querySelector('#documentary').textContent.includes('taranmış 6 kaydın kapsamındadır'));
   const lifeText=await page.locator('#documentary').textContent();assert.match(lifeText,/shard 1 \/ kayıt 1/);assert.match(lifeText,/shard 2 \/ kayıt 1/,'record IDs repeated across shards were treated as one identity');
+  assert.equal(await page.locator('.workspace').evaluate(e=>getComputedStyle(e).alignItems),'start');
+  assert.ok(await page.locator('#documentary').evaluate(e=>e.scrollHeight>e.clientHeight),'long life history should scroll inside its bounded panel');
   assert.match(await page.locator('#experience').textContent(),/7 puanlanmış deneme/);
   assert.match(await page.locator('#experience').textContent(),/tablo sabit tutulur/);
   await page.locator('#timeline').fill('0');await page.locator('#timeline').dispatchEvent('input');await page.waitForFunction(()=>document.querySelector('#tick').textContent==='6');
@@ -72,7 +76,8 @@ for shard in range(3):
   assert.match(await page.locator('#individual-title').textContent(),/#1/,'selected individual lost during replay');
   const tick=await page.locator('#tick').textContent();await page.waitForTimeout(400);assert.equal(await page.locator('#tick').textContent(),tick,'pause failed');
   const out=path.resolve(process.env.CURIOUS_REPLAY_OUTPUT||path.join(root,'data/replay-ui-check'));await fs.mkdir(out,{recursive:true});
-  await page.screenshot({path:path.join(out,'desktop.png'),fullPage:true});await page.setViewportSize({width:390,height:844});await page.screenshot({path:path.join(out,'mobile.png'),fullPage:true});
+  await page.screenshot({path:path.join(out,'desktop.png'),fullPage:true});await page.setViewportSize({width:390,height:844});
+  assert.equal(await page.locator('#documentary').evaluate(e=>getComputedStyle(e).maxHeight),'480px');await page.screenshot({path:path.join(out,'mobile.png'),fullPage:true});
   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false,'mobile overflow');assert.deepEqual(errors,[]);assert.ok(methods.every(m=>m==='GET'),'UI used a non-GET request');
   assert.deepEqual((await fs.readdir(dir)).sort(),[...before.keys()].sort(),'archive directory changed');for(const [f,b] of before)assert.deepEqual(await fs.readFile(path.join(dir,f)),b,'archive changed: '+f);
   console.log('Replay browser: gzip/zstd/raw, selection, seek, cross-shard play/pause, mobile, GET-only and unchanged archives: OK');
