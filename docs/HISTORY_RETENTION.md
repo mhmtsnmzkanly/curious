@@ -51,8 +51,8 @@ not included in the compressed closed-shard byte budget.
 Preview a batch first. `--apply` is required to write evidence and remove detail.
 
 ```sh
-python3 scripts/history_retention.py --data-dir /var/lib/curious/coexistence/data
-python3 scripts/history_retention.py --data-dir /var/lib/curious/coexistence/data --apply
+python3 scripts/history_retention.py --data-dir /root/curious/data/coexistence
+python3 scripts/history_retention.py --data-dir /root/curious/data/coexistence --apply
 ```
 
 The units target the verified host paths `/root/curious/data/coexistence` and
@@ -71,3 +71,33 @@ External compaction leaves a running engine's `Store.archived_bytes` cache
 stale. Do not restart or redeploy a live world as part of this maintenance.
 Coordinate any later restart separately; until the store is reopened, its
 cached budget accounting may overcount removed archives.
+
+## Current deployment and cleanup — 24 October 2026
+
+At main `904d4cc`, root independently passed all 8 retention tests and a real
+closed-Zstandard integration check over 17 records and 15,876 events. The live
+source was not changed by those checks. Frozen runtime copy:
+`/root/curious-runtime/releases/history-retention-904d4cc/history_retention.py`,
+SHA-256 `2331196cec3c827f03546102265bd1b331b2c7d81bcf1cff8f5ecd6d3de8bee9`;
+runtime path setting is in `data/history-retention-runtime.env`. The 15-minute
+timer is enabled and its first run succeeded with no eligible closed shards.
+
+Root separately retired detailed histories for stopped `main`, `meadow`, `lab`,
+and `evolution`, retaining four minimal resume SQLite files and checkpoint
+proofs. Final ticks: 10, 77,974, 30, 74,075. The plan and source hashes are in
+`data/retired-worlds/20261024T015208Z/plan.json`; net detailed-history removal
+was 929,698,848 bytes and checkpoint backup was 292,787 bytes. PIDs on 7882 and
+7883 were unchanged. Four prior services are off, the old watchdog is disabled,
+and no wake is pending. No biological/ML experiment or storage batch remains running. All 21 selected
+experiment JSONL files were losslessly archived: 1,060,085,984 raw bytes became
+52,274,679 compressed bytes. All 710 original metadata files retained their
+hashes; the existing scanner still sees all 2,607 indexed seed values. A real
+200-tick calibration was restored, verified by its frozen reader, and repacked.
+The resumed full Python suite passed 177 tests.
+See [the verified report](reports/HISTORY_RETENTION_20261024.md).
+
+The engine's `Store.archived_bytes` cache is stale after external pruning, so its
+32 GiB ceiling is not a durability guarantee. Do not restart the engine as part
+of retention. Restore archived raw JSONL before using frozen analyzers or
+scanners that require original paths. The archive helper verifies lossless bytes
+and preserves the seed index; protocol and manifest files remain unchanged.

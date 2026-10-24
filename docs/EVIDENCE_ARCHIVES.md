@@ -56,4 +56,6 @@ Frozen analyzers and older runners may expect the original `raw.jsonl` path.
 Restore the evidence first, then invoke those tools. The archive index is
 storage metadata only: it does not create a run, change protocol identity, or
 replace the original bytes. No real experiment data should be used for tests;
-the test suite creates a temporary allowlisted root and uses a copied fixture.
+the test suite creates self-contained synthetic JSONL under a temporary
+allowlisted root and compares the established seed scanner before and after
+archival.

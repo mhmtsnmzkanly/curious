@@ -1,5 +1,46 @@
 # Sıradaki işler
 
+## 24 October 2026 — current retention and evidence handoff
+
+At main `904d4cc`, root independently passed all 8 retention tests and a
+real closed-Zstandard integration check (17 records, 15,876 events); the live
+source was untouched by those checks. The frozen retention script is
+`/root/curious-runtime/releases/history-retention-904d4cc/history_retention.py`
+(SHA-256 `2331196cec3c827f03546102265bd1b331b2c7d81bcf1cff8f5ecd6d3de8bee9`).
+Its runtime path is set in `data/history-retention-runtime.env`. The 15-minute
+systemd timer is enabled; first service result was success with no eligible
+closed shards. Policy: retain 7 days, target 3 GiB compressed closed shards,
+maximum 2 shards/run. Raw files, newest shard, WAL, and unsupported/corrupt
+archives remain protected. The compressed-shard budget is not a total storage
+bound: protected files can exceed it and permanent summaries continue to grow.
+
+Root retired the detailed histories of the stopped `main`, `meadow`, `lab`, and
+`evolution` worlds. Four minimal resume SQLite files and checkpoint proofs were
+retained. Final ticks were 10, 77,974, 30, and 74,075; plan and source hashes
+are in `data/retired-worlds/20261024T015208Z/plan.json`. Net detailed-history
+bytes removed: 929,698,848; checkpoint backup bytes: 292,787. Running PIDs for
+ports 7882/7883 were unchanged. The prior four services are off, the old
+watchdog is disabled, and there is no pending wake. No biological/ML experiment or archive batch remains running.
+
+Root archived all 21 selected completed experiment JSONL files of at least
+8 MiB with the lossless helper. Per-file archive and index retain verified original and
+compressed byte hashes and the recognized seed/role index; protocols and
+manifests remain unchanged: 710 original metadata files were hash-checked.
+The JSONL total fell from 1,060,085,984 to 52,274,679 bytes. All 2,607 declared
+seed values remain visible through the existing scanner. A real 200-tick
+calibration was restored byte-for-byte and read by its frozen validator, then
+repacked. The resumed full Python suite passed 177/177. See
+[retention report](docs/reports/HISTORY_RETENTION_20261024.md). Restore raw JSONL
+before running frozen analyzers or scanners that require original paths. The
+engine's in-memory `Store.archived_bytes` remains stale after external pruning;
+its 32 GiB ceiling is therefore not a durability guarantee. Do not restart the
+engine to refresh it or treat external pruning as changing the live engine.
+
+No automatic live binary upgrade or broad data deletion is authorized by this
+handoff. See [history retention](docs/HISTORY_RETENTION.md) and
+[experiment evidence archives](docs/EVIDENCE_ARCHIVES.md).
+
+
 Hedef [VISION](docs/VISION.md), kullanıcı sırası ve dürüst durum
 [ROADMAP](docs/ROADMAP.md), ölçümler [sonuç raporu](docs/reports/ROADMAP_RESULTS.md).
 

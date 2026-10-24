@@ -1,0 +1,66 @@
+{
+  "schema": "curious-retention-report-v1",
+  "verified_at": "2026-10-24T10:58:05.026012+00:00",
+  "implementation_commit": "904d4ccc7a9e02b2180dc78971ee3d02a7307dc6",
+  "status": "completed",
+  "tests": {
+    "python_passed": 177,
+    "python_failed": 0,
+    "log": "data/operations/retention-python-tests-resumed-20261024.log",
+    "systemd_units_verify_passed": true,
+    "retention_service_result": "success",
+    "real_closed_shard_fixture": {
+      "records": 17,
+      "events": 15876,
+      "active_original_unchanged": true
+    },
+    "checkpoint_databases_verified": 4,
+    "seed_indexes_verified": 21,
+    "seed_values_visible": 2607,
+    "frozen_calibration_roundtrip": {
+      "restored_sha256": "29d23f7b7a140beac70519faf18eb6392466e7dab764824d72c04a835f1491bd",
+      "original_manifest_hash_match": true,
+      "frozen_source_revision": "466f9a0",
+      "frozen_validator_reopens_original_path": true,
+      "ticks": 200,
+      "calibration_gates_still_pass": true,
+      "no_new_World_ticks": true
+    }
+  },
+  "storage": {
+    "original_jsonl_bytes": 1060085984,
+    "compressed_jsonl_bytes": 52274679,
+    "archive_bytes_saved": 1007811305,
+    "old_detail_bytes_removed_net": 929698848,
+    "checkpoint_backup_bytes": 292787,
+    "estimated_net_bytes_saved_excluding_small_reports_indexes": 1937217366,
+    "estimated_net_GiB_saved": 1.804,
+    "project_disk_at_verification_human": "4.5 GiB",
+    "project_disk_immediately_after_cleanup_human": "4.2 GiB",
+    "live_world_continues_recording": true
+  },
+  "policy": {
+    "world": "data/coexistence",
+    "keep_days": 7,
+    "compressed_closed_shard_target_bytes": 3221225472,
+    "timer_interval_minutes": 15,
+    "max_shards_per_run": 2,
+    "active_raw_WAL_newest_protected": true,
+    "permanent_summaries_and_examples": true,
+    "hard_total_world_limit": false,
+    "engine_cached_archive_counter_not_refreshed": true
+  },
+  "evidence": {
+    "retired_worlds_plan": "data/retired-worlds/20261024T015208Z/plan.json",
+    "archive_manifest": "data/operations/evidence-archives-20261024/manifest.json",
+    "registry_verification": "data/operations/evidence-archives-20261024/seed-registry-verification.json",
+    "integrity": "data/operations/retention-final-integrity-20261024.json",
+    "deployment": "data/operations/history-retention-deployment-20261024.json"
+  },
+  "limits": [
+    "Raw SQLite/WAL/newest shard and permanent summaries are outside compressed closed-shard target.",
+    "A running frozen engine caches archived_bytes; external cleanup can leave the engine counter overestimating actual archive bytes until reopened.",
+    "Old analyzers require restoring raw JSONL via its archive index before use.",
+    "No live engine upgrade or new biological experiment was performed."
+  ]
+}

@@ -3,7 +3,6 @@ from __future__ import annotations
 import json
 import hashlib
 from pathlib import Path
-import shutil
 import tempfile
 import unittest
 from unittest import mock
@@ -14,10 +13,6 @@ try:
 except ModuleNotFoundError:
     from scripts import evidence_archive as archive
     from scripts import run_ecology_traits_lab as ecology_runner
-
-
-REPO = Path(__file__).resolve().parents[1]
-FIXTURE = REPO / "data/experiments/ecology-traits-v1-20261023/raw.jsonl"
 
 
 class EvidenceArchiveTests(unittest.TestCase):
@@ -96,14 +91,26 @@ class EvidenceArchiveTests(unittest.TestCase):
         self.assertEqual(self.raw.read_bytes(), b'{"seed":81}\n')
 
     def test_archive_seed_index_remains_visible_to_established_scanner(self) -> None:
-        self.raw.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copyfile(FIXTURE, self.raw)
+        self.raw.write_text(
+            '{"kind":"run","seeds":[50041,50042,50043,50044],'
+            '"seed":50099,"command":"runner --world-seed 50123"}\n',
+            encoding="utf-8",
+        )
+        wanted = [50041, 50099, 50123]
+        before = ecology_runner.audit_seeds(self.experiments, wanted)
+        self.assertEqual(before["unseen"], [])
+        self.assertTrue(any("raw.jsonl" in path for paths in before["matches"].values() for path in paths))
+
         self.run_archive()
         metadata = json.loads(self.index.read_text())
-        self.assertEqual(metadata["seeds"], list(range(50001, 50009)))
-        self.assertEqual(metadata["seed_roles"]["seeds"], list(range(50001, 50009)))
+        self.assertEqual(metadata["seeds"], [50041, 50042, 50043, 50044, 50099, 50123])
+        self.assertEqual(metadata["seed_roles"], {
+            "cli_seed": [50123],
+            "seed": [50099],
+            "seeds": [50041, 50042, 50043, 50044],
+        })
 
-        result = ecology_runner.audit_seeds(self.experiments, [50001, 50004, 50008])
+        result = ecology_runner.audit_seeds(self.experiments, wanted)
         self.assertEqual(result["unseen"], [])
         self.assertTrue(any("raw.jsonl.archive.json" in path for paths in result["matches"].values() for path in paths))
 

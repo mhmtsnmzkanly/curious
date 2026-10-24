@@ -49,10 +49,28 @@ is lost, inspect durable state before retrying. API pause, process stop, browser
 replay pause, and experiment completion mean different things.
 
 Only clean proven disposable build/task cache that is not used by active work.
-Preserve `data/`, raw results, SQLite/WAL/checkpoints, gzip/zstd archives, backups,
-`bin/releases/`, and frozen source worktrees. A new table does not shrink SQLite;
-use the established shard/compression/budget mechanism. Do not remove evidence to
-make a world fit its budget or broadly delete shared caches/unrelated projects.
+The default is to preserve `data/`, raw results, SQLite/WAL/checkpoints,
+gzip/zstd archives, backups, `bin/releases/`, and frozen source worktrees.
+
+There are two narrow, evidence-preserving exceptions when the user explicitly
+authorized the exact scope or an already reviewed host policy configures it:
+
+- The Curious history-retention service may compact only uniquely represented,
+  closed coexistence `history-N.sqlite.gz`/`.zst` shards after it has verified a
+  deterministic summary and source SHA-256/signature proof. It keeps the newest
+  shard and all raw SQLite/WAL/SHM files, and refuses unknown/corrupt inputs.
+  The configured keep-days and compressed-closed-shard byte target are not a
+  total-world storage bound. Never generalize this to other worlds or data.
+- The experiment JSONL archive helper may replace one explicitly selected raw
+  JSONL with a lossless Zstandard stream only after verifying the compressed
+  stream, original bytes/hash, and seed-role index, while preserving its index
+  and all protocol/manifest files. Restore the raw file from its index before
+  running frozen analyzers or scanners that require the original path. Keep the
+  compressed archive/index after restore.
+
+A new table does not shrink SQLite; follow the established mechanism and verify
+its proof before any scoped removal. These exceptions do not authorize broad
+data deletion, cleaning unrelated caches, or automatic live binary upgrades.
 
 ## Handoff
 
