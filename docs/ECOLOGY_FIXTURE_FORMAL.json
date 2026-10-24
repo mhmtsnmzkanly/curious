@@ -1,0 +1,69 @@
+{
+  "schema": "curious-ecology-validity-protocol-v1",
+  "status": "draft",
+  "root_reviewed": false,
+  "phase": "formal",
+  "ticks_per_world": 500,
+  "phase_world_count": 3,
+  "phase_total_ticks": 1500,
+  "budget_forecast": {
+    "calibration_ticks": 200,
+    "formal_ticks_total": 1500,
+    "safety_factor": 2,
+    "seed_scan_analysis_reserve_seconds": 60,
+    "maximum_seconds": 300,
+    "formula": "calibration_probe_seconds * (1500 / calibration_ticks) * 2 + 60"
+  },
+  "resource_limits": {
+    "phase_seconds": 300,
+    "preflight_address_space_bytes": 1073741824,
+    "parent_address_space_bytes": 268435456,
+    "child_address_space_bytes": 805306368,
+    "aggregate_output_bytes": 134217728,
+    "identity_records": 50000,
+    "lineage_event_records": 50000,
+    "detail_issue_rows": 2000,
+    "max_events_per_tick": 20000
+  },
+  "acceptance": [
+    "technical_resource_and_lineage_gates_pass",
+    "no_species_extinction",
+    "at_least_two_alive_of_each_species_on_every_tick_in_final_50",
+    "at_least_one_living_descendant_breeder_of_each_species_at_tick_500",
+    "at_least_one_birth_of_each_species_in_final_50"
+  ],
+  "scenario_sha256": "33cb6ebf9d73df017b65b9ee9831be8446c2a81077f3a0e313fe06b05f0b19ac",
+  "accepted_baseline": {
+    "revision": "b4dcef20fdef830c2895806076d972df62741eea",
+    "binary_sha256": "e1ffa03754fc964d503b6a6e04bffe19ad868b3d2090e0a8b2f9c48e3506f636",
+    "scenario_sha256": "33cb6ebf9d73df017b65b9ee9831be8446c2a81077f3a0e313fe06b05f0b19ac",
+    "reserve_opportunities": true,
+    "mate_rendezvous": true
+  },
+  "source": {},
+  "seed_inventory_sha256": "567208ec739e54153ad964f1c1465386dcf2b35a6428c97d135854b268400dbe",
+  "seed_inventory_evidence": "docs/ECOLOGY_FIXTURE_SEED_AUDIT.json",
+  "seed_inventory_text_sources_scanned": 1093,
+  "policies": {
+    "mate_rendezvous": true,
+    "reserve_opportunities": true,
+    "water_residual_enabled": false
+  },
+  "profile": {
+    "mode": "both",
+    "companions": true,
+    "genetics_enabled": true,
+    "mutation_per_mille": 20,
+    "extra_traits_enabled": false,
+    "water_learner_enabled": true,
+    "water_updates_enabled": true,
+    "water_residual_enabled": false,
+    "hunt_learning_enabled": false,
+    "refuge_outcomes_enabled": false
+  },
+  "seed_roles": [
+    {"role": "formal-1", "seed": 53001},
+    {"role": "formal-2", "seed": 53002},
+    {"role": "formal-3", "seed": 53003}
+  ]
+}

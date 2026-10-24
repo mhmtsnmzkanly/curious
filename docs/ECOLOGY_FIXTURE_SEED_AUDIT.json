@@ -1,0 +1,17 @@
+{
+  "root": "/root/curious/data/experiments",
+  "scanned_text_files": 1093,
+  "matches": {
+    "53099": [],
+    "53001": [],
+    "53002": [],
+    "53003": []
+  },
+  "unseen": [
+    53099,
+    53001,
+    53002,
+    53003
+  ],
+  "matching_rule": "declared seed fields, seed CSV columns, CLI --seed arguments, or seed-number filenames"
+}
