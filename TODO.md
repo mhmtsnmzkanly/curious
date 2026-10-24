@@ -1,5 +1,36 @@
 # Sıradaki işler
 
+## 24 October 2026 — Wave 6 genotype measurement handoff
+
+The bounded genotype measurement engineering run completed once at source
+`0c06d72`, seen seed 123, 200 ticks per arm. Root's independent audit passed:
+400 event totals and food/water stock-flow ticks total (200 per arm), lineage
+and genotype joins, and the recorded tick-100 State+RNG round trips
+reconciled. The raw capture is
+losslessly archived at
+`data/experiments/genotype-measurement-v1-engineering-20261024/raw.jsonl.zst`;
+its verified index records original and archive hashes. Result and limits:
+[`GENOTYPE_MEASUREMENT_V1`](docs/reports/GENOTYPE_MEASUREMENT_V1.md) and its
+JSON companion. This is an engineering measurement pass only: one seen seed,
+non-counterfactual paths, no fitness/selection conclusion, no formal seed, and
+no deployment. Root reports 246 Rust tests / 0 failures (47 summaries), 177
+Python tests / 0 failures, release app/probe, and scoped rustfmt passed. No
+repeat lab occurred. A host reboot at 14:58:05 UTC preceded service startup
+at 14:58:08; root did not deploy or restart services. Coexistence/replay were
+observed active as PIDs 1136/1137 with restart count zero; retention timer was
+active. `/tmp/curious-wave6-target` was already absent on resume; no cleanup
+bytes are attributed. Check manifest:
+`data/operations/wave6-checks-20261024/manifest.json`.
+
+Next work requires a separately frozen design for a trait study, including
+genotype-linked costs and food acquisition, before any formal run. Do not infer
+trait benefit from this engineering result or extend/retry this run. The raw
+JSONL is archived; restore it before use with readers that require uncompressed
+JSONL. A separate read-only refuge opportunity diagnosis recorded eight fresh
+choices and 17 candidate-row comparisons, with zero exact different-ID matches
+and zero supported choices; it used zero World ticks. See
+[`REFUGE_OPPORTUNITY_DIAGNOSIS`](docs/reports/REFUGE_OPPORTUNITY_DIAGNOSIS.md).
+
 ## 24 October 2026 — Wave 5 genotype observer handoff
 
 Three pure observer files are integrated in the workspace: bounded ledger

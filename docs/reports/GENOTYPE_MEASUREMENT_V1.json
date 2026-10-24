@@ -1,0 +1,127 @@
+{
+  "schema": "curious-genotype-measurement-report-v1",
+  "classification": "engineering_measurement_passed",
+  "claim_scope": "event-backed genotype cost/acquisition/lineage and recorded encounter counts; not food-discovery validation, full replay, selection, fitness, or causal evidence",
+  "experiment": {
+    "directory": "data/experiments/genotype-measurement-v1-engineering-20261024",
+    "seed": 123,
+    "role": "seen_engineering_measurement_not_selection",
+    "formal_seed_roles_consumed": [],
+    "live_deployment": false,
+    "planned_ticks": 400,
+    "ticks_per_arm": 200,
+    "physical_ticks": 400,
+    "elapsed_seconds": 26.259,
+    "peak_rss_kib": 476252,
+    "raw_bytes": 80367647,
+    "raw_sha256": "fc12b41731c2114ec9e32f4f1331af0ce710e9e336583924b8bcfcacfc93bb22",
+    "archive_path": "data/experiments/genotype-measurement-v1-engineering-20261024/raw.jsonl.zst",
+    "archive_bytes": 4607904,
+    "archive_sha256": "47e2d1d9751ed2fd83f1863d2caee0c191f44b38005e99284c4659168b4a3ae5"
+  },
+  "provenance": {
+    "source_revision": "0c06d723317301eca507ce01ff4419fdd8360485",
+    "source_tree": "09f21808aea2dbee1af7c960d33fffd0cc0b73db",
+    "binary_sha256": "1444c7ba62223f33efc9be9cd39e5c877bc76e80a8b32c3ed4776e9a02d81ee8",
+    "binary_path": "/root/curious/bin/releases/curious-observation-7b157af",
+    "protocol_sha256": "7227c4ffc0579ce1817aa208acc1632d2495427f7f52201ed82243763d175ed7",
+    "scenario_sha256": "33cb6ebf9d73df017b65b9ee9831be8446c2a81077f3a0e313fe06b05f0b19ac",
+    "manifest_sha256": "cf04d228863c7981c1faebbd381bad9017bd5d26e23471e4bd9e5c8d9ba3ec84",
+    "root_audit_sha256": "1262c3997257e866d6bda2eee097536b2c5b3c1940f30b863b6aa0bfbcc9996d",
+    "archive_index": "data/experiments/genotype-measurement-v1-engineering-20261024/raw.jsonl.archive.json",
+    "check_manifest": "data/operations/wave6-checks-20261024/manifest.json"
+  },
+  "limits": {
+    "wall_seconds": 300,
+    "address_space_bytes": 1073741824,
+    "aggregate_output_bytes": 134217728,
+    "raw_bytes": 117440512,
+    "cap_violation": null
+  },
+  "initial_cohort": {
+    "total": 608,
+    "herbivores": 576,
+    "carnivores": 32,
+    "herbivore_vision_allele_0": 288,
+    "herbivore_vision_allele_1": 288,
+    "mobility_allele": 0,
+    "stamina_allele": 0,
+    "carnivore_vision_allele": 0,
+    "arms_equal_except_declared_expression": true
+  },
+  "arms": [
+    {
+      "name": "expressed",
+      "ticks": 200,
+      "retained_identities": 1801,
+      "births": 1193,
+      "deaths": 1172,
+      "living": {"total": 629, "herbivores": 593, "carnivores": 36},
+      "living_herbivore_descendant_breeders": {"total": 413, "vision_allele_0": 323, "vision_allele_1": 90},
+      "vision_maintenance": {"requested": 45395, "paid": 42070, "unpaid": 3325},
+      "herbivore_genotypes": {
+        "vision_allele_0": {"individuals": 1100, "founders": 288, "descendants": 812, "living": 472, "living_descendant_breeders": 323, "plant_food": 180585, "water": 95936, "plant_encounters": 1489044, "corpse_encounters": 60470, "trace_ticks": 75061, "missing_trace_ticks": 4322, "vision_requested": 0, "vision_paid": 0, "vision_unpaid": 0},
+        "vision_allele_1": {"individuals": 665, "founders": 288, "descendants": 377, "living": 121, "living_descendant_breeders": 90, "plant_food": 120019, "water": 44548, "plant_encounters": 1154677, "corpse_encounters": 48157, "trace_ticks": 45265, "missing_trace_ticks": 3784, "vision_requested": 45395, "vision_paid": 42070, "vision_unpaid": 3325}
+      },
+      "observer_issues": 0,
+      "lineage_issues": 0,
+      "unattributed_actor_joins": 0,
+      "trait_payment_issues": 0,
+      "unexplained_stock_flow_residual_ticks": 0
+    },
+    {
+      "name": "neutral",
+      "ticks": 200,
+      "retained_identities": 1798,
+      "births": 1190,
+      "deaths": 1213,
+      "living": {"total": 585, "herbivores": 549, "carnivores": 36},
+      "living_herbivore_descendant_breeders": {"total": 355, "vision_allele_0": 165, "vision_allele_1": 190},
+      "vision_maintenance": {"requested": 0, "paid": 0, "unpaid": 0},
+      "herbivore_genotypes": {
+        "vision_allele_0": {"individuals": 848, "founders": 288, "descendants": 560, "living": 246, "living_descendant_breeders": 165, "plant_food": 137627, "water": 69498, "plant_encounters": 1183388, "corpse_encounters": 52452, "trace_ticks": 60624, "missing_trace_ticks": 4226, "vision_requested": 0, "vision_paid": 0, "vision_unpaid": 0},
+        "vision_allele_1": {"individuals": 914, "founders": 288, "descendants": 626, "living": 303, "living_descendant_breeders": 190, "plant_food": 147660, "water": 74770, "plant_encounters": 1256492, "corpse_encounters": 56097, "trace_ticks": 64050, "missing_trace_ticks": 4359, "vision_requested": 0, "vision_paid": 0, "vision_unpaid": 0}
+      },
+      "observer_issues": 0,
+      "lineage_issues": 0,
+      "unattributed_actor_joins": 0,
+      "trait_payment_issues": 0,
+      "unexplained_stock_flow_residual_ticks": 0
+    }
+  ],
+  "independent_audit": {
+    "status": "passed",
+    "all_event_totals_recomputed": true,
+    "all_400_food_and_water_stock_flow_ticks_recomputed": true,
+    "fixed_full_state_event_frames": [1, 100, 200],
+    "fixed_frame_event_count_checks": 6,
+    "tick_100_state_rng_roundtrip_equal": ["expressed", "neutral"],
+    "roundtrip_scope": "recorded State+RNG serialize/restore equality; not comparison with uninterrupted execution or RNG-transition replay",
+    "missing_trace_coverage": "unknown, not zero encounters"
+  },
+  "interpretation_limits": [
+    "Single previously seen seed; no formal seed role.",
+    "Arms may diverge in RNG consumption after the expression setting affects reproduction; endpoint differences are descriptive, not causal.",
+    "Recorded food encounters are perceptions, not validated discoveries or acquisitions.",
+    "Basal metabolism and body-energy residuals are not inferred from trait costs.",
+    "No fitness, selection, advantage, harm, long-run coexistence, or general habitat claim."
+  ],
+  "repository_checks_reported_by_root": {
+    "rust_tests_passed": 246,
+    "rust_test_failures": 0,
+    "rust_summary_groups": 47,
+    "release_app_and_probe": "passed",
+    "scoped_rustfmt": "passed",
+    "python_tests_passed": 177,
+    "python_test_failures": 0
+  },
+  "runtime_resume_observation": {
+    "host_reboot_utc": "2026-10-24T14:58:05Z",
+    "services_started_utc": "2026-10-24T14:58:08Z",
+    "root_deployed_or_restarted_services": false,
+    "observed_active_service_pids_after_reboot": {"coexistence": 1136, "replay": 1137},
+    "service_restart_count": 0,
+    "retention_timer_active": true,
+    "target_cache": "already absent on resume; removed byte count not measured"
+  }
+}

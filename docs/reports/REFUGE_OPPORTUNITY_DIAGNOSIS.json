@@ -1,0 +1,81 @@
+{
+  "schema": "curious-refuge-opportunity-diagnosis-report-v1",
+  "status": "witness_reconciled",
+  "classification": "single_seen_engineering_fixture_descriptive_opportunity_diagnosis",
+  "scope": "archived records only; no World ticks, policy decisions, or state mutation",
+  "tool": {
+    "path": "scripts/diagnose_refuge_opportunity.py",
+    "commit": "1c326ad6def2ae70e0cc7416ed8a88f737f91b4c",
+    "sha256": "e17a72f77c9dc19d364006634025c9123664bad592d17cdc3b741b5c42671847"
+  },
+  "protocol": {
+    "path": "docs/REFUGE_OPPORTUNITY_PROTOCOL.md",
+    "sha256": "ac6d80a9a4462d3ac9e3e8fde05a004763dbe4eed833af71b1ed2e2bcab190ac"
+  },
+  "input": {
+    "path": "data/experiments/refuge-repair-validation-20261024/raw.jsonl.zst",
+    "archive_sha256": "b32208ad3c36f1710911360dee8c60e57553f8ab3281938ca342a925075b8749",
+    "archive_bytes": 3353735,
+    "archive_index_path": "data/experiments/refuge-repair-validation-20261024/raw.jsonl.archive.json",
+    "archive_index_sha256": "f58795d38edd21e7ded6b16c2ad6e6cd31fd4fcdc19851382a840885f467bc65",
+    "archive_index_status": "verified",
+    "original_raw_path": "data/experiments/refuge-repair-validation-20261024/raw.jsonl",
+    "original_raw_sha256": "de40e6f9a14acdb62a0be0d7ea93371511265e7423b0691f3e858cff06e2946a",
+    "original_raw_bytes": 59886938,
+    "seed_role": "seen engineering seed; no formal role",
+    "seed": 123,
+    "focal_id": 15
+  },
+  "derived_output": {
+    "path": "data/operations/wave6-checks-20261024/refuge-diagnosis.json",
+    "sha256": "80faff2cc4f31f82e92f63add890f77f0cfb2f5ee2d972ebad79bac36bc8878c"
+  },
+  "record_counts": {
+    "prefix_tick": 30,
+    "suffix_tick": 240,
+    "treatment_start": 4,
+    "branch_end": 4,
+    "summary": 1
+  },
+  "observation": {
+    "fresh_choice_records": 8,
+    "observed_selected_threat_ids": [37],
+    "candidate_row_comparisons": 17,
+    "candidate_row_comparisons_with_fresh_ttl": 17,
+    "exact_candidate_row_matches": 0,
+    "candidate_exact_different_id_supports": 0,
+    "calculated_postprefix_all_candidates_supported_choices": 0,
+    "calculated_postprefix_different_id_supported_choices": 0,
+    "candidate_witness_mismatch_choices": 0,
+    "candidate_witness_mismatch_fields": 0
+  },
+  "summary_reconciliation": {
+    "raw_summary_post_prefix_supported_fresh_greedy_choices": 0,
+    "calculated_postprefix_all_candidates_supported_choices": 0,
+    "supported_choice_count_reconciles": true,
+    "raw_summary_different_threat_id_supported_choices": 0,
+    "calculated_postprefix_different_id_supported_choices": 0,
+    "different_id_choice_count_reconciles": true,
+    "raw_summary_aligned_online_frozen_greedy_contrasts": 0,
+    "aligned_contrast_independently_recomputed": false,
+    "candidate_witnesses_reconcile": true
+  },
+  "recorded_age_ranges": {
+    "prefix": {"first": 0, "last": 29, "focal_max_age": 105},
+    "each_suffix_arm": {"first": 30, "last": 89, "terminal_age": 90, "focal_max_age": 105},
+    "remaining_focal_age_ticks_after_run": 15
+  },
+  "limits": {
+    "maximum_decompressed_input_bytes": 134217728,
+    "maximum_line_bytes": 16777216,
+    "maximum_candidate_row_comparisons": 100000,
+    "row_ttl_ticks": 100
+  },
+  "interpretation": {
+    "fixture_opportunity_identified": false,
+    "general_impossibility_claim": false,
+    "learner_utility_claim": false,
+    "biological_rejection_claim": false,
+    "original_failed_run_status_changed": false
+  }
+}
