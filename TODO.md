@@ -3,6 +3,35 @@
 Hedef [VISION](docs/VISION.md), kullanıcı sırası ve dürüst durum
 [ROADMAP](docs/ROADMAP.md), ölçümler [sonuç raporu](docs/reports/ROADMAP_RESULTS.md).
 
+## 24 Ekim — güncel wave-3 A/B/C handoff
+
+A zero-tick tanısı (`d695a0d`): 6/257 fresh greedy sıralaması residual
+kaldırılınca değişti; 281 eligible online residual örneği 1 pozitif, 261
+sıfır, 19 negatif (toplam −25.000), kayıtlı update toplamıyla eşleşti. Ön
+kayıtlı physical utility geçmedi. [Rapor](docs/reports/WATER_RESIDUAL_DIAGNOSIS.md).
+
+B V18 represented-context adayı `9ae92c3`, main `1c5aefe`: default-off exact
+context, gerçek World/resolver/checkpoint doğrulaması ve 225 Rust test geçti;
+ekolojik utility henüz doğrulanmadı.
+
+C current V17 accepted fixture profili koşullu olarak geçti: calibration
+53099×200 ve formal 53001–53003×500; 1.700 flow tick. Tür tükenmesi yok, iki
+türün yaşayan üreyen yavru-soyları ve son 50 tickte doğumları var. Root flow
+ticklerini/soy ağacını ve 19 tam durum/olay kaydında pre/post stok, typed-resource/
+event-count eşitliği ve tick sürekliliğini doğruladı (RNG geçiş testi değil).
+Kaynak `466f9a0`, main `1f791c1`. Bu V18 qualification veya eski binary
+reproduction değildir. [C raporu](docs/reports/ECOLOGY_FIXTURE_V1.md).
+
+Root'un elle yaptığı denetim post-freeze kaynak farkını bulup zero-World
+preflight'ı durdurdu; runner bu farkı startup sonrası kendisi yakalayamadı.
+Kaynak değişikliği geri alındı. Registered seed listeleri sonra birer kez çalıştırıldı.
+Birleşik doğrulama: 225 Rust, 159 Python, release app/probe, HTTP/auth/SIGKILL;
+V17/V18 default-off 40 frame full State+RNG eşitliği (yalnız version normalize).
+1.148,7 MiB inactive target temizliği raw/probe/frozen source/app'i korudu;
+7882/7883 etkin ve değişmedi, bounded lab/pending wake yok. Yeni batch/retune
+yok. Gelecek refuge utility, water context-staleness ve habitat/trait-selection
+işleri ayrı protokoller gerektirir.
+
 ## 24 Ekim — güncel A/B/C handoff
 
 A V17 calibration 52099 1.400 tickte preregistered gates 8/8 geçti (20 prefix,

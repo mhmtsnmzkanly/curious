@@ -1,5 +1,48 @@
 # Curious üzerinde çalışma
 
+## 24 Ekim 2026 — güncel wave-3 A/B/C handoff
+
+A'nın sıfır-tick tanı aracı ve raporu `d695a0d` ile ana dala alındı. Formal
+raw'dan yeniden analizde residual kaldırıldığında 257 fresh greedy seçimin
+6'sında yerel sıralama değişti. 281 eligible online residual örneği 1 pozitif,
+261 sıfır, 19 negatif ve toplam −25.000 verdi; kayıtlı tablo güncellemeleriyle
+eşleşti. Ön kayıtlı physical utility ölçütü geçmedi; genel fayda veya ekolojik
+kabul yoktur. [Tanı raporu](docs/reports/WATER_RESIDUAL_DIAGNOSIS.md) ve
+[JSON](docs/reports/WATER_RESIDUAL_DIAGNOSIS.json).
+
+B'nin V18 represented-context sığınak hafızası adayı `9ae92c3`, main entegrasyonu
+`1c5aefe` içindedir. Özellik varsayılan kapalıdır; exact represented-context,
+gerçek World/resolver ve checkpoint kontrolleri dahil `cargo test --all-targets`
+225 Rust testi geçti. Ekolojik utility henüz doğrulanmadı; V18 qualification
+iddiası yoktur. Ayrıntı [şema](docs/REFUGE_GENERALIZATION_SCHEMA.md) ve
+[kontrol sözleşmesi](docs/CONTROL.md).
+
+C fixture calibration seed 53099'da 200, formal seed 53001–53003'ün her birinde
+500 tick çalıştı; bütün preregistered kapılar geçti (toplam 1.700 flow tick).
+Hiçbir tür tükenmedi; iki türün de yaşayan, kendisi üremiş yavru-soyları ve son
+50 tickte doğumları vardı. Root bütün 1.700 flow tick'i, soy ağacını ve 19 tam
+durum/olay kaydında pre/post kaynak stoklarını, typed-resource/event sayı
+eşitliğini ve tick sürekliliğini bağımsız doğruladı; bu RNG geçiş testi değildir.
+Kaynak `466f9a0`, main entegrasyonu `1f791c1`'dir. Bu yalnızca V17'deki güncel
+kabul edilmiş fixture profilinin koşullu sonucudur; V18 sığınak utility kabulü
+veya eski binary sonucunun yeniden üretimi değildir. [Rapor](docs/reports/ECOLOGY_FIXTURE_V1.md) ve
+[JSON](docs/reports/ECOLOGY_FIXTURE_V1.json).
+
+İlk zero-World preflight'ta root'un elle yaptığı denetim freeze sonrası kaynak
+farkını bulup işi durdurdu; runner bu farkı startup sonrasında kendisi
+yakalayamamıştı. Değişiklik geri alındı. Ardından her registered seed listesi
+tek kez çalıştırıldı. Birleşik kontroller: 225 Rust, 159 Python, release app ve
+probe, HTTP/auth/SIGKILL geçti. V17/V18 default-off karşılaştırmasında 40 tam
+State+RNG frame'i yalnızca version alanını normalize ederek eşleşti. Dört
+inactive build target'tan 1.204.488.146 byte (1.148,7 MiB) temizlendi; raw,
+probe, frozen source ve app korundu. Canlı 7882/7883 servisleri etkin ve
+değişmeden kaldı; bu wave için aktif bounded lab veya pending wake yoktur.
+
+Yeni koşu/otomatik retune başlatma. İleride refuge genellemesini gerçek kaçışla
+karşılaştıran utility ölçümü, dar water context-staleness preregistration'ı ve
+habitat-matrix/trait-selection çalışması ayrı protokoller ister. C için yeni
+batch bu handoff'ta planlanmadı.
+
 ## 24 Ekim 2026 — güncel wave-2 handoff
 
 A V17 water-residual calibration/formal işi tamamlandı. Frozen source `506ed6f`

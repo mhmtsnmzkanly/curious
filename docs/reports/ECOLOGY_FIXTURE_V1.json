@@ -1,0 +1,217 @@
+{
+  "schema": "curious-ecology-fixture-validity-report-v1",
+  "status": "completed",
+  "result_scope": "calibration passed technical and observer checks; all three registered formal seeds passed bounded fixture viability at 500 ticks",
+  "claim_limits": [
+    "current V17 source under explicit accepted-profile settings; not exact reproduction of the old qualification binary",
+    "not a V18 result",
+    "not all-habitat robustness, trait-fitness advantage, general coexistence, or production reliability evidence",
+    "basal metabolism and unattributed body-energy changes remain unknown",
+    "root audit checks source-bound aggregate counters and captured frames; it is not full replay of unretained movement/action events"
+  ],
+  "fixture": {
+    "scenario": "data/experiments/reserve-qualification/qualification-both/scenario.json",
+    "scenario_sha256": "33cb6ebf9d73df017b65b9ee9831be8446c2a81077f3a0e313fe06b05f0b19ac",
+    "founders": {
+      "total": 608,
+      "Herbivore": 576,
+      "Carnivore": 32
+    },
+    "renewable_sites": 976,
+    "initial_resource_cells": 1232,
+    "accepted_profile_reference": {
+      "revision": "b4dcef20fdef830c2895806076d972df62741eea",
+      "binary_sha256": "e1ffa03754fc964d503b6a6e04bffe19ad868b3d2090e0a8b2f9c48e3506f636",
+      "reserve_opportunities": true,
+      "mate_rendezvous": true
+    }
+  },
+  "measured_source": {
+    "revision": "466f9a0f6af18d12469e1d7761b62ce5cd771f49",
+    "source_content_sha256": "a37d6e396b22ba68c7a454d78e98d18606d422f905c074331a6d4f54fa49ca5d",
+    "probe_sha256": "b4b5830bea49ed2e8532840880e5fadb526440363adad292220ac224e72accc0",
+    "profile": {
+      "mode": "both",
+      "companions": true,
+      "genetics_enabled": true,
+      "mutation_per_mille": 20,
+      "extra_traits_enabled": false,
+      "hunt_learning_enabled": false,
+      "water_learner_enabled": true,
+      "water_updates_enabled": true,
+      "water_residual_enabled": false,
+      "refuge_outcomes_enabled": false,
+      "reserve_opportunities": true,
+      "mate_rendezvous": true
+    }
+  },
+  "seed_inventory": {
+    "calibration_scanned_text_sources": 1093,
+    "formal_scanned_text_sources": 1185,
+    "calibration_matches": [],
+    "formal_matches": [],
+    "interrupted_preflight": "Root terminated a preflight before any output directory or World was created and verified that it consumed no seed; the retained calibration output is the single completed run for seed 53099."
+  },
+  "budgets": {
+    "phase_timeout_seconds": 300,
+    "aggregate_address_space_bytes": 1073741824,
+    "aggregate_output_bytes_limit": 134217728,
+    "calibration_probe_seconds": 13.9839,
+    "calibration_phase_seconds": 98.851,
+    "formal_forecast_seconds": 269.759,
+    "formal_phase_seconds": 134.229,
+    "formal_physical_ticks": 1500,
+    "formal_raw_bytes": 94073278
+  },
+  "calibration": {
+    "output_directory": "data/experiments/ecology-fixture-v1-calibration-20261024",
+    "protocol_sha256": "9168da984cfcb413bc74c5108db8198f2edb060e5558640c4e22f0a52a3d74cf",
+    "manifest_sha256": "4a8c8622ee327aa71b1fc1f2105e4cf8ef17a7e29109bffaf24ff843adf4e3f4",
+    "root_audit_sha256": "d363f102ee419b66cdafcee875748ed65b3cfd5eeb471644f7d131b86765d8d4",
+    "seed": 53099,
+    "ticks": 200,
+    "passed_technical_observer_gate": true,
+    "biological_formal_gate": null,
+    "births": {
+      "Herbivore": 1233,
+      "Carnivore": 3
+    },
+    "alive_at_end": {
+      "Herbivore": 592,
+      "Carnivore": 35
+    },
+    "living_descendant_breeders_at_end": {
+      "Herbivore": 404,
+      "Carnivore": 0
+    },
+    "actual_mating_events": 1236,
+    "adjacent_pair_exposure_proxy": 1193,
+    "resource_balance_ticks_verified": 200,
+    "lineage_identities_verified": 1844,
+    "full_audit_frames": 4,
+    "raw": {
+      "path": "data/experiments/ecology-fixture-v1-calibration-20261024/calibration-53099.jsonl",
+      "bytes": 24728247,
+      "sha256": "29d23f7b7a140beac70519faf18eb6392466e7dab764824d72c04a835f1491bd"
+    }
+  },
+  "formal": {
+    "output_directory": "data/experiments/ecology-fixture-v1-20261024",
+    "protocol_sha256": "6aaeec85d720939ab745837d21c580bdd75325f3f22ce0d4f5a5f727c405e816",
+    "manifest_sha256": "5c6e0352b78d6a776e95848564b0d7aa250493940c919d6d7b573809481dfd91",
+    "root_audit_sha256": "9e5ce12bb3a543437a00a74a94c1828a7efb6ed1d4bbe7fccd1bc70d3af3208b",
+    "all_three_passed": true,
+    "acceptance_checks": [
+      "no species extinction",
+      "at least two alive of each species at every tick in the final 50 ticks",
+      "at least one living descendant breeder of each species at tick 500",
+      "at least one birth of each species in the final 50 ticks",
+      "technical resource-flow and lineage checks pass"
+    ],
+    "aggregate_resource_balance_ticks_verified": 1500,
+    "aggregate_lineage_identities_verified": 10503,
+    "full_audit_frames": 15,
+    "seeds": [
+      {
+        "seed": 53001,
+        "ticks": 500,
+        "passed": true,
+        "births": {
+          "Herbivore": 2866,
+          "Carnivore": 23
+        },
+        "alive_at_end": {
+          "Herbivore": 571,
+          "Carnivore": 49
+        },
+        "last_50_min_alive": {
+          "Herbivore": 563,
+          "Carnivore": 47
+        },
+        "living_descendant_breeders_at_end": {
+          "Herbivore": 375,
+          "Carnivore": 15
+        },
+        "last_50_births": {
+          "Herbivore": 276,
+          "Carnivore": 3
+        },
+        "lineage_identities_verified": 3497,
+        "raw": {
+          "path": "data/experiments/ecology-fixture-v1-20261024/formal-1-53001.jsonl",
+          "bytes": 31327738,
+          "sha256": "2355717a4bfeb3604853c0bac553e25a98ea8009df734aa45e385ccaeff828db"
+        }
+      },
+      {
+        "seed": 53002,
+        "ticks": 500,
+        "passed": true,
+        "births": {
+          "Herbivore": 2866,
+          "Carnivore": 19
+        },
+        "alive_at_end": {
+          "Herbivore": 569,
+          "Carnivore": 45
+        },
+        "last_50_min_alive": {
+          "Herbivore": 565,
+          "Carnivore": 44
+        },
+        "living_descendant_breeders_at_end": {
+          "Herbivore": 369,
+          "Carnivore": 8
+        },
+        "last_50_births": {
+          "Herbivore": 258,
+          "Carnivore": 2
+        },
+        "lineage_identities_verified": 3493,
+        "raw": {
+          "path": "data/experiments/ecology-fixture-v1-20261024/formal-2-53002.jsonl",
+          "bytes": 31404539,
+          "sha256": "d6d87fff0cca0226952e81e47ff682502780bb88f47d4c46e7feb307063462c0"
+        }
+      },
+      {
+        "seed": 53003,
+        "ticks": 500,
+        "passed": true,
+        "births": {
+          "Herbivore": 2887,
+          "Carnivore": 18
+        },
+        "alive_at_end": {
+          "Herbivore": 562,
+          "Carnivore": 44
+        },
+        "last_50_min_alive": {
+          "Herbivore": 553,
+          "Carnivore": 43
+        },
+        "living_descendant_breeders_at_end": {
+          "Herbivore": 353,
+          "Carnivore": 11
+        },
+        "last_50_births": {
+          "Herbivore": 270,
+          "Carnivore": 2
+        },
+        "lineage_identities_verified": 3513,
+        "raw": {
+          "path": "data/experiments/ecology-fixture-v1-20261024/formal-3-53003.jsonl",
+          "bytes": 31341001,
+          "sha256": "4534926a6bab27bde50b385b09fd4e3f9d8f0fc99d247fa04e49b8c6c3b49b98"
+        }
+      }
+    ]
+  },
+  "root_audit_helper": {
+    "path": "data/operations/ecology-wave3-root-audit.py",
+    "sha256": "3e1df791f01f9258587ad67cd62ba3c738ca207b28ef5ba933f4e0e9af81031c",
+    "provenance_path": "data/experiments/ecology-fixture-v1-20261024/root-audit-provenance.json",
+    "provenance_sha256": "47dac8d11ec15e18f4c2acb392de9d163ab03b9930908fb326e402ca5fbdf951",
+    "audit_scope": "independent source-bound aggregate stock/flow arithmetic at every tick; all lineage events; fixed-frame typed resource event reconciliation and pre/post stocks; final living descendant breeders; last-50 minimum alive/births"
+  }
+}

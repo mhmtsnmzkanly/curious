@@ -1,5 +1,39 @@
 # Kalan ekosistem ve yetenekler için paralel çalışma planı
 
+## 24 Ekim 2026 — wave-3 A/B/C handoff
+
+- **A tamamlandı: sıfır-tick water residual tanısı.** `d695a0d` ana dala
+  entegre edildi. Formal raw yeniden analizinde residual kaldırılınca 257 fresh
+  greedy seçimin 6'sında yerel sıralama değişti. 281 eligible online residual
+  örneği 1 pozitif, 261 sıfır, 19 negatif ve toplam −25.000 verdi; kayıtlı
+  residual-table güncellemeleriyle eşleşti. Ön kayıtlı physical utility
+  başarısızdır; genel fayda, qualification veya ekolojik kabul kanıtlanmadı.
+  [Tanı raporu](reports/WATER_RESIDUAL_DIAGNOSIS.md) ve
+  [JSON](reports/WATER_RESIDUAL_DIAGNOSIS.json).
+- **B entegre edildi, biyolojik utility bekliyor.** V18 represented-context
+  sığınak hafızası adayı `9ae92c3`, ana dal entegrasyonu `1c5aefe` içindedir.
+  Default-off özellik exact represented-context sınırını kullanır; gerçek
+  World/resolver/checkpoint kontrolleri dahil `cargo test --all-targets`
+  225 Rust testi geçti. Default-off V17/V18 karşılaştırmasında 40 tam
+  State+RNG frame'i yalnızca version alanı normalize edilerek eşleşti. Ekolojik
+  utility henüz ölçülüp doğrulanmadı.
+- **C current V17 fixture profili koşullu kabul edildi; kapsamı sınırlıdır.**
+  Calibration 53099×200 ve formal seed 53001–53003×500 tamamı geçti (1.700 flow
+  tick). Tür tükenmedi; her iki türde yaşayan, üreyen descendant ve son 50
+  tickte doğumlar görüldü. Root bütün flow ticklerini, soy ağacını ve 19 tam
+  durum/olay kaydında pre/post kaynak stoklarını, typed-resource/event sayım
+  eşitliğini ve tick sürekliliğini bağımsız doğruladı; bu 19 frame RNG geçiş
+  doğrulaması değildir. Source `466f9a0`, main `1f791c1`. Bu V18 qualification
+  veya eski binary reproduction sonucu değildir. [C raporu](reports/ECOLOGY_FIXTURE_V1.md)
+  ve [JSON](reports/ECOLOGY_FIXTURE_V1.json).
+
+Root elle yaptığı preflight incelemesinde freeze sonrası source farkını bulup
+zero-World işi durdurdu; runner bu farkı startup sonrasında yakalayamadı. Source
+değişikliği geri alındı; registered calibration/formal seedleri daha sonra birer
+kez çalıştı. Bu wave için ek batch veya otomatik retune yoktur. Sonraki olası
+refuge generalized-escape utility, dar water context-staleness ve habitat-matrix/
+trait-selection çalışmaları ayrı protokoller gerektirir.
+
 **Güncel durum (24 Ekim 2026):** A'nın V17 water-residual formal çalışması
 tamamlandı. Frozen source `506ed6f` main `c855154` içindedir; V17 default-off
 kalır. Calibration seed 52099 1.400 tickte 8/8 fırsat kapısını geçti (20 prefix,
