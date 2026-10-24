@@ -10,14 +10,13 @@ use curious::{
         intent::Intent,
         memory::{GeneralizedRefugeKey, GeneralizedRefugeOutcome, RefugeEpisode},
         perception::PerceivedEntity,
-        species::Species,
     },
     map::movement::{Position, Steps},
 };
 use serde::{Deserialize, Serialize};
 use std::collections::BTreeSet;
 
-pub const FOCAL_ID: usize = 1;
+pub const FOCAL_ID: usize = 15;
 
 #[derive(Clone, Debug, Serialize)]
 pub struct CandidateWitness {
@@ -340,6 +339,7 @@ pub fn capture_choice(
 #[cfg(test)]
 mod tests {
     use super::*;
+    use curious::entity::species::Species;
 
     fn key() -> GeneralizedRefugeKey {
         GeneralizedRefugeKey {
