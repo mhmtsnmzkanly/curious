@@ -1,12 +1,43 @@
 # Continuous-life refuge escape study — engineering protocol proposal
 
-**Status: amended before the first World run.** The prior frozen proposal
-`6a50312c3c6a9a697dc472b0f242025a61c1fa9f` was release-built but never run.
-This amendment fixes focal selection from the unchanged tick-zero fixture; the
-amended source/protocol must be frozen before the single engineering run. No
-World run has been performed. This document predeclares one bounded engineering
-fixture only; it does not register formal evaluation seeds or support a
-refuge-utility claim.
+**Status: memory-footprint source candidate based on `5ae985e4df219b2fae17d9e1497d7bc4774f1008`; this candidate has not been run.** The earlier frozen proposal
+`6a50312c3c6a9a697dc472b0f242025a61c1fa9f` was also never run. One engineering
+attempt using source `5ae985e` emitted 225 complete JSONL tick records against
+270 planned physical ticks before an address-space allocation failure. The
+number of physical ticks executed cannot be established from the record count
+alone. This candidate changes only how
+pre-tick state witnesses are retained in memory; focal selection, fixture,
+horizon, and learning behavior are unchanged. No retry or new seed is
+authorized. The attempt was incomplete and provides no full-run utility or
+acceptance claim.
+
+The partial evidence is recorded in the [manifest](../data/experiments/refuge-escape-v1-engineering-20261024/manifest.json)
+and [root partial audit](../data/experiments/refuge-escape-v1-engineering-20261024/root-partial-audit.json).
+The preserved `protocol.snapshot.md` remains the original run protocol.
+The separate `refuge_escape_replay` example provides an offline, bounded
+zero-tick representation check over preserved JSONL. It does not execute or
+resume the simulation; this check has not yet been run on the preserved file.
+
+This document describes one bounded engineering fixture only; it does not
+register formal evaluation seeds or support a refuge-utility claim.
+
+## Prior engineering attempt — incomplete infrastructure stop
+
+The single run returned code `-6` after 2.912 seconds when a 632-byte address-
+space allocation failed. It emitted 225 complete JSONL tick records: the 30-tick
+prefix, 60 ticks each for trained-online, trained-frozen, and naive-online, and
+15 ticks of the rule arm. The planned 270 ticks and final summary were not
+completed. Treat this as infrastructure-incomplete, not as a biological
+failure or completed fixture result.
+
+The independent partial audit matched all 225 recorded body/age transitions,
+table count deltas, unchanged frozen rows, and fork differences. It found one
+prefix update, one trained-online update, no frozen update, and one naive-online
+update. Each of the three completed suffix arms had zero supported greedy
+choices; the rule arm is incomplete. Across those three completed suffixes the
+recorded totals were terminal health 120, energy 34, water 27, paid movement
+energy 36, water intake 56, and food intake 92. These partial totals do not
+establish utility. No full vector across four completed arms is available.
 
 ## Question
 
@@ -154,5 +185,7 @@ JSONL output. The post-review engineering invocation is capped at 300 seconds
 and 1 GiB memory; hitting any cap is an infrastructure stop, not a biological
 failure. Preserve stdout, stderr, exit status, start/end times, protocol/source/
 scenario/executable hashes, and partial raw output on failure. Do not touch
-live worlds or deploy. No formal seed selection or formal runner is authorized
+live worlds or deploy. Before any separately authorized invocation, set the
+shell core-size limit to zero (`ulimit -c 0`) to prevent an abort from creating
+a large core file. No formal seed selection or formal runner is authorized
 by this engineering proposal.

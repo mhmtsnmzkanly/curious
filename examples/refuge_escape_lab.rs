@@ -2,6 +2,8 @@
 //!
 //! Do not run before root reviews docs/REFUGE_ESCAPE_PROTOCOL.md and this
 //! source. The example accepts no seed or horizon arguments by design.
+#[path = "support/refuge_escape_state.rs"]
+mod state_audit;
 #[path = "support/refuge_escape_capture.rs"]
 mod support;
 
@@ -14,6 +16,7 @@ use curious::{
 };
 use serde::Serialize;
 use serde_json::Value;
+use state_audit::normalized_pre_world_state_bytes;
 use std::io::{self, Write};
 use support::{
     ChoiceWitness, FOCAL_ID, Provenance, UpdateSource, capture_choice, retain_fresh_rows,
@@ -169,22 +172,11 @@ fn emit<W: Write, T: Serialize>(writer: &mut W, row: &T) -> io::Result<()> {
     writer.flush()
 }
 
-fn normalized_state_for_pair(mut state: Value) -> Value {
-    if let Some(focal) = state["entities"]
-        .as_array_mut()
-        .and_then(|entities| entities.iter_mut().find(|entity| entity["id"] == FOCAL_ID))
-    {
-        focal["memory"]["refuge_generalization_update_enabled"] = Value::Bool(true);
-        focal["memory"]["refuge_generalized_outcomes"] = Value::Array(Vec::new());
-    }
-    state
-}
-
 #[derive(Clone)]
 struct ObservedChoice {
     suffix_tick: usize,
     witness: ChoiceWitness,
-    full_pre_world_state: Value,
+    normalized_pre_world_state: Vec<u8>,
     focal_events: Vec<Value>,
 }
 
@@ -546,6 +538,10 @@ fn arm_run<W: Write>(
     provenance.retain_table_keys(&fork_table);
     let mut update_count = 0;
     let mut choices = Vec::new();
+    let retain_choices_for_pair = matches!(
+        treatment,
+        Treatment::TrainedOnline | Treatment::TrainedFrozen
+    );
     for suffix_tick in 1..=SUFFIX_TICKS {
         let (row, updates) = tick_once(
             &mut branch,
@@ -558,16 +554,21 @@ fn arm_run<W: Write>(
             Some(&fork_table),
         );
         update_count += updates;
-        if let (Some(choice), Some(full_pre_world_state)) = (
-            row.production_choice.clone(),
-            row.full_pre_world_state_for_choice.clone(),
-        ) {
-            choices.push(ObservedChoice {
-                suffix_tick,
-                witness: choice,
-                full_pre_world_state,
-                focal_events: row.focal_events.clone(),
-            });
+        if retain_choices_for_pair {
+            if let (Some(choice), Some(full_pre_world_state)) = (
+                row.production_choice.clone(),
+                row.full_pre_world_state_for_choice.as_ref(),
+            ) {
+                choices.push(ObservedChoice {
+                    suffix_tick,
+                    witness: choice,
+                    normalized_pre_world_state: normalized_pre_world_state_bytes(
+                        full_pre_world_state.clone(),
+                        FOCAL_ID,
+                    ),
+                    focal_events: row.focal_events.clone(),
+                });
+            }
         }
         emit(writer, &RawRecord::SuffixTick(row))?;
     }
@@ -601,8 +602,7 @@ fn choice_is_supported_fresh_greedy(choice: &ChoiceWitness) -> bool {
 
 fn same_choice_context(left: &ObservedChoice, right: &ObservedChoice) -> bool {
     left.suffix_tick == right.suffix_tick
-        && normalized_state_for_pair(left.full_pre_world_state.clone())
-            == normalized_state_for_pair(right.full_pre_world_state.clone())
+        && left.normalized_pre_world_state == right.normalized_pre_world_state
         && left.witness.choice_tick == right.witness.choice_tick
         && left.witness.position == right.witness.position
         && serde_json::to_value(&left.witness.life_before_choice).ok()
@@ -698,7 +698,12 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             physical_offset,
         )?;
         total_updates += updates;
-        all_choices.insert(treatment.label(), choices);
+        if matches!(
+            treatment,
+            Treatment::TrainedOnline | Treatment::TrainedFrozen
+        ) {
+            all_choices.insert(treatment.label(), choices);
+        }
         branch_table_mutated.insert(treatment.label(), table_mutated);
         physical_offset += SUFFIX_TICKS;
     }
