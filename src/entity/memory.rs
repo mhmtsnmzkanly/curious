@@ -26,10 +26,20 @@ pub struct KnownCompanion {
     pub seen: usize,
 }
 
+pub use super::refuge_generalization::{
+    GeneralizedRefugeKey, GeneralizedRefugeOutcome, MAX_GENERALIZED_REFUGE_OUTCOMES,
+};
 pub use super::refuge_learning::{
     MAX_REFUGE_EPISODES_PER_KEY, MAX_REFUGE_OUTCOMES, PendingRefugeClosure, RefugeClosure,
     RefugeEpisode, RefugeKey, RefugeOutcome,
 };
+
+#[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, Eq, Default)]
+pub enum RefugeLearningMode {
+    #[default]
+    LegacyExact,
+    Generalized,
+}
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Memory {
@@ -46,6 +56,12 @@ pub struct Memory {
     pub refuge_outcomes_enabled: bool,
     #[serde(default)]
     pub refuge_outcomes: Vec<RefugeOutcome>,
+    #[serde(default, skip_serializing_if = "is_false")]
+    pub refuge_generalization_enabled: bool,
+    #[serde(default = "enabled_by_default", skip_serializing_if = "is_true")]
+    pub refuge_generalization_update_enabled: bool,
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub refuge_generalized_outcomes: Vec<GeneralizedRefugeOutcome>,
     #[serde(default)]
     pub refuge_episode: Option<RefugeEpisode>,
     #[serde(default)]
@@ -62,6 +78,9 @@ impl Default for Memory {
             companions: vec![],
             refuge_outcomes_enabled: false,
             refuge_outcomes: vec![],
+            refuge_generalization_enabled: false,
+            refuge_generalization_update_enabled: true,
+            refuge_generalized_outcomes: vec![],
             refuge_episode: None,
             pending_refuge_closures: vec![],
         }
@@ -76,17 +95,37 @@ impl Memory {
         species: super::species::Species,
     ) {
         if !self.enabled {
+            if let Some(episode) = self.refuge_episode.take()
+                && episode.learning_mode == RefugeLearningMode::Generalized
+            {
+                self.pending_refuge_closures.push(PendingRefugeClosure {
+                    final_pos: origin,
+                    ended_tick: tick,
+                    episode,
+                    closure: RefugeClosure::FeatureDisabled,
+                });
+            }
             self.sites.clear();
             self.dangers.clear();
             self.companions.clear();
             self.social = Default::default();
             self.refuge_outcomes.clear();
+            if self.refuge_generalization_update_enabled {
+                self.refuge_generalized_outcomes.clear();
+            }
             self.refuge_episode = None;
-            self.pending_refuge_closures.clear();
+            self.pending_refuge_closures
+                .retain(|closure| closure.episode.learning_mode == RefugeLearningMode::Generalized);
             return;
         }
         self.refuge_outcomes
             .retain(|r| tick.saturating_sub(r.last_observed_tick) <= 100);
+        if self.refuge_generalization_enabled && self.refuge_generalization_update_enabled {
+            self.refuge_generalized_outcomes.retain(|row| {
+                tick.saturating_sub(row.last_completed_tick)
+                    <= super::refuge_generalization::GENERALIZED_REFUGE_TTL_TICKS
+            });
+        }
         if let Some(episode) = &mut self.refuge_episode {
             let threat_visible = view
                 .entities
@@ -169,7 +208,35 @@ impl Memory {
         decision: Decision,
         tick: usize,
     ) -> Decision {
-        super::refuge_learning::choose_refuge(self, origin, life, view, decision, tick)
+        self.choose_refuge_for_species(
+            super::species::Species::Herbivore,
+            origin,
+            life,
+            view,
+            decision,
+            tick,
+        )
+    }
+
+    /// Species-aware refuge policy entry point used by world intent collection.
+    pub fn choose_refuge_for_species(
+        &mut self,
+        subject_species: super::species::Species,
+        origin: Position,
+        life: &LifeState,
+        view: &Perception,
+        decision: Decision,
+        tick: usize,
+    ) -> Decision {
+        super::refuge_learning::choose_refuge(
+            self,
+            subject_species,
+            origin,
+            life,
+            view,
+            decision,
+            tick,
+        )
     }
 
     /// Close a route at a bounded experiment boundary as a censored observation.
@@ -282,6 +349,16 @@ impl Memory {
                 .dangers
                 .iter()
                 .any(|(p, _)| p.x.unsigned_abs() > 1_000_000 || p.y.unsigned_abs() > 1_000_000)
+            || self.refuge_generalized_outcomes.len() > MAX_GENERALIZED_REFUGE_OUTCOMES
+            || self.refuge_generalized_outcomes.iter().any(|row| {
+                row.completed == 0
+                    || row.completed > super::refuge_generalization::MAX_GENERALIZED_REFUGE_SAMPLES
+                    || row.safe_arrivals > row.completed
+                    || row.threat_damage
+                        > super::refuge_generalization::MAX_GENERALIZED_REFUGE_ACCOUNT
+                    || row.movement_energy
+                        > super::refuge_generalization::MAX_GENERALIZED_REFUGE_ACCOUNT
+            })
         {
             return Err("memory bounds exceeded".into());
         }
@@ -291,4 +368,12 @@ impl Memory {
 
 fn enabled_by_default() -> bool {
     true
+}
+
+fn is_false(value: &bool) -> bool {
+    !value
+}
+
+fn is_true(value: &bool) -> bool {
+    *value
 }

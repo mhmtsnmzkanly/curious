@@ -1,8 +1,8 @@
 # Refuge context generalization — design proposal
 
-**Status: proposal and isolated prototype only.** This work does not change the
-registered V16 learner, its checkpoint, the live world, or the prior refuge
-protocol. The eight historical seeds and all 94 multi-shelter decisions are
+**Status: default-off V18 implementation candidate; no empirical qualification.**
+The implementation preserves the registered V16 exact-key table and SQLite V2.
+The eight historical seeds and all 94 multi-shelter decisions are
 already observed. Their outcome-memory key matched no completed record at any
 choice; they motivate a new hypothesis, not a retrospective claim or a retuned
 acceptance result.
@@ -102,7 +102,7 @@ report failure and do not retune the gate against that failed set.
 
 ## Phased work and acceptance
 
-### Phase A — isolated representation prototype (this change)
+### Phase A — isolated representation prototype (historical)
 
 Implement only a pure helper under `examples/support/refuge_candidate.rs` with
 no production imports or checkpoint dependencies. Unit tests use a finite
@@ -113,18 +113,14 @@ stable tie-breaking, and bounded deterministic retention. The helper does not
 select actions or run a world. The schema and migration proposal are in
 [`REFUGE_GENERALIZATION_SCHEMA.md`](REFUGE_GENERALIZATION_SCHEMA.md).
 
-### Phase B — root-reviewed protocol and integration proposal
+### Phase B — root-reviewed implementation candidate
 
-Wait for root's serial review after the water lab source V17 is frozen. Then
-review the context schema, safe-transfer boundary, bounded-memory policy, audit
-requirements, and proposed support gate. The schema proposes a distinct empty
-generalized table for old checkpoints while preserving legacy exact-key rows;
-checkpoint and SQLite migration still require separate root review. Only after
-approval, specify a clean source revision, default-off implementation, final
-migration, and a fresh preregistration. Integrate through normal
-perception/decision, resolver, outcome ledger, and persistence boundaries.
-Check disabled exact state/RNG equivalence and migration before building an
-immutable lab binary.
+Root approved a default-off per-individual mode, separate bounded table, exact
+raw body/distance representation, and V18 checkpoint with SQLite V2 unchanged.
+The implementation uses the ordinary perception, decision, resolver, event,
+and checkpoint boundaries. It has not established safe transfer or ecological
+benefit. Root still reviews the final schema, closure behavior, and V18 migration
+before any experiment binary or protocol is considered.
 
 ### Phase C — bounded refuge generalization experiment
 

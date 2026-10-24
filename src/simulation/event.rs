@@ -14,6 +14,10 @@ pub enum SimulationEvent {
         threat_id: usize,
         threat_species: Species,
         context_key: crate::entity::memory::RefugeKey,
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        generalization_mode: Option<crate::entity::memory::RefugeLearningMode>,
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        generalized_context: Option<crate::entity::memory::GeneralizedRefugeKey>,
         started_tick: usize,
         ended_tick: usize,
         endpoint: Position,

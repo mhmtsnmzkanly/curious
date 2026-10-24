@@ -1,4 +1,6 @@
-#[derive(serde::Serialize, serde::Deserialize, Debug, Clone, PartialEq, Eq, Hash)]
+#[derive(
+    serde::Serialize, serde::Deserialize, Debug, Clone, PartialEq, Eq, Hash, PartialOrd, Ord,
+)]
 pub enum Species {
     Herbivore,
     Carnivore,

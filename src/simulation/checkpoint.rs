@@ -74,7 +74,7 @@ impl State {
         commands.sort_by_key(|(id, _)| *id);
         Self {
             policy: world.policy.clone(),
-            version: 17,
+            version: 18,
             genetics: world.genetics.clone(),
             observation: world.observation.clone(),
             environment: world.environment.clone(),
@@ -111,7 +111,7 @@ impl State {
         }
     }
     pub fn restore(mut self) -> Result<World> {
-        if !(1..=17).contains(&self.version) {
+        if !(1..=18).contains(&self.version) {
             return Err("unsupported checkpoint version".into());
         }
         if self.version >= 15 {
@@ -193,6 +193,22 @@ impl State {
                 }
             }
         }
+        if self.version < 18 {
+            for individual in &mut self.entities {
+                individual.memory.refuge_generalization_enabled = false;
+                individual.memory.refuge_generalization_update_enabled = true;
+                individual.memory.refuge_generalized_outcomes.clear();
+                if let Some(episode) = &mut individual.memory.refuge_episode {
+                    episode.learning_mode = crate::entity::memory::RefugeLearningMode::LegacyExact;
+                    episode.generalized_key = None;
+                }
+                for closure in &mut individual.memory.pending_refuge_closures {
+                    closure.episode.learning_mode =
+                        crate::entity::memory::RefugeLearningMode::LegacyExact;
+                    closure.episode.generalized_key = None;
+                }
+            }
+        }
         for individual in &self.entities {
             if self.version >= 15 {
                 individual.genome.validate()?;
@@ -200,6 +216,44 @@ impl State {
             individual.memory.validate()?;
             individual.learner.validate()?;
             individual.hunt_learner.validate()?;
+            if self.version >= 18
+                && (individual
+                    .memory
+                    .refuge_generalized_outcomes
+                    .iter()
+                    .any(|row| {
+                        row.last_completed_tick > self.tick
+                            || row.key.subject_species != individual.species
+                    })
+                    || individual
+                        .memory
+                        .refuge_episode
+                        .as_ref()
+                        .is_some_and(|episode| {
+                            episode.learning_mode
+                                == crate::entity::memory::RefugeLearningMode::Generalized
+                                && (episode.started_tick > self.tick
+                                    || episode.generalized_key.as_ref().is_some_and(|key| {
+                                        key.subject_species != individual.species
+                                    }))
+                        })
+                    || individual
+                        .memory
+                        .pending_refuge_closures
+                        .iter()
+                        .any(|closure| {
+                            closure.episode.learning_mode
+                                == crate::entity::memory::RefugeLearningMode::Generalized
+                                && (closure.episode.started_tick > self.tick
+                                    || closure.ended_tick > self.tick
+                                    || closure.ended_tick < closure.episode.started_tick
+                                    || closure.episode.generalized_key.as_ref().is_some_and(
+                                        |key| key.subject_species != individual.species,
+                                    ))
+                        }))
+            {
+                return Err("future generalized refuge timestamp in checkpoint".into());
+            }
         }
         let [a, b, c, d] = self.bounds;
         let mut map = Map::new(a, b, c, d);

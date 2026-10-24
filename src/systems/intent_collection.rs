@@ -94,7 +94,8 @@ impl IntentCollectionSystem {
                 decision,
                 &mut world.rng,
             );
-            let decision = memory.choose_refuge(
+            let decision = memory.choose_refuge_for_species(
+                slot.base.species(),
                 slot.pos,
                 slot.base.life(),
                 &view,

@@ -57,6 +57,10 @@ pub struct RefugeOutcome {
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 pub struct RefugeEpisode {
     pub key: RefugeKey,
+    #[serde(default, skip_serializing_if = "is_legacy_mode")]
+    pub learning_mode: super::memory::RefugeLearningMode,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub generalized_key: Option<super::refuge_generalization::GeneralizedRefugeKey>,
     pub started_tick: usize,
     pub target: Position,
     pub threat_id: usize,
@@ -74,6 +78,19 @@ pub struct RefugeEpisode {
     pub unseen_ticks: u8,
 }
 
+fn is_legacy_mode(mode: &super::memory::RefugeLearningMode) -> bool {
+    *mode == super::memory::RefugeLearningMode::LegacyExact
+}
+
+fn fallback_candidate_index(candidates: &[RefugeCandidate]) -> usize {
+    candidates
+        .iter()
+        .enumerate()
+        .min_by_key(|(_, candidate)| (candidate.steps.0.len(), candidate.order))
+        .map(|(index, _)| index)
+        .unwrap_or(0)
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 pub struct PendingRefugeClosure {
     pub episode: RefugeEpisode,
@@ -84,6 +101,7 @@ pub struct PendingRefugeClosure {
 
 pub(crate) fn choose_refuge(
     memory: &mut Memory,
+    subject_species: Species,
     origin: Position,
     life: &LifeState,
     view: &Perception,
@@ -93,7 +111,11 @@ pub(crate) fn choose_refuge(
     if !memory.enabled {
         return decision;
     }
-    if !memory.refuge_outcomes_enabled {
+    let mode = if memory.refuge_generalization_enabled {
+        super::memory::RefugeLearningMode::Generalized
+    } else if memory.refuge_outcomes_enabled {
+        super::memory::RefugeLearningMode::LegacyExact
+    } else {
         close(
             memory,
             RefugeClosure::FeatureDisabled,
@@ -102,12 +124,25 @@ pub(crate) fn choose_refuge(
             tick,
         );
         return decision;
+    };
+    if memory
+        .refuge_episode
+        .as_ref()
+        .is_some_and(|episode| episode.learning_mode != mode)
+    {
+        close(
+            memory,
+            RefugeClosure::FeatureDisabled,
+            origin,
+            life.health,
+            tick,
+        );
     }
     if let Some(episode) = &mut memory.refuge_episode {
         reconcile_refuge_health(episode, life.health, 0);
     }
     let Some(threat) = view.entities.iter().find(|entity| {
-        entity.species.hunts(&Species::Herbivore)
+        entity.species.hunts(&subject_species)
             && entity.steps.len() <= 2
             && !entity.steps.0.is_empty()
     }) else {
@@ -124,7 +159,14 @@ pub(crate) fn choose_refuge(
         );
         return decision;
     }
-    let candidates = refuge_candidates(origin, life, view, threat);
+    let candidates = refuge_candidates(
+        origin,
+        subject_species,
+        life,
+        view,
+        threat,
+        mode == super::memory::RefugeLearningMode::Generalized,
+    );
     if candidates.is_empty() {
         close(
             memory,
@@ -136,28 +178,72 @@ pub(crate) fn choose_refuge(
         return decision;
     }
 
-    let any_observed = candidates.iter().any(|candidate| {
-        memory
-            .refuge_outcomes
-            .iter()
-            .any(|record| record.key == candidate.key && record.completed > 0)
-    });
-    let selected = if any_observed {
-        let mut ranked = candidates.iter().collect::<Vec<_>>();
-        ranked.sort_by(|a, b| compare_refuge_candidate(a, b, &memory.refuge_outcomes));
-        ranked[0]
-    } else {
+    let generalized_contexts = if mode == super::memory::RefugeLearningMode::Generalized {
         candidates
             .iter()
-            .min_by_key(|candidate| (candidate.steps.0.len(), candidate.order))
-            .unwrap()
+            .map(|candidate| candidate.generalized_key.clone())
+            .collect::<Option<Vec<_>>>()
+    } else {
+        None
     };
+    let selected_index = match mode {
+        super::memory::RefugeLearningMode::LegacyExact => {
+            let any_observed = candidates.iter().any(|candidate| {
+                memory
+                    .refuge_outcomes
+                    .iter()
+                    .any(|record| record.key == candidate.key && record.completed > 0)
+            });
+            if any_observed {
+                let mut ranked = (0..candidates.len()).collect::<Vec<_>>();
+                ranked.sort_by(|a, b| {
+                    compare_refuge_candidate(
+                        &candidates[*a],
+                        &candidates[*b],
+                        &memory.refuge_outcomes,
+                    )
+                });
+                ranked[0]
+            } else {
+                fallback_candidate_index(&candidates)
+            }
+        }
+        super::memory::RefugeLearningMode::Generalized => generalized_contexts
+            .clone()
+            .and_then(|keys| {
+                super::refuge_generalization::rank_candidates(
+                    &keys,
+                    &memory.refuge_generalized_outcomes,
+                    tick,
+                )
+                .and_then(|ranked| ranked.first().copied())
+            })
+            .unwrap_or_else(|| fallback_candidate_index(&candidates)),
+    };
+    let selected = &candidates[selected_index];
+
+    if mode == super::memory::RefugeLearningMode::Generalized && generalized_contexts.is_none() {
+        close(
+            memory,
+            RefugeClosure::OptionsInvalid,
+            origin,
+            life.health,
+            tick,
+        );
+        return Decision::new(
+            Intent::Move {
+                steps: Steps(selected.steps.0.iter().take(life.speed).copied().collect()),
+            },
+            Reason::SeekShelter,
+        );
+    }
 
     let target = selected.endpoint;
     let same_episode = memory.refuge_episode.as_ref().is_some_and(|episode| {
         episode.target == target
             && episode.threat_id == threat.id
             && episode.threat_species == threat.species
+            && episode.learning_mode == mode
     });
     if !same_episode {
         close(
@@ -169,6 +255,12 @@ pub(crate) fn choose_refuge(
         );
         memory.refuge_episode = Some(RefugeEpisode {
             key: selected.key.clone(),
+            learning_mode: mode,
+            generalized_key: if mode == super::memory::RefugeLearningMode::Generalized {
+                selected.generalized_key.clone()
+            } else {
+                None
+            },
             started_tick: tick,
             target,
             threat_id: threat.id,
@@ -236,6 +328,7 @@ struct RefugeCandidate {
     endpoint: Position,
     order: usize,
     key: RefugeKey,
+    generalized_key: Option<super::refuge_generalization::GeneralizedRefugeKey>,
 }
 
 fn bearing_bucket(direction: Direction) -> u8 {
@@ -258,9 +351,11 @@ fn quartile(current: usize, maximum: usize) -> u8 {
 
 fn refuge_candidates(
     origin: Position,
+    subject_species: Species,
     life: &LifeState,
     view: &Perception,
     threat: &super::perception::PerceivedEntity,
+    include_generalized_key: bool,
 ) -> Vec<RefugeCandidate> {
     let direction = threat.steps.0[0];
     let threat_distance = match threat.steps.len() {
@@ -305,6 +400,23 @@ fn refuge_candidates(
                     refuge_options: Vec::new(),
                     endpoint,
                 },
+                generalized_key: include_generalized_key
+                    .then(|| {
+                        threat.health.and_then(|health| {
+                            super::refuge_generalization::candidate_key(
+                                origin,
+                                subject_species.clone(),
+                                life,
+                                view,
+                                threat.species.clone(),
+                                health,
+                                threat.power,
+                                &threat.steps,
+                                steps,
+                            )
+                        })
+                    })
+                    .flatten(),
             })
         })
         .collect();
@@ -384,8 +496,18 @@ pub(crate) fn validate(memory: &Memory) -> crate::Result<()> {
     };
     let valid_episode = |e: &RefugeEpisode| {
         valid_key(&e.key)
+            && match e.learning_mode {
+                super::memory::RefugeLearningMode::LegacyExact => e.generalized_key.is_none(),
+                super::memory::RefugeLearningMode::Generalized => e
+                    .generalized_key
+                    .as_ref()
+                    .is_some_and(valid_generalized_key),
+            }
             && e.key.threat_id == e.threat_id
             && e.key.threat_species == e.threat_species
+            && e.generalized_key
+                .as_ref()
+                .is_none_or(|key| key.threat_species == e.threat_species)
             && e.key.endpoint == e.target
             && e.target.x.unsigned_abs() <= 1_000_000
             && e.target.y.unsigned_abs() <= 1_000_000
@@ -398,6 +520,7 @@ pub(crate) fn validate(memory: &Memory) -> crate::Result<()> {
             && (e.last_health as u128) <= MAX_REFUGE_ACCOUNT as u128
     };
     let mut keys = std::collections::HashSet::new();
+    let mut generalized_keys = std::collections::HashSet::new();
     if memory.refuge_outcomes.len() > MAX_REFUGE_OUTCOMES
         || memory.pending_refuge_closures.len() > 1
         || memory.refuge_outcomes.iter().any(|r| {
@@ -408,6 +531,15 @@ pub(crate) fn validate(memory: &Memory) -> crate::Result<()> {
                 || r.movement_energy > MAX_REFUGE_ACCOUNT
                 || !valid_key(&r.key)
                 || !keys.insert(&r.key)
+        })
+        || memory.refuge_generalized_outcomes.iter().any(|r| {
+            r.completed == 0
+                || r.completed > super::refuge_generalization::MAX_GENERALIZED_REFUGE_SAMPLES
+                || r.safe_arrivals > r.completed
+                || r.threat_damage > super::refuge_generalization::MAX_GENERALIZED_REFUGE_ACCOUNT
+                || r.movement_energy > super::refuge_generalization::MAX_GENERALIZED_REFUGE_ACCOUNT
+                || !valid_generalized_key(&r.key)
+                || !generalized_keys.insert(&r.key)
         })
         || memory
             .refuge_episode
@@ -422,4 +554,86 @@ pub(crate) fn validate(memory: &Memory) -> crate::Result<()> {
         return Err("invalid refuge learning state".into());
     }
     Ok(())
+}
+
+fn valid_generalized_key(key: &super::refuge_generalization::GeneralizedRefugeKey) -> bool {
+    use super::refuge_generalization::ObservedCellKind;
+    let Some((endpoint_sector, turns)) = generalized_route_geometry(&key.route) else {
+        return false;
+    };
+    key.subject_species == Species::Herbivore
+        && key.threat_species.hunts(&key.subject_species)
+        && key.threat_health <= key.threat_power
+        && key.threat_bearing_sector <= 7
+        && (1..=2).contains(&key.threat_distance_steps)
+        && key.subject_health > 0
+        && key.subject_max_health > 0
+        && key.subject_health <= key.subject_max_health
+        && key.subject_max_energy > 0
+        && key.subject_energy <= key.subject_max_energy
+        && key.subject_max_stamina > 0
+        && key.subject_stamina <= key.subject_max_stamina
+        && key.subject_speed > 0
+        && key.subject_speed <= 32
+        && key.move_energy_cost > 0
+        && key.move_energy_cost <= 32
+        && key.endpoint_sector <= 7
+        && !key.route.is_empty()
+        && key.route.len() <= 32
+        && key.route.iter().all(|step| step.direction_sector <= 7)
+        && key
+            .route
+            .iter()
+            .all(|step| step.cell_kind != ObservedCellKind::Wall)
+        && key.turns == turns
+        && key.endpoint_sector == endpoint_sector
+        && key.refuge_kind == ObservedCellKind::Burrow
+        && key
+            .route
+            .last()
+            .is_some_and(|step| step.cell_kind == ObservedCellKind::Burrow)
+        && u64::try_from(key.route.len())
+            .ok()
+            .and_then(|steps| steps.checked_mul(key.move_energy_cost as u64))
+            == Some(key.estimated_movement_energy)
+}
+
+fn generalized_route_geometry(
+    route: &[super::refuge_generalization::ObservedStep],
+) -> Option<(u8, usize)> {
+    let mut dx = 0isize;
+    let mut dy = 0isize;
+    let mut turns = 0;
+    let mut previous = None;
+    for step in route {
+        let (step_x, step_y) = match step.direction_sector {
+            0 => (0, -1),
+            1 => (1, -1),
+            2 => (1, 0),
+            3 => (1, 1),
+            4 => (0, 1),
+            5 => (-1, 1),
+            6 => (-1, 0),
+            7 => (-1, -1),
+            _ => return None,
+        };
+        dx = dx.checked_add(step_x)?;
+        dy = dy.checked_add(step_y)?;
+        if previous.is_some_and(|direction| direction != step.direction_sector) {
+            turns += 1;
+        }
+        previous = Some(step.direction_sector);
+    }
+    let endpoint = match (dx.signum(), dy.signum()) {
+        (0, -1) => 0,
+        (1, -1) => 1,
+        (1, 0) => 2,
+        (1, 1) => 3,
+        (0, 1) => 4,
+        (-1, 1) => 5,
+        (-1, 0) => 6,
+        (-1, -1) => 7,
+        _ => return None,
+    };
+    Some((endpoint, turns))
 }

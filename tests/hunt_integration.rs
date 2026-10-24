@@ -128,7 +128,7 @@ fn pending_own_kill_checkpoint_resumes_all_state_and_rng_identically() {
     let mut original = hunt_world(1);
     original.tick();
     let state = State::capture(&original);
-    assert_eq!(state.version, 17);
+    assert_eq!(state.version, 18);
     assert!(
         state
             .entities

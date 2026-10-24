@@ -147,7 +147,7 @@ fn version_two_bodies_receive_explicit_stamina_defaults() {
     assert_eq!(w.entities[0].base.life().stamina, 16);
     assert_eq!(w.entities[0].base.life().max_stamina, 16);
     assert_eq!(w.entities[0].base.life().exertion, 0);
-    assert_eq!(State::capture(&w).version, 17);
+    assert_eq!(State::capture(&w).version, 18);
 }
 
 #[test]

@@ -1,3 +1,55 @@
+# V18 — varsayılan kapalı sığınak genellemesi
+
+Yeni checkpoint V18 kullanır; SQLite şeması V2 değişmez. V1–V17 göçünde
+`Memory.refuge_generalization_enabled=false`, güncelleme seçeneği `true` ve yeni
+genelleştirilmiş sonuç tablosu/aktif anahtarı boş başlar. V17 su artığı alanları
+ve V16 exact-key sığınak tablosu/bölümü korunur. V18'i eski motor açamaz;
+bilinmeyen ileri checkpoint sürümleri reddedilir.
+
+`Memory.refuge_generalization_enabled` varsayılan `false`'tur;
+`refuge_generalization_update_enabled` ayrı ve varsayılan `true` olan dondurma
+kontrolüdür. İkisi de birey belleğindedir. Yeni seçenek açıkken mevcut V16
+`refuge_outcomes` tablosu değiştirilmez veya genelleme tablosuna kopyalanmaz;
+genel seçim modu seçilir. Her iki seçenek açık olsa da aynı bölüm yalnızca kendi
+başlangıç modunun tablosuna yazabilir.
+
+Genelleme anahtarı yalnız güncel algı ve beden durumundan kurulur: türler,
+tehdidin algılanan sağlık/güç değeri, sekiz yön sektöründeki yatak ve tam algı
+adım sayısı; bireyin sağlık/enerji/dayanıklılık ve azami değerleri, hız ve
+hareket enerji bedeli; algıdaki başlangıç hücresi ve sığınak yolundaki her
+hücrenin türü, adım yönleri, bitiş sektörü, sığınak türü, dönüş sayısı ve
+mevcut tahmini hareket bedeli. Tam algı yol hücresi veya zorunlu algı verisi yoksa
+hiçbir mevcut rota için genelleme sıralaması uygulanmaz; mevcut içgüdüsel seçim
+korunur ve yeni genelleştirilmiş bölüm açılmaz. Anahtar birey veya tehdit
+kimliğini ve alternatif kümesini içermez.
+V18 kapsamı yalnız otçuldur; mevcut algı ve sığınak davranışı yalnız otçulların
+yeraltı yuvası rotalarını sağlar. Anahtar gerçek özne türünü saklar ve diğer
+türleri aynı bağlam gibi yorumlamaz.
+Sekiz sektör gösterimi farklı ham yönleri aynı sektörde birleştirebilir;
+seçilen gösterim fiziksel/nedensel eşdeğerlik veya güvenli aktarım kanıtı
+değildir. Şu ana kadar empirik qualification yapılmamıştır.
+
+Yalnızca tehdit kimliğine tam atfedilen, sağlık kaybı açıklanmış ve resolver'ın
+doğruladığı sığınağa varış yeni tabloya yazılır. Yabancı saldırı, açıklanmayan
+sağlık kaybı, ölüm, kayıp tehdit, zaman aşımı ve diğer kapanışlar audit olayında
+kalır; başarı ya da sıfır risk sayılmaz. Bir kararın tüm geçerli yollarında
+benzersiz, süresi dolmamış destek yoksa kararın tamamı mevcut seçime döner.
+Bir örnek yalnız mekanizma eşiğidir, deneysel kabul değildir. Gerçek hareket
+enerjisi resolver olayından gelir; tahmini bedel sonuç olarak kullanılmaz.
+
+Genelleme tablosu en çok sekiz satır tutar; satır 100 tick sonra seçim için
+geçersizdir. Bunlar mevcut bellek mekanik sınırlarıdır, optimize edilmiş veya
+kalibre edilmiş eşik değildir. Donmuş güncellemede toplam, sayaç, zaman damgası,
+temizleme ve tahliye değişmez; yaşı 100 tick'i aşan satır seçimde kullanılmaz.
+Yalnız iki ebeveyn de ilgili seçeneği açıksa yavru seçeneği açık alır; tablolar,
+aktif bölüm ve bekleyen kapanışlar aktarılmaz.
+
+`RefugeEpisodeEnded` aynı mevcut kapatma hattından bir kez çıkar. Etkin bölüm,
+atıf için tehdit kimliğini saklar ve başladığı öğrenme modunu kullanır; bir
+kapanış en fazla tek tabloyu günceller. Mod değiştirilmeden önce eski bölüm
+mevcut resolver adımından önce sansürlü kapanır. Genelleme modu açıkken olay
+genelleme bağlamını opsiyonel olarak taşır.
+
 # V17 — opsiyonel kaynak artığı su seçimi
 
 Yeni geliştirme checkpoint V17 kullanır; SQLite şeması V2 değişmez. Eski
