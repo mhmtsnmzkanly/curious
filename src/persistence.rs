@@ -41,11 +41,7 @@ impl Store {
             shard
         };
         let conn = Self::connect(&dir.join(format!("history-{shard:06}.sqlite")))?;
-        let archived_bytes = Self::files(dir)?
-            .into_iter()
-            .filter(|(n, _)| *n != shard)
-            .map(|(_, p)| std::fs::metadata(p).map(|m| m.len()).unwrap_or(0))
-            .sum();
+        let archived_bytes = Self::measure_archived_bytes(dir, shard)?;
         Ok(Self {
             dir: dir.into(),
             shard,
@@ -100,10 +96,24 @@ impl Store {
     fn rotate(&mut self) -> Result<()> {
         let pages: i64 = self.conn.query_row("PRAGMA page_count", [], |r| r.get(0))?;
         let size: i64 = self.conn.query_row("PRAGMA page_size", [], |r| r.get(0))?;
-        if self.archived_bytes + (pages * size) as u64 >= self.max_history_bytes {
+        let active_bytes = u64::try_from(pages)
+            .ok()
+            .and_then(|pages| {
+                u64::try_from(size)
+                    .ok()
+                    .and_then(|size| pages.checked_mul(size))
+            })
+            .ok_or("invalid active history page size")?;
+        if self.archived_bytes.saturating_add(active_bytes) >= self.max_history_bytes {
+            // External retention may remove closed shards while this Store remains
+            // open. Recount only when the cached projection would stop writes; the
+            // inventory reads directory entries and metadata, never archive contents.
+            self.archived_bytes = Self::measure_archived_bytes(&self.dir, self.shard)?;
+        }
+        if self.archived_bytes.saturating_add(active_bytes) >= self.max_history_bytes {
             return Err("history storage budget reached; archive old shards and restart with a larger budget".into());
         }
-        if (pages * size) as u64 >= self.max_bytes {
+        if active_bytes >= self.max_bytes {
             let (busy, frames, checkpointed): (i64, i64, i64) =
                 self.conn
                     .query_row("PRAGMA wal_checkpoint(TRUNCATE)", [], |r| {
@@ -119,9 +129,41 @@ impl Store {
             self.shard = next;
             drop(old);
             let archived = crate::archive::seal(&previous)?;
-            self.archived_bytes += std::fs::metadata(archived)?.len();
+            self.archived_bytes = self
+                .archived_bytes
+                .checked_add(std::fs::metadata(archived)?.len())
+                .ok_or("history byte count overflow")?;
         }
         Ok(())
+    }
+    fn measure_archived_bytes(dir: &Path, active_shard: usize) -> Result<u64> {
+        // A concurrent retention pass can unlink a closed shard after the
+        // inventory read. Re-list once so an absent shard is reflected in the
+        // next snapshot; persistent/stat or permission errors still fail closed.
+        for attempt in 0..2 {
+            let mut total = 0_u64;
+            let mut retry = false;
+            for (_, path) in Self::files(dir)?
+                .into_iter()
+                .filter(|(n, _)| *n != active_shard)
+            {
+                let bytes = match std::fs::metadata(path) {
+                    Ok(metadata) => metadata.len(),
+                    Err(error) if error.kind() == std::io::ErrorKind::NotFound && attempt == 0 => {
+                        retry = true;
+                        break;
+                    }
+                    Err(error) => return Err(error.into()),
+                };
+                total = total
+                    .checked_add(bytes)
+                    .ok_or("history byte count overflow")?;
+            }
+            if !retry {
+                return Ok(total);
+            }
+        }
+        Err("history inventory changed repeatedly during byte recount".into())
     }
     pub fn record(
         &mut self,
