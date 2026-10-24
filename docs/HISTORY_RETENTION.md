@@ -101,3 +101,23 @@ The engine's `Store.archived_bytes` cache is stale after external pruning, so it
 of retention. Restore archived raw JSONL before using frozen analyzers or
 scanners that require original paths. The archive helper verifies lossless bytes
 and preserves the seed index; protocol and manifest files remain unchanged.
+
+## Candidate engine accounting fix — not deployed
+
+The V18 source candidate refreshes closed-shard byte totals from the selected
+`Store.files()` inventory when the cached projection would reject a record. It
+reads directory entries and file metadata only; it does not open archive
+contents. Enumeration, metadata, and byte-sum errors fail closed. This permits
+the already-open writer to continue after external retention removed older
+closed shards, while preserving the budget stop when the measured total still
+reaches the configured limit. The writer lock continues to protect the active
+SQLite file and its WAL; retention must preserve the newest shard as before.
+
+This remains a soft guard, not an atomic disk quota: another process can change
+files after the metadata snapshot, externally added files are not continuously
+detected, and WAL or temporary archive space is outside the logical active-pages
+plus selected-history estimate. A shard disappearing during the metadata pass
+causes one fresh inventory pass; persistent stat/permission errors still stop the
+writer. The change is a source candidate only and has not been deployed or tested
+against a live world. The frozen live world remains V12; do not describe it as
+fixed.
