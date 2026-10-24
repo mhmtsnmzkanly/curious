@@ -1,5 +1,47 @@
 # Sıradaki işler
 
+
+## 24 October 2026 — Wave 8 habitat vision comparison
+
+The frozen habitat study (`cdb349f`) completed the seen-seed-123 engineering
+calibration and four preregistered paired formal seed blocks (55001–55004),
+500 ticks per habitat-by-marker cell. All cells passed independent event,
+genotype, lineage, food/water flow, geometry/founder, and phenotype audits.
+The habitat-by-vision interaction values were `[-0.032016, +0.287709,
+-0.160442, -0.001062]`; mean `+0.023547`, median `-0.016539`, range
+`[-0.160442, +0.287709]` (`N=4` seed pairs). One interaction was positive,
+three were negative, and all eight within-habitat expressed-minus-neutral
+deltas were negative. This is mixed descriptive evidence, not a consistent
+vision advantage, significance test, pure causal effect, or general fitness
+claim. Living herbivore allele counts are reported separately from the
+descendant-breeder endpoint; zero v1 breeders does not imply zero v1 among all
+living herbivores. See [VISION_HABITAT_V1](docs/reports/VISION_HABITAT_V1.md)
+and its JSON companion.
+
+All five raw captures have independently verified lossless archives; indexes
+and hashes are in `data/operations/wave8-checks-20261024/archives.json`. Restore
+raw JSONL before using older uncompressed readers. The evidence reports
+1,116,790,507 original bytes to 87,624,332 compressed bytes. Root reports
+275 Rust tests / 0 failures (50 summary groups), 177 Python tests / 0 failures,
+release app/probe and scoped formatting passed. This combined count includes
+a separate pure refuge prototype (11 pure tests, commit `3deef3a`); it was not
+part of the habitat World study and has no action or persistence integration.
+See [REFUGE_RESIDUAL_CANDIDATE](docs/REFUGE_RESIDUAL_CANDIDATE.md).
+The frozen lab source itself passed 264 Rust tests / 0 failures (49 groups).
+Cleanup removed 620,910,983 logical bytes from inactive
+`/tmp/curious-wave8-target`; proof: `data/operations/wave8-checks-20261024/cleanup.json`.
+No new World jobs are active, and live services were left untouched.
+
+Do not retune or start another habitat batch from these results. The separate
+pure refuge prototype documented in
+[REFUGE_RESIDUAL_CANDIDATE](docs/REFUGE_RESIDUAL_CANDIDATE.md) needs baseline
+calibration, action hookup, persistence review, and World acceptance work under
+a separately reviewed protocol; this habitat comparison did not evaluate
+those features. An independent initial founder-to-food Manhattan-distance
+audit from the archived engineering state is recorded at
+`data/operations/wave8-checks-20261024/founder-distance-audit.json`; it reports
+geometry only, not path perception.
+
 ## 24 October 2026 — Wave 7 vision-selection result
 
 The accepted-fixture vision study completed one seen-seed calibration and four
