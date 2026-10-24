@@ -23,7 +23,7 @@
     "source_revision": "0c06d723317301eca507ce01ff4419fdd8360485",
     "source_tree": "09f21808aea2dbee1af7c960d33fffd0cc0b73db",
     "binary_sha256": "1444c7ba62223f33efc9be9cd39e5c877bc76e80a8b32c3ed4776e9a02d81ee8",
-    "binary_path": "/root/curious/bin/releases/curious-observation-7b157af",
+    "binary_path": "data/experiments/genotype-measurement-v1-engineering-20261024/probe.snapshot",
     "protocol_sha256": "7227c4ffc0579ce1817aa208acc1632d2495427f7f52201ed82243763d175ed7",
     "scenario_sha256": "33cb6ebf9d73df017b65b9ee9831be8446c2a81077f3a0e313fe06b05f0b19ac",
     "manifest_sha256": "cf04d228863c7981c1faebbd381bad9017bd5d26e23471e4bd9e5c8d9ba3ec84",
