@@ -18,6 +18,33 @@ gelmez. Hızlandırılmış tick gerçek gün/hafta gözleminin yerine geçmez.
 
 ## Süren işler
 
+### 24 Ekim — wave-2 final sonucu
+
+V17 calibration 52099 1.400 tickte 8/8 opportunity gate geçti; prefixte 20,
+trained-online suffixte 35 fresh choices vardı. Formal 52001–52008 toplam
+11.200 tick ve 164.554.619 byte raw ile tamamlandı; tüm 32 focal branch 500 tick
+yaşadı. Root 32 physical vector'ı ve üç matched full-state/perception/body/RNG
+greedy-score/resolver witness'ı doğruladı (52002/247, 52003/415, 52006/241).
+
+Preregistered bounded utility **FALSE**. Online − rules: acquired water −9,
+movement energy +32, terminal energy +4, terminal water −9, health/survival 0.
+Online − frozen: acquired water +5, movement energy −13, terminal energy −3,
+terminal water +5, health/survival 0. Rule karşısında 8/8 tradeoff; frozen'a
+karşı bir dominance, iki tradeoff ve beş identical. V17 default-off; genel
+yarar, qualification, deployment, retune ya da yeni batch yoktur. Dokuz seed
+rolü seen. [Rapor](reports/WATER_RESIDUAL_V1.md) / [JSON](reports/WATER_RESIDUAL_V1.json).
+
+B 13 synthetic schema check; C 9 measurement check/13 physical World tick geçti.
+B/C production entegrasyonu veya fitness kabulü değildir. C body energy unknown
+bırakır ve kimlik/event koleksiyonları büyüyebilir. Seed123 engineering çiftinde
+2×1.400 tick ve 1.400 matched frame vardır; formal evidence değildir. Root
+combined checks: 211 Rust, 140 Python, release probe/app passed. Bu formal lab
+process/pending wake yok; coexistence/replay services aktif kaldı, değiştirilmedi.
+Root üç inactive target cleanup 967.6 MiB logical; kayıtlı experiment artifacts
+korundu. Yeni A hipotezi context-stale residual/current-baseline redundancy'yi
+yeni preregistration ile ele alabilir; immediate retune yoktur. B/C integration
+ayrı root kararıdır.
+
 ### 23 Ekim — paralel capability planı
 
 Altı capability izi A–F ile bounded performans/storage izi G'nin kapsamı ve

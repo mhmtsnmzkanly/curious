@@ -3,6 +3,35 @@
 Hedef [VISION](docs/VISION.md), kullanıcı sırası ve dürüst durum
 [ROADMAP](docs/ROADMAP.md), ölçümler [sonuç raporu](docs/reports/ROADMAP_RESULTS.md).
 
+## 24 Ekim — güncel A/B/C handoff
+
+A V17 calibration 52099 1.400 tickte preregistered gates 8/8 geçti (20 prefix,
+35 trained-online suffix fresh choices). Formal 52001–52008 toplam 11.200 tick
+ve 164.554.619 byte raw ile tamamlandı; 32 focal branch'in tümü 500 tick yaşadı.
+Root 32 physical vector'ı ve üç full normalized state/perception/body/RNG
+greedy-score/resolver tanığını doğruladı (52002/247, 52003/415, 52006/241).
+
+Bounded utility **FALSE**. Trained-online vs rules: acquired water −9 / paid
+movement energy +32 / terminal energy +4 / terminal water −9 / health-survival
+0. Vs trained-frozen: acquired water +5 / movement energy −13 / terminal energy
+−3 / terminal water +5 / health-survival 0. Rules'a karşı 8/8 tradeoff;
+frozen'a karşı 1 dominance, 2 tradeoff, 5 identical. V17 default-off kalır;
+genel fayda, qualification, deployment, retune veya yeni batch yoktur. Tüm dokuz
+registered seed rolü seen. [Rapor](docs/reports/WATER_RESIDUAL_V1.md) ve
+[JSON](docs/reports/WATER_RESIDUAL_V1.json).
+
+B refuge schema 13 synthetic check; C resource/lineage measurement 9 check ve
+13 physical World tick ile doğrulandı. B/C production integration veya fitness
+kanıtı değildir. C body energy unknown kalır; audit detail 2.000 satırla
+sınırlıdır, identity/event state'i büyüyebilir. Seed123 engineering twin
+2×1.400 tick / 1.400 matched frame formal evidence değildir. Root combined
+checks: 211 Rust, 140 Python, release probe/app passed. Bu formal lab için aktif
+process/pending wake yoktur; coexistence/replay services aktif ve değiştirilmedi.
+Root target cleanup 967.6 MiB logical; raw/probe/protocol/frozen source korundu.
+Yeni A işi context-stale residual/current-baseline redundancy için yeni
+preregistration gerektirir; immediate retune yoktur. B/C integration root'un
+ayrı kararıdır.
+
 ## 23 Ekim — paralel ekosistem planı ve sıradaki işler
 
 Root, A/B/C ilk dalga teslimlerini inceledi; A'nın source integration adayı V17

@@ -1,0 +1,1273 @@
+{
+  "schema": "curious-water-residual-report-v1",
+  "protocol_version": 1,
+  "status": "completed",
+  "result_scope": "calibration passed; formal mechanism gate passed in 3/8 seeds; preregistered bounded utility gate failed against both comparators",
+  "provenance": {
+    "source_revision": "506ed6f4b3ec3bab8bb65ecfdb8ea3bed2797602",
+    "source_sha256": "09e4890d23df8ea4267e032d440b73743493b40040f48207d344eb061b6ecf49",
+    "calibration": {
+      "output_directory": "data/experiments/water-residual-v1-calibration-20261023",
+      "preparation_id_date": "2026-10-23",
+      "started_at_utc": "2026-10-24T00:39:58.627271+00:00",
+      "finished_at_utc": "2026-10-24T00:39:59.952258+00:00",
+      "seed": 52099,
+      "exit_code": 0,
+      "physical_ticks": 1400,
+      "stderr_bytes": 0,
+      "output_limit_exceeded": false,
+      "binary_sha256": "0c0f1aebc82baf75dc0eac925289e71741e770df46b3ba6d637a8fc59a1f7213",
+      "protocol_sha256": "0410576adef7474ec23dd9e92a73eb5c9306f87c0f6450696c3ca5e424a22bc0",
+      "runner_sha256": "8869d804429295830f0c6b847a216cdad3696e20c07e48dd0382cfb8b65dc3eb",
+      "scanner_sha256": "722f1aa2e31be51e7b4794648b4ca774b2f9c27b7bb0e91455112a7a7bafc070",
+      "raw_sha256": "12f3ab2edcf092930af7c385dec457761294b7a48d88a4f4ac61962ee9beae39",
+      "summary_sha256": "9b1305b8586baf5aecf4b095ee2f582194aa2724df640fca75b9d3ca854ada4c",
+      "manifest_sha256": "7cb7bd7f857bcea7b100e0d613ffd97ece675a6cfa232ded5cc7b5c44f2debd3",
+      "protocol_version": 1,
+      "schema": "curious-water-residual-run-v1",
+      "seed_scan": {
+        "scanned_text_files": 1068,
+        "seed_52099_matches": [],
+        "scan_bound_mib": 64
+      },
+      "resource_limits": {
+        "supervisor_timeout_seconds": 300,
+        "child_memory_bytes": 1073741824,
+        "raw_output_bytes": 1073741824,
+        "max_seed_record_bytes": 67108864
+      }
+    },
+    "formal": {
+      "output_directory": "data/experiments/water-residual-v1-20261023",
+      "preparation_id_date": "2026-10-23",
+      "started_at_utc": "2026-10-24T00:41:33.391977+00:00",
+      "finished_at_utc": "2026-10-24T00:41:44.001082+00:00",
+      "seeds": [
+        52001,
+        52002,
+        52003,
+        52004,
+        52005,
+        52006,
+        52007,
+        52008
+      ],
+      "exit_code": 0,
+      "analysis_status": "completed",
+      "status": "completed",
+      "elapsed_seconds": 5.9874430899944855,
+      "physical_ticks": 11200,
+      "raw_bytes": 164554619,
+      "stderr_bytes": 0,
+      "output_limit_exceeded": false,
+      "binary_sha256": "0c0f1aebc82baf75dc0eac925289e71741e770df46b3ba6d637a8fc59a1f7213",
+      "protocol_sha256": "0410576adef7474ec23dd9e92a73eb5c9306f87c0f6450696c3ca5e424a22bc0",
+      "runner_sha256": "8869d804429295830f0c6b847a216cdad3696e20c07e48dd0382cfb8b65dc3eb",
+      "scanner_sha256": "722f1aa2e31be51e7b4794648b4ca774b2f9c27b7bb0e91455112a7a7bafc070",
+      "raw_sha256": "c10e7d55431f6c10e96acf1f84d7c4295d67208b54ab6ab788ae210d30fcf78c",
+      "summary_sha256": "255aa41c6abd12f37fce07561799c142c043580f20fe7c63ff9d0f26db242d52",
+      "manifest_sha256": "d95a37b0f363e2f2172c02812c32768b0318e75a980498539ef4d46a559520c4",
+      "root_audit_path": "data/experiments/water-residual-v1-20261023/root-formal-audit.json",
+      "root_audit_sha256": "9c25548db4bd66219d2f14c8c891fafa152c76ea48c79fa8036a39df2ed30601",
+      "root_audit_artifact_hashes_verified": true,
+      "root_audit_vectors_recomputed_from_raw_own_events_and_end_states": true,
+      "all_32_focal_branches_alive_at_tick_500": true
+    }
+  },
+  "registered_design": {
+    "fixture": "fixed predator-free 5x5 World; continuous prefix through tick 200; four 300-tick suffixes forked from same checkpoint",
+    "no_reset_or_rescue": true,
+    "rate_reversal_before_tick": 201,
+    "arms": {
+      "rule_based": "global V17 residual flag true; focal learner disabled",
+      "naive_online": "clear only residual table; preserve legacy table and active episode; online updates",
+      "trained_online": "retain prefix-trained tables; online updates",
+      "trained_frozen": "retain prefix-trained tables; freeze legacy and residual updates"
+    },
+    "primary_utility_arm": "trained_online",
+    "utility_components": [
+      "resolver-confirmed acquired water (higher is better)",
+      "own resolver-paid movement energy (lower is better)",
+      "observed survival ticks (higher is better)",
+      "terminal energy (higher is better)",
+      "terminal water (higher is better)",
+      "terminal health (higher is better)"
+    ],
+    "utility_gate": "all four arms complete all 300 suffix ticks alive; trained_online aggregate componentwise vector Pareto-dominates both trained_frozen and rule_based; no per-seed survival or health deficit against either",
+    "rule_based_comparison_limit": "The rule-based arm has no learner epsilon draw, while learner-enabled arms use 10% epsilon; disabling the learner also changes later RNG consumption. This is an end-to-end policy comparison, not an isolated causal estimate of residual learning alone.",
+    "trained_online_vs_frozen_mechanism_scope": "The qualifying witnesses match pre-choice RNG and physical inputs after normalizing only learner tables/update setting, supporting a narrower state-matched choice effect.",
+    "weighted_utility": false,
+    "naive_online_role": "descriptive only",
+    "death_before_horizon": "biological negative; no terminal-value imputation; utility not accepted",
+    "formal_seed_roles": [
+      52001,
+      52002,
+      52003,
+      52004,
+      52005,
+      52006,
+      52007,
+      52008
+    ],
+    "formal_tick_cap": 11200
+  },
+  "engineering_unit_runs": {
+    "seed": 123,
+    "runs": 2,
+    "unit_mode_physical_ticks_total": 2800,
+    "physical_ticks_each": 1400,
+    "matched_frames": 1400,
+    "matched_fields": [
+      "initial_state",
+      "checkpoint_state",
+      "state_before",
+      "state_after",
+      "rng_before",
+      "rng_after",
+      "events",
+      "decisions"
+    ],
+    "observer_equivalence_verified_by_root": true,
+    "mechanism_qualified": false,
+    "registered_evaluation": false,
+    "archive_directory": "data/experiments/water-residual-v1-engineering-20261023",
+    "manifest": "data/experiments/water-residual-v1-engineering-20261023/manifest.json",
+    "records": [
+      {
+        "path": "data/experiments/water-residual-v1-engineering-20261023/unit-seed123-v1.jsonl",
+        "sha256": "25f2bdadd082846c6acb4dc198d9b501c75124b1f2b4b94f882d98e8d2d3c11e",
+        "bytes": 20197641
+      },
+      {
+        "path": "data/experiments/water-residual-v1-engineering-20261023/unit-seed123-v2.jsonl",
+        "sha256": "e1b07d368ba7eda34441a25c59f645e056d077743e67d15742de21936ec760d7",
+        "bytes": 20543154
+      }
+    ]
+  },
+  "calibration": {
+    "seed": 52099,
+    "status": "completed",
+    "physical_ticks": 1400,
+    "opportunity_gate_passed": true,
+    "gate_checks": {
+      "both_actors_alive_at_fork": true,
+      "trained_residual_nonempty": true,
+      "prefix_at_least_two_fresh_nonfull_two_source_choices": true,
+      "trained_online_suffix_at_least_two_fresh_nonfull_two_source_choices": true,
+      "matched_completed_drink_in_prefix": true,
+      "completed_drink_in_suffix": true,
+      "suffix_residual_sum_count_update": true,
+      "completed_update_changes_selected_source_mean": true
+    },
+    "opportunity_counts": {
+      "prefix_fresh_choices": 20,
+      "prefix_completed_drinks": 20,
+      "prefix_episode_closures": 20,
+      "trained_online_suffix_fresh_choices": 35,
+      "trained_online_suffix_completed_drinks": 35,
+      "trained_online_suffix_episode_closures": 35,
+      "censored_episode_closures": 0
+    },
+    "prefix": {
+      "ticks": 200,
+      "water_acquired": 184,
+      "movement_energy_paid": 139,
+      "focal_terminal_state": {
+        "energy": 67,
+        "water": 44,
+        "health": 120
+      },
+      "both_actors_alive_at_fork": true
+    },
+    "arms": {
+      "rule_based": {
+        "ticks": 300,
+        "water_acquired": 305,
+        "movement_energy_paid": 234,
+        "survival_ticks": 300,
+        "terminal_state": {
+          "energy": 67,
+          "water": 49,
+          "health": 120
+        },
+        "status": "ceiling",
+        "fresh_choices": 39,
+        "completed_drinks": 39,
+        "episode_closures": 0,
+        "censored_episode_closures": 0
+      },
+      "naive_online": {
+        "ticks": 300,
+        "water_acquired": 305,
+        "movement_energy_paid": 238,
+        "survival_ticks": 300,
+        "terminal_state": {
+          "energy": 57,
+          "water": 49,
+          "health": 120
+        },
+        "status": "ceiling",
+        "fresh_choices": 35,
+        "completed_drinks": 35,
+        "episode_closures": 35,
+        "censored_episode_closures": 0
+      },
+      "trained_online": {
+        "ticks": 300,
+        "water_acquired": 305,
+        "movement_energy_paid": 238,
+        "survival_ticks": 300,
+        "terminal_state": {
+          "energy": 57,
+          "water": 49,
+          "health": 120
+        },
+        "status": "ceiling",
+        "fresh_choices": 35,
+        "completed_drinks": 35,
+        "episode_closures": 35,
+        "censored_episode_closures": 0
+      },
+      "trained_frozen": {
+        "ticks": 300,
+        "water_acquired": 305,
+        "movement_energy_paid": 238,
+        "survival_ticks": 300,
+        "terminal_state": {
+          "energy": 57,
+          "water": 49,
+          "health": 120
+        },
+        "status": "ceiling",
+        "fresh_choices": 35,
+        "completed_drinks": 35,
+        "episode_closures": 35,
+        "censored_episode_closures": 0
+      }
+    },
+    "mechanism": {
+      "qualified": false,
+      "first_qualifying_greedy_divergence": null
+    },
+    "root_independent_update_audit": {
+      "tick": 433,
+      "source": {
+        "x": 4,
+        "y": 2
+      },
+      "mean_before": 12,
+      "mean_after": 11,
+      "matched_water": 8,
+      "paid_movement": 3,
+      "sample_residual": 0
+    },
+    "interpretation": "The preregistered preference-relevant update opportunity was observed; this is not utility or formal evidence."
+  },
+  "formal": {
+    "status": "completed",
+    "seeds": [
+      52001,
+      52002,
+      52003,
+      52004,
+      52005,
+      52006,
+      52007,
+      52008
+    ],
+    "physical_ticks": 11200,
+    "all_four_arms_full_300_tick_all_seeds": true,
+    "all_32_focal_branches_alive_at_tick_500": true,
+    "focal_deaths": 0,
+    "rival_deaths": 0,
+    "mechanism": {
+      "qualifying_seed_count": 3,
+      "witnesses": [
+        {
+          "seed": 52002,
+          "tick": 247,
+          "same_full_normalized_prestate_rng_perception_body": true,
+          "greedy_scores_independently_recomputed": true,
+          "online_source": {
+            "x": 0,
+            "y": 2
+          },
+          "frozen_source": {
+            "x": 4,
+            "y": 2
+          },
+          "own_resolver_events_differ": true,
+          "trained_online_target": {
+            "x": 0,
+            "y": 2
+          },
+          "trained_frozen_target": {
+            "x": 4,
+            "y": 2
+          },
+          "trained_online_resolver_events": [
+            {
+              "energy_cost": 1,
+              "from": {
+                "x": 1,
+                "y": 4
+              },
+              "kind": "move",
+              "to": {
+                "x": 1,
+                "y": 3
+              }
+            },
+            {
+              "amount": 7,
+              "kind": "drink",
+              "pos": {
+                "x": 0,
+                "y": 2
+              }
+            }
+          ],
+          "trained_frozen_resolver_events": [
+            {
+              "energy_cost": 2,
+              "from": {
+                "x": 1,
+                "y": 4
+              },
+              "kind": "move",
+              "to": {
+                "x": 3,
+                "y": 3
+              }
+            },
+            {
+              "amount": 8,
+              "kind": "drink",
+              "pos": {
+                "x": 4,
+                "y": 2
+              }
+            }
+          ]
+        },
+        {
+          "seed": 52003,
+          "tick": 415,
+          "same_full_normalized_prestate_rng_perception_body": true,
+          "greedy_scores_independently_recomputed": true,
+          "online_source": {
+            "x": 0,
+            "y": 2
+          },
+          "frozen_source": {
+            "x": 4,
+            "y": 2
+          },
+          "own_resolver_events_differ": true,
+          "trained_online_target": {
+            "x": 0,
+            "y": 2
+          },
+          "trained_frozen_target": {
+            "x": 4,
+            "y": 2
+          },
+          "trained_online_resolver_events": [
+            {
+              "amount": 7,
+              "kind": "drink",
+              "pos": {
+                "x": 0,
+                "y": 2
+              }
+            }
+          ],
+          "trained_frozen_resolver_events": [
+            {
+              "energy_cost": 2,
+              "from": {
+                "x": 1,
+                "y": 3
+              },
+              "kind": "move",
+              "to": {
+                "x": 3,
+                "y": 3
+              }
+            },
+            {
+              "amount": 8,
+              "kind": "drink",
+              "pos": {
+                "x": 4,
+                "y": 2
+              }
+            }
+          ]
+        },
+        {
+          "seed": 52006,
+          "tick": 241,
+          "same_full_normalized_prestate_rng_perception_body": true,
+          "greedy_scores_independently_recomputed": true,
+          "online_source": {
+            "x": 0,
+            "y": 2
+          },
+          "frozen_source": {
+            "x": 4,
+            "y": 2
+          },
+          "own_resolver_events_differ": true,
+          "trained_online_target": {
+            "x": 0,
+            "y": 2
+          },
+          "trained_frozen_target": {
+            "x": 4,
+            "y": 2
+          },
+          "trained_online_resolver_events": [
+            {
+              "amount": 6,
+              "kind": "drink",
+              "pos": {
+                "x": 0,
+                "y": 2
+              }
+            }
+          ],
+          "trained_frozen_resolver_events": [
+            {
+              "energy_cost": 3,
+              "from": {
+                "x": 0,
+                "y": 3
+              },
+              "kind": "move",
+              "to": {
+                "x": 3,
+                "y": 2
+              }
+            },
+            {
+              "amount": 8,
+              "kind": "drink",
+              "pos": {
+                "x": 4,
+                "y": 2
+              }
+            }
+          ]
+        }
+      ],
+      "independently_audited": true
+    },
+    "seed_vectors": [
+      {
+        "seed": 52001,
+        "arm": "naive_online",
+        "ticks": 300,
+        "status": "ceiling",
+        "water_acquired": 296,
+        "movement_energy_paid": 208,
+        "observed_survival_ticks": 300,
+        "terminal_state": {
+          "energy": 65,
+          "health": 120,
+          "water": 47
+        },
+        "fresh_two_positive_body_nonfull_choices": 37,
+        "resolver_drinks": 38,
+        "episode_closure_count": 37,
+        "censored_episode_closures": 0,
+        "death_event": null,
+        "rival_status": "alive",
+        "rival_death_event": null
+      },
+      {
+        "seed": 52001,
+        "arm": "rule_based",
+        "ticks": 300,
+        "status": "ceiling",
+        "water_acquired": 298,
+        "movement_energy_paid": 183,
+        "observed_survival_ticks": 300,
+        "terminal_state": {
+          "energy": 60,
+          "health": 120,
+          "water": 49
+        },
+        "fresh_two_positive_body_nonfull_choices": 31,
+        "resolver_drinks": 31,
+        "episode_closure_count": 0,
+        "censored_episode_closures": 0,
+        "death_event": null,
+        "rival_status": "alive",
+        "rival_death_event": null
+      },
+      {
+        "seed": 52001,
+        "arm": "trained_frozen",
+        "ticks": 300,
+        "status": "ceiling",
+        "water_acquired": 296,
+        "movement_energy_paid": 208,
+        "observed_survival_ticks": 300,
+        "terminal_state": {
+          "energy": 65,
+          "health": 120,
+          "water": 47
+        },
+        "fresh_two_positive_body_nonfull_choices": 37,
+        "resolver_drinks": 38,
+        "episode_closure_count": 37,
+        "censored_episode_closures": 0,
+        "death_event": null,
+        "rival_status": "alive",
+        "rival_death_event": null
+      },
+      {
+        "seed": 52001,
+        "arm": "trained_online",
+        "ticks": 300,
+        "status": "ceiling",
+        "water_acquired": 296,
+        "movement_energy_paid": 208,
+        "observed_survival_ticks": 300,
+        "terminal_state": {
+          "energy": 65,
+          "health": 120,
+          "water": 47
+        },
+        "fresh_two_positive_body_nonfull_choices": 37,
+        "resolver_drinks": 38,
+        "episode_closure_count": 37,
+        "censored_episode_closures": 0,
+        "death_event": null,
+        "rival_status": "alive",
+        "rival_death_event": null
+      },
+      {
+        "seed": 52002,
+        "arm": "naive_online",
+        "ticks": 300,
+        "status": "ceiling",
+        "water_acquired": 302,
+        "movement_energy_paid": 206,
+        "observed_survival_ticks": 300,
+        "terminal_state": {
+          "energy": 65,
+          "health": 120,
+          "water": 54
+        },
+        "fresh_two_positive_body_nonfull_choices": 37,
+        "resolver_drinks": 38,
+        "episode_closure_count": 37,
+        "censored_episode_closures": 0,
+        "death_event": null,
+        "rival_status": "alive",
+        "rival_death_event": null
+      },
+      {
+        "seed": 52002,
+        "arm": "rule_based",
+        "ticks": 300,
+        "status": "ceiling",
+        "water_acquired": 302,
+        "movement_energy_paid": 213,
+        "observed_survival_ticks": 300,
+        "terminal_state": {
+          "energy": 62,
+          "health": 120,
+          "water": 54
+        },
+        "fresh_two_positive_body_nonfull_choices": 37,
+        "resolver_drinks": 36,
+        "episode_closure_count": 0,
+        "censored_episode_closures": 0,
+        "death_event": null,
+        "rival_status": "alive",
+        "rival_death_event": null
+      },
+      {
+        "seed": 52002,
+        "arm": "trained_frozen",
+        "ticks": 300,
+        "status": "ceiling",
+        "water_acquired": 296,
+        "movement_energy_paid": 210,
+        "observed_survival_ticks": 300,
+        "terminal_state": {
+          "energy": 61,
+          "health": 120,
+          "water": 48
+        },
+        "fresh_two_positive_body_nonfull_choices": 32,
+        "resolver_drinks": 33,
+        "episode_closure_count": 32,
+        "censored_episode_closures": 0,
+        "death_event": null,
+        "rival_status": "alive",
+        "rival_death_event": null
+      },
+      {
+        "seed": 52002,
+        "arm": "trained_online",
+        "ticks": 300,
+        "status": "ceiling",
+        "water_acquired": 294,
+        "movement_energy_paid": 204,
+        "observed_survival_ticks": 300,
+        "terminal_state": {
+          "energy": 63,
+          "health": 120,
+          "water": 46
+        },
+        "fresh_two_positive_body_nonfull_choices": 34,
+        "resolver_drinks": 34,
+        "episode_closure_count": 34,
+        "censored_episode_closures": 0,
+        "death_event": null,
+        "rival_status": "alive",
+        "rival_death_event": null
+      },
+      {
+        "seed": 52003,
+        "arm": "naive_online",
+        "ticks": 300,
+        "status": "ceiling",
+        "water_acquired": 301,
+        "movement_energy_paid": 207,
+        "observed_survival_ticks": 300,
+        "terminal_state": {
+          "energy": 69,
+          "health": 120,
+          "water": 53
+        },
+        "fresh_two_positive_body_nonfull_choices": 34,
+        "resolver_drinks": 34,
+        "episode_closure_count": 34,
+        "censored_episode_closures": 1,
+        "death_event": null,
+        "rival_status": "alive",
+        "rival_death_event": null
+      },
+      {
+        "seed": 52003,
+        "arm": "rule_based",
+        "ticks": 300,
+        "status": "ceiling",
+        "water_acquired": 298,
+        "movement_energy_paid": 202,
+        "observed_survival_ticks": 300,
+        "terminal_state": {
+          "energy": 62,
+          "health": 120,
+          "water": 50
+        },
+        "fresh_two_positive_body_nonfull_choices": 35,
+        "resolver_drinks": 35,
+        "episode_closure_count": 0,
+        "censored_episode_closures": 0,
+        "death_event": null,
+        "rival_status": "alive",
+        "rival_death_event": null
+      },
+      {
+        "seed": 52003,
+        "arm": "trained_frozen",
+        "ticks": 300,
+        "status": "ceiling",
+        "water_acquired": 295,
+        "movement_energy_paid": 206,
+        "observed_survival_ticks": 300,
+        "terminal_state": {
+          "energy": 64,
+          "health": 120,
+          "water": 47
+        },
+        "fresh_two_positive_body_nonfull_choices": 34,
+        "resolver_drinks": 34,
+        "episode_closure_count": 34,
+        "censored_episode_closures": 1,
+        "death_event": null,
+        "rival_status": "alive",
+        "rival_death_event": null
+      },
+      {
+        "seed": 52003,
+        "arm": "trained_online",
+        "ticks": 300,
+        "status": "ceiling",
+        "water_acquired": 301,
+        "movement_energy_paid": 206,
+        "observed_survival_ticks": 300,
+        "terminal_state": {
+          "energy": 64,
+          "health": 120,
+          "water": 53
+        },
+        "fresh_two_positive_body_nonfull_choices": 36,
+        "resolver_drinks": 36,
+        "episode_closure_count": 36,
+        "censored_episode_closures": 1,
+        "death_event": null,
+        "rival_status": "alive",
+        "rival_death_event": null
+      },
+      {
+        "seed": 52004,
+        "arm": "naive_online",
+        "ticks": 300,
+        "status": "ceiling",
+        "water_acquired": 300,
+        "movement_energy_paid": 192,
+        "observed_survival_ticks": 300,
+        "terminal_state": {
+          "energy": 59,
+          "health": 120,
+          "water": 54
+        },
+        "fresh_two_positive_body_nonfull_choices": 34,
+        "resolver_drinks": 35,
+        "episode_closure_count": 34,
+        "censored_episode_closures": 0,
+        "death_event": null,
+        "rival_status": "alive",
+        "rival_death_event": null
+      },
+      {
+        "seed": 52004,
+        "arm": "rule_based",
+        "ticks": 300,
+        "status": "ceiling",
+        "water_acquired": 292,
+        "movement_energy_paid": 209,
+        "observed_survival_ticks": 300,
+        "terminal_state": {
+          "energy": 62,
+          "health": 120,
+          "water": 46
+        },
+        "fresh_two_positive_body_nonfull_choices": 37,
+        "resolver_drinks": 35,
+        "episode_closure_count": 0,
+        "censored_episode_closures": 0,
+        "death_event": null,
+        "rival_status": "alive",
+        "rival_death_event": null
+      },
+      {
+        "seed": 52004,
+        "arm": "trained_frozen",
+        "ticks": 300,
+        "status": "ceiling",
+        "water_acquired": 297,
+        "movement_energy_paid": 174,
+        "observed_survival_ticks": 300,
+        "terminal_state": {
+          "energy": 61,
+          "health": 120,
+          "water": 51
+        },
+        "fresh_two_positive_body_nonfull_choices": 35,
+        "resolver_drinks": 35,
+        "episode_closure_count": 35,
+        "censored_episode_closures": 0,
+        "death_event": null,
+        "rival_status": "alive",
+        "rival_death_event": null
+      },
+      {
+        "seed": 52004,
+        "arm": "trained_online",
+        "ticks": 300,
+        "status": "ceiling",
+        "water_acquired": 297,
+        "movement_energy_paid": 174,
+        "observed_survival_ticks": 300,
+        "terminal_state": {
+          "energy": 61,
+          "health": 120,
+          "water": 51
+        },
+        "fresh_two_positive_body_nonfull_choices": 35,
+        "resolver_drinks": 35,
+        "episode_closure_count": 35,
+        "censored_episode_closures": 0,
+        "death_event": null,
+        "rival_status": "alive",
+        "rival_death_event": null
+      },
+      {
+        "seed": 52005,
+        "arm": "naive_online",
+        "ticks": 300,
+        "status": "ceiling",
+        "water_acquired": 295,
+        "movement_energy_paid": 180,
+        "observed_survival_ticks": 300,
+        "terminal_state": {
+          "energy": 60,
+          "health": 120,
+          "water": 46
+        },
+        "fresh_two_positive_body_nonfull_choices": 34,
+        "resolver_drinks": 34,
+        "episode_closure_count": 34,
+        "censored_episode_closures": 0,
+        "death_event": null,
+        "rival_status": "alive",
+        "rival_death_event": null
+      },
+      {
+        "seed": 52005,
+        "arm": "rule_based",
+        "ticks": 300,
+        "status": "ceiling",
+        "water_acquired": 298,
+        "movement_energy_paid": 221,
+        "observed_survival_ticks": 300,
+        "terminal_state": {
+          "energy": 67,
+          "health": 120,
+          "water": 49
+        },
+        "fresh_two_positive_body_nonfull_choices": 33,
+        "resolver_drinks": 34,
+        "episode_closure_count": 0,
+        "censored_episode_closures": 0,
+        "death_event": null,
+        "rival_status": "alive",
+        "rival_death_event": null
+      },
+      {
+        "seed": 52005,
+        "arm": "trained_frozen",
+        "ticks": 300,
+        "status": "ceiling",
+        "water_acquired": 295,
+        "movement_energy_paid": 180,
+        "observed_survival_ticks": 300,
+        "terminal_state": {
+          "energy": 60,
+          "health": 120,
+          "water": 46
+        },
+        "fresh_two_positive_body_nonfull_choices": 34,
+        "resolver_drinks": 34,
+        "episode_closure_count": 34,
+        "censored_episode_closures": 0,
+        "death_event": null,
+        "rival_status": "alive",
+        "rival_death_event": null
+      },
+      {
+        "seed": 52005,
+        "arm": "trained_online",
+        "ticks": 300,
+        "status": "ceiling",
+        "water_acquired": 295,
+        "movement_energy_paid": 180,
+        "observed_survival_ticks": 300,
+        "terminal_state": {
+          "energy": 60,
+          "health": 120,
+          "water": 46
+        },
+        "fresh_two_positive_body_nonfull_choices": 34,
+        "resolver_drinks": 34,
+        "episode_closure_count": 34,
+        "censored_episode_closures": 0,
+        "death_event": null,
+        "rival_status": "alive",
+        "rival_death_event": null
+      },
+      {
+        "seed": 52006,
+        "arm": "naive_online",
+        "ticks": 300,
+        "status": "ceiling",
+        "water_acquired": 295,
+        "movement_energy_paid": 208,
+        "observed_survival_ticks": 300,
+        "terminal_state": {
+          "energy": 68,
+          "health": 120,
+          "water": 47
+        },
+        "fresh_two_positive_body_nonfull_choices": 38,
+        "resolver_drinks": 39,
+        "episode_closure_count": 38,
+        "censored_episode_closures": 0,
+        "death_event": null,
+        "rival_status": "alive",
+        "rival_death_event": null
+      },
+      {
+        "seed": 52006,
+        "arm": "rule_based",
+        "ticks": 300,
+        "status": "ceiling",
+        "water_acquired": 296,
+        "movement_energy_paid": 206,
+        "observed_survival_ticks": 300,
+        "terminal_state": {
+          "energy": 60,
+          "health": 120,
+          "water": 48
+        },
+        "fresh_two_positive_body_nonfull_choices": 38,
+        "resolver_drinks": 37,
+        "episode_closure_count": 0,
+        "censored_episode_closures": 0,
+        "death_event": null,
+        "rival_status": "alive",
+        "rival_death_event": null
+      },
+      {
+        "seed": 52006,
+        "arm": "trained_frozen",
+        "ticks": 300,
+        "status": "ceiling",
+        "water_acquired": 296,
+        "movement_energy_paid": 225,
+        "observed_survival_ticks": 300,
+        "terminal_state": {
+          "energy": 65,
+          "health": 120,
+          "water": 48
+        },
+        "fresh_two_positive_body_nonfull_choices": 34,
+        "resolver_drinks": 34,
+        "episode_closure_count": 34,
+        "censored_episode_closures": 0,
+        "death_event": null,
+        "rival_status": "alive",
+        "rival_death_event": null
+      },
+      {
+        "seed": 52006,
+        "arm": "trained_online",
+        "ticks": 300,
+        "status": "ceiling",
+        "water_acquired": 297,
+        "movement_energy_paid": 218,
+        "observed_survival_ticks": 300,
+        "terminal_state": {
+          "energy": 60,
+          "health": 120,
+          "water": 49
+        },
+        "fresh_two_positive_body_nonfull_choices": 38,
+        "resolver_drinks": 38,
+        "episode_closure_count": 38,
+        "censored_episode_closures": 0,
+        "death_event": null,
+        "rival_status": "alive",
+        "rival_death_event": null
+      },
+      {
+        "seed": 52007,
+        "arm": "naive_online",
+        "ticks": 300,
+        "status": "ceiling",
+        "water_acquired": 298,
+        "movement_energy_paid": 231,
+        "observed_survival_ticks": 300,
+        "terminal_state": {
+          "energy": 68,
+          "health": 120,
+          "water": 44
+        },
+        "fresh_two_positive_body_nonfull_choices": 32,
+        "resolver_drinks": 34,
+        "episode_closure_count": 32,
+        "censored_episode_closures": 0,
+        "death_event": null,
+        "rival_status": "alive",
+        "rival_death_event": null
+      },
+      {
+        "seed": 52007,
+        "arm": "rule_based",
+        "ticks": 300,
+        "status": "ceiling",
+        "water_acquired": 301,
+        "movement_energy_paid": 185,
+        "observed_survival_ticks": 300,
+        "terminal_state": {
+          "energy": 66,
+          "health": 120,
+          "water": 47
+        },
+        "fresh_two_positive_body_nonfull_choices": 39,
+        "resolver_drinks": 39,
+        "episode_closure_count": 0,
+        "censored_episode_closures": 0,
+        "death_event": null,
+        "rival_status": "alive",
+        "rival_death_event": null
+      },
+      {
+        "seed": 52007,
+        "arm": "trained_frozen",
+        "ticks": 300,
+        "status": "ceiling",
+        "water_acquired": 298,
+        "movement_energy_paid": 231,
+        "observed_survival_ticks": 300,
+        "terminal_state": {
+          "energy": 68,
+          "health": 120,
+          "water": 44
+        },
+        "fresh_two_positive_body_nonfull_choices": 32,
+        "resolver_drinks": 34,
+        "episode_closure_count": 32,
+        "censored_episode_closures": 0,
+        "death_event": null,
+        "rival_status": "alive",
+        "rival_death_event": null
+      },
+      {
+        "seed": 52007,
+        "arm": "trained_online",
+        "ticks": 300,
+        "status": "ceiling",
+        "water_acquired": 298,
+        "movement_energy_paid": 231,
+        "observed_survival_ticks": 300,
+        "terminal_state": {
+          "energy": 68,
+          "health": 120,
+          "water": 44
+        },
+        "fresh_two_positive_body_nonfull_choices": 32,
+        "resolver_drinks": 34,
+        "episode_closure_count": 32,
+        "censored_episode_closures": 0,
+        "death_event": null,
+        "rival_status": "alive",
+        "rival_death_event": null
+      },
+      {
+        "seed": 52008,
+        "arm": "naive_online",
+        "ticks": 300,
+        "status": "ceiling",
+        "water_acquired": 296,
+        "movement_energy_paid": 230,
+        "observed_survival_ticks": 300,
+        "terminal_state": {
+          "energy": 67,
+          "health": 120,
+          "water": 46
+        },
+        "fresh_two_positive_body_nonfull_choices": 36,
+        "resolver_drinks": 36,
+        "episode_closure_count": 36,
+        "censored_episode_closures": 0,
+        "death_event": null,
+        "rival_status": "alive",
+        "rival_death_event": null
+      },
+      {
+        "seed": 52008,
+        "arm": "rule_based",
+        "ticks": 300,
+        "status": "ceiling",
+        "water_acquired": 298,
+        "movement_energy_paid": 200,
+        "observed_survival_ticks": 300,
+        "terminal_state": {
+          "energy": 65,
+          "health": 120,
+          "water": 48
+        },
+        "fresh_two_positive_body_nonfull_choices": 31,
+        "resolver_drinks": 30,
+        "episode_closure_count": 0,
+        "censored_episode_closures": 0,
+        "death_event": null,
+        "rival_status": "alive",
+        "rival_death_event": null
+      },
+      {
+        "seed": 52008,
+        "arm": "trained_frozen",
+        "ticks": 300,
+        "status": "ceiling",
+        "water_acquired": 296,
+        "movement_energy_paid": 230,
+        "observed_survival_ticks": 300,
+        "terminal_state": {
+          "energy": 67,
+          "health": 120,
+          "water": 46
+        },
+        "fresh_two_positive_body_nonfull_choices": 36,
+        "resolver_drinks": 36,
+        "episode_closure_count": 36,
+        "censored_episode_closures": 0,
+        "death_event": null,
+        "rival_status": "alive",
+        "rival_death_event": null
+      },
+      {
+        "seed": 52008,
+        "arm": "trained_online",
+        "ticks": 300,
+        "status": "ceiling",
+        "water_acquired": 296,
+        "movement_energy_paid": 230,
+        "observed_survival_ticks": 300,
+        "terminal_state": {
+          "energy": 67,
+          "health": 120,
+          "water": 46
+        },
+        "fresh_two_positive_body_nonfull_choices": 36,
+        "resolver_drinks": 36,
+        "episode_closure_count": 36,
+        "censored_episode_closures": 0,
+        "death_event": null,
+        "rival_status": "alive",
+        "rival_death_event": null
+      }
+    ],
+    "per_seed_pareto_relations": [
+      {
+        "seed": 52001,
+        "trained_online_vs_rule_based": "tradeoff",
+        "trained_online_vs_trained_frozen": "identical",
+        "naive_online_vs_rule_based_descriptive": "tradeoff"
+      },
+      {
+        "seed": 52002,
+        "trained_online_vs_rule_based": "tradeoff",
+        "trained_online_vs_trained_frozen": "tradeoff",
+        "naive_online_vs_rule_based_descriptive": "candidate_dominates"
+      },
+      {
+        "seed": 52003,
+        "trained_online_vs_rule_based": "tradeoff",
+        "trained_online_vs_trained_frozen": "candidate_dominates",
+        "naive_online_vs_rule_based_descriptive": "tradeoff"
+      },
+      {
+        "seed": 52004,
+        "trained_online_vs_rule_based": "tradeoff",
+        "trained_online_vs_trained_frozen": "identical",
+        "naive_online_vs_rule_based_descriptive": "tradeoff"
+      },
+      {
+        "seed": 52005,
+        "trained_online_vs_rule_based": "tradeoff",
+        "trained_online_vs_trained_frozen": "identical",
+        "naive_online_vs_rule_based_descriptive": "tradeoff"
+      },
+      {
+        "seed": 52006,
+        "trained_online_vs_rule_based": "tradeoff",
+        "trained_online_vs_trained_frozen": "tradeoff",
+        "naive_online_vs_rule_based_descriptive": "tradeoff"
+      },
+      {
+        "seed": 52007,
+        "trained_online_vs_rule_based": "tradeoff",
+        "trained_online_vs_trained_frozen": "identical",
+        "naive_online_vs_rule_based_descriptive": "tradeoff"
+      },
+      {
+        "seed": 52008,
+        "trained_online_vs_rule_based": "tradeoff",
+        "trained_online_vs_trained_frozen": "identical",
+        "naive_online_vs_rule_based_descriptive": "tradeoff"
+      }
+    ],
+    "aggregate_totals_from_independent_root_audit": {
+      "trained_online": {
+        "water": 2374,
+        "movement": 1651,
+        "survival": 2400,
+        "energy": 508,
+        "terminal_water": 382,
+        "health": 960
+      },
+      "trained_frozen": {
+        "water": 2369,
+        "movement": 1664,
+        "survival": 2400,
+        "energy": 511,
+        "terminal_water": 377,
+        "health": 960
+      },
+      "naive_online": {
+        "water": 2383,
+        "movement": 1662,
+        "survival": 2400,
+        "energy": 521,
+        "terminal_water": 391,
+        "health": 960
+      },
+      "rule_based": {
+        "water": 2383,
+        "movement": 1619,
+        "survival": 2400,
+        "energy": 504,
+        "terminal_water": 391,
+        "health": 960
+      }
+    },
+    "aggregate_deltas": {
+      "trained_online_minus_rule_based": {
+        "water_acquired": -9,
+        "movement_energy_paid": 32,
+        "terminal_energy": 4,
+        "terminal_water": -9,
+        "health": 0,
+        "survival_ticks": 0,
+        "pareto_dominates": false
+      },
+      "trained_online_minus_trained_frozen": {
+        "water_acquired": 5,
+        "movement_energy_paid": -13,
+        "terminal_energy": -3,
+        "terminal_water": 5,
+        "health": 0,
+        "survival_ticks": 0,
+        "pareto_dominates": false
+      },
+      "naive_online_minus_rule_based_descriptive": {
+        "water_acquired": 0,
+        "movement_energy_paid": 43,
+        "terminal_energy": 17,
+        "terminal_water": 0,
+        "health": 0,
+        "survival_ticks": 0,
+        "pareto_dominates": false
+      },
+      "naive_online_minus_trained_frozen_descriptive": {
+        "water_acquired": 14,
+        "movement_energy_paid": -2,
+        "terminal_energy": 10,
+        "terminal_water": 14,
+        "health": 0,
+        "survival_ticks": 0,
+        "pareto_dominates": true
+      }
+    },
+    "bounded_utility_evidence": false,
+    "bounded_utility_reasons": [
+      "trained_online aggregate does not Pareto-dominate rule_based",
+      "trained_online aggregate does not Pareto-dominate trained_frozen"
+    ],
+    "per_seed_health_and_survival_nonnegative_against_both_controls": true,
+    "naive_online_is_descriptive_only": true,
+    "no_weighted_utility": true,
+    "interpretation": "Mechanism evidence in three fixed seeds; no registered aggregate utility result; rule-based outcomes compare complete policies and do not isolate residual learning from exploration/RNG consumption; no general efficacy or ecological claim."
+  }
+}

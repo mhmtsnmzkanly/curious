@@ -1,5 +1,39 @@
 # Curious üzerinde çalışma
 
+## 24 Ekim 2026 — güncel wave-2 handoff
+
+A V17 water-residual calibration/formal işi tamamlandı. Frozen source `506ed6f`
+main `c855154` içindedir; V17 default-off kalır. Seed 52099 calibration
+1.400 tickte 8/8 opportunity gate geçti, 20 prefix ve 35 trained-online suffix
+fresh choices ile. Formal seedler 52001–52008 toplam 11.200 tick ve
+164.554.619 byte raw kayıtta tamamlandı; 32 focal branch'in tümü 500 tick
+yaşadı. Root 32 fiziksel vektörü bağımsız hesapladı ve üç tam normalize
+state/perception/body/RNG greedy-score/resolver tanığını doğruladı: 52002/247,
+52003/415, 52006/241.
+
+Ön kayıtlı bounded-utility **FALSE**. Trained-online vs rules: acquired water
+−9, paid movement energy +32, terminal energy +4, terminal water −9,
+health/survival 0. Vs trained-frozen: acquired water +5, movement energy −13,
+terminal energy −3, terminal water +5, health/survival 0. Rules'a karşı 8/8
+tradeoff; frozen'a karşı 1 dominant, 2 tradeoff, 5 identical. Sonuç ve hashes:
+[rapor](docs/reports/WATER_RESIDUAL_V1.md), [JSON](docs/reports/WATER_RESIDUAL_V1.json).
+Genel yarar, qualification veya deployment yoktur; retune/yeni batch yapılmaz.
+Dokuz registered seed rolü (52099, 52001–52008) seen. Seed123 engineering
+çiftinde 2×1.400 tick / 1.400 matched frame vardır; formal evidence değildir.
+Birleşik root checks: 211 Rust, 140 Python, release probe ve app geçti. Bu
+formal lab için aktif process veya pending wake yoktur; coexistence/replay
+services aktif kaldı ve değiştirilmedi. Root üç inactive target cache'i
+967.6 MiB mantıksal boyutta temizledi; raw/probe/protocol/frozen source korundu.
+
+B refuge-schema helper'ı 13 sentetik kontrolle; C resource/lineage audit'i 9
+kontrol ve 13 fiziksel World tickle tamamlandı. B/C schema/measurement
+prototipidir, production entegrasyonu ve fitness sonucu değildir. C body energy
+unknown bırakır; 2.000 detail-row cap, kimlik/event büyümesine genel RAM/disk/
+zaman garantisi vermez. Sonraki olası A hipotezi context-stale residual ile
+mevcut baseline redundancy'sini yeni preregistration'da sınamaktır; mevcut
+sonuç retune gerekçesi değildir. B/C entegrasyonu ayrı root kararıdır. Aşağıdaki
+23 Ekim notları önceki handoff anındaki durumu kaydeder.
+
 ## 23 Ekim 2026 — paralel ekosistem capability planı
 
 [PARALLEL_CAPABILITY_PLAN.md](docs/PARALLEL_CAPABILITY_PLAN.md) altı capability

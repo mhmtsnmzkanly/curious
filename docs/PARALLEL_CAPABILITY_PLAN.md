@@ -1,23 +1,35 @@
 # Kalan ekosistem ve yetenekler için paralel çalışma planı
 
-**Durum (23 Ekim 2026):** İlk dalga A/B/C tasarım/prototipleri root tarafından
-incelendi. A su artığı öğrenicisi V17 source integration adayı olarak
-uygulandı; B/C ayrı açık izlerdir, bu turda yalnız A üzerinde çalışıldı. A
-default-off'tur, `foraging::value`
-tabanına bireyin own-source resolver artığını ekler; choice baseline episode
-boyunca tutulur ve exact bounded sum/count saklanır. Checkpoint V1–V16 göçü
-kapalı/boş başlar; SQLite V2 değişmez; yavru tabloyu almaz. Bu entegrasyon ve
-kontrol kapıları ekolojik fayda kabulü değildir. Root final kontrolleri: Rust
-191 passed / 0 failed (39 summaries), Python 132/0, release build exit 0,
-HTTP/control/auth/SIGKILL-resume check exit 0, scoped Rust format check geçti.
+**Güncel durum (24 Ekim 2026):** A'nın V17 water-residual formal çalışması
+tamamlandı. Frozen source `506ed6f` main `c855154` içindedir; V17 default-off
+kalır. Calibration seed 52099 1.400 tickte 8/8 fırsat kapısını geçti (20 prefix,
+35 trained-online suffix fresh choice). Formal seedler 52001–52008 toplam
+11.200 tick ve 164.554.619 byte raw ile tamamlandı; 32 focal branch 500 tick
+yaşadı. Root 32 physical vector'ı ve üç full normalized state/perception/body/
+RNG greedy-score/resolver witness'ını doğruladı: 52002/247, 52003/415,
+52006/241.
 
-Yeni seed seçilmedi, formal batch/protocol, live world veya deployment
-başlatılmadı. A'nın sıradaki kapısı yeni preregistrasyon ve seed audit'idir;
-güçlü rule baseline, naive online, trained online, aynı trained tabloda
-frozen-update kolları kıyaslanır. Önceki su çalışması ve seed 51001–51008
-held-out olarak tekrar kullanılamaz. B compatibility calibration/schema ve C
-fixture/resource accounting-runtime denetimi ayrı işlerdir. Ortak
-`src/`/checkpoint değişiklikleri seri root incelemesiyle yapılır.
+Preregistered bounded utility **FALSE**. Trained-online − rules: acquired water
+−9, paid movement energy +32, terminal energy +4, terminal water −9,
+health/survival 0. Trained-online − frozen: acquired water +5, movement energy
+−13, terminal energy −3, terminal water +5, health/survival 0. Rules karşısında
+8/8 tradeoff; frozen karşısında bir dominance, iki tradeoff, beş identical.
+Genel fayda, qualification, deployment veya retune iddiası yoktur; yeni batch
+yoktur. Dokuz resmi seed rolü artık seen. Ayrıntı: [WATER_RESIDUAL_V1.md](reports/WATER_RESIDUAL_V1.md)
+ve [WATER_RESIDUAL_V1.json](reports/WATER_RESIDUAL_V1.json).
+
+B refuge-schema 13 sentetik check, C resource/lineage audit 9 check ve 13
+physical World tick ile tamamlandı; ikisi de schema/measurement prototipidir,
+production integration veya fitness kabulü değildir. B/C'nin sonraki adımı root
+kararıdır. C body energy unknown bırakır; detail-row cap 2.000'dir, ancak
+identity/event koleksiyonlarına total-memory guarantee sağlamaz. Seed123
+engineering twin 2×1.400 tick/1.400 matched frame'dir; formal evidence değildir.
+Root combined checks: 211 Rust, 140 Python, release probe/app passed. Bu formal
+lab için process/pending wake yok; coexistence/replay servisleri aktif bırakıldı.
+Root 967.6 MiB logical inactive target cleanup yaptı; experiment artifacts
+korundu. Gelecek A hipotezi context-stale residual/current-baseline redundancy
+mekanizmasını yeni preregistration ile sınamalıdır. Aşağıdaki ilk-dalga notları
+handoff tarihindeki durumdur.
 
 ## İlk dalga teslimi ve mevcut doğrulama
 
