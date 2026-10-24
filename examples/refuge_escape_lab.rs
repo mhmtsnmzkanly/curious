@@ -6,7 +6,7 @@
 mod support;
 
 use curious::{
-    entity::{memory::GeneralizedRefugeOutcome, phase::EntityPhase},
+    entity::{memory::GeneralizedRefugeOutcome, phase::EntityPhase, species::Species},
     logger::Logger,
     scenario::Scenario,
     simulation::{SimulationEvent, checkpoint::State},
@@ -416,22 +416,49 @@ fn make_fixture() -> World {
         .expect("fixed checked-in mixed-refuge fixture parses");
     let mut world = scenario.build(ENGINEERING_SEED).expect("fixture builds");
     world.logger = Logger::disabled();
-    world.observation.full_for = vec![FOCAL_ID];
+    let selected_focal = select_focal_id(&world).expect("fixture has a herbivore and predator");
+    assert_eq!(
+        selected_focal, FOCAL_ID,
+        "predeclared focal-selection rule changed"
+    );
+    world.observation.full_for = vec![selected_focal];
     let focal = world
         .entities
         .iter_mut()
-        .find(|slot| slot.id == FOCAL_ID)
+        .find(|slot| slot.id == selected_focal)
         .expect("fixture focal founder exists");
-    assert_eq!(
-        focal.base.species(),
-        curious::entity::species::Species::Herbivore
-    );
+    assert_eq!(focal.base.species(), Species::Herbivore);
     focal.memory.refuge_generalization_enabled = true;
     // Default is true; assign explicitly as the one permitted learning setup.
     focal.memory.refuge_generalization_update_enabled = true;
     assert!(focal.memory.refuge_generalized_outcomes.is_empty());
     assert!(focal.memory.refuge_episode.is_none());
     world
+}
+
+/// Select from unchanged tick-zero founder bodies by observable position and
+/// species. This affects only which individual is instrumented and enabled.
+fn select_focal_id(world: &World) -> Option<usize> {
+    let herbivore = Species::Herbivore;
+    let predator_positions = world
+        .entities
+        .iter()
+        .filter(|slot| slot.base.species().hunts(&herbivore))
+        .map(|slot| slot.pos)
+        .collect::<Vec<_>>();
+    world
+        .entities
+        .iter()
+        .filter(|slot| slot.base.species() == Species::Herbivore)
+        .filter_map(|herbivore_slot| {
+            predator_positions
+                .iter()
+                .map(|position| herbivore_slot.pos.distance_to(*position))
+                .min()
+                .map(|distance| (distance, herbivore_slot.id))
+        })
+        .min()
+        .map(|(_, id)| id)
 }
 
 fn expected_treatment_state(base: &State, treatment: Treatment) -> State {

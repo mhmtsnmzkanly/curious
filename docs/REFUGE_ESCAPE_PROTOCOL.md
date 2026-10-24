@@ -1,8 +1,12 @@
 # Continuous-life refuge escape study — engineering protocol proposal
 
-**Status: source and fixture proposal pending root review. No World run has been
-performed.** This document predeclares one bounded engineering fixture only;
-it does not register formal evaluation seeds or support a refuge-utility claim.
+**Status: amended before the first World run.** The prior frozen proposal
+`6a50312c3c6a9a697dc472b0f242025a61c1fa9f` was release-built but never run.
+This amendment fixes focal selection from the unchanged tick-zero fixture; the
+amended source/protocol must be frozen before the single engineering run. No
+World run has been performed. This document predeclares one bounded engineering
+fixture only; it does not register formal evaluation seeds or support a
+refuge-utility claim.
 
 ## Question
 
@@ -21,10 +25,18 @@ non-identifiability under this fixture. It is not evidence of an engine defect.
   edits. It has 36 herbivore and 2 carnivore founders, renewable resource sites,
   and burrows. All actors use ordinary AI. Predators move and act through normal
   perception, intent, resolver, and event paths.
-- Focal: entity ID 1, the existing herbivore founder. Its body and age are not
-  set or changed. Only its default-off `refuge_generalization_enabled` flag is
-  enabled; updates remain enabled. Full observation is retained for this focal
-  ID so its production decision trace supplies the measured perception.
+- Focal selection: before any tick, select the existing herbivore founder with
+  the minimum Manhattan distance to any founder whose species hunts herbivores;
+  ties go to the lowest entity ID. On this unchanged fixture, focal ID 15 is at
+  `(-1,-1)`, distance 1 from carnivore 37 at `(-1,0)` and distance 3 from
+  carnivore 38 at `(1,0)`. This is observer selection only: no body, position,
+  threat, or policy is changed.
+- Focal: entity ID 15, the selected existing herbivore founder. Its body and
+  age are not set or changed. Only its default-off
+  `refuge_generalization_enabled` flag is enabled; updates remain enabled. Full
+  observation is retained for this focal ID so its production decision trace
+  supplies the measured perception. All other founders retain default-off
+  refuge generalization.
 - Engineering seed: 123 only. This seed is already seen and is not an
   evaluation, calibration, or held-out seed. Do not try another seed or alter
   the fixture if gates fail.
