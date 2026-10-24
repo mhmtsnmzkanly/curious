@@ -1,0 +1,27 @@
+[Unit]
+Description=Compact old closed Curious coexistence history shards
+After=local-fs.target
+
+[Service]
+Type=oneshot
+User=root
+Group=root
+EnvironmentFile=/root/curious/data/history-retention-runtime.env
+UMask=0027
+ExecStart=/usr/bin/python3 ${CURIOUS_RETENTION_SCRIPT} --data-dir /root/curious/data/coexistence --keep-days 7 --byte-budget 3221225472 --apply
+TimeoutStartSec=60s
+MemoryMax=512M
+CPUQuota=100%
+ProtectSystem=strict
+ProtectHome=read-only
+PrivateTmp=true
+PrivateDevices=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectKernelLogs=true
+ProtectControlGroups=true
+NoNewPrivileges=true
+RestrictSUIDSGID=true
+LockPersonality=true
+RestrictAddressFamilies=AF_UNIX
+ReadWritePaths=/root/curious/data/coexistence

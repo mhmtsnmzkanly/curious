@@ -1,0 +1,11 @@
+[Unit]
+Description=Frequent bounded Curious history retention runs
+
+[Timer]
+OnCalendar=*-*-* *:00/15:00 UTC
+Persistent=true
+RandomizedDelaySec=30s
+Unit=curious-history-retention.service
+
+[Install]
+WantedBy=timers.target
