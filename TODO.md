@@ -1,5 +1,32 @@
 # Sıradaki işler
 
+## 24 October 2026 — Wave 5 genotype observer handoff
+
+Three pure observer files are integrated in the workspace: bounded ledger
+[`genotype_audit.rs`](examples/support/genotype_audit.rs), pure fixtures
+[`genotype_audit_check.rs`](examples/genotype_audit_check.rs), and contract
+[`GENOTYPE_AUDIT.md`](docs/GENOTYPE_AUDIT.md), committed as `6f60d9c`. This is
+read-only observation of provided checkpoints, events, and traces; measured
+scope for the six new genotype fixture tests is zero World ticks; the full
+suite includes existing World tests. There is no genotype World driver, policy
+input, trait selection, World run, seed role, or live deployment. Root reports
+241 all-target Rust tests / 0 failures (46 groups), 177 Python tests / 0
+failures, rustfmt for two Rust files, `git diff --check`, and release build
+(exit 0, 1m44s) passed. Release log:
+`data/operations/wave5-release.log`. Cleanup removed 608,011,561 logical bytes
+(~579.84 MiB) from the inactive genotype audit target; proof:
+`data/operations/wave5-cleanup-20261024.json`. Live PIDs 1126/75038 stayed
+active and unchanged with no restart; no deployment. See
+[`GENOTYPE_OBSERVER_WAVE5`](docs/reports/GENOTYPE_OBSERVER_WAVE5.md) and
+`data/operations/wave5-integration-inputs.json` for source hashes/scope.
+
+Next: define a new refuge opportunity protocol; then add and validate a
+genotype observer driver with food and paid-cost measurement gates before any
+habitat/trait-selection run. A separate refuge technical validation completed
+270 planned ticks; see
+[`REFUGE_REPAIR_VALIDATION`](docs/reports/REFUGE_REPAIR_VALIDATION.md). Wave 4
+notes below preserve their historical results.
+
 ## 24 October 2026 — Wave 4 final handoff (engineering incomplete)
 
 G archive-budget source `8f3f6d0` is integrated at main `42fc7f6`; selected
