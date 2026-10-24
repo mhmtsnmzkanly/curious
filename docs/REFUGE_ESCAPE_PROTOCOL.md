@@ -1,22 +1,33 @@
 # Continuous-life refuge escape study — engineering protocol proposal
 
-**Status: memory-footprint source candidate based on `5ae985e4df219b2fae17d9e1497d7bc4774f1008`; this candidate has not been run.** The earlier frozen proposal
+**Status: memory-footprint source candidate at `3c2` (integrated in main as `e551263`); the fixed World probe was not rerun.** The earlier frozen proposal
 `6a50312c3c6a9a697dc472b0f242025a61c1fa9f` was also never run. One engineering
 attempt using source `5ae985e` emitted 225 complete JSONL tick records against
 270 planned physical ticks before an address-space allocation failure. The
 number of physical ticks executed cannot be established from the record count
 alone. This candidate changes only how
 pre-tick state witnesses are retained in memory; focal selection, fixture,
-horizon, and learning behavior are unchanged. No retry or new seed is
-authorized. The attempt was incomplete and provides no full-run utility or
-acceptance claim.
+horizon, and learning behavior are unchanged. The memory-fix candidate was
+validated only against preserved JSONL with a zero-tick offline replay: 0.91 s,
+40,820 KiB, 225 records, 120 canonical state witnesses (60 paired ticks),
+26,294,126 retained canonical bytes, and 14 identical normalized state pairs.
+It executed zero World ticks and reported `run_complete: false`. This validates
+the bounded representation path at the recorded workload; the fixed World
+probe was not rerun, and the full 270-tick runtime remains unvalidated. No retry
+or new seed is authorized. The engineering attempt remains incomplete and
+provides no full-run utility or acceptance claim.
+The original `5ae985e` failed-run snapshot and manifest remain unchanged.
 
-The partial evidence is recorded in the [manifest](../data/experiments/refuge-escape-v1-engineering-20261024/manifest.json)
-and [root partial audit](../data/experiments/refuge-escape-v1-engineering-20261024/root-partial-audit.json).
-The preserved `protocol.snapshot.md` remains the original run protocol.
-The separate `refuge_escape_replay` example provides an offline, bounded
-zero-tick representation check over preserved JSONL. It does not execute or
-resume the simulation; this check has not yet been run on the preserved file.
+The partial evidence is recorded in the [manifest](../data/experiments/refuge-escape-v1-engineering-20261024/manifest.json),
+[root partial audit](../data/experiments/refuge-escape-v1-engineering-20261024/root-partial-audit.json),
+[zero-tick replay result](../data/experiments/refuge-escape-v1-engineering-20261024/memory-fix-zero-tick-replay.json),
+and [memory-fix validation record](../data/experiments/refuge-escape-v1-engineering-20261024/memory-fix-validation.json).
+The raw capture was losslessly archived from 49,022,469 to 2,723,477 bytes;
+see [archive metadata](../data/experiments/refuge-escape-v1-engineering-20261024/raw.jsonl.archive.json).
+Restore the raw JSONL before using CLI replay or the frozen analyzers. The
+preserved `protocol.snapshot.md` remains the original run protocol. The
+zero-tick replay validates representation and memory handling only; it does
+not execute or resume the simulation and is not an independent physics audit.
 
 This document describes one bounded engineering fixture only; it does not
 register formal evaluation seeds or support a refuge-utility claim.

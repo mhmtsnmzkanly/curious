@@ -1,5 +1,49 @@
 # Curious üzerinde çalışma
 
+## 24 Ekim — Wave 4 güncel handoff
+
+G archive-budget düzeltmesi `8f3f6d0` / main `42fc7f6` içine alındı. Cached
+history bütçesi yazmayı reddedecekse seçili shard metadata'sı yeniden sayılır;
+stat hataları sıfıra çevrilmez. Guard hard disk quota değildir. Birleşik
+kontroller: 235 Rust testi / 0 hata (45 summary), 177 Python testi / 0 hata,
+release app/probe/replay, HTTP/auth/writer-lock/SIGKILL geçti. `bin/releases/curious-budget-8f3f6d0`
+korundu; canlı dünya V12, deployment yok.
+
+C `1a074ba` / main `935015c`: bir accepted habitatta ifade edilen vision allele
+ile nötr marker için tasarım-only protokol. Seed/run yok; feature toggle ekstra
+RNG tükettiğinden kollar tam eşlenik değil, genotype bazlı food/energy audit'i
+uygulanmadı.
+
+B'nin tek World koşusu görülen engineering seed 123/focal 15'ti; 270 planlanan
+tickin 225 kaydı tamamlandı, olası fiziksel yürütme 225–226, rule kolu 15/60.
+1 GiB sınırında allocation failure oldu. Sıfır destekli greedy seçimi vardır;
+formal/utility/yararlılık/etkisizlik/biyolojik ret sonucu yoktur. Altı pure testli
+memory repair `3c2a83d` / main `e551263`, zero-tick replay'i 0,91s / 40.820 KiB
+peak RSS ile çalıştırdı: 120 individual state (60 çift), 26.294.126 canonical
+byte, max state 240.987 byte, online/frozen normalize edilmiş 60 çiftten 14 eşit;
+World tick yok. Bu yalnız kaydedilmiş workload bellek doğrulamasıdır; 270 tick
+probe tamamlanmadı. Key tanısı yalnız threat37 gösterdi; online tek post-prefix
+seçim tick56'da dört aday/bir row'du, adaylar row'dan 8–9 key alanında farklıydı.
+Cross-ID exposure gözlenmedi; exact-key strictness tek başına suçlanamaz.
+
+Raw 49.022.469 byte kaynak 2.723.477 byte Zstandard arşive lossless sıkıştırıldı;
+original SHA `15ce046035061e24fbd969cc9056ae32cc8f423926705b5e168c55a0a830c4a0`,
+archive SHA `4b4c9bb594d1a9118ff2a74338bdb8a629928d786032f501d89b12dbe02c0464`, index
+`data/experiments/refuge-escape-v1-engineering-20261024/raw.jsonl.archive.json`.
+Raw'ı eski reader'larla kullanmadan önce restore helper'ı çalıştır. Failed
+manifest (status `failed`), protocol snapshot, executed source `5ae985e` ve üç
+binary korundu; memory/replay proof
+`data/experiments/refuge-escape-v1-engineering-20261024/memory-fix-validation.json`
+ile hash-bound.
+Cleanup `data/operations/wave4-cleanup-20261024.json`: 984.738.373 logical byte
+(~939,12 MiB) üç inactive build cache'ten temizlendi. 7882/7883 ve retention
+timer etkin/değişmeden; bu wave için worker/wake yok.
+
+Sıradaki işler: refuge context opportunity yokluğunu yeni protokolle ele al;
+habitat/trait çalışmasından önce genotype-cost/food audit'ini kur. Bounded
+qualification olmadan engine upgrade yok. Wave 4 raporu: [WAVE4_PROGRESS](docs/reports/WAVE4_PROGRESS.md) / JSON. G/C source ve tanı aşamaları tamam; refuge
+engineering hâlâ incomplete. Live V12 değişmedi; yeni run veya formal seed yok.
+
 ## 24 October 2026 — current retention and evidence handoff
 
 At main `904d4cc`, root independently passed all 8 retention tests and a

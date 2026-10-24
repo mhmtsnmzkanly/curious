@@ -1,5 +1,50 @@
 # Sıradaki işler
 
+## 24 October 2026 — Wave 4 final handoff (engineering incomplete)
+
+G archive-budget source `8f3f6d0` is integrated at main `42fc7f6`; selected
+shards are recounted before a cached-budget rejection, and stat errors fail
+closed. This remains a soft history guard, not a strict quota. Root's combined
+checks passed: 235 Rust tests / 0 failures (45 summaries), 177 Python tests / 0
+failures, release app/probe/replay, HTTP/auth/writer-lock/SIGKILL. Candidate
+`bin/releases/curious-budget-8f3f6d0` is retained; live V12 was not upgraded.
+
+C protocol `1a074ba` / main `935015c` is design only: one accepted habitat,
+expressed vision allele versus neutral marker, no seeds or World runs. The extra
+RNG consumption from the feature toggle is a confound; genotype-linked food and
+energy audit must exist before any trait run.
+
+B's single engineering World run (seen seed 123, focal 15) failed at 225
+complete audit records from a 270-tick plan under a 1 GiB allocation cap. Rule
+arm has 15/60 records; supported greedy choices are zero. No formal seed or
+benefit, ineffectiveness, utility, or biological rejection conclusion follows.
+The memory repair `3c2a83d` / main `e551263` passed six pure tests and compiled
+release lab/replay. Zero-tick replay read 225 records / 49,022,469 bytes in 0.91
+s at 40,820 KiB peak RSS; it stored 120 individual states (60 pairs) as
+26,294,126 canonical bytes (max 240,987). Only 14/60 normalized online/frozen
+full-state pairs matched. It ran zero World ticks, made no summary, and did not
+complete or rerun the probe. Key diagnosis saw only threat 37; tick 56 had four
+candidates versus one row, with 8–9 differing key fields. No cross-ID exposure
+was observed; this does not isolate exact-key strictness as the cause.
+
+The raw source was losslessly archived: 49,022,469 to 2,723,477 bytes; original
+SHA-256 `15ce046035061e24fbd969cc9056ae32cc8f423926705b5e168c55a0a830c4a0`,
+archive SHA-256 `4b4c9bb594d1a9118ff2a74338bdb8a629928d786032f501d89b12dbe02c0464`.
+Index: `data/experiments/refuge-escape-v1-engineering-20261024/raw.jsonl.archive.json`.
+Restore raw with the evidence helper before using readers that need the original
+path. The failed manifest remains `failed`; protocol snapshot, executed source
+`5ae985e`, and three binaries remain preserved. Hash-bound replay proof is
+`data/experiments/refuge-escape-v1-engineering-20261024/memory-fix-validation.json`.
+
+Root cleanup removed 984,738,373 logical bytes (~939.12 MiB) from three inactive
+build caches; proof: `data/operations/wave4-cleanup-20261024.json`. Services
+7882/7883 and the retention timer remain active and unchanged. No Wave 4
+biology/ML/formal worker or wake is pending. Next: define a new protocol for
+refuge context opportunity; implement genotype-linked cost/food auditing before
+trait selection. No engine upgrade without qualification. Source and diagnosis
+stages are complete; refuge engineering remains incomplete. See
+[WAVE4_PROGRESS](docs/reports/WAVE4_PROGRESS.md) and [JSON](docs/reports/WAVE4_PROGRESS.json).
+
 ## 24 October 2026 — current retention and evidence handoff
 
 At main `904d4cc`, root independently passed all 8 retention tests and a

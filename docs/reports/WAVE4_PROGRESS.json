@@ -1,0 +1,281 @@
+{
+  "schema": "curious-wave4-progress-v1",
+  "updated_utc": "2026-10-24T12:01:43Z",
+  "status": "source_and_diagnosis_complete_engineering_incomplete",
+  "freeze_gate": "current source/diagnosis and evidence cleanup facts recorded; further refuge or trait study requires new protocol and measurement gates",
+  "live_world": {
+    "checkpoint": "V12",
+    "changed": false,
+    "deployment_made": false
+  },
+  "G_archive_budget": {
+    "status": "source_candidate_integrated_not_deployed",
+    "source_commit": "8f3f6d0",
+    "main_commit": "42fc7f6",
+    "release_binary": "bin/releases/curious-budget-8f3f6d0",
+    "behavior": "recount selected closed-shard file metadata when cached budget projection would reject a write; retry inventory once on a disappearing shard; fail closed on persistent metadata/enumeration errors",
+    "limits": [
+      "soft history guard, not a strict disk quota",
+      "WAL and temporary archive space are outside the logical estimate",
+      "externally added files are not continuously detected"
+    ],
+    "root_validation": {
+      "rust_tests_passed": 235,
+      "rust_failures": 0,
+      "rust_summary_groups": 45,
+      "python_tests_passed": 177,
+      "python_failures": 0,
+      "release_application_build": "passed",
+      "release_probe_build": "passed",
+      "release_replay_build": "passed",
+      "http_auth_writer_lock_sigkill_checks": "passed"
+    }
+  },
+  "C_habitat_trait_selection": {
+    "status": "design_only",
+    "source_commit": "1a074ba",
+    "main_commit": "935015c",
+    "document": "docs/HABITAT_SELECTION_PROTOCOL.md",
+    "habitat_profiles": 1,
+    "contrast": "expressed vision allele versus the same inherited allele as a neutral marker",
+    "seeds_assigned": [],
+    "world_runs": 0,
+    "limitations": [
+      "feature toggle changes RNG consumption during reproduction and later streams may diverge",
+      "genotype-linked food-discovery and energy-cost measurement is not implemented",
+      "not preregistered; root protocol review remains open"
+    ]
+  },
+  "B_refuge_escape_engineering": {
+    "status": "infrastructure_incomplete",
+    "role": "seen_seed_engineering_only_not_formal",
+    "source_revision": "5ae985e4df219b2fae17d9e1497d7bc4774f1008",
+    "seed": 123,
+    "focal_id": 15,
+    "evidence_dir": "data/experiments/refuge-escape-v1-engineering-20261024",
+    "manifest_file": "data/experiments/refuge-escape-v1-engineering-20261024/manifest.json",
+    "partial_audit_file": "data/experiments/refuge-escape-v1-engineering-20261024/root-partial-audit.json",
+    "raw_sha256": "15ce046035061e24fbd969cc9056ae32cc8f423926705b5e168c55a0a830c4a0",
+    "raw_bytes": 49022469,
+    "planned_physical_ticks": 270,
+    "recorded_complete_audit_records": 225,
+    "possible_physical_ticks_executed": {
+      "minimum": 225,
+      "maximum": 226
+    },
+    "failure": {
+      "cause": "allocation failure under 1 GiB address-space cap",
+      "return_code": -6,
+      "elapsed_seconds": 2.912,
+      "classification": "infrastructure failure, not biology"
+    },
+    "arms": {
+      "shared_prefix_online": {
+        "recorded_ticks": 30,
+        "complete": true,
+        "updates": 1,
+        "arrivals": 1
+      },
+      "trained_online": {
+        "suffix_recorded_ticks": 60,
+        "complete": true,
+        "updates": 1,
+        "arrivals": 1,
+        "supported_greedy_choices": 0,
+        "summary_vector": {
+          "health": 120,
+          "energy": 34,
+          "water": 27,
+          "movement_energy": 36,
+          "movement_events": 23,
+          "food_acquired": 92,
+          "water_acquired": 56
+        }
+      },
+      "trained_frozen": {
+        "suffix_recorded_ticks": 60,
+        "complete": true,
+        "updates": 0,
+        "arrivals": 1,
+        "frozen_rows_unchanged": true,
+        "summary_vector": {
+          "health": 120,
+          "energy": 34,
+          "water": 27,
+          "movement_energy": 36,
+          "movement_events": 23,
+          "food_acquired": 92,
+          "water_acquired": 56
+        }
+      },
+      "naive_online": {
+        "suffix_recorded_ticks": 60,
+        "complete": true,
+        "updates": 1,
+        "arrivals": 1,
+        "supported_greedy_choices": 0,
+        "summary_vector": {
+          "health": 120,
+          "energy": 34,
+          "water": 27,
+          "movement_energy": 36,
+          "movement_events": 23,
+          "food_acquired": 92,
+          "water_acquired": 56
+        }
+      },
+      "rule_based": {
+        "suffix_recorded_ticks": 15,
+        "planned_suffix_ticks": 60,
+        "complete": false
+      }
+    },
+    "partial_audit_checks": {
+      "focal_age_continuous": true,
+      "recorded_provenance_replays_match": true,
+      "fork_differences_match_declared_treatments": true,
+      "frozen_rows_unchanged": true,
+      "independent_rng_transition_proof": false,
+      "formal_runs_started": false,
+      "registered_seed_roles_consumed": []
+    },
+    "interpretation": [
+      "zero supported greedy choices; learned refuge choice was not identified",
+      "no usefulness, ineffectiveness, utility, or biological rejection claim",
+      "do not rerun another seed or extend this run"
+    ],
+    "raw_archive_file": "data/experiments/refuge-escape-v1-engineering-20261024/raw.jsonl.zst",
+    "archive_index_file": "data/experiments/refuge-escape-v1-engineering-20261024/raw.jsonl.archive.json",
+    "manifest_status": "failed (original unchanged)",
+    "protocol_snapshot_preserved": true,
+    "executed_source_preserved": true,
+    "three_binaries_preserved": true,
+    "raw_archive": {
+      "codec": "zstd",
+      "original_bytes": 49022469,
+      "compressed_bytes": 2723477,
+      "original_sha256": "15ce046035061e24fbd969cc9056ae32cc8f423926705b5e168c55a0a830c4a0",
+      "archive_sha256": "4b4c9bb594d1a9118ff2a74338bdb8a629928d786032f501d89b12dbe02c0464",
+      "verified": true,
+      "restore_before_using_original_path": true
+    },
+    "original_raw_path": "data/experiments/refuge-escape-v1-engineering-20261024/raw.jsonl",
+    "restore_raw_before_use_by_original_path_readers": true
+  },
+  "observer_memory_replay": {
+    "status": "zero_tick_validation_passed_recorded_workload_only",
+    "repair_source_commit": "3c2a83d",
+    "repair_main_commit": "e551263",
+    "prior_design_source_commit": "6a50312",
+    "prior_design_main_commit": "b193d27",
+    "executed_source_commit": "5ae985e",
+    "executed_main_commit": "cf2c871",
+    "repair_strategy": "retain canonical normalized pre-state bytes for online/frozen comparison instead of retaining full values across all four arms",
+    "pure_tests_passed": 6,
+    "release_lab_binary_compiled": true,
+    "release_replay_binary_compiled": true,
+    "artifacts": {
+      "result": "data/experiments/refuge-escape-v1-engineering-20261024/memory-fix-zero-tick-replay.json",
+      "resources": "data/experiments/refuge-escape-v1-engineering-20261024/memory-fix-zero-tick-replay.resources.log"
+    },
+    "validation": {
+      "elapsed_seconds": 0.91,
+      "peak_rss_kib": 40820,
+      "address_space_limit_bytes": 1073741824,
+      "input_records": 225,
+      "input_bytes": 49022469,
+      "canonical_bytes_retained": 26294126,
+      "maximum_state_bytes": 240987,
+      "normalized_complete_state_pairs_equal": 14,
+      "normalized_complete_state_pairs_total": 60,
+      "world_ticks_executed": 0,
+      "run_complete": false,
+      "rule_arm_records": 15,
+      "rule_arm_planned_records": 60,
+      "individual_pre_states_stored": 120,
+      "root_partial_audit_remains_failed": true,
+      "note": "120 individual states form 60 online/frozen comparison pairs; only 14 of 60 normalized full-state pairs matched.",
+      "state_pairs_stored": 60,
+      "original_world_summary_record_seen": false,
+      "offline_replay_summary_emitted": true
+    },
+    "scope_limit": "memory validation on the recorded workload only; not a probe rerun, independent physics audit, or completed 270-tick experiment",
+    "validation_proof": "data/experiments/refuge-escape-v1-engineering-20261024/memory-fix-validation.json",
+    "proof_hashes": {
+      "replay_binary_sha256": "e802b6432d2fe64d8e19a8cdcf987667f50ff54aada32eedb5b0977315a32573",
+      "fixed_probe_binary_sha256": "9e2a0e25c1c992a49ba429b53a27e5d33f15e55e39b97708a6965a78e8586248",
+      "replay_summary_sha256": "2ce2796446e1557aa9644ed4357ee77ce8d67a4ec049b21bc13fca3abb9afa39",
+      "resource_log_sha256": "0a9d0ff0a1aa0cc05e2c5e6d50f0063dd4135ecbc999de272ed4f21340e7009b",
+      "raw_sha256": "15ce046035061e24fbd969cc9056ae32cc8f423926705b5e168c55a0a830c4a0",
+      "root_partial_audit_sha256": "2fc266a36cf2bfe95a95088a82b930ec3945387336cea04b4a219b5aa7267579"
+    }
+  },
+  "zero_tick_key_support_diagnosis": {
+    "status": "descriptive_only_not_ablation_or_causal_explanation",
+    "artifact": "data/experiments/refuge-escape-v1-engineering-20261024/key-support-diagnosis.json",
+    "observed_shelter_threat_ids": [
+      37
+    ],
+    "post_prefix_trained_online_shelter_choices": [
+      {
+        "tick": 56,
+        "threat_id": 37,
+        "candidate_count": 4,
+        "stored_row_count": 1,
+        "stored_row_last_completed_tick": 7,
+        "candidate_key_difference_fields_per_candidate": [
+          9,
+          8,
+          9,
+          9
+        ]
+      }
+    ],
+    "observed_key_fields_with_differences": [
+      "threat_health",
+      "threat_power",
+      "threat_bearing_sector",
+      "threat_distance_steps",
+      "subject_energy",
+      "endpoint_sector",
+      "route",
+      "turns",
+      "estimated_movement_energy"
+    ],
+    "interpretation": "No cross-ID exposure was observed. The result does not establish cross-ID generalization failure or that exact-key strictness alone caused zero supported choices."
+  },
+  "pending": [],
+  "formal_seed_started": false,
+  "engineering_world_runs_started": 1,
+  "additional_world_run_started": false,
+  "deployment_made": false,
+  "cleanup": {
+    "proof": "data/operations/wave4-cleanup-20261024.json",
+    "inactive_build_caches_removed": 3,
+    "logical_bytes_removed": 984738373,
+    "approx_mib_removed": 939.12,
+    "services_7882_7883": "active and unchanged",
+    "retention_timer": "active and unchanged",
+    "wave4_biological_ml_formal_workers": "none",
+    "pending_wake": "none",
+    "inactive_build_targets": [
+      {
+        "path": "/tmp/archive-budget-wave4-target",
+        "logical_bytes_removed": 594293004
+      },
+      {
+        "path": "/tmp/refuge-escape-wave4-target",
+        "logical_bytes_removed": 176178575
+      },
+      {
+        "path": "/tmp/curious-refuge-escape-check",
+        "logical_bytes_removed": 214266794
+      }
+    ]
+  },
+  "remaining_work": [
+    "define a new protocol that obtains a relevant refuge context opportunity before collecting further refuge data",
+    "implement genotype-linked food and cost auditing before any habitat/trait-selection run",
+    "do not upgrade the engine without qualification"
+  ]
+}
