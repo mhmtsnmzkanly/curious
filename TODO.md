@@ -1,5 +1,27 @@
 # Sıradaki işler
 
+## 24 October 2026 — Wave 7 vision-selection result
+
+The accepted-fixture vision study completed one seen-seed calibration and four
+registered paired formal seed blocks (54001–54004), 500 ticks per arm. All four
+pairs passed independent root and supplemental founder audits. Paired deltas
+were `[-0.602941, -0.466500, -0.500175, -0.413825]`; mean `-0.495860`, median
+`-0.483338`, range `[-0.602941, -0.413825]` (`N=4` paired seeds). The original
+positive directional prediction was not supported. Report all results as
+descriptive: the paired arms are not exact counterfactuals due to RNG-path
+divergence, and this is not a pure causal vision effect or general fitness
+claim. See [VISION_SELECTION_V1](docs/reports/VISION_SELECTION_V1.md) and its
+JSON companion. Raw captures are losslessly archived; indexes and batch proof
+are in the report and `data/operations/wave7-checks-20261024/archives.json`.
+Restore each raw JSONL before using older uncompressed readers.
+
+Root reports 251 Rust tests / 0 failures (48 summaries), 177 Python tests / 0
+failures, release app/probe and scoped Rust formatting passed. Cleanup removed
+616,453,126 logical bytes from the inactive task target only; proof:
+`data/operations/wave7-checks-20261024/cleanup.json`. No live deployment or
+experiment retry. Do not tune, retest seeds, or start a follow-up batch without
+a new reviewed protocol.
+
 ## 24 October 2026 — Wave 6 genotype measurement handoff
 
 The bounded genotype measurement engineering run completed once at source

@@ -1,0 +1,1111 @@
+{
+  "schema": "curious-vision-selection-report-v1",
+  "status": "completed_formal_batch_archived_and_independently_audited",
+  "claim_scope": "bounded paired expressed-feature-associated descriptive comparison; not pure causal vision, fitness, or general habitat evidence",
+  "calibration": {
+    "seed": 123,
+    "role": "seen_calibration",
+    "ticks_per_arm": 500,
+    "physical_ticks": 1000,
+    "source_revision": "a4232c37d52d50d7e7dccf3b429be03fe1519292",
+    "source_tree": "eb3442162129d32690dbc685c5c77ae454e89b3a",
+    "binary_sha256": "bca090e47482465f792958a36ce4019ebba96238b5947c3b49e31be91d2fa05d",
+    "protocol_sha256": "6b0dcbd319e41ac4ca8e2ad11a770406dcba712093db585b3c23f84afd82127b",
+    "scenario_sha256": "33cb6ebf9d73df017b65b9ee9831be8446c2a81077f3a0e313fe06b05f0b19ac",
+    "seed_inventory_sha256": "71e421a91eeb3163ae17b6db160083bf36f0637cb557c22ee196d19ecd1da579",
+    "runner_sha256": "706350504614f973bab1dfc301b6e20634f103f24c32e553d23e118f72f3cc34",
+    "audit_script_sha256": "addd465ae10bc3fc59797d4e9e5b70240f04bd24cc0495912c2abdf4e8143db0",
+    "manifest_sha256": "c0e8f587b871ee5f5ef285c45c085f9935013837217c47608135ce51e0da5c32",
+    "root_audit_sha256": "824c1f136d03f1448ffad0d720bff9f4618f952cb64a9c390c6c5b697b57acab",
+    "founder_audit_sha256": "6112601d57062dba915f5feb0f6db723176bb600609ab243df461b6e96e58f28",
+    "formal_gate_sha256": "552e1d7cf954d5eabfd62467d2560e33a988411c81f5ecae89b8cdc6b4863a04",
+    "raw_sha256": "90682201b7c77a843ea80de2bcc3d85d9f6c39d9ab6ce3691a5d6a4002321cc3",
+    "raw_bytes": 156261209,
+    "aggregate_output_bytes": 159563648,
+    "elapsed_seconds": 61.462,
+    "peak_rss_kib": 476664,
+    "measurement_gate_passed": true,
+    "biological_gate_passed": true,
+    "formal_forecast_gate_passed": true,
+    "formal_forecast": {
+      "raw_per_pair_with_margin_bytes": 187513451,
+      "total_raw_with_margin_bytes": 750053803,
+      "metadata_actual_per_pair_bytes": 3302439,
+      "total_formal_forecast_bytes": 764312135,
+      "wall_seconds_with_margin": 368.772,
+      "overhead_allowance_seconds": 180,
+      "total_wall_forecast_seconds": 548.772
+    },
+    "initial_founders": {
+      "total": 608,
+      "herbivores": 576,
+      "carnivores": 32,
+      "herbivore_vision_0": 288,
+      "herbivore_vision_1": 288
+    },
+    "arms": [
+      {
+        "name": "expressed",
+        "living": {
+          "total": 627,
+          "herbivores": 578,
+          "carnivores": 49
+        },
+        "births": 2891,
+        "deaths": 2872,
+        "living_descendant_breeders": {
+          "herbivore": 390,
+          "carnivore": 14
+        },
+        "vision_1_breeders": {
+          "numerator": 4,
+          "denominator": 390,
+          "frequency": 0.010256410256410256
+        },
+        "founder_to_breeder_change": -0.4897435897435897,
+        "parent_pair_families_by_vision_allele": {
+          "0": 383,
+          "1": 4
+        },
+        "founder_ancestor_union_by_vision_allele": {
+          "0": 355,
+          "1": 301
+        },
+        "herbivore_genotypes": {
+          "vision_0": {
+            "living_genotype_individual_ticks": 237660,
+            "vision_requested": 0,
+            "vision_paid": 0,
+            "vision_unpaid": 0,
+            "vision_requested_per_individual_tick": 0.0,
+            "vision_paid_per_individual_tick": 0.0,
+            "vision_unpaid_per_individual_tick": 0.0,
+            "plant_food": 576301,
+            "plant_food_per_individual_tick": 2.4248969115543213,
+            "water": 293620,
+            "water_per_individual_tick": 1.235462425313473,
+            "plant_encounters": 4670127,
+            "corpse_encounters": 176441,
+            "trace_ticks": 235586,
+            "missing_trace_ticks": 13921
+          },
+          "vision_1": {
+            "living_genotype_individual_ticks": 61174,
+            "vision_requested": 60607,
+            "vision_paid": 56541,
+            "vision_unpaid": 4066,
+            "vision_requested_per_individual_tick": 0.9907313564586262,
+            "vision_paid_per_individual_tick": 0.9242652107104325,
+            "vision_unpaid_per_individual_tick": 0.06646614574819368,
+            "plant_food": 164539,
+            "plant_food_per_individual_tick": 2.6896884297250465,
+            "water": 59994,
+            "water_per_individual_tick": 0.9807107594729787,
+            "plant_encounters": 1542196,
+            "corpse_encounters": 61790,
+            "trace_ticks": 60438,
+            "missing_trace_ticks": 5197
+          }
+        }
+      },
+      {
+        "name": "neutral",
+        "living": {
+          "total": 638,
+          "herbivores": 591,
+          "carnivores": 47
+        },
+        "births": 2902,
+        "deaths": 2872,
+        "living_descendant_breeders": {
+          "herbivore": 403,
+          "carnivore": 14
+        },
+        "vision_1_breeders": {
+          "numerator": 212,
+          "denominator": 403,
+          "frequency": 0.5260545905707196
+        },
+        "founder_to_breeder_change": 0.02605459057071957,
+        "parent_pair_families_by_vision_allele": {
+          "0": 191,
+          "1": 211
+        },
+        "founder_ancestor_union_by_vision_allele": {
+          "0": 373,
+          "1": 374
+        },
+        "herbivore_genotypes": {
+          "vision_0": {
+            "living_genotype_individual_ticks": 143684,
+            "vision_requested": 0,
+            "vision_paid": 0,
+            "vision_unpaid": 0,
+            "vision_requested_per_individual_tick": 0.0,
+            "vision_paid_per_individual_tick": 0.0,
+            "vision_unpaid_per_individual_tick": 0.0,
+            "plant_food": 342176,
+            "plant_food_per_individual_tick": 2.3814481779460484,
+            "water": 170014,
+            "water_per_individual_tick": 1.1832493527463044,
+            "plant_encounters": 2798852,
+            "corpse_encounters": 107096,
+            "trace_ticks": 142351,
+            "missing_trace_ticks": 9167
+          },
+          "vision_1": {
+            "living_genotype_individual_ticks": 158766,
+            "vision_requested": 0,
+            "vision_paid": 0,
+            "vision_unpaid": 0,
+            "vision_requested_per_individual_tick": 0.0,
+            "vision_paid_per_individual_tick": 0.0,
+            "vision_unpaid_per_individual_tick": 0.0,
+            "plant_food": 377009,
+            "plant_food_per_individual_tick": 2.3746205106886866,
+            "water": 187686,
+            "water_per_individual_tick": 1.1821548694304826,
+            "plant_encounters": 3100936,
+            "corpse_encounters": 124024,
+            "trace_ticks": 157297,
+            "missing_trace_ticks": 10004
+          }
+        }
+      }
+    ],
+    "paired_calibration_delta": -0.5157981803143094,
+    "audit_passed": true,
+    "audit_scope": "event-backed genotype cost/acquisition/lineage and recorded encounter counts; not food-discovery validation or full replay",
+    "archive": {
+      "index_path": "data/experiments/vision-selection-v1-calibration-20261024/raw.jsonl.archive.json",
+      "status": "verified",
+      "archive_path": "data/experiments/vision-selection-v1-calibration-20261024/raw.jsonl.zst",
+      "archive_bytes": 8780851,
+      "archive_sha256": "a90dbc3bbfc36b9c7ae7850a54afd92d01d7dc1462911b78dde1561f0c83cbcd",
+      "original_raw_sha256": "90682201b7c77a843ea80de2bcc3d85d9f6c39d9ab6ce3691a5d6a4002321cc3"
+    }
+  },
+  "formal": {
+    "status": "completed_and_independently_audited",
+    "registered_seed_pairs": 4,
+    "valid_seed_pairs": 4,
+    "physical_ticks": 4000,
+    "calibration_excluded_from_estimate": true,
+    "unit_of_replication": "paired seed block; not individual or family",
+    "seed_order": [
+      54001,
+      54002,
+      54003,
+      54004
+    ],
+    "deltas": [
+      -0.6029411764705882,
+      -0.46649999999999997,
+      -0.500175451788355,
+      -0.4138252608264848
+    ],
+    "mean_delta": -0.495860472271357,
+    "median_delta": -0.48333772589417745,
+    "delta_range": [
+      -0.6029411764705882,
+      -0.4138252608264848
+    ],
+    "all_estimable_deltas_negative": true,
+    "directional_positive_prediction_supported": false,
+    "formal_elapsed_seconds": 268.222,
+    "aggregate_output_bytes_before_archive": 636649202,
+    "raw_bytes": 623423952,
+    "peak_worker_rss_kib": 488704,
+    "formal_summary_sha256": "bf6d33a6c89e5cac64771c34ac9bd92c866d00013d4bd36bffd43c30d0d0e5f1",
+    "formal_batch_manifest_sha256": "043db971071abc2d1c389365c1d6da1d7b3dabe98d985520385fd68d527684b6",
+    "raw_archive_indices": {
+      "status": "all_verified",
+      "indices": [
+        "data/experiments/vision-selection-v1-formal-20261024/54001/raw.jsonl.archive.json",
+        "data/experiments/vision-selection-v1-formal-20261024/54002/raw.jsonl.archive.json",
+        "data/experiments/vision-selection-v1-formal-20261024/54003/raw.jsonl.archive.json",
+        "data/experiments/vision-selection-v1-formal-20261024/54004/raw.jsonl.archive.json"
+      ]
+    },
+    "per_seed_results": [
+      {
+        "seed": 54001,
+        "status": "completed_both_independent_audits_passed",
+        "paired_delta": -0.6029411764705882,
+        "raw_path": "data/experiments/vision-selection-v1-formal-20261024/54001/raw.jsonl",
+        "archive_index_path": "data/experiments/vision-selection-v1-formal-20261024/54001/raw.jsonl.archive.json",
+        "raw_bytes": 155564996,
+        "raw_sha256": "d5acf9c5a893bb5a89248aafe3a8f70b307a09e6dff4e3383f07048fb201a416",
+        "elapsed_seconds": 60.68,
+        "peak_rss_kib": 481336,
+        "manifest_sha256": "b78c47b6070b3d3c513f71c0e5aab126cc06357ff16690b340ff1d9aaac95209",
+        "root_audit_sha256": "e4f536197e8c1522cede4343176a649f7921e3ed598f5cce3f6d54eebf9160fa",
+        "founder_audit_sha256": "0dd0131e58203bdd028513d3b39fc6b13112741af065b801e62ab54cea500c2d",
+        "root_audit_recomputed_primary_exposure_ancestry_and_event_totals": true,
+        "arms": {
+          "expressed": {
+            "living_population": {
+              "herbivore_vision_0": 600,
+              "herbivore_vision_1": 1,
+              "herbivores_total": 601,
+              "carnivores": 44,
+              "all_species_total": 645
+            },
+            "births": 2917,
+            "deaths": 2880,
+            "living_descendant_breeders": {
+              "herbivore_vision_0": 433,
+              "herbivore_vision_1": 0,
+              "herbivores_total": 433,
+              "carnivores": 10
+            },
+            "founder_vision_alleles": {
+              "0": 288,
+              "1": 288,
+              "vision_1_frequency": 0.5
+            },
+            "breeder_vision_1": {
+              "numerator": 0,
+              "denominator": 433,
+              "frequency": 0.0
+            },
+            "within_arm_founder_to_breeder_change": -0.5,
+            "parent_pair_family_counts_by_vision_allele": {
+              "0": 432,
+              "1": 0
+            },
+            "founder_ancestor_union_counts_by_vision_allele": {
+              "0": 352,
+              "1": 0
+            },
+            "herbivore_genotypes": {
+              "vision_0": {
+                "individuals": 2862,
+                "founders": 288,
+                "descendants": 2574,
+                "living": 600,
+                "living_descendant_breeders": 433,
+                "births": 2574,
+                "deaths": 2262,
+                "living_genotype_individual_ticks": 252853,
+                "vision_requested": 0,
+                "vision_paid": 0,
+                "vision_unpaid": 0,
+                "vision_requested_per_living_individual_tick": 0.0,
+                "vision_paid_per_living_individual_tick": 0.0,
+                "vision_unpaid_per_living_individual_tick": 0.0,
+                "plant_food": 616525,
+                "plant_food_per_living_individual_tick": 2.438274412405627,
+                "corpse_food": 0,
+                "corpse_food_per_living_individual_tick": 0.0,
+                "water": 311710,
+                "water_per_living_individual_tick": 1.232771610382317,
+                "observed_plant_encounters": 4962772,
+                "observed_corpse_encounters": 190817,
+                "trace_ticks": 250641,
+                "missing_trace_ticks": 15039
+              },
+              "vision_1": {
+                "individuals": 613,
+                "founders": 288,
+                "descendants": 325,
+                "living": 1,
+                "living_descendant_breeders": 0,
+                "births": 325,
+                "deaths": 612,
+                "living_genotype_individual_ticks": 47202,
+                "vision_requested": 46736,
+                "vision_paid": 43380,
+                "vision_unpaid": 3356,
+                "vision_requested_per_living_individual_tick": 0.9901275369687725,
+                "vision_paid_per_living_individual_tick": 0.9190288547095462,
+                "vision_unpaid_per_living_individual_tick": 0.0710986822592263,
+                "plant_food": 121861,
+                "plant_food_per_living_individual_tick": 2.5816914537519597,
+                "corpse_food": 0,
+                "corpse_food_per_living_individual_tick": 0.0,
+                "water": 43910,
+                "water_per_living_individual_tick": 0.9302571924918436,
+                "observed_plant_encounters": 1185008,
+                "observed_corpse_encounters": 48567,
+                "trace_ticks": 46608,
+                "missing_trace_ticks": 4268
+              }
+            }
+          },
+          "neutral": {
+            "living_population": {
+              "herbivore_vision_0": 227,
+              "herbivore_vision_1": 354,
+              "herbivores_total": 581,
+              "carnivores": 50,
+              "all_species_total": 631
+            },
+            "births": 2918,
+            "deaths": 2895,
+            "living_descendant_breeders": {
+              "herbivore_vision_0": 162,
+              "herbivore_vision_1": 246,
+              "herbivores_total": 408,
+              "carnivores": 16
+            },
+            "founder_vision_alleles": {
+              "0": 288,
+              "1": 288,
+              "vision_1_frequency": 0.5
+            },
+            "breeder_vision_1": {
+              "numerator": 246,
+              "denominator": 408,
+              "frequency": 0.6029411764705882
+            },
+            "within_arm_founder_to_breeder_change": 0.1029411764705882,
+            "parent_pair_family_counts_by_vision_allele": {
+              "0": 162,
+              "1": 246
+            },
+            "founder_ancestor_union_counts_by_vision_allele": {
+              "0": 399,
+              "1": 395
+            },
+            "herbivore_genotypes": {
+              "vision_0": {
+                "individuals": 1568,
+                "founders": 288,
+                "descendants": 1280,
+                "living": 227,
+                "living_descendant_breeders": 162,
+                "births": 1280,
+                "deaths": 1341,
+                "living_genotype_individual_ticks": 137856,
+                "vision_requested": 0,
+                "vision_paid": 0,
+                "vision_unpaid": 0,
+                "vision_requested_per_living_individual_tick": 0.0,
+                "vision_paid_per_living_individual_tick": 0.0,
+                "vision_unpaid_per_living_individual_tick": 0.0,
+                "plant_food": 323285,
+                "plant_food_per_living_individual_tick": 2.3450919800371404,
+                "corpse_food": 0,
+                "corpse_food_per_living_individual_tick": 0.0,
+                "water": 161124,
+                "water_per_living_individual_tick": 1.1687848189415042,
+                "observed_plant_encounters": 2687223,
+                "observed_corpse_encounters": 107936,
+                "trace_ticks": 136543,
+                "missing_trace_ticks": 8974
+              },
+              "vision_1": {
+                "individuals": 1902,
+                "founders": 288,
+                "descendants": 1614,
+                "living": 354,
+                "living_descendant_breeders": 246,
+                "births": 1614,
+                "deaths": 1548,
+                "living_genotype_individual_ticks": 166303,
+                "vision_requested": 0,
+                "vision_paid": 0,
+                "vision_unpaid": 0,
+                "vision_requested_per_living_individual_tick": 0.0,
+                "vision_paid_per_living_individual_tick": 0.0,
+                "vision_unpaid_per_living_individual_tick": 0.0,
+                "plant_food": 396489,
+                "plant_food_per_living_individual_tick": 2.3841361851560103,
+                "corpse_food": 0,
+                "corpse_food_per_living_individual_tick": 0.0,
+                "water": 198056,
+                "water_per_living_individual_tick": 1.1909346193393986,
+                "observed_plant_encounters": 3238804,
+                "observed_corpse_encounters": 126176,
+                "trace_ticks": 164778,
+                "missing_trace_ticks": 10344
+              }
+            }
+          }
+        },
+        "archive": {
+          "index_path": "data/experiments/vision-selection-v1-formal-20261024/54001/raw.jsonl.archive.json",
+          "status": "verified",
+          "archive_path": "data/experiments/vision-selection-v1-formal-20261024/54001/raw.jsonl.zst",
+          "archive_bytes": 8840961,
+          "archive_sha256": "919ed29e806dbf44f1cac0692ba0670701bd4c8b47d26e1807a9fa29222ef31f",
+          "original_raw_sha256": "d5acf9c5a893bb5a89248aafe3a8f70b307a09e6dff4e3383f07048fb201a416"
+        }
+      },
+      {
+        "seed": 54002,
+        "status": "completed_both_independent_audits_passed",
+        "paired_delta": -0.46649999999999997,
+        "raw_path": "data/experiments/vision-selection-v1-formal-20261024/54002/raw.jsonl",
+        "archive_index_path": "data/experiments/vision-selection-v1-formal-20261024/54002/raw.jsonl.archive.json",
+        "raw_bytes": 155788935,
+        "raw_sha256": "10e08bac4dba2aff0a3d92787268a2a566e2783c0030e99c568b85c2bd069988",
+        "elapsed_seconds": 58.167,
+        "peak_rss_kib": 488704,
+        "manifest_sha256": "8857c688dda06b49e0ef7902641dddd94ec36af03c9fb9d22f7045e35aecb8b6",
+        "root_audit_sha256": "be3306ce0c74c44a5b3d1a9c15aa8e71d5723d79081ea96e9747b19fc48c3cda",
+        "founder_audit_sha256": "88fe157e40adead3c4acefe7bd15723fe1579f01b80d7b03ff205a50614e7345",
+        "root_audit_recomputed_primary_exposure_ancestry_and_event_totals": true,
+        "arms": {
+          "expressed": {
+            "living_population": {
+              "herbivore_vision_0": 557,
+              "herbivore_vision_1": 10,
+              "herbivores_total": 567,
+              "carnivores": 49,
+              "all_species_total": 616
+            },
+            "births": 2885,
+            "deaths": 2877,
+            "living_descendant_breeders": {
+              "herbivore_vision_0": 369,
+              "herbivore_vision_1": 6,
+              "herbivores_total": 375,
+              "carnivores": 15
+            },
+            "founder_vision_alleles": {
+              "0": 288,
+              "1": 288,
+              "vision_1_frequency": 0.5
+            },
+            "breeder_vision_1": {
+              "numerator": 6,
+              "denominator": 375,
+              "frequency": 0.016
+            },
+            "within_arm_founder_to_breeder_change": -0.484,
+            "parent_pair_family_counts_by_vision_allele": {
+              "0": 365,
+              "1": 6
+            },
+            "founder_ancestor_union_counts_by_vision_allele": {
+              "0": 371,
+              "1": 299
+            },
+            "herbivore_genotypes": {
+              "vision_0": {
+                "individuals": 2747,
+                "founders": 288,
+                "descendants": 2459,
+                "living": 557,
+                "living_descendant_breeders": 369,
+                "births": 2459,
+                "deaths": 2190,
+                "living_genotype_individual_ticks": 244999,
+                "vision_requested": 0,
+                "vision_paid": 0,
+                "vision_unpaid": 0,
+                "vision_requested_per_living_individual_tick": 0.0,
+                "vision_paid_per_living_individual_tick": 0.0,
+                "vision_unpaid_per_living_individual_tick": 0.0,
+                "plant_food": 594645,
+                "plant_food_per_living_individual_tick": 2.427132355642268,
+                "corpse_food": 0,
+                "corpse_food_per_living_individual_tick": 0.0,
+                "water": 301896,
+                "water_per_living_individual_tick": 1.2322336009534733,
+                "observed_plant_encounters": 4804956,
+                "observed_corpse_encounters": 183441,
+                "trace_ticks": 242851,
+                "missing_trace_ticks": 14451
+              },
+              "vision_1": {
+                "individuals": 691,
+                "founders": 288,
+                "descendants": 403,
+                "living": 10,
+                "living_descendant_breeders": 6,
+                "births": 403,
+                "deaths": 681,
+                "living_genotype_individual_ticks": 54216,
+                "vision_requested": 53692,
+                "vision_paid": 50151,
+                "vision_unpaid": 3541,
+                "vision_requested_per_living_individual_tick": 0.9903349564704146,
+                "vision_paid_per_living_individual_tick": 0.9250221336874723,
+                "vision_unpaid_per_living_individual_tick": 0.0653128227829423,
+                "plant_food": 145194,
+                "plant_food_per_living_individual_tick": 2.678065515714918,
+                "corpse_food": 0,
+                "corpse_food_per_living_individual_tick": 0.0,
+                "water": 52834,
+                "water_per_living_individual_tick": 0.9745093699276967,
+                "observed_plant_encounters": 1358225,
+                "observed_corpse_encounters": 54888,
+                "trace_ticks": 53555,
+                "missing_trace_ticks": 4745
+              }
+            }
+          },
+          "neutral": {
+            "living_population": {
+              "herbivore_vision_0": 297,
+              "herbivore_vision_1": 287,
+              "herbivores_total": 584,
+              "carnivores": 46,
+              "all_species_total": 630
+            },
+            "births": 2913,
+            "deaths": 2891,
+            "living_descendant_breeders": {
+              "herbivore_vision_0": 207,
+              "herbivore_vision_1": 193,
+              "herbivores_total": 400,
+              "carnivores": 10
+            },
+            "founder_vision_alleles": {
+              "0": 288,
+              "1": 288,
+              "vision_1_frequency": 0.5
+            },
+            "breeder_vision_1": {
+              "numerator": 193,
+              "denominator": 400,
+              "frequency": 0.4825
+            },
+            "within_arm_founder_to_breeder_change": -0.017500000000000016,
+            "parent_pair_family_counts_by_vision_allele": {
+              "0": 205,
+              "1": 192
+            },
+            "founder_ancestor_union_counts_by_vision_allele": {
+              "0": 384,
+              "1": 388
+            },
+            "herbivore_genotypes": {
+              "vision_0": {
+                "individuals": 1798,
+                "founders": 288,
+                "descendants": 1510,
+                "living": 297,
+                "living_descendant_breeders": 207,
+                "births": 1510,
+                "deaths": 1501,
+                "living_genotype_individual_ticks": 157899,
+                "vision_requested": 0,
+                "vision_paid": 0,
+                "vision_unpaid": 0,
+                "vision_requested_per_living_individual_tick": 0.0,
+                "vision_paid_per_living_individual_tick": 0.0,
+                "vision_unpaid_per_living_individual_tick": 0.0,
+                "plant_food": 372288,
+                "plant_food_per_living_individual_tick": 2.3577603404708074,
+                "corpse_food": 0,
+                "corpse_food_per_living_individual_tick": 0.0,
+                "water": 185818,
+                "water_per_living_individual_tick": 1.176815559313232,
+                "observed_plant_encounters": 3086276,
+                "observed_corpse_encounters": 124316,
+                "trace_ticks": 156425,
+                "missing_trace_ticks": 10142
+              },
+              "vision_1": {
+                "individuals": 1671,
+                "founders": 288,
+                "descendants": 1383,
+                "living": 287,
+                "living_descendant_breeders": 193,
+                "births": 1383,
+                "deaths": 1384,
+                "living_genotype_individual_ticks": 145948,
+                "vision_requested": 0,
+                "vision_paid": 0,
+                "vision_unpaid": 0,
+                "vision_requested_per_living_individual_tick": 0.0,
+                "vision_paid_per_living_individual_tick": 0.0,
+                "vision_unpaid_per_living_individual_tick": 0.0,
+                "plant_food": 347296,
+                "plant_food_per_living_individual_tick": 2.379587250253515,
+                "corpse_food": 0,
+                "corpse_food_per_living_individual_tick": 0.0,
+                "water": 173302,
+                "water_per_living_individual_tick": 1.1874229177515279,
+                "observed_plant_encounters": 2836879,
+                "observed_corpse_encounters": 113002,
+                "trace_ticks": 144593,
+                "missing_trace_ticks": 9460
+              }
+            }
+          }
+        },
+        "archive": {
+          "index_path": "data/experiments/vision-selection-v1-formal-20261024/54002/raw.jsonl.archive.json",
+          "status": "verified",
+          "archive_path": "data/experiments/vision-selection-v1-formal-20261024/54002/raw.jsonl.zst",
+          "archive_bytes": 8812437,
+          "archive_sha256": "23b111087838ebffd511f0034632250ddc56eabc139855142b539cf15c8e1b84",
+          "original_raw_sha256": "10e08bac4dba2aff0a3d92787268a2a566e2783c0030e99c568b85c2bd069988"
+        }
+      },
+      {
+        "seed": 54003,
+        "status": "completed_both_independent_audits_passed",
+        "paired_delta": -0.500175451788355,
+        "raw_path": "data/experiments/vision-selection-v1-formal-20261024/54003/raw.jsonl",
+        "archive_index_path": "data/experiments/vision-selection-v1-formal-20261024/54003/raw.jsonl.archive.json",
+        "raw_bytes": 155900985,
+        "raw_sha256": "e6dd245c308c46a338bde68eeca4b87fe9e8b98cd099db58157fdf0800c314d6",
+        "elapsed_seconds": 64.46,
+        "peak_rss_kib": 484312,
+        "manifest_sha256": "b27259925fabef803ba81ad79bdb33085b35ce021cfdbf442232e188f87879f4",
+        "root_audit_sha256": "34174bb738dcdc90f0dedf827dfcb337ee3d370f66a91055d85acf1a071fd1f6",
+        "founder_audit_sha256": "55be04adfb6031ba32470f24952aa27a0415e88beb3e377704ceb4df5dc71e3e",
+        "root_audit_recomputed_primary_exposure_ancestry_and_event_totals": true,
+        "arms": {
+          "expressed": {
+            "living_population": {
+              "herbivore_vision_0": 578,
+              "herbivore_vision_1": 6,
+              "herbivores_total": 584,
+              "carnivores": 47,
+              "all_species_total": 631
+            },
+            "births": 2874,
+            "deaths": 2851,
+            "living_descendant_breeders": {
+              "herbivore_vision_0": 399,
+              "herbivore_vision_1": 4,
+              "herbivores_total": 403,
+              "carnivores": 13
+            },
+            "founder_vision_alleles": {
+              "0": 288,
+              "1": 288,
+              "vision_1_frequency": 0.5
+            },
+            "breeder_vision_1": {
+              "numerator": 4,
+              "denominator": 403,
+              "frequency": 0.009925558312655087
+            },
+            "within_arm_founder_to_breeder_change": -0.49007444168734493,
+            "parent_pair_family_counts_by_vision_allele": {
+              "0": 396,
+              "1": 4
+            },
+            "founder_ancestor_union_counts_by_vision_allele": {
+              "0": 369,
+              "1": 276
+            },
+            "herbivore_genotypes": {
+              "vision_0": {
+                "individuals": 2720,
+                "founders": 288,
+                "descendants": 2432,
+                "living": 578,
+                "living_descendant_breeders": 399,
+                "births": 2432,
+                "deaths": 2142,
+                "living_genotype_individual_ticks": 240617,
+                "vision_requested": 0,
+                "vision_paid": 0,
+                "vision_unpaid": 0,
+                "vision_requested_per_living_individual_tick": 0.0,
+                "vision_paid_per_living_individual_tick": 0.0,
+                "vision_unpaid_per_living_individual_tick": 0.0,
+                "plant_food": 588860,
+                "plant_food_per_living_individual_tick": 2.4472917541154615,
+                "corpse_food": 0,
+                "corpse_food_per_living_individual_tick": 0.0,
+                "water": 299552,
+                "water_per_living_individual_tick": 1.2449328185456556,
+                "observed_plant_encounters": 4732322,
+                "observed_corpse_encounters": 175790,
+                "trace_ticks": 238521,
+                "missing_trace_ticks": 14075
+              },
+              "vision_1": {
+                "individuals": 709,
+                "founders": 288,
+                "descendants": 421,
+                "living": 6,
+                "living_descendant_breeders": 4,
+                "births": 421,
+                "deaths": 703,
+                "living_genotype_individual_ticks": 56101,
+                "vision_requested": 55573,
+                "vision_paid": 51859,
+                "vision_unpaid": 3714,
+                "vision_requested_per_living_individual_tick": 0.990588403058769,
+                "vision_paid_per_living_individual_tick": 0.9243863745744283,
+                "vision_unpaid_per_living_individual_tick": 0.06620202848434074,
+                "plant_food": 149071,
+                "plant_food_per_living_individual_tick": 2.6571897114133436,
+                "corpse_food": 0,
+                "corpse_food_per_living_individual_tick": 0.0,
+                "water": 54374,
+                "water_per_living_individual_tick": 0.9692162350047236,
+                "observed_plant_encounters": 1405394,
+                "observed_corpse_encounters": 56377,
+                "trace_ticks": 55421,
+                "missing_trace_ticks": 4915
+              }
+            }
+          },
+          "neutral": {
+            "living_population": {
+              "herbivore_vision_0": 277,
+              "herbivore_vision_1": 299,
+              "herbivores_total": 576,
+              "carnivores": 50,
+              "all_species_total": 626
+            },
+            "births": 2926,
+            "deaths": 2908,
+            "living_descendant_breeders": {
+              "herbivore_vision_0": 194,
+              "herbivore_vision_1": 202,
+              "herbivores_total": 396,
+              "carnivores": 14
+            },
+            "founder_vision_alleles": {
+              "0": 288,
+              "1": 288,
+              "vision_1_frequency": 0.5
+            },
+            "breeder_vision_1": {
+              "numerator": 202,
+              "denominator": 396,
+              "frequency": 0.51010101010101
+            },
+            "within_arm_founder_to_breeder_change": 0.010101010101010055,
+            "parent_pair_family_counts_by_vision_allele": {
+              "0": 194,
+              "1": 199
+            },
+            "founder_ancestor_union_counts_by_vision_allele": {
+              "0": 411,
+              "1": 411
+            },
+            "herbivore_genotypes": {
+              "vision_0": {
+                "individuals": 1660,
+                "founders": 288,
+                "descendants": 1372,
+                "living": 277,
+                "living_descendant_breeders": 194,
+                "births": 1372,
+                "deaths": 1383,
+                "living_genotype_individual_ticks": 144634,
+                "vision_requested": 0,
+                "vision_paid": 0,
+                "vision_unpaid": 0,
+                "vision_requested_per_living_individual_tick": 0.0,
+                "vision_paid_per_living_individual_tick": 0.0,
+                "vision_unpaid_per_living_individual_tick": 0.0,
+                "plant_food": 343634,
+                "plant_food_per_living_individual_tick": 2.3758867209646417,
+                "corpse_food": 0,
+                "corpse_food_per_living_individual_tick": 0.0,
+                "water": 171454,
+                "water_per_living_individual_tick": 1.1854335771671944,
+                "observed_plant_encounters": 2823588,
+                "observed_corpse_encounters": 111350,
+                "trace_ticks": 143291,
+                "missing_trace_ticks": 9235
+              },
+              "vision_1": {
+                "individuals": 1818,
+                "founders": 288,
+                "descendants": 1530,
+                "living": 299,
+                "living_descendant_breeders": 202,
+                "births": 1530,
+                "deaths": 1519,
+                "living_genotype_individual_ticks": 158494,
+                "vision_requested": 0,
+                "vision_paid": 0,
+                "vision_unpaid": 0,
+                "vision_requested_per_living_individual_tick": 0.0,
+                "vision_paid_per_living_individual_tick": 0.0,
+                "vision_unpaid_per_living_individual_tick": 0.0,
+                "plant_food": 376774,
+                "plant_food_per_living_individual_tick": 2.3772130175274775,
+                "corpse_food": 0,
+                "corpse_food_per_living_individual_tick": 0.0,
+                "water": 187740,
+                "water_per_living_individual_tick": 1.1845243353060684,
+                "observed_plant_encounters": 3085325,
+                "observed_corpse_encounters": 123904,
+                "trace_ticks": 157016,
+                "missing_trace_ticks": 10103
+              }
+            }
+          }
+        },
+        "archive": {
+          "index_path": "data/experiments/vision-selection-v1-formal-20261024/54003/raw.jsonl.archive.json",
+          "status": "verified",
+          "archive_path": "data/experiments/vision-selection-v1-formal-20261024/54003/raw.jsonl.zst",
+          "archive_bytes": 8775730,
+          "archive_sha256": "0e86678e585ad623b56980b781d41d1156debd6b2bade8a2e5ec0b550db9a4b5",
+          "original_raw_sha256": "e6dd245c308c46a338bde68eeca4b87fe9e8b98cd099db58157fdf0800c314d6"
+        }
+      },
+      {
+        "seed": 54004,
+        "status": "completed_both_independent_audits_passed",
+        "paired_delta": -0.4138252608264848,
+        "raw_path": "data/experiments/vision-selection-v1-formal-20261024/54004/raw.jsonl",
+        "archive_index_path": "data/experiments/vision-selection-v1-formal-20261024/54004/raw.jsonl.archive.json",
+        "raw_bytes": 156169036,
+        "raw_sha256": "caca7fcfb5a00881b2d5c88aa5402ec65d3ec997a44a9ad6caff7495733bb107",
+        "elapsed_seconds": 57.685,
+        "peak_rss_kib": 484220,
+        "manifest_sha256": "706b54f912754a1683c28a5e9445599b077c83906aa34c7aa50916c14bd51131",
+        "root_audit_sha256": "a325ed6936b4de8cfebb55e21409bf85883d76e3bfc0cad989589bf1e9a3a6f3",
+        "founder_audit_sha256": "32b57861baa56911124d37f853a621338838f4b22068daf525c030bd78fda9b8",
+        "root_audit_recomputed_primary_exposure_ancestry_and_event_totals": true,
+        "arms": {
+          "expressed": {
+            "living_population": {
+              "herbivore_vision_0": 567,
+              "herbivore_vision_1": 11,
+              "herbivores_total": 578,
+              "carnivores": 51,
+              "all_species_total": 629
+            },
+            "births": 2902,
+            "deaths": 2881,
+            "living_descendant_breeders": {
+              "herbivore_vision_0": 394,
+              "herbivore_vision_1": 5,
+              "herbivores_total": 399,
+              "carnivores": 18
+            },
+            "founder_vision_alleles": {
+              "0": 288,
+              "1": 288,
+              "vision_1_frequency": 0.5
+            },
+            "breeder_vision_1": {
+              "numerator": 5,
+              "denominator": 399,
+              "frequency": 0.012531328320802004
+            },
+            "within_arm_founder_to_breeder_change": -0.487468671679198,
+            "parent_pair_family_counts_by_vision_allele": {
+              "0": 393,
+              "1": 5
+            },
+            "founder_ancestor_union_counts_by_vision_allele": {
+              "0": 368,
+              "1": 303
+            },
+            "herbivore_genotypes": {
+              "vision_0": {
+                "individuals": 2777,
+                "founders": 288,
+                "descendants": 2489,
+                "living": 567,
+                "living_descendant_breeders": 394,
+                "births": 2489,
+                "deaths": 2210,
+                "living_genotype_individual_ticks": 247713,
+                "vision_requested": 0,
+                "vision_paid": 0,
+                "vision_unpaid": 0,
+                "vision_requested_per_living_individual_tick": 0.0,
+                "vision_paid_per_living_individual_tick": 0.0,
+                "vision_unpaid_per_living_individual_tick": 0.0,
+                "plant_food": 599597,
+                "plant_food_per_living_individual_tick": 2.4205310177503803,
+                "corpse_food": 0,
+                "corpse_food_per_living_individual_tick": 0.0,
+                "water": 304248,
+                "water_per_living_individual_tick": 1.2282278281721186,
+                "observed_plant_encounters": 4858297,
+                "observed_corpse_encounters": 185659,
+                "trace_ticks": 245545,
+                "missing_trace_ticks": 14468
+              },
+              "vision_1": {
+                "individuals": 676,
+                "founders": 288,
+                "descendants": 388,
+                "living": 11,
+                "living_descendant_breeders": 5,
+                "births": 388,
+                "deaths": 665,
+                "living_genotype_individual_ticks": 52114,
+                "vision_requested": 51622,
+                "vision_paid": 48073,
+                "vision_unpaid": 3549,
+                "vision_requested_per_living_individual_tick": 0.9905591587673178,
+                "vision_paid_per_living_individual_tick": 0.9224584564608359,
+                "vision_unpaid_per_living_individual_tick": 0.06810070230648195,
+                "plant_food": 137595,
+                "plant_food_per_living_individual_tick": 2.640269409371762,
+                "corpse_food": 0,
+                "corpse_food_per_living_individual_tick": 0.0,
+                "water": 49828,
+                "water_per_living_individual_tick": 0.9561346279310742,
+                "observed_plant_encounters": 1309119,
+                "observed_corpse_encounters": 51964,
+                "trace_ticks": 51472,
+                "missing_trace_ticks": 4635
+              }
+            }
+          },
+          "neutral": {
+            "living_population": {
+              "herbivore_vision_0": 328,
+              "herbivore_vision_1": 244,
+              "herbivores_total": 572,
+              "carnivores": 45,
+              "all_species_total": 617
+            },
+            "births": 2937,
+            "deaths": 2928,
+            "living_descendant_breeders": {
+              "herbivore_vision_0": 222,
+              "herbivore_vision_1": 165,
+              "herbivores_total": 387,
+              "carnivores": 9
+            },
+            "founder_vision_alleles": {
+              "0": 288,
+              "1": 288,
+              "vision_1_frequency": 0.5
+            },
+            "breeder_vision_1": {
+              "numerator": 165,
+              "denominator": 387,
+              "frequency": 0.4263565891472868
+            },
+            "within_arm_founder_to_breeder_change": -0.0736434108527132,
+            "parent_pair_family_counts_by_vision_allele": {
+              "0": 222,
+              "1": 165
+            },
+            "founder_ancestor_union_counts_by_vision_allele": {
+              "0": 383,
+              "1": 383
+            },
+            "herbivore_genotypes": {
+              "vision_0": {
+                "individuals": 1883,
+                "founders": 288,
+                "descendants": 1595,
+                "living": 328,
+                "living_descendant_breeders": 222,
+                "births": 1595,
+                "deaths": 1555,
+                "living_genotype_individual_ticks": 165380,
+                "vision_requested": 0,
+                "vision_paid": 0,
+                "vision_unpaid": 0,
+                "vision_requested_per_living_individual_tick": 0.0,
+                "vision_paid_per_living_individual_tick": 0.0,
+                "vision_unpaid_per_living_individual_tick": 0.0,
+                "plant_food": 391004,
+                "plant_food_per_living_individual_tick": 2.3642762123594148,
+                "corpse_food": 0,
+                "corpse_food_per_living_individual_tick": 0.0,
+                "water": 195256,
+                "water_per_living_individual_tick": 1.1806506228080784,
+                "observed_plant_encounters": 3225787,
+                "observed_corpse_encounters": 126556,
+                "trace_ticks": 163869,
+                "missing_trace_ticks": 10374
+              },
+              "vision_1": {
+                "individuals": 1611,
+                "founders": 288,
+                "descendants": 1323,
+                "living": 244,
+                "living_descendant_breeders": 165,
+                "births": 1323,
+                "deaths": 1367,
+                "living_genotype_individual_ticks": 141557,
+                "vision_requested": 0,
+                "vision_paid": 0,
+                "vision_unpaid": 0,
+                "vision_requested_per_living_individual_tick": 0.0,
+                "vision_paid_per_living_individual_tick": 0.0,
+                "vision_unpaid_per_living_individual_tick": 0.0,
+                "plant_food": 331359,
+                "plant_food_per_living_individual_tick": 2.340816773455216,
+                "corpse_food": 0,
+                "corpse_food_per_living_individual_tick": 0.0,
+                "water": 165630,
+                "water_per_living_individual_tick": 1.1700587042675388,
+                "observed_plant_encounters": 2754344,
+                "observed_corpse_encounters": 110172,
+                "trace_ticks": 140218,
+                "missing_trace_ticks": 9251
+              }
+            }
+          }
+        },
+        "archive": {
+          "index_path": "data/experiments/vision-selection-v1-formal-20261024/54004/raw.jsonl.archive.json",
+          "status": "verified",
+          "archive_path": "data/experiments/vision-selection-v1-formal-20261024/54004/raw.jsonl.zst",
+          "archive_bytes": 8845836,
+          "archive_sha256": "b563a0d99469ad60182c5c7e46febb436c8f66e06ed1e2246961b2d1d6f21fd4",
+          "original_raw_sha256": "caca7fcfb5a00881b2d5c88aa5402ec65d3ec997a44a9ad6caff7495733bb107"
+        }
+      }
+    ],
+    "archive_total_bytes": 35274964,
+    "formal_summary_path": "data/experiments/vision-selection-v1-formal-20261024/summary.json",
+    "formal_batch_manifest_path": "data/experiments/vision-selection-v1-formal-20261024/manifest.json"
+  },
+  "interpretation_limits": [
+    "Seed 123 calibration and earlier 200-tick seed-123 engineering measurement are seen-seed evidence and excluded from the formal estimate.",
+    "The registered unit of replication is the paired seed block (N=4); individuals and families are not independent replicates and no significance test is claimed.",
+    "All four formal paired deltas are negative, opposite the original positive prediction; this is a bounded descriptive result for this fixture.",
+    "Vision-1 breeder-cohort frequency zero in seed 54001 is based on 0/433 and does not imply vision-1 is absent from all living herbivores; one v1 herbivore remained alive.",
+    "Trait expression can change RNG consumption during reproduction; arms are not exact counterfactual paths.",
+    "Perception encounters are not validated food discovery; basal metabolism and body-energy residuals are not inferred from trait costs.",
+    "No pure causal vision effect, general fitness, long-run coexistence, or habitat robustness conclusion."
+  ],
+  "independent_audit": {
+    "calibration_root_audit_status": "passed",
+    "calibration_founder_audit_status": "passed",
+    "calibration_formal_gate_passed": true,
+    "formal_batch_status": "completed_and_independently_audited",
+    "all_four_pairs_valid": true,
+    "all_primary_exposure_ancestry_and_event_totals_recomputed": true,
+    "all_food_water_stock_flows_recomputed": true,
+    "state_rng_roundtrip": "per-arm tick-100 State+RNG serialize/restore equality; not uninterrupted-path replay",
+    "audit_scope": "event-backed genotype costs/acquisitions/lineage, living individual-tick denominators, family ancestry, recorded encounter counts, and stock flows; not food-discovery validation or full replay"
+  },
+  "repository_checks": {
+    "source_revision": "a4232c37d52d50d7e7dccf3b429be03fe1519292",
+    "rust_tests_passed": 251,
+    "rust_test_failures": 0,
+    "rust_summary_groups": 48,
+    "python_tests_passed": 177,
+    "python_test_failures": 0,
+    "release_app": "passed",
+    "release_probe": "passed",
+    "rustfmt": "passed",
+    "cleanup_proof": "data/operations/wave7-checks-20261024/cleanup.json",
+    "cleanup_logical_bytes": 616453126,
+    "cleanup_scope": "inactive task build target only; immutable probe snapshots retained and verified",
+    "cleanup_proof_sha256": "64f4cbd898b4e22afce8d74e14bca15757d53cb4b43139d713d0b8a5305861eb",
+    "manifest_path": "data/operations/wave7-checks-20261024/manifest.json",
+    "manifest_sha256": "f117af3ad7ef8e83069660f376f267ee7da99bcf37ce8b7a2f985b7af9e3eecd"
+  },
+  "archive_status": {
+    "status": "all_five_lossless_archives_verified",
+    "calibration_index": "data/experiments/vision-selection-v1-calibration-20261024/raw.jsonl.archive.json",
+    "formal_indices": [
+      "data/experiments/vision-selection-v1-formal-20261024/54001/raw.jsonl.archive.json",
+      "data/experiments/vision-selection-v1-formal-20261024/54002/raw.jsonl.archive.json",
+      "data/experiments/vision-selection-v1-formal-20261024/54003/raw.jsonl.archive.json",
+      "data/experiments/vision-selection-v1-formal-20261024/54004/raw.jsonl.archive.json"
+    ],
+    "archive_total_bytes": 44055815,
+    "original_total_bytes": 779685161,
+    "verification_manifest": "data/operations/wave7-checks-20261024/archives.json",
+    "verification_manifest_sha256": "a063042e21ebc1b93a25d54da0c09e9a4f2f0ab11bc5eff472ea321e33ab51fa",
+    "formal_archive_bytes": 35274964,
+    "calibration_archive_bytes": 8780851,
+    "aggregate_archive_bytes": 44055815,
+    "aggregate_original_bytes": 779685161
+  }
+}
