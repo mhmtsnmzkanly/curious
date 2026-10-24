@@ -45,6 +45,18 @@ trait selection. No engine upgrade without qualification. Source and diagnosis
 stages are complete; refuge engineering remains incomplete. See
 [WAVE4_PROGRESS](docs/reports/WAVE4_PROGRESS.md) and [JSON](docs/reports/WAVE4_PROGRESS.json).
 
+Follow-up: the fixed technical validation passed with all 270 planned ticks in
+1.578 s at 44,480 KiB peak RSS. All 235 common JSONL records were equal,
+including all 225 earlier tick records; treatments and frozen rows passed the
+root audit. The earlier run remains failed. No post-prefix opportunity was
+identified (zero supported fresh greedy choices, zero different-ID supported
+choices, zero aligned online/frozen contrasts), so there is no utility or
+biological conclusion. No formal seed role or deployment. Refuge opportunity
+remains unresolved; raw is losslessly archived and must be restored before
+frozen readers. See
+[report](docs/reports/REFUGE_REPAIR_VALIDATION.md) and
+[JSON](docs/reports/REFUGE_REPAIR_VALIDATION.json).
+
 ## 24 October 2026 — current retention and evidence handoff
 
 At main `904d4cc`, root independently passed all 8 retention tests and a

@@ -44,6 +44,19 @@ habitat/trait çalışmasından önce genotype-cost/food audit'ini kur. Bounded
 qualification olmadan engine upgrade yok. Wave 4 raporu: [WAVE4_PROGRESS](docs/reports/WAVE4_PROGRESS.md) / JSON. G/C source ve tanı aşamaları tamam; refuge
 engineering hâlâ incomplete. Live V12 değişmedi; yeni run veya formal seed yok.
 
+Follow-up repair validation completed the separately preregistered fixed
+technical run: 270 ticks, 1.578 s, 44,480 KiB peak RSS. All 235 common JSONL
+records matched exactly (including the earlier 225 tick records), and the root
+audit verified all arms, treatments, and frozen rows. The earlier manifest
+remains failed. Post-prefix opportunity was not identified: zero supported
+fresh greedy choices, zero different-ID supported choices, and zero aligned
+online/frozen contrasts. No formal seed role, deployment, or utility/biological
+conclusion. Refuge opportunity remains unresolved. See
+[technical validation](docs/reports/REFUGE_REPAIR_VALIDATION.md) and [JSON](docs/reports/REFUGE_REPAIR_VALIDATION.json).
+Raw was losslessly archived to 3,353,735-byte Zstandard; restore it before
+using frozen readers. Index:
+`data/experiments/refuge-repair-validation-20261024/raw.jsonl.archive.json`.
+
 ## 24 October 2026 — current retention and evidence handoff
 
 At main `904d4cc`, root independently passed all 8 retention tests and a

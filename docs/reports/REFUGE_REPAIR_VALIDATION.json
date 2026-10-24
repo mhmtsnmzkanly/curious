@@ -1,0 +1,138 @@
+{
+  "schema": "curious-refuge-repair-validation-report-v1",
+  "status": "technical_validation_passed",
+  "classification": "technical_completion_and_integrity_only",
+  "evidence_directory": "data/experiments/refuge-repair-validation-20261024",
+  "protocol": {
+    "path": "docs/REFUGE_REPAIR_VALIDATION.md",
+    "commit": "b082f825a059c9c5a77427b091dfd5cb70399886",
+    "sha256": "65eca7de0b774f79d8403ce2af899156fbcc3ca2b41d3c7e400ea4ad2f46dee6"
+  },
+  "run": {
+    "role": "same_seen_seed_technical_validation_not_independent_learning_evidence",
+    "seed": 123,
+    "focal_id": 15,
+    "source_revision": "3c2a83d",
+    "probe_binary_sha256": "9e2a0e25c1c992a49ba429b53a27e5d33f15e55e39b97708a6965a78e8586248",
+    "started_utc": "2026-10-24T14:19:32.044941+00:00",
+    "ended_utc": "2026-10-24T14:19:33.670201+00:00",
+    "returncode": 0,
+    "elapsed_seconds": 1.578,
+    "limits": {
+      "wall_seconds": 300,
+      "address_space_bytes": 1073741824,
+      "raw_bytes": 134217728,
+      "core_bytes": 0
+    },
+    "peak_rss_kib": 44480,
+    "raw_bytes": 59886938,
+    "raw_sha256": "de40e6f9a14acdb62a0be0d7ea93371511265e7423b0691f3e858cff06e2946a",
+    "raw_archive": {
+      "path": "data/experiments/refuge-repair-validation-20261024/raw.jsonl.zst",
+      "index": "data/experiments/refuge-repair-validation-20261024/raw.jsonl.archive.json",
+      "status": "verified_lossless_zstd",
+      "compressed_bytes": 3353735,
+      "archive_sha256": "b32208ad3c36f1710911360dee8c60e57553f8ab3281938ca342a925075b8749"
+    },
+    "stderr_bytes": 0
+  },
+  "technical_gates": {
+    "planned_physical_ticks": 270,
+    "complete_tick_records": 270,
+    "all_four_arms_and_summary_present": true,
+    "all_treatments_verified": true,
+    "frozen_rows_unchanged": true,
+    "recorded_ages_continuous": true,
+    "provenance_replays_match": true,
+    "old_common_jsonl_records_equal": 235,
+    "old_common_tick_records_equal": 225,
+    "passed": true,
+    "root_audit_sha256": "7d82f3dfd94e34ee797f247b8ccb5e83e71b28a0142d97e4654516ea0e916a34"
+  },
+  "summary": {
+    "physical_ticks": 270,
+    "distinct_world_ticks": 90,
+    "focal_update_events": 3,
+    "post_prefix_supported_fresh_greedy_choices": 0,
+    "different_threat_id_supported_choices": 0,
+    "aligned_online_frozen_greedy_contrasts": 0,
+    "opportunity_gate": "engineering_opportunity_not_identified"
+  },
+  "arms": [
+    {
+      "arm": "shared_prefix_online",
+      "ticks": 30,
+      "terminal_health": 120,
+      "terminal_energy": 58,
+      "terminal_water": 46,
+      "movement_energy": 32,
+      "food_acquired": 40,
+      "water_acquired": 16,
+      "arrivals": 1,
+      "accepted_updates": 1,
+      "supported_greedy_choices": 0
+    },
+    {
+      "arm": "trained_online",
+      "ticks": 60,
+      "terminal_health": 120,
+      "terminal_energy": 34,
+      "terminal_water": 27,
+      "movement_energy": 36,
+      "food_acquired": 92,
+      "water_acquired": 56,
+      "arrivals": 1,
+      "accepted_updates": 1,
+      "supported_greedy_choices": 0
+    },
+    {
+      "arm": "trained_frozen",
+      "ticks": 60,
+      "terminal_health": 120,
+      "terminal_energy": 34,
+      "terminal_water": 27,
+      "movement_energy": 36,
+      "food_acquired": 92,
+      "water_acquired": 56,
+      "arrivals": 1,
+      "accepted_updates": 0,
+      "supported_greedy_choices": 0
+    },
+    {
+      "arm": "naive_online",
+      "ticks": 60,
+      "terminal_health": 120,
+      "terminal_energy": 34,
+      "terminal_water": 27,
+      "movement_energy": 36,
+      "food_acquired": 92,
+      "water_acquired": 56,
+      "arrivals": 1,
+      "accepted_updates": 1,
+      "supported_greedy_choices": 0
+    },
+    {
+      "arm": "rule_based",
+      "ticks": 60,
+      "terminal_health": 120,
+      "terminal_energy": 34,
+      "terminal_water": 27,
+      "movement_energy": 36,
+      "food_acquired": 92,
+      "water_acquired": 56,
+      "arrivals": null,
+      "arrivals_status": "not_reported_in_root_audit_unknown",
+      "accepted_updates": 0,
+      "supported_greedy_choices": 0
+    }
+  ],
+  "original_failed_run": {
+    "status_remains": "failed",
+    "manifest_sha256": "2ea23a6f62e036c66952a2215fa59ac6dcd66ec5bb5f67514d91b84a040bf395",
+    "raw_sha256": "15ce046035061e24fbd969cc9056ae32cc8f423926705b5e168c55a0a830c4a0",
+    "technical_validation_retroactively_completes_it": false
+  },
+  "formal_seed_roles_consumed": [],
+  "live_deployment": false,
+  "utility_or_biological_claim": false
+}
