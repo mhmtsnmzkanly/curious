@@ -10,6 +10,11 @@ Locate the checkout root three parent levels above this skill directory. Read
 relevant deployment/observation record. On another host discover its actual
 configuration; do not assume this repository's example addresses are installed.
 
+Operational work usually maps to [K8 motor and operations](../../../docs/ROADMAP.md#motor-isletim);
+read-only replay/archive viewing may also touch
+[K7 observation and interface](../../../docs/ROADMAP.md#gozlem-arayuz).
+These routing labels do not change the scope authorized by the user.
+
 ## Establish what is actually running
 
 A request to check status is read-only. Discover executable, unit, data path,

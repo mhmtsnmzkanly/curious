@@ -3,8 +3,8 @@
 ## Başlangıç noktaları
 
 - [Ana README](../README.md): proje, yerel çalıştırma ve mimari sınırlar.
-- [ROADMAP](ROADMAP.md): 25 Ekim 2026 durumu, özgün 11 aşama, A–G sistem
-  izleri ve ortak kabul kapıları.
+- [ROADMAP](ROADMAP.md): sekiz K1–K8 kategori, özgün 11 aşama, A–G yetenek
+  izleri, güncel durum ve ortak kabul kapıları.
 - [TODO](../TODO.md): P0–P3 sıradaki işler.
 - [CONTROL](CONTROL.md): HTTP kontrolü, pause/resume ve işletim sözleşmesi.
 - [LEARNING_NEXT](LEARNING_NEXT.md): öğrenme alanları için davranış ve kayıt
@@ -12,6 +12,15 @@
 - [VISION](VISION.md): kullanıcı amacı ile mimari ilkelerin tarihsel taslağı.
 - [HISTORY_RETENTION](HISTORY_RETENTION.md): arşivleme, retention ve depolama
   sınırları.
+
+Kategorilere doğrudan git: [K1 Dünya ve çevre](ROADMAP.md#dunya-cevre),
+[K2 Canlı ve beden](ROADMAP.md#canli-beden),
+[K3 Bireysel davranış ve öğrenme](ROADMAP.md#bireysel-ogrenme),
+[K4 Grup ve sosyal ilişkiler](ROADMAP.md#grup-sosyal),
+[K5 Ekoloji ve etkileşim](ROADMAP.md#ekoloji-etkilesim),
+[K6 Kalıtım ve evrim](ROADMAP.md#kalitim-evrim),
+[K7 Gözlem ve arayüz](ROADMAP.md#gozlem-arayuz),
+[K8 Motor ve işletim](ROADMAP.md#motor-isletim).
 
 ## Güncel kanıt
 

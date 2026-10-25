@@ -11,6 +11,19 @@ for the affected feature. Identify the requested review scope, base/candidate
 revisions, and actual diff. A review request alone does not authorize editing code,
 launching a long experiment, or touching a live world.
 
+Route the review by the affected roadmap area, then trace cross-area effects where
+they matter: [K1](../../../docs/ROADMAP.md#dunya-cevre),
+[K2](../../../docs/ROADMAP.md#canli-beden),
+[K3](../../../docs/ROADMAP.md#bireysel-ogrenme),
+[K4](../../../docs/ROADMAP.md#grup-sosyal),
+[K5](../../../docs/ROADMAP.md#ekoloji-etkilesim),
+[K6](../../../docs/ROADMAP.md#kalitim-evrim),
+[K7](../../../docs/ROADMAP.md#gozlem-arayuz), and
+[K8](../../../docs/ROADMAP.md#motor-isletim). Treat these as categories, not a
+feature sequence. Check whether an outcome is supported at the declared horizon
+and by the existing denominators; preserve established Unknown/censor rules
+instead of inventing a new acceptance threshold during review.
+
 ## Trace intent to evidence
 
 State what user-visible behavior is intended and trace it through perception,
@@ -26,7 +39,9 @@ Check the boundaries relevant to the change:
 - Features need paid physical consequences. No age-based intelligence bonus,
   accidental learned-table inheritance, or population rescue disguised as ecology.
 - Disabled learning must preserve its documented state/RNG behavior. Frozen values
-  and visits stay fixed while the configured choice/exploration policy continues.
+  and visits stay fixed while the configured choice/exploration policy continues;
+  full online/frozen State/RNG identity is not required. Verify the freeze contract
+  separately from disabled-mode compatibility and deterministic checkpoint resume.
 - Follow a whole episode across target switch, kill, later meal, priority change,
   external command, third-party interaction, death, and timeout. Account costs once;
   predecision closure cannot consume the current resolver tick. Killing is not food.

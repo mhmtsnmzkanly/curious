@@ -11,6 +11,20 @@ the relevant maintained protocol and runner. For hunt studies start with
 [HUNT_LAB](../../../docs/HUNT_LAB.md), its linked protocols, and existing manifests.
 Read operational/control contracts before any run touching persistence or services.
 
+## Route and choose the measurement unit
+
+Select the primary roadmap area from the hypothesis, not from the experiment
+method: [K1](../../../docs/ROADMAP.md#dunya-cevre),
+[K2](../../../docs/ROADMAP.md#canli-beden),
+[K3](../../../docs/ROADMAP.md#bireysel-ogrenme),
+[K4](../../../docs/ROADMAP.md#grup-sosyal),
+[K5](../../../docs/ROADMAP.md#ekoloji-etkilesim),
+[K6](../../../docs/ROADMAP.md#kalitim-evrim),
+[K7](../../../docs/ROADMAP.md#gozlem-arayuz), or
+[K8](../../../docs/ROADMAP.md#motor-isletim). State whether the measurement unit
+is an individual, group, population, or environment. Aggregate survival does not
+by itself establish individual learning or group intelligence.
+
 ## Freeze the question before seeing results
 
 Specify a narrow falsifiable hypothesis, control and intervention, measured
@@ -40,6 +54,9 @@ interruptions, attribution uncertainty, and changes in learned values. Do not us
 reward alone as success. Distinguish own prey defense from third-party damage;
 retain censorship when evidence is uncertain. A trial boundary is not a natural
 failure. Count all episode endings exactly once, including two in one tick.
+Name the outcome horizon: a later censored route does not erase an earlier fully
+observed interval, while a missing or incomplete interval remains unknown. Keep
+support denominators and physical units visible for each horizon.
 
 Validate totals against resolver events and body accounting. Avoid charging
 metabolism or action costs twice. Check checkpoint/SQLite samples against raw

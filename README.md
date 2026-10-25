@@ -26,7 +26,7 @@ bir özellik ya da uzun yaşam tek başına başarı kanıtı sayılmaz.
 - Aylar/yıllar süren soak kullanıcı isteğiyle ertelendi; sonraki özellik için
   engel değildir.
 
-Güncel öncelik ve yedi önerilen sistem:
+Sekiz kategori ve yedi A–G yetenek izinin durumu ile öncelikleri:
 [ROADMAP](docs/ROADMAP.md). Belgelerin girişi:
 [docs/README](docs/README.md).
 

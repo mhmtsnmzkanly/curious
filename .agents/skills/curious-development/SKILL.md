@@ -13,6 +13,10 @@ Read [AGENTS.md](../../../AGENTS.md), [VISION](../../../docs/VISION.md),
 Historical notes describe different revisions; inspect current source, manifests,
 and service configuration instead of treating the latest paragraph as live state.
 
+## Route the change
+
+Choose one primary roadmap area for the behavior being changed: [K1](../../../docs/ROADMAP.md#dunya-cevre), [K2](../../../docs/ROADMAP.md#canli-beden), [K3](../../../docs/ROADMAP.md#bireysel-ogrenme), [K4](../../../docs/ROADMAP.md#grup-sosyal), [K5](../../../docs/ROADMAP.md#ekoloji-etkilesim), [K6](../../../docs/ROADMAP.md#kalitim-evrim), [K7](../../../docs/ROADMAP.md#gozlem-arayuz), or [K8](../../../docs/ROADMAP.md#motor-isletim). This is categorization, not execution order: name the primary owner and identify cross-area interfaces. Keep world propagation, body/perception, decision, resolver physics, per-individual learning, and persistence responsibilities distinct. A roadmap or skill entry does not authorize a World run or live change.
+
 ## Implement the intended behavior
 
 Describe the observable before/after behavior and affected boundary. Keep world
@@ -54,6 +58,13 @@ For observer changes, use the relevant Node checks and browser checks when neede
 verify read-only behavior, old/missing fields, and displayed versus actual state.
 State exactly which checks ran; documentation-only changes need structural/link
 validation, not an unrelated Rust rebuild.
+
+Use a distinct `CARGO_TARGET_DIR` for each worktree and serialize Cargo jobs; a
+reused target can contain artifacts from a different source/version. Do not treat
+frozen model weights/counters as proof that the entire online World state or RNG
+is frozen; exploration may continue. Test the contract actually claimed. Exact
+State/RNG continuation is relevant to disabled-mode compatibility and checkpoint
+resume.
 
 Finish with behavior, validation, and limitations. Update the maintained contract
 and task handoff, commit only intended files, and do not push unless authorized.
