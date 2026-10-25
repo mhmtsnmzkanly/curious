@@ -192,7 +192,10 @@ impl Learner {
             self.interrupt(WaterEnd::Disabled);
             return base;
         }
-        if self.context_ttl_enabled {
+        // Freezing learner updates also freezes the stored context table. TTL is
+        // still enforced by predict_context_residual, so stale entries stop
+        // influencing choices without being physically pruned from memory.
+        if self.context_ttl_enabled && self.update_enabled {
             self.prune_expired_context(tick);
         }
         if base.reason != Reason::SeekWater {

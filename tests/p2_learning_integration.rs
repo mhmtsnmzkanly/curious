@@ -625,6 +625,54 @@ fn test_context_ttl_world_tick_populates_and_alters_choice() {
     );
 }
 
+#[test]
+fn test_frozen_context_table_is_unchanged_while_ttl_expires_prediction() {
+    let mut herbivore = EntitySlot::new(
+        1,
+        Position::new(0, 0),
+        EntityPhase::Active,
+        EntityController::AI,
+        Box::new(HerbivoreEntity::default()),
+    );
+    herbivore.base.life_mut().water = 100;
+    herbivore.base.life_mut().max_water = 100;
+    herbivore.learner.context_ttl_enabled = true;
+    herbivore.learner.update_enabled = false;
+    let speed = herbivore.base.life().speed.max(1) as u8;
+    let move_cost = 1u16 + herbivore.genome.mobility as u16;
+    let mut observations = VecDeque::new();
+    observations.push_back(-200);
+    herbivore.learner.context_entries.push(ContextWaterEntry {
+        pos: Position::new(2, 0),
+        speed,
+        move_energy_cost: move_cost,
+        last_seen_tick: 0,
+        observations,
+    });
+
+    let mut world = World::with_seed(-5, 5, -5, 5, vec![herbivore], 901);
+    world.logger = Logger::disabled();
+    world.map = curious::map::Map::new(-5, 5, -5, 5);
+    let before = world.entities[0].learner.context_entries.clone();
+    assert!(world.entities[0]
+        .learner
+        .predict_context_residual(Position::new(2, 0), speed, move_cost, 48)
+        .is_some());
+
+    for _ in 0..60 {
+        world.tick();
+        assert!(world.entities[0].base.life().is_alive());
+    }
+
+    assert_eq!(world.entities[0].learner.context_entries, before);
+    assert!(!world.entities[0].learner.update_enabled);
+    assert_eq!(world.entities[0].learner.context_entries[0].observations.len(), 1);
+    assert!(world.entities[0]
+        .learner
+        .predict_context_residual(Position::new(2, 0), speed, move_cost, 60)
+        .is_none());
+}
+
 /// Test 6: Spatial curiosity in normal World::tick populates sectors and alters movement trajectory
 #[test]
 fn test_spatial_curiosity_world_tick_populates_sectors_and_alters_trajectory() {
