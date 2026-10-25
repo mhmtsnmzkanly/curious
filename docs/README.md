@@ -26,6 +26,8 @@ Kategorilere doğrudan git: [K1 Dünya ve çevre](ROADMAP.md#dunya-cevre),
 
 ## Güncel kanıt
 
+- [9c7d3f0 bağımsız kapanış kontrolü](reports/AUDIT_RECHECK_9C7D3F0_20261025.md) — ana düzeltmeler doğrulandı; F8 otonom kazı sayacının kanıt sınırı korunuyor.
+
 - [Wave 9: 6fa9c49 yeniden denetim bulgularının (P1/F1, P2/F8, F5, F6) tam kapanış ve hizalama raporu](reports/AUDIT_RECHECK_6FA9C49_REMEDIATION_20261025.md) — su bağlam artığının `foraging::value` ölçeğiyle tam hizalanması, konfigürasyondan bağımsız dinamik snapshot ve RNG ayrışması, statik harita inleri metadata kaydı ve ceset çürümesi zamanlamasının tam kapanış kanıtı.
 - [6fa9c49 bağımsız yeniden denetimi](reports/AUDIT_RECHECK_6FA9C49_20261025.md) — F1 ölçek hatası, F8 kanıt sınırı ve diğer kapanışların kontrolü.
 - [2002ee4 düzeltmelerinin bağımsız yeniden denetimi](reports/AUDIT_RECHECK_2002EE4_20261025.md) — F3/F4/F7 düzeldi; diğer bulgulardaki kalan kusurlar ve kanıt sınırları.
