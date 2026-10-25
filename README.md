@@ -25,6 +25,16 @@ bir özellik ya da uzun yaşam tek başına başarı kanıtı sayılmaz.
   sansürü, tamamlanmış ilk aralığın exact etiketini geçersiz kılmaz.
 - Aylar/yıllar süren soak kullanıcı isteğiyle ertelendi; sonraki özellik için
   engel değildir.
+- Dalga 1–6 motor iyileştirmeleri ve P2 çekirdek entegrasyonu tamamlandı: `World::with_seed`
+  varsayılan olarak `Logger::disabled()` kullanır (testlerde dosya sızıntısı önlendi);
+  `Memory::toward` yerel BFS baypas (detour) aramasıyla duvara takılmayı çözer; tüm K1–K7
+  izleri ve 7 yeni özellik (bağlam/TTL su kalıntısı, ilk-aralık sığınak hasarı, 4x4 mekânsal
+  merak, mevsimsel iklim/kış uykusu, dinamik in/habitat, kademeli leş çürümesi, ontogenetik
+  yavru bakımı, pusu/takip avcılığı, yerel sosyal alarm koordinasyonu) çekirdek motora
+  `default-off`, `State+RNG` denkliği ve checkpoint-resume korumalı olarak entegre edildi;
+  K7 web replay/experience arayüzü (`autoDirector`, `causalChain`, `refuge`) bağlandı ve
+  K8 throughput/bellek tavan denetimi doğrulandı
+  ([P2/P3 ampirik protokol ve K8 denetimi](docs/reports/P2_P3_EMPIRICAL_AND_K8_AUDIT_20261025.md)).
 
 Sekiz kategori ve yedi A–G yetenek izinin durumu ile öncelikleri:
 [ROADMAP](docs/ROADMAP.md). Belgelerin girişi:
@@ -81,4 +91,5 @@ Yalnızca Markdown değişiklikleri Rust yeniden derlemesi gerektirmez.
 - [Öğrenme sözleşmesi](docs/LEARNING_NEXT.md)
 - [Arşiv bütçesi düzeltmesinin canlı dağıtım kanıtı](docs/reports/ARCHIVE_BUDGET_DEPLOYMENT_20261025.md)
 - [İlk resolver aralığı sonucu](docs/reports/REFUGE_FIRST_RESOLUTION_V1.md)
+- [P2/P3 ampirik protokol ve K8 denetimi](docs/reports/P2_P3_EMPIRICAL_AND_K8_AUDIT_20261025.md)
 - [Tüm raporlar](docs/reports/)

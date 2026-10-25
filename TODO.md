@@ -22,7 +22,7 @@
   - `CuriousExperience.render` artık sığınak deneyimini (`CuriousExperience.refuge`) görüntüler.
   - `web/replay.html` & `web/replay.js`: `#auto-director` odak paneli (`CuriousDocumentary.autoDirector`) ve kayıt başına nedensellik zinciri (`CuriousDocumentary.causalChain`: `Kanıt -> Eylem -> Resolver -> Bellek`) bağlandı.
   - `web/replay.css`: `.auto-director` görsel stili eklendi.
-- **P3 & K8 — Sabit Held-Out Protokolü ve Kısa Yük Throughput Denetimi (`tests/k8_throughput_audit.rs`, `reports/P2_P3_EMPIRICAL_AND_K8_AUDIT_20261025.md`):**
+- **P3 & K8 — Sabit Held-Out Protokolü ve Kısa Yük Throughput Denetimi (`tests/k8_throughput_audit.rs`, `docs/reports/P2_P3_EMPIRICAL_AND_K8_AUDIT_20261025.md`):**
   - Kısa yük tick throughput ve bellek sınırları doğrulandı (`SignalTrace <= 64`, `sites <= 8`, `dangers <= 8`, `known_sectors <= 16`, `burrows <= 32`).
   - Sabit 5-seed held-out protokolü (`control`, `learning`, `climate`, `social_care`, `all_features`) deterministik olarak yürütüldü ve raporlandı.
   - Epistemik dürüstlük: Mekanizma entegrasyonu, disabled-path `State+RNG` denkliği, checkpoint-resume ve sabit-seed protokol tekrarlanabilirliği doğrulanmış; evrensel çok-habitatlı ekolojik üstünlük veya uzun gerçek zamanlı soak iddia edilmemiş / kapsam dışı bırakılmıştır.

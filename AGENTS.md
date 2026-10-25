@@ -74,6 +74,14 @@ dağıtım ve karar kanıtları ilgili raporlarda korunur; eski kayıtları silm
   için önkoşul veya mevcut kabul kanıtı değildir. Yeni fiziksel çalışma ancak
   sabit protokol, sınırlı kaynak ve bağımsız denetimle başlar; aynı sonucu
   tekrarlamayın veya sonuçtan sonra eşiği/parametreyi ayarlamayın.
+- P2 çekirdek motor entegrasyonları (`WaterLearner::context_ttl_enabled`,
+  `Memory::{first_interval_refuge_enabled, spatial_curiosity_enabled}`,
+  `Environment::{day_night, signals, season_cycle, burrows}`,
+  `PolicySettings::{injury_capacity_penalty, juvenile_care_enabled, ambush_predation_enabled, local_coordination_enabled}`)
+  `src/` içine varsayılan kapalı (`default-off`) olarak eklenmiş; disabled-path `State+RNG`
+  denkliği ve checkpoint-resume determinizmi tam doğrulanmıştır. Sabit 5-seed held-out protokolü
+  (`P2_P3_EMPIRICAL_AND_K8_AUDIT_20261025.md`) sentetik fikstürlerde mekanizma ayrışmasını ve
+  bellek sınırlarını doğrulamış olup, evrensel çok-habitatlı ekolojik üstünlük iddia edilmemiştir.
 
 Güncel sonuçlar ve tarihçe:
 
@@ -81,6 +89,7 @@ Güncel sonuçlar ve tarihçe:
 - [Refuge fiziksel baseline V1](docs/reports/REFUGE_RISK_BASELINE_V1.md)
 - [İlk çözücü aralığı](docs/reports/REFUGE_FIRST_RESOLUTION_V1.md)
 - [Önceki teknik tamamlama doğrulaması](docs/reports/REFUGE_REPAIR_VALIDATION.md)
+- [P2/P3 ampirik protokol ve K8 denetimi](docs/reports/P2_P3_EMPIRICAL_AND_K8_AUDIT_20261025.md)
 - [Öğrenme sınırları ve sonraki adımlar](docs/LEARNING_NEXT.md)
 - [Güncel roadmap](docs/ROADMAP.md) · [doküman dizini](docs/README.md)
 
@@ -119,6 +128,9 @@ Güncel sonuçlar ve tarihçe:
 
 ## Bakım noktaları
 
+- `World::with_seed` varsayılan olarak `Logger::disabled()` kullanır; birim ve
+  entegrasyon testleri `logs/simulation_*.log` sızıntısı yapmaz (dosyaya loglama
+  yalnız `World::enable_timestamped_file_logger()` ile açıkça başlatılır).
 - Bildirim, seed, deney ve karar kanıtı için tarihsel raporları tutun; bu giriş
   güncel kuralları kısa tutar. Ek araştırma planı [docs/ROADMAP.md](docs/ROADMAP.md)
   içindedir.

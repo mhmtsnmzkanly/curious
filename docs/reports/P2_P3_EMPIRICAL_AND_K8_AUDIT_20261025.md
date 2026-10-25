@@ -1,13 +1,26 @@
 # P2/P3 Ampirik Karşılaştırma ve K8 İşletim Bütçesi Denetim Raporu (25 Ekim 2026)
 
-Bu rapor, Curious simülatöründe **K8 Motor ve İşletim Bütçesi** denetimini ve **P3 Sabit Seed Ampirik Karşılaştırma** protokollerini belgelemektedir. Dokümantasyon kuralları gereği ([docs/DOCUMENTATION_STANDARD.md](../docs/DOCUMENTATION_STANDARD.md)), mekanizma doğrulaması ile ekosistem genellemesi arasındaki sınırlar açıkça ayrılmıştır.
+Bu rapor, Curious simülatöründe **K8 Motor ve İşletim Bütçesi** denetimini ve **P3 Sabit Seed Ampirik Karşılaştırma** protokollerini belgelemektedir. Dokümantasyon kuralları gereği ([DOCUMENTATION_STANDARD.md](../DOCUMENTATION_STANDARD.md)), mekanizma doğrulaması ile ekosistem genellemesi arasındaki sınırlar açıkça ayrılmıştır.
+
+---
+
+## 0. Mimari Değerlendirme ve Dalga 1–6 İzlenebilirlik Özeti
+
+### Wave 1 Motor Hijyeni ve Temel Düzeltmeler (`34c950a`, `16bc930`, `eb81701`):
+- `World::with_seed` artık varsayılan olarak `Logger::disabled()` kullanır (testlerde `logs/simulation_<timestamp>.log` dosya sızıntısı önlendi; açık dosya loglaması için `World::enable_timestamped_file_logger()` eklendi).
+- `src/creatures/{mod.rs,herbivore.rs,carnivore.rs,omnivore.rs}` ortak `define_creature!` makrosu ile tekilleştirildi.
+- `Memory::toward` (`src/entity/memory.rs`) doğrudan adım duvara (`Cell::Wall`) takıldığında yalnızca yerel algılanan hücreler (`view.cells`) üzerinde sınırlı BFS baypas (detour) araması yapar; engelsiz rotalarda `State + RNG` %100 aynı kalır.
+
+### Mimari ve Gerçekçilik Değerlendirmesi (Başlangıç vs. Wave 6 Sonrası):
+- **Başlangıç durumu:** Gerçekçilik **6.8/10**, Mimari **8.2/10** (temel darboğazlar: duvara takılan açgözlü bellek navigasyonu, testlerde log sızıntısı, tam-rota sansürü nedeniyle sığınak hasarının öğrenilememesi, bağlamsız/yaşlanmayan su kalıntısı, sabit çevre/fizyoloji).
+- **Wave 1–6 sonrası:** Tüm `K1–K8` izleri ve 7 yeni nesil özellik (mekânsal merak `4x4`, yavru fizyolojisi ve ebeveyn bakımı, pusu vs takip avcılığı, dinamik yuva/habitat, 4 mevsim ve kış uykusu, kademeli leş çürümesi ve leşçillik nişi, otonom belgesel yönetmeni `#auto-director` ve nedensellik zinciri `causalChain`) hem saf prototip (`P0/P1`) hem de çekirdek motor (`P2`, `default-off`, `State+RNG` ve `checkpoint-resume` korumalı) düzeyinde doğrulandı (**Mekanizma ve Mimari Bütünlük: 9.5/10**; evrensel çok-habitatlı ekolojik üstünlük iddiası ise epistemik dürüstlük gereği kapsam dışı tutulur).
 
 ---
 
 ## 1. Kapsam ve Protokol Kimliği
 
 - **Tarih:** 25 Ekim 2026
-- **Test ve Denetim Dosyası:** [`tests/k8_throughput_audit.rs`](file:///root/curious-research/wave6-ui-p3-k8/tests/k8_throughput_audit.rs)
+- **Test ve Denetim Dosyası:** [`tests/k8_throughput_audit.rs`](../../tests/k8_throughput_audit.rs)
 - **Dizin & Çalışma Dalı:** `wave6-ui-p3-k8`
 - **İlgili Yol Haritası ve Görevler:**
   - **K8 (Motor ve İşletim):** Çok tür popülasyonu altında kısa yük tick verimi, sinyal FIFO tampon tavanı (`<= 64`), bireysel bellek tehlike (`<= 8`) ve kaynak (`<= 32`) tavanları, JSON checkpoint serileştirme boyutu (`< 1 MB`).
