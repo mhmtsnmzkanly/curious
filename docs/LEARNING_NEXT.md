@@ -96,81 +96,57 @@ Raporlar: [full-route risk baseline V1](reports/REFUGE_RISK_BASELINE_V1.md),
 
 ## Pure residual ve öğrenme adaylarının durumu
 
-Depoda geliştirilen saf (pure) mekanizma prototipleri ve deterministik fizik
-testleri başarıyla tamamlanmıştır (`Mekanizma testi geçti`):
+Depoda geliştirilen saf mekanizma prototipleri, root incelemesinin ardından P2 aşamasında
+motor çekirdeğine modüler ve **varsayılan kapalı (`default-off`)** olarak entegre edilmiştir
+(`Mekanizma testi geçti / Doğrulandı`):
 
-1. **Per-owner ilk-aralık sığınak hasarı adayı:**
-   [`REFUGE_RESIDUAL_CANDIDATE`](REFUGE_RESIDUAL_CANDIDATE.md) ve
-   `examples/support/refuge_first_interval_candidate.rs` içindeki mekanizma
-   helper'ı (`tests/refuge_first_interval.rs`) ile ilk-aralık ve tam-rota
-   sansür ayrımı (`tests/refuge_learning.rs`). Üç fiziksel bileşeni ayrı tutmayı,
-   bireyin kendi ilk-aralık deneyiminden residual güncellemeyi ve sansür
-   ayrımını sınar. Tam rota için beklenen hasar `Unknown` kalmaya devam eder.
-2. **Bağlam-uyumlu ve pencere/TTL kısıtlı su artığı adayı:**
-   `examples/support/water_context_residual_candidate.rs` ve
-   `tests/water_context_residual.rs` içindeki mekanizma prototipi. Güncel beden
-   bağlamı (ör. susuzluk derecesi, hız/maliyet) ve zaman penceresi (TTL) ile eski
-   deneyimin uyuşmama riskini sınar. Bounded utility ampirik kabulü değildir.
-3. **Mekânsal zihin haritası ve merak güdümlü keşif adayı (Yeni Özellik 1):**
-   `examples/support/spatial_curiosity_candidate.rs` ve
-   `tests/spatial_curiosity.rs` içindeki prototip. Sınırlı 16 sektörlü `4x4`
-   ızgara, TTL eskime ve keşfedilmemiş/en eski sektörlere merak yönelimi sınar.
-4. **Ontogenetik yavru fizyolojisi ve ebeveyn bakımı adayı (Yeni Özellik 2):**
-   `examples/support/juvenile_parental_care_candidate.rs` ve
-   `tests/juvenile_parental_care.rs` içindeki prototip. `age < maturity_age`
-   ölçekli fizyolojiyi, `FeedOffspring` enerji aktarımını, `GuardOffspring` hasar
-   engellemesini ve sıfır bellek aktarımı kuralını doğrular.
-5. **Pusu / gizlenme vs. takip avcılığı adayı (Yeni Özellik 3):**
-   `examples/support/ambush_predation_candidate.rs` ve
-   `tests/ambush_predation.rs` içindeki prototip. Örtü tabanlı gizlenme
-   (`effective_detectability_radius` düşüşü), ilk vuruş stamina bonusu ve
-   takip vs. pusu allel ödünleşimini sınar.
-6. **Dinamik habitat adayı (Yeni Özellik 4):**
-   `examples/support/dynamic_habitat_candidate.rs` ve
-   `tests/dynamic_habitat.rs` içindeki prototip. Kazılan in/bozulma
-   (`DigBurrow`/`BurrowDecay`), aşırı otlama (`Overgrazing`) ve tohum yayılımı
-   (`SeedDispersal`) kapalı stok-akış muhasebesini doğrular.
-7. **Mevsimsel iklim ve kış uykusu adayı (Yeni Özellik 5):**
-   `examples/support/seasonal_climate_candidate.rs` ve
-   `tests/seasonal_climate.rs` içindeki prototip. Deterministik 4 mevsim çevrimi
-   (`SeasonCycle`), kış termoregülasyon ek maliyeti ve inde kış uykusu
-   (`Hibernation`) mekanizmalarını doğrular.
-8. **Ceset çürümesi ve leşçillik nişi adayı (Yeni Özellik 6):**
-   `examples/support/corpse_scavenging_candidate.rs` ve
-   `tests/corpse_scavenging.rs` içindeki prototip. Kademeli çürüme evreleri
-   (`Fresh`/`Aging`/`Putrid`), leş kokusu yayılımı ve etçil vs. hepçil bozulma
-   direnci niş ayrımını doğrular.
-9. **Yerel alarm ve akran koordinasyonu adayı:**
-   `examples/support/local_coordination_candidate.rs` ve
-   `tests/local_coordination.rs` içindeki prototip. Yerel alarm çağrısı
-   (`EmitAlarmCall`) ve görünür akran koordinasyonu (`AlignWithVisiblePeer`),
-   ödenen resolver bedeli ve 3 kollu kontrol/solo/grup deneyini sınar.
+1. **Per-owner ilk-aralık sığınak hasarı öğrenmesi (İz B):**
+   `Memory::first_interval_refuge_enabled` ile `first_interval_outcomes` tablosu çekirdeğe
+   bağlandı (`tests/refuge_first_interval.rs`, `tests/refuge_learning.rs`). Tamamlanan ilk
+   aralığın exact sonucu sonraki tam-rota sansüründen bağımsız kalır; tam rota için beklenen
+   hasar **Unknown** kalmaya devam eder (genel rota tahmincisi değildir).
+2. **Bağlam-uyumlu ve pencere/TTL kısıtlı su artığı (İz A):**
+   `WaterLearner::context_ttl_enabled` ile güncel beden bağlamı ve zaman penceresi
+   (`context_entries`, `W=4`, `TTL=48`) çekirdeğe bağlandı (`tests/water_context_residual.rs`).
+   Eski deneyimin uyuşmama riskini sınar; genel ekolojik bounded utility ampirik kabulü değildir.
+3. **Mekânsal zihin haritası ve merak güdümlü keşif (Yeni Özellik 1):**
+   `Memory::spatial_curiosity_enabled` ile sınırlı 16 sektörlü `4x4` ızgara (`known_sectors <= 16`),
+   `TTL=120` eskime ve merak vektörü (`curiosity_direction`) çekirdeğe bağlandı (`tests/spatial_curiosity.rs`).
+4. **Ontogenetik yavru fizyolojisi ve ebeveyn bakımı (Yeni Özellik 2):**
+   `PolicySettings::juvenile_care_enabled`, `InteractionSystem::resolve_parental_care` ve
+   `parent_guards_juvenile` ile fiziksel enerji aktarımı ve hasar engelleme çekirdeğe bağlandı
+   (`tests/juvenile_parental_care.rs`). **Sıfır öğrenilmiş bellek aktarımı kuralı korunmuştur;
+   yavru belleği boş başlar.**
+5. **Pusu / gizlenme vs. takip avcılığı (Yeni Özellik 3):**
+   `PolicySettings::ambush_predation_enabled` ile sığınak örtüsü tabanlı gizlenme
+   (`effective_detectability_radius` düşüşü) ve ilk vuruş stamina bonusu çekirdeğe bağlandı
+   (`tests/ambush_predation.rs`).
+6. **Dinamik habitat (Yeni Özellik 4):**
+   `Environment::burrows` ile kazılan inler (`BurrowSite` max 32, TTL bozulması, kış termal koruması)
+   kapalı stok-akış muhasebesiyle çekirdeğe bağlandı (`tests/dynamic_habitat.rs`).
+7. **Mevsimsel iklim ve kış uykusu (Yeni Özellik 5):**
+   `Environment::season_cycle` ile deterministik 4 mevsim çevrimi (`SeasonCycle`), kış bitki
+   yenilenme çarpanı ve kış termoregülasyon ek maliyeti çekirdeğe bağlandı (`tests/seasonal_climate.rs`).
+8. **Ceset çürümesi ve leşçillik nişi (Yeni Özellik 6):**
+   `EntityPhase::corpse_stage` ile kademeli çürüme evreleri (`CorpseStage`: `Fresh`/`Aging`/`Putrid`),
+   leş kokusu yayılımı ve hepçil bozulma direnci çekirdeğe bağlandı (`tests/corpse_scavenging.rs`).
+9. **Yerel alarm yayılımı:**
+   `PolicySettings::local_coordination_enabled` ve `InteractionSystem::emit_local_alarm`
+   (`SignalKind::Sound` yayılımı) çekirdeğe bağlandı (`tests/local_coordination.rs`).
 
-Tüm bu saf aday prototipleri **default-off ve unintegrated** kalır: World
-kararına, resolver'a, learner belleğine, checkpoint'e veya RNG'ye
-bağlanmamıştır. Bu mekanizma testleri route seçimi yararını, biyolojik/ekolojik
-üstünlüğü ya da üretim entegrasyonu kabulünü göstermez.
+### Çekirdek entegrasyon sınırları ve garantileri
 
-İlk gerçek entegrasyon önkoşulu her aday yol için güncel gözlemlerden üretilmiş,
-kalibrasyon durumu açık ve fiziksel olarak savunulabilir bir damage baseline'dır.
-Mevcut tek-run ölçümü bu önkoşulu karşılamadı. Species attack miktarı beklenen
-hasar değildir; ilk interval hedefi de tam rota baseline'ı değildir. Herhangi
-bir yeni fiziksel ölçüm, doğal tamamlanan outcome desteğini elde etmek için ayrı
-review edilmiş, tek amaçlı ve sınırlı protokol ister. Mevcut run'ı tekrar
-etmeyin, sonucu gördükten sonra fixture/threshold ayarlamayın.
-
-Bu önkoşul ancak root review ve yeni protokolle karşılanırsa şu sıra izlenir:
-
-1. Baseline ve sansür/attribution kurallarını pure testlerle sabitleyin.
-2. Dünya, beden, algı, aksiyon veya resolver değişikliğini karıştırmadan
-   bounded, default-off entegrasyon hazırlayın.
-3. Checkpoint schema/migration, owner izolasyonu, yavru belleğinin boş
-   başlaması, kapalı yol exact-output/RNG uyumu ve resolver muhasebesini
-   doğrulayın.
-4. Ayrı frozen World acceptance protokolünde mekanizma ve fiziksel sonuçları
-   denetleyin. Teknik tamamlama utility/safety/fitness kabulü değildir.
-
-Şimdilik hiçbir risk modeli, neural network, route faydası veya production
-entegrasyonu kabul edilmemiştir. Aylar/yıllar süren reliability doğrulaması
-kullanıcı isteğiyle ertelenmiştir; mevcut sağlık gözetimi sürer ve uzun soak
-feature geliştirme için önkoşul değildir.
+P2 entegrasyonu aşağıdaki mimari garantilerle korunmuştur:
+- **Disabled-path exact State+RNG denkliği:** Özellik bayrakları kapalıyken simülasyon adımları,
+  bellek ve RNG akışı eski motor durumuyla bit düzeyinde eşleşir.
+- **Deterministik checkpoint-resume:** Tüm yeni durum alanları deterministik serileştirme ve
+  resume testlerinden geçmiştir.
+- **Sert bellek sınırları (Bounded capacity):** `SignalTrace <= 64`, `sites <= 8`, `dangers <= 8`,
+  `known_sectors <= 16`, `burrows <= 32`, `context_entries <= 4` sınırları zorunludur.
+- **Sıfır bellek aktarımı:** Ebeveyn bakımı yalnızca fiziksel etkileşimdir; hiçbir öğrenilmiş
+  deneyim yavruya kalıtılmaz.
+- **Epistemik sınır:** Tam rota hasarı `Unknown` kalır; mekanizma testleri veya P3 sabit held-out
+  protokolü (`reports/P2_P3_EMPIRICAL_AND_K8_AUDIT_20261025.md`) evrensel ekolojik üstünlük
+  kanıtı değildir. Canlı V12 ortamında bu özellikler varsayılan kapalıdır (`default-off`).
+- **Soak durumu:** Aylar/yıllar süren reliability doğrulaması kullanıcı isteğiyle ertelenmiştir;
+  mevcut sağlık gözetimi sürer ve uzun soak feature geliştirme için önkoşul değildir.

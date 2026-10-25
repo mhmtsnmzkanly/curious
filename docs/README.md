@@ -33,6 +33,7 @@ Kategorilere doğrudan git: [K1 Dünya ve çevre](ROADMAP.md#dunya-cevre),
 - [İlk resolver aralığı hasar ölçümü](reports/REFUGE_FIRST_RESOLUTION_V1.md)
 - [Tam kaçış hasar baseline'ı](reports/REFUGE_RISK_BASELINE_V1.md)
 - [Sınırlı ecology fixture sonucu](reports/ECOLOGY_FIXTURE_V1.md)
+- [P2/P3 ampirik protokol ve K8 denetimi](reports/P2_P3_EMPIRICAL_AND_K8_AUDIT_20261025.md)
 
 ## Tasarım ve protokoller
 
@@ -44,11 +45,14 @@ kendi kaynak, seed, süre ve yorum sınırlarını belirtir. Öne çıkanlar:
 [WATER_RESIDUAL_PROTOCOL](WATER_RESIDUAL_PROTOCOL.md). Protokol ya da ham veri
 kimliği sonuç çıktıktan sonra sessizce değiştirilmez.
 
-Saf mekanizma prototipleri (`examples/support/`) ve deterministik fizik testleri
-(`tests/`) K1–K7 kategorilerinde ve 7 Yeni Özellik kapsamında geliştirilmiş
-olup motor çekirdeğinden izole ve varsayılan kapalıdır; ayrıntılar
-[LEARNING_NEXT](LEARNING_NEXT.md), [ROADMAP](ROADMAP.md) ve [TODO](../TODO.md)
-içindedir.
+P0/P1 saf prototiplerinin ardından, P2 kapsamında temel mekanizmalar (mevsimsel döngü,
+inler, kademeli cesetler, ebeveyn bakımı, sığınak pusu gizlenmesi, yerel sesli alarm,
+su bağlamı, ilk-aralık hasar öğrenmesi ve mekânsal merak) çekirdek motora modüler ve
+varsayılan kapalı (`default-off`) olarak entegre edilmiştir. K7 web replay ve deneyim
+ekranları (`refuge`, `causalChain`, `autoDirector`) arayüze bağlanmış; P3 sabit 5-seed
+held-out protokolü ve K8 throughput denetimi (`SignalTrace <= 64`, `sites <= 8`,
+`dangers <= 8`, `known_sectors <= 16`, `burrows <= 32`) tamamlanmıştır. Ayrıntılar
+[LEARNING_NEXT](LEARNING_NEXT.md), [ROADMAP](ROADMAP.md) ve [TODO](../TODO.md) içindedir.
 
 Protokoller sabitlenmiş ölçüm tasarımlarını, raporlar ise tarihli kanıt ve
 sınırlarını anlatır; ikisi de güncel servis işletim talimatlarının yerine
