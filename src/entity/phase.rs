@@ -60,9 +60,9 @@ impl EntityPhase {
     pub fn corpse_stage(&self) -> Option<CorpseStage> {
         match self {
             EntityPhase::Corpse { remaining } => {
-                if *remaining > 20 {
+                if *remaining >= 4 {
                     Some(CorpseStage::Fresh)
-                } else if *remaining > 8 {
+                } else if *remaining >= 2 {
                     Some(CorpseStage::Aging)
                 } else {
                     Some(CorpseStage::Putrid)

@@ -374,3 +374,138 @@ fn test_4_ambush_stealth_and_local_alarm_emission() {
     assert_eq!(world.entities[0].base.life().energy, 19, "Energy must not change when alarm fails");
     assert_eq!(world.entities[0].base.life().stamina, 14, "Stamina must not change when alarm fails");
 }
+
+#[test]
+fn test_5_f2_repro_world_tick_wiring_care_attack_and_alarm() {
+    use curious::entity::intent::Intent;
+
+    // 1. Juvenile care guarding in normal world.tick()
+    // Mature parent at (1, 0) with stamina 16, full health
+    let mut parent = Box::new(HerbivoreEntity::default());
+    parent.life_mut().age = 30;
+    parent.life_mut().maturity_age = 20;
+    parent.life_mut().stamina = 16;
+    parent.life_mut().max_stamina = 16;
+    parent.life_mut().health = 120;
+    parent.life_mut().max_health = 120;
+    parent.life_mut().energy = 50;
+    parent.life_mut().max_energy = 100;
+    let parent_slot = EntitySlot::new(
+        1,
+        Position::new(1, 0),
+        EntityPhase::Active,
+        EntityController::AI,
+        parent,
+    );
+
+    // Juvenile child at (0, 0) with health 40, energy 50
+    let mut child = Box::new(HerbivoreEntity::default());
+    child.life_mut().age = 5;
+    child.life_mut().maturity_age = 20;
+    child.life_mut().health = 40;
+    child.life_mut().energy = 50;
+    let mut child_slot = EntitySlot::new(
+        2,
+        Position::new(0, 0),
+        EntityPhase::Active,
+        EntityController::AI,
+        child,
+    );
+    child_slot.parents = vec![1];
+
+    // Carnivore attacker at (0, 1) adjacent to child
+    let mut attacker = Box::new(CarnivoreEntity::default());
+    attacker.life_mut().energy = 50;
+    attacker.life_mut().stamina = 16;
+    attacker.life_mut().health = 100;
+    let attacker_slot = EntitySlot::new(
+        3,
+        Position::new(0, 1),
+        EntityPhase::Active,
+        EntityController::AI,
+        attacker,
+    );
+
+    let mut world = World::with_seed(-10, 10, -10, 10, vec![parent_slot, child_slot, attacker_slot], 555);
+    world.logger = curious::logger::Logger::disabled();
+    world.policy.juvenile_care_enabled = true;
+
+    // Issue Attack command on attacker targeting child (id: 2)
+    world.push_command(3, Intent::Attack { target_id: 2 });
+    world.push_command(1, Intent::Idle { duration: 1 });
+    world.push_command(2, Intent::Idle { duration: 1 });
+
+    world.tick();
+
+    let child_after = world.entities.iter().find(|s| s.id == 2).unwrap();
+    let parent_after = world.entities.iter().find(|s| s.id == 1).unwrap();
+
+    // Damage is halved by guardian parent from 20 to 10: child health drops 40 -> 30
+    assert_eq!(child_after.base.life().health, 30);
+    // Guarding parent exerted 4 stamina: 16 -> 12
+    assert_eq!(parent_after.base.life().stamina, 12);
+
+    // 2. Parental feeding care in normal world.tick()
+    // Set parent energy to 85 (> 75% of 100), child energy to 20 (< 50% of 100)
+    world.entities.retain(|s| s.id == 1 || s.id == 2);
+    for slot in world.entities.iter_mut() {
+        if slot.id == 1 {
+            slot.base.life_mut().energy = 85;
+        } else if slot.id == 2 {
+            slot.base.life_mut().energy = 20;
+        }
+    }
+
+    world.push_command(1, Intent::Idle { duration: 1 });
+    world.push_command(2, Intent::Idle { duration: 1 });
+    world.tick();
+
+    let p_after_care = world.entities.iter().find(|s| s.id == 1).unwrap();
+    let c_after_care = world.entities.iter().find(|s| s.id == 2).unwrap();
+
+    // Parent transferred 10 energy to child. Each paid 1 BMR energy.
+    // Parent: 85 - 10 - 1 = 74
+    // Child: 20 + 10 - 1 = 29
+    assert_eq!(p_after_care.base.life().energy, 74);
+    assert_eq!(c_after_care.base.life().energy, 29);
+
+    // 3. Local alarm coordination in normal world.tick()
+    let mut coord_world = World::with_seed(-10, 10, -10, 10, Vec::new(), 777);
+    coord_world.logger = curious::logger::Logger::disabled();
+    coord_world.policy.local_coordination_enabled = true;
+
+    let mut speaker_herb = Box::new(HerbivoreEntity::default());
+    speaker_herb.life_mut().energy = 30;
+    speaker_herb.life_mut().stamina = 20;
+    speaker_herb.life_mut().vision_range = 6;
+    let speaker_slot = EntitySlot::new(
+        100,
+        Position::new(0, 0),
+        EntityPhase::Active,
+        EntityController::AI,
+        speaker_herb,
+    );
+
+    let mut threat_carn = Box::new(CarnivoreEntity::default());
+    threat_carn.life_mut().energy = 50;
+    let threat_slot = EntitySlot::new(
+        200,
+        Position::new(0, 2), // distance 2 <= vision_range 6
+        EntityPhase::Active,
+        EntityController::AI,
+        threat_carn,
+    );
+
+    coord_world.entities.push(speaker_slot);
+    coord_world.entities.push(threat_slot);
+
+    // Run world.tick() with local coordination enabled
+    coord_world.tick();
+
+    // Verify acoustic alarm signal was emitted into environment
+    let signals = coord_world.environment.perceive_signals_at(Position::new(1, 0), coord_world.tick_counter);
+    assert!(
+        signals.iter().any(|s| s.kind == SignalKind::Sound),
+        "Local alarm signal must be emitted in normal world.tick() when threat is visible"
+    );
+}

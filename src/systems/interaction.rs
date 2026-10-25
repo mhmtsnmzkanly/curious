@@ -66,6 +66,12 @@ impl InteractionSystem {
                 };
                 let amount = entities[corpse].corpse_energy.min(max_meal).min(remaining);
                 entities[corpse].corpse_energy -= amount;
+                if let Some(stage) = entities[corpse].phase.corpse_stage() {
+                    let toxicity = stage.scavenging_toxicity(species);
+                    if toxicity > 0 {
+                        entities[eater].base.life_mut().take_damage(toxicity as usize);
+                    }
+                }
                 if entities[corpse].corpse_energy == 0 {
                     entities[corpse].phase = EntityPhase::Removed;
                     events.push(SimulationEvent::CorpseConsumed {

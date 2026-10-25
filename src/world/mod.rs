@@ -87,6 +87,12 @@ impl World {
         self.command_inputs.insert(entity_id, intent);
     }
 
+    /// Digs or refreshes a dynamic burrow on the world map and environment.
+    pub fn dig_burrow(&mut self, pos: Position, ttl: usize) -> bool {
+        self.environment
+            .dig_burrow_on_map(&mut self.map, pos, self.tick_counter, ttl)
+    }
+
     /// Bir simülasyon adımı (Tick) gerçekleştirir ve oluşan olayları döner.
     pub fn tick(&mut self) -> Vec<crate::simulation::SimulationEvent> {
         self.tick_counter += 1;
@@ -106,6 +112,18 @@ impl World {
             &mut self.map,
             &mut events,
         );
+        if self.environment.season_cycle.is_some() {
+            crate::systems::metabolism::MetabolismSystem::apply_seasonal_thermal_costs(
+                &mut self.entities,
+                &self.environment,
+                self.tick_counter,
+            );
+            crate::systems::life_cycle::LifeCycleSystem::finalize_tick(
+                &mut self.entities,
+                &mut self.map,
+                &mut events,
+            );
+        }
 
         // 2. Hazırlık: Çakışma kontrolü için meşgul olan hücrelerin tespiti
         let mut occupied: HashMap<Position, usize> = self
@@ -127,6 +145,46 @@ impl World {
         );
 
         self.last_intents = intents.clone();
+
+        if self.policy.local_coordination_enabled {
+            self.environment.signals_enabled = true;
+            let speaker_ids: Vec<usize> = self
+                .entities
+                .iter()
+                .filter(|s| {
+                    s.phase.is_active()
+                        && s.base.life().is_alive()
+                        && (self.last_decisions.iter().any(|d| {
+                            d.id == s.id
+                                && matches!(
+                                    d.decision.reason,
+                                    crate::entity::decision::Reason::EscapeThreat
+                                        | crate::entity::decision::Reason::SeekShelter
+                                        | crate::entity::decision::Reason::CorneredDefense
+                                )
+                        }) || self.entities.iter().any(|other| {
+                            other.id != s.id
+                                && other.base.life().is_alive()
+                                && matches!(
+                                    other.phase,
+                                    EntityPhase::Active | EntityPhase::Sleeping { .. }
+                                )
+                                && other.base.species().hunts(&s.base.species())
+                                && s.pos.distance_to(other.pos) <= s.base.life().vision_range
+                        }))
+                })
+                .map(|s| s.id)
+                .collect();
+
+            for sid in speaker_ids {
+                crate::systems::interaction::InteractionSystem::emit_local_alarm(
+                    &mut self.entities,
+                    &mut self.environment,
+                    sid,
+                    self.tick_counter,
+                );
+            }
+        }
 
         // 4. Planları Oluştur (Planning System)
         let mut plans =
@@ -168,11 +226,12 @@ impl World {
             &mut self.rng,
             &self.genetics,
         );
-        crate::systems::interaction::InteractionSystem::resolve_attacks(
+        crate::systems::interaction::InteractionSystem::resolve_attacks_with_policy(
             &mut self.entities,
             &plans.attacks,
             &self.map,
             &mut events,
+            &self.policy,
         );
         crate::systems::movement::MovementSystem::resolve_flee(
             &mut self.entities,
@@ -187,6 +246,12 @@ impl World {
             &plans.sleeps,
             &mut events,
         );
+        if self.policy.juvenile_care_enabled {
+            crate::systems::interaction::InteractionSystem::resolve_parental_care(
+                &mut self.entities,
+                &mut events,
+            );
+        }
 
         // 6. Birimlerin iç durumlarının ve ölümlerinin güncellenmesi
         crate::systems::life_cycle::LifeCycleSystem::finalize_tick(

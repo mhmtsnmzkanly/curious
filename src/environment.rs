@@ -294,7 +294,14 @@ impl Environment {
         }
     }
     pub fn update(&mut self, map: &mut Map, tick: usize, events: &mut Vec<SimulationEvent>) {
-        // Prune expired burrows
+        // Revert physical map cells for expired burrows
+        for b in &self.burrows {
+            if tick.saturating_sub(b.created_tick) >= b.ttl {
+                if map.cell(b.pos) == Some(&Cell::Burrow) {
+                    map.set_cell(b.pos, Cell::Empty);
+                }
+            }
+        }
         self.burrows.retain(|b| tick.saturating_sub(b.created_tick) < b.ttl);
 
         if self.signals_enabled {
@@ -419,6 +426,17 @@ impl Environment {
             ttl,
         });
         true
+    }
+
+    pub fn dig_burrow_on_map(&mut self, map: &mut Map, pos: Position, tick: usize, ttl: usize) -> bool {
+        if self.dig_burrow(pos, tick, ttl) {
+            if map.cell(pos) == Some(&Cell::Empty) {
+                map.set_cell(pos, Cell::Burrow);
+            }
+            true
+        } else {
+            false
+        }
     }
 
     pub fn has_active_burrow(&self, pos: Position, tick: usize) -> bool {
