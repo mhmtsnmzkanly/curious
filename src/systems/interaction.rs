@@ -66,10 +66,12 @@ impl InteractionSystem {
                 };
                 let amount = entities[corpse].corpse_energy.min(max_meal).min(remaining);
                 entities[corpse].corpse_energy -= amount;
-                if let Some(stage) = entities[corpse].phase.corpse_stage() {
-                    let toxicity = stage.scavenging_toxicity(species);
-                    if toxicity > 0 {
-                        entities[eater].base.life_mut().take_damage(toxicity as usize);
+                if amount > 0 {
+                    if let Some(stage) = entities[corpse].phase.corpse_stage() {
+                        let toxicity = stage.scavenging_toxicity(species);
+                        if toxicity > 0 {
+                            entities[eater].base.life_mut().take_damage(toxicity as usize);
+                        }
                     }
                 }
                 if entities[corpse].corpse_energy == 0 {
@@ -409,7 +411,7 @@ impl InteractionSystem {
 
                             let mut damage = combat.damage;
                             if policy.ambush_predation_enabled
-                                && matches!(map.cell(attacker.pos), Some(Cell::Burrow))
+                                && crate::systems::perception::is_in_ambush_cover(map, attacker.pos)
                                 && had_full_stamina
                             {
                                 damage = (damage + 5).min(target.base.life().health);

@@ -136,7 +136,7 @@ impl PerceptionSystem {
             {
                 let life = other.base.life();
                 if world.policy.ambush_predation_enabled
-                    && matches!(world.map.cell(other.pos), Some(crate::map::cell::Cell::Burrow))
+                    && is_in_ambush_cover(&world.map, other.pos)
                     && life.stamina == life.max_stamina
                 {
                     let max_detect = radius.saturating_sub(1).max(1);
@@ -177,4 +177,20 @@ impl PerceptionSystem {
         }
         view
     }
+}
+
+pub fn is_in_ambush_cover(map: &crate::map::Map, pos: crate::map::movement::Position) -> bool {
+    matches!(
+        map.cell(pos),
+        Some(crate::map::cell::Cell::Burrow | crate::map::cell::Cell::Food { .. })
+    ) || crate::map::movement::DIRECTION_ARRAY.into_iter().any(|dir| {
+        matches!(
+            map.cell(pos + dir),
+            Some(
+                crate::map::cell::Cell::Burrow
+                    | crate::map::cell::Cell::Wall
+                    | crate::map::cell::Cell::Food { .. }
+            )
+        )
+    })
 }

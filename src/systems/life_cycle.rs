@@ -17,10 +17,13 @@ impl LifeCycleSystem {
     ) {
         for slot in entities.iter_mut() {
             slot.phase.tick();
-            if let EntityPhase::Corpse { remaining } = slot.phase {
-                if remaining == 1 && slot.corpse_energy > biology::MIN_FOOD_FROM_CORPSE {
-                    slot.corpse_energy -= 1;
-                }
+            if matches!(slot.phase, EntityPhase::Corpse { remaining } if remaining > 0 && remaining < 4)
+                && slot.corpse_energy > biology::MIN_FOOD_FROM_CORPSE
+            {
+                slot.corpse_energy = slot
+                    .corpse_energy
+                    .saturating_sub(1)
+                    .max(biology::MIN_FOOD_FROM_CORPSE);
             }
         }
         crate::systems::metabolism::MetabolismSystem::update(entities, events);

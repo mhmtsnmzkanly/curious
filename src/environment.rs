@@ -411,6 +411,9 @@ impl Environment {
         perceived
     }
     pub fn dig_burrow(&mut self, pos: Position, tick: usize, ttl: usize) -> bool {
+        if ttl == 0 || pos.x.unsigned_abs() > 1_000_000 || pos.y.unsigned_abs() > 1_000_000 {
+            return false;
+        }
         self.burrows.retain(|b| tick.saturating_sub(b.created_tick) < b.ttl);
         if let Some(existing) = self.burrows.iter_mut().find(|b| b.pos == pos) {
             existing.created_tick = tick;
@@ -429,13 +432,32 @@ impl Environment {
     }
 
     pub fn dig_burrow_on_map(&mut self, map: &mut Map, pos: Position, tick: usize, ttl: usize) -> bool {
-        if self.dig_burrow(pos, tick, ttl) {
-            if map.cell(pos) == Some(&Cell::Empty) {
-                map.set_cell(pos, Cell::Burrow);
+        if ttl == 0 || pos.x < map.min_x || pos.x > map.max_x || pos.y < map.min_y || pos.y > map.max_y {
+            return false;
+        }
+        match map.cell(pos) {
+            Some(&Cell::Empty) => {
+                if self.dig_burrow(pos, tick, ttl) {
+                    map.set_cell(pos, Cell::Burrow);
+                    true
+                } else {
+                    false
+                }
             }
-            true
-        } else {
-            false
+            Some(&Cell::Burrow) => {
+                if let Some(existing) = self
+                    .burrows
+                    .iter_mut()
+                    .find(|b| b.pos == pos && tick.saturating_sub(b.created_tick) < b.ttl)
+                {
+                    existing.created_tick = tick;
+                    existing.ttl = ttl;
+                    true
+                } else {
+                    false
+                }
+            }
+            _ => false,
         }
     }
 

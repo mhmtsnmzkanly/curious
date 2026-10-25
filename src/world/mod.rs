@@ -123,6 +123,41 @@ impl World {
                 &mut self.map,
                 &mut events,
             );
+            if self
+                .environment
+                .season_cycle
+                .unwrap()
+                .current_season(self.tick_counter)
+                == crate::environment::Season::Winter
+            {
+                for slot in self.entities.iter_mut() {
+                    if slot.phase.is_active()
+                        && slot.base.can_burrow()
+                        && self.map.cell(slot.pos) == Some(&crate::map::cell::Cell::Empty)
+                    {
+                        let life = slot.base.life();
+                        if life.energy > life.max_energy / 2 && life.stamina >= 4 {
+                            let pos = slot.pos;
+                            let has_nearby_burrow = (-1..=1).any(|dx| {
+                                (-1..=1).any(|dy| {
+                                    self.map.cell(Position::new(pos.x + dx, pos.y + dy))
+                                        == Some(&crate::map::cell::Cell::Burrow)
+                                })
+                            });
+                            if !has_nearby_burrow {
+                                slot.base.life_mut().stamina =
+                                    slot.base.life().stamina.saturating_sub(2);
+                                self.environment.dig_burrow_on_map(
+                                    &mut self.map,
+                                    pos,
+                                    self.tick_counter,
+                                    20,
+                                );
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         // 2. Hazırlık: Çakışma kontrolü için meşgul olan hücrelerin tespiti

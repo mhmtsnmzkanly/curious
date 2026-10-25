@@ -509,3 +509,81 @@ fn test_5_f2_repro_world_tick_wiring_care_attack_and_alarm() {
         "Local alarm signal must be emitted in normal world.tick() when threat is visible"
     );
 }
+
+#[test]
+fn test_6_f2_reachable_ambush_cover_carnivore_wall_in_world_tick() {
+    use curious::entity::intent::Intent;
+
+    // Ordinary Carnivore (can_burrow() == false) on Cell::Empty adjacent to Cell::Wall
+    let mut carnivore = Box::new(CarnivoreEntity::default());
+    carnivore.life_mut().stamina = 16;
+    carnivore.life_mut().max_stamina = 16;
+    carnivore.life_mut().energy = 50;
+    assert!(!carnivore.can_burrow(), "Carnivores cannot burrow");
+
+    let carn_pos = Position::new(0, 5);
+    let predator_slot = EntitySlot::new(
+        2,
+        carn_pos,
+        EntityPhase::Active,
+        EntityController::AI,
+        carnivore,
+    );
+
+    let mut observer_herb = Box::new(HerbivoreEntity::default());
+    observer_herb.life_mut().vision_range = 5;
+    let observer_slot = EntitySlot::new(
+        1,
+        Position::new(0, 0),
+        EntityPhase::Active,
+        EntityController::AI,
+        observer_herb,
+    );
+
+    let mut world = World::with_seed(-10, 10, -10, 10, vec![observer_slot, predator_slot], 9999);
+    world.logger = curious::logger::Logger::disabled();
+    world.policy.ambush_predation_enabled = true;
+
+    // Carnivore is at (0, 5), standing on Cell::Empty
+    world.map.set_cell(carn_pos, Cell::Empty);
+    // Wall is adjacent to Carnivore at (0, 6)
+    world.map.set_cell(Position::new(0, 6), Cell::Wall);
+
+    assert!(
+        curious::systems::perception::is_in_ambush_cover(&world.map, carn_pos),
+        "Standing on Cell::Empty next to Cell::Wall must count as ambush cover"
+    );
+
+    // 1. Perception: carnivore is in cover with full stamina -> detectability reduced by 1
+    // Distance = 5 > max_detect (4), so observer does NOT spot the carnivore
+    let view = PerceptionSystem::build(&world, &world.entities[0]);
+    assert!(
+        !view.entities.iter().any(|e| e.id == 2),
+        "Carnivore in wall cover with full stamina must have stealth in PerceptionSystem"
+    );
+
+    // 2. Ambush strike bonus in world.tick():
+    // Move carnivore to (0, 1) on Cell::Empty, adjacent to target at (0, 0)
+    // Put Wall adjacent to carnivore at (1, 1)
+    let p_slot = world.entities.iter_mut().find(|s| s.id == 2).unwrap();
+    p_slot.pos = Position::new(0, 1);
+    p_slot.base.life_mut().stamina = 16;
+    world.map.set_cell(Position::new(0, 1), Cell::Empty);
+    world.map.set_cell(Position::new(1, 1), Cell::Wall);
+
+    world.entities.iter_mut().find(|s| s.id == 1).unwrap().base.life_mut().health = 120;
+    world.entities.iter_mut().find(|s| s.id == 1).unwrap().base.life_mut().max_health = 120;
+
+    // Carnivore attacks observer in normal world.tick()
+    world.push_command(2, Intent::Attack { target_id: 1 });
+    world.push_command(1, Intent::Idle { duration: 1 });
+    world.tick();
+
+    let victim_after = world.entities.iter().find(|s| s.id == 1).unwrap();
+    // Base damage is 20 + 5 ambush bonus = 25 damage: health drops 120 -> 95
+    assert_eq!(
+        victim_after.base.life().health,
+        95,
+        "Ambush strike from cover next to Wall must deal 25 damage (20 + 5 bonus)"
+    );
+}

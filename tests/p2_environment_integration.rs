@@ -386,6 +386,25 @@ fn test_f5_repro_dig_burrow_sync_and_ttl_expiration_in_world_tick() {
     let mut world = World::with_seed(-10, 10, -10, 10, Vec::new(), 42);
     world.logger = curious::logger::Logger::disabled();
 
+    // Strict validation rejection conditions:
+    // 1. ttl == 0 must return false and leave burrows empty
+    assert!(!world.dig_burrow(Position::new(1, 1), 0));
+    assert!(world.environment.burrows.is_empty());
+    assert!(!world.environment.has_active_burrow(Position::new(1, 1), 0));
+
+    // 2. Out-of-bounds position must return false and leave burrows empty
+    assert!(!world.dig_burrow(Position::new(999, 999), 10));
+    assert!(world.environment.burrows.is_empty());
+
+    // 3. Non-Empty cell types must return false and leave burrows empty
+    world.map.set_cell(Position::new(2, 2), Cell::Wall);
+    assert!(!world.dig_burrow(Position::new(2, 2), 10));
+    world.map.set_cell(Position::new(2, 3), Cell::Food { amount: 5 });
+    assert!(!world.dig_burrow(Position::new(2, 3), 10));
+    world.map.set_cell(Position::new(2, 4), Cell::Water { amount: 5 });
+    assert!(!world.dig_burrow(Position::new(2, 4), 10));
+    assert!(world.environment.burrows.is_empty());
+
     let burrow_pos = Position::new(3, 3);
     assert_eq!(world.map.cell(burrow_pos), Some(&Cell::Empty));
 
@@ -402,6 +421,43 @@ fn test_f5_repro_dig_burrow_sync_and_ttl_expiration_in_world_tick() {
     world.tick();
     assert_eq!(world.map.cell(burrow_pos), Some(&Cell::Empty));
     assert!(!world.environment.has_active_burrow(burrow_pos, world.tick_counter));
+}
+
+#[test]
+fn test_f5_herbivore_winter_automatic_burrow_excavation() {
+    let mut herbivore = Box::new(HerbivoreEntity::default());
+    herbivore.life_mut().energy = 70; // > max_energy (80) / 2 = 40
+    herbivore.life_mut().stamina = 16; // >= 4
+    let herb_pos = Position::new(4, 4);
+    let herb_slot = EntitySlot::new(
+        1,
+        herb_pos,
+        EntityPhase::Active,
+        EntityController::AI,
+        herbivore,
+    );
+
+    let mut world = World::with_seed(-10, 10, -10, 10, vec![herb_slot], 1234);
+    world.logger = curious::logger::Logger::disabled();
+    // 4-period cycle: tick 3 is Winter
+    world.environment.season_cycle = Some(SeasonCycle {
+        period: 4,
+        winter_bmr_surcharge: 5,
+        winter_plant_regen_divisor: 2,
+    });
+    world.map.set_cell(herb_pos, Cell::Empty);
+    // Fast forward to tick 2, so next tick() is tick 3 (Winter)
+    world.tick_counter = 2;
+
+    world.tick();
+
+    assert_eq!(world.tick_counter, 3);
+    assert_eq!(world.environment.season_cycle.unwrap().current_season(3), Season::Winter);
+    assert_eq!(world.map.cell(herb_pos), Some(&Cell::Burrow));
+    assert!(world.environment.has_active_burrow(herb_pos, world.tick_counter));
+    let herb_after = world.entities.iter().find(|s| s.id == 1).unwrap();
+    // Herbivore exerted stamina to excavate shelter
+    assert!(herb_after.base.life().stamina <= 15);
 }
 
 #[test]
@@ -425,30 +481,36 @@ fn test_f6_repro_corpse_progression_and_toxicity_in_world_tick() {
     let slot = world.entities.iter().find(|s| s.id == 10).unwrap();
     assert_eq!(slot.phase, EntityPhase::Corpse { remaining: 5 });
     assert_eq!(slot.phase.corpse_stage(), Some(CorpseStage::Fresh));
+    let initial_energy = slot.corpse_energy;
+    assert_eq!(initial_energy, 60);
 
-    // Tick 2: remaining decrements to 4 -> still Fresh
+    // Tick 2: remaining decrements to 4 -> still Fresh; retains full nutrition
     world.tick();
     let slot = world.entities.iter().find(|s| s.id == 10).unwrap();
     assert_eq!(slot.phase, EntityPhase::Corpse { remaining: 4 });
     assert_eq!(slot.phase.corpse_stage(), Some(CorpseStage::Fresh));
+    assert_eq!(slot.corpse_energy, 60);
 
-    // Tick 3: remaining decrements to 3 -> Aging
+    // Tick 3: remaining decrements to 3 -> Aging; corpse_energy decays by 1 on every aging/putrid tick
     world.tick();
     let slot = world.entities.iter().find(|s| s.id == 10).unwrap();
     assert_eq!(slot.phase, EntityPhase::Corpse { remaining: 3 });
     assert_eq!(slot.phase.corpse_stage(), Some(CorpseStage::Aging));
+    assert_eq!(slot.corpse_energy, 59);
 
-    // Tick 4: remaining decrements to 2 -> Aging
+    // Tick 4: remaining decrements to 2 -> Aging; corpse_energy decays by 1
     world.tick();
     let slot = world.entities.iter().find(|s| s.id == 10).unwrap();
     assert_eq!(slot.phase, EntityPhase::Corpse { remaining: 2 });
     assert_eq!(slot.phase.corpse_stage(), Some(CorpseStage::Aging));
+    assert_eq!(slot.corpse_energy, 58);
 
-    // Tick 5: remaining decrements to 1 -> Putrid
+    // Tick 5: remaining decrements to 1 -> Putrid; corpse_energy decays by 1
     world.tick();
     let slot = world.entities.iter().find(|s| s.id == 10).unwrap();
     assert_eq!(slot.phase, EntityPhase::Corpse { remaining: 1 });
     assert_eq!(slot.phase.corpse_stage(), Some(CorpseStage::Putrid));
+    assert_eq!(slot.corpse_energy, 57);
 
     // 2. Scavenging toxicity in World::tick:
     // Setup Carnivore and Omnivore eating Putrid corpse at (0, 0)
@@ -536,4 +598,50 @@ fn test_f6_repro_corpse_progression_and_toxicity_in_world_tick() {
     let omnivore_after = omnivore_world.entities.iter().find(|s| s.id == 31).unwrap();
     // Omnivore took 0 toxicity damage: health remains 100
     assert_eq!(omnivore_after.base.life().health, 100);
+
+    // 3. Carnivore at full energy (amount == 0) eating Putrid corpse takes 0 toxicity damage
+    let mut putrid_corpse_3 = EntitySlot::new(
+        40,
+        Position::new(0, 0),
+        EntityPhase::Corpse { remaining: 1 },
+        EntityController::AI,
+        Box::new(HerbivoreEntity::default()),
+    );
+    putrid_corpse_3.corpse_energy = 50;
+
+    let mut full_carnivore = Box::new(CarnivoreEntity::default());
+    full_carnivore.life_mut().health = 140;
+    full_carnivore.life_mut().max_health = 140;
+    full_carnivore.life_mut().max_energy = 90;
+    // Energy > max_energy so after 1 BMR cost in begin_tick, energy remains >= max_energy (amount == 0)
+    full_carnivore.life_mut().energy = 95;
+    let full_carnivore_slot = EntitySlot::new(
+        41,
+        Position::new(1, 0),
+        EntityPhase::Active,
+        EntityController::AI,
+        full_carnivore,
+    );
+
+    let mut full_world = World::with_seed(
+        -10,
+        10,
+        -10,
+        10,
+        vec![putrid_corpse_3, full_carnivore_slot],
+        1003,
+    );
+    full_world.logger = curious::logger::Logger::disabled();
+    full_world.push_command(
+        41,
+        Intent::Eat {
+            at: curious::map::movement::Steps(vec![curious::map::movement::Direction::Left]),
+            corpse_id: Some(40),
+        },
+    );
+
+    full_world.tick();
+    let full_after = full_world.entities.iter().find(|s| s.id == 41).unwrap();
+    // Because amount was 0, no toxicity damage is applied: health remains 140
+    assert_eq!(full_after.base.life().health, 140);
 }
