@@ -10,7 +10,7 @@ use curious::{
     },
     map::{
         cell::Cell,
-        movement::{Direction, Position},
+        movement::{Direction, Position, Steps},
     },
     persistence::State,
     scenario::Scenario,
@@ -113,4 +113,61 @@ fn companions_are_observed_not_invented_and_absence_or_age_invalidates_memory() 
     view.entities[0].mature = false;
     m.observe(origin, &view, 36, Species::Herbivore);
     assert!(m.companions.is_empty());
+}
+
+#[test]
+fn memory_recall_navigates_detours_around_perceived_obstacles_or_falls_back_when_enclosed() {
+    let origin = Position::new(0, 0);
+    let target = Position::new(3, 0);
+    let mut m = Memory::default();
+    let mut observe_view = Perception::empty();
+    observe_view
+        .cells
+        .push((target, Cell::Water { amount: 10 }));
+    m.observe(origin, &observe_view, 1, Species::Herbivore);
+
+    // Wall at (1, 0), (1, 1), (1, -1) blocks direct greedy progress.
+    // Detour through (0, 1) -> (1, 2) -> (2, 1) is visible in view.cells.
+    // Diagonal corner rules require (0, 2) and (2, 2) to walk around (1, 1).
+    let mut detour_view = Perception::empty();
+    detour_view.add_direction(Direction::Down, 2);
+    detour_view.cells.push((Position::new(0, 0), Cell::Empty));
+    detour_view.cells.push((Position::new(1, 0), Cell::Wall));
+    detour_view.cells.push((Position::new(1, 1), Cell::Wall));
+    detour_view.cells.push((Position::new(1, -1), Cell::Wall));
+    detour_view.cells.push((Position::new(0, 1), Cell::Empty));
+    detour_view.cells.push((Position::new(0, 2), Cell::Empty));
+    detour_view.cells.push((Position::new(1, 2), Cell::Empty));
+    detour_view.cells.push((Position::new(2, 2), Cell::Empty));
+    detour_view.cells.push((Position::new(2, 1), Cell::Empty));
+
+    let life = HerbivoreEntity::default();
+    let d = m.recall(
+        origin,
+        life.life(),
+        &detour_view,
+        Decision::new(Intent::Idle { duration: 1 }, Reason::SearchWater),
+    );
+    assert_eq!(d.reason, Reason::RecallWater);
+    assert_eq!(
+        d.intent,
+        Intent::Move {
+            steps: Steps(vec![Direction::Down])
+        }
+    );
+
+    // If walls completely enclose the creature in view.cells, recall safely returns base decision.
+    let mut enclosed_view = Perception::empty();
+    enclosed_view.cells.push((Position::new(0, 0), Cell::Empty));
+    for dir in curious::map::movement::DIRECTION_ARRAY {
+        enclosed_view.cells.push((origin + dir, Cell::Wall));
+    }
+    let d_enclosed = m.recall(
+        origin,
+        life.life(),
+        &enclosed_view,
+        Decision::new(Intent::Idle { duration: 1 }, Reason::SearchWater),
+    );
+    assert_eq!(d_enclosed.reason, Reason::SearchWater);
+    assert_eq!(d_enclosed.intent, Intent::Idle { duration: 1 });
 }

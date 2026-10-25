@@ -9,10 +9,11 @@ use crate::{
     environment::ResourceKind,
     map::{
         cell::Cell,
-        movement::{DIRECTION_ARRAY, Position, Steps},
+        movement::{Direction, DIRECTION_ARRAY, Position, Steps},
     },
 };
 use serde::{Deserialize, Serialize};
+use std::collections::{HashMap, HashSet, VecDeque};
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct KnownSite {
     pub pos: Position,
@@ -300,7 +301,7 @@ impl Memory {
         view: &Perception,
         reason: Reason,
     ) -> Option<Decision> {
-        let Some(dir) = DIRECTION_ARRAY
+        let direct_dir = DIRECTION_ARRAY
             .into_iter()
             .filter(|d| view.directions.get(d).copied().unwrap_or(0) > 0)
             .min_by_key(|d| {
@@ -308,28 +309,140 @@ impl Memory {
                     (origin + *d).distance_to(target),
                     DIRECTION_ARRAY.iter().position(|x| x == d).unwrap(),
                 )
-            })
-        else {
+            });
+
+        if let Some(dir) = direct_dir {
+            if (origin + dir).distance_to(target) < origin.distance_to(target) {
+                let count = life
+                    .speed
+                    .min(view.directions[&dir] as usize)
+                    .min(life.stamina)
+                    .min(life.energy / life.move_energy_cost.max(1))
+                    .min(origin.distance_to(target));
+                if count == 0 {
+                    return None;
+                }
+                return Some(Decision::new(
+                    Intent::Move {
+                        steps: Steps(vec![dir; count]),
+                    },
+                    reason,
+                ));
+            }
+        }
+
+        if !life.can_move_for(1) || view.cells.is_empty() {
             return None;
+        }
+
+        let cell_map: HashMap<Position, &Cell> =
+            view.cells.iter().map(|(pos, cell)| (*pos, cell)).collect();
+
+        let occupied: HashSet<Position> = view
+            .entities
+            .iter()
+            .map(|e| e.steps.iter().fold(origin, |p, d| p + *d))
+            .collect();
+
+        let is_walkable = |pos: Position| -> bool {
+            if pos != origin && occupied.contains(&pos) {
+                return false;
+            }
+            match cell_map.get(&pos) {
+                Some(Cell::Wall) => false,
+                Some(_) => true,
+                None => pos == origin,
+            }
         };
-        if (origin + dir).distance_to(target) >= origin.distance_to(target) {
-            return None;
+
+        struct BfsNode {
+            pos: Position,
+            steps: usize,
+            first_dir: Direction,
         }
-        let count = life
-            .speed
-            .min(view.directions[&dir] as usize)
-            .min(life.stamina)
-            .min(life.energy / life.move_energy_cost.max(1))
-            .min(origin.distance_to(target));
-        if count == 0 {
-            return None;
+
+        let mut visited = HashSet::new();
+        visited.insert(origin);
+        let mut queue = VecDeque::new();
+
+        for d in DIRECTION_ARRAY {
+            if view.directions.get(&d).copied().unwrap_or(0) == 0 {
+                continue;
+            }
+            let next = origin + d;
+            if visited.contains(&next) || !is_walkable(next) {
+                continue;
+            }
+            let dx = next.x - origin.x;
+            let dy = next.y - origin.y;
+            if dx != 0 && dy != 0 {
+                if !is_walkable(Position::new(origin.x + dx, origin.y))
+                    || !is_walkable(Position::new(origin.x, origin.y + dy))
+                {
+                    continue;
+                }
+            }
+            visited.insert(next);
+            queue.push_back(BfsNode {
+                pos: next,
+                steps: 1,
+                first_dir: d,
+            });
         }
-        Some(Decision::new(
-            Intent::Move {
-                steps: Steps(vec![dir; count]),
-            },
-            reason,
-        ))
+
+        let mut best: Option<(usize, usize, isize, isize, Direction)> = None;
+
+        while let Some(node) = queue.pop_front() {
+            if let Some((best_steps, _, _, _, _)) = best {
+                if node.steps > best_steps {
+                    break;
+                }
+            }
+
+            if node.pos.distance_to(target) < origin.distance_to(target) {
+                let dist = node.pos.distance_to(target);
+                let key = (node.steps, dist, node.pos.y, node.pos.x);
+                if best
+                    .as_ref()
+                    .map(|b| (b.0, b.1, b.2, b.3) > key)
+                    .unwrap_or(true)
+                {
+                    best = Some((node.steps, dist, node.pos.y, node.pos.x, node.first_dir));
+                }
+                continue;
+            }
+
+            for d in DIRECTION_ARRAY {
+                let next = node.pos + d;
+                if visited.contains(&next) || !is_walkable(next) {
+                    continue;
+                }
+                let dx = next.x - node.pos.x;
+                let dy = next.y - node.pos.y;
+                if dx != 0 && dy != 0 {
+                    if !is_walkable(Position::new(node.pos.x + dx, node.pos.y))
+                        || !is_walkable(Position::new(node.pos.x, node.pos.y + dy))
+                    {
+                        continue;
+                    }
+                }
+                visited.insert(next);
+                queue.push_back(BfsNode {
+                    pos: next,
+                    steps: node.steps + 1,
+                    first_dir: node.first_dir,
+                });
+            }
+        }
+
+        best.map(|(_, _, _, _, first_dir)| {
+            Decision::new(
+                Intent::Move {
+                    steps: Steps(vec![first_dir]),
+                },
+                reason,
+            )
+        })
     }
     pub fn validate(&self) -> crate::Result<()> {
         self.social.validate()?;
