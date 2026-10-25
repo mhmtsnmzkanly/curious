@@ -748,3 +748,180 @@ fn test_live_v12_shadow_restore_and_20_tick_continuation() {
     assert!(cand_first_interval > 0);
     assert!(cand_json.len() < 4 * 1024 * 1024);
 }
+
+#[test]
+fn test_offspring_v19_capability_flag_propagation_with_zero_memory_inheritance() {
+    use curious::entity::memory::KnownSector;
+    use curious::entity::refuge_learning::{RefugeKey, record_first_interval_outcome};
+
+    let mut p1 = EntitySlot::new(
+        1,
+        Position::new(0, 0),
+        EntityPhase::Active,
+        EntityController::AI,
+        Box::new(HerbivoreEntity::default()),
+    );
+    let mut p2 = EntitySlot::new(
+        2,
+        Position::new(1, 0),
+        EntityPhase::Active,
+        EntityController::AI,
+        Box::new(HerbivoreEntity::default()),
+    );
+
+    for p in [&mut p1, &mut p2] {
+        p.base.life_mut().age = 100;
+        p.base.life_mut().health = p.base.life().max_health;
+        p.base.life_mut().energy = p.base.life().max_energy;
+        p.base.life_mut().water = p.base.life().max_water;
+        p.base.life_mut().stamina = p.base.life().max_stamina;
+        p.memory.refuge_outcomes_enabled = true;
+        p.memory.first_interval_refuge_enabled = true;
+        p.memory.spatial_curiosity_enabled = true;
+        p.learner.context_ttl_enabled = true;
+
+        record_first_interval_outcome(
+            &mut p.memory.first_interval_outcomes,
+            RefugeKey {
+                threat_id: 99,
+                threat_species: Species::Carnivore,
+                bearing: 0,
+                threat_distance: 1,
+                energy_quartile: 2,
+                stamina_quartile: 2,
+                refuge_options: vec![Position::new(2, 2)],
+                endpoint: Position::new(2, 2),
+            },
+            Some(0),
+            0,
+        );
+        p.memory.known_sectors.push(KnownSector {
+            sector_x: 0,
+            sector_y: 0,
+            visit_count: 1,
+            last_visited_tick: 0,
+        });
+        p.learner
+            .record_context_observation(Position::new(3, 3), 2, 1, 0, 45);
+    }
+
+    let mut world = World::with_seed(-5, 5, -5, 5, vec![p1, p2], 777);
+    for y in -5..=5 {
+        for x in -5..=5 {
+            world.map.set_cell(Position::new(x, y), Cell::Empty);
+        }
+    }
+    world.environment = Environment::from_map(&world.map);
+    world.tick();
+
+    assert_eq!(world.entities.len(), 3, "Offspring must be born on tick 1");
+    let child = &world.entities[2];
+    assert_eq!(child.id, 3);
+    assert_eq!(child.generation, 1);
+
+    // 1. V19 capability flags propagate via && when both parents have them enabled:
+    assert!(child.memory.refuge_outcomes_enabled);
+    assert!(child.memory.first_interval_refuge_enabled);
+    assert!(child.memory.spatial_curiosity_enabled);
+    assert!(child.learner.context_ttl_enabled);
+
+    // 2. Strict zero learned memory inheritance: child tables must be completely empty at birth!
+    assert!(child.memory.first_interval_outcomes.is_empty());
+    assert!(child.memory.known_sectors.is_empty());
+    assert!(child.learner.context_entries.is_empty());
+    assert!(child.memory.refuge_outcomes.is_empty());
+}
+
+#[test]
+#[ignore]
+fn run_live_v12_shadow_1000_tick_soak_four_arms() {
+    let raw_json = load_live_v12_state_json().expect("Live V12 archive must be readable");
+    let state_v12: State = serde_json::from_str(&raw_json).expect("Valid V12 JSON");
+    let initial_next_id = state_v12.next_entity_id;
+
+    let arms = [
+        QualificationArm::ControlFlagsOff,
+        QualificationArm::JuvenileParentalCareOnly,
+        QualificationArm::RefugeFirstIntervalOnly,
+        QualificationArm::QualifiedCandidateBundle,
+    ];
+
+    for &arm in &arms {
+        let mut world = state_v12.clone().restore().expect("Restore V12");
+        configure_qualification_arm(&mut world, arm);
+
+        println!("\n================================================================================");
+        println!("ARM: {}", arm.name());
+        println!("Tick  | Herb | Carn | Alive | Births | MaxGen | FI_Rec | Offspring_FI | Mean_H | Mean_E | Mean_W | JSON_Bytes | ms/tick");
+        println!("--------------------------------------------------------------------------------");
+
+        let mut cumulative_us = 0u128;
+        for step in 0..=1000 {
+            if step % 100 == 0 {
+                let mut herb = 0usize;
+                let mut carn = 0usize;
+                let mut max_gen = 0usize;
+                let mut sum_h = 0usize;
+                let mut sum_e = 0usize;
+                let mut sum_w = 0usize;
+                let mut fi_rec = 0usize;
+                let mut offspring_fi = 0usize;
+
+                for s in &world.entities {
+                    if matches!(s.phase, EntityPhase::Active) && s.base.life().health > 0 {
+                        match s.base.species() {
+                            Species::Herbivore => herb += 1,
+                            Species::Carnivore => carn += 1,
+                            Species::Omnivore => {}
+                        }
+                        max_gen = max_gen.max(s.generation);
+                        sum_h += s.base.life().health;
+                        sum_e += s.base.life().energy;
+                        sum_w += s.base.life().water;
+                        let fi_len = s.memory.first_interval_outcomes.len();
+                        fi_rec += fi_len;
+                        if s.id >= initial_next_id {
+                            offspring_fi += fi_len;
+                        }
+                    }
+                }
+                let alive = herb + carn;
+                let births = world.next_entity_id.saturating_sub(initial_next_id);
+                let mean_h = if alive > 0 { sum_h as f64 / alive as f64 } else { 0.0 };
+                let mean_e = if alive > 0 { sum_e as f64 / alive as f64 } else { 0.0 };
+                let mean_w = if alive > 0 { sum_w as f64 / alive as f64 } else { 0.0 };
+                let captured = State::capture(&world);
+                let json_bytes = serde_json::to_string(&captured).unwrap().len();
+                if step == 1000 {
+                    let _ = captured.restore().expect("1000-tick state must validate & restore");
+                }
+                let ms_per_tick = if step > 0 {
+                    (cumulative_us as f64 / 1000.0) / (step as f64)
+                } else {
+                    0.0
+                };
+                println!(
+                    "{:<5} | {:<4} | {:<4} | {:<5} | {:<6} | {:<6} | {:<6} | {:<12} | {:<6.1} | {:<6.1} | {:<6.1} | {:<10} | {:.2}",
+                    world.tick_counter,
+                    herb,
+                    carn,
+                    alive,
+                    births,
+                    max_gen,
+                    fi_rec,
+                    offspring_fi,
+                    mean_h,
+                    mean_e,
+                    mean_w,
+                    json_bytes,
+                    ms_per_tick
+                );
+            }
+            if step < 1000 {
+                let t0 = Instant::now();
+                world.tick();
+                cumulative_us += t0.elapsed().as_micros();
+            }
+        }
+    }
+}

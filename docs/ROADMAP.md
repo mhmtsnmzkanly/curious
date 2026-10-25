@@ -35,7 +35,10 @@ anlamına gelmez. P0–P3 çalışma sırası kategori yapısından ayrıdır.
   ve `RefugeFirstIntervalOnly` (sıfır sağkalım kaybı, `43` ilk-aralık kaydı) sıkı Pareto kapısını geçerek canlı aday paketi (`QualifiedCandidateBundle`)
   olarak ayrıldı; diğer 7 ödünleşimli/stresör özellik (`SeasonAndBurrowsOnly`, `InjuryCapacityPenaltyOnly`, `WaterContextOnly`, `SpatialCuriosityOnly`,
   `LocalCoordinationOnly`, `AmbushPredationOnly`, `DayNightCycleOnly`) `default-off` olarak sınıflandırıldı. Ayrıca gerçek canlı V12 dünyasının kapalı
-  arşiv shard'ı (`history-000870.sqlite.zst`, `tick = 12639`, `630` birey) üzerinde 20-tick V19 gölge (shadow) devamlılık doğrulaması hatasız tamamlandı.
+  arşiv shard'ı (`history-000870.sqlite.zst`, `tick = 12639`, `630` birey) üzerinde 20-tick ve Wave 12 ile **1.000-tick (`Tick 12639 -> 13639`, `34+` yeni nesil, `~5.150` doğum)**
+  V19 gölge (shadow) devamlılık soak deneyi tamamlandı: `resolve_mates` içinde V19 yetenek bayraklarının sıfır bellek kalıtımıyla yeni nesillere devri doğrulandı ve
+  `QualifiedCandidateBundle` kolu 1.000 tick sonunda `ControlFlagsOff` baz çizgisine (`482 Herbivore + 98 Carnivore = 580`) kıyasla `499 Herbivore (+17) + 94 Carnivore = 593 (+13)`
+  yaşayan birey, `5,052` aktif yeni-nesil ilk-aralık kaydı, sabitlenmiş `~4.66 MB` checkpoint boyutu ve `44.39 ms/tick` release hızıyla geçti.
 - Kayıtlı habitat fixture'ında aynı 30 seed'in `fixed` ve `both` kolları ayrı
   ayrı 30/30 × 100.000 tick kapısını geçti. Bu yalnız o fixture için sınırlı
   coexistence kabulüdür; tüm habitatlar, şoklar veya kalıcılık için genelleme
@@ -64,6 +67,7 @@ Kanıt: [coexistence](reports/QUALIFIED_OBSERVATION.md),
 [9c7d3f0 denetimi](reports/AUDIT_RECHECK_9C7D3F0_20261025.md),
 [Wave 10 tam kapanış ve ablasyon](reports/P3_ABLATION_AND_9C7D3F0_CLOSURE_20261025.md),
 [Wave 11 davranışsal fayda ve V12 gölge doğrulaması](reports/BEHAVIORAL_UTILITY_AND_SHADOW_QUALIFICATION_20261025.md),
+[Wave 12 1.000-tick V12 gölge soak ve çok-nesilli bayrak kalıtımı](reports/LIVE_V12_SHADOW_1000_TICK_SOAK_20261025.md),
 [P2/P3 ampirik protokol ve K8 denetimi (Tarihsel dondurulmuş rapor)](reports/P2_P3_EMPIRICAL_AND_K8_AUDIT_20261025.md).
 
 ## Sekiz sistem kategorisi

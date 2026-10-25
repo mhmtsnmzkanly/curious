@@ -261,6 +261,15 @@ impl InteractionSystem {
                 child.memory.refuge_generalization_update_enabled =
                     entities[s].memory.refuge_generalization_update_enabled
                         && entities[t].memory.refuge_generalization_update_enabled;
+                child.memory.first_interval_refuge_enabled =
+                    entities[s].memory.first_interval_refuge_enabled
+                        && entities[t].memory.first_interval_refuge_enabled;
+                child.memory.spatial_curiosity_enabled =
+                    entities[s].memory.spatial_curiosity_enabled
+                        && entities[t].memory.spatial_curiosity_enabled;
+                child.learner.context_ttl_enabled =
+                    entities[s].learner.context_ttl_enabled
+                        && entities[t].learner.context_ttl_enabled;
                 child.genome = genome;
                 child.generation = generation;
                 child.parents = vec![plan.self_id, plan.target_id];

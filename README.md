@@ -60,6 +60,7 @@ bir özellik ya da uzun yaşam tek başına başarı kanıtı sayılmaz.
   [9c7d3f0 denetim](docs/reports/AUDIT_RECHECK_9C7D3F0_20261025.md),
   [Wave 10: P3 ablasyon ve 9c7d3f0 kapanış](docs/reports/P3_ABLATION_AND_9C7D3F0_CLOSURE_20261025.md),
   [Wave 11: davranışsal fayda (Pareto) ve V12 gölge doğrulaması](docs/reports/BEHAVIORAL_UTILITY_AND_SHADOW_QUALIFICATION_20261025.md),
+  [Wave 12: 1.000-tick V12 gölge soak ve çok-nesilli bayrak kalıtımı](docs/reports/LIVE_V12_SHADOW_1000_TICK_SOAK_20261025.md),
   [Tarihsel P2/P3 raporu](docs/reports/P2_P3_EMPIRICAL_AND_K8_AUDIT_20261025.md)).
 
 Sekiz kategori ve yedi A–G yetenek izinin durumu ile öncelikleri:
@@ -126,5 +127,6 @@ Yalnızca Markdown değişiklikleri Rust yeniden derlemesi gerektirmez.
 - [9c7d3f0 düzeltmelerinin bağımsız denetimi](docs/reports/AUDIT_RECHECK_9C7D3F0_20261025.md)
 - [Wave 10: P3 ablasyon ve 9c7d3f0 kanıt sınırı kapanış raporu](docs/reports/P3_ABLATION_AND_9C7D3F0_CLOSURE_20261025.md)
 - [Wave 11: Yazılmış V19 özelliklerinin davranışsal fayda (Pareto) elemesi ve gerçek V12 canlı checkpoint üzerinde izole gölge doğrulaması](docs/reports/BEHAVIORAL_UTILITY_AND_SHADOW_QUALIFICATION_20261025.md)
+- [Wave 12: Çok-nesilli V19 yetenek bayrağı kalıtımı ve gerçek V12 canlı checkpoint üzerinde 1.000-tick izole gölge soak deneyi](docs/reports/LIVE_V12_SHADOW_1000_TICK_SOAK_20261025.md)
 - [P2/P3 ampirik protokol ve K8 denetimi (Tarihsel dondurulmuş rapor)](docs/reports/P2_P3_EMPIRICAL_AND_K8_AUDIT_20261025.md)
 - [Tüm raporlar](docs/reports/)

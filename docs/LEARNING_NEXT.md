@@ -179,11 +179,18 @@ P2 entegrasyonu ve Wave 7–9 düzeltmeleri aşağıdaki mimari garantilerle kor
 - **Sert bellek sınırları (Bounded capacity):** `SignalTrace <= 64`, `sites <= 8`, `dangers <= 8`,
   `known_sectors <= 16`, `burrows <= 32`, `context_entries <= 4` sınırları zorunludur.
 - **Sıfır bellek aktarımı:** Ebeveyn bakımı yalnızca fiziksel etkileşimdir; hiçbir öğrenilmiş
-  deneyim yavruya kalıtılmaz.
-- **Epistemik sınır:** Tam rota hasarı `Unknown` kalır; mekanizma testleri veya P3 sabit held-out
-  ve çoklu-habitat tekil ablasyon protokolleri (`reports/AUDIT_RECHECK_REMEDIATION_20261025.md`,
+  deneyim yavruya kalıtılmaz. `InteractionSystem::resolve_mates` yeni doğan yavruya yalnızca
+  ebeveynlerin bireysel yetenek bayraklarının açık olup olmadığını (`first_interval_refuge_enabled`,
+  `spatial_curiosity_enabled`, `context_ttl_enabled`, `refuge_outcomes_enabled` — `&&` ile) aktarır;
+  yavrunun tüm öğrenilmiş deneyim tabloları doğumda boş (`0`) başlar.
+- **Epistemik sınır:** Tam rota hasarı `Unknown` kalır; mekanizma testleri, P3 sabit held-out
+  ve çoklu-habitat tekil ablasyon protokolleri, 10-tohum × 150-tick davranışsal fayda (Pareto) elemesi
+  veya gerçek V12 (`Tick 12639`) üzerinde yürütülen 1.000-tick (`Tick 12639 -> 13639`) izole gölge soak deneyi
+  (`reports/AUDIT_RECHECK_REMEDIATION_20261025.md`,
   `reports/AUDIT_RECHECK_6FA9C49_REMEDIATION_20261025.md`, `reports/AUDIT_RECHECK_9C7D3F0_20261025.md`,
-  `reports/P3_ABLATION_AND_9C7D3F0_CLOSURE_20261025.md`)
+  `reports/P3_ABLATION_AND_9C7D3F0_CLOSURE_20261025.md`,
+  `reports/BEHAVIORAL_UTILITY_AND_SHADOW_QUALIFICATION_20261025.md`,
+  `reports/LIVE_V12_SHADOW_1000_TICK_SOAK_20261025.md`)
   evrensel ekolojik üstünlük kanıtı değildir. Canlı V12 ortamında bu özellikler varsayılan kapalıdır (`default-off`).
 - **Soak durumu:** Aylar/yıllar süren reliability doğrulaması kullanıcı isteğiyle ertelenmiştir;
   mevcut sağlık gözetimi sürer ve uzun soak feature geliştirme için önkoşul değildir.
