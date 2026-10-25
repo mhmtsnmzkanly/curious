@@ -257,11 +257,12 @@ impl ResourceSite {
 impl Environment {
     pub fn from_map(map: &Map) -> Self {
         let mut sites = Vec::new();
+        let mut burrows = Vec::new();
         for y in map.min_y..=map.max_y {
             for x in map.min_x..=map.max_x {
                 let pos = Position::new(x, y);
-                let site = match map.cell(pos) {
-                    Some(Cell::Food { .. }) => Some(ResourceSite {
+                match map.cell(pos) {
+                    Some(Cell::Food { .. }) => sites.push(ResourceSite {
                         pos,
                         kind: ResourceKind::Food,
                         capacity: 20,
@@ -269,7 +270,7 @@ impl Environment {
                         interval: 2,
                         schedule: None,
                     }),
-                    Some(Cell::Water { .. }) => Some(ResourceSite {
+                    Some(Cell::Water { .. }) => sites.push(ResourceSite {
                         pos,
                         kind: ResourceKind::Water,
                         capacity: 30,
@@ -277,10 +278,16 @@ impl Environment {
                         interval: 2,
                         schedule: None,
                     }),
-                    _ => None,
-                };
-                if let Some(site) = site {
-                    sites.push(site);
+                    Some(Cell::Burrow) => {
+                        if burrows.len() < MAX_BURROWS {
+                            burrows.push(BurrowSite {
+                                pos,
+                                created_tick: 0,
+                                ttl: 1_000_000,
+                            });
+                        }
+                    }
+                    _ => {}
                 }
             }
         }
@@ -290,7 +297,7 @@ impl Environment {
             signals_enabled: false,
             signals: Vec::new(),
             season_cycle: None,
-            burrows: Vec::new(),
+            burrows,
         }
     }
     pub fn update(&mut self, map: &mut Map, tick: usize, events: &mut Vec<SimulationEvent>) {
@@ -410,6 +417,7 @@ impl Environment {
         perceived.sort_by_key(|p| (p.distance, p.direction_sector, p.kind as u8, std::cmp::Reverse(p.local_intensity)));
         perceived
     }
+    /// Low-level metadata-only burrow registration (validates ttl > 0, coordinate bounds, and MAX_BURROWS capacity without a Map reference; use dig_burrow_on_map for map-validated excavation).
     pub fn dig_burrow(&mut self, pos: Position, tick: usize, ttl: usize) -> bool {
         if ttl == 0 || pos.x.unsigned_abs() > 1_000_000 || pos.y.unsigned_abs() > 1_000_000 {
             return false;
@@ -454,7 +462,7 @@ impl Environment {
                     existing.ttl = ttl;
                     true
                 } else {
-                    false
+                    self.dig_burrow(pos, tick, ttl)
                 }
             }
             _ => false,

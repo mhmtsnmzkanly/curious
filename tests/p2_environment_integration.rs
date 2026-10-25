@@ -645,3 +645,87 @@ fn test_f6_repro_corpse_progression_and_toxicity_in_world_tick() {
     // Because amount was 0, no toxicity damage is applied: health remains 140
     assert_eq!(full_after.base.life().health, 140);
 }
+
+/// Test: F5 static map burrow registration and capacity-bounded winter excavation
+#[test]
+fn test_f5_static_burrow_registration_and_capacity_bounded_winter_excavation() {
+    // 1. Verify Environment::from_map registers static Cell::Burrow into env.burrows
+    let mut map = Map::new(-5, 5, -5, 5);
+    let burrow_pos = Position::new(2, 2);
+    map.set_cell(burrow_pos, Cell::Burrow);
+
+    let mut env = Environment::from_map(&map);
+    env.season_cycle = Some(SeasonCycle {
+        period: 40,
+        winter_bmr_surcharge: 3,
+        winter_plant_regen_divisor: 2,
+    });
+
+    // Static burrow was recorded in env.burrows
+    assert_eq!(env.burrows.len(), 1);
+    assert_eq!(env.burrows[0].pos, burrow_pos);
+
+    // In winter (e.g. tick 35, where 35 % 40 >= 30, which is winter season in 4-season cycle),
+    // surcharge at burrow_pos is 0 due to burrow protection, while open cell pays 3.
+    let winter_tick = 35; // winter season
+    assert_eq!(env.season_cycle.unwrap().current_season(winter_tick), Season::Winter);
+    assert_eq!(
+        env.winter_bmr_surcharge(burrow_pos, winter_tick),
+        0,
+        "Static burrow must provide winter thermal protection (surcharge = 0)"
+    );
+    assert_eq!(
+        env.winter_bmr_surcharge(Position::new(0, 0), winter_tick),
+        3,
+        "Unprotected cell must pay full winter surcharge"
+    );
+
+    // 2. Autonomous winter excavation with MAX_BURROWS full:
+    // When MAX_BURROWS is full, autonomous excavation fails and does NOT deduct stamina.
+    let mut herbivore = Box::new(HerbivoreEntity::default());
+    herbivore.life_mut().energy = 70;
+    herbivore.life_mut().max_energy = 80;
+    herbivore.life_mut().stamina = 16;
+    herbivore.life_mut().max_stamina = 16;
+
+    let slot = EntitySlot::new(
+        1,
+        Position::new(0, 0),
+        EntityPhase::Active,
+        EntityController::AI,
+        herbivore,
+    );
+
+    let mut world = World::with_seed(-15, 15, -15, 15, vec![slot], 42);
+    world.logger = curious::logger::Logger::disabled();
+    world.environment.season_cycle = Some(SeasonCycle {
+        period: 40,
+        winter_bmr_surcharge: 3,
+        winter_plant_regen_divisor: 2,
+    });
+    // Set world tick counter to winter
+    world.tick_counter = 35;
+    world.map.set_cell(Position::new(0, 0), Cell::Empty);
+
+    // Pre-fill MAX_BURROWS (32) far away from the herbivore at (0, 0)
+    for i in 0..curious::environment::MAX_BURROWS {
+        let bpos = Position::new(10, i as isize - 10);
+        assert!(world.environment.dig_burrow(bpos, 0, 1000));
+    }
+    assert_eq!(world.environment.burrows.len(), curious::environment::MAX_BURROWS);
+
+    // Ensure herbivore has no nearby burrows and cell is empty
+    assert_eq!(world.map.cell(Position::new(0, 0)), Some(&Cell::Empty));
+
+    // World tick runs autonomous winter burrow logic
+    world.tick();
+
+    let stamina_after = world.entities[0].base.life().stamina;
+    // Map cell remains empty because excavation could not add a burrow
+    assert_eq!(world.map.cell(Position::new(0, 0)), Some(&Cell::Empty));
+    // Since MAX_BURROWS was full, dig_burrow_on_map failed and stamina was NOT deducted for digging (remains 16, not 14)
+    assert_eq!(
+        stamina_after, 16,
+        "Failed autonomous excavation when MAX_BURROWS is full must NOT deduct stamina"
+    );
+}

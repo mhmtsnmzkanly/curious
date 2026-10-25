@@ -113,6 +113,14 @@ impl World {
             &mut events,
         );
         if self.environment.season_cycle.is_some() {
+            for slot in &self.entities {
+                if slot.phase.is_active()
+                    && self.map.cell(slot.pos) == Some(&crate::map::cell::Cell::Burrow)
+                    && !self.environment.has_active_burrow(slot.pos, self.tick_counter)
+                {
+                    self.environment.dig_burrow(slot.pos, self.tick_counter, 1_000_000);
+                }
+            }
             crate::systems::metabolism::MetabolismSystem::apply_seasonal_thermal_costs(
                 &mut self.entities,
                 &self.environment,
@@ -145,14 +153,15 @@ impl World {
                                 })
                             });
                             if !has_nearby_burrow {
-                                slot.base.life_mut().stamina =
-                                    slot.base.life().stamina.saturating_sub(2);
-                                self.environment.dig_burrow_on_map(
+                                if self.environment.dig_burrow_on_map(
                                     &mut self.map,
                                     pos,
                                     self.tick_counter,
                                     20,
-                                );
+                                ) {
+                                    slot.base.life_mut().stamina =
+                                        slot.base.life().stamina.saturating_sub(2);
+                                }
                             }
                         }
                     }

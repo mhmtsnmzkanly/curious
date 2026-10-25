@@ -900,6 +900,7 @@ fn test_f1_recheck_identical_consecutive_episodes_are_not_skipped_and_use_physic
     let make_result = |end: WaterEnd,
                        water: usize,
                        move_energy: usize,
+                       ticks: u8,
                        damage: usize,
                        baseline: Option<i64>,
                        overflowed: bool,
@@ -907,7 +908,7 @@ fn test_f1_recheck_identical_consecutive_episodes_are_not_skipped_and_use_physic
         WaterResult {
             attempt: WaterEpisode {
                 target: Position::new(1, 0),
-                ticks: 1,
+                ticks,
                 movement_energy: move_energy,
                 incoming_damage: damage,
                 choice_baseline: baseline,
@@ -920,32 +921,54 @@ fn test_f1_recheck_identical_consecutive_episodes_are_not_skipped_and_use_physic
         }
     };
 
-    // Successful Reached outcome: net = 25 - 5 - 2 = 18; residual = 18 - 10 = 8
-    let res_reached = make_result(WaterEnd::Reached, 25, 5, 2, Some(10), false, false);
+    // Audit report exact numerical example:
+    // water = 10, movement_energy = 0, ticks = 1, choice_baseline = Some(1900)
+    // actual = (10 * 2 - 0 - 1) * 100 / 1 = 1900
+    // residual = 1900 - 1900 = 0
+    let res_exact = make_result(WaterEnd::Reached, 10, 0, 1, 0, Some(1900), false, false);
     assert_eq!(
-        WaterLearner::episode_physical_residual(&res_reached),
-        Some(8),
-        "Physical residual must equal net outcome minus baseline"
+        WaterLearner::episode_physical_residual(&res_exact),
+        Some(0),
+        "Exact audit example: identical realized score and baseline must yield residual 0"
     );
 
-    // Missing resource / Failed outcome: net = 0 - 3 - 0 = -3; residual = -3 - 5 = -8
-    let res_failed = make_result(WaterEnd::Failed, 0, 3, 0, Some(5), false, false);
+    // Absent baseline must return None
+    let res_no_baseline = make_result(WaterEnd::Reached, 10, 0, 1, 0, None, false, false);
+    assert_eq!(
+        WaterLearner::episode_physical_residual(&res_no_baseline),
+        None,
+        "Absence of choice_baseline must return None"
+    );
+
+    // Excess ticks/movement energy generates negative residual on the exact same scale:
+    // water = 10, movement_energy = 2, ticks = 1, baseline = 1900
+    // actual = (10 * 2 - 2 - 1) * 100 / 1 = 1700
+    // residual = 1700 - 1900 = -200
+    let res_penalty = make_result(WaterEnd::Reached, 10, 2, 1, 0, Some(1900), false, false);
+    assert_eq!(
+        WaterLearner::episode_physical_residual(&res_penalty),
+        Some(-200),
+        "Higher movement cost produces exact negative residual on same scale"
+    );
+
+    // Missing resource / Failed outcome: actual = (0 * 2 - 3 - 1) * 100 / 1 = -400; residual = -400 - 500 = -900
+    let res_failed = make_result(WaterEnd::Failed, 0, 3, 1, 0, Some(500), false, false);
     assert_eq!(
         WaterLearner::episode_physical_residual(&res_failed),
-        Some(-8),
+        Some(-900),
         "Failed missing resource must compute physical residual from net loss"
     );
 
     // Non-qualifying ends return None
-    let res_interrupted = make_result(WaterEnd::Interrupted, 10, 0, 0, Some(5), false, false);
+    let res_interrupted = make_result(WaterEnd::Interrupted, 10, 0, 1, 0, Some(500), false, false);
     assert_eq!(WaterLearner::episode_physical_residual(&res_interrupted), None);
-    let res_timed_out = make_result(WaterEnd::TimedOut, 0, 10, 0, Some(5), false, false);
+    let res_timed_out = make_result(WaterEnd::TimedOut, 0, 10, 10, 0, Some(500), false, false);
     assert_eq!(WaterLearner::episode_physical_residual(&res_timed_out), None);
 
     // Censored or overflowed attempts return None
-    let res_censored = make_result(WaterEnd::Reached, 25, 5, 2, Some(10), false, true);
+    let res_censored = make_result(WaterEnd::Reached, 25, 5, 1, 0, Some(10), false, true);
     assert_eq!(WaterLearner::episode_physical_residual(&res_censored), None);
-    let res_overflow = make_result(WaterEnd::Reached, 25, 5, 2, Some(10), true, false);
+    let res_overflow = make_result(WaterEnd::Reached, 25, 5, 1, 0, Some(10), true, false);
     assert_eq!(WaterLearner::episode_physical_residual(&res_overflow), None);
 
     // 2. Integration test in World::tick:
@@ -984,10 +1007,12 @@ fn test_f1_recheck_identical_consecutive_episodes_are_not_skipped_and_use_physic
         .attempt
         .choice_baseline
         .expect("choice_baseline must be captured");
-    let net1 = last_ep1.water as i64
+    let actual1 = (last_ep1.water as i64 * 2
         - last_ep1.attempt.movement_energy as i64
-        - last_ep1.attempt.incoming_damage as i64;
-    let expected_residual1 = (net1 - baseline1).clamp(-1000, 1000) as i32;
+        - last_ep1.attempt.ticks as i64)
+        * 100
+        / last_ep1.attempt.ticks.max(1) as i64;
+    let expected_residual1 = (actual1 - baseline1).clamp(-1000, 1000) as i32;
 
     assert_eq!(
         ent.learner.context_entries.len(),

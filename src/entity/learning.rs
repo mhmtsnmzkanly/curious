@@ -330,7 +330,9 @@ impl Learner {
         )
     }
 
-    /// Computes the physical residual in the exact same unit/scale as foraging choice baseline.
+    /// Computes the context residual in the exact same unit/scale as `foraging::value`
+    /// (`(2 * water - movement_energy - ticks) * 100 / ticks - choice_baseline`).
+    /// Returns `None` if `choice_baseline` is absent or the episode is non-qualifying.
     pub fn episode_physical_residual(result: &WaterResult) -> Option<i32> {
         if !matches!(result.end, WaterEnd::Reached | WaterEnd::Failed)
             || result.attempt.outcome_overflowed
@@ -338,11 +340,15 @@ impl Learner {
         {
             return None;
         }
-        let net = (result.water as i64)
-            .saturating_sub(result.attempt.movement_energy as i64)
-            .saturating_sub(result.attempt.incoming_damage as i64);
-        let baseline = result.attempt.choice_baseline.unwrap_or(0) as i64;
-        Some((net - baseline).clamp(-1000, 1000) as i32)
+        let baseline = result.attempt.choice_baseline?;
+        let actual = (result.water as i64)
+            .checked_mul(2)
+            .and_then(|v| v.checked_sub(result.attempt.movement_energy as i64))
+            .and_then(|v| v.checked_sub(result.attempt.ticks as i64))
+            .and_then(|v| v.checked_mul(100))
+            .map(|v| v / result.attempt.ticks.max(1) as i64)?;
+        let residual = actual.checked_sub(baseline)?;
+        Some(residual.clamp(-1000, 1000) as i32)
     }
     /// A forced decision does not constitute evidence that a water source is bad.
     pub fn interrupt(&mut self, end: WaterEnd) {

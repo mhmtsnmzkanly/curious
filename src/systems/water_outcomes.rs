@@ -57,22 +57,29 @@ pub fn finish(
             && slot.learner.update_enabled
         {
             if let Some(result) = &slot.learner.last_episode {
-                if let Some(residual) = crate::entity::learning::Learner::episode_physical_residual(result) {
-                    let tick = decisions
-                        .iter()
-                        .find(|t| t.id == slot.id)
-                        .map(|t| t.tick)
-                        .or_else(|| decisions.first().map(|t| t.tick))
-                        .unwrap_or(0);
-                    let speed = slot.base.life().speed.max(1) as u8;
-                    let move_cost = 1u16 + slot.genome.mobility as u16;
-                    slot.learner.record_context_observation(
-                        result.attempt.target,
-                        speed,
-                        move_cost,
-                        tick,
-                        residual,
-                    );
+                let target_verified = result.end == crate::entity::learning::WaterEnd::Reached
+                    || (result.end == crate::entity::learning::WaterEnd::Failed
+                        && missing_resource_target_matches);
+                if target_verified {
+                    if let Some(residual) =
+                        crate::entity::learning::Learner::episode_physical_residual(result)
+                    {
+                        let tick = decisions
+                            .iter()
+                            .find(|t| t.id == slot.id)
+                            .map(|t| t.tick)
+                            .or_else(|| decisions.first().map(|t| t.tick))
+                            .unwrap_or(0);
+                        let speed = slot.base.life().speed.max(1) as u8;
+                        let move_cost = 1u16 + slot.genome.mobility as u16;
+                        slot.learner.record_context_observation(
+                            result.attempt.target,
+                            speed,
+                            move_cost,
+                            tick,
+                            residual,
+                        );
+                    }
                 }
             }
         }
