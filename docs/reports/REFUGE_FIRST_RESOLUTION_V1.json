@@ -1,0 +1,86 @@
+{
+  "schema": "refuge_first_resolution_v1_report",
+  "status": "offline_extraction_complete_no_predictor",
+  "date": "2026-10-25",
+  "source": {
+    "raw_path": "data/experiments/refuge-risk-baseline-v1-engineering-20261025/raw.jsonl",
+    "raw_sha256": "d9c7e00e976c2fe31e0ad07868df924cabd423b91c6f5c32540b4b2cd43b4874",
+    "manifest_sha256": "b5161962b0939b6389f07f64d19458572703e55b721a3383b7eaf0202b2aef12",
+    "independent_baseline_audit_sha256": "8e22728c1347a7b2fe91bd7c322591cf99424a999d6597e76a2c4361d55e00de",
+    "experiment_source_commit": "0377d4c66d4ea81bf1ea83e0c5305c00849f963d",
+    "engine_source_commit": "117a440431deead231ac6d4edbe324be2345936a"
+  },
+  "extractor": {
+    "frozen_commit": "5d648ee06227abb9cbee02d2510f5edb99f2cbb7",
+    "code_path": "scripts/refuge_first_resolution.py",
+    "code_sha256_before_after": "5ffe05dd56750f7e869e81b60e39b93f54b6d3952ce78597dec8890fb88ef4a4",
+    "protocol_path": "docs/REFUGE_FIRST_RESOLUTION_PROTOCOL.md",
+    "protocol_sha256_before_after": "a4b6c53d453b3f1b20aba3174222d45a80855a3f973ba2fe52f8b798ec713afc",
+    "provenance_path": "data/experiments/refuge-first-resolution-v1-20261025/extraction/provenance.json",
+    "provenance_sha256": "9112ede9ba5d2cbc60ffa7c71a97884ef652979da324bae26415f1fe0b726a83"
+  },
+  "output": {
+    "directory": "data/experiments/refuge-first-resolution-v1-20261025/extraction",
+    "total_bytes": 765408,
+    "rows": {
+      "path": "data/experiments/refuge-first-resolution-v1-20261025/extraction/rows.jsonl",
+      "bytes": 755029,
+      "sha256": "52e8663b9b3d9ab8d3a1dd3a621ac6a9207323eb7e8b43837bd32453dc5fda78"
+    },
+    "summary": {
+      "path": "data/experiments/refuge-first-resolution-v1-20261025/extraction/summary.json",
+      "bytes": 8608,
+      "sha256": "5384825415d04498d9c5cb5879813e0d5246416c918458f5b9a16ba2fb901ee9"
+    },
+    "provenance_bytes": 1771
+  },
+  "audit": {
+    "status": "passed",
+    "path": "data/operations/wave9-20261025/first-resolution-independent-audit.json",
+    "sha256": "f7a28483072e59fb367c3bf8ed2cbd24ccc57775450a4efb0faa699449aac959",
+    "unique_starts_covered": 623,
+    "exact_first_intervals": 623,
+    "unknown_rows": 0,
+    "damage_support": {
+      "0": 617,
+      "20": 6
+    },
+    "positive_damage_total": 120,
+    "positive_damage_by_owner": {
+      "17": 3,
+      "49": 1,
+      "53": 1,
+      "39": 1
+    },
+    "continuation_rows_excluded": 8,
+    "global_attack_and_net_health_rows_checked": 623,
+    "choice_time_feature_rows_checked": 623,
+    "input_code_protocol_hashes_unchanged": true
+  },
+  "validation": {
+    "fixture_tests_passed": 14,
+    "fixture_coverage": [
+      "same-owner prior-closure/new-start boundary",
+      "missing interval remains Unknown",
+      "selected/other/unattributed damage stays separate",
+      "closure and continuation fields do not leak into features"
+    ],
+    "root_full_python_tests_passed": 191,
+    "rust_recompiled": false,
+    "frozen_engine_unchanged": true
+  },
+  "scope": {
+    "estimand": "selected-threat resolver-attributed damage during the first complete resolver interval after an observed shelter start",
+    "conditional_on_observed_choice_policy": true,
+    "full_escape_damage_calibrated": false,
+    "unselected_route_risk_estimated": false,
+    "predictor_accepted": false,
+    "model_fitted": false,
+    "model_state_written": false,
+    "route_policy_changed": false,
+    "biology_changed": false,
+    "world_ticks_run": 0,
+    "live_services_touched": false,
+    "output_outcome_statuses": ["Exact", "Unknown"]
+  }
+}

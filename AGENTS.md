@@ -21,13 +21,12 @@ informative. The refuge residual helper remains pure, unintegrated, and
 default-off. See
 [`REFUGE_RISK_BASELINE_V1`](docs/reports/REFUGE_RISK_BASELINE_V1.md).
 
-The approved follow-up scope is only a stdlib read-only extractor for the
-first resolver interval per start. The pinned exploratory counts are 623 first
-intervals, 617 zeros, and six positive outcomes (120 total); eight continuing
-interval rows are excluded. The protocol is
-[`REFUGE_FIRST_RESOLUTION_PROTOCOL`](docs/REFUGE_FIRST_RESOLUTION_PROTOCOL.md).
-No predictor or model state is approved, and real-capture extraction waits for
-root review and the freeze commit.
+The stdlib read-only first-resolver-interval extractor completed once and
+passed independent audit: 623 exact outcomes, 617 zeros, six positive outcomes
+(120 total), and eight continuing rows excluded. Expected full-route damage
+remains `Unknown`; no predictor or model state was created. See
+[`REFUGE_FIRST_RESOLUTION_V1`](docs/reports/REFUGE_FIRST_RESOLUTION_V1.md) and
+the frozen [`protocol`](docs/REFUGE_FIRST_RESOLUTION_PROTOCOL.md).
 
 ## 24 October 2026 — Wave 8 habitat vision comparison
 

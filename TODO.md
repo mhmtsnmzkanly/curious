@@ -18,11 +18,11 @@ damage as completed outcomes. Keep the residual helper unintegrated and
 default-off pending a reviewed censor-aware baseline design. See
 [`REFUGE_RISK_BASELINE_V1`](docs/reports/REFUGE_RISK_BASELINE_V1.md).
 
-The only approved follow-up is a read-only first-resolver-interval extractor
-for the pinned raw capture. Keep later intervals out because they have no
-fresh choice-time perception. Review/freeze code and protocol before running;
-do not fit a predictor or write model state. See
-[`REFUGE_FIRST_RESOLUTION_PROTOCOL`](docs/REFUGE_FIRST_RESOLUTION_PROTOCOL.md).
+The approved read-only extraction is complete and independently audited: all
+623 starts have exact first-interval outcomes; six positive outcomes are
+present, and later intervals are excluded. This still leaves full-route damage
+`Unknown`. No predictor or model state was created. See
+[`REFUGE_FIRST_RESOLUTION_V1`](docs/reports/REFUGE_FIRST_RESOLUTION_V1.md).
 
 ## 24 October 2026 — Wave 8 habitat vision comparison
 
