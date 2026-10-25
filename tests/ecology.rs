@@ -473,7 +473,7 @@ fn version_one_checkpoints_migrate_explicitly_to_current_version() {
         .unwrap();
     assert_eq!(restored.environment.sites.len(), 1);
     assert_eq!(restored.entities[0].generation, 0);
-    assert_eq!(State::capture(&restored).version, 18);
+    assert_eq!(State::capture(&restored).version, 19);
 }
 
 #[test]
@@ -534,5 +534,5 @@ fn version_fifteen_migration_preserves_traits_and_disables_empty_refuge_learning
     assert!(individual.memory.refuge_outcomes.is_empty());
     assert!(individual.memory.refuge_episode.is_none());
     assert!(individual.memory.pending_refuge_closures.is_empty());
-    assert_eq!(State::capture(&restored).version, 18);
+    assert_eq!(State::capture(&restored).version, 19);
 }

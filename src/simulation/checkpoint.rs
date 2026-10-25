@@ -74,7 +74,7 @@ impl State {
         commands.sort_by_key(|(id, _)| *id);
         Self {
             policy: world.policy.clone(),
-            version: 18,
+            version: 19,
             genetics: world.genetics.clone(),
             observation: world.observation.clone(),
             environment: world.environment.clone(),
@@ -111,7 +111,7 @@ impl State {
         }
     }
     pub fn restore(mut self) -> Result<World> {
-        if !(1..=18).contains(&self.version) {
+        if !(1..=19).contains(&self.version) {
             return Err("unsupported checkpoint version".into());
         }
         if self.version >= 15 {
@@ -130,6 +130,12 @@ impl State {
                     return Err("invalid or duplicate resource site in checkpoint".into());
                 }
             }
+        }
+        if self.version >= 19
+            && (self.environment.signals.iter().any(|s| s.emitted_tick > self.tick)
+                || self.environment.burrows.iter().any(|b| b.created_tick > self.tick))
+        {
+            return Err("future environment timestamp in checkpoint".into());
         }
         if self.version < 12 {
             self.policy.mate_rendezvous = false;
@@ -211,6 +217,24 @@ impl State {
                 }
             }
         }
+        if self.version < 19 {
+            self.policy.juvenile_care_enabled = false;
+            self.policy.ambush_predation_enabled = false;
+            self.policy.local_coordination_enabled = false;
+            self.environment.day_night = None;
+            self.environment.signals_enabled = false;
+            self.environment.signals.clear();
+            self.environment.season_cycle = None;
+            self.environment.burrows.clear();
+            for individual in &mut self.entities {
+                individual.learner.context_ttl_enabled = false;
+                individual.learner.context_entries.clear();
+                individual.memory.spatial_curiosity_enabled = false;
+                individual.memory.known_sectors.clear();
+                individual.memory.first_interval_refuge_enabled = false;
+                individual.memory.first_interval_outcomes.clear();
+            }
+        }
         for individual in &self.entities {
             if self.version >= 15 {
                 individual.genome.validate()?;
@@ -255,6 +279,13 @@ impl State {
                         }))
             {
                 return Err("future generalized refuge timestamp in checkpoint".into());
+            }
+            if self.version >= 19
+                && (individual.learner.context_entries.iter().any(|e| e.last_seen_tick > self.tick)
+                    || individual.memory.known_sectors.iter().any(|s| s.last_visited_tick > self.tick)
+                    || individual.memory.first_interval_outcomes.iter().any(|r| r.episodes.iter().any(|&(t, _)| t > self.tick)))
+            {
+                return Err("future V19 learning or memory timestamp in checkpoint".into());
             }
         }
         let [a, b, c, d] = self.bounds;
