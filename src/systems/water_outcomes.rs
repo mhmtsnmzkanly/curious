@@ -50,7 +50,35 @@ pub fn finish(
                         )
                     })
             });
+        let prev_completed = slot.learner.last_episode.clone();
+        let had_episode = slot.learner.episode.clone();
         slot.learner
             .finish_with_evidence(slot.id, alive, events, missing_resource_target_matches);
+        if slot.learner.context_ttl_enabled && slot.learner.update_enabled {
+            if had_episode.is_some()
+                && slot.learner.episode.is_none()
+                && slot.learner.last_episode != prev_completed
+            {
+                if let Some(result) = &slot.learner.last_episode {
+                    if let Some(reward) = result.reward {
+                        let tick = decisions
+                            .iter()
+                            .find(|t| t.id == slot.id)
+                            .map(|t| t.tick)
+                            .or_else(|| decisions.first().map(|t| t.tick))
+                            .unwrap_or(0);
+                        let speed = slot.base.life().speed.max(1) as u8;
+                        let move_cost = 1u16 + slot.genome.mobility as u16;
+                        slot.learner.record_context_observation(
+                            result.attempt.target,
+                            speed,
+                            move_cost,
+                            tick,
+                            reward,
+                        );
+                    }
+                }
+            }
+        }
     }
 }

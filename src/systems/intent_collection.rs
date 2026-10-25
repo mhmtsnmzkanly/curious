@@ -24,7 +24,7 @@ impl IntentCollectionSystem {
             let mut hunt_learner = slot.hunt_learner.clone();
             let mut memory = slot.memory.clone();
             memory.observe(slot.pos, &view, world.tick_counter, slot.base.species());
-            let decision = if let Some(intent) = world.command_inputs.get(&slot.id) {
+            let mut decision = if let Some(intent) = world.command_inputs.get(&slot.id) {
                 Decision::new(intent.clone(), Reason::ExternalCommand)
             } else {
                 match slot.controller {
@@ -39,6 +39,26 @@ impl IntentCollectionSystem {
                     }
                 }
             };
+            if memory.enabled
+                && memory.spatial_curiosity_enabled
+                && matches!(slot.controller, EntityController::AI)
+                && !world.command_inputs.contains_key(&slot.id)
+                && decision.reason == Reason::Explore
+            {
+                if let Some(dir) = memory.curiosity_direction(
+                    slot.pos,
+                    &view,
+                    slot.base.life(),
+                    world.tick_counter,
+                ) {
+                    decision = Decision::new(
+                        Intent::Move {
+                            steps: crate::map::movement::Steps(vec![dir]),
+                        },
+                        Reason::Explore,
+                    );
+                }
+            }
             let decision = if world.policy.mate_rendezvous
                 && slot.base.species() == crate::entity::species::Species::Herbivore
                 && memory.enabled
@@ -75,13 +95,15 @@ impl IntentCollectionSystem {
             let decision = if matches!(slot.controller, EntityController::AI)
                 && !world.command_inputs.contains_key(&slot.id)
             {
-                learner.choose_with_residual(
+                learner.choose_with_residual_and_context(
                     slot.pos,
                     slot.base.life(),
                     &view,
                     decision,
                     &mut world.rng,
                     world.policy.water_residual_enabled,
+                    world.tick_counter,
+                    1u16 + slot.genome.mobility as u16,
                 )
             } else {
                 learner.interrupt(crate::entity::learning::WaterEnd::Interrupted);

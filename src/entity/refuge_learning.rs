@@ -209,7 +209,7 @@ pub(crate) fn choose_refuge(
     }
     let mode = if memory.refuge_generalization_enabled {
         super::memory::RefugeLearningMode::Generalized
-    } else if memory.refuge_outcomes_enabled {
+    } else if memory.refuge_outcomes_enabled || memory.first_interval_refuge_enabled {
         super::memory::RefugeLearningMode::LegacyExact
     } else {
         close(
@@ -282,39 +282,71 @@ pub(crate) fn choose_refuge(
     } else {
         None
     };
-    let selected_index = match mode {
-        super::memory::RefugeLearningMode::LegacyExact => {
-            let any_observed = candidates.iter().any(|candidate| {
-                memory
-                    .refuge_outcomes
-                    .iter()
-                    .any(|record| record.key == candidate.key && record.completed > 0)
-            });
-            if any_observed {
-                let mut ranked = (0..candidates.len()).collect::<Vec<_>>();
-                ranked.sort_by(|a, b| {
-                    compare_refuge_candidate(
-                        &candidates[*a],
-                        &candidates[*b],
-                        &memory.refuge_outcomes,
-                    )
-                });
-                ranked[0]
-            } else {
-                fallback_candidate_index(&candidates)
+    let selected_index = if memory.first_interval_refuge_enabled
+        && candidates.iter().any(|c| {
+            memory
+                .first_interval_outcomes
+                .iter()
+                .any(|r| r.key == c.key && !r.episodes.is_empty())
+        })
+    {
+        let mut ranked = (0..candidates.len()).collect::<Vec<_>>();
+        ranked.sort_by(|&a, &b| {
+            let dmg_a = expected_first_interval_damage(
+                &memory.first_interval_outcomes,
+                &candidates[a].key,
+            );
+            let dmg_b = expected_first_interval_damage(
+                &memory.first_interval_outcomes,
+                &candidates[b].key,
+            );
+            match (dmg_a, dmg_b) {
+                (Some(da), Some(db)) => da.partial_cmp(&db).unwrap_or(Ordering::Equal),
+                (Some(_), None) => Ordering::Less,
+                (None, Some(_)) => Ordering::Greater,
+                (None, None) => Ordering::Equal,
             }
-        }
-        super::memory::RefugeLearningMode::Generalized => generalized_contexts
-            .clone()
-            .and_then(|keys| {
-                super::refuge_generalization::rank_candidates(
-                    &keys,
-                    &memory.refuge_generalized_outcomes,
-                    tick,
-                )
-                .and_then(|ranked| ranked.first().copied())
+            .then_with(|| {
+                (candidates[a].steps.0.len(), candidates[a].order)
+                    .cmp(&(candidates[b].steps.0.len(), candidates[b].order))
             })
-            .unwrap_or_else(|| fallback_candidate_index(&candidates)),
+        });
+        ranked[0]
+    } else {
+        match mode {
+            super::memory::RefugeLearningMode::LegacyExact => {
+                let any_observed = candidates.iter().any(|candidate| {
+                    memory
+                        .refuge_outcomes
+                        .iter()
+                        .any(|record| record.key == candidate.key && record.completed > 0)
+                });
+                if any_observed {
+                    let mut ranked = (0..candidates.len()).collect::<Vec<_>>();
+                    ranked.sort_by(|a, b| {
+                        compare_refuge_candidate(
+                            &candidates[*a],
+                            &candidates[*b],
+                            &memory.refuge_outcomes,
+                        )
+                    });
+                    ranked[0]
+                } else {
+                    fallback_candidate_index(&candidates)
+                }
+            }
+            super::memory::RefugeLearningMode::Generalized => generalized_contexts
+                .clone()
+                .and_then(|keys| {
+                    super::refuge_generalization::rank_candidates(
+                        &keys,
+                        &memory.refuge_generalized_outcomes,
+                        tick,
+                    )
+                    .and_then(|ranked| ranked.first().copied())
+                })
+                .unwrap_or_else(|| fallback_candidate_index(&candidates)),
+        }
     };
     let selected = &candidates[selected_index];
 

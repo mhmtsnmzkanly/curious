@@ -28,68 +28,70 @@ fn record_episode(
         let memory = &mut slot.memory;
         match episode.learning_mode {
             RefugeLearningMode::LegacyExact => {
-                let index = memory
-                    .refuge_outcomes
-                    .iter()
-                    .position(|row| row.key == episode.key);
-                let index = match index {
-                    Some(index) => index,
-                    None if memory.refuge_outcomes.len() < MAX_REFUGE_OUTCOMES => {
-                        memory.refuge_outcomes.push(RefugeOutcome {
-                            key: episode.key.clone(),
-                            last_observed_tick: tick,
-                            completed: 0,
-                            safe_arrivals: 0,
-                            threat_damage: 0,
-                            movement_energy: 0,
-                        });
-                        memory.refuge_outcomes.len() - 1
+                if memory.refuge_outcomes_enabled {
+                    let index = memory
+                        .refuge_outcomes
+                        .iter()
+                        .position(|row| row.key == episode.key);
+                    let index = match index {
+                        Some(index) => index,
+                        None if memory.refuge_outcomes.len() < MAX_REFUGE_OUTCOMES => {
+                            memory.refuge_outcomes.push(RefugeOutcome {
+                                key: episode.key.clone(),
+                                last_observed_tick: tick,
+                                completed: 0,
+                                safe_arrivals: 0,
+                                threat_damage: 0,
+                                movement_energy: 0,
+                            });
+                            memory.refuge_outcomes.len() - 1
+                        }
+                        None => {
+                            let oldest = memory
+                                .refuge_outcomes
+                                .iter()
+                                .enumerate()
+                                .min_by_key(|(_, row)| {
+                                    (
+                                        row.last_observed_tick,
+                                        row.key.threat_id,
+                                        species_rank(&row.key.threat_species),
+                                        row.key.bearing,
+                                        row.key.threat_distance,
+                                        row.key.energy_quartile,
+                                        row.key.stamina_quartile,
+                                        row.key.endpoint.y,
+                                        row.key.endpoint.x,
+                                    )
+                                })
+                                .map(|(index, _)| index)
+                                .unwrap();
+                            memory.refuge_outcomes.remove(oldest);
+                            memory.refuge_outcomes.push(RefugeOutcome {
+                                key: episode.key.clone(),
+                                last_observed_tick: tick,
+                                completed: 0,
+                                safe_arrivals: 0,
+                                threat_damage: 0,
+                                movement_energy: 0,
+                            });
+                            memory.refuge_outcomes.len() - 1
+                        }
+                    };
+                    let row = &mut memory.refuge_outcomes[index];
+                    row.last_observed_tick = tick;
+                    if row.completed < MAX_REFUGE_EPISODES_PER_KEY {
+                        row.completed += 1;
+                        row.safe_arrivals += u32::from(safe_arrival);
+                        row.threat_damage = row
+                            .threat_damage
+                            .saturating_add(episode.threat_damage)
+                            .min(MAX_ACCOUNT);
+                        row.movement_energy = row
+                            .movement_energy
+                            .saturating_add(episode.movement_energy)
+                            .min(MAX_ACCOUNT);
                     }
-                    None => {
-                        let oldest = memory
-                            .refuge_outcomes
-                            .iter()
-                            .enumerate()
-                            .min_by_key(|(_, row)| {
-                                (
-                                    row.last_observed_tick,
-                                    row.key.threat_id,
-                                    species_rank(&row.key.threat_species),
-                                    row.key.bearing,
-                                    row.key.threat_distance,
-                                    row.key.energy_quartile,
-                                    row.key.stamina_quartile,
-                                    row.key.endpoint.y,
-                                    row.key.endpoint.x,
-                                )
-                            })
-                            .map(|(index, _)| index)
-                            .unwrap();
-                        memory.refuge_outcomes.remove(oldest);
-                        memory.refuge_outcomes.push(RefugeOutcome {
-                            key: episode.key.clone(),
-                            last_observed_tick: tick,
-                            completed: 0,
-                            safe_arrivals: 0,
-                            threat_damage: 0,
-                            movement_energy: 0,
-                        });
-                        memory.refuge_outcomes.len() - 1
-                    }
-                };
-                let row = &mut memory.refuge_outcomes[index];
-                row.last_observed_tick = tick;
-                if row.completed < MAX_REFUGE_EPISODES_PER_KEY {
-                    row.completed += 1;
-                    row.safe_arrivals += u32::from(safe_arrival);
-                    row.threat_damage = row
-                        .threat_damage
-                        .saturating_add(episode.threat_damage)
-                        .min(MAX_ACCOUNT);
-                    row.movement_energy = row
-                        .movement_energy
-                        .saturating_add(episode.movement_energy)
-                        .min(MAX_ACCOUNT);
                 }
             }
             RefugeLearningMode::Generalized => {
@@ -200,6 +202,21 @@ pub fn finish(
             slot.base.life().health,
             attack_damage_this_tick,
         );
+        if episode.elapsed_ticks == 0 && slot.memory.first_interval_refuge_enabled {
+            let first_tick_attributable = slot.base.life().is_alive()
+                && episode.other_damage == 0
+                && episode.unattributed_health_loss == 0;
+            crate::entity::refuge_learning::record_first_interval_outcome(
+                &mut slot.memory.first_interval_outcomes,
+                episode.key.clone(),
+                if first_tick_attributable {
+                    Some(episode.threat_damage.min(u16::MAX as u64) as u16)
+                } else {
+                    None
+                },
+                tick,
+            );
+        }
         episode.elapsed_ticks = episode.elapsed_ticks.saturating_add(1).min(20);
         let closure = if !slot.base.life().is_alive() {
             Some(RefugeClosure::Died)

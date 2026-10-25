@@ -537,7 +537,15 @@ impl Memory {
 
         DIRECTION_ARRAY
             .into_iter()
-            .filter(|d| view.directions.get(d).copied().unwrap_or(0) > 0)
+            .filter(|d| {
+                let target_pos = origin + *d;
+                let not_wall = !matches!(
+                    view.cells.iter().find(|(p, _)| *p == target_pos).map(|(_, c)| c),
+                    Some(Cell::Wall)
+                );
+                let dir_passable = view.directions.get(d).copied().unwrap_or(0) > 0;
+                not_wall && (dir_passable || (view.directions.is_empty() && not_wall))
+            })
             .min_by_key(|d| {
                 let d_pos = Position::new(0, 0) + *d;
                 let target_sx = cur_sx + d_pos.x;

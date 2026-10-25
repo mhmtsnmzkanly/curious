@@ -84,7 +84,7 @@ pub struct ResidualValue {
     pub visits: u32,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct WaterEpisode {
     pub target: Position,
     pub ticks: u8,
@@ -113,7 +113,7 @@ pub enum WaterEnd {
     Disabled,
     Died,
 }
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct WaterResult {
     pub attempt: WaterEpisode,
     pub water: usize,
@@ -129,7 +129,7 @@ impl Learner {
         base: Decision,
         rng: &mut Random,
     ) -> Decision {
-        self.choose_inner(origin, None, view, base, rng, false)
+        self.choose_inner(origin, None, view, base, rng, false, 0, 1)
     }
 
     /// Choose with the default-off source-residual policy enabled by world config.
@@ -142,7 +142,39 @@ impl Learner {
         rng: &mut Random,
         residual_enabled: bool,
     ) -> Decision {
-        self.choose_inner(origin, Some(life), view, base, rng, residual_enabled)
+        self.choose_with_residual_and_context(
+            origin,
+            life,
+            view,
+            base,
+            rng,
+            residual_enabled,
+            0,
+            1,
+        )
+    }
+
+    pub fn choose_with_residual_and_context(
+        &mut self,
+        origin: Position,
+        life: &crate::entity::lifestate::LifeState,
+        view: &Perception,
+        base: Decision,
+        rng: &mut Random,
+        residual_enabled: bool,
+        tick: usize,
+        move_cost: u16,
+    ) -> Decision {
+        self.choose_inner(
+            origin,
+            Some(life),
+            view,
+            base,
+            rng,
+            residual_enabled,
+            tick,
+            move_cost,
+        )
     }
 
     fn choose_inner(
@@ -153,10 +185,15 @@ impl Learner {
         base: Decision,
         rng: &mut Random,
         residual_enabled: bool,
+        tick: usize,
+        move_cost: u16,
     ) -> Decision {
         if !self.enabled {
             self.interrupt(WaterEnd::Disabled);
             return base;
+        }
+        if self.context_ttl_enabled {
+            self.prune_expired_context(tick);
         }
         if base.reason != Reason::SeekWater {
             self.interrupt(WaterEnd::Interrupted);
@@ -180,6 +217,26 @@ impl Learner {
             self.interrupt(WaterEnd::Interrupted);
         }
         if view.waters.len() < 2 {
+            if self.context_ttl_enabled && view.waters.len() == 1 {
+                let target = view.waters[0].steps.0.iter().fold(origin, |p, d| p + *d);
+                let choice_baseline = life.map(|l| {
+                    crate::entity::foraging::value(
+                        view.waters[0].amount,
+                        view.waters[0].steps.len(),
+                        l,
+                        true,
+                    ) as i64
+                });
+                self.episode = Some(WaterEpisode {
+                    target,
+                    ticks: 0,
+                    movement_energy: 0,
+                    incoming_damage: 0,
+                    choice_baseline,
+                    outcome_overflowed: false,
+                    candidate_censored: false,
+                });
+            }
             return base;
         }
         let positions: Vec<_> = view
@@ -187,6 +244,7 @@ impl Learner {
             .iter()
             .map(|w| w.steps.0.iter().fold(origin, |p, d| p + *d))
             .collect();
+        let speed = life.map(|l| l.speed.max(1) as u8).unwrap_or(1);
         let index = if rng.range(0, 99) < 10 {
             rng.range(0, positions.len() as isize - 1) as usize
         } else {
@@ -207,7 +265,7 @@ impl Learner {
                     } else {
                         0
                     };
-                    let baseline = if residual_enabled {
+                    let baseline = if residual_enabled || self.context_ttl_enabled {
                         crate::entity::foraging::value(
                             view.waters[*i].amount,
                             view.waters[*i].steps.len(),
@@ -217,19 +275,30 @@ impl Learner {
                     } else {
                         0
                     };
-                    (
-                        if residual_enabled {
+                    let score = if self.context_ttl_enabled {
+                        let ctx =
+                            self.predict_context_residual(positions[*i], speed, move_cost, tick);
+                        if let Some(ctx_res) = ctx {
+                            baseline.saturating_add(ctx_res as i64)
+                        } else if residual_enabled {
                             baseline.saturating_add(residual)
                         } else {
-                            q as i64
-                        },
+                            baseline
+                        }
+                    } else if residual_enabled {
+                        baseline.saturating_add(residual)
+                    } else {
+                        q as i64
+                    };
+                    (
+                        score,
                         std::cmp::Reverse(view.waters[*i].steps.len()),
                         std::cmp::Reverse(*i),
                     )
                 })
                 .unwrap()
         };
-        let choice_baseline = residual_enabled.then(|| {
+        let choice_baseline = (residual_enabled || self.context_ttl_enabled).then(|| {
             crate::entity::foraging::value(
                 view.waters[index].amount,
                 view.waters[index].steps.len(),
@@ -454,6 +523,7 @@ impl Learner {
         if !self.context_ttl_enabled {
             return;
         }
+        let net_water_delta = net_water_delta.clamp(-1000, 1000);
         self.prune_expired_context(tick);
         if let Some(entry) = self
             .context_entries
@@ -507,8 +577,8 @@ impl Learner {
         if entry.observations.is_empty() {
             return None;
         }
-        let sum: i32 = entry.observations.iter().copied().sum();
-        Some(sum / entry.observations.len() as i32)
+        let sum: i64 = entry.observations.iter().map(|&v| v as i64).sum();
+        Some((sum / entry.observations.len() as i64) as i32)
     }
 
     pub fn validate(&self) -> crate::Result<()> {
@@ -551,7 +621,11 @@ impl Learner {
             })
             || self.context_entries.len() > 16
             || self.context_entries.iter().any(|e| {
-                !valid_pos(e.pos) || e.speed == 0 || e.move_energy_cost == 0 || e.observations.len() > 4
+                !valid_pos(e.pos)
+                    || e.speed == 0
+                    || e.move_energy_cost == 0
+                    || e.observations.len() > 4
+                    || e.observations.iter().any(|&v| !(-1000..=1000).contains(&v))
             })
         {
             return Err("learning bounds exceeded".into());

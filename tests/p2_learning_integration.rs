@@ -15,7 +15,10 @@ use curious::{
         Entity,
     },
     logger::Logger,
-    map::movement::{Direction, Position, Steps},
+    map::{
+        cell::Cell,
+        movement::{Direction, Position, Steps},
+    },
     persistence::State,
     world::{EntitySlot, World},
 };
@@ -530,5 +533,362 @@ fn test_active_mechanisms_end_to_end() {
         choose_refuge_by_first_interval(&records, &candidates),
         Some(1),
         "Candidate with lower expected first-interval damage should be selected"
+    );
+}
+
+/// Test 5: Context TTL in normal World::tick populates context_entries and alters choice
+#[test]
+fn test_context_ttl_world_tick_populates_and_alters_choice() {
+    // Part 1: Verify world.tick() populates context_entries after drinking
+    let mut herbivore = EntitySlot::new(
+        1,
+        Position::new(0, 0),
+        EntityPhase::Active,
+        EntityController::AI,
+        Box::new(HerbivoreEntity::default()),
+    );
+    herbivore.base.life_mut().water = 10; // low water triggers drinking
+    herbivore.base.life_mut().energy = 70;
+    herbivore.learner.context_ttl_enabled = true;
+    herbivore.learner.update_enabled = true;
+
+    let mut world = World::with_seed(-5, 5, -5, 5, vec![herbivore], 100);
+    world.logger = Logger::disabled();
+    world.map = curious::map::Map::new(-5, 5, -5, 5);
+    world.map.set_cell(Position::new(1, 0), Cell::Water { amount: 30 });
+    world.map.set_cell(Position::new(0, 1), Cell::Water { amount: 30 });
+
+    // Tick 1: AI herbivore chooses a water source and drinks
+    let _events = world.tick();
+
+    // Verify context_entries is populated by world.tick()
+    assert!(
+        !world.entities[0].learner.context_entries.is_empty(),
+        "world.tick() must populate context_entries when context_ttl_enabled = true"
+    );
+
+    // Part 2: Verify context residual alters water source selection
+    let make_choice_world = |context_enabled: bool, with_penalty: bool| {
+        let mut slot = EntitySlot::new(
+            1,
+            Position::new(0, 0),
+            EntityPhase::Active,
+            EntityController::AI,
+            Box::new(HerbivoreEntity::default()),
+        );
+        slot.base.life_mut().water = 10;
+        slot.base.life_mut().energy = 70;
+        slot.learner.context_ttl_enabled = context_enabled;
+        slot.learner.update_enabled = true;
+
+        if with_penalty {
+            let speed = slot.base.life().speed.max(1) as u8;
+            let move_cost = 1u16 + slot.genome.mobility as u16;
+            // Record a negative residual for (1, 0)
+            let mut obs = VecDeque::new();
+            obs.push_back(-500);
+            slot.learner.context_entries.push(ContextWaterEntry {
+                pos: Position::new(1, 0),
+                speed,
+                move_energy_cost: move_cost,
+                last_seen_tick: 0,
+                observations: obs,
+            });
+        }
+
+        let mut w = World::with_seed(-5, 5, -5, 5, vec![slot], 42);
+        w.logger = Logger::disabled();
+        w.map = curious::map::Map::new(-5, 5, -5, 5);
+        w.map.set_cell(Position::new(1, 0), Cell::Water { amount: 20 });
+        w.map.set_cell(Position::new(0, 1), Cell::Water { amount: 20 });
+        w
+    };
+
+    let mut w_disabled = make_choice_world(false, false);
+    let mut w_enabled_penalized = make_choice_world(true, true);
+
+    w_disabled.tick();
+    w_enabled_penalized.tick();
+
+    // Verify disabled world chose without context residual, and context_entries is empty
+    assert!(
+        w_disabled.entities[0].learner.context_entries.is_empty(),
+        "Disabled world must not populate context_entries"
+    );
+
+    // The two worlds made different decisions due to the context residual
+    let dec_disabled = w_disabled.last_decisions[0].decision.intent.clone();
+    let dec_enabled = w_enabled_penalized.last_decisions[0].decision.intent.clone();
+    assert_ne!(
+        dec_disabled, dec_enabled,
+        "context_ttl_enabled must alter water source selection when residual is present"
+    );
+}
+
+/// Test 6: Spatial curiosity in normal World::tick populates sectors and alters movement trajectory
+#[test]
+fn test_spatial_curiosity_world_tick_populates_sectors_and_alters_trajectory() {
+    let make_curiosity_world = |curiosity_enabled: bool| {
+        let mut slot = EntitySlot::new(
+            1,
+            Position::new(0, 0),
+            EntityPhase::Active,
+            EntityController::AI,
+            Box::new(HerbivoreEntity::default()),
+        );
+        slot.base.life_mut().energy = 80;
+        slot.base.life_mut().max_energy = 80;
+        slot.base.life_mut().water = 60;
+        slot.base.life_mut().max_water = 60;
+        slot.base.life_mut().stamina = 16;
+        slot.base.life_mut().max_stamina = 16;
+        slot.memory.spatial_curiosity_enabled = curiosity_enabled;
+
+        // In curiosity-enabled case, pre-populate sectors Down, Up, Left so Right is the only unvisited adjacent sector
+        if curiosity_enabled {
+            slot.memory.known_sectors.push(KnownSector {
+                sector_x: 0,
+                sector_y: 1, // Down
+                last_visited_tick: 50,
+                visit_count: 2,
+            });
+            slot.memory.known_sectors.push(KnownSector {
+                sector_x: 0,
+                sector_y: -1, // Up
+                last_visited_tick: 50,
+                visit_count: 2,
+            });
+            slot.memory.known_sectors.push(KnownSector {
+                sector_x: -1,
+                sector_y: 0, // Left
+                last_visited_tick: 50,
+                visit_count: 2,
+            });
+        }
+
+        let mut w = World::with_seed(-10, 10, -10, 10, vec![slot], 77);
+        w.logger = Logger::disabled();
+        w
+    };
+
+    let mut w_disabled = make_curiosity_world(false);
+    let mut w_enabled = make_curiosity_world(true);
+
+    // Run 5 ticks of world simulation
+    for _ in 0..5 {
+        w_disabled.tick();
+        w_enabled.tick();
+    }
+
+    // 1. Verify known_sectors is populated via world.tick() when enabled, and empty when disabled
+    assert!(
+        !w_enabled.entities[0].memory.known_sectors.is_empty(),
+        "known_sectors must be populated when spatial_curiosity_enabled is true"
+    );
+    assert!(
+        w_disabled.entities[0].memory.known_sectors.is_empty(),
+        "known_sectors must stay empty when spatial_curiosity_enabled is false"
+    );
+
+    // 2. Trajectories diverged because spatial curiosity directed movement towards unvisited sectors
+    assert_ne!(
+        w_disabled.entities[0].pos,
+        w_enabled.entities[0].pos,
+        "spatial_curiosity_enabled must produce a different movement trajectory"
+    );
+}
+
+/// Test 7: First-interval refuge learning preserves damage on censored routes and alters choice
+#[test]
+fn test_first_interval_refuge_world_tick_preserves_outcome_and_alters_choice() {
+    // -------------------------------------------------------------------------
+    // Part 1: First-interval damage is preserved even if threat is lost on tick 2
+    // -------------------------------------------------------------------------
+    let mut herbivore = EntitySlot::new(
+        1,
+        Position::new(3, 2),
+        EntityPhase::Active,
+        EntityController::AI,
+        Box::new(HerbivoreEntity::default()),
+    );
+    herbivore.base.life_mut().speed = 1;
+    herbivore.base.life_mut().health = 100;
+    herbivore.base.life_mut().energy = 70;
+    herbivore.base.life_mut().stamina = 16;
+    herbivore.memory.first_interval_refuge_enabled = true;
+
+    let mut threat = EntitySlot::new(
+        2,
+        Position::new(3, 1),
+        EntityPhase::Active,
+        EntityController::AI,
+        Box::new(CarnivoreEntity::default()),
+    );
+    threat.base.life_mut().speed = 1;
+    threat.base.life_mut().energy = 30;
+
+    let mut world = World::with_seed(-5, 10, -5, 10, vec![herbivore, threat], 33);
+    world.logger = Logger::disabled();
+    world.map = curious::map::Map::new(-5, 10, -5, 10);
+    // Burrow A at (0, 2)
+    world.map.set_cell(Position::new(0, 2), Cell::Burrow);
+
+    // Tick 1: Threat attacks herbivore; herbivore flees towards burrow
+    world.tick();
+
+    // Verify first-interval outcome is already recorded on tick 1
+    assert_eq!(
+        world.entities[0].memory.first_interval_outcomes.len(), 1,
+        "First-interval outcome must be recorded after the first resolver interval"
+    );
+    let first_interval_damage = world.entities[0].memory.first_interval_outcomes[0].episodes[0].1;
+    assert!(
+        first_interval_damage > 0,
+        "First-interval damage must reflect threat attack damage"
+    );
+
+    // Tick 2: Move threat far away so threat sight is lost (ThreatLost closure)
+    world.entities[1].pos = Position::new(9, 9);
+    world.tick();
+    world.tick(); // Threat unseen ticks >= 2 triggers ThreatLost closure
+
+    // Episode is closed (no longer active)
+    assert!(
+        world.entities[0].memory.refuge_episode.is_none(),
+        "Episode should close after losing sight of threat"
+    );
+    // Crucial check: First interval record was NOT lost or wiped out by route censoring!
+    assert_eq!(
+        world.entities[0].memory.first_interval_outcomes.len(), 1,
+        "First interval outcome must be retained even when full route is censored"
+    );
+    assert_eq!(
+        world.entities[0].memory.first_interval_outcomes[0].episodes[0].1,
+        first_interval_damage
+    );
+
+    // -------------------------------------------------------------------------
+    // Part 2: First-interval learning alters refuge choice on subsequent encounter
+    // -------------------------------------------------------------------------
+    let make_refuge_world = |safer_burrow_is_a: bool| {
+        let mut h = EntitySlot::new(
+            1,
+            Position::new(1, 1),
+            EntityPhase::Active,
+            EntityController::AI,
+            Box::new(HerbivoreEntity::default()),
+        );
+        h.base.life_mut().speed = 1;
+        h.base.life_mut().health = 100;
+        h.base.life_mut().energy = 70;
+        h.base.life_mut().stamina = 16;
+        h.memory.first_interval_refuge_enabled = true;
+
+        let mut t = EntitySlot::new(
+            2,
+            Position::new(1, 2),
+            EntityPhase::Active,
+            EntityController::AI,
+            Box::new(CarnivoreEntity::default()),
+        );
+        t.base.life_mut().speed = 1;
+        t.base.life_mut().energy = 70;
+
+        let mut w = World::with_seed(-5, 10, -5, 10, vec![h, t], 42);
+        w.logger = Logger::disabled();
+        w.map = curious::map::Map::new(-5, 10, -5, 10);
+        w.map.set_cell(Position::new(0, 1), Cell::Burrow); // Burrow A (Left)
+        w.map.set_cell(Position::new(1, 0), Cell::Burrow); // Burrow B (Up)
+
+        if safer_burrow_is_a {
+            // Pre-seed first_interval_outcomes: Burrow A had 5 damage, Burrow B had 35 damage
+            let key_a = RefugeKey {
+                threat_id: 2,
+                threat_species: Species::Carnivore,
+                bearing: 4,
+                threat_distance: 0,
+                energy_quartile: 3,
+                stamina_quartile: 3,
+                refuge_options: vec![Position::new(1, 0), Position::new(0, 1)],
+                endpoint: Position::new(0, 1),
+            };
+            let key_b = RefugeKey {
+                threat_id: 2,
+                threat_species: Species::Carnivore,
+                bearing: 4,
+                threat_distance: 0,
+                energy_quartile: 3,
+                stamina_quartile: 3,
+                refuge_options: vec![Position::new(1, 0), Position::new(0, 1)],
+                endpoint: Position::new(1, 0),
+            };
+            record_first_interval_outcome(&mut w.entities[0].memory.first_interval_outcomes, key_a, Some(5), 0);
+            record_first_interval_outcome(&mut w.entities[0].memory.first_interval_outcomes, key_b, Some(35), 0);
+        }
+        w
+    };
+
+    let mut w_uninformed = make_refuge_world(false);
+    let mut w_informed = make_refuge_world(true);
+
+    w_uninformed.tick();
+    w_informed.tick();
+
+    let dec_uninformed = w_uninformed.last_decisions[0].decision.intent.clone();
+    let dec_informed = w_informed.last_decisions[0].decision.intent.clone();
+
+    // The informed herbivore chose Burrow A (Left, lower damage 5) while uninformed chose Burrow B (Up, fallback tie-breaker)
+    assert_ne!(
+        dec_uninformed, dec_informed,
+        "first_interval_refuge_enabled must alter shelter choice based on learned damage"
+    );
+    assert_eq!(
+        dec_informed,
+        Intent::Move { steps: Steps(vec![Direction::Left]) },
+        "Informed herbivore must move towards the safer shelter (Burrow A at 0, 1)"
+    );
+}
+
+/// Test 8: F7 context overflow validation and safe sum
+#[test]
+fn test_f7_context_overflow_validation_and_safe_sum() {
+    let mut learner = WaterLearner::default();
+    learner.context_ttl_enabled = true;
+    let mut obs = VecDeque::new();
+    obs.push_back(i32::MAX);
+    obs.push_back(i32::MAX);
+    learner.context_entries.push(ContextWaterEntry {
+        pos: Position::new(2, 2),
+        speed: 2,
+        move_energy_cost: 3,
+        last_seen_tick: 10,
+        observations: obs,
+    });
+
+    // 1. Validate must reject out-of-bounds observation values (> 1000)
+    assert!(
+        learner.validate().is_err(),
+        "Learner::validate must return Err for unvalidated i32::MAX context observations"
+    );
+
+    // 2. predict_context_residual must NOT panic on i32::MAX values, computing sum safely via i64
+    let pred = learner.predict_context_residual(Position::new(2, 2), 2, 3, 15);
+    assert_eq!(
+        pred,
+        Some(i32::MAX),
+        "predict_context_residual must calculate average without integer overflow panic"
+    );
+
+    // 3. record_context_observation clamps input to [-1000, 1000]
+    let mut safe_learner = WaterLearner::default();
+    safe_learner.context_ttl_enabled = true;
+    safe_learner.record_context_observation(Position::new(3, 3), 2, 3, 10, i32::MAX);
+    assert!(
+        safe_learner.validate().is_ok(),
+        "Learner::validate must pass after record_context_observation clamps value"
+    );
+    assert_eq!(
+        safe_learner.context_entries[0].observations[0], 1000,
+        "record_context_observation must clamp i32::MAX to 1000"
     );
 }
