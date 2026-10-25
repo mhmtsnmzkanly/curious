@@ -26,6 +26,8 @@ Kategorilere doğrudan git: [K1 Dünya ve çevre](ROADMAP.md#dunya-cevre),
 
 ## Güncel kanıt
 
+- [6fa9c49 bağımsız yeniden denetimi](reports/AUDIT_RECHECK_6FA9C49_20261025.md) — F1 ölçek hatası, F8 kanıt sınırı ve diğer kapanışların kontrolü.
+
 - [2002ee4 düzeltmelerinin bağımsız yeniden denetimi](reports/AUDIT_RECHECK_2002EE4_20261025.md) — F3/F4/F7 düzeldi; diğer bulgulardaki kalan kusurlar ve kanıt sınırları.
 - [Wave 8: 2002ee4 yeniden denetim bulgularının (F1, F2, F5, F6, F8) tam kapanış raporu](reports/AUDIT_RECHECK_REMEDIATION_20261025.md) — su bağlam ölçeği, pusu örtüsü, ham V18 JSON göç testi, dinamik in ve ceset çürümesi ile 5-seed World::tick karşılaştırmasının tam kapanış kanıtı.
 - [25 Ekim ca5971b entegrasyon denetimi: sekiz bulgu](reports/AUDIT_CA5971B_20261025.md) — P2/P3 entegrasyon iddialarının sınırlarını ve tespit edilen eksikleri açıklar.
