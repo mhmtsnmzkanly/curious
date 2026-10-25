@@ -1,30 +1,37 @@
 # Sonraki işler — 25 Ekim 2026
 
-## P0 — destek ve mekanizma tasarımı
+## Tamamlanan P0/P1 mekanizma ve fizik doğrulamaları (Mekanizma testi geçti)
 
-- **K3:** İlk resolver aralığındaki kendi tehdidine ait hasar için per-owner, açıkça
-  tanımlanmış bir öğrenme mekanizması tasarla. Mevcut 623 gözlemde altı pozitif
-  sonuç dört bireyde; bu veri kabul edilmiş model veya tam kaçış tahmini
-  üretmez. Bu tasarım işi model eğitimi ya da World/lab çalışması izni değildir.
-- **K3:** Su artığı deneyinin başarısız bounded utility sonucunu ve güncel bağlamla
-  eski deneyimin uyuşmama riskini ayrı hipotez olarak ele al. Retune veya yeni
-  batch için ayrıca preregistration gerekir.
-
-## P1 — fiziksel doğrulama
-
-- **K2/K3:** Hasar atfı, belirsiz/sansürlü sonuç, ilk-aralık exposure ve
-  resolver'da ödenen maliyet için küçük, deterministik fizik/ölçüm testleri tasarla.
-  Daha sonraki tam-rota sansürü, zaten tamamlanmış ilk-aralık hedefini sansürlemez.
-- **K5 (K1/K2/K6 bağımlı):** Sürdürülebilir ecology fixture'ında kaynak
-  stok-akışı, beden enerji bilançosu, kurucu/F1/F2 ve gerçekten üreyen soy
-  metriklerini ayrı doğrula.
+- **K3 (İz B) — İlk-aralık hasar öğrenici saf prototipi:** İlk resolver
+  aralığındaki per-owner hasar atfı ve sansür mantığı saf prototipte uygulandı
+  ve test edildi (`examples/support/refuge_first_interval_candidate.rs`,
+  `tests/refuge_first_interval.rs`). Tamamlanan ilk aralığın sonraki tam-rota
+  sansüründen bağımsız kaldığı deterministik testle doğrulandı
+  (`tests/refuge_learning.rs`). World/motordan izoledir, tam-rota hasarı
+  `Unknown` kalır.
+- **K3 (İz A) — Bağlam-uyumlu su artığı saf prototipi:** Güncel bağlam ve
+  zaman penceresi/TTL mekanizması saf prototipte uygulandı ve test edildi
+  (`examples/support/water_context_residual_candidate.rs`,
+  `tests/water_context_residual.rs`). Bounded utility ampirik kabulü değildir;
+  World/motordan izoledir.
+- **K3 — `Memory::toward` yerel baypas BFS:** Hedefe doğrudan adım engellendiğinde
+  en çok 8 düğümlük BFS ile yerel baypas rotası üreten mekanizma uygulandı
+  (`src/entity/memory.rs`, `tests/memory.rs`).
+- **K2/K5 (İz C) — Beden ve kaynak stok-akış bilançosu:** Metabolizma, beslenme,
+  hareket ve üremede beden rezervlerinin ve harita stok-akışının tam kapanışı
+  deterministik fizikte doğrulandı (`tests/physiology.rs`).
+- **K5 (İz C) — Kurucu/F1/F2 soy ve ekoloji audit doğrulaması:** Çok-nesilli
+  deterministik ekoloji fixture'ında kurucu (`gen 0`), F1 (`gen 1`) ve F2
+  (`gen 2`) kohortlarının tam ayrımı, üreyen birey ve soyların tespiti ile sıfır
+  açıklanamayan kaynak residüeli audit testinde doğrulandı
+  (`examples/support/ecology_audit.rs`, `tests/ecology_candidate.rs`).
 
 ## P2 — sınırlı entegrasyon
 
-- **K3/K4:** P0/P1 kapıları root tarafından kabul edilmeden learner veya yeni eylem
-  davranışını ortak kaynakta etkinleştirme.
+- **K3/K4:** P0/P1 mekanizma testleri geçmiş prototipleri (İz A, İz B) ortak
+  kaynakta ve World karar döngüsünde etkinleştirmeden önce root onayına sun.
 - Entegrasyon; default-off davranış, frozen update, birey izolasyonu, sansürün
-  ilgili hedef ufkunda güncellenmemesi, checkpoint migration ve writer
+  ilgili hedef ufkunda güncellenmemesi, checkpoint migration ve tek-writer
   sınırlarını geçmelidir. Disabled-path eski/yeni State+RNG eşitliği ile
   deterministik checkpoint-resume ayrıca doğrulanır; frozen model parametreleri
   sabit kalırken online keşif sürebilir.

@@ -55,6 +55,9 @@ ilgili diğer kategoriye bağlanır; aynı iş için paralel, çatışan plan tu
 - **Mevcut:** Sağlık, enerji, metabolizma ve hareket maliyetleri vardır; temel
   dinlenme ve yeterli enerji/su koşulunda enerji ödeyen pasif iyileşme bulunur.
   Sağlık üreme uygunluğunu etkiler. İstenen maliyet ile ödenen maliyet ayrılır.
+  Metabolizma, hareket, beslenme ve üremede beden enerji ve su bilançosunun
+  deterministik kapanışı küçük fizik testleriyle doğrulandı
+  (`tests/physiology.rs`).
 - **Açık:** Ayrı yaralanma durumunun hareket kapasitesi, avlanma ve dinlenmeye
   etkisi henüz doğrulanmış bir genişletme değildir. Yeni iz duyuları canlı algı
   sınırına bağlanmalıdır.
@@ -71,7 +74,13 @@ ilgili diğer kategoriye bağlanır; aynı iş için paralel, çatışan plan tu
 - **Mevcut:** Bireye ait sınırlı kaynak/tehlike belleği, unutma, kurallı seçim ve
   temel su davranışı var. V17 su artığı varsayılan kapalı; formal utility
   **FALSE**. İlk-resolver hedefi için 623 exact gözlem var, fakat model yok ve
-  tam kaçış hasarı `Unknown`.
+  tam kaçış hasarı `Unknown`. Hedefe doğrudan adım engellendiğinde yerel BFS
+  baypası `Memory::toward` ile uygulandı (`tests/memory.rs`). Per-owner ilk-aralık
+  hasar öğrenici saf prototipi (`tests/refuge_first_interval.rs`) ile ilk-aralık
+  ve tam-rota sansür ayrımı (`tests/refuge_learning.rs`) mekanizma testini geçti.
+  Güncel bağlam ve TTL/pencere kısıtlı su artığı saf prototipi mekanizma
+  testini geçti (`tests/water_context_residual.rs`). Prototipler World ve
+  motordan izoledir; genel rota tahmincisi veya ampirik fayda iddia edilmez.
 - **Açık:** Güncel bağlamla su artığının uyumu, per-owner ilk-aralık hasarı ve
   öğrenilmiş bilginin eskimesi kabul edilmedi; spatial known-map sistemi yok.
   Sekiz devam aralığında yeni karar-anı algısı yoktur; bunları taze sample
@@ -111,9 +120,14 @@ ilgili diğer kategoriye bağlanır; aynı iş için paralel, çatışan plan tu
 - **Mevcut:** Yenilenen kaynaklar, birden çok tür ve habitat fixture'ı var.
   Kayıtlı 3 × 500 tick ecology fixture viability kapısını geçti; genel habitat
   veya fitness kabulü değildir. C izi bu fixture ve kaynak muhasebesidir.
-- **Açık:** Kaynak akışı, tür başına tüketim, basal beden enerjisi ve trait
-  maliyetlerinin bazıları tamamıyla doğrulanmadı. Coexistence sonucu yalnız
-  kayıtlı fixture'a bağlıdır.
+  Çok-nesilli ekoloji audit'inde Kurucu (`gen 0`), F1 (`gen 1`) ve F2 (`gen 2`)
+  kohortlarının kesin ayrımı, üreyen birey ve soylar ile üremeyen hayatta
+  kalanların ayrımı ve tüm tick'lerde sıfır açıklanamayan besin ve su residüeli
+  deterministik audit testiyle doğrulandı (`examples/support/ecology_audit.rs`,
+  `tests/ecology_candidate.rs`).
+- **Açık:** Farklı habitatlarda kaynak akışı genellemesi, tür başına tüketim ve
+  allel/trait maliyetlerinin ekolojik etkisi tamamıyla doğrulanmadı. Coexistence
+  sonucu yalnız kayıtlı fixture'a bağlıdır.
 - **Önerilen:** C iziyle kaynak stok/yenilenme/tüketim ve beden enerji akışını
   denetle. Öneri: otlama sonrası bitki yenilenmesi, tohum yayılımı ve
   sığınakların canlılarca değişmesi; dünya kuralları K1'e bağlıdır. K6'nın
@@ -172,9 +186,9 @@ işe ayrılır.
 
 | İz | Birincil kategori | Güncel ölçülmüş durum | Önerilen sonraki iş |
 |---|---|---|---|
-| **A — Güncel bağlamlı su artığı** | K3 | V17 default-off; bounded utility **FALSE**. | P0: güncel bağlamla uyum hipotezi, deterministic test ve ayrı preregistration. |
-| **B — Per-owner ilk-aralık hasar öğrenmesi** | K3 | 623 exact: 617 sıfır, altı × 20 hasar, dört birey; full-route `Unknown`, model yok. | P0: hedef ufku ve attribution/censor sözleşmesi; P1 fizik testinden önce training/World yok. |
-| **C — Kaynak/habitat/bedelli-trait fixture'ı** | K5 | 3 × 500 tick viability geçti; genel fitness kabulü ve bazı enerji muhasebesi açık. | Kaynak akışı ve istenen/ödenen enerji denetimi; K1/K2/K6 bağımlılıklarını ölç. |
+| **A — Güncel bağlamlı su artığı** | K3 | V17 default-off; bounded utility **FALSE**. Saf bağlam/TTL mekanizma prototipi testi geçti (`tests/water_context_residual.rs`); World/motordan izole. | P2 entegrasyon sınırları ve ampirik fayda için ayrı preregistration. |
+| **B — Per-owner ilk-aralık hasar öğrenmesi** | K3 | 623 exact: 617 sıfır, altı × 20 hasar, dört birey; full-route `Unknown`. Saf learner prototipi ve ilk-aralık sansür ayrımı testi geçti (`tests/refuge_first_interval.rs`, `tests/refuge_learning.rs`). | P2 entegrasyon sınırları; full-route hasar modeli ve ampirik kabul açık. |
+| **C — Kaynak/habitat/bedelli-trait fixture'ı** | K5 | 3 × 500 tick viability geçti; beden bilançosu (`tests/physiology.rs`) ve Kurucu/F1/F2 soy ve stok audit'i (`tests/ecology_candidate.rs`) doğrulandı. | Habitat/trait genellemesi ve K1/K2/K6 bağımlılıklarını ölç. |
 | **D — Eylem ve yerel koordinasyon** | K3 eylemler; K4 sosyal koordinasyon | Resolver'dan geçen temel eylemler var; katalog ve koordinasyon kabul edilmedi. | Sonlu bileşimleri K3'te, yalnız görünür yerel koordinasyonu K4'te tasarla/test et. |
 | **E — Sonlu allel varyasyonu/seçilim** | K6 | Allel/bedelli trait mekanizmaları var; avantaj kabul edilmedi, bellek kalıtılmaz. | C muhasebesinden sonra held-out allel, bedel ve yavru-soyu testi. |
 | **F — Bireysel deneyim arayüzü** | K7 | Salt-okunur birey/karar/geçmiş görünümü var. | Kanıt→eylem→resolver sonucu→öğrenme güncellemesi izi; eksik bağ `Unknown`. |
@@ -184,19 +198,22 @@ işe ayrılır.
 
 Bu sıra bağımlılık ve yetkilendirme kapısıdır; K1–K8 sınıflandırması değildir.
 
-### P0 — Önce destek ve mekanizma
+### P0 — Destek ve mekanizma prototipleri (Mekanizma testi geçti)
 
-1. K3 per-owner ilk-resolver hasarı hedefi ve su-artığı bağlam uyumunu
-   tasarla. Mevcut veriden model eğitme veya yeni World/lab başlatma yetkisi
-   çıkmaz. Tam rota hasarı bilinmeyen kalır.
-2. Su artığı için güncel bağlam/beden tabanına uyum hipotezini tanımla; retune
-   veya yeni seed için ayrı preregistration gerekir.
+1. K3 per-owner ilk-resolver hasarı saf prototipi (`tests/refuge_first_interval.rs`)
+   ve ilk-aralık/tam-rota sansür ayrımı (`tests/refuge_learning.rs`) mekanizma
+   testini geçti. Model eğitimi veya World/lab yetkisi değildir; tam-rota hasarı
+   `Unknown` kalır.
+2. Su artığı bağlam/TTL saf prototipi (`tests/water_context_residual.rs`)
+   mekanizma testini geçti; retune veya yeni seed için ayrı preregistration
+   gerekir.
 
-### P1 — Fizik ve muhasebe baseline'ları
+### P1 — Fizik ve muhasebe baseline'ları (Mekanizma testi geçti)
 
-K2 hasar/iyileşme ve enerji; K3 hasar atfı, hedef-ufku sansürü ve ilk-aralık
-exposure; K5 kaynak akışı ve beden enerji bütçesi için küçük deterministik
-testler. C fixture'ında kurucu/F1/F2 ve üreyen soy ayrı raporlanır.
+K2 hasar/iyileşme ve beden enerji/su stok-akış bilançosu (`tests/physiology.rs`);
+K3 ilk-aralık sansür ayrımı (`tests/refuge_learning.rs`); K5 kurucu/F1/F2 kohort
+ayrımı, üreyen soy ve sıfır açıklanamayan kaynak residüeli audit testleri
+(`tests/ecology_candidate.rs`, `examples/support/ecology_audit.rs`) doğrulandı.
 
 İz yayılımı, gün-gece ritmi, mekânsal bellek/known-map aging ve yaralanma
 önerileri kendi K1/K2/K3 baseline'larından sonra ayrıca gözden geçirilir; bu

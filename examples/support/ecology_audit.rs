@@ -23,6 +23,8 @@ pub struct Individual {
     pub founder: bool,
     pub death_cause: Option<String>,
     pub mated: bool,
+    pub births: usize,
+    pub offspring: Vec<usize>,
     pub snapshot: Value,
     pub last_body_observation: Value,
     pub last_body_observation_tick: usize,
@@ -38,6 +40,8 @@ pub fn profile(slot: &EntitySlot, founder: bool) -> Individual {
         founder,
         death_cause: None,
         mated: false,
+        births: 0,
+        offspring: Vec::new(),
         snapshot: json!({
             "id": slot.id,
             "species": format!("{:?}", slot.base.species()),
@@ -163,9 +167,13 @@ impl Audit {
                     self.bred_ids.extend([*parent1, *parent2]);
                     if let Some(x) = self.ledger.get_mut(parent1) {
                         x.mated = true;
+                        x.births += 1;
+                        x.offspring.push(*child);
                     }
                     if let Some(x) = self.ledger.get_mut(parent2) {
                         x.mated = true;
+                        x.births += 1;
+                        x.offspring.push(*child);
                     }
                     let parents_known =
                         self.ledger.contains_key(parent1) && self.ledger.contains_key(parent2);
@@ -429,7 +437,7 @@ impl Audit {
             .count();
         let individuals: Vec<_> = self.ledger.values().map(|x| json!({
             "id":x.id,"species":format!("{:?}",x.species),"generation":x.generation,"parents":x.parents,
-            "founder":x.founder,"died_from":x.death_cause,"bred":x.mated,"snapshot":x.snapshot,
+            "founder":x.founder,"died_from":x.death_cause,"bred":x.mated,"births":x.births,"offspring":x.offspring,"snapshot":x.snapshot,
             "last_body_observation":x.last_body_observation,"last_body_observation_tick":x.last_body_observation_tick
         })).collect();
         json!({
@@ -453,5 +461,56 @@ impl Audit {
             "resource_kind_replacement_summary":{"count":self.replacement_count,"detail_rows_retained":self.replacements.len(),"detail_row_limit":MAX_DETAIL_ROWS,"first":self.first_replacement,"last":self.last_replacement},
             "energy_attribution":{"basal_metabolism":"unknown_not_emitted_as_an_event","unexplained_body_energy_change":"unknown_residual_not_inferred"}
         })
+    }
+
+    #[allow(dead_code)]
+    pub fn generation_cohort(&self, generation: usize) -> Vec<&Individual> {
+        self.ledger
+            .values()
+            .filter(|ind| ind.generation == Some(generation))
+            .collect()
+    }
+
+    #[allow(dead_code)]
+    pub fn reproducing_individuals(&self) -> Vec<&Individual> {
+        self.ledger.values().filter(|ind| ind.births > 0).collect()
+    }
+
+    #[allow(dead_code)]
+    pub fn non_reproducing_survivors<'a>(&'a self, world: &'a World) -> Vec<&'a Individual> {
+        let living_ids: BTreeSet<usize> = world
+            .entities
+            .iter()
+            .filter(|s| {
+                s.base.life().is_alive()
+                    && matches!(
+                        s.phase,
+                        curious::entity::phase::EntityPhase::Active
+                            | curious::entity::phase::EntityPhase::Sleeping { .. }
+                    )
+            })
+            .map(|s| s.id)
+            .collect();
+        self.ledger
+            .values()
+            .filter(|ind| living_ids.contains(&ind.id) && ind.births == 0)
+            .collect()
+    }
+
+    #[allow(dead_code)]
+    pub fn lineage_descendants(&self, ancestor_id: usize) -> BTreeSet<usize> {
+        let mut descendants = BTreeSet::new();
+        let mut queue = Vec::new();
+        if let Some(ancestor) = self.ledger.get(&ancestor_id) {
+            queue.extend(ancestor.offspring.iter().copied());
+        }
+        while let Some(child_id) = queue.pop() {
+            if descendants.insert(child_id) {
+                if let Some(child) = self.ledger.get(&child_id) {
+                    queue.extend(child.offspring.iter().copied());
+                }
+            }
+        }
+        descendants
     }
 }

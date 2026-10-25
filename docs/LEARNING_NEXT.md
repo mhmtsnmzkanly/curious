@@ -94,14 +94,28 @@ Raporlar: [full-route risk baseline V1](reports/REFUGE_RISK_BASELINE_V1.md),
 [önceki teknik onarım doğrulaması](reports/REFUGE_REPAIR_VALIDATION.md) ve
 [frozen refuge protokolü](REFUGE_FIRST_RESOLUTION_PROTOCOL.md).
 
-## Pure residual adayının durumu
+## Pure residual ve öğrenme adaylarının durumu
 
-[`REFUGE_RESIDUAL_CANDIDATE`](REFUGE_RESIDUAL_CANDIDATE.md) dokümanındaki saf
-mekanizma helper'ı default-off ve unintegrated kalır: World kararına, resolver'a,
-learner belleğine, checkpoint'e veya RNG'ye bağlanmamıştır. Üç fiziksel
-bileşeni ayrı tutmayı, kişinin kendi tamamlanmış deneyiminden residual
-güncellemeyi ve Unknown/Provisional durumunu sınar. Bu testler transfer
-güvenilirliğini ya da route seçimi yararını göstermez.
+Depoda iki saf (pure) mekanizma prototipi yer alır ve deterministik mekanizma
+testleri geçmiştir (`Mekanizma testi geçti`):
+
+1. **Per-owner ilk-aralık sığınak hasarı adayı:**
+   [`REFUGE_RESIDUAL_CANDIDATE`](REFUGE_RESIDUAL_CANDIDATE.md) ve
+   `examples/support/refuge_first_interval_candidate.rs` içindeki mekanizma
+   helper'ı (`tests/refuge_first_interval.rs`) ile ilk-aralık ve tam-rota
+   sansür ayrımı (`tests/refuge_learning.rs`). Üç fiziksel bileşeni ayrı tutmayı,
+   bireyin kendi ilk-aralık deneyiminden residual güncellemeyi ve sansür
+   ayrımını sınar. Tam rota için beklenen hasar `Unknown` kalmaya devam eder.
+2. **Bağlam-uyumlu ve pencere/TTL kısıtlı su artığı adayı:**
+   `examples/support/water_context_residual_candidate.rs` ve
+   `tests/water_context_residual.rs` içindeki mekanizma prototipi. Güncel beden
+   bağlamı (ör. susuzluk derecesi) ve zaman penceresi (TTL) ile eski deneyimin
+   uyuşmama riskini sınar. Bounded utility ampirik kabulü değildir.
+
+Her iki saf aday prototipi de **default-off ve unintegrated** kalır: World
+kararına, resolver'a, learner belleğine, checkpoint'e veya RNG'ye
+bağlanmamıştır. Bu mekanizma testleri route seçimi yararını, biyolojik/ekolojik
+üstünlüğü ya da üretim entegrasyonu kabulünü göstermez.
 
 İlk gerçek entegrasyon önkoşulu her aday yol için güncel gözlemlerden üretilmiş,
 kalibrasyon durumu açık ve fiziksel olarak savunulabilir bir damage baseline'dır.

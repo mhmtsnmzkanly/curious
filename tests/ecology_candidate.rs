@@ -6,11 +6,16 @@ use curious::{
     entity::{
         Entity, controller::EntityController, genetics::Genome, intent::Intent, phase::EntityPhase,
     },
-    map::{cell::Cell, movement::Position},
+    environment::{ResourceKind, ResourceSite},
+    map::{
+        cell::Cell,
+        movement::{Direction, Position, Steps},
+    },
     scenario::Scenario,
     simulation::SimulationEvent,
     world::{EntitySlot, World},
 };
+use std::collections::BTreeSet;
 
 fn tiny_world() -> curious::world::World {
     let scenario: Scenario = serde_json::from_value(serde_json::json!({
@@ -391,4 +396,266 @@ fn reconciliation_detail_storage_is_bounded_but_summary_counts_every_row() {
         result["resource_reconciliation"]["detail_rows_retained"],
         2_000
     );
+}
+
+#[test]
+fn founder_f1_f2_and_reproducing_lineage_metrics_reconcile_across_generations() {
+    let make_founder = |id: usize, x: isize, y: isize| {
+        let mut body = HerbivoreEntity::default();
+        let life = body.life_mut();
+        life.age = 10;
+        life.maturity_age = 2;
+        life.energy = 80;
+        life.water = 80;
+        life.health = 100;
+        life.stamina = life.max_stamina;
+        EntitySlot::new(
+            id,
+            Position::new(x, y),
+            EntityPhase::Active,
+            EntityController::Player(0),
+            Box::new(body),
+        )
+    };
+
+    let founders = vec![
+        make_founder(1, 1, 1),
+        make_founder(2, 2, 1),
+        make_founder(3, 4, 1),
+        make_founder(4, 3, 1),
+        make_founder(5, 5, 1),
+        make_founder(6, 6, 1),
+        make_founder(7, 7, 1),
+    ];
+
+    let mut world = World::with_seed(0, 8, 0, 8, founders, 42);
+    world.map = curious::map::Map::new(0, 8, 0, 8);
+    world.environment = curious::environment::Environment::default();
+    world.logger = curious::logger::Logger::disabled();
+
+    world.environment.set_site(ResourceSite {
+        pos: Position::new(2, 2),
+        kind: ResourceKind::Food,
+        capacity: 10,
+        replenish: 1,
+        interval: 1,
+        schedule: None,
+    });
+    world.environment.set_site(ResourceSite {
+        pos: Position::new(5, 2),
+        kind: ResourceKind::Food,
+        capacity: 10,
+        replenish: 1,
+        interval: 1,
+        schedule: None,
+    });
+    world.environment.set_site(ResourceSite {
+        pos: Position::new(6, 3),
+        kind: ResourceKind::Food,
+        capacity: 10,
+        replenish: 1,
+        interval: 1,
+        schedule: None,
+    });
+    world.environment.set_site(ResourceSite {
+        pos: Position::new(3, 3),
+        kind: ResourceKind::Water,
+        capacity: 10,
+        replenish: 1,
+        interval: 1,
+        schedule: None,
+    });
+    world.environment.set_site(ResourceSite {
+        pos: Position::new(4, 3),
+        kind: ResourceKind::Water,
+        capacity: 10,
+        replenish: 1,
+        interval: 1,
+        schedule: None,
+    });
+    world.environment.set_site(ResourceSite {
+        pos: Position::new(7, 2),
+        kind: ResourceKind::Water,
+        capacity: 10,
+        replenish: 1,
+        interval: 1,
+        schedule: None,
+    });
+
+    world
+        .map
+        .set_cell(Position::new(2, 2), Cell::Food { amount: 4 });
+    world
+        .map
+        .set_cell(Position::new(5, 2), Cell::Food { amount: 4 });
+    world
+        .map
+        .set_cell(Position::new(6, 3), Cell::Food { amount: 4 });
+    world
+        .map
+        .set_cell(Position::new(3, 3), Cell::Water { amount: 4 });
+    world
+        .map
+        .set_cell(Position::new(4, 3), Cell::Water { amount: 4 });
+    world
+        .map
+        .set_cell(Position::new(7, 2), Cell::Water { amount: 4 });
+
+    let mut audit = ecology_audit::Audit::default();
+    audit.seed(&world);
+    let mut stock = ecology_audit::stock(&world);
+    let mut cells = ecology_audit::resource_cells(&world);
+
+    // Tick 1: Pair 1 (1 and 2), Pair 2 (4 and 3), Pair 3 (5 and 6) mate. Founder 7 idles.
+    world.push_command(1, Intent::Mate { target_id: 2 });
+    world.push_command(4, Intent::Mate { target_id: 3 });
+    world.push_command(5, Intent::Mate { target_id: 6 });
+
+    let events = world.tick();
+    (stock, cells) = audit.observe_tick(1, stock, &cells, &world, &events);
+    for slot in &mut world.entities {
+        slot.controller = EntityController::Player(0);
+    }
+
+    // Tick 2: F1 offspring 10 moves right to (3, 2). Offspring 8 and Founder 7 drink water, 9 eats food.
+    world.push_command(
+        10,
+        Intent::Move {
+            steps: Steps(vec![Direction::Right]),
+        },
+    );
+    world.push_command(
+        8,
+        Intent::Drink {
+            at: Steps(vec![Direction::Down]),
+        },
+    );
+    world.push_command(
+        9,
+        Intent::Eat {
+            at: Steps(vec![Direction::Down]),
+            corpse_id: None,
+        },
+    );
+    world.push_command(
+        7,
+        Intent::Drink {
+            at: Steps(vec![Direction::Down]),
+        },
+    );
+
+    let events = world.tick();
+    (stock, cells) = audit.observe_tick(2, stock, &cells, &world, &events);
+
+    // Tick 3: F1 offspring 10 drinks water, F1 offspring 8 eats food.
+    world.push_command(
+        10,
+        Intent::Drink {
+            at: Steps(vec![Direction::Down]),
+        },
+    );
+    world.push_command(
+        8,
+        Intent::Eat {
+            at: Steps(vec![Direction::Right]),
+            corpse_id: None,
+        },
+    );
+
+    let events = world.tick();
+    (stock, cells) = audit.observe_tick(3, stock, &cells, &world, &events);
+
+    // Tick 4: F1 offspring 10 eats food to satisfy reproduction energy reserve.
+    world.push_command(
+        10,
+        Intent::Eat {
+            at: Steps(vec![Direction::Left]),
+            corpse_id: None,
+        },
+    );
+
+    let events = world.tick();
+    (stock, cells) = audit.observe_tick(4, stock, &cells, &world, &events);
+
+    // Tick 5: F1 offspring 10 and 8 mate to produce F2 offspring 11.
+    // F1 offspring 9 and Founder 7 do not mate.
+    world.push_command(10, Intent::Mate { target_id: 8 });
+    world.push_command(8, Intent::Mate { target_id: 10 });
+
+    let events = world.tick();
+    (stock, cells) = audit.observe_tick(5, stock, &cells, &world, &events);
+    for slot in &mut world.entities {
+        slot.controller = EntityController::Player(0);
+    }
+
+    // Tick 6: Passive observation tick. All survivors remain stable.
+    let events = world.tick();
+    (stock, cells) = audit.observe_tick(6, stock, &cells, &world, &events);
+    let _ = (stock, cells);
+
+    // --- Cohort Separation Verification ---
+    let founders_cohort = audit.generation_cohort(0);
+    let f1_cohort = audit.generation_cohort(1);
+    let f2_cohort = audit.generation_cohort(2);
+
+    let founder_ids: BTreeSet<usize> = founders_cohort.iter().map(|ind| ind.id).collect();
+    let f1_ids: BTreeSet<usize> = f1_cohort.iter().map(|ind| ind.id).collect();
+    let f2_ids: BTreeSet<usize> = f2_cohort.iter().map(|ind| ind.id).collect();
+
+    assert_eq!(founder_ids, BTreeSet::from([1, 2, 3, 4, 5, 6, 7]));
+    assert_eq!(f1_ids, BTreeSet::from([8, 9, 10]));
+    assert_eq!(f2_ids, BTreeSet::from([11]));
+
+    assert!(founder_ids.is_disjoint(&f1_ids));
+    assert!(founder_ids.is_disjoint(&f2_ids));
+    assert!(f1_ids.is_disjoint(&f2_ids));
+
+    // --- Reproducing Individuals vs Non-reproducing Survivors ---
+    let reproducing: BTreeSet<usize> = audit
+        .reproducing_individuals()
+        .into_iter()
+        .map(|ind| ind.id)
+        .collect();
+    assert_eq!(reproducing, BTreeSet::from([1, 2, 3, 4, 5, 6, 8, 10]));
+
+    let non_reproducing: BTreeSet<usize> = audit
+        .non_reproducing_survivors(&world)
+        .into_iter()
+        .map(|ind| ind.id)
+        .collect();
+    assert_eq!(non_reproducing, BTreeSet::from([7, 9, 11]));
+
+    // --- Lineage Descendants Exact Matching ---
+    assert_eq!(audit.lineage_descendants(1), BTreeSet::from([10, 11]));
+    assert_eq!(audit.lineage_descendants(2), BTreeSet::from([10, 11]));
+    assert_eq!(audit.lineage_descendants(3), BTreeSet::from([8, 11]));
+    assert_eq!(audit.lineage_descendants(4), BTreeSet::from([8, 11]));
+    assert_eq!(audit.lineage_descendants(5), BTreeSet::from([9]));
+    assert_eq!(audit.lineage_descendants(6), BTreeSet::from([9]));
+    assert_eq!(audit.lineage_descendants(7), BTreeSet::new());
+
+    // --- Stock-Flow Conservation Verification ---
+    assert_eq!(audit.reconciliation_ticks, 6);
+    assert_eq!(audit.food_residual_nonzero_ticks, 0);
+    assert_eq!(audit.water_residual_nonzero_ticks, 0);
+    assert_eq!(audit.food_residual_total, 0);
+    assert_eq!(audit.water_residual_total, 0);
+    assert!(audit.first_reconciliation_anomaly.is_none());
+    assert!(audit.last_reconciliation_anomaly.is_none());
+    assert!(audit.replacements.is_empty());
+    assert!(audit.parent_event_issues.is_empty());
+    assert!(audit.unattributed_actor_events.is_empty());
+
+    for row in &audit.reconciliation {
+        assert_eq!(row["food"]["unexplained_residual"], 0);
+        assert_eq!(row["water"]["unexplained_residual"], 0);
+    }
+
+    // --- Audit Summary Metric Verification ---
+    let result = audit.result(&world);
+    assert_eq!(result["births_by_generation"]["1"], 3);
+    assert_eq!(result["births_by_generation"]["2"], 1);
+    assert_eq!(result["f1_breeders_ever"], 2);
+    assert_eq!(result["f2_births"], 1);
+    assert_eq!(result["unknown_generation_births"], 0);
 }
