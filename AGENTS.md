@@ -11,6 +11,16 @@ equality, no storage error, 0.03 TPS, and restored timers. The guard is a soft
 history limit, not a disk quota. No biology or experiment changed. See
 [`ARCHIVE_BUDGET_DEPLOYMENT_20261025`](docs/reports/ARCHIVE_BUDGET_DEPLOYMENT_20261025.md).
 
+## 25 October 2026 — refuge damage baseline handoff
+
+The one-run physical baseline completed technically but did not calibrate
+expected threat damage: all 182 attributable arrivals had zero observed
+damage, while all six positive-damage attempts were censored. Expected damage
+remains `Unknown` for every route; zero-error arrival-only summaries are not
+informative. The refuge residual helper remains pure, unintegrated, and
+default-off. See
+[`REFUGE_RISK_BASELINE_V1`](docs/reports/REFUGE_RISK_BASELINE_V1.md).
+
 ## 24 October 2026 — Wave 8 habitat vision comparison
 
 The frozen habitat study (`cdb349f`) completed the seen-seed-123 engineering

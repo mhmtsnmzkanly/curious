@@ -37,6 +37,14 @@ validate that predictor before presenting residual-adjusted values as physical
 expectations. The helper's fixtures use explicitly uncalibrated baseline
 vectors to check mechanics only.
 
+The 25 October engineering baseline did not resolve expected threat damage:
+182 attributable arrivals had zero observed damage, but all six positive
+threat-damage attempts (120 damage total) were censored. Positive-damage
+completed-arrival support is zero, and censoring is informative for this
+outcome; the observed arrival zeros cannot be treated as a complete damage
+sample. Expected damage therefore remains `Unknown` for every route. See the
+[baseline report](reports/REFUGE_RISK_BASELINE_V1.md) and its JSON evidence.
+
 The fixed nine-element feature vector uses continuous Q16 ratios from the
 choice-time observation: subject health, energy, and stamina relative to their
 maxima; threat distance relative to the subject's known vision range; perceived threat power
