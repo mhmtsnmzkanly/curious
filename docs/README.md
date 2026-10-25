@@ -26,6 +26,8 @@ Kategorilere doğrudan git: [K1 Dünya ve çevre](ROADMAP.md#dunya-cevre),
 
 ## Güncel kanıt
 
+- [2002ee4 düzeltmelerinin bağımsız yeniden denetimi](reports/AUDIT_RECHECK_2002EE4_20261025.md) — F3/F4/F7 düzeldi; diğer bulgulardaki kalan kusurlar ve kanıt sınırları.
+
 - [25 Ekim ca5971b entegrasyon denetimi: sekiz bulgu](reports/AUDIT_CA5971B_20261025.md) — P2/P3 entegrasyon iddialarının sınırlarını ve tespit edilen eksikleri açıklar.
 - [Wave 7: ca5971b entegrasyon denetimi (F1–F8) düzeltme ve V19 doğrulama raporu](reports/AUDIT_CA5971B_REMEDIATION_20261025.md) — sekiz bulgunun düzeltmelerini, `World::tick` entegrasyonlarını, V19 checkpoint yükseltmesini ve epistemik kapsam ayrımını belgeler.
 - [Qualified coexistence ve canlı gözlem](reports/QUALIFIED_OBSERVATION.md)
