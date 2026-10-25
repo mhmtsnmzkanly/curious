@@ -26,6 +26,7 @@ Kategorilere doğrudan git: [K1 Dünya ve çevre](ROADMAP.md#dunya-cevre),
 
 ## Güncel kanıt
 
+- [Wave 11: Yazılmış V19 özelliklerinin davranışsal fayda (Pareto) elemesi ve gerçek V12 canlı checkpoint üzerinde izole gölge doğrulaması](reports/BEHAVIORAL_UTILITY_AND_SHADOW_QUALIFICATION_20261025.md) — 10 held-out tohum (`401..=410`) × 150 tick üzerinde 9 tekil özelliğin fiziksel sonuç vektörüyle Pareto sınıflandırması (`JuvenileParentalCareOnly` + `RefugeFirstIntervalOnly` canlı aday paketi), gerçek canlı V12 (`history-000870.sqlite.zst`, `tick = 12639`, `630` birey) üzerinde 20-tick V19 gölge devamlılık doğrulaması ve kontrollü canlıya taşıma prosedürü.
 - [Wave 10: P3 ablasyon, K7 V19 telemetri ve 9c7d3f0 kanıt sınırı kapanış raporu](reports/P3_ABLATION_AND_9C7D3F0_CLOSURE_20261025.md) — çoklu-habitat tekil-özellik ablasyon seçiciliği, F8 otonom kış kazısı deterministik tanığı, `SignalTrace <= 64` sınırı ve K7 V19 web telemetrisi.
 - [9c7d3f0 bağımsız kapanış kontrolü](reports/AUDIT_RECHECK_9C7D3F0_20261025.md) — ana düzeltmeler doğrulandı; F8 otonom kazı sayacının kanıt sınırı korunuyor.
 

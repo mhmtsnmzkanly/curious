@@ -26,11 +26,16 @@ anlamına gelmez. P0–P3 çalışma sırası kategori yapısından ayrıdır.
 - **K7 web replay ve experience UI entegrasyonu tamamlandı:** Sığınak deneyimi
   (`CuriousExperience.refuge`), nedensellik zinciri (`causalChain`: `Kanıt -> Eylem -> Resolver -> Bellek`),
   `#auto-director` odak paneli ve V19 çevre/beden telemetrisi (`CuriousExperience.environment`, `#env-telemetry`) arayüze bağlandı.
-- **P3 held-out ampirik protokolü, çoklu-habitat tekil ablasyonu ve K8 throughput denetimi yürütüldü:** 5 bağımsız seed'lik iki ayrı grup
+- **P3 held-out ampirik protokolü, çoklu-habitat tekil ablasyonu, davranışsal fayda (Pareto) elemesi ve V12 gölge doğrulaması yürütüldü:** 5 bağımsız seed'lik iki ayrı grup
   (`[101..105]` ve `[201..205]`) üzerinde `DynamicWorldSnapshot` ve RNG ayrışmasıyla Control vs Treatment doğrulanmış; Wave 10 ile 3 farklı habitat
   (`OpenPlains`, `CorridorMaze`, `SeasonalScarcity`) × 5 tohum (`301..=305`) × 7 kolda tekil-özellik ablasyon matrisi
   (`tests/p3_multi_habitat_ablation.rs`) ve kısa yük throughput denetimi (`SignalTrace <= 64`, `sites <= 8`, `dangers <= 8`,
-  `known_sectors <= 16`, `burrows <= 32`) tamamlandı; hedef mekanizmaların tam seçiciliği kanıtlandı.
+  `known_sectors <= 16`, `burrows <= 32`) tamamlandı. Wave 11 ile (`tests/behavioral_utility_qualification.rs`) 10 bağımsız held-out tohum (`401..=410`) × 150 tick
+  üzerinde 9 tekil özelliğin ağırlıksız fiziksel sonuç vektörü ölçüldü: `JuvenileParentalCareOnly` (`+10.0%` sağkalım adımı, `+28.6%` dönem sonu yaşayan birey)
+  ve `RefugeFirstIntervalOnly` (sıfır sağkalım kaybı, `43` ilk-aralık kaydı) sıkı Pareto kapısını geçerek canlı aday paketi (`QualifiedCandidateBundle`)
+  olarak ayrıldı; diğer 7 ödünleşimli/stresör özellik (`SeasonAndBurrowsOnly`, `InjuryCapacityPenaltyOnly`, `WaterContextOnly`, `SpatialCuriosityOnly`,
+  `LocalCoordinationOnly`, `AmbushPredationOnly`, `DayNightCycleOnly`) `default-off` olarak sınıflandırıldı. Ayrıca gerçek canlı V12 dünyasının kapalı
+  arşiv shard'ı (`history-000870.sqlite.zst`, `tick = 12639`, `630` birey) üzerinde 20-tick V19 gölge (shadow) devamlılık doğrulaması hatasız tamamlandı.
 - Kayıtlı habitat fixture'ında aynı 30 seed'in `fixed` ve `both` kolları ayrı
   ayrı 30/30 × 100.000 tick kapısını geçti. Bu yalnız o fixture için sınırlı
   coexistence kabulüdür; tüm habitatlar, şoklar veya kalıcılık için genelleme
@@ -58,6 +63,7 @@ Kanıt: [coexistence](reports/QUALIFIED_OBSERVATION.md),
 [Wave 9 tam kapanış ve hizalama](reports/AUDIT_RECHECK_6FA9C49_REMEDIATION_20261025.md),
 [9c7d3f0 denetimi](reports/AUDIT_RECHECK_9C7D3F0_20261025.md),
 [Wave 10 tam kapanış ve ablasyon](reports/P3_ABLATION_AND_9C7D3F0_CLOSURE_20261025.md),
+[Wave 11 davranışsal fayda ve V12 gölge doğrulaması](reports/BEHAVIORAL_UTILITY_AND_SHADOW_QUALIFICATION_20261025.md),
 [P2/P3 ampirik protokol ve K8 denetimi (Tarihsel dondurulmuş rapor)](reports/P2_P3_EMPIRICAL_AND_K8_AUDIT_20261025.md).
 
 ## Sekiz sistem kategorisi
