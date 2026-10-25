@@ -26,6 +26,8 @@ Kategorilere doğrudan git: [K1 Dünya ve çevre](ROADMAP.md#dunya-cevre),
 
 ## Güncel kanıt
 
+- [25 Ekim entegrasyon denetimi: sekiz bulgu](reports/AUDIT_CA5971B_20261025.md) — aşağıdaki P2/P3 entegrasyon iddialarının sınırlarını ve doğrulanan eksikleri açıklar.
+
 - [Qualified coexistence ve canlı gözlem](reports/QUALIFIED_OBSERVATION.md)
 - [Canlı V12 arşiv bütçesi backportu](reports/ARCHIVE_BUDGET_DEPLOYMENT_20261025.md)
 - [V17 su artığı sonucu](reports/WATER_RESIDUAL_V1.md)
