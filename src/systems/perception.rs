@@ -15,6 +15,14 @@ impl PerceptionSystem {
             &super::spatial::SpatialIndex::new(&world.entities),
         )
     }
+    pub fn perceive_all(world: &World) -> Vec<Perception> {
+        let index = super::spatial::SpatialIndex::new(&world.entities);
+        world
+            .entities
+            .iter()
+            .map(|slot| Self::with_index(world, slot, &index))
+            .collect()
+    }
     pub fn with_index(
         world: &World,
         current: &EntitySlot,
@@ -127,6 +135,15 @@ impl PerceptionSystem {
             ) && other.base.life().is_alive()
             {
                 let life = other.base.life();
+                if world.policy.ambush_predation_enabled
+                    && matches!(world.map.cell(other.pos), Some(crate::map::cell::Cell::Burrow))
+                    && life.stamina == life.max_stamina
+                {
+                    let max_detect = radius.saturating_sub(1).max(1);
+                    if current.pos.distance_to(other.pos) > max_detect || steps.len() > max_detect {
+                        continue;
+                    }
+                }
                 view.add_entity(
                     other.id,
                     other.base.species(),

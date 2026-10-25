@@ -23,6 +23,15 @@ pub struct PolicySettings {
     /// Experimental K2 physical injury capacity model.
     #[serde(default, skip_serializing_if = "is_false")]
     pub injury_capacity_penalty: bool,
+    /// Experimental K2/K6 juvenile parental care feeding and guarding.
+    #[serde(default, skip_serializing_if = "is_false")]
+    pub juvenile_care_enabled: bool,
+    /// Experimental K2/K5 ambush predation stealth and first-strike bonus.
+    #[serde(default, skip_serializing_if = "is_false")]
+    pub ambush_predation_enabled: bool,
+    /// Experimental K4 local social alarm call and coordination.
+    #[serde(default, skip_serializing_if = "is_false")]
+    pub local_coordination_enabled: bool,
 }
 
 fn is_false(value: &bool) -> bool {
