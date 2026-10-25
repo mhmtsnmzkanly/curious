@@ -1,13 +1,12 @@
 use curious::{
-    creatures::{
-        carnivore::CarnivoreEntity, herbivore::HerbivoreEntity, omnivore::OmnivoreEntity,
-    },
+    creatures::{carnivore::CarnivoreEntity, herbivore::HerbivoreEntity, omnivore::OmnivoreEntity},
     entity::{controller::EntityController, phase::EntityPhase, species::Species},
     environment::{DayNightCycle, Environment, SeasonCycle},
     map::{cell::Cell, movement::Position},
     persistence::State,
     world::{EntitySlot, World},
 };
+use serde::Serialize;
 use std::path::Path;
 use std::time::Instant;
 
@@ -54,7 +53,7 @@ pub enum QualificationVerdict {
     TradeOffKeepDefaultOff,
 }
 
-#[derive(Debug, Clone, Default, PartialEq, Eq)]
+#[derive(Debug, Clone, Default, PartialEq, Eq, Serialize)]
 pub struct PhysicalOutcomeVector {
     pub survived_entity_ticks: usize,
     pub prey_survived_ticks: usize,
@@ -64,6 +63,57 @@ pub struct PhysicalOutcomeVector {
     pub total_water_end: usize,
     pub total_damage_taken: usize,
     pub mechanism_activations: usize,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize)]
+#[serde(rename_all = "snake_case")]
+pub enum SeedQualificationLabel {
+    StrictImprovement,
+    Neutral,
+    SurvivalDeficit,
+    OtherTradeOff,
+}
+
+fn is_alive(slot: &EntitySlot) -> bool {
+    matches!(
+        slot.phase,
+        EntityPhase::Active | EntityPhase::Sleeping { .. }
+    ) && slot.base.life().is_alive()
+}
+
+pub fn classify_seed_outcome(
+    control: &PhysicalOutcomeVector,
+    treatment: &PhysicalOutcomeVector,
+) -> SeedQualificationLabel {
+    let survival_ok = treatment.survived_entity_ticks >= control.survived_entity_ticks
+        && treatment.prey_survived_ticks >= control.prey_survived_ticks
+        && treatment.final_alive_count >= control.final_alive_count;
+    if !survival_ok {
+        return SeedQualificationLabel::SurvivalDeficit;
+    }
+    let no_worse = treatment.total_health_end >= control.total_health_end
+        && treatment.total_energy_end >= control.total_energy_end
+        && treatment.total_water_end >= control.total_water_end
+        && (treatment.total_damage_taken as u128) * (control.survived_entity_ticks.max(1) as u128)
+            <= (control.total_damage_taken as u128)
+                * (treatment.survived_entity_ticks.max(1) as u128);
+    if !no_worse {
+        return SeedQualificationLabel::OtherTradeOff;
+    }
+    let strict = treatment.survived_entity_ticks > control.survived_entity_ticks
+        || treatment.prey_survived_ticks > control.prey_survived_ticks
+        || treatment.final_alive_count > control.final_alive_count
+        || treatment.total_health_end > control.total_health_end
+        || treatment.total_energy_end > control.total_energy_end
+        || treatment.total_water_end > control.total_water_end
+        || (treatment.total_damage_taken as u128) * (control.survived_entity_ticks.max(1) as u128)
+            < (control.total_damage_taken as u128)
+                * (treatment.survived_entity_ticks.max(1) as u128);
+    if strict {
+        SeedQualificationLabel::StrictImprovement
+    } else {
+        SeedQualificationLabel::Neutral
+    }
 }
 
 fn build_qualification_entities(seed: u64) -> Vec<EntitySlot> {
@@ -307,14 +357,7 @@ fn build_qualification_world(seed: u64, arm: QualificationArm) -> (World, usize)
     let ox = (seed % 3) as isize - 1;
     let oy = ((seed / 3) % 3) as isize - 1;
 
-    let mut world = World::with_seed(
-        -12,
-        12,
-        -12,
-        12,
-        build_qualification_entities(seed),
-        seed,
-    );
+    let mut world = World::with_seed(-12, 12, -12, 12, build_qualification_entities(seed), seed);
     world.logger = curious::logger::Logger::disabled();
 
     // Water and food around Omnivore 6 at (ox, oy)
@@ -373,7 +416,11 @@ fn build_qualification_world(seed: u64, arm: QualificationArm) -> (World, usize)
     (world, initial_burrows)
 }
 
-fn run_qualification_simulation(seed: u64, arm: QualificationArm, ticks: usize) -> PhysicalOutcomeVector {
+fn run_qualification_simulation(
+    seed: u64,
+    arm: QualificationArm,
+    ticks: usize,
+) -> PhysicalOutcomeVector {
     let (mut world, initial_burrows) = build_qualification_world(seed, arm);
     let mut vec_out = PhysicalOutcomeVector::default();
     let mut max_burrows = initial_burrows;
@@ -385,21 +432,21 @@ fn run_qualification_simulation(seed: u64, arm: QualificationArm, ticks: usize) 
         let prev_health: std::collections::HashMap<usize, usize> = world
             .entities
             .iter()
-            .filter(|s| matches!(s.phase, EntityPhase::Active) && s.base.life().health > 0)
+            .filter(|s| is_alive(s))
             .map(|s| (s.id, s.base.life().health))
             .collect();
 
         world.tick();
 
         for slot in &world.entities {
-            if matches!(slot.phase, EntityPhase::Active) && slot.base.life().health > 0 {
+            if is_alive(slot) {
                 vec_out.survived_entity_ticks += 1;
                 if slot.base.species() != Species::Carnivore {
                     vec_out.prey_survived_ticks += 1;
                 }
             }
             if let Some(&old_h) = prev_health.get(&slot.id) {
-                let new_h = if matches!(slot.phase, EntityPhase::Active) {
+                let new_h = if is_alive(slot) {
                     slot.base.life().health
                 } else {
                     0
@@ -441,7 +488,7 @@ fn run_qualification_simulation(seed: u64, arm: QualificationArm, ticks: usize) 
     }
 
     for slot in &world.entities {
-        if matches!(slot.phase, EntityPhase::Active) && slot.base.life().health > 0 {
+        if is_alive(slot) {
             vec_out.final_alive_count += 1;
             vec_out.total_health_end += slot.base.life().health;
             vec_out.total_energy_end += slot.base.life().energy;
@@ -483,6 +530,127 @@ pub fn classify_feature_arm(
     }
 }
 
+#[derive(Serialize)]
+struct SeedQualificationRecord {
+    seed: u64,
+    arm: &'static str,
+    outcome: PhysicalOutcomeVector,
+    label_vs_control: Option<SeedQualificationLabel>,
+}
+
+#[derive(Serialize)]
+struct QualificationJsonReport {
+    evaluation_kind: &'static str,
+    seeds: Vec<u64>,
+    ticks_per_seed: usize,
+    records: Vec<SeedQualificationRecord>,
+    totals: Vec<(&'static str, PhysicalOutcomeVector)>,
+    arm_gates: Vec<ArmGateSummary>,
+}
+
+#[derive(Serialize)]
+struct ArmGateSummary {
+    arm: &'static str,
+    every_seed_no_survival_deficit: bool,
+    seed_labels: Vec<SeedQualificationLabel>,
+    aggregate_label: SeedQualificationLabel,
+}
+
+fn write_json_without_overwrite(env_key: &str, value: &impl Serialize) {
+    let Ok(path) = std::env::var(env_key) else {
+        return;
+    };
+    let path = Path::new(&path);
+    let mut file = std::fs::OpenOptions::new()
+        .write(true)
+        .create_new(true)
+        .open(path)
+        .unwrap_or_else(|e| {
+            panic!(
+                "cannot create {env_key} output {} without overwriting: {e}",
+                path.display()
+            )
+        });
+    serde_json::to_writer_pretty(&mut file, value).expect("write qualification JSON");
+    use std::io::Write;
+    file.write_all(b"\n").expect("finish qualification JSON");
+}
+
+#[test]
+fn per_seed_gate_rejects_a_hidden_survival_deficit_and_labels_neutral_separately() {
+    let control = PhysicalOutcomeVector {
+        survived_entity_ticks: 100,
+        prey_survived_ticks: 70,
+        final_alive_count: 8,
+        total_health_end: 800,
+        total_energy_end: 500,
+        total_water_end: 500,
+        total_damage_taken: 40,
+        mechanism_activations: 0,
+    };
+    let aggregate_gain = PhysicalOutcomeVector {
+        survived_entity_ticks: 120,
+        prey_survived_ticks: 80,
+        final_alive_count: 9,
+        total_health_end: 900,
+        total_energy_end: 550,
+        total_water_end: 550,
+        total_damage_taken: 40,
+        mechanism_activations: 0,
+    };
+    let one_seed_deficit = PhysicalOutcomeVector {
+        survived_entity_ticks: 99,
+        ..aggregate_gain.clone()
+    };
+    let neutral = control.clone();
+
+    // One seed's deficit remains visible even when another seed's gain makes the
+    // pooled classifier pass.
+    assert_eq!(
+        classify_seed_outcome(&control, &one_seed_deficit),
+        SeedQualificationLabel::SurvivalDeficit
+    );
+    assert_eq!(
+        classify_seed_outcome(&control, &aggregate_gain),
+        SeedQualificationLabel::StrictImprovement
+    );
+    assert_eq!(
+        classify_seed_outcome(&control, &neutral),
+        SeedQualificationLabel::Neutral
+    );
+
+    // The aggregate classifier remains available and can pass a pooled vector,
+    // demonstrating why callers must also enforce the independent per-seed gate.
+    let pooled_control = PhysicalOutcomeVector {
+        survived_entity_ticks: 200,
+        prey_survived_ticks: 140,
+        final_alive_count: 16,
+        total_health_end: 1600,
+        total_energy_end: 1000,
+        total_water_end: 1000,
+        total_damage_taken: 80,
+        mechanism_activations: 0,
+    };
+    let pooled_treatment = PhysicalOutcomeVector {
+        survived_entity_ticks: one_seed_deficit.survived_entity_ticks + 200,
+        prey_survived_ticks: one_seed_deficit.prey_survived_ticks + 200,
+        final_alive_count: one_seed_deficit.final_alive_count + 16,
+        total_health_end: one_seed_deficit.total_health_end + 1600,
+        total_energy_end: one_seed_deficit.total_energy_end + 1000,
+        total_water_end: one_seed_deficit.total_water_end + 1000,
+        total_damage_taken: one_seed_deficit.total_damage_taken + 80,
+        mechanism_activations: 0,
+    };
+    assert_eq!(
+        classify_feature_arm(
+            QualificationArm::QualifiedCandidateBundle,
+            &pooled_control,
+            &pooled_treatment
+        ),
+        QualificationVerdict::PassLiveCandidate
+    );
+}
+
 #[test]
 fn test_ten_seed_150_tick_behavioral_utility_and_pareto_qualification() {
     let seeds: Vec<u64> = (401..=410).collect();
@@ -502,7 +670,8 @@ fn test_ten_seed_150_tick_behavioral_utility_and_pareto_qualification() {
         QualificationArm::QualifiedCandidateBundle,
         QualificationArm::AllV19Features,
     ];
-
+    let mut per_seed: std::collections::HashMap<(u64, QualificationArm), PhysicalOutcomeVector> =
+        std::collections::HashMap::new();
     let mut totals: std::collections::HashMap<QualificationArm, PhysicalOutcomeVector> =
         std::collections::HashMap::new();
 
@@ -510,6 +679,7 @@ fn test_ten_seed_150_tick_behavioral_utility_and_pareto_qualification() {
         let mut sum = PhysicalOutcomeVector::default();
         for &seed in &seeds {
             let out = run_qualification_simulation(seed, arm, ticks);
+            per_seed.insert((seed, arm), out.clone());
             sum.survived_entity_ticks += out.survived_entity_ticks;
             sum.prey_survived_ticks += out.prey_survived_ticks;
             sum.final_alive_count += out.final_alive_count;
@@ -522,7 +692,75 @@ fn test_ten_seed_150_tick_behavioral_utility_and_pareto_qualification() {
         totals.insert(arm, sum);
     }
 
-    let control = totals.get(&QualificationArm::ControlFlagsOff).unwrap().clone();
+    let control = totals
+        .get(&QualificationArm::ControlFlagsOff)
+        .unwrap()
+        .clone();
+    let mut records = Vec::new();
+    for &arm in &arms {
+        for &seed in &seeds {
+            let outcome = per_seed.get(&(seed, arm)).unwrap().clone();
+            let label = if arm == QualificationArm::ControlFlagsOff {
+                None
+            } else {
+                Some(classify_seed_outcome(
+                    per_seed
+                        .get(&(seed, QualificationArm::ControlFlagsOff))
+                        .unwrap(),
+                    &outcome,
+                ))
+            };
+            records.push(SeedQualificationRecord {
+                seed,
+                arm: arm.name(),
+                outcome,
+                label_vs_control: label,
+            });
+        }
+    }
+    let report = QualificationJsonReport {
+        evaluation_kind: "diagnostic_seen_seeds_not_held_out",
+        seeds: seeds.clone(),
+        ticks_per_seed: ticks,
+        records,
+        totals: arms
+            .iter()
+            .map(|arm| (arm.name(), totals.get(arm).unwrap().clone()))
+            .collect(),
+        arm_gates: arms
+            .iter()
+            .map(|&arm| {
+                let labels: Vec<_> = seeds
+                    .iter()
+                    .map(|&seed| {
+                        if arm == QualificationArm::ControlFlagsOff {
+                            SeedQualificationLabel::Neutral
+                        } else {
+                            classify_seed_outcome(
+                                per_seed
+                                    .get(&(seed, QualificationArm::ControlFlagsOff))
+                                    .unwrap(),
+                                per_seed.get(&(seed, arm)).unwrap(),
+                            )
+                        }
+                    })
+                    .collect();
+                ArmGateSummary {
+                    arm: arm.name(),
+                    every_seed_no_survival_deficit: labels
+                        .iter()
+                        .all(|l| *l != SeedQualificationLabel::SurvivalDeficit),
+                    seed_labels: labels,
+                    aggregate_label: if arm == QualificationArm::ControlFlagsOff {
+                        SeedQualificationLabel::Neutral
+                    } else {
+                        classify_seed_outcome(&control, totals.get(&arm).unwrap())
+                    },
+                }
+            })
+            .collect(),
+    };
+    write_json_without_overwrite("CURIOUS_QUALIFICATION_JSON", &report);
     println!("\n=== WAVE 11 BEHAVIORAL UTILITY & PARETO TABLE (10 SEEDS 401..=410, 150 TICKS) ===");
     for &arm in &arms {
         let v = totals.get(&arm).unwrap();
@@ -568,6 +806,12 @@ fn test_ten_seed_150_tick_behavioral_utility_and_pareto_qualification() {
 }
 
 fn load_live_v12_state_json() -> Option<String> {
+    if let Ok(path) = std::env::var("CURIOUS_LIVE_V12_STATE_JSON") {
+        return Some(
+            std::fs::read_to_string(&path)
+                .unwrap_or_else(|e| panic!("cannot read CURIOUS_LIVE_V12_STATE_JSON {path}: {e}")),
+        );
+    }
     let tmp_json = Path::new("/tmp/curious-shadow-eval/live_v12_latest_state.json");
     if tmp_json.exists() {
         if let Ok(s) = std::fs::read_to_string(tmp_json) {
@@ -681,10 +925,9 @@ fn test_live_v12_shadow_restore_and_20_tick_continuation() {
     assert_eq!(cand_captured.version, 19);
     assert_eq!(cand_captured.tick, initial_tick + 20);
     let cand_json = serde_json::to_string(&cand_captured).unwrap();
-    let _ = cand_captured
-        .clone()
-        .restore()
-        .expect("Captured V19 state after QualifiedCandidateBundle shadow run must validate & restore");
+    let _ = cand_captured.clone().restore().expect(
+        "Captured V19 state after QualifiedCandidateBundle shadow run must validate & restore",
+    );
 
     let cand_herbivores = cand_world
         .entities
@@ -837,29 +1080,53 @@ fn test_offspring_v19_capability_flag_propagation_with_zero_memory_inheritance()
 fn run_live_v12_shadow_1000_tick_soak_four_arms() {
     let raw_json = load_live_v12_state_json().expect("Live V12 archive must be readable");
     let state_v12: State = serde_json::from_str(&raw_json).expect("Valid V12 JSON");
-    let initial_next_id = state_v12.next_entity_id;
-
     let arms = [
         QualificationArm::ControlFlagsOff,
         QualificationArm::JuvenileParentalCareOnly,
         QualificationArm::RefugeFirstIntervalOnly,
         QualificationArm::QualifiedCandidateBundle,
     ];
+    let mut soak_reports = Vec::new();
 
     for &arm in &arms {
         let mut world = state_v12.clone().restore().expect("Restore V12");
+        let founder_ids: std::collections::HashSet<usize> =
+            world.entities.iter().map(|slot| slot.id).collect();
         configure_qualification_arm(&mut world, arm);
 
-        println!("\n================================================================================");
+        println!(
+            "\n================================================================================"
+        );
         println!("ARM: {}", arm.name());
-        println!("Tick  | Herb | Carn | Alive | Births | MaxGen | FI_Rec | Offspring_FI | Mean_H | Mean_E | Mean_W | JSON_Bytes | ms/tick");
-        println!("--------------------------------------------------------------------------------");
+        println!(
+            "Tick  | Herb | Carn | Omni | Alive | Births | MaxGen | FI_Rec | Offspring_FI | Mean_H | Mean_E | Mean_W | JSON_Bytes | ms/tick"
+        );
+        println!(
+            "--------------------------------------------------------------------------------"
+        );
 
         let mut cumulative_us = 0u128;
+        let mut survived_entity_ticks = 0usize;
+        let mut herb_births = 0usize;
+        let mut carn_births = 0usize;
+        let mut omni_births = 0usize;
+        let mut herb_deaths = 0usize;
+        let mut carn_deaths = 0usize;
+        let mut omni_deaths = 0usize;
+        let mut samples = Vec::new();
+        let mut final_state_json: Option<serde_json::Value> = None;
+        let mut interval_survived = 0usize;
+        let mut interval_herb_births = 0usize;
+        let mut interval_carn_births = 0usize;
+        let mut interval_omni_births = 0usize;
+        let mut interval_herb_deaths = 0usize;
+        let mut interval_carn_deaths = 0usize;
+        let mut interval_omni_deaths = 0usize;
         for step in 0..=1000 {
             if step % 100 == 0 {
                 let mut herb = 0usize;
                 let mut carn = 0usize;
+                let mut omni = 0usize;
                 let mut max_gen = 0usize;
                 let mut sum_h = 0usize;
                 let mut sum_e = 0usize;
@@ -868,11 +1135,11 @@ fn run_live_v12_shadow_1000_tick_soak_four_arms() {
                 let mut offspring_fi = 0usize;
 
                 for s in &world.entities {
-                    if matches!(s.phase, EntityPhase::Active) && s.base.life().health > 0 {
+                    if is_alive(s) {
                         match s.base.species() {
                             Species::Herbivore => herb += 1,
                             Species::Carnivore => carn += 1,
-                            Species::Omnivore => {}
+                            Species::Omnivore => omni += 1,
                         }
                         max_gen = max_gen.max(s.generation);
                         sum_h += s.base.life().health;
@@ -880,20 +1147,39 @@ fn run_live_v12_shadow_1000_tick_soak_four_arms() {
                         sum_w += s.base.life().water;
                         let fi_len = s.memory.first_interval_outcomes.len();
                         fi_rec += fi_len;
-                        if s.id >= initial_next_id {
+                        if !founder_ids.contains(&s.id) {
                             offspring_fi += fi_len;
                         }
                     }
                 }
-                let alive = herb + carn;
-                let births = world.next_entity_id.saturating_sub(initial_next_id);
-                let mean_h = if alive > 0 { sum_h as f64 / alive as f64 } else { 0.0 };
-                let mean_e = if alive > 0 { sum_e as f64 / alive as f64 } else { 0.0 };
-                let mean_w = if alive > 0 { sum_w as f64 / alive as f64 } else { 0.0 };
+                let alive = world.entities.iter().filter(|slot| is_alive(slot)).count();
+                let births = herb_births + carn_births + omni_births;
+                let mean_h = if alive > 0 {
+                    sum_h as f64 / alive as f64
+                } else {
+                    0.0
+                };
+                let mean_e = if alive > 0 {
+                    sum_e as f64 / alive as f64
+                } else {
+                    0.0
+                };
+                let mean_w = if alive > 0 {
+                    sum_w as f64 / alive as f64
+                } else {
+                    0.0
+                };
                 let captured = State::capture(&world);
-                let json_bytes = serde_json::to_string(&captured).unwrap().len();
+                let captured_json = serde_json::to_string(&captured).unwrap();
+                let json_bytes = captured_json.len();
                 if step == 1000 {
-                    let _ = captured.restore().expect("1000-tick state must validate & restore");
+                    let _ = captured
+                        .restore()
+                        .expect("1000-tick state must validate & restore");
+                    final_state_json = Some(
+                        serde_json::from_str(&captured_json)
+                            .expect("captured checkpoint JSON parses"),
+                    );
                 }
                 let ms_per_tick = if step > 0 {
                     (cumulative_us as f64 / 1000.0) / (step as f64)
@@ -901,10 +1187,11 @@ fn run_live_v12_shadow_1000_tick_soak_four_arms() {
                     0.0
                 };
                 println!(
-                    "{:<5} | {:<4} | {:<4} | {:<5} | {:<6} | {:<6} | {:<6} | {:<12} | {:<6.1} | {:<6.1} | {:<6.1} | {:<10} | {:.2}",
+                    "{:<5} | {:<4} | {:<4} | {:<4} | {:<5} | {:<6} | {:<6} | {:<6} | {:<12} | {:<6.1} | {:<6.1} | {:<6.1} | {:<10} | {:.2}",
                     world.tick_counter,
                     herb,
                     carn,
+                    omni,
                     alive,
                     births,
                     max_gen,
@@ -916,12 +1203,98 @@ fn run_live_v12_shadow_1000_tick_soak_four_arms() {
                     json_bytes,
                     ms_per_tick
                 );
+                samples.push(serde_json::json!({
+                    "tick": world.tick_counter,
+                    "survived_entity_ticks_since_previous_sample": interval_survived,
+                    "survived_entity_ticks_total": survived_entity_ticks,
+                    "founders_alive": world.entities.iter().filter(|slot| founder_ids.contains(&slot.id) && is_alive(slot)).count(),
+                    "herbivore_births_since_previous_sample": interval_herb_births,
+                    "carnivore_births_since_previous_sample": interval_carn_births,
+                    "omnivore_births_since_previous_sample": interval_omni_births,
+                    "herbivore_deaths_since_previous_sample": interval_herb_deaths,
+                    "carnivore_deaths_since_previous_sample": interval_carn_deaths,
+                    "omnivore_deaths_since_previous_sample": interval_omni_deaths,
+                    "herbivore_births_total": herb_births,
+                    "carnivore_births_total": carn_births,
+                    "omnivore_births_total": omni_births,
+                    "herbivore_deaths_total": herb_deaths,
+                    "carnivore_deaths_total": carn_deaths,
+                    "omnivore_deaths_total": omni_deaths,
+                    "alive": alive,
+                    "omnivores_alive": omni,
+                    "births_total": births
+                }));
+                interval_survived = 0;
+                interval_herb_births = 0;
+                interval_carn_births = 0;
+                interval_omni_births = 0;
+                interval_herb_deaths = 0;
+                interval_carn_deaths = 0;
+                interval_omni_deaths = 0;
             }
             if step < 1000 {
                 let t0 = Instant::now();
-                world.tick();
+                let events = world.tick();
                 cumulative_us += t0.elapsed().as_micros();
+                let alive_now = world.entities.iter().filter(|s| is_alive(s)).count();
+                survived_entity_ticks += alive_now;
+                interval_survived += alive_now;
+                use curious::simulation::SimulationEvent;
+                for event in events {
+                    let (species, is_birth) = match event {
+                        SimulationEvent::EntityBorn { species, .. } => (species, true),
+                        SimulationEvent::EntityDied { species, .. } => (species, false),
+                        _ => continue,
+                    };
+                    match (species, is_birth) {
+                        (Species::Herbivore, true) => {
+                            herb_births += 1;
+                            interval_herb_births += 1;
+                        }
+                        (Species::Carnivore, true) => {
+                            carn_births += 1;
+                            interval_carn_births += 1;
+                        }
+                        (Species::Omnivore, true) => {
+                            omni_births += 1;
+                            interval_omni_births += 1;
+                        }
+                        (Species::Herbivore, false) => {
+                            herb_deaths += 1;
+                            interval_herb_deaths += 1;
+                        }
+                        (Species::Carnivore, false) => {
+                            carn_deaths += 1;
+                            interval_carn_deaths += 1;
+                        }
+                        (Species::Omnivore, false) => {
+                            omni_deaths += 1;
+                            interval_omni_deaths += 1;
+                        }
+                    }
+                }
             }
         }
+        soak_reports.push(serde_json::json!({
+            "evaluation_kind": "live_v12_shadow_soak",
+            "arm": arm.name(),
+            "ticks": 1000,
+            "survived_entity_ticks": survived_entity_ticks,
+            "herbivore_births": herb_births,
+            "carnivore_births": carn_births,
+            "omnivore_births": omni_births,
+            "herbivore_deaths": herb_deaths,
+            "carnivore_deaths": carn_deaths,
+            "omnivore_deaths": omni_deaths,
+            "final_state": final_state_json.expect("1000-tick checkpoint captured and validated"),
+            "samples_every_100_ticks": samples
+        }));
     }
+    write_json_without_overwrite(
+        "CURIOUS_SOAK_JSON",
+        &serde_json::json!({
+            "evaluation_kind": "live_v12_shadow_soak",
+            "arms": soak_reports
+        }),
+    );
 }
