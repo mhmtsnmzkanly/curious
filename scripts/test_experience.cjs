@@ -60,3 +60,30 @@ assert.match(text({hunt_learner:{enabled:false,values:[],episode:null,last_episo
 assert.doesNotThrow(()=>text({hunt_learner:{values:[null],last_episode:{attempt:{},end:"FutureEnd"}}}));
 assert.match(text({learner:{enabled:true,update_enabled:false,values:[]}}), /Su değerlerini güncelleme: kapalı/);
 console.log("Hunt presenter: context/unknown health/frozen learning/foreign kill/uncertainty checks passed");
+
+// Refuge presenter tests
+const refugeMemory = {
+  refuge_outcomes_enabled: true,
+  refuge_generalization_enabled: true,
+  refuge_generalization_update_enabled: false,
+  refuge_episode: { target: { x: 5, y: 6 }, elapsed_ticks: 3, movement_energy: 9, threat_damage: 2 },
+  refuge_outcomes: [{ key: { endpoint: { x: 5, y: 6 } }, completed: 2, safe_arrivals: 2, threat_damage: 0, movement_energy: 8 }],
+  refuge_generalized_outcomes: [{ completed: 1, safe_arrivals: 1, threat_damage: 0, movement_energy: 4 }],
+};
+const refugeText = experience.refuge(refugeMemory, "FleeToRefuge").join("\n");
+assert.match(refugeText, /Sığınak seçimini öğrenme: açık/);
+assert.match(refugeText, /Sığınak genellemesi: açık \(tablo güncelleme kapalı\)/);
+assert.match(refugeText, /Bu karar sığınak deneyimi veya kaçış gerekçesinden geldi/);
+assert.match(refugeText, /Devam eden sığınak denemesi: hedef \(5, 6\) · 3 adım · 9 hareket enerjisi · 2 tehdit hasarı/);
+assert.match(refugeText, /Kayıtlı exact sığınak sonuçları: 1 kayıt/);
+assert.match(refugeText, /Sığınak hedefi \(5, 6\) · 2 tamamlanma · 2 güvenli varış/);
+assert.match(refugeText, /Kayıtlı genelleştirilmiş sığınak sonuçları: 1 kayıt/);
+
+const disabledRefugeText = experience.refuge({ refuge_outcomes_enabled: false }, null).join("\n");
+assert.match(disabledRefugeText, /Sığınak seçimini öğrenme: kapalı/);
+assert.match(disabledRefugeText, /Sığınak sonuç tablosu verisi yok/);
+
+const nullRefugeText = experience.refuge(null, null).join("\n");
+assert.match(nullRefugeText, /Sığınak seçimini öğrenme: veri yok/);
+assert.match(nullRefugeText, /Bu kayıtta sığınak deneyimi verisi yok/);
+console.log("Refuge presenter: enabled/disabled/outcomes/generalization checks passed");

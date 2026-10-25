@@ -61,6 +61,155 @@
     }
     return {context,first:groups[0]?.first||null,last:groups[groups.length-1]?.first||null,count:groups.length};
   }
+  function causalChain(item) {
+    if (!item || typeof item !== "object") {
+      return {
+        evidence: "Unknown (kayıtta yok)",
+        action: "Unknown (kayıtta yok)",
+        resolverOutcome: "Unknown (kayıtta yok)",
+        memoryUpdate: "Unknown (kayıtta yok)",
+      };
+    }
+    const t = item.trace;
+    const actor = item.actor;
+    const events = Array.isArray(item.events) ? item.events : null;
+    const actorId = t?.id ?? item.entity_id;
+
+    // 1. Evidence: observed perception or remembered context at decision time
+    let evidence;
+    if (!t || (!t.perception && !t.seen)) {
+      evidence = "Unknown (kayıtta yok)";
+    } else if (t.perception) {
+      const p = t.perception;
+      evidence = `${p.entities?.length ?? 0} canlı, ${p.foods?.length ?? 0} yiyecek, ${p.waters?.length ?? 0} su, ${p.shelters?.length ?? 0} sığınak görüldü.`;
+    } else {
+      const seen = t.seen;
+      evidence = `Özet algı: ${seen.entities?.length ?? 0} canlı, ${seen.foods ?? "?"} yiyecek, ${seen.waters ?? "?"} su.`;
+    }
+
+    // 2. Action: chosen reason and intent
+    let action;
+    if (!t || !t.decision || (!t.decision.reason && !t.decision.intent)) {
+      action = "Unknown (kayıtta yok)";
+    } else {
+      const d = t.decision;
+      const intentKey = d.intent && typeof d.intent === "object" ? Object.keys(d.intent)[0] : null;
+      action = `Gerekçe: ${d.reason || "bilinmiyor"}${intentKey ? `, niyet: ${intentKey}` : ""}.`;
+    }
+
+    // 3. Resolver outcome: executed events and physical costs for this actor
+    let resolverOutcome;
+    if (!events || events.length === 0) {
+      resolverOutcome = "Unknown (kayıtta yok)";
+    } else {
+      const actorEvents = events.filter(e => {
+        if (e.EntityMoved && (actorId == null || e.EntityMoved.id === actorId)) return true;
+        if (e.EntityAttacked && (actorId == null || e.EntityAttacked.attacker === actorId)) return true;
+        if (e.EntityDrank && (actorId == null || e.EntityDrank.id === actorId)) return true;
+        if (e.EntityAte && (actorId == null || e.EntityAte.id === actorId)) return true;
+        if (e.HuntEpisodeEnded && (actorId == null || e.HuntEpisodeEnded.id === actorId)) return true;
+        if (e.EntityDamaged && (actorId == null || e.EntityDamaged.id === actorId)) return true;
+        if (e.EntityDied && (actorId == null || e.EntityDied.id === actorId)) return true;
+        if (e.EntityMated && (actorId == null || e.EntityMated.parent1 === actorId || e.EntityMated.parent2 === actorId)) return true;
+        return false;
+      });
+      if (actorEvents.length === 0) {
+        resolverOutcome = "Unknown (kayıtta yok)";
+      } else {
+        const parts = [];
+        for (const e of actorEvents) {
+          if (e.EntityMoved) parts.push(`hareket (${finite(e.EntityMoved.energy_cost) ? `${e.EntityMoved.energy_cost} enerji` : "maliyet kayıtta yok"})`);
+          if (e.EntityAttacked) parts.push(`saldırı (${finite(e.EntityAttacked.energy_cost) ? `${e.EntityAttacked.energy_cost} enerji` : "maliyet kayıtta yok"})`);
+          if (e.EntityDrank) parts.push(`su içti (${finite(e.EntityDrank.amount) ? `${e.EntityDrank.amount} birim` : "miktar kayıtta yok"})`);
+          if (e.EntityAte) parts.push(`besin aldı (${finite(e.EntityAte.amount) ? `${e.EntityAte.amount} birim` : "miktar kayıtta yok"})`);
+          if (e.HuntEpisodeEnded) parts.push(`av sonlandı (${e.HuntEpisodeEnded.result?.end || "sonuç bilinmiyor"})`);
+          if (e.EntityDamaged) parts.push(`hasar aldı (${finite(e.EntityDamaged.amount) ? e.EntityDamaged.amount : "bilinmiyor"})`);
+          if (e.EntityDied) parts.push("yaşam sona erdi");
+          if (e.EntityMated) parts.push("üreme gerçekleşti");
+        }
+        resolverOutcome = parts.length ? parts.join(", ") : "Unknown (kayıtta yok)";
+      }
+    }
+
+    // 4. Memory update: observed memory or learner update
+    let memoryUpdate;
+    if (!actor) {
+      memoryUpdate = "Unknown (kayıtta yok)";
+    } else {
+      const updates = [];
+      const huntEnd = events?.find(e => e.HuntEpisodeEnded && (actorId == null || e.HuntEpisodeEnded.id === actorId));
+      if (huntEnd?.HuntEpisodeEnded?.result?.updated === true) {
+        updates.push("av Q tablosu güncellendi");
+      }
+      const drank = events?.find(e => e.EntityDrank && (actorId == null || e.EntityDrank.id === actorId));
+      if (drank && actor.learner?.enabled) {
+        updates.push("su denemesi sonuçlandı");
+      }
+      if (actor.memory?.refuge_outcomes_enabled && Array.isArray(actor.memory.refuge_outcomes) && actor.memory.refuge_outcomes.length > 0) {
+        updates.push(`sığınak tablosunda ${actor.memory.refuge_outcomes.length} kayıt`);
+      }
+      memoryUpdate = updates.length ? updates.join("; ") : "Unknown (kayıtta yok)";
+    }
+
+    return { evidence, action, resolverOutcome, memoryUpdate };
+  }
+
+  function autoDirector(items) {
+    if (!Array.isArray(items) || items.length === 0) return null;
+
+    let best = null;
+
+    for (const item of items) {
+      if (!item || typeof item !== "object") continue;
+      const t = item.trace;
+      const actor = item.actor;
+      const events = Array.isArray(item.events) ? item.events : [];
+      const actorId = t?.id ?? item.entity_id;
+      const reason = t?.decision?.reason;
+      const life = actor?.life;
+      const health = life?.health;
+      const maxHealth = life?.max_health;
+      const isLowHealth = finite(health) && finite(maxHealth) && maxHealth > 0 && health <= Math.floor(maxHealth / 4);
+      const tookCombatDamage = events.some(e => e.EntityDamaged && (actorId == null || e.EntityDamaged.id === actorId));
+
+      let priority = 0;
+      let category = "routine_observation";
+      let headline = `#${actorId ?? "?"} olağan gözlem kaydı (tick ${item.tick ?? "?"})`;
+
+      // Priority 4: critical_escape
+      const isEscapeOrShelter = reason === "SeekShelter" || reason === "EscapeThreat" || (typeof reason === "string" && (reason.includes("Shelter") || reason.includes("Escape") || reason.includes("Flee")));
+      if (isEscapeOrShelter && (isLowHealth || tookCombatDamage)) {
+        priority = 4;
+        category = "critical_escape";
+        headline = `#${actorId ?? "?"} kritik kaçışta: ${isLowHealth ? "düşük sağlık" : "hasar aldı"} (${reason})`;
+      } else if (events.some(e => e.EntityAttacked || e.HuntEpisodeEnded)) {
+        // Priority 3: active_predation
+        priority = 3;
+        category = "active_predation";
+        const atk = events.find(e => e.EntityAttacked);
+        const end = events.find(e => e.HuntEpisodeEnded);
+        headline = `#${actorId ?? "?"} aktif av/saldırı olayında: ${atk ? "saldırı hamlesi" : end?.HuntEpisodeEnded?.result?.end || "av sonlanışı"}`;
+      } else if (events.some(e => e.EntityMated || e.EntityBorn)) {
+        // Priority 2: lineage_birth
+        priority = 2;
+        category = "lineage_birth";
+        headline = `#${actorId ?? "?"} soy aktarımı / doğum olayı kaydedildi`;
+      } else if (["LearnedWater", "LearnedHunt", "RecallWater", "RecallFood", "RecallMate"].includes(reason)) {
+        // Priority 1: learned_resource
+        priority = 1;
+        category = "learned_resource";
+        headline = `#${actorId ?? "?"} bireysel bellek/öğrenme kararı: ${reason}`;
+      }
+
+      if (!best || priority > best.priority) {
+        best = { focalItem: item, category, headline, priority };
+        if (priority === 4) break; // Highest possible priority found
+      }
+    }
+
+    return best;
+  }
+
   function displayData(item) {
     const t=item.trace||{}, d=t.decision||{}, p=t.perception, actor=item.actor, seen=t.seen;
     const events=Array.isArray(item.events)?item.events:[];
@@ -96,7 +245,7 @@
       learned:ends.length?`Besin/enerji Q tablosu güncellemesi: ${ends.map(r=>r.updated===true?"güncellendi":r.updated===false?"güncellenmedi":"bilinmiyor").join(", ")}. Risk örnekleri ayrı ölçümlerdir; bu olay alanı risk güncellemesini belirtmez.`:
         "Bu tickte besin/enerji Q güncelleme olayı yok. Son deneme alanı tek başına yeni güncelleme kanıtı değildir.",risk:riskText,
       identity:`#${t.id??item.entity_id} · shard ${item.shard??"?"} / kayıt ${item.id} · tick ${item.tick} · karar öncesi yaş ${t.before?.age??"bilinmiyor"} · kayıt sonrası yaş ${actor?.life?.age??"birey kayıtta yok"}${traceNote}`,
-      context:huntContext(item),decision:d,actor,events};
+      context:huntContext(item),decision:d,actor,events,causalChain:causalChain(item)};
   }
-  return {huntContext,contextLabel,sameContext,encounterComparison,displayData,ageOf,waterDelta};
+  return {huntContext,contextLabel,sameContext,encounterComparison,displayData,ageOf,waterDelta,causalChain,autoDirector};
 });

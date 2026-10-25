@@ -65,11 +65,47 @@
     }
     return lines;
   }
+  function refuge(memory, reason) {
+    const lines = [`Sığınak seçimini öğrenme: ${enabled(memory?.refuge_outcomes_enabled)}.`];
+    if (!memory || typeof memory !== "object") return [...lines, "Bu kayıtta sığınak deneyimi verisi yok."];
+    lines.push(`Sığınak genellemesi: ${enabled(memory.refuge_generalization_enabled)}${memory.refuge_generalization_update_enabled === false ? " (tablo güncelleme kapalı)" : ""}.`);
+    if (reason && typeof reason === "string" && reason.includes("Refuge")) {
+      lines.push("Bu karar sığınak deneyimi veya kaçış gerekçesinden geldi.");
+    }
+    const episode = memory.refuge_episode;
+    if (episode) {
+      lines.push(`Devam eden sığınak denemesi: hedef ${position(episode.target)} · ${number(episode.elapsed_ticks)} adım · ${number(episode.movement_energy)} hareket enerjisi · ${number(episode.threat_damage)} tehdit hasarı. Henüz sonuçlanmadı.`);
+    } else if (Object.hasOwn(memory, "refuge_episode")) {
+      lines.push("Devam eden sığınak denemesi yok.");
+    } else {
+      lines.push("Devam eden sığınak denemesi verisi yok.");
+    }
+    const outcomes = Array.isArray(memory.refuge_outcomes) ? memory.refuge_outcomes : null;
+    if (!outcomes) {
+      lines.push("Sığınak sonuç tablosu verisi yok.");
+    } else if (!outcomes.length) {
+      lines.push("Sığınak sonuç tablosu boş; kayıtlı deneyim yok.");
+    } else {
+      lines.push(`Kayıtlı exact sığınak sonuçları: ${outcomes.length} kayıt.`);
+      for (const row of outcomes) {
+        lines.push(`Sığınak hedefi ${position(row?.key?.endpoint)} · ${number(row?.completed)} tamamlanma · ${number(row?.safe_arrivals)} güvenli varış · ${number(row?.threat_damage)} hasar · ${number(row?.movement_energy)} hareket enerjisi.`);
+      }
+    }
+    const genOutcomes = Array.isArray(memory.refuge_generalized_outcomes) ? memory.refuge_generalized_outcomes : null;
+    if (genOutcomes && genOutcomes.length) {
+      lines.push(`Kayıtlı genelleştirilmiş sığınak sonuçları: ${genOutcomes.length} kayıt.`);
+      for (const row of genOutcomes) {
+        lines.push(`Genelleştirilmiş rota: ${number(row?.completed)} tamamlanma · ${number(row?.safe_arrivals)} güvenli varış · ${number(row?.threat_damage)} hasar · ${number(row?.movement_energy)} hareket enerjisi.`);
+      }
+    }
+    return lines;
+  }
   function describe(individual, trace) {
     if (!individual) return ["Deneyimi görmek için bir birey seç."];
     return ["Yaş ve nesil, deneyim veya öğrenme başarısı değildir. Aşağıdakiler yalnız seçili kaydın verileridir.",
       ...water(individual.learner, trace?.decision?.reason),
-      ...hunt(individual.hunt_learner, trace?.decision?.reason)];
+      ...hunt(individual.hunt_learner, trace?.decision?.reason),
+      ...refuge(individual.memory, trace?.decision?.reason)];
   }
   function render(container, individual, trace) {
     container.replaceChildren();
@@ -79,5 +115,5 @@
       container.append(p);
     }
   }
-  return {describe, water, hunt, context, render};
+  return {describe, water, hunt, refuge, context, render};
 });

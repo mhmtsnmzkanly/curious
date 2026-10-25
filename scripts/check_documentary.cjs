@@ -33,4 +33,66 @@ assert.match(D.waterDelta(null,waterAfter),/farkı bilinmiyor/);
 const missing=D.displayData({id:2,tick:2,trace:{id:2,decision:{reason:"Explore"}},events:[]});
 assert.match(missing.memory,/Bellek kaydı yok/);
 assert.equal(D.huntContext({decision:{reason:"LearnedHunt"}}),null,"old sparse records do not invent a comparison context");
+
+// Causal chain tests
+const sparseItem = { id: 2, tick: 2, trace: { id: 2, decision: { reason: "Explore" } }, events: [] };
+const sparseChain = D.causalChain(sparseItem);
+assert.equal(sparseChain.evidence, "Unknown (kayıtta yok)", "missing perception/evidence is explicitly Unknown");
+assert.match(sparseChain.action, /Explore/, "recorded action is shown");
+assert.equal(sparseChain.resolverOutcome, "Unknown (kayıtta yok)", "empty events means resolver outcome is Unknown");
+assert.equal(sparseChain.memoryUpdate, "Unknown (kayıtta yok)", "missing actor/learner update is Unknown");
+
+const emptyItem = null;
+const nullChain = D.causalChain(emptyItem);
+assert.equal(nullChain.evidence, "Unknown (kayıtta yok)");
+assert.equal(nullChain.action, "Unknown (kayıtta yok)");
+assert.equal(nullChain.resolverOutcome, "Unknown (kayıtta yok)");
+assert.equal(nullChain.memoryUpdate, "Unknown (kayıtta yok)");
+
+const richRow = row(7, 17, context, [{ EntityMoved: { id: 7, energy_cost: 2 } }], 1);
+richRow.trace.perception = { entities: [1], foods: [], waters: [], shelters: [] };
+richRow.actor.learner = { enabled: true };
+richRow.actor.memory = { refuge_outcomes_enabled: true, refuge_outcomes: [{ completed: 1 }] };
+const richChain = D.causalChain(richRow);
+assert.match(richChain.evidence, /1 canlı/);
+assert.match(richChain.action, /LearnedHunt/);
+assert.match(richChain.resolverOutcome, /hareket \(2 enerji\)/);
+assert.match(richChain.memoryUpdate, /sığınak tablosunda 1 kayıt/);
+assert.deepEqual(D.displayData(richRow).causalChain, richChain, "displayData exposes causalChain");
+
+// Auto-Director documentary camera tests
+assert.equal(D.autoDirector([]), null, "empty array returns null");
+assert.equal(D.autoDirector(null), null, "null returns null");
+
+const p0Item = { id: 10, tick: 10, trace: { id: 10, decision: { reason: "Explore" } }, events: [] };
+const p0Res = D.autoDirector([p0Item]);
+assert.equal(p0Res.priority, 0);
+assert.equal(p0Res.category, "routine_observation");
+assert.match(p0Res.headline, /#10 olağan gözlem kaydı/);
+
+const p1Item = { id: 11, tick: 10, trace: { id: 11, decision: { reason: "LearnedWater" } }, events: [] };
+const p2Item = { id: 12, tick: 10, trace: { id: 12, decision: { reason: "Explore" } }, events: [{ EntityBorn: { id: 99 } }] };
+const p3Item = { id: 13, tick: 10, trace: { id: 13, decision: { reason: "HuntPrey" } }, events: [{ EntityAttacked: { attacker: 13 } }] };
+const p4Item = { id: 14, tick: 10, trace: { id: 14, decision: { reason: "EscapeThreat" } }, actor: { life: { health: 10, max_health: 100 } }, events: [] };
+
+const mixed1 = D.autoDirector([p0Item, p1Item]);
+assert.equal(mixed1.priority, 1);
+assert.equal(mixed1.category, "learned_resource");
+assert.equal(mixed1.focalItem.id, 11);
+
+const mixed2 = D.autoDirector([p0Item, p1Item, p2Item]);
+assert.equal(mixed2.priority, 2);
+assert.equal(mixed2.category, "lineage_birth");
+assert.equal(mixed2.focalItem.id, 12);
+
+const mixed3 = D.autoDirector([p0Item, p1Item, p2Item, p3Item]);
+assert.equal(mixed3.priority, 3);
+assert.equal(mixed3.category, "active_predation");
+assert.equal(mixed3.focalItem.id, 13);
+
+const mixed4 = D.autoDirector([p0Item, p1Item, p2Item, p3Item, p4Item]);
+assert.equal(mixed4.priority, 4);
+assert.equal(mixed4.category, "critical_escape");
+assert.equal(mixed4.focalItem.id, 14);
+
 console.log("documentary projection checks passed");
