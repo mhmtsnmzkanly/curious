@@ -97,7 +97,9 @@ Raporlar: [full-route risk baseline V1](reports/REFUGE_RISK_BASELINE_V1.md),
 [2002ee4 yeniden denetimi](reports/AUDIT_RECHECK_2002EE4_20261025.md),
 [Wave 8 tam kapanış](reports/AUDIT_RECHECK_REMEDIATION_20261025.md),
 [6fa9c49 yeniden denetimi](reports/AUDIT_RECHECK_6FA9C49_20261025.md),
-[Wave 9 kapanış ve hizalama](reports/AUDIT_RECHECK_6FA9C49_REMEDIATION_20261025.md) ve
+[Wave 9 kapanış ve hizalama](reports/AUDIT_RECHECK_6FA9C49_REMEDIATION_20261025.md),
+[9c7d3f0 bağımsız kapanış kontrolü](reports/AUDIT_RECHECK_9C7D3F0_20261025.md),
+[Wave 10 P3 ablasyon ve 9c7d3f0 kapanış raporu](reports/P3_ABLATION_AND_9C7D3F0_CLOSURE_20261025.md) ve
 [frozen refuge protokolü](REFUGE_FIRST_RESOLUTION_PROTOCOL.md).
 
 ## Pure residual ve öğrenme adaylarının durumu
@@ -155,10 +157,10 @@ mekanizmalar doğrudan aktif `World::tick` yürütme yoluna tam ölçek uyumu ve
    yenilenme çarpanı ve `World::tick` içinde çağrılan `apply_seasonal_thermal_costs` kış ek
    BMR maliyeti çekirdeğe bağlandı (`tests/seasonal_climate.rs`).
 8. **Ceset çürümesi ve leşçillik nişi (Yeni Özellik 6):**
-   `EntityPhase::corpse_stage` ile 5-tick ömürle uyumlu çürüme evreleri (`>= 4 Fresh`,
-   `>= 2 Aging`, `_ Putrid`). Wave 9 düzeltmesiyle: ölümün ilk tick'inde (`remaining == 4`, `CorpseStage::Fresh`)
+   `EntityPhase::corpse_stage` ile 5-tick ömürle uyumlu çürüme evreleri (`>= 4 CorpseStage::Fresh`,
+   `>= 2 CorpseStage::Aging`, `_ CorpseStage::Putrid`). Wave 9 düzeltmesiyle: ölümün ilk tick'inde (`remaining == 4`, `CorpseStage::Fresh`)
    taze ceset besin paritesi için ceset enerjisi tam korunur; sonraki 3 tick boyunca (`remaining == 1..=3`,
-   `Aging` ve `Putrid`) her tick 1 azalarak taban değere (`MIN_FOOD_FROM_CORPSE` = 5) iner;
+   `CorpseStage::Aging` ve `CorpseStage::Putrid`) her tick 1 azalarak taban değere (`MIN_FOOD_FROM_CORPSE` = 5) iner;
    `resolve_eats` içinde sıfır enerji tüketen canlıları muaf tutan `scavenging_toxicity`
    (`Carnivore` 4 hasar, `Omnivore` 0 hasar) çekirdeğe bağlandı (`tests/corpse_scavenging.rs`).
 9. **Yerel alarm yayılımı:**
@@ -179,7 +181,9 @@ P2 entegrasyonu ve Wave 7–9 düzeltmeleri aşağıdaki mimari garantilerle kor
 - **Sıfır bellek aktarımı:** Ebeveyn bakımı yalnızca fiziksel etkileşimdir; hiçbir öğrenilmiş
   deneyim yavruya kalıtılmaz.
 - **Epistemik sınır:** Tam rota hasarı `Unknown` kalır; mekanizma testleri veya P3 sabit held-out
-  protokolü (`reports/AUDIT_RECHECK_REMEDIATION_20261025.md`, `reports/AUDIT_RECHECK_6FA9C49_REMEDIATION_20261025.md`)
+  ve çoklu-habitat tekil ablasyon protokolleri (`reports/AUDIT_RECHECK_REMEDIATION_20261025.md`,
+  `reports/AUDIT_RECHECK_6FA9C49_REMEDIATION_20261025.md`, `reports/AUDIT_RECHECK_9C7D3F0_20261025.md`,
+  `reports/P3_ABLATION_AND_9C7D3F0_CLOSURE_20261025.md`)
   evrensel ekolojik üstünlük kanıtı değildir. Canlı V12 ortamında bu özellikler varsayılan kapalıdır (`default-off`).
 - **Soak durumu:** Aylar/yıllar süren reliability doğrulaması kullanıcı isteğiyle ertelenmiştir;
   mevcut sağlık gözetimi sürer ve uzun soak feature geliştirme için önkoşul değildir.

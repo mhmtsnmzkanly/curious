@@ -12,24 +12,25 @@ anlamına gelmez. P0–P3 çalışma sırası kategori yapısından ayrıdır.
   öğrenmesi ve V19 deneysel seçenekleri varsayılan kapalı; bu, temel
   bellek/su davranışları veya canlı V12 genetiğinin tümünün kapalı olduğu
   anlamına gelmez. 7883 replay ikilisi dondurulmuştur.
-- **P2 çekirdek motor entegrasyonları, Wave 7–8 düzeltmeleri ve Wave 9 tam kapanışları tamamlandı (default-off):**
+- **P2 çekirdek motor entegrasyonları, Wave 7–9 düzeltmeleri ve Wave 10 tam kapanışları tamamlandı (default-off):**
   K3 öğrenme/bellek (su bağlamı net artık ölçeği `foraging::value` ile hizalandı, ilk-aralık sığınak hasarı, mekânsal merak),
-  K1/K2/K5 çevre/faz (mevsim çevrimi, statik ve kazılan inler, otonom kış kazısı ve stamina koruması, ilk tick korumalı kademeli ceset çürümesi),
+  K1/K2/K5 çevre/faz (mevsim çevrimi, statik ve kazılan inler, otonom kış kazısı ve stamina koruması, ilk tick korumalı kademeli ceset çürümesi, `CorpseStage::Putrid` varyantı),
   K2/K3/K4/K6 politika/etkileşim (ebeveyn bakımı, erişilebilir bitki/duvar pusu örtüsü, sıfır tüketim toksisite muafiyeti,
   yerel alarm yayılımı) modüler ve varsayılan kapalı olarak çekirdeğe entegre edildi.
-  `ca5971b`, `2002ee4` ve `6fa9c49` bağımsız denetimlerinde tespit edilen tüm eksiklikler giderildi:
+  `ca5971b`, `2002ee4`, `6fa9c49` ve `9c7d3f0` bağımsız denetimlerinde tespit edilen tüm eksiklikler ve dar kanıt sınırları giderildi:
   tüm özellikler aktif `World::tick` yürütme yoluna bağlandı, su bağlam ölçeği eşitlendi,
   pusu örtüsü sıradan avcılara genişletildi, statik harita inleri ve dinamik kazı metadata ile fiziksel haritaya
-  senkronize edildi, ceset enerjisi çürüme evreleri ve toksisite kuralları doğrulandı, checkpoint sürümü `V19`'a
+  senkronize edildi, yeni otonom kazılan inler başlangıç statik inlerinden kesin olarak ayrıldı, mükerrer sayım olmaksızın
+  benzersiz yayımlanan sinyaller pozitif doğrulandı, ceset enerjisi çürüme evreleri ve toksisite kuralları doğrulandı, checkpoint sürümü `V19`'a
   yükseltilerek ham V18 JSON göçü doğrulandı; disabled-path State+RNG denkliği ve deterministik checkpoint-resume korundu.
 - **K7 web replay ve experience UI entegrasyonu tamamlandı:** Sığınak deneyimi
-  (`CuriousExperience.refuge`), nedensellik zinciri (`causalChain`: `Kanıt -> Eylem -> Resolver -> Bellek`)
-  ve `#auto-director` odak paneli arayüze bağlandı.
-- **P3 held-out ampirik protokolü ve K8 throughput denetimi yürütüldü:** 5 bağımsız seed'lik iki ayrı grup
-  (`[101..105]` ve `[201..205]`) üzerinde konfigürasyondan bağımsız `DynamicWorldSnapshot` ve RNG ayrışmasıyla
-  `Control (Flags Off)` vs `Treatment (Flags On)` gerçek `World::tick` karşılaştırması ve kısa yük throughput denetimi
-  (`SignalTrace <= 64`, `sites <= 8`, `dangers <= 8`, `known_sectors <= 16`, `burrows <= 32`) tamamlandı; 5 V19 mekanizmasının
-  tümü pozitif asserts (`> 0`) ile kanıtlandı.
+  (`CuriousExperience.refuge`), nedensellik zinciri (`causalChain`: `Kanıt -> Eylem -> Resolver -> Bellek`),
+  `#auto-director` odak paneli ve V19 çevre/beden telemetrisi (`CuriousExperience.environment`, `#env-telemetry`) arayüze bağlandı.
+- **P3 held-out ampirik protokolü, çoklu-habitat tekil ablasyonu ve K8 throughput denetimi yürütüldü:** 5 bağımsız seed'lik iki ayrı grup
+  (`[101..105]` ve `[201..205]`) üzerinde `DynamicWorldSnapshot` ve RNG ayrışmasıyla Control vs Treatment doğrulanmış; Wave 10 ile 3 farklı habitat
+  (`OpenPlains`, `CorridorMaze`, `SeasonalScarcity`) × 5 tohum (`301..=305`) × 7 kolda tekil-özellik ablasyon matrisi
+  (`tests/p3_multi_habitat_ablation.rs`) ve kısa yük throughput denetimi (`SignalTrace <= 64`, `sites <= 8`, `dangers <= 8`,
+  `known_sectors <= 16`, `burrows <= 32`) tamamlandı; hedef mekanizmaların tam seçiciliği kanıtlandı.
 - Kayıtlı habitat fixture'ında aynı 30 seed'in `fixed` ve `both` kolları ayrı
   ayrı 30/30 × 100.000 tick kapısını geçti. Bu yalnız o fixture için sınırlı
   coexistence kabulüdür; tüm habitatlar, şoklar veya kalıcılık için genelleme
@@ -55,6 +56,8 @@ Kanıt: [coexistence](reports/QUALIFIED_OBSERVATION.md),
 [Wave 8 tam kapanış](reports/AUDIT_RECHECK_REMEDIATION_20261025.md),
 [6fa9c49 yeniden denetimi](reports/AUDIT_RECHECK_6FA9C49_20261025.md),
 [Wave 9 tam kapanış ve hizalama](reports/AUDIT_RECHECK_6FA9C49_REMEDIATION_20261025.md),
+[9c7d3f0 denetimi](reports/AUDIT_RECHECK_9C7D3F0_20261025.md),
+[Wave 10 tam kapanış ve ablasyon](reports/P3_ABLATION_AND_9C7D3F0_CLOSURE_20261025.md),
 [P2/P3 ampirik protokol ve K8 denetimi (Tarihsel dondurulmuş rapor)](reports/P2_P3_EMPIRICAL_AND_K8_AUDIT_20261025.md).
 
 ## Sekiz sistem kategorisi
@@ -223,6 +226,10 @@ ilgili diğer kategoriye bağlanır; aynı iş için paralel, çatışan plan tu
   kamera (`autoDirector`: en yüksek öncelikli belgesel olayını otomatik odaklama)
   web arayüzlerine bağlandı (`web/documentary.js`, `web/experience.js`, `web/replay.html`,
   `web/replay.js`, `web/replay.css` — *Uygulandı / Mekanizma testi geçti*).
+  Wave 10 geliştirmesiyle: `CuriousExperience.environment(state, individual)` ve `#env-telemetry`
+  arayüz paneli bağlanarak mevsim döngüsü (`Spring/Summer/Autumn/Winter`), gün/gece fazı (`Dawn/Day/Dusk/Night`),
+  aktif sinyal ve in sayıları, keşfedilen merak sektörleri, su bağlam kayıtları ve ceset tazelik evresi
+  (`Fresh/Aging/Putrid`) arayüzde görselleştirildi.
 - **Açık:** Bütün biliş/deneyim veya nedensellik görünürlüğü yoktur; model çıkarımı
   veya gizli durum gözlem gibi sunulamaz, eksik bağlar `Unknown` kalır.
 - **Önerilen:** Arayüzde nedensellik zinciri ve auto-director olay önceliklendirmesini
@@ -245,10 +252,14 @@ ilgili diğer kategoriye bağlanır; aynı iş için paralel, çatışan plan tu
   (`SignalTrace <= 64`, `sites <= 8`, `dangers <= 8`, `known_sectors <= 16`,
   `burrows <= 32`) bağımsız `World::with_seed` yörüngeleriyle doğrulandı
   (`tests/k8_throughput_audit.rs`, `reports/AUDIT_CA5971B_REMEDIATION_20261025.md`).
-  Wave 9 denetimiyle: `tests/k8_throughput_audit.rs` içinde konfigürasyondan bağımsız
+  Wave 9 ve Wave 10 denetimleriyle: `tests/k8_throughput_audit.rs` içinde konfigürasyondan bağımsız
   `DynamicWorldSnapshot` ve RNG ayrışması karşılaştırması eklendi; `[101..105]` ve `[201..205]`
   tohum gruplarında Control vs Treatment kollarının 5 V19 mekanizmasında pozitif assert'lerle
-  (`> 0`) çalıştığı doğrulandı (`reports/AUDIT_RECHECK_6FA9C49_REMEDIATION_20261025.md`).
+  (`> 0`) çalıştığı doğrulandı. Fikstür başlangıç inleri filtrelenerek kış mevsiminde otonom
+  yeni kazılan inler (`treatment_newly_excavated_burrows_total`) ve mükerrer sayım olmaksızın
+  her tick yayımlanan benzersiz sinyaller (`treatment_unique_signals_emitted_total`) pozitif
+  assert'lerle kanıtlandı (`reports/AUDIT_RECHECK_6FA9C49_REMEDIATION_20261025.md`,
+  `reports/P3_ABLATION_AND_9C7D3F0_CLOSURE_20261025.md`).
 - **Açık:** Kısa yük sınırı ölçümleri genel performans/kapasite garantisi
   değildir. Aylar/yıllar soak ertelendi; bugün özellik çalışmasını bloke etmez.
 - **Önerilen:** Farklı donanım ve yük profillerinde sınırlandırılmış tabloların

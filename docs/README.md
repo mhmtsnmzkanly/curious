@@ -26,6 +26,7 @@ Kategorilere doğrudan git: [K1 Dünya ve çevre](ROADMAP.md#dunya-cevre),
 
 ## Güncel kanıt
 
+- [Wave 10: P3 ablasyon, K7 V19 telemetri ve 9c7d3f0 kanıt sınırı kapanış raporu](reports/P3_ABLATION_AND_9C7D3F0_CLOSURE_20261025.md) — çoklu-habitat tekil-özellik ablasyon seçiciliği, F8 otonom kış kazısı deterministik tanığı, `SignalTrace <= 64` sınırı ve K7 V19 web telemetrisi.
 - [9c7d3f0 bağımsız kapanış kontrolü](reports/AUDIT_RECHECK_9C7D3F0_20261025.md) — ana düzeltmeler doğrulandı; F8 otonom kazı sayacının kanıt sınırı korunuyor.
 
 - [Wave 9: 6fa9c49 yeniden denetim bulgularının (P1/F1, P2/F8, F5, F6) tam kapanış ve hizalama raporu](reports/AUDIT_RECHECK_6FA9C49_REMEDIATION_20261025.md) — su bağlam artığının `foraging::value` ölçeğiyle tam hizalanması, konfigürasyondan bağımsız dinamik snapshot ve RNG ayrışması, statik harita inleri metadata kaydı ve ceset çürümesi zamanlamasının tam kapanış kanıtı.

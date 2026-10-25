@@ -75,8 +75,9 @@ dağıtım ve karar kanıtları ilgili raporlarda korunur; eski kayıtları silm
   sabit protokol, sınırlı kaynak ve bağımsız denetimle başlar; aynı sonucu
   tekrarlamayın veya sonuçtan sonra eşiği/parametreyi ayarlamayın.
 - Dalga 1–6 motor geliştirmeleri, Wave 7 düzeltmeleri, Wave 8 tam kapanış
-  doğrulamaları ve Wave 9 yeniden denetim kapanışları tamamlandı: `ca5971b`, `2002ee4` ve
-  `6fa9c49` bağımsız denetimlerinde tespit edilen bulgular eksiksiz kapatıldı. Su bağlam artığı
+  doğrulamaları, Wave 9 yeniden denetim kapanışları ve Wave 10 kanıt sınırı kapanışı ile
+  P3 ablasyon/K7 telemetrisi tamamlandı: `ca5971b`, `2002ee4`, `6fa9c49` ve `9c7d3f0` bağımsız
+  denetimlerinde tespit edilen bulgular ve dar kanıt sınırları eksiksiz kapatıldı. Su bağlam artığı
   `foraging::value` ile `(2*water - movement_energy - ticks) * 100 / ticks.max(1)` net fiziksel
   kalıntı ölçeğine tam hizalandı, baseline yokluğunda yapay artık üretilmedi ve başarısız su
   bölümlerinde hedef kaynak kontrolü sağlandı (P1/F1); sıradan etçil ve hepçillerin erişebildiği
@@ -85,11 +86,16 @@ dağıtım ve karar kanıtları ilgili raporlarda korunur; eski kayıtları silm
   haritadaki statik inlerin (`Cell::Burrow`) metadata kaydı (`Environment::from_map`), kış koruması,
   başarısız kazıda stamina koruması ve `World::dig_burrow` / `Environment::dig_burrow_on_map` ile
   `dig_burrow` API ayrımı sağlandı (F5); ceset enerjisi ilk tick (`remaining == 4`) korunup sonraki
-  3 tick boyunca (`remaining == 1..=3`) her tick 1 azalarak tabana indi ve sıfır tüketimde toksisite
-  muafiyeti korundu (F6); bağlam artığında i64 toplamı ve -1000..=1000 sınır doğrulaması sağlandı (F7);
-  konfigürasyondan bağımsız `DynamicWorldSnapshot` ve RNG ayrışması karşılaştırmasıyla 5'er seed'lik
-  iki ayrı grup (`[101..105]` ve `[201..205]`) üzerinde `Control (Flags Off)` vs `Treatment (Flags On)`
-  gerçek `World::tick` karşılaştırması ve 5 mekanizma için pozitif asserts kanıtlandı (P2/F8).
+  3 tick boyunca (`remaining == 1..=3`) her tick 1 azalarak tabana indi, `CorpseStage::Putrid`
+  varyant adlandırması hizalandı ve sıfır tüketimde toksisite muafiyeti korundu (F6); bağlam
+  artığında i64 toplamı ve -1000..=1000 sınır doğrulaması sağlandı (F7); konfigürasyondan bağımsız
+  `DynamicWorldSnapshot`, RNG ayrışması, yeni otonom kazılan inlerin (`treatment_newly_excavated_burrows_total`)
+  başlangıç statik inlerinden kesin ayrımı ve mükerrer sayım olmaksızın benzersiz yayımlanan sinyallerin
+  (`treatment_unique_signals_emitted_total`) pozitif assert'leri kanıtlandı (P2/F8).
+  P3 tekil özellik ablasyon matrisi (`tests/p3_multi_habitat_ablation.rs`) ile 3 habitat
+  × 5 held-out tohum (`301..=305`) × 7 kolda hedef mekanizmaların tam seçiciliği ve
+  izolasyonu doğrulandı; K7 Web Replay & Experience V19 çevre/beden telemetrisi
+  (`#env-telemetry`, `CuriousExperience.environment`) arayüze bağlandı.
   Epistemik sınır: Mekanizma ve `World::tick` entegrasyonu doğrulanmış olup,
   evrensel çok-habitatlı ekolojik üstünlük kanıtlanmamıştır / kapsam dışıdır
   ([AUDIT_CA5971B_20261025](docs/reports/AUDIT_CA5971B_20261025.md),
@@ -97,7 +103,9 @@ dağıtım ve karar kanıtları ilgili raporlarda korunur; eski kayıtları silm
   [AUDIT_RECHECK_2002EE4_20261025](docs/reports/AUDIT_RECHECK_2002EE4_20261025.md),
   [AUDIT_RECHECK_REMEDIATION_20261025](docs/reports/AUDIT_RECHECK_REMEDIATION_20261025.md),
   [AUDIT_RECHECK_6FA9C49_20261025](docs/reports/AUDIT_RECHECK_6FA9C49_20261025.md),
-  [AUDIT_RECHECK_6FA9C49_REMEDIATION_20261025](docs/reports/AUDIT_RECHECK_6FA9C49_REMEDIATION_20261025.md)).
+  [AUDIT_RECHECK_6FA9C49_REMEDIATION_20261025](docs/reports/AUDIT_RECHECK_6FA9C49_REMEDIATION_20261025.md),
+  [AUDIT_RECHECK_9C7D3F0_20261025](docs/reports/AUDIT_RECHECK_9C7D3F0_20261025.md),
+  [P3_ABLATION_AND_9C7D3F0_CLOSURE_20261025](docs/reports/P3_ABLATION_AND_9C7D3F0_CLOSURE_20261025.md)).
 
 Güncel sonuçlar ve tarihçe:
 
@@ -111,6 +119,8 @@ Güncel sonuçlar ve tarihçe:
 - [Wave 8: 2002ee4 yeniden denetim bulgularının (F1, F2, F5, F6, F8) tam kapanış raporu](docs/reports/AUDIT_RECHECK_REMEDIATION_20261025.md)
 - [6fa9c49 düzeltmelerinin bağımsız yeniden denetimi](docs/reports/AUDIT_RECHECK_6FA9C49_20261025.md)
 - [Wave 9: 6fa9c49 yeniden denetim bulgularının (P1/F1, P2/F8, F5, F6) tam kapanış ve hizalama raporu](docs/reports/AUDIT_RECHECK_6FA9C49_REMEDIATION_20261025.md)
+- [9c7d3f0 düzeltmelerinin bağımsız denetimi](docs/reports/AUDIT_RECHECK_9C7D3F0_20261025.md)
+- [Wave 10: P3 ablasyon ve 9c7d3f0 kanıt sınırı kapanış raporu](docs/reports/P3_ABLATION_AND_9C7D3F0_CLOSURE_20261025.md)
 - [P2/P3 ampirik protokol ve K8 denetimi (Tarihsel dondurulmuş rapor)](docs/reports/P2_P3_EMPIRICAL_AND_K8_AUDIT_20261025.md)
 - [Öğrenme sınırları ve sonraki adımlar](docs/LEARNING_NEXT.md)
 - [Güncel roadmap](docs/ROADMAP.md) · [doküman dizini](docs/README.md)
