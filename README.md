@@ -75,7 +75,8 @@ Yalnızca Markdown değişiklikleri Rust yeniden derlemesi gerektirmez.
 ## Belgeler
 
 - [Durum, öncelikler ve kabul kapıları](docs/ROADMAP.md)
-- [Belge dizini ve kaldırılan planların politikası](docs/README.md)
+- [Belge dizini](docs/README.md)
+- [Dokümantasyon standardı](docs/DOCUMENTATION_STANDARD.md)
 - [Kontrol ve işletim](docs/CONTROL.md)
 - [Öğrenme sözleşmesi](docs/LEARNING_NEXT.md)
 - [Arşiv bütçesi düzeltmesinin canlı dağıtım kanıtı](docs/reports/ARCHIVE_BUDGET_DEPLOYMENT_20261025.md)

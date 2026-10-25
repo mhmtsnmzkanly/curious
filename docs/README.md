@@ -3,6 +3,8 @@
 ## Başlangıç noktaları
 
 - [Ana README](../README.md): proje, yerel çalıştırma ve mimari sınırlar.
+- [Dokümantasyon standardı](DOCUMENTATION_STANDARD.md): belge rolleri, kanıt
+  dili ve bakım akışı.
 - [ROADMAP](ROADMAP.md): sekiz K1–K8 kategori, özgün 11 aşama, A–G yetenek
   izleri, güncel durum ve ortak kabul kapıları.
 - [TODO](../TODO.md): P0–P3 sıradaki işler.
@@ -57,7 +59,10 @@ yolunu gerektiren analizden önce arşiv indeksini
 geri yükleyin. Arşiv içeriği yerel hostta yoksa rapordaki hash/indeks bilgisi
 tek başına ham veriyi getirmez.
 
-## Belge düzenleme politikası
+## 25 Ekim belge sadeleştirmesi
+
+Genel bakım kuralları [dokümantasyon standardında](DOCUMENTATION_STANDARD.md)
+tanımlanır; aşağıdaki liste bu tarihteki temizlik kaydıdır.
 
 25 Ekim 2026'da giriş belgeleri kısaltıldı; ayrıntılı protokoller ve kanıt
 raporları korunur. Aşağıdaki eski plan özetlerinin güncel durumları ve sıradaki

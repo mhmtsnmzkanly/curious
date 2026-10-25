@@ -87,8 +87,11 @@ Güncel sonuçlar ve tarihçe:
 ## Kod, deney ve operasyon çalışma usulü
 
 - İşe başlamadan ilgili bağımsız skill'i okuyun: [skill kataloğu](.agents/skills/README.md).
-  Dört skill model/sağlayıcıdan bağımsızdır ve kullanıcı talimatını geçersiz
+  Beş skill model/sağlayıcıdan bağımsızdır ve kullanıcı talimatını geçersiz
   kılamaz.
+- Belge oluşturma/güncelleme için
+  [curious-documentation](.agents/skills/curious-documentation/SKILL.md) ve
+  [belgeleme standardını](docs/DOCUMENTATION_STANDARD.md) izleyin.
 - Ana kod sahibi olarak Luna6 kaynak/probe değişikliklerini kendi worktree'sinde
   yapar; root kaynakları, sınırları ve test kanıtını gözden geçirir. Bu iş bölümü
   kullanıcı tarafından değiştirilebilir.
