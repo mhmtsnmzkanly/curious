@@ -10,6 +10,7 @@ use super::{
 use crate::map::movement::{Direction, Position, Steps};
 use serde::{Deserialize, Serialize};
 use std::cmp::Ordering;
+use std::collections::VecDeque;
 
 pub const MAX_REFUGE_OUTCOMES: usize = 8;
 pub const MAX_REFUGE_EPISODES_PER_KEY: u32 = 1_000_000;
@@ -52,6 +53,101 @@ pub struct RefugeOutcome {
     pub safe_arrivals: u32,
     pub threat_damage: u64,
     pub movement_energy: u64,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+pub struct FirstIntervalRefugeRecord {
+    pub key: RefugeKey,
+    pub episodes: VecDeque<(usize, u16)>,
+    pub censored_count: usize,
+}
+
+pub fn record_first_interval_outcome(
+    records: &mut Vec<FirstIntervalRefugeRecord>,
+    key: RefugeKey,
+    outcome: Option<u16>,
+    tick: usize,
+) {
+    if let Some(record) = records.iter_mut().find(|r| r.key == key) {
+        if let Some(damage) = outcome {
+            if record.episodes.len() >= 8 {
+                record.episodes.pop_front();
+            }
+            record.episodes.push_back((tick, damage));
+        } else {
+            record.censored_count = record.censored_count.saturating_add(1);
+        }
+    } else {
+        if records.len() >= 16 {
+            if let Some((oldest_idx, _)) = records
+                .iter()
+                .enumerate()
+                .min_by_key(|(_, r)| r.episodes.back().map(|(t, _)| *t).unwrap_or(0))
+            {
+                records.remove(oldest_idx);
+            }
+        }
+        let mut episodes = VecDeque::with_capacity(8);
+        let censored_count = if let Some(damage) = outcome {
+            episodes.push_back((tick, damage));
+            0
+        } else {
+            1
+        };
+        records.push(FirstIntervalRefugeRecord {
+            key,
+            episodes,
+            censored_count,
+        });
+    }
+}
+
+pub fn expected_first_interval_damage(
+    records: &[FirstIntervalRefugeRecord],
+    key: &RefugeKey,
+) -> Option<f64> {
+    let record = records.iter().find(|r| r.key == *key)?;
+    if record.episodes.is_empty() {
+        return None;
+    }
+    let sum: u64 = record.episodes.iter().map(|(_, d)| *d as u64).sum();
+    Some(sum as f64 / record.episodes.len() as f64)
+}
+
+pub fn choose_refuge_by_first_interval(
+    records: &[FirstIntervalRefugeRecord],
+    keys: &[RefugeKey],
+) -> Option<usize> {
+    if keys.is_empty() {
+        return None;
+    }
+    keys.iter()
+        .enumerate()
+        .min_by(|(_, a), (_, b)| {
+            let dmg_a = expected_first_interval_damage(records, a);
+            let dmg_b = expected_first_interval_damage(records, b);
+            match (dmg_a, dmg_b) {
+                (Some(da), Some(db)) => da.partial_cmp(&db).unwrap_or(Ordering::Equal),
+                (Some(_), None) => Ordering::Less,
+                (None, Some(_)) => Ordering::Greater,
+                (None, None) => Ordering::Equal,
+            }
+            .then_with(|| {
+                let cens_a = records
+                    .iter()
+                    .find(|r| r.key == **a)
+                    .map(|r| r.censored_count)
+                    .unwrap_or(0);
+                let cens_b = records
+                    .iter()
+                    .find(|r| r.key == **b)
+                    .map(|r| r.censored_count)
+                    .unwrap_or(0);
+                cens_a.cmp(&cens_b)
+            })
+            .then_with(|| (a.endpoint.y, a.endpoint.x).cmp(&(b.endpoint.y, b.endpoint.x)))
+        })
+        .map(|(idx, _)| idx)
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
@@ -521,8 +617,15 @@ pub(crate) fn validate(memory: &Memory) -> crate::Result<()> {
     };
     let mut keys = std::collections::HashSet::new();
     let mut generalized_keys = std::collections::HashSet::new();
+    let mut first_interval_keys = std::collections::HashSet::new();
     if memory.refuge_outcomes.len() > MAX_REFUGE_OUTCOMES
         || memory.pending_refuge_closures.len() > 1
+        || memory.first_interval_outcomes.len() > 16
+        || memory.first_interval_outcomes.iter().any(|r| {
+            r.episodes.len() > 8
+                || !valid_key(&r.key)
+                || !first_interval_keys.insert(&r.key)
+        })
         || memory.refuge_outcomes.iter().any(|r| {
             r.completed == 0
                 || r.completed > MAX_REFUGE_EPISODES_PER_KEY

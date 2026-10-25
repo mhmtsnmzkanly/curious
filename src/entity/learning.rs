@@ -7,6 +7,18 @@ use super::{
 };
 use crate::{map::movement::Position, random::Random, simulation::SimulationEvent};
 use serde::{Deserialize, Serialize};
+use std::collections::VecDeque;
+
+pub type WaterLearner = Learner;
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+pub struct ContextWaterEntry {
+    pub pos: Position,
+    pub speed: u8,
+    pub move_energy_cost: u16,
+    pub last_seen_tick: usize,
+    pub observations: VecDeque<i32>,
+}
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Value {
     pub pos: Position,
@@ -26,6 +38,10 @@ pub struct Learner {
     /// Exact bounded correction sum/count for resolver-confirmed outcomes.
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub residuals: Vec<ResidualValue>,
+    #[serde(default, skip_serializing_if = "is_false")]
+    pub context_ttl_enabled: bool,
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub context_entries: Vec<ContextWaterEntry>,
 }
 fn updates_enabled() -> bool {
     true
@@ -39,6 +55,8 @@ impl Default for Learner {
             episode: None,
             last_episode: None,
             residuals: vec![],
+            context_ttl_enabled: false,
+            context_entries: vec![],
         }
     }
 }
@@ -420,6 +438,79 @@ impl Learner {
         }
         true
     }
+    pub fn prune_expired_context(&mut self, current_tick: usize) {
+        self.context_entries
+            .retain(|e| current_tick.saturating_sub(e.last_seen_tick) <= 48);
+    }
+
+    pub fn record_context_observation(
+        &mut self,
+        pos: Position,
+        speed: u8,
+        move_cost: u16,
+        tick: usize,
+        net_water_delta: i32,
+    ) {
+        if !self.context_ttl_enabled {
+            return;
+        }
+        self.prune_expired_context(tick);
+        if let Some(entry) = self
+            .context_entries
+            .iter_mut()
+            .find(|e| e.pos == pos && e.speed == speed && e.move_energy_cost == move_cost)
+        {
+            entry.last_seen_tick = tick;
+            if entry.observations.len() >= 4 {
+                entry.observations.pop_front();
+            }
+            entry.observations.push_back(net_water_delta);
+        } else {
+            if self.context_entries.len() >= 16 {
+                if let Some((oldest_idx, _)) = self
+                    .context_entries
+                    .iter()
+                    .enumerate()
+                    .min_by_key(|(_, e)| (e.last_seen_tick, e.pos.y, e.pos.x))
+                {
+                    self.context_entries.remove(oldest_idx);
+                }
+            }
+            let mut observations = VecDeque::with_capacity(4);
+            observations.push_back(net_water_delta);
+            self.context_entries.push(ContextWaterEntry {
+                pos,
+                speed,
+                move_energy_cost: move_cost,
+                last_seen_tick: tick,
+                observations,
+            });
+        }
+    }
+
+    pub fn predict_context_residual(
+        &self,
+        pos: Position,
+        current_speed: u8,
+        current_move_cost: u16,
+        current_tick: usize,
+    ) -> Option<i32> {
+        if !self.context_ttl_enabled {
+            return None;
+        }
+        let entry = self.context_entries.iter().find(|e| {
+            e.pos == pos
+                && e.speed == current_speed
+                && e.move_energy_cost == current_move_cost
+                && current_tick.saturating_sub(e.last_seen_tick) <= 48
+        })?;
+        if entry.observations.is_empty() {
+            return None;
+        }
+        let sum: i32 = entry.observations.iter().copied().sum();
+        Some(sum / entry.observations.len() as i32)
+    }
+
     pub fn validate(&self) -> crate::Result<()> {
         let valid_pos =
             |p: Position| p.x.unsigned_abs() <= 1_000_000 && p.y.unsigned_abs() <= 1_000_000;
@@ -457,6 +548,10 @@ impl Learner {
                 !(-1000..=1000).contains(&v.value)
                     || v.pos.x.unsigned_abs() > 1_000_000
                     || v.pos.y.unsigned_abs() > 1_000_000
+            })
+            || self.context_entries.len() > 16
+            || self.context_entries.iter().any(|e| {
+                !valid_pos(e.pos) || e.speed == 0 || e.move_energy_cost == 0 || e.observations.len() > 4
             })
         {
             return Err("learning bounds exceeded".into());

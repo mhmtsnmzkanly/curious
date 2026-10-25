@@ -31,9 +31,17 @@ pub use super::refuge_generalization::{
     GeneralizedRefugeKey, GeneralizedRefugeOutcome, MAX_GENERALIZED_REFUGE_OUTCOMES,
 };
 pub use super::refuge_learning::{
-    MAX_REFUGE_EPISODES_PER_KEY, MAX_REFUGE_OUTCOMES, PendingRefugeClosure, RefugeClosure,
-    RefugeEpisode, RefugeKey, RefugeOutcome,
+    FirstIntervalRefugeRecord, MAX_REFUGE_EPISODES_PER_KEY, MAX_REFUGE_OUTCOMES,
+    PendingRefugeClosure, RefugeClosure, RefugeEpisode, RefugeKey, RefugeOutcome,
 };
+
+#[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, Eq)]
+pub struct KnownSector {
+    pub sector_x: isize,
+    pub sector_y: isize,
+    pub last_visited_tick: usize,
+    pub visit_count: u32,
+}
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, Eq, Default)]
 pub enum RefugeLearningMode {
@@ -67,6 +75,14 @@ pub struct Memory {
     pub refuge_episode: Option<RefugeEpisode>,
     #[serde(default)]
     pub pending_refuge_closures: Vec<PendingRefugeClosure>,
+    #[serde(default, skip_serializing_if = "is_false")]
+    pub spatial_curiosity_enabled: bool,
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub known_sectors: Vec<KnownSector>,
+    #[serde(default, skip_serializing_if = "is_false")]
+    pub first_interval_refuge_enabled: bool,
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub first_interval_outcomes: Vec<super::refuge_learning::FirstIntervalRefugeRecord>,
 }
 impl Default for Memory {
     fn default() -> Self {
@@ -84,6 +100,10 @@ impl Default for Memory {
             refuge_generalized_outcomes: vec![],
             refuge_episode: None,
             pending_refuge_closures: vec![],
+            spatial_curiosity_enabled: false,
+            known_sectors: vec![],
+            first_interval_refuge_enabled: false,
+            first_interval_outcomes: vec![],
         }
     }
 }
@@ -117,7 +137,50 @@ impl Memory {
             self.refuge_episode = None;
             self.pending_refuge_closures
                 .retain(|closure| closure.episode.learning_mode == RefugeLearningMode::Generalized);
+            self.known_sectors.clear();
+            self.first_interval_outcomes.clear();
             return;
+        }
+        if self.spatial_curiosity_enabled {
+            self.known_sectors
+                .retain(|s| tick.saturating_sub(s.last_visited_tick) <= 120);
+
+            let mut sectors_to_visit = Vec::new();
+            sectors_to_visit.push((origin.x.div_euclid(4), origin.y.div_euclid(4)));
+            for (pos, _) in &view.cells {
+                let sec = (pos.x.div_euclid(4), pos.y.div_euclid(4));
+                if !sectors_to_visit.contains(&sec) {
+                    sectors_to_visit.push(sec);
+                }
+            }
+
+            for (sx, sy) in sectors_to_visit {
+                if let Some(s) = self
+                    .known_sectors
+                    .iter_mut()
+                    .find(|s| s.sector_x == sx && s.sector_y == sy)
+                {
+                    s.last_visited_tick = tick;
+                    s.visit_count = s.visit_count.saturating_add(1);
+                } else {
+                    if self.known_sectors.len() >= 16 {
+                        if let Some((oldest_idx, _)) = self
+                            .known_sectors
+                            .iter()
+                            .enumerate()
+                            .min_by_key(|(_, s)| (s.last_visited_tick, s.sector_y, s.sector_x))
+                        {
+                            self.known_sectors.remove(oldest_idx);
+                        }
+                    }
+                    self.known_sectors.push(KnownSector {
+                        sector_x: sx,
+                        sector_y: sy,
+                        last_visited_tick: tick,
+                        visit_count: 1,
+                    });
+                }
+            }
         }
         self.refuge_outcomes
             .retain(|r| tick.saturating_sub(r.last_observed_tick) <= 100);
@@ -444,12 +507,65 @@ impl Memory {
             )
         })
     }
+
+    pub fn curiosity_direction(
+        &self,
+        origin: Position,
+        view: &Perception,
+        life: &LifeState,
+        _tick: usize,
+    ) -> Option<Direction> {
+        if !self.spatial_curiosity_enabled {
+            return None;
+        }
+        if life.energy <= life.max_energy / 2
+            || life.water <= life.max_water / 2
+            || life.stamina <= life.max_stamina / 3
+        {
+            return None;
+        }
+        if !self.dangers.is_empty()
+            || view
+                .entities
+                .iter()
+                .any(|e| e.species == super::species::Species::Carnivore)
+        {
+            return None;
+        }
+        let cur_sx = origin.x.div_euclid(4);
+        let cur_sy = origin.y.div_euclid(4);
+
+        DIRECTION_ARRAY
+            .into_iter()
+            .filter(|d| view.directions.get(d).copied().unwrap_or(0) > 0)
+            .min_by_key(|d| {
+                let d_pos = Position::new(0, 0) + *d;
+                let target_sx = cur_sx + d_pos.x;
+                let target_sy = cur_sy + d_pos.y;
+                let (visited, last_visited, visits) = self
+                    .known_sectors
+                    .iter()
+                    .find(|s| s.sector_x == target_sx && s.sector_y == target_sy)
+                    .map(|s| (true, s.last_visited_tick, s.visit_count))
+                    .unwrap_or((false, 0, 0));
+                (
+                    visited,
+                    last_visited,
+                    visits,
+                    DIRECTION_ARRAY.iter().position(|x| x == d).unwrap(),
+                )
+            })
+    }
+
     pub fn validate(&self) -> crate::Result<()> {
         self.social.validate()?;
         super::refuge_learning::validate(self)?;
         if self.sites.len() > 32
             || self.dangers.len() > 8
             || self.companions.len() > 8
+            || self.known_sectors.len() > 16
+            || self.first_interval_outcomes.len() > 16
+            || self.first_interval_outcomes.iter().any(|r| r.episodes.len() > 8)
             || self
                 .companions
                 .iter()
