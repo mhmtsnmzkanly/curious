@@ -45,6 +45,13 @@ outcome; the observed arrival zeros cannot be treated as a complete damage
 sample. Expected damage therefore remains `Unknown` for every route. See the
 [baseline report](reports/REFUGE_RISK_BASELINE_V1.md) and its JSON evidence.
 
+The separately reviewed next step is a read-only extraction of each start's
+first complete resolver interval, not full-escape damage. Its protocol is
+[`REFUGE_FIRST_RESOLUTION_PROTOCOL`](REFUGE_FIRST_RESOLUTION_PROTOCOL.md).
+The extractor implementation is pending root review/freeze and has not been
+run on the raw capture; no predictor, learning state, or route output is
+approved by that protocol.
+
 The fixed nine-element feature vector uses continuous Q16 ratios from the
 choice-time observation: subject health, energy, and stamina relative to their
 maxima; threat distance relative to the subject's known vision range; perceived threat power
