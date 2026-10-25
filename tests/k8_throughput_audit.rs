@@ -7,13 +7,19 @@
 //!    running 250 ticks with day/night cycles, signals enabled, and injury capacity penalty.
 //!    Verifies bounded signal count (<= 64), bounded dangers (<= 8), bounded sites (<= 32),
 //!    and checkpoint JSON serialization size < 1MB.
-//! 2. P3: Fixed 5 held-out seeds [101, 102, 103, 104, 105] comparing:
-//!    - Water context-aligned residual candidate vs. unlearning baseline under drying schedule.
-//!    - First-interval refuge damage learner vs. unlearning baseline with positive vs. censored route.
-//! 3. P3: Fixed 5 held-out seeds [201, 202, 203, 204, 205] comparing:
-//!    - Local coordination 3-arm harness (ControlSolo vs UnverifiedIgnored vs VerifiedLocalCoordination).
-//!    - Ambush specialist vs Pursuit specialist predation performance.
-//!    - Carnivore vs Omnivore putrid corpse scavenging spoilage resistance and stock-flow conservation.
+//! 2. P3: Fixed 5 held-out seeds [101, 102, 103, 104, 105]:
+//!    - Genuine independent World::with_seed runs (80 ticks each) verifying deterministic
+//!      reproduction (world_a == world_b) and distinct pairwise RNG/state trajectories across seeds.
+//!    - Synthetic candidate mechanism checks (perturbed by seed):
+//!      * Water context-aligned residual candidate vs. unlearning baseline under drying schedule.
+//!      * First-interval refuge damage learner vs. unlearning baseline with positive vs. censored route.
+//! 3. P3: Fixed 5 held-out seeds [201, 202, 203, 204, 205]:
+//!    - Genuine independent World::with_seed runs (80 ticks each) verifying deterministic
+//!      reproduction (world_a == world_b) and distinct pairwise RNG/state trajectories across seeds.
+//!    - Synthetic candidate mechanism checks (perturbed by seed):
+//!      * Local coordination 3-arm harness (ControlSolo vs UnverifiedIgnored vs VerifiedLocalCoordination).
+//!      * Ambush specialist vs Pursuit specialist predation performance.
+//!      * Carnivore vs Omnivore putrid corpse scavenging spoilage resistance and stock-flow conservation.
 
 #[path = "../examples/support/water_context_residual_candidate.rs"]
 mod water_context_residual_candidate;
@@ -49,7 +55,8 @@ use refuge_first_interval_candidate::{
     Species as CandidateSpecies,
 };
 use local_coordination_candidate::{
-    run_coordination_harness, CoordinationArm,
+    choose_coordinated_step, process_local_alarm, resolve_alarm_call, AlarmPerception,
+    AlarmResolution, ArmMetrics, CoordinationArm, LocalAgent, LocalCoord, VerifiedAlarmEvent,
 };
 use ambush_predation_candidate::{
     resolve_attack, update_ambush_state, AmbushState, CoverKind,
@@ -223,6 +230,248 @@ fn k8_short_load_tick_throughput_and_memory_bounds_are_verified() {
     );
 }
 
+fn build_held_out_seed_entities(seed: u64) -> Vec<EntitySlot> {
+    let ox = (seed % 5) as isize - 2;
+    let oy = (seed % 3) as isize - 1;
+    vec![
+        EntitySlot::new(
+            1,
+            Position::new(-6 + ox, -6 + oy),
+            EntityPhase::Active,
+            EntityController::AI,
+            Box::new(HerbivoreEntity::default()),
+        ),
+        EntitySlot::new(
+            2,
+            Position::new(-3 + ox, -3 + oy),
+            EntityPhase::Active,
+            EntityController::AI,
+            Box::new(HerbivoreEntity::default()),
+        ),
+        EntitySlot::new(
+            3,
+            Position::new(4 + ox, 4 + oy),
+            EntityPhase::Active,
+            EntityController::AI,
+            Box::new(CarnivoreEntity::default()),
+        ),
+        EntitySlot::new(
+            4,
+            Position::new(6 + ox, 6 + oy),
+            EntityPhase::Active,
+            EntityController::AI,
+            Box::new(CarnivoreEntity::default()),
+        ),
+        EntitySlot::new(
+            5,
+            Position::new(ox, oy),
+            EntityPhase::Active,
+            EntityController::AI,
+            Box::new(OmnivoreEntity::default()),
+        ),
+        EntitySlot::new(
+            6,
+            Position::new(2 + ox, -2 + oy),
+            EntityPhase::Active,
+            EntityController::AI,
+            Box::new(OmnivoreEntity::default()),
+        ),
+    ]
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct WorldSeedRunResult {
+    pub seed: u64,
+    pub rng_state: u64,
+    pub active_entity_count: usize,
+    pub serialized_state: String,
+}
+
+fn run_verified_world_seed_trajectory(seed: u64, ticks: usize) -> WorldSeedRunResult {
+    let mut world_a = World::with_seed(-12, 12, -12, 12, build_held_out_seed_entities(seed), seed);
+    world_a.logger = curious::logger::Logger::disabled();
+
+    let mut world_b = World::with_seed(-12, 12, -12, 12, build_held_out_seed_entities(seed), seed);
+    world_b.logger = curious::logger::Logger::disabled();
+
+    for _ in 0..ticks {
+        world_a.tick();
+        world_b.tick();
+    }
+
+    // Exact state and RNG reproduction for the fixed seed
+    assert_eq!(
+        world_a.rng.state(),
+        world_b.rng.state(),
+        "RNG state mismatch on identical seed {}",
+        seed
+    );
+    let state_a = State::capture(&world_a);
+    let state_b = State::capture(&world_b);
+    assert_eq!(
+        serde_json::to_value(&state_a).unwrap(),
+        serde_json::to_value(&state_b).unwrap(),
+        "State checkpoint mismatch on identical seed {}",
+        seed
+    );
+
+    let active_count = world_a
+        .entities
+        .iter()
+        .filter(|s| s.phase == EntityPhase::Active)
+        .count();
+
+    WorldSeedRunResult {
+        seed,
+        rng_state: world_a.rng.state(),
+        active_entity_count: active_count,
+        serialized_state: serde_json::to_string(&state_a).unwrap(),
+    }
+}
+
+fn verify_distinct_world_trajectories(runs: &[WorldSeedRunResult]) {
+    for i in 0..runs.len() {
+        for j in (i + 1)..runs.len() {
+            assert_ne!(
+                runs[i].rng_state,
+                runs[j].rng_state,
+                "Distinct seeds {} and {} must produce distinct RNG states!",
+                runs[i].seed,
+                runs[j].seed
+            );
+            assert_ne!(
+                runs[i].serialized_state,
+                runs[j].serialized_state,
+                "Distinct seeds {} and {} must produce distinct World states!",
+                runs[i].seed,
+                runs[j].seed
+            );
+        }
+    }
+}
+
+fn run_coordination_harness_with_seed(
+    arm: CoordinationArm,
+    max_ticks: u32,
+    seed: u64,
+) -> ArmMetrics {
+    let threat_offset = (seed % 3) as i32;
+    let mut threat_pos = LocalCoord::new(8 + threat_offset, 0);
+
+    let initial_energy = 100 + (seed % 20) as u16;
+    let initial_stamina = 100 + (seed % 10) as u16;
+
+    // Focal agent starts at (0, 0), vision range 3
+    let mut focal = LocalAgent::new(1, LocalCoord::new(0, 0), initial_energy, initial_stamina, 3);
+
+    // Sender conspecific at (3, 0), vision range 5 (can see threat at dist <= 5)
+    let has_sender = arm != CoordinationArm::ControlSolo;
+    let mut sender = LocalAgent::new(2, LocalCoord::new(3, 0), initial_energy, initial_stamina, 5);
+
+    let mut min_threat_dist = focal.pos.chebyshev_distance(&threat_pos);
+    let mut focal_survived = true;
+
+    let mut alarms_emitted = 0;
+    let mut alarms_verified_paid = 0;
+    let mut alarms_perceived_by_focal = 0;
+    let mut alarms_rejected_or_unperceived = 0;
+
+    let initial_energy_focal = focal.energy;
+    let initial_stamina_focal = focal.stamina;
+    let initial_energy_sender = sender.energy;
+    let initial_stamina_sender = sender.stamina;
+
+    let energy_cost = 10 + (seed % 3) as u16;
+    let stamina_cost = 5 + (seed % 2) as u16;
+
+    let mut last_alarm: Option<VerifiedAlarmEvent> = None;
+
+    for tick in 0..max_ticks as u64 {
+        // 1. Sender evaluates threat if sender exists
+        if has_sender && sender.is_alive {
+            let dist_to_threat = sender.pos.chebyshev_distance(&threat_pos);
+            if dist_to_threat <= sender.vision_range {
+                alarms_emitted += 1;
+                let threat_sec = sender.pos.sector_to(&threat_pos);
+                match arm {
+                    CoordinationArm::VerifiedLocalCoordination => {
+                        if let AlarmResolution::Paid(evt) =
+                            resolve_alarm_call(&mut sender, threat_sec, energy_cost, stamina_cost, tick)
+                        {
+                            alarms_verified_paid += 1;
+                            last_alarm = Some(evt);
+                        }
+                    }
+                    CoordinationArm::UnverifiedIgnored => {
+                        last_alarm = Some(VerifiedAlarmEvent {
+                            sender_id: sender.id,
+                            sender_pos: sender.pos,
+                            threat_sector: threat_sec,
+                            tick,
+                            paid_energy: 0,
+                            paid_stamina: 0,
+                            is_paid: false,
+                        });
+                    }
+                    CoordinationArm::ControlSolo => {}
+                }
+            }
+        }
+
+        // 2. Focal agent evaluates perception and decides step
+        let perceived = if let Some(ref alarm) = last_alarm {
+            let p = process_local_alarm(&focal, alarm, tick);
+            match p {
+                AlarmPerception::Perceived { .. } => {
+                    alarms_perceived_by_focal += 1;
+                    Some(p)
+                }
+                _ => {
+                    alarms_rejected_or_unperceived += 1;
+                    None
+                }
+            }
+        } else {
+            None
+        };
+
+        // Default foraging/wandering intent is East (sector 2) towards (8, 0)
+        let default_sector = 2;
+        let chosen_sector = choose_coordinated_step(&mut focal, perceived.as_ref(), default_sector);
+        focal.pos = focal.pos.step_in_sector(chosen_sector);
+        focal.energy = focal.energy.saturating_sub(1);
+
+        // Threat moves 1 step West towards focal
+        threat_pos.x -= 1;
+
+        let current_dist = focal.pos.chebyshev_distance(&threat_pos);
+        if current_dist < min_threat_dist {
+            min_threat_dist = current_dist;
+        }
+
+        // Threat attack radius is 1
+        if current_dist <= 1 {
+            focal_survived = false;
+            focal.is_alive = false;
+            break;
+        }
+    }
+
+    ArmMetrics {
+        arm,
+        focal_survived,
+        min_threat_distance_to_focal: min_threat_dist,
+        total_energy_spent_focal: initial_energy_focal.saturating_sub(focal.energy),
+        total_stamina_spent_focal: initial_stamina_focal.saturating_sub(focal.stamina),
+        total_energy_spent_sender: initial_energy_sender.saturating_sub(sender.energy),
+        total_stamina_spent_sender: initial_stamina_sender.saturating_sub(sender.stamina),
+        alarms_emitted,
+        alarms_verified_paid,
+        alarms_perceived_by_focal,
+        alarms_rejected_or_unperceived,
+    }
+}
+
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct WaterCandidateSeedComparison {
     pub seed: u64,
@@ -246,28 +495,43 @@ pub struct RefugeFirstIntervalSeedComparison {
 fn p3_held_out_seeds_water_context_and_first_interval_refuge_comparison() {
     let seeds = [101u64, 102, 103, 104, 105];
 
+    // --- Part 1: Genuine Independent World Runs Across Held-Out Seeds ---
+    let mut world_runs = Vec::new();
+    for &seed in &seeds {
+        let run = run_verified_world_seed_trajectory(seed, 80);
+        world_runs.push(run);
+    }
+    // Verify that every distinct seed produced a genuinely distinct World & RNG trajectory
+    verify_distinct_world_trajectories(&world_runs);
+
+    // --- Part 2: Synthetic Candidate Mechanism Checks (Perturbed by Seed) ---
     let mut water_results = Vec::new();
     let mut refuge_results = Vec::new();
 
     let speed = 2u8;
     let cost = 1u8;
-    let pos_dry = (10, 0); // Source A (closer/higher initial baseline, but dries up)
-    let pos_wet = (0, 15); // Source B (further/lower initial baseline, stays reliable)
-    let key_dry = WaterContextKey::new(pos_dry, speed, cost).unwrap();
-    let key_wet = WaterContextKey::new(pos_wet, speed, cost).unwrap();
 
     for &seed in &seeds {
-        // --- 1. Water Candidate Comparison ---
+        // 1. Water Candidate Synthetic Mechanism Check (positions and baselines perturbed by seed)
         let mut table = WaterContextResidualTable::new(true, true);
+        let offset_x = (seed % 7) as i32 - 3;
+        let offset_y = (seed % 5) as i32 - 2;
+        let pos_dry = (10 + offset_x, offset_y);
+        let pos_wet = (offset_x, 15 + offset_y);
+        let base_dry = 450 + (seed % 20) as i64;
+        let base_wet = 340 + (seed % 15) as i64;
+        let key_dry = WaterContextKey::new(pos_dry, speed, cost).unwrap();
+        let key_wet = WaterContextKey::new(pos_wet, speed, cost).unwrap();
+
         let candidates = vec![
             WaterCandidateInput {
                 source_pos: pos_dry,
-                choice_baseline: 450,
+                choice_baseline: base_dry,
                 steps_len: 4,
             },
             WaterCandidateInput {
                 source_pos: pos_wet,
-                choice_baseline: 340,
+                choice_baseline: base_wet,
                 steps_len: 5,
             },
         ];
@@ -316,7 +580,7 @@ fn p3_held_out_seeds_water_context_and_first_interval_refuge_comparison() {
                         WaterAttemptOutcome::FailedMissingResource {
                             movement_energy: 8,
                             ticks: 4,
-                            choice_baseline: 450,
+                            choice_baseline: base_dry,
                             target_verified: true,
                         },
                         tick,
@@ -329,7 +593,7 @@ fn p3_held_out_seeds_water_context_and_first_interval_refuge_comparison() {
                             water_gained: 20,
                             movement_energy: 8,
                             ticks: 4,
-                            choice_baseline: 450,
+                            choice_baseline: base_dry,
                         },
                         tick,
                     );
@@ -342,7 +606,7 @@ fn p3_held_out_seeds_water_context_and_first_interval_refuge_comparison() {
                         water_gained: 20,
                         movement_energy: 10,
                         ticks: 5,
-                        choice_baseline: 340,
+                        choice_baseline: base_wet,
                     },
                     tick,
                 );
@@ -358,8 +622,11 @@ fn p3_held_out_seeds_water_context_and_first_interval_refuge_comparison() {
             candidate_switches_to_alt: candidate_switches,
         });
 
-        // --- 2. Refuge First-Interval Candidate Comparison ---
+        // 2. Refuge First-Interval Candidate Synthetic Mechanism Check (endpoints and damage perturbed by seed)
         let mut learner = FirstIntervalLearner::with_enabled(seed as usize, true, true);
+
+        let endpoint_route1 = (8 + (seed % 5) as i32, (seed % 3) as i32);
+        let endpoint_route2 = ((seed % 3) as i32, 8 + (seed % 5) as i32);
 
         // Candidate 0: Route straight into danger bearing (threat damage 20 + seed % 4)
         let key_route1 = FirstIntervalKey {
@@ -368,25 +635,24 @@ fn p3_held_out_seeds_water_context_and_first_interval_refuge_comparison() {
             threat_bearing_sector: 2,
             threat_distance_steps: 1,
             first_step_sector: 2,
-            endpoint: (8, 0),
+            endpoint: endpoint_route1,
             subject_speed: 2,
         };
 
-        // Candidate 1: Perpendicular evasion (threat damage 4, but route later censored at tick 3+)
+        // Candidate 1: Perpendicular evasion (threat damage 4 + seed % 2, later censored at tick 3+)
         let key_route2 = FirstIntervalKey {
             subject_species: CandidateSpecies::Herbivore,
             threat_species: CandidateSpecies::Carnivore,
             threat_bearing_sector: 2,
             threat_distance_steps: 1,
             first_step_sector: 0,
-            endpoint: (0, 8),
+            endpoint: endpoint_route2,
             subject_speed: 2,
         };
 
         let route1_dmg = 20 + (seed % 4);
-        let route2_dmg = 4;
+        let route2_dmg = 4 + (seed % 2);
 
-        // Record Route 1: completed first interval with high damage
         learner.record_episode(
             seed as usize,
             key_route1,
@@ -398,7 +664,6 @@ fn p3_held_out_seeds_water_context_and_first_interval_refuge_comparison() {
             1,
         );
 
-        // Record Route 2: completed first interval with low damage, later censored on full route
         learner.record_episode(
             seed as usize,
             key_route2,
@@ -418,15 +683,14 @@ fn p3_held_out_seeds_water_context_and_first_interval_refuge_comparison() {
 
         refuge_results.push(RefugeFirstIntervalSeedComparison {
             seed,
-            baseline_chosen_candidate: 0, // Uninformed baseline chooses index 0
-            learner_chosen_candidate: ranked_order[0], // Learner prioritizes lower damage (index 1)
+            baseline_chosen_candidate: 0,
+            learner_chosen_candidate: ranked_order[0],
             route1_expected_damage: exp_dmg_1,
             route2_expected_damage: exp_dmg_2,
         });
     }
 
     // Verify all seeds in Water Candidate Comparison:
-    // Candidate achieves strictly more water gained than baseline and switches to alternative
     for res in &water_results {
         assert!(
             res.candidate_water_gained > res.baseline_water_gained,
@@ -451,7 +715,6 @@ fn p3_held_out_seeds_water_context_and_first_interval_refuge_comparison() {
     }
 
     // Verify all seeds in Refuge First-Interval Comparison:
-    // Learner correctly prioritizes Candidate 1 (Route 2) with lower damage (4.0 < 20..23)
     for res in &refuge_results {
         assert_eq!(
             res.learner_chosen_candidate, 1,
@@ -467,6 +730,7 @@ fn p3_held_out_seeds_water_context_and_first_interval_refuge_comparison() {
         );
     }
 
+    println!("World Runs (Seeds 101-105): {:?}", world_runs);
     println!("Water Results: {:?}", water_results);
     println!("Refuge Results: {:?}", refuge_results);
 }
@@ -499,14 +763,24 @@ pub struct NicheSpecializationSeedComparison {
 fn p3_held_out_seeds_local_coordination_and_niche_comparison() {
     let seeds = [201u64, 202, 203, 204, 205];
 
+    // --- Part 1: Genuine Independent World Runs Across Held-Out Seeds ---
+    let mut world_runs = Vec::new();
+    for &seed in &seeds {
+        let run = run_verified_world_seed_trajectory(seed, 80);
+        world_runs.push(run);
+    }
+    // Verify that every distinct seed produced a genuinely distinct World & RNG trajectory
+    verify_distinct_world_trajectories(&world_runs);
+
+    // --- Part 2: Synthetic Candidate Mechanism Checks (Perturbed by Seed) ---
     let mut coord_results = Vec::new();
     let mut niche_results = Vec::new();
 
     for &seed in &seeds {
-        // --- 1. Local Coordination 3-Arm Comparison ---
-        let solo = run_coordination_harness(CoordinationArm::ControlSolo, 8);
-        let unverified = run_coordination_harness(CoordinationArm::UnverifiedIgnored, 8);
-        let verified = run_coordination_harness(CoordinationArm::VerifiedLocalCoordination, 8);
+        // 1. Local Coordination 3-Arm Synthetic Mechanism Check (energy/stamina/threat perturbed by seed)
+        let solo = run_coordination_harness_with_seed(CoordinationArm::ControlSolo, 8, seed);
+        let unverified = run_coordination_harness_with_seed(CoordinationArm::UnverifiedIgnored, 8, seed);
+        let verified = run_coordination_harness_with_seed(CoordinationArm::VerifiedLocalCoordination, 8, seed);
 
         // Assert strictly distinct arm behaviors
         assert!(!solo.focal_survived);
@@ -532,7 +806,7 @@ fn p3_held_out_seeds_local_coordination_and_niche_comparison() {
             verified_sender_energy_spent: verified.total_energy_spent_sender,
         });
 
-        // --- 2. Ambush vs Pursuit Specialization ---
+        // 2. Ambush vs Pursuit Specialization Synthetic Mechanism Check (stamina/energy/base damage perturbed by seed)
         let genome_ambush = Genome {
             mobility: 0,
             vision: 1,
@@ -544,19 +818,22 @@ fn p3_held_out_seeds_local_coordination_and_niche_comparison() {
             stamina: 1,
         };
 
+        let initial_energy = 30 + (seed % 7) as usize;
+        let initial_stamina = 20 + (seed % 5) as usize;
+
         let mut predator_ambush = PredatorState {
             id: 101,
             pos: (5, 5),
-            energy: 30,
-            stamina: 20,
+            energy: initial_energy,
+            stamina: initial_stamina,
             ambush_state: AmbushState::None,
             specialization_profile: SpecializationProfile::from_genome(&genome_ambush),
         };
         let mut predator_pursuit = PredatorState {
             id: 102,
             pos: (5, 5),
-            energy: 30,
-            stamina: 20,
+            energy: initial_energy,
+            stamina: initial_stamina,
             ambush_state: AmbushState::None,
             specialization_profile: SpecializationProfile::from_genome(&genome_pursuit),
         };
@@ -574,12 +851,14 @@ fn p3_held_out_seeds_local_coordination_and_niche_comparison() {
         update_ambush_state(&mut predator_ambush, true, Some(CoverKind::Burrow));
         update_ambush_state(&mut predator_pursuit, true, Some(CoverKind::Burrow));
 
-        // Base attack: damage 10, stamina cost 3
-        let atk_ambush = resolve_attack(&mut predator_ambush, 10, 3).unwrap();
-        let atk_pursuit = resolve_attack(&mut predator_pursuit, 10, 3).unwrap();
+        // Base attack: damage 10 + (seed % 4), stamina cost 3 + (seed % 2)
+        let base_damage = 10 + (seed % 4) as usize;
+        let base_stamina_cost = 3 + (seed % 2) as usize;
+        let atk_ambush = resolve_attack(&mut predator_ambush, base_damage, base_stamina_cost).unwrap();
+        let atk_pursuit = resolve_attack(&mut predator_pursuit, base_damage, base_stamina_cost).unwrap();
 
-        // --- 3. Corpse Scavenging Niche Differentiation ---
-        let initial_corpse_energy = 100 + (seed as usize % 20);
+        // 3. Corpse Scavenging Niche Differentiation Synthetic Mechanism Check (initial energy & feeding perturbed by seed)
+        let initial_corpse_energy = 100 + (seed as usize % 30);
         let mut corpse = DecayingCorpse::new(seed as usize, Position::new(0, 0), initial_corpse_energy, 10);
 
         // Decay corpse until Putrid stage (< 30% remaining)
@@ -587,11 +866,12 @@ fn p3_held_out_seeds_local_coordination_and_niche_comparison() {
             corpse.decay_tick();
         }
 
+        let feed_amount = 10 + (seed as usize % 5);
         // Test Omnivore feeding (scavenger)
-        let omnivore_meal = corpse.feed(Species::Omnivore, 10).unwrap();
+        let omnivore_meal = corpse.feed(Species::Omnivore, feed_amount).unwrap();
 
         // Test Carnivore feeding (predator)
-        let carnivore_meal = corpse.feed(Species::Carnivore, 10).unwrap();
+        let carnivore_meal = corpse.feed(Species::Carnivore, feed_amount).unwrap();
 
         let audit = corpse.audit();
         assert!(audit.is_balanced());
@@ -616,8 +896,17 @@ fn p3_held_out_seeds_local_coordination_and_niche_comparison() {
         assert!(res.verified_sender_energy_spent >= 10);
     }
 
+    // Verify that coordination metrics across distinct seeds actually differ (perturbed by seed)
+    let any_distinct_energy = coord_results
+        .windows(2)
+        .any(|w| w[0].verified_sender_energy_spent != w[1].verified_sender_energy_spent);
+    assert!(
+        any_distinct_energy,
+        "Seed perturbation must produce distinct sender energy values across seeds"
+    );
+
     for res in &niche_results {
-        // Ambush specialist deals higher burst damage from ambush (14 vs 11)
+        // Ambush specialist deals higher burst damage from ambush (+4 vs +1 bonus)
         assert!(res.ambush_first_strike_damage > res.pursuit_first_strike_damage);
         // Ambush specialist provides higher stealth reduction (3 vs 1)
         assert!(res.ambush_stealth_reduction > res.pursuit_stealth_reduction);
@@ -628,6 +917,7 @@ fn p3_held_out_seeds_local_coordination_and_niche_comparison() {
         assert!(res.corpse_stock_flow_balanced);
     }
 
+    println!("World Runs (Seeds 201-205): {:?}", world_runs);
     println!("Coordination Results: {:?}", coord_results);
     println!("Niche Specialization Results: {:?}", niche_results);
 }
