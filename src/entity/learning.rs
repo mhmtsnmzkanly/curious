@@ -266,12 +266,15 @@ impl Learner {
                         0
                     };
                     let baseline = if residual_enabled || self.context_ttl_enabled {
-                        crate::entity::foraging::value(
-                            view.waters[*i].amount,
-                            view.waters[*i].steps.len(),
-                            life.expect("residual policy requires life state"),
-                            true,
-                        ) as i64
+                        life.map(|l| {
+                            crate::entity::foraging::value(
+                                view.waters[*i].amount,
+                                view.waters[*i].steps.len(),
+                                l,
+                                true,
+                            ) as i64
+                        })
+                        .unwrap_or(0)
                     } else {
                         0
                     };
@@ -298,14 +301,18 @@ impl Learner {
                 })
                 .unwrap()
         };
-        let choice_baseline = (residual_enabled || self.context_ttl_enabled).then(|| {
-            crate::entity::foraging::value(
-                view.waters[index].amount,
-                view.waters[index].steps.len(),
-                life.expect("residual policy requires life state"),
-                true,
-            ) as i64
-        });
+        let choice_baseline = (residual_enabled || self.context_ttl_enabled)
+            .then(|| {
+                life.map(|l| {
+                    crate::entity::foraging::value(
+                        view.waters[index].amount,
+                        view.waters[index].steps.len(),
+                        l,
+                        true,
+                    ) as i64
+                })
+            })
+            .flatten();
         self.episode = Some(WaterEpisode {
             target: positions[index],
             ticks: 0,
@@ -321,6 +328,21 @@ impl Learner {
             },
             Reason::LearnedWater,
         )
+    }
+
+    /// Computes the physical residual in the exact same unit/scale as foraging choice baseline.
+    pub fn episode_physical_residual(result: &WaterResult) -> Option<i32> {
+        if !matches!(result.end, WaterEnd::Reached | WaterEnd::Failed)
+            || result.attempt.outcome_overflowed
+            || result.attempt.candidate_censored
+        {
+            return None;
+        }
+        let net = (result.water as i64)
+            .saturating_sub(result.attempt.movement_energy as i64)
+            .saturating_sub(result.attempt.incoming_damage as i64);
+        let baseline = result.attempt.choice_baseline.unwrap_or(0) as i64;
+        Some((net - baseline).clamp(-1000, 1000) as i32)
     }
     /// A forced decision does not constitute evidence that a water source is bad.
     pub fn interrupt(&mut self, end: WaterEnd) {

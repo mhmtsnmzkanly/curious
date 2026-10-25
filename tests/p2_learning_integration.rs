@@ -3,7 +3,7 @@ use curious::{
     entity::{
         controller::EntityController,
         intent::Intent,
-        learning::{ContextWaterEntry, WaterLearner},
+        learning::{ContextWaterEntry, WaterEnd, WaterEpisode, WaterLearner, WaterResult},
         memory::{FirstIntervalRefugeRecord, KnownSector, Memory, RefugeKey},
         perception::{PerceivedEntity, Perception},
         phase::EntityPhase,
@@ -890,5 +890,160 @@ fn test_f7_context_overflow_validation_and_safe_sum() {
     assert_eq!(
         safe_learner.context_entries[0].observations[0], 1000,
         "record_context_observation must clamp i32::MAX to 1000"
+    );
+}
+
+/// Test 9: F1 recheck identical consecutive episodes are not skipped and use physical residual scale
+#[test]
+fn test_f1_recheck_identical_consecutive_episodes_are_not_skipped_and_use_physical_residual_scale() {
+    // 1. Direct unit tests of episode_physical_residual across outcomes and censoring
+    let make_result = |end: WaterEnd,
+                       water: usize,
+                       move_energy: usize,
+                       damage: usize,
+                       baseline: Option<i64>,
+                       overflowed: bool,
+                       censored: bool| {
+        WaterResult {
+            attempt: WaterEpisode {
+                target: Position::new(1, 0),
+                ticks: 1,
+                movement_energy: move_energy,
+                incoming_damage: damage,
+                choice_baseline: baseline,
+                outcome_overflowed: overflowed,
+                candidate_censored: censored,
+            },
+            water,
+            end,
+            reward: Some(123),
+        }
+    };
+
+    // Successful Reached outcome: net = 25 - 5 - 2 = 18; residual = 18 - 10 = 8
+    let res_reached = make_result(WaterEnd::Reached, 25, 5, 2, Some(10), false, false);
+    assert_eq!(
+        WaterLearner::episode_physical_residual(&res_reached),
+        Some(8),
+        "Physical residual must equal net outcome minus baseline"
+    );
+
+    // Missing resource / Failed outcome: net = 0 - 3 - 0 = -3; residual = -3 - 5 = -8
+    let res_failed = make_result(WaterEnd::Failed, 0, 3, 0, Some(5), false, false);
+    assert_eq!(
+        WaterLearner::episode_physical_residual(&res_failed),
+        Some(-8),
+        "Failed missing resource must compute physical residual from net loss"
+    );
+
+    // Non-qualifying ends return None
+    let res_interrupted = make_result(WaterEnd::Interrupted, 10, 0, 0, Some(5), false, false);
+    assert_eq!(WaterLearner::episode_physical_residual(&res_interrupted), None);
+    let res_timed_out = make_result(WaterEnd::TimedOut, 0, 10, 0, Some(5), false, false);
+    assert_eq!(WaterLearner::episode_physical_residual(&res_timed_out), None);
+
+    // Censored or overflowed attempts return None
+    let res_censored = make_result(WaterEnd::Reached, 25, 5, 2, Some(10), false, true);
+    assert_eq!(WaterLearner::episode_physical_residual(&res_censored), None);
+    let res_overflow = make_result(WaterEnd::Reached, 25, 5, 2, Some(10), true, false);
+    assert_eq!(WaterLearner::episode_physical_residual(&res_overflow), None);
+
+    // 2. Integration test in World::tick:
+    // Run two identical consecutive water-drinking episodes with the exact same
+    // water gain, movement energy, and ticks.
+    let mut herbivore = EntitySlot::new(
+        1,
+        Position::new(0, 0),
+        EntityPhase::Active,
+        EntityController::AI,
+        Box::new(HerbivoreEntity::default()),
+    );
+    herbivore.base.life_mut().water = 10;
+    herbivore.base.life_mut().energy = 70;
+    herbivore.learner.context_ttl_enabled = true;
+    herbivore.learner.update_enabled = true;
+
+    let mut world = World::with_seed(-5, 5, -5, 5, vec![herbivore], 100);
+    world.logger = Logger::disabled();
+    world.map = curious::map::Map::new(-5, 5, -5, 5);
+    world.map.set_cell(Position::new(1, 0), Cell::Water { amount: 1 });
+
+    // Tick 1: AI herbivore chooses (1, 0) and drinks 1 water
+    world.tick();
+
+    let ent = &world.entities[0];
+    let last_ep1 = ent
+        .learner
+        .last_episode
+        .as_ref()
+        .expect("Episode 1 must complete");
+    assert_eq!(last_ep1.water, 1);
+    assert_eq!(last_ep1.attempt.movement_energy, 0);
+    assert_eq!(last_ep1.attempt.incoming_damage, 0);
+    let baseline1 = last_ep1
+        .attempt
+        .choice_baseline
+        .expect("choice_baseline must be captured");
+    let net1 = last_ep1.water as i64
+        - last_ep1.attempt.movement_energy as i64
+        - last_ep1.attempt.incoming_damage as i64;
+    let expected_residual1 = (net1 - baseline1).clamp(-1000, 1000) as i32;
+
+    assert_eq!(
+        ent.learner.context_entries.len(),
+        1,
+        "First episode must create a context entry"
+    );
+    assert_eq!(
+        ent.learner.context_entries[0].observations.len(),
+        1,
+        "First episode must record exactly 1 observation"
+    );
+    assert_eq!(
+        ent.learner.context_entries[0].observations[0], expected_residual1,
+        "Observation 1 must equal the physical residual"
+    );
+    // Reinforcement reward would be: 1 * 10 - 0 * 2 - 0 = 10
+    let reward1 = last_ep1.reward.unwrap_or(0);
+    assert_ne!(
+        ent.learner.context_entries[0].observations[0], reward1,
+        "Context observation must be on the physical residual scale, NOT the reward scale"
+    );
+
+    // Setup identical conditions for Episode 2: reset water to 10 and map water cell to 1
+    world.entities[0].base.life_mut().water = 10;
+    world.entities[0].base.life_mut().energy = 70;
+    world.map.set_cell(Position::new(1, 0), Cell::Water { amount: 1 });
+
+    // Tick 2: AI herbivore drinks identical water at (1, 0)
+    world.tick();
+
+    let ent2 = &world.entities[0];
+    let last_ep2 = ent2
+        .learner
+        .last_episode
+        .as_ref()
+        .expect("Episode 2 must complete");
+    assert_eq!(last_ep2.water, 1);
+    assert_eq!(last_ep2.attempt.movement_energy, 0);
+    assert_eq!(last_ep2.attempt.incoming_damage, 0);
+    let baseline2 = last_ep2
+        .attempt
+        .choice_baseline
+        .expect("choice_baseline must be captured");
+    assert_eq!(
+        baseline1, baseline2,
+        "Identical conditions produce identical baseline"
+    );
+
+    // CRITICAL ASSERTION: The second identical episode MUST NOT be skipped!
+    assert_eq!(
+        ent2.learner.context_entries[0].observations.len(),
+        2,
+        "Identical consecutive episode MUST NOT be skipped; observations.len() must be 2"
+    );
+    assert_eq!(
+        ent2.learner.context_entries[0].observations[1], expected_residual1,
+        "Observation 2 must equal the exact same physical residual as observation 1"
     );
 }
