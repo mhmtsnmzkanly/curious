@@ -31,6 +31,34 @@ impl Logger {
         }
     }
 
+    /// Returns true if the logger does not write to stdout or file.
+    pub fn is_disabled(&self) -> bool {
+        !self.to_stdout && self.file.is_none()
+    }
+
+    /// Returns true if file logging is enabled.
+    pub fn is_file_enabled(&self) -> bool {
+        self.file.is_some()
+    }
+
+    /// Creates a logger that writes to a timestamped file in `dir`.
+    pub fn new_timestamped(dir: &str) -> Self {
+        let now = time::OffsetDateTime::now_utc();
+        let format =
+            time::format_description::parse("[year]-[month]-[day]_[hour]-[minute]-[second]")
+                .unwrap_or_else(|_| {
+                    time::format_description::parse("[year][month][day]_[hour][minute][second]")
+                        .unwrap()
+                });
+        let ts = now
+            .format(&format)
+            .unwrap_or_else(|_| "unknown_time".to_string());
+        let log_path = format!("{}/simulation_{}.log", dir.trim_end_matches('/'), ts);
+        let mut logger = Self::new(&log_path);
+        logger.set_min_level(LogLevel::Info);
+        logger
+    }
+
     /// Dosyaya log yazan logger üretir
     pub fn new(file_path: &str) -> Self {
         let file = Self::open_log_file(file_path);

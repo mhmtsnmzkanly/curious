@@ -64,8 +64,9 @@ fn main() {
         ),
     ];
     // İnteraktif dünya
-    let mut engine =
-        curious::simulation::SimulationEngine::new(World::new(-15, 14, -15, 14, entities));
+    let mut world = World::new(-15, 14, -15, 14, entities);
+    world.enable_timestamped_file_logger();
+    let mut engine = curious::simulation::SimulationEngine::new(world);
     // İnteraktif dünya sayacı
     loop {
         // 1. Simülasyon adımı işlet ve olayları topla

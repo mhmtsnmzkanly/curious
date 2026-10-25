@@ -57,21 +57,6 @@ impl World {
         let mut map = Map::new(x1, x2, y1, y2);
         map.populate_resources(0.05f32, &mut rng);
 
-        let now = time::OffsetDateTime::now_utc();
-        let format =
-            time::format_description::parse("[year]-[month]-[day]_[hour]-[minute]-[second]")
-                .unwrap_or_else(|_| {
-                    time::format_description::parse("[year][month][day]_[hour][minute][second]")
-                        .unwrap()
-                });
-        let ts = now
-            .format(&format)
-            .unwrap_or_else(|_| "unknown_time".to_string());
-        let log_path = format!("logs/simulation_{}.log", ts);
-
-        let mut logger = Logger::new(&log_path);
-        logger.set_min_level(LogLevel::Info);
-
         let next_entity_id = entities.iter().map(|s| s.id).max().unwrap_or(0) + 1;
         let environment = crate::environment::Environment::from_map(&map);
         World {
@@ -87,9 +72,14 @@ impl World {
             map,
             entities,
             tick_counter: 0,
-            logger,
+            logger: Logger::disabled(),
             command_inputs: HashMap::new(),
         }
+    }
+
+    /// Enables a timestamped file logger writing to `logs/simulation_<timestamp>.log`.
+    pub fn enable_timestamped_file_logger(&mut self) {
+        self.logger = Logger::new_timestamped("logs");
     }
 
     /// Dışarıdan bir birim için komut ekler.
@@ -345,5 +335,79 @@ impl ActionPlans {
         rotate(&mut self.attacks, tick);
         rotate(&mut self.flees, tick);
         rotate(&mut self.sleeps, tick);
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn world_with_seed_initializes_disabled_logger_without_leaking_log_files() {
+        let logs_path = std::path::Path::new("logs");
+        let initial_count = if logs_path.exists() {
+            std::fs::read_dir(logs_path).unwrap().count()
+        } else {
+            0
+        };
+
+        let mut world = World::with_seed(-5, 5, -5, 5, Vec::new(), 42);
+        assert!(world.logger.is_disabled());
+        assert!(!world.logger.is_file_enabled());
+
+        let _ = world.tick();
+        assert!(world.logger.is_disabled());
+
+        let after_count = if logs_path.exists() {
+            std::fs::read_dir(logs_path).unwrap().count()
+        } else {
+            0
+        };
+
+        assert_eq!(initial_count, after_count, "World::with_seed must not leak files to logs/");
+    }
+
+    #[test]
+    fn world_new_initializes_disabled_logger_without_leaking_log_files() {
+        let logs_path = std::path::Path::new("logs");
+        let initial_count = if logs_path.exists() {
+            std::fs::read_dir(logs_path).unwrap().count()
+        } else {
+            0
+        };
+
+        let mut world = World::new(-4, 4, -4, 4, Vec::new());
+        assert!(world.logger.is_disabled());
+        assert!(!world.logger.is_file_enabled());
+
+        let _ = world.tick();
+
+        let after_count = if logs_path.exists() {
+            std::fs::read_dir(logs_path).unwrap().count()
+        } else {
+            0
+        };
+
+        assert_eq!(initial_count, after_count, "World::new must not leak files to logs/");
+    }
+
+    #[test]
+    fn enable_timestamped_file_logger_creates_log_file() {
+        let mut world = World::with_seed(-5, 5, -5, 5, Vec::new(), 42);
+        assert!(world.logger.is_disabled());
+
+        let temp_dir = tempfile::tempdir().expect("tempdir");
+        world.logger = Logger::new_timestamped(temp_dir.path().to_str().unwrap());
+        assert!(world.logger.is_file_enabled());
+        assert!(!world.logger.is_disabled());
+
+        let entries: Vec<_> = std::fs::read_dir(temp_dir.path())
+            .expect("read_dir")
+            .filter_map(|e| e.ok())
+            .collect();
+        assert_eq!(entries.len(), 1);
+        let name = entries[0].file_name().to_string_lossy().into_owned();
+        assert!(name.starts_with("simulation_"));
+        assert!(name.ends_with(".log"));
     }
 }
