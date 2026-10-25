@@ -96,8 +96,8 @@ Raporlar: [full-route risk baseline V1](reports/REFUGE_RISK_BASELINE_V1.md),
 
 ## Pure residual ve öğrenme adaylarının durumu
 
-Depoda iki saf (pure) mekanizma prototipi yer alır ve deterministik mekanizma
-testleri geçmiştir (`Mekanizma testi geçti`):
+Depoda geliştirilen saf (pure) mekanizma prototipleri ve deterministik fizik
+testleri başarıyla tamamlanmıştır (`Mekanizma testi geçti`):
 
 1. **Per-owner ilk-aralık sığınak hasarı adayı:**
    [`REFUGE_RESIDUAL_CANDIDATE`](REFUGE_RESIDUAL_CANDIDATE.md) ve
@@ -109,10 +109,44 @@ testleri geçmiştir (`Mekanizma testi geçti`):
 2. **Bağlam-uyumlu ve pencere/TTL kısıtlı su artığı adayı:**
    `examples/support/water_context_residual_candidate.rs` ve
    `tests/water_context_residual.rs` içindeki mekanizma prototipi. Güncel beden
-   bağlamı (ör. susuzluk derecesi) ve zaman penceresi (TTL) ile eski deneyimin
-   uyuşmama riskini sınar. Bounded utility ampirik kabulü değildir.
+   bağlamı (ör. susuzluk derecesi, hız/maliyet) ve zaman penceresi (TTL) ile eski
+   deneyimin uyuşmama riskini sınar. Bounded utility ampirik kabulü değildir.
+3. **Mekânsal zihin haritası ve merak güdümlü keşif adayı (Yeni Özellik 1):**
+   `examples/support/spatial_curiosity_candidate.rs` ve
+   `tests/spatial_curiosity.rs` içindeki prototip. Sınırlı 16 sektörlü `4x4`
+   ızgara, TTL eskime ve keşfedilmemiş/en eski sektörlere merak yönelimi sınar.
+4. **Ontogenetik yavru fizyolojisi ve ebeveyn bakımı adayı (Yeni Özellik 2):**
+   `examples/support/juvenile_parental_care_candidate.rs` ve
+   `tests/juvenile_parental_care.rs` içindeki prototip. `age < maturity_age`
+   ölçekli fizyolojiyi, `FeedOffspring` enerji aktarımını, `GuardOffspring` hasar
+   engellemesini ve sıfır bellek aktarımı kuralını doğrular.
+5. **Pusu / gizlenme vs. takip avcılığı adayı (Yeni Özellik 3):**
+   `examples/support/ambush_predation_candidate.rs` ve
+   `tests/ambush_predation.rs` içindeki prototip. Örtü tabanlı gizlenme
+   (`effective_detectability_radius` düşüşü), ilk vuruş stamina bonusu ve
+   takip vs. pusu allel ödünleşimini sınar.
+6. **Dinamik habitat adayı (Yeni Özellik 4):**
+   `examples/support/dynamic_habitat_candidate.rs` ve
+   `tests/dynamic_habitat.rs` içindeki prototip. Kazılan in/bozulma
+   (`DigBurrow`/`BurrowDecay`), aşırı otlama (`Overgrazing`) ve tohum yayılımı
+   (`SeedDispersal`) kapalı stok-akış muhasebesini doğrular.
+7. **Mevsimsel iklim ve kış uykusu adayı (Yeni Özellik 5):**
+   `examples/support/seasonal_climate_candidate.rs` ve
+   `tests/seasonal_climate.rs` içindeki prototip. Deterministik 4 mevsim çevrimi
+   (`SeasonCycle`), kış termoregülasyon ek maliyeti ve inde kış uykusu
+   (`Hibernation`) mekanizmalarını doğrular.
+8. **Ceset çürümesi ve leşçillik nişi adayı (Yeni Özellik 6):**
+   `examples/support/corpse_scavenging_candidate.rs` ve
+   `tests/corpse_scavenging.rs` içindeki prototip. Kademeli çürüme evreleri
+   (`Fresh`/`Aging`/`Putrid`), leş kokusu yayılımı ve etçil vs. hepçil bozulma
+   direnci niş ayrımını doğrular.
+9. **Yerel alarm ve akran koordinasyonu adayı:**
+   `examples/support/local_coordination_candidate.rs` ve
+   `tests/local_coordination.rs` içindeki prototip. Yerel alarm çağrısı
+   (`EmitAlarmCall`) ve görünür akran koordinasyonu (`AlignWithVisiblePeer`),
+   ödenen resolver bedeli ve 3 kollu kontrol/solo/grup deneyini sınar.
 
-Her iki saf aday prototipi de **default-off ve unintegrated** kalır: World
+Tüm bu saf aday prototipleri **default-off ve unintegrated** kalır: World
 kararına, resolver'a, learner belleğine, checkpoint'e veya RNG'ye
 bağlanmamıştır. Bu mekanizma testleri route seçimi yararını, biyolojik/ekolojik
 üstünlüğü ya da üretim entegrasyonu kabulünü göstermez.

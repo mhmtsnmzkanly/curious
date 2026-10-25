@@ -44,6 +44,12 @@ kendi kaynak, seed, süre ve yorum sınırlarını belirtir. Öne çıkanlar:
 [WATER_RESIDUAL_PROTOCOL](WATER_RESIDUAL_PROTOCOL.md). Protokol ya da ham veri
 kimliği sonuç çıktıktan sonra sessizce değiştirilmez.
 
+Saf mekanizma prototipleri (`examples/support/`) ve deterministik fizik testleri
+(`tests/`) K1–K7 kategorilerinde ve 7 Yeni Özellik kapsamında geliştirilmiş
+olup motor çekirdeğinden izole ve varsayılan kapalıdır; ayrıntılar
+[LEARNING_NEXT](LEARNING_NEXT.md), [ROADMAP](ROADMAP.md) ve [TODO](../TODO.md)
+içindedir.
+
 Protokoller sabitlenmiş ölçüm tasarımlarını, raporlar ise tarihli kanıt ve
 sınırlarını anlatır; ikisi de güncel servis işletim talimatlarının yerine
 geçmez. Canlı kontrol ve operasyon için [CONTROL](CONTROL.md) kullanılır.
