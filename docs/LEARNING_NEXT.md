@@ -5,6 +5,10 @@ Bu belge V19 geliştirme kaynağındaki öğrenme sınırlarını ve eldeki sonu
 Yaş ödülü, yavruya deneyim aktarımı, genel amaçlı sinir ağı veya kabul edilmiş
 refuge-risk modeli yoktur.
 
+## Son su uyum ölçümü
+
+[V2 labı](reports/WATER_ADAPTATION_V2_20261025.md), gıda erişimi ayrılmış fixture’da deneyimli-online, frozen ve learner tabloları sıfırlanmış online kolların aynı fiziksel yörüngeyi ürettiğini gösterdi. Ek deneyim faydası kabul edilmedi; öğrenici politikasının kurallı politikadan farkı, öğrenme etkisi sayılmaz. Bir formal seed eğitim fırsatı bakımından düşük desteklidir. Ham sonuçlar ve kapsam sınırı rapordadır; V1’in başarısız kalibrasyonu korunur.
+
 ## Değişmeyen fiziksel sözleşme
 
 - Öğrenme bireyin kendi gözlem ve kendi kimlikli çözücü deneyimine dayanır.

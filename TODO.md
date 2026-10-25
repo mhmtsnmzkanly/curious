@@ -1,6 +1,8 @@
 # Sonraki işler — 25 Ekim 2026
 
-Su uyum labı V1: [kalibrasyon geçersiz](docs/reports/WATER_ADAPTATION_V1_20261025.md). Sonraki tasarım, su kararından ayrı gıda erişim kilitlenmesini gidermeli; mevcut koşudan öğrenme faydası çıkarılmamalı. Formal seedler çalıştırılmadı.
+Güncel V2: [Su uyum ölçümü](docs/reports/WATER_ADAPTATION_V2_20261025.md) tamamlandı. Gıda erişimi ayrıldı; online/frozen/naive yörüngeleri eşit. Sonraki tanı, artık sinyalinin güncel foraging skoruna neden ek bilgi katmadığı olmalı; aynı lab otomatik uzatılmamalı.
+
+V1’in [geçersiz kalibrasyonu](docs/reports/WATER_ADAPTATION_V1_20261025.md) korunur; gıda erişimi sınırı ayrı V2 fixture’ında ayrıştırıldı. V1’den öğrenme faydası çıkarılmaz.
 
 Güncel karar: [kabul tanısı](docs/reports/QUALIFICATION_DIAGNOSTIC_20261025.md) paket için uzun-ufuk Pareto üstünlüğü göstermedi. Canlıya taşıma adımı açık kalır; eski toplu PASS tek başına yeterli değildir.
 

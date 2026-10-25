@@ -26,6 +26,8 @@ Kategorilere doğrudan git: [K1 Dünya ve çevre](ROADMAP.md#dunya-cevre),
 
 ## Güncel kanıt
 
+- [Su uyum labı V2](reports/WATER_ADAPTATION_V2_20261025.md) — kalibrasyon ve formal tamamlandı; deneyimin ek davranış/fayda şahidi bulunmadı.
+
 - [Su uyum labı V1 kalibrasyonu](reports/WATER_ADAPTATION_V1_20261025.md) — birey fork öncesi öldü; formal çalıştırılmadı, fayda sonucu yok.
 
 - [Seed başına kabul ve V12/V19 köprü tanısı](reports/QUALIFICATION_DIAGNOSTIC_20261025.md) — uzun ufukta paket ödünleşimli; canlı geçiş kabul edilmedi.

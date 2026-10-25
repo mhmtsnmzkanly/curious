@@ -1,0 +1,1893 @@
+{
+  "status": "completed_no_learning_utility_witness",
+  "source": "dd7c65d",
+  "calibration_seed": 62299,
+  "formal_seeds": [
+    62201,
+    62202,
+    62203,
+    62204,
+    62205,
+    62206
+  ],
+  "valid_formal_seeds": [
+    62201,
+    62202,
+    62203,
+    62204,
+    62205
+  ],
+  "low_support_formal_seeds": [
+    62206
+  ],
+  "world_ticks": 7000,
+  "fixture_test_world_ticks": 2,
+  "formal": {
+    "phase": "formal",
+    "pilot_valid": null,
+    "schema": "water-adaptation-analysis-v2",
+    "seeds": [
+      {
+        "fresh_two_source_counts": {
+          "naive_online": 10,
+          "prefix": 5,
+          "rule_based": 8,
+          "trained_frozen": 10,
+          "trained_online": 10
+        },
+        "metrics": {
+          "naive_online": {
+            "alive_ticks": 200,
+            "dehydration_ticks": 0,
+            "first_successful_drink_b_after_fork": {
+              "censor_reason": null,
+              "censored": false,
+              "lag_ticks": 6,
+              "observed": true,
+              "observed_suffix_ticks": 200
+            },
+            "movement_energy": 164,
+            "terminal": {
+              "alive": true,
+              "energy": 66,
+              "health": 120,
+              "water": 48
+            },
+            "thirst_ticks": 0,
+            "water_acquired": 198
+          },
+          "rule_based": {
+            "alive_ticks": 200,
+            "dehydration_ticks": 0,
+            "first_successful_drink_b_after_fork": {
+              "censor_reason": null,
+              "censored": false,
+              "lag_ticks": 6,
+              "observed": true,
+              "observed_suffix_ticks": 200
+            },
+            "movement_energy": 152,
+            "terminal": {
+              "alive": true,
+              "energy": 68,
+              "health": 120,
+              "water": 47
+            },
+            "thirst_ticks": 0,
+            "water_acquired": 197
+          },
+          "trained_frozen": {
+            "alive_ticks": 200,
+            "dehydration_ticks": 0,
+            "first_successful_drink_b_after_fork": {
+              "censor_reason": null,
+              "censored": false,
+              "lag_ticks": 6,
+              "observed": true,
+              "observed_suffix_ticks": 200
+            },
+            "movement_energy": 164,
+            "terminal": {
+              "alive": true,
+              "energy": 66,
+              "health": 120,
+              "water": 48
+            },
+            "thirst_ticks": 0,
+            "water_acquired": 198
+          },
+          "trained_online": {
+            "alive_ticks": 200,
+            "dehydration_ticks": 0,
+            "first_successful_drink_b_after_fork": {
+              "censor_reason": null,
+              "censored": false,
+              "lag_ticks": 6,
+              "observed": true,
+              "observed_suffix_ticks": 200
+            },
+            "movement_energy": 164,
+            "terminal": {
+              "alive": true,
+              "energy": 66,
+              "health": 120,
+              "water": 48
+            },
+            "thirst_ticks": 0,
+            "water_acquired": 198
+          }
+        },
+        "online_frozen_choice_witness": {
+          "reason": "no_matched_fresh_choice_with_different_target",
+          "status": "not_established"
+        },
+        "pareto": {
+          "naive_online": {
+            "rule_based": {
+              "components_at_least_as_good": {
+                "alive_ticks": true,
+                "dehydration_ticks": true,
+                "movement_energy": false,
+                "terminal_energy": false,
+                "terminal_health": true,
+                "terminal_water": true,
+                "thirst_ticks": true,
+                "water_acquired": true
+              },
+              "pareto_dominates": false
+            },
+            "trained_frozen": {
+              "components_at_least_as_good": {
+                "alive_ticks": true,
+                "dehydration_ticks": true,
+                "movement_energy": true,
+                "terminal_energy": true,
+                "terminal_health": true,
+                "terminal_water": true,
+                "thirst_ticks": true,
+                "water_acquired": true
+              },
+              "pareto_dominates": false
+            }
+          },
+          "trained_online": {
+            "rule_based": {
+              "components_at_least_as_good": {
+                "alive_ticks": true,
+                "dehydration_ticks": true,
+                "movement_energy": false,
+                "terminal_energy": false,
+                "terminal_health": true,
+                "terminal_water": true,
+                "thirst_ticks": true,
+                "water_acquired": true
+              },
+              "pareto_dominates": false
+            },
+            "trained_frozen": {
+              "components_at_least_as_good": {
+                "alive_ticks": true,
+                "dehydration_ticks": true,
+                "movement_energy": true,
+                "terminal_energy": true,
+                "terminal_health": true,
+                "terminal_water": true,
+                "thirst_ticks": true,
+                "water_acquired": true
+              },
+              "pareto_dominates": false
+            }
+          }
+        },
+        "pilot_valid": true,
+        "role": "formal",
+        "seed": 62201,
+        "validity": {
+          "all_required_branches_present": true,
+          "common_fork_state_after_censor": true,
+          "focal_alive_at_fork": true,
+          "frozen_tables_stable": true,
+          "post_treatment_body_memory_map_rng_equal_when_learner_removed": true,
+          "prefix_fresh_two_source_choices_at_least_5": true,
+          "trained_context_entries_at_fork_at_least_1": true,
+          "trained_frozen_suffix_choices_at_least_3": true,
+          "trained_online_suffix_choices_at_least_3": true
+        }
+      },
+      {
+        "fresh_two_source_counts": {
+          "naive_online": 4,
+          "prefix": 6,
+          "rule_based": 8,
+          "trained_frozen": 4,
+          "trained_online": 4
+        },
+        "metrics": {
+          "naive_online": {
+            "alive_ticks": 200,
+            "dehydration_ticks": 0,
+            "first_successful_drink_b_after_fork": {
+              "censor_reason": null,
+              "censored": false,
+              "lag_ticks": 9,
+              "observed": true,
+              "observed_suffix_ticks": 200
+            },
+            "movement_energy": 147,
+            "terminal": {
+              "alive": true,
+              "energy": 60,
+              "health": 120,
+              "water": 52
+            },
+            "thirst_ticks": 0,
+            "water_acquired": 199
+          },
+          "rule_based": {
+            "alive_ticks": 200,
+            "dehydration_ticks": 0,
+            "first_successful_drink_b_after_fork": {
+              "censor_reason": null,
+              "censored": false,
+              "lag_ticks": 9,
+              "observed": true,
+              "observed_suffix_ticks": 200
+            },
+            "movement_energy": 150,
+            "terminal": {
+              "alive": true,
+              "energy": 57,
+              "health": 120,
+              "water": 50
+            },
+            "thirst_ticks": 0,
+            "water_acquired": 197
+          },
+          "trained_frozen": {
+            "alive_ticks": 200,
+            "dehydration_ticks": 0,
+            "first_successful_drink_b_after_fork": {
+              "censor_reason": null,
+              "censored": false,
+              "lag_ticks": 9,
+              "observed": true,
+              "observed_suffix_ticks": 200
+            },
+            "movement_energy": 147,
+            "terminal": {
+              "alive": true,
+              "energy": 60,
+              "health": 120,
+              "water": 52
+            },
+            "thirst_ticks": 0,
+            "water_acquired": 199
+          },
+          "trained_online": {
+            "alive_ticks": 200,
+            "dehydration_ticks": 0,
+            "first_successful_drink_b_after_fork": {
+              "censor_reason": null,
+              "censored": false,
+              "lag_ticks": 9,
+              "observed": true,
+              "observed_suffix_ticks": 200
+            },
+            "movement_energy": 147,
+            "terminal": {
+              "alive": true,
+              "energy": 60,
+              "health": 120,
+              "water": 52
+            },
+            "thirst_ticks": 0,
+            "water_acquired": 199
+          }
+        },
+        "online_frozen_choice_witness": {
+          "reason": "no_matched_fresh_choice_with_different_target",
+          "status": "not_established"
+        },
+        "pareto": {
+          "naive_online": {
+            "rule_based": {
+              "components_at_least_as_good": {
+                "alive_ticks": true,
+                "dehydration_ticks": true,
+                "movement_energy": true,
+                "terminal_energy": true,
+                "terminal_health": true,
+                "terminal_water": true,
+                "thirst_ticks": true,
+                "water_acquired": true
+              },
+              "pareto_dominates": true
+            },
+            "trained_frozen": {
+              "components_at_least_as_good": {
+                "alive_ticks": true,
+                "dehydration_ticks": true,
+                "movement_energy": true,
+                "terminal_energy": true,
+                "terminal_health": true,
+                "terminal_water": true,
+                "thirst_ticks": true,
+                "water_acquired": true
+              },
+              "pareto_dominates": false
+            }
+          },
+          "trained_online": {
+            "rule_based": {
+              "components_at_least_as_good": {
+                "alive_ticks": true,
+                "dehydration_ticks": true,
+                "movement_energy": true,
+                "terminal_energy": true,
+                "terminal_health": true,
+                "terminal_water": true,
+                "thirst_ticks": true,
+                "water_acquired": true
+              },
+              "pareto_dominates": true
+            },
+            "trained_frozen": {
+              "components_at_least_as_good": {
+                "alive_ticks": true,
+                "dehydration_ticks": true,
+                "movement_energy": true,
+                "terminal_energy": true,
+                "terminal_health": true,
+                "terminal_water": true,
+                "thirst_ticks": true,
+                "water_acquired": true
+              },
+              "pareto_dominates": false
+            }
+          }
+        },
+        "pilot_valid": true,
+        "role": "formal",
+        "seed": 62202,
+        "validity": {
+          "all_required_branches_present": true,
+          "common_fork_state_after_censor": true,
+          "focal_alive_at_fork": true,
+          "frozen_tables_stable": true,
+          "post_treatment_body_memory_map_rng_equal_when_learner_removed": true,
+          "prefix_fresh_two_source_choices_at_least_5": true,
+          "trained_context_entries_at_fork_at_least_1": true,
+          "trained_frozen_suffix_choices_at_least_3": true,
+          "trained_online_suffix_choices_at_least_3": true
+        }
+      },
+      {
+        "fresh_two_source_counts": {
+          "naive_online": 8,
+          "prefix": 6,
+          "rule_based": 8,
+          "trained_frozen": 8,
+          "trained_online": 8
+        },
+        "metrics": {
+          "naive_online": {
+            "alive_ticks": 200,
+            "dehydration_ticks": 0,
+            "first_successful_drink_b_after_fork": {
+              "censor_reason": null,
+              "censored": false,
+              "lag_ticks": 15,
+              "observed": true,
+              "observed_suffix_ticks": 200
+            },
+            "movement_energy": 176,
+            "terminal": {
+              "alive": true,
+              "energy": 64,
+              "health": 120,
+              "water": 47
+            },
+            "thirst_ticks": 0,
+            "water_acquired": 193
+          },
+          "rule_based": {
+            "alive_ticks": 200,
+            "dehydration_ticks": 0,
+            "first_successful_drink_b_after_fork": {
+              "censor_reason": null,
+              "censored": false,
+              "lag_ticks": 15,
+              "observed": true,
+              "observed_suffix_ticks": 200
+            },
+            "movement_energy": 182,
+            "terminal": {
+              "alive": true,
+              "energy": 68,
+              "health": 120,
+              "water": 45
+            },
+            "thirst_ticks": 0,
+            "water_acquired": 191
+          },
+          "trained_frozen": {
+            "alive_ticks": 200,
+            "dehydration_ticks": 0,
+            "first_successful_drink_b_after_fork": {
+              "censor_reason": null,
+              "censored": false,
+              "lag_ticks": 15,
+              "observed": true,
+              "observed_suffix_ticks": 200
+            },
+            "movement_energy": 176,
+            "terminal": {
+              "alive": true,
+              "energy": 64,
+              "health": 120,
+              "water": 47
+            },
+            "thirst_ticks": 0,
+            "water_acquired": 193
+          },
+          "trained_online": {
+            "alive_ticks": 200,
+            "dehydration_ticks": 0,
+            "first_successful_drink_b_after_fork": {
+              "censor_reason": null,
+              "censored": false,
+              "lag_ticks": 15,
+              "observed": true,
+              "observed_suffix_ticks": 200
+            },
+            "movement_energy": 176,
+            "terminal": {
+              "alive": true,
+              "energy": 64,
+              "health": 120,
+              "water": 47
+            },
+            "thirst_ticks": 0,
+            "water_acquired": 193
+          }
+        },
+        "online_frozen_choice_witness": {
+          "reason": "no_matched_fresh_choice_with_different_target",
+          "status": "not_established"
+        },
+        "pareto": {
+          "naive_online": {
+            "rule_based": {
+              "components_at_least_as_good": {
+                "alive_ticks": true,
+                "dehydration_ticks": true,
+                "movement_energy": true,
+                "terminal_energy": false,
+                "terminal_health": true,
+                "terminal_water": true,
+                "thirst_ticks": true,
+                "water_acquired": true
+              },
+              "pareto_dominates": false
+            },
+            "trained_frozen": {
+              "components_at_least_as_good": {
+                "alive_ticks": true,
+                "dehydration_ticks": true,
+                "movement_energy": true,
+                "terminal_energy": true,
+                "terminal_health": true,
+                "terminal_water": true,
+                "thirst_ticks": true,
+                "water_acquired": true
+              },
+              "pareto_dominates": false
+            }
+          },
+          "trained_online": {
+            "rule_based": {
+              "components_at_least_as_good": {
+                "alive_ticks": true,
+                "dehydration_ticks": true,
+                "movement_energy": true,
+                "terminal_energy": false,
+                "terminal_health": true,
+                "terminal_water": true,
+                "thirst_ticks": true,
+                "water_acquired": true
+              },
+              "pareto_dominates": false
+            },
+            "trained_frozen": {
+              "components_at_least_as_good": {
+                "alive_ticks": true,
+                "dehydration_ticks": true,
+                "movement_energy": true,
+                "terminal_energy": true,
+                "terminal_health": true,
+                "terminal_water": true,
+                "thirst_ticks": true,
+                "water_acquired": true
+              },
+              "pareto_dominates": false
+            }
+          }
+        },
+        "pilot_valid": true,
+        "role": "formal",
+        "seed": 62203,
+        "validity": {
+          "all_required_branches_present": true,
+          "common_fork_state_after_censor": true,
+          "focal_alive_at_fork": true,
+          "frozen_tables_stable": true,
+          "post_treatment_body_memory_map_rng_equal_when_learner_removed": true,
+          "prefix_fresh_two_source_choices_at_least_5": true,
+          "trained_context_entries_at_fork_at_least_1": true,
+          "trained_frozen_suffix_choices_at_least_3": true,
+          "trained_online_suffix_choices_at_least_3": true
+        }
+      },
+      {
+        "fresh_two_source_counts": {
+          "naive_online": 7,
+          "prefix": 7,
+          "rule_based": 11,
+          "trained_frozen": 7,
+          "trained_online": 7
+        },
+        "metrics": {
+          "naive_online": {
+            "alive_ticks": 200,
+            "dehydration_ticks": 0,
+            "first_successful_drink_b_after_fork": {
+              "censor_reason": null,
+              "censored": false,
+              "lag_ticks": 9,
+              "observed": true,
+              "observed_suffix_ticks": 200
+            },
+            "movement_energy": 161,
+            "terminal": {
+              "alive": true,
+              "energy": 49,
+              "health": 120,
+              "water": 37
+            },
+            "thirst_ticks": 0,
+            "water_acquired": 190
+          },
+          "rule_based": {
+            "alive_ticks": 200,
+            "dehydration_ticks": 0,
+            "first_successful_drink_b_after_fork": {
+              "censor_reason": null,
+              "censored": false,
+              "lag_ticks": 9,
+              "observed": true,
+              "observed_suffix_ticks": 200
+            },
+            "movement_energy": 144,
+            "terminal": {
+              "alive": true,
+              "energy": 66,
+              "health": 120,
+              "water": 50
+            },
+            "thirst_ticks": 0,
+            "water_acquired": 203
+          },
+          "trained_frozen": {
+            "alive_ticks": 200,
+            "dehydration_ticks": 0,
+            "first_successful_drink_b_after_fork": {
+              "censor_reason": null,
+              "censored": false,
+              "lag_ticks": 9,
+              "observed": true,
+              "observed_suffix_ticks": 200
+            },
+            "movement_energy": 161,
+            "terminal": {
+              "alive": true,
+              "energy": 49,
+              "health": 120,
+              "water": 37
+            },
+            "thirst_ticks": 0,
+            "water_acquired": 190
+          },
+          "trained_online": {
+            "alive_ticks": 200,
+            "dehydration_ticks": 0,
+            "first_successful_drink_b_after_fork": {
+              "censor_reason": null,
+              "censored": false,
+              "lag_ticks": 9,
+              "observed": true,
+              "observed_suffix_ticks": 200
+            },
+            "movement_energy": 161,
+            "terminal": {
+              "alive": true,
+              "energy": 49,
+              "health": 120,
+              "water": 37
+            },
+            "thirst_ticks": 0,
+            "water_acquired": 190
+          }
+        },
+        "online_frozen_choice_witness": {
+          "reason": "no_matched_fresh_choice_with_different_target",
+          "status": "not_established"
+        },
+        "pareto": {
+          "naive_online": {
+            "rule_based": {
+              "components_at_least_as_good": {
+                "alive_ticks": true,
+                "dehydration_ticks": true,
+                "movement_energy": false,
+                "terminal_energy": false,
+                "terminal_health": true,
+                "terminal_water": false,
+                "thirst_ticks": true,
+                "water_acquired": false
+              },
+              "pareto_dominates": false
+            },
+            "trained_frozen": {
+              "components_at_least_as_good": {
+                "alive_ticks": true,
+                "dehydration_ticks": true,
+                "movement_energy": true,
+                "terminal_energy": true,
+                "terminal_health": true,
+                "terminal_water": true,
+                "thirst_ticks": true,
+                "water_acquired": true
+              },
+              "pareto_dominates": false
+            }
+          },
+          "trained_online": {
+            "rule_based": {
+              "components_at_least_as_good": {
+                "alive_ticks": true,
+                "dehydration_ticks": true,
+                "movement_energy": false,
+                "terminal_energy": false,
+                "terminal_health": true,
+                "terminal_water": false,
+                "thirst_ticks": true,
+                "water_acquired": false
+              },
+              "pareto_dominates": false
+            },
+            "trained_frozen": {
+              "components_at_least_as_good": {
+                "alive_ticks": true,
+                "dehydration_ticks": true,
+                "movement_energy": true,
+                "terminal_energy": true,
+                "terminal_health": true,
+                "terminal_water": true,
+                "thirst_ticks": true,
+                "water_acquired": true
+              },
+              "pareto_dominates": false
+            }
+          }
+        },
+        "pilot_valid": true,
+        "role": "formal",
+        "seed": 62204,
+        "validity": {
+          "all_required_branches_present": true,
+          "common_fork_state_after_censor": true,
+          "focal_alive_at_fork": true,
+          "frozen_tables_stable": true,
+          "post_treatment_body_memory_map_rng_equal_when_learner_removed": true,
+          "prefix_fresh_two_source_choices_at_least_5": true,
+          "trained_context_entries_at_fork_at_least_1": true,
+          "trained_frozen_suffix_choices_at_least_3": true,
+          "trained_online_suffix_choices_at_least_3": true
+        }
+      },
+      {
+        "fresh_two_source_counts": {
+          "naive_online": 5,
+          "prefix": 6,
+          "rule_based": 9,
+          "trained_frozen": 5,
+          "trained_online": 5
+        },
+        "metrics": {
+          "naive_online": {
+            "alive_ticks": 200,
+            "dehydration_ticks": 0,
+            "first_successful_drink_b_after_fork": {
+              "censor_reason": null,
+              "censored": false,
+              "lag_ticks": 10,
+              "observed": true,
+              "observed_suffix_ticks": 200
+            },
+            "movement_energy": 219,
+            "terminal": {
+              "alive": true,
+              "energy": 66,
+              "health": 120,
+              "water": 51
+            },
+            "thirst_ticks": 0,
+            "water_acquired": 197
+          },
+          "rule_based": {
+            "alive_ticks": 200,
+            "dehydration_ticks": 0,
+            "first_successful_drink_b_after_fork": {
+              "censor_reason": null,
+              "censored": false,
+              "lag_ticks": 10,
+              "observed": true,
+              "observed_suffix_ticks": 200
+            },
+            "movement_energy": 180,
+            "terminal": {
+              "alive": true,
+              "energy": 65,
+              "health": 120,
+              "water": 50
+            },
+            "thirst_ticks": 0,
+            "water_acquired": 196
+          },
+          "trained_frozen": {
+            "alive_ticks": 200,
+            "dehydration_ticks": 0,
+            "first_successful_drink_b_after_fork": {
+              "censor_reason": null,
+              "censored": false,
+              "lag_ticks": 10,
+              "observed": true,
+              "observed_suffix_ticks": 200
+            },
+            "movement_energy": 219,
+            "terminal": {
+              "alive": true,
+              "energy": 66,
+              "health": 120,
+              "water": 51
+            },
+            "thirst_ticks": 0,
+            "water_acquired": 197
+          },
+          "trained_online": {
+            "alive_ticks": 200,
+            "dehydration_ticks": 0,
+            "first_successful_drink_b_after_fork": {
+              "censor_reason": null,
+              "censored": false,
+              "lag_ticks": 10,
+              "observed": true,
+              "observed_suffix_ticks": 200
+            },
+            "movement_energy": 219,
+            "terminal": {
+              "alive": true,
+              "energy": 66,
+              "health": 120,
+              "water": 51
+            },
+            "thirst_ticks": 0,
+            "water_acquired": 197
+          }
+        },
+        "online_frozen_choice_witness": {
+          "reason": "no_matched_fresh_choice_with_different_target",
+          "status": "not_established"
+        },
+        "pareto": {
+          "naive_online": {
+            "rule_based": {
+              "components_at_least_as_good": {
+                "alive_ticks": true,
+                "dehydration_ticks": true,
+                "movement_energy": false,
+                "terminal_energy": true,
+                "terminal_health": true,
+                "terminal_water": true,
+                "thirst_ticks": true,
+                "water_acquired": true
+              },
+              "pareto_dominates": false
+            },
+            "trained_frozen": {
+              "components_at_least_as_good": {
+                "alive_ticks": true,
+                "dehydration_ticks": true,
+                "movement_energy": true,
+                "terminal_energy": true,
+                "terminal_health": true,
+                "terminal_water": true,
+                "thirst_ticks": true,
+                "water_acquired": true
+              },
+              "pareto_dominates": false
+            }
+          },
+          "trained_online": {
+            "rule_based": {
+              "components_at_least_as_good": {
+                "alive_ticks": true,
+                "dehydration_ticks": true,
+                "movement_energy": false,
+                "terminal_energy": true,
+                "terminal_health": true,
+                "terminal_water": true,
+                "thirst_ticks": true,
+                "water_acquired": true
+              },
+              "pareto_dominates": false
+            },
+            "trained_frozen": {
+              "components_at_least_as_good": {
+                "alive_ticks": true,
+                "dehydration_ticks": true,
+                "movement_energy": true,
+                "terminal_energy": true,
+                "terminal_health": true,
+                "terminal_water": true,
+                "thirst_ticks": true,
+                "water_acquired": true
+              },
+              "pareto_dominates": false
+            }
+          }
+        },
+        "pilot_valid": true,
+        "role": "formal",
+        "seed": 62205,
+        "validity": {
+          "all_required_branches_present": true,
+          "common_fork_state_after_censor": true,
+          "focal_alive_at_fork": true,
+          "frozen_tables_stable": true,
+          "post_treatment_body_memory_map_rng_equal_when_learner_removed": true,
+          "prefix_fresh_two_source_choices_at_least_5": true,
+          "trained_context_entries_at_fork_at_least_1": true,
+          "trained_frozen_suffix_choices_at_least_3": true,
+          "trained_online_suffix_choices_at_least_3": true
+        }
+      },
+      {
+        "fresh_two_source_counts": {
+          "naive_online": 9,
+          "prefix": 4,
+          "rule_based": 12,
+          "trained_frozen": 9,
+          "trained_online": 9
+        },
+        "metrics": {
+          "naive_online": {
+            "alive_ticks": 200,
+            "dehydration_ticks": 0,
+            "first_successful_drink_b_after_fork": {
+              "censor_reason": null,
+              "censored": false,
+              "lag_ticks": 15,
+              "observed": true,
+              "observed_suffix_ticks": 200
+            },
+            "movement_energy": 124,
+            "terminal": {
+              "alive": true,
+              "energy": 64,
+              "health": 120,
+              "water": 54
+            },
+            "thirst_ticks": 0,
+            "water_acquired": 201
+          },
+          "rule_based": {
+            "alive_ticks": 200,
+            "dehydration_ticks": 0,
+            "first_successful_drink_b_after_fork": {
+              "censor_reason": null,
+              "censored": false,
+              "lag_ticks": 15,
+              "observed": true,
+              "observed_suffix_ticks": 200
+            },
+            "movement_energy": 138,
+            "terminal": {
+              "alive": true,
+              "energy": 60,
+              "health": 120,
+              "water": 51
+            },
+            "thirst_ticks": 0,
+            "water_acquired": 198
+          },
+          "trained_frozen": {
+            "alive_ticks": 200,
+            "dehydration_ticks": 0,
+            "first_successful_drink_b_after_fork": {
+              "censor_reason": null,
+              "censored": false,
+              "lag_ticks": 15,
+              "observed": true,
+              "observed_suffix_ticks": 200
+            },
+            "movement_energy": 124,
+            "terminal": {
+              "alive": true,
+              "energy": 64,
+              "health": 120,
+              "water": 54
+            },
+            "thirst_ticks": 0,
+            "water_acquired": 201
+          },
+          "trained_online": {
+            "alive_ticks": 200,
+            "dehydration_ticks": 0,
+            "first_successful_drink_b_after_fork": {
+              "censor_reason": null,
+              "censored": false,
+              "lag_ticks": 15,
+              "observed": true,
+              "observed_suffix_ticks": 200
+            },
+            "movement_energy": 124,
+            "terminal": {
+              "alive": true,
+              "energy": 64,
+              "health": 120,
+              "water": 54
+            },
+            "thirst_ticks": 0,
+            "water_acquired": 201
+          }
+        },
+        "online_frozen_choice_witness": {
+          "reason": "no_matched_fresh_choice_with_different_target",
+          "status": "not_established"
+        },
+        "pareto": {
+          "naive_online": {
+            "rule_based": {
+              "components_at_least_as_good": {
+                "alive_ticks": true,
+                "dehydration_ticks": true,
+                "movement_energy": true,
+                "terminal_energy": true,
+                "terminal_health": true,
+                "terminal_water": true,
+                "thirst_ticks": true,
+                "water_acquired": true
+              },
+              "pareto_dominates": true
+            },
+            "trained_frozen": {
+              "components_at_least_as_good": {
+                "alive_ticks": true,
+                "dehydration_ticks": true,
+                "movement_energy": true,
+                "terminal_energy": true,
+                "terminal_health": true,
+                "terminal_water": true,
+                "thirst_ticks": true,
+                "water_acquired": true
+              },
+              "pareto_dominates": false
+            }
+          },
+          "trained_online": {
+            "rule_based": {
+              "components_at_least_as_good": {
+                "alive_ticks": true,
+                "dehydration_ticks": true,
+                "movement_energy": true,
+                "terminal_energy": true,
+                "terminal_health": true,
+                "terminal_water": true,
+                "thirst_ticks": true,
+                "water_acquired": true
+              },
+              "pareto_dominates": true
+            },
+            "trained_frozen": {
+              "components_at_least_as_good": {
+                "alive_ticks": true,
+                "dehydration_ticks": true,
+                "movement_energy": true,
+                "terminal_energy": true,
+                "terminal_health": true,
+                "terminal_water": true,
+                "thirst_ticks": true,
+                "water_acquired": true
+              },
+              "pareto_dominates": false
+            }
+          }
+        },
+        "pilot_valid": false,
+        "role": "formal",
+        "seed": 62206,
+        "validity": {
+          "all_required_branches_present": true,
+          "common_fork_state_after_censor": true,
+          "focal_alive_at_fork": true,
+          "frozen_tables_stable": true,
+          "post_treatment_body_memory_map_rng_equal_when_learner_removed": true,
+          "prefix_fresh_two_source_choices_at_least_5": false,
+          "trained_context_entries_at_fork_at_least_1": true,
+          "trained_frozen_suffix_choices_at_least_3": true,
+          "trained_online_suffix_choices_at_least_3": true
+        }
+      }
+    ],
+    "summary": {
+      "aggregate_componentwise_pareto_descriptive_only": {
+        "naive_online": {
+          "rule_based": {
+            "components_at_least_as_good": {
+              "alive_ticks": true,
+              "dehydration_ticks": true,
+              "movement_energy": false,
+              "terminal_energy": false,
+              "terminal_health": true,
+              "terminal_water": false,
+              "thirst_ticks": true,
+              "water_acquired": false
+            },
+            "pareto_dominates": false
+          },
+          "trained_frozen": {
+            "components_at_least_as_good": {
+              "alive_ticks": true,
+              "dehydration_ticks": true,
+              "movement_energy": true,
+              "terminal_energy": true,
+              "terminal_health": true,
+              "terminal_water": true,
+              "thirst_ticks": true,
+              "water_acquired": true
+            },
+            "pareto_dominates": false
+          }
+        },
+        "trained_frozen": {
+          "rule_based": {
+            "components_at_least_as_good": {
+              "alive_ticks": true,
+              "dehydration_ticks": true,
+              "movement_energy": false,
+              "terminal_energy": false,
+              "terminal_health": true,
+              "terminal_water": false,
+              "thirst_ticks": true,
+              "water_acquired": false
+            },
+            "pareto_dominates": false
+          }
+        },
+        "trained_online": {
+          "rule_based": {
+            "components_at_least_as_good": {
+              "alive_ticks": true,
+              "dehydration_ticks": true,
+              "movement_energy": false,
+              "terminal_energy": false,
+              "terminal_health": true,
+              "terminal_water": false,
+              "thirst_ticks": true,
+              "water_acquired": false
+            },
+            "pareto_dominates": false
+          },
+          "trained_frozen": {
+            "components_at_least_as_good": {
+              "alive_ticks": true,
+              "dehydration_ticks": true,
+              "movement_energy": true,
+              "terminal_energy": true,
+              "terminal_health": true,
+              "terminal_water": true,
+              "thirst_ticks": true,
+              "water_acquired": true
+            },
+            "pareto_dominates": false
+          }
+        }
+      },
+      "all_four_arms_full_suffix_alive_for_every_seed_descriptive": true,
+      "physical_totals_by_arm": {
+        "naive_online": {
+          "alive_ticks": 1200,
+          "all_full_suffix_alive": true,
+          "dehydration_ticks": 0,
+          "movement_energy": 991,
+          "terminal": {
+            "energy": 369,
+            "health": 720,
+            "water": 289
+          },
+          "thirst_ticks": 0,
+          "water_acquired": 1178
+        },
+        "rule_based": {
+          "alive_ticks": 1200,
+          "all_full_suffix_alive": true,
+          "dehydration_ticks": 0,
+          "movement_energy": 946,
+          "terminal": {
+            "energy": 384,
+            "health": 720,
+            "water": 293
+          },
+          "thirst_ticks": 0,
+          "water_acquired": 1182
+        },
+        "trained_frozen": {
+          "alive_ticks": 1200,
+          "all_full_suffix_alive": true,
+          "dehydration_ticks": 0,
+          "movement_energy": 991,
+          "terminal": {
+            "energy": 369,
+            "health": 720,
+            "water": 289
+          },
+          "thirst_ticks": 0,
+          "water_acquired": 1178
+        },
+        "trained_online": {
+          "alive_ticks": 1200,
+          "all_full_suffix_alive": true,
+          "dehydration_ticks": 0,
+          "movement_energy": 991,
+          "terminal": {
+            "energy": 369,
+            "health": 720,
+            "water": 289
+          },
+          "thirst_ticks": 0,
+          "water_acquired": 1178
+        }
+      },
+      "utility_claim": "per-seed results; mechanism witness needed; not acceptance"
+    }
+  },
+  "interpreted_per_seed": [
+    {
+      "seed": 62201,
+      "all_validity_checks": true,
+      "failed_validity_checks": [],
+      "online_vs_rule_relation": "tradeoff",
+      "online_vs_frozen_relation": "equal",
+      "witness": {
+        "reason": "no_matched_fresh_choice_with_different_target",
+        "status": "not_established"
+      },
+      "metrics": {
+        "naive_online": {
+          "alive_ticks": 200,
+          "dehydration_ticks": 0,
+          "first_successful_drink_b_after_fork": {
+            "censor_reason": null,
+            "censored": false,
+            "lag_ticks": 6,
+            "observed": true,
+            "observed_suffix_ticks": 200
+          },
+          "movement_energy": 164,
+          "terminal": {
+            "alive": true,
+            "energy": 66,
+            "health": 120,
+            "water": 48
+          },
+          "thirst_ticks": 0,
+          "water_acquired": 198
+        },
+        "rule_based": {
+          "alive_ticks": 200,
+          "dehydration_ticks": 0,
+          "first_successful_drink_b_after_fork": {
+            "censor_reason": null,
+            "censored": false,
+            "lag_ticks": 6,
+            "observed": true,
+            "observed_suffix_ticks": 200
+          },
+          "movement_energy": 152,
+          "terminal": {
+            "alive": true,
+            "energy": 68,
+            "health": 120,
+            "water": 47
+          },
+          "thirst_ticks": 0,
+          "water_acquired": 197
+        },
+        "trained_frozen": {
+          "alive_ticks": 200,
+          "dehydration_ticks": 0,
+          "first_successful_drink_b_after_fork": {
+            "censor_reason": null,
+            "censored": false,
+            "lag_ticks": 6,
+            "observed": true,
+            "observed_suffix_ticks": 200
+          },
+          "movement_energy": 164,
+          "terminal": {
+            "alive": true,
+            "energy": 66,
+            "health": 120,
+            "water": 48
+          },
+          "thirst_ticks": 0,
+          "water_acquired": 198
+        },
+        "trained_online": {
+          "alive_ticks": 200,
+          "dehydration_ticks": 0,
+          "first_successful_drink_b_after_fork": {
+            "censor_reason": null,
+            "censored": false,
+            "lag_ticks": 6,
+            "observed": true,
+            "observed_suffix_ticks": 200
+          },
+          "movement_energy": 164,
+          "terminal": {
+            "alive": true,
+            "energy": 66,
+            "health": 120,
+            "water": 48
+          },
+          "thirst_ticks": 0,
+          "water_acquired": 198
+        }
+      },
+      "fresh_two_source_counts": {
+        "naive_online": 10,
+        "prefix": 5,
+        "rule_based": 8,
+        "trained_frozen": 10,
+        "trained_online": 10
+      }
+    },
+    {
+      "seed": 62202,
+      "all_validity_checks": true,
+      "failed_validity_checks": [],
+      "online_vs_rule_relation": "online_policy_dominates_rule",
+      "online_vs_frozen_relation": "equal",
+      "witness": {
+        "reason": "no_matched_fresh_choice_with_different_target",
+        "status": "not_established"
+      },
+      "metrics": {
+        "naive_online": {
+          "alive_ticks": 200,
+          "dehydration_ticks": 0,
+          "first_successful_drink_b_after_fork": {
+            "censor_reason": null,
+            "censored": false,
+            "lag_ticks": 9,
+            "observed": true,
+            "observed_suffix_ticks": 200
+          },
+          "movement_energy": 147,
+          "terminal": {
+            "alive": true,
+            "energy": 60,
+            "health": 120,
+            "water": 52
+          },
+          "thirst_ticks": 0,
+          "water_acquired": 199
+        },
+        "rule_based": {
+          "alive_ticks": 200,
+          "dehydration_ticks": 0,
+          "first_successful_drink_b_after_fork": {
+            "censor_reason": null,
+            "censored": false,
+            "lag_ticks": 9,
+            "observed": true,
+            "observed_suffix_ticks": 200
+          },
+          "movement_energy": 150,
+          "terminal": {
+            "alive": true,
+            "energy": 57,
+            "health": 120,
+            "water": 50
+          },
+          "thirst_ticks": 0,
+          "water_acquired": 197
+        },
+        "trained_frozen": {
+          "alive_ticks": 200,
+          "dehydration_ticks": 0,
+          "first_successful_drink_b_after_fork": {
+            "censor_reason": null,
+            "censored": false,
+            "lag_ticks": 9,
+            "observed": true,
+            "observed_suffix_ticks": 200
+          },
+          "movement_energy": 147,
+          "terminal": {
+            "alive": true,
+            "energy": 60,
+            "health": 120,
+            "water": 52
+          },
+          "thirst_ticks": 0,
+          "water_acquired": 199
+        },
+        "trained_online": {
+          "alive_ticks": 200,
+          "dehydration_ticks": 0,
+          "first_successful_drink_b_after_fork": {
+            "censor_reason": null,
+            "censored": false,
+            "lag_ticks": 9,
+            "observed": true,
+            "observed_suffix_ticks": 200
+          },
+          "movement_energy": 147,
+          "terminal": {
+            "alive": true,
+            "energy": 60,
+            "health": 120,
+            "water": 52
+          },
+          "thirst_ticks": 0,
+          "water_acquired": 199
+        }
+      },
+      "fresh_two_source_counts": {
+        "naive_online": 4,
+        "prefix": 6,
+        "rule_based": 8,
+        "trained_frozen": 4,
+        "trained_online": 4
+      }
+    },
+    {
+      "seed": 62203,
+      "all_validity_checks": true,
+      "failed_validity_checks": [],
+      "online_vs_rule_relation": "tradeoff",
+      "online_vs_frozen_relation": "equal",
+      "witness": {
+        "reason": "no_matched_fresh_choice_with_different_target",
+        "status": "not_established"
+      },
+      "metrics": {
+        "naive_online": {
+          "alive_ticks": 200,
+          "dehydration_ticks": 0,
+          "first_successful_drink_b_after_fork": {
+            "censor_reason": null,
+            "censored": false,
+            "lag_ticks": 15,
+            "observed": true,
+            "observed_suffix_ticks": 200
+          },
+          "movement_energy": 176,
+          "terminal": {
+            "alive": true,
+            "energy": 64,
+            "health": 120,
+            "water": 47
+          },
+          "thirst_ticks": 0,
+          "water_acquired": 193
+        },
+        "rule_based": {
+          "alive_ticks": 200,
+          "dehydration_ticks": 0,
+          "first_successful_drink_b_after_fork": {
+            "censor_reason": null,
+            "censored": false,
+            "lag_ticks": 15,
+            "observed": true,
+            "observed_suffix_ticks": 200
+          },
+          "movement_energy": 182,
+          "terminal": {
+            "alive": true,
+            "energy": 68,
+            "health": 120,
+            "water": 45
+          },
+          "thirst_ticks": 0,
+          "water_acquired": 191
+        },
+        "trained_frozen": {
+          "alive_ticks": 200,
+          "dehydration_ticks": 0,
+          "first_successful_drink_b_after_fork": {
+            "censor_reason": null,
+            "censored": false,
+            "lag_ticks": 15,
+            "observed": true,
+            "observed_suffix_ticks": 200
+          },
+          "movement_energy": 176,
+          "terminal": {
+            "alive": true,
+            "energy": 64,
+            "health": 120,
+            "water": 47
+          },
+          "thirst_ticks": 0,
+          "water_acquired": 193
+        },
+        "trained_online": {
+          "alive_ticks": 200,
+          "dehydration_ticks": 0,
+          "first_successful_drink_b_after_fork": {
+            "censor_reason": null,
+            "censored": false,
+            "lag_ticks": 15,
+            "observed": true,
+            "observed_suffix_ticks": 200
+          },
+          "movement_energy": 176,
+          "terminal": {
+            "alive": true,
+            "energy": 64,
+            "health": 120,
+            "water": 47
+          },
+          "thirst_ticks": 0,
+          "water_acquired": 193
+        }
+      },
+      "fresh_two_source_counts": {
+        "naive_online": 8,
+        "prefix": 6,
+        "rule_based": 8,
+        "trained_frozen": 8,
+        "trained_online": 8
+      }
+    },
+    {
+      "seed": 62204,
+      "all_validity_checks": true,
+      "failed_validity_checks": [],
+      "online_vs_rule_relation": "rule_dominates_online_policy",
+      "online_vs_frozen_relation": "equal",
+      "witness": {
+        "reason": "no_matched_fresh_choice_with_different_target",
+        "status": "not_established"
+      },
+      "metrics": {
+        "naive_online": {
+          "alive_ticks": 200,
+          "dehydration_ticks": 0,
+          "first_successful_drink_b_after_fork": {
+            "censor_reason": null,
+            "censored": false,
+            "lag_ticks": 9,
+            "observed": true,
+            "observed_suffix_ticks": 200
+          },
+          "movement_energy": 161,
+          "terminal": {
+            "alive": true,
+            "energy": 49,
+            "health": 120,
+            "water": 37
+          },
+          "thirst_ticks": 0,
+          "water_acquired": 190
+        },
+        "rule_based": {
+          "alive_ticks": 200,
+          "dehydration_ticks": 0,
+          "first_successful_drink_b_after_fork": {
+            "censor_reason": null,
+            "censored": false,
+            "lag_ticks": 9,
+            "observed": true,
+            "observed_suffix_ticks": 200
+          },
+          "movement_energy": 144,
+          "terminal": {
+            "alive": true,
+            "energy": 66,
+            "health": 120,
+            "water": 50
+          },
+          "thirst_ticks": 0,
+          "water_acquired": 203
+        },
+        "trained_frozen": {
+          "alive_ticks": 200,
+          "dehydration_ticks": 0,
+          "first_successful_drink_b_after_fork": {
+            "censor_reason": null,
+            "censored": false,
+            "lag_ticks": 9,
+            "observed": true,
+            "observed_suffix_ticks": 200
+          },
+          "movement_energy": 161,
+          "terminal": {
+            "alive": true,
+            "energy": 49,
+            "health": 120,
+            "water": 37
+          },
+          "thirst_ticks": 0,
+          "water_acquired": 190
+        },
+        "trained_online": {
+          "alive_ticks": 200,
+          "dehydration_ticks": 0,
+          "first_successful_drink_b_after_fork": {
+            "censor_reason": null,
+            "censored": false,
+            "lag_ticks": 9,
+            "observed": true,
+            "observed_suffix_ticks": 200
+          },
+          "movement_energy": 161,
+          "terminal": {
+            "alive": true,
+            "energy": 49,
+            "health": 120,
+            "water": 37
+          },
+          "thirst_ticks": 0,
+          "water_acquired": 190
+        }
+      },
+      "fresh_two_source_counts": {
+        "naive_online": 7,
+        "prefix": 7,
+        "rule_based": 11,
+        "trained_frozen": 7,
+        "trained_online": 7
+      }
+    },
+    {
+      "seed": 62205,
+      "all_validity_checks": true,
+      "failed_validity_checks": [],
+      "online_vs_rule_relation": "tradeoff",
+      "online_vs_frozen_relation": "equal",
+      "witness": {
+        "reason": "no_matched_fresh_choice_with_different_target",
+        "status": "not_established"
+      },
+      "metrics": {
+        "naive_online": {
+          "alive_ticks": 200,
+          "dehydration_ticks": 0,
+          "first_successful_drink_b_after_fork": {
+            "censor_reason": null,
+            "censored": false,
+            "lag_ticks": 10,
+            "observed": true,
+            "observed_suffix_ticks": 200
+          },
+          "movement_energy": 219,
+          "terminal": {
+            "alive": true,
+            "energy": 66,
+            "health": 120,
+            "water": 51
+          },
+          "thirst_ticks": 0,
+          "water_acquired": 197
+        },
+        "rule_based": {
+          "alive_ticks": 200,
+          "dehydration_ticks": 0,
+          "first_successful_drink_b_after_fork": {
+            "censor_reason": null,
+            "censored": false,
+            "lag_ticks": 10,
+            "observed": true,
+            "observed_suffix_ticks": 200
+          },
+          "movement_energy": 180,
+          "terminal": {
+            "alive": true,
+            "energy": 65,
+            "health": 120,
+            "water": 50
+          },
+          "thirst_ticks": 0,
+          "water_acquired": 196
+        },
+        "trained_frozen": {
+          "alive_ticks": 200,
+          "dehydration_ticks": 0,
+          "first_successful_drink_b_after_fork": {
+            "censor_reason": null,
+            "censored": false,
+            "lag_ticks": 10,
+            "observed": true,
+            "observed_suffix_ticks": 200
+          },
+          "movement_energy": 219,
+          "terminal": {
+            "alive": true,
+            "energy": 66,
+            "health": 120,
+            "water": 51
+          },
+          "thirst_ticks": 0,
+          "water_acquired": 197
+        },
+        "trained_online": {
+          "alive_ticks": 200,
+          "dehydration_ticks": 0,
+          "first_successful_drink_b_after_fork": {
+            "censor_reason": null,
+            "censored": false,
+            "lag_ticks": 10,
+            "observed": true,
+            "observed_suffix_ticks": 200
+          },
+          "movement_energy": 219,
+          "terminal": {
+            "alive": true,
+            "energy": 66,
+            "health": 120,
+            "water": 51
+          },
+          "thirst_ticks": 0,
+          "water_acquired": 197
+        }
+      },
+      "fresh_two_source_counts": {
+        "naive_online": 5,
+        "prefix": 6,
+        "rule_based": 9,
+        "trained_frozen": 5,
+        "trained_online": 5
+      }
+    },
+    {
+      "seed": 62206,
+      "all_validity_checks": false,
+      "failed_validity_checks": [
+        "prefix_fresh_two_source_choices_at_least_5"
+      ],
+      "online_vs_rule_relation": "online_policy_dominates_rule",
+      "online_vs_frozen_relation": "equal",
+      "witness": {
+        "reason": "no_matched_fresh_choice_with_different_target",
+        "status": "not_established"
+      },
+      "metrics": {
+        "naive_online": {
+          "alive_ticks": 200,
+          "dehydration_ticks": 0,
+          "first_successful_drink_b_after_fork": {
+            "censor_reason": null,
+            "censored": false,
+            "lag_ticks": 15,
+            "observed": true,
+            "observed_suffix_ticks": 200
+          },
+          "movement_energy": 124,
+          "terminal": {
+            "alive": true,
+            "energy": 64,
+            "health": 120,
+            "water": 54
+          },
+          "thirst_ticks": 0,
+          "water_acquired": 201
+        },
+        "rule_based": {
+          "alive_ticks": 200,
+          "dehydration_ticks": 0,
+          "first_successful_drink_b_after_fork": {
+            "censor_reason": null,
+            "censored": false,
+            "lag_ticks": 15,
+            "observed": true,
+            "observed_suffix_ticks": 200
+          },
+          "movement_energy": 138,
+          "terminal": {
+            "alive": true,
+            "energy": 60,
+            "health": 120,
+            "water": 51
+          },
+          "thirst_ticks": 0,
+          "water_acquired": 198
+        },
+        "trained_frozen": {
+          "alive_ticks": 200,
+          "dehydration_ticks": 0,
+          "first_successful_drink_b_after_fork": {
+            "censor_reason": null,
+            "censored": false,
+            "lag_ticks": 15,
+            "observed": true,
+            "observed_suffix_ticks": 200
+          },
+          "movement_energy": 124,
+          "terminal": {
+            "alive": true,
+            "energy": 64,
+            "health": 120,
+            "water": 54
+          },
+          "thirst_ticks": 0,
+          "water_acquired": 201
+        },
+        "trained_online": {
+          "alive_ticks": 200,
+          "dehydration_ticks": 0,
+          "first_successful_drink_b_after_fork": {
+            "censor_reason": null,
+            "censored": false,
+            "lag_ticks": 15,
+            "observed": true,
+            "observed_suffix_ticks": 200
+          },
+          "movement_energy": 124,
+          "terminal": {
+            "alive": true,
+            "energy": 64,
+            "health": 120,
+            "water": 54
+          },
+          "thirst_ticks": 0,
+          "water_acquired": 201
+        }
+      },
+      "fresh_two_source_counts": {
+        "naive_online": 9,
+        "prefix": 4,
+        "rule_based": 12,
+        "trained_frozen": 9,
+        "trained_online": 9
+      }
+    }
+  ],
+  "trajectory_comparison": [
+    {
+      "seed": 62201,
+      "all_suffix_nonlearner_state_and_rng_equal_vs_online": {
+        "trained_frozen": true,
+        "naive_online": true
+      },
+      "complete_choice_audit_equal_vs_online": {
+        "trained_frozen": false,
+        "naive_online": false
+      },
+      "online_context_observations_unique": [
+        0
+      ]
+    },
+    {
+      "seed": 62202,
+      "all_suffix_nonlearner_state_and_rng_equal_vs_online": {
+        "trained_frozen": true,
+        "naive_online": true
+      },
+      "complete_choice_audit_equal_vs_online": {
+        "trained_frozen": false,
+        "naive_online": false
+      },
+      "online_context_observations_unique": [
+        0
+      ]
+    },
+    {
+      "seed": 62203,
+      "all_suffix_nonlearner_state_and_rng_equal_vs_online": {
+        "trained_frozen": true,
+        "naive_online": true
+      },
+      "complete_choice_audit_equal_vs_online": {
+        "trained_frozen": false,
+        "naive_online": false
+      },
+      "online_context_observations_unique": [
+        0
+      ]
+    },
+    {
+      "seed": 62204,
+      "all_suffix_nonlearner_state_and_rng_equal_vs_online": {
+        "trained_frozen": true,
+        "naive_online": true
+      },
+      "complete_choice_audit_equal_vs_online": {
+        "trained_frozen": false,
+        "naive_online": false
+      },
+      "online_context_observations_unique": [
+        0,
+        67
+      ]
+    },
+    {
+      "seed": 62205,
+      "all_suffix_nonlearner_state_and_rng_equal_vs_online": {
+        "trained_frozen": true,
+        "naive_online": true
+      },
+      "complete_choice_audit_equal_vs_online": {
+        "trained_frozen": false,
+        "naive_online": false
+      },
+      "online_context_observations_unique": [
+        0
+      ]
+    },
+    {
+      "seed": 62206,
+      "all_suffix_nonlearner_state_and_rng_equal_vs_online": {
+        "trained_frozen": true,
+        "naive_online": true
+      },
+      "complete_choice_audit_equal_vs_online": {
+        "trained_frozen": false,
+        "naive_online": false
+      },
+      "online_context_observations_unique": [
+        0
+      ]
+    }
+  ],
+  "action_target_comparison": [
+    {
+      "seed": 62201,
+      "trained_frozen": true,
+      "naive_online": true
+    },
+    {
+      "seed": 62202,
+      "trained_frozen": true,
+      "naive_online": true
+    },
+    {
+      "seed": 62203,
+      "trained_frozen": true,
+      "naive_online": true
+    },
+    {
+      "seed": 62204,
+      "trained_frozen": true,
+      "naive_online": true
+    },
+    {
+      "seed": 62205,
+      "trained_frozen": true,
+      "naive_online": true
+    },
+    {
+      "seed": 62206,
+      "trained_frozen": true,
+      "naive_online": true
+    }
+  ],
+  "calibration_manifest_sha256": "f7eb36ed10f0dfd1de0900206e6882a158e34f917fea08f39c7dcf393e289dde",
+  "formal_manifest_sha256": "5cc30f6bcc98949ff367294d40c3f762906323b0b42b3ac80e171b2e0a559523",
+  "source_binary_protocol_match": true,
+  "no_live_changes": true,
+  "extra_sweep_or_tuning": false
+}
