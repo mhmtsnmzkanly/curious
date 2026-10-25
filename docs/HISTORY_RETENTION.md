@@ -67,12 +67,12 @@ timer runs every 15 minutes with up to 30 seconds randomized delay, so its
 2-shard cap can keep pace with the observed history growth. Validate the actual
 environment file and immutable copy before enabling the timer.
 
-External compaction leaves a running engine's `Store.archived_bytes` cache
-stale. Do not restart or redeploy a live world as part of this maintenance.
-Coordinate any later restart separately; until the store is reopened, its
-cached budget accounting may overcount removed archives.
+Before the 25 October 2026 storage correction, external compaction could leave
+a running engine's `Store.archived_bytes` cache stale. That pre-deployment
+behavior and the later V12 backport are recorded below; retention itself still
+does not restart or redeploy a live world.
 
-## Current deployment and cleanup — 24 October 2026
+## Historical deployment and cleanup — 24 October 2026
 
 At main `904d4cc`, root independently passed all 8 retention tests and a real
 closed-Zstandard integration check over 17 records and 15,876 events. The live
@@ -96,28 +96,44 @@ hashes; the existing scanner still sees all 2,607 indexed seed values. A real
 The resumed full Python suite passed 177 tests.
 See [the verified report](reports/HISTORY_RETENTION_20261024.md).
 
-The engine's `Store.archived_bytes` cache is stale after external pruning, so its
-32 GiB ceiling is not a durability guarantee. Do not restart the engine as part
-of retention. Restore archived raw JSONL before using frozen analyzers or
-scanners that require original paths. The archive helper verifies lossless bytes
-and preserves the seed index; protocol and manifest files remain unchanged.
+At that time the live engine still had stale cached accounting after external
+pruning. This condition was corrected by the separately reviewed deployment on
+25 October below. The old retention report remains historical. Restore archived
+raw JSONL before using frozen analyzers or scanners that require original paths;
+archive and protocol metadata remain unchanged.
 
-## Candidate engine accounting fix — not deployed
+## Archive-budget accounting fix and live deployment — 25 October 2026
 
-The V18 source candidate refreshes closed-shard byte totals from the selected
-`Store.files()` inventory when the cached projection would reject a record. It
-reads directory entries and file metadata only; it does not open archive
-contents. Enumeration, metadata, and byte-sum errors fail closed. This permits
-the already-open writer to continue after external retention removed older
-closed shards, while preserving the budget stop when the measured total still
-reaches the configured limit. The writer lock continues to protect the active
-SQLite file and its WAL; retention must preserve the newest shard as before.
+The earlier V18 source candidate was backported narrowly to the frozen V12 live
+source and deployed as immutable release
+`curious-observation-budget-8dc23de` (source `8dc23de`), SHA-256
+`35930838981679ab1b937324df6dda73d2b3bcc6c57706d69f2c11d2803959af`. The
+previous qualified V12 binary remains preserved. Before deployment, old and
+candidate binaries matched the live checkpoint and eight isolated continuation
+ticks: 54 of 54 checks passed across nine full State/RNG snapshots, persisted
+records, events, decisions, traces, metrics, and interventions. The V12
+backport passed 89 all-target Rust tests, 52 Python tests, a release app build,
+and HTTP/auth/writer-lock/SIGKILL checks.
 
-This remains a soft guard, not an atomic disk quota: another process can change
-files after the metadata snapshot, externally added files are not continuously
-detected, and WAL or temporary archive space is outside the logical active-pages
-plus selected-history estimate. A shard disappearing during the metadata pass
-causes one fresh inventory pass; persistent stat/permission errors still stop the
-writer. The change is a source candidate only and has not been deployed or tested
-against a live world. The frozen live world remains V12; do not describe it as
-fixed.
+Before rejecting a write using cached archive totals, the store now refreshes
+closed-shard metadata using the selected file inventory. It reads directory
+entries and metadata, not archive contents. A shard disappearing during the
+pass triggers one re-inventory; persistent enumeration/stat errors fail closed.
+The live checkpoint remained State V12 and SQLite schema V2. The candidate
+restarted with exact paused State/RNG equality at tick 10670, then resumed at
+tick 10671 without storage error. The retention, monitor, and sampler timers
+were restored. No rollback was needed; a verified stopped-data backup remains
+at `data/backups/wave9-20261025/coexistence-before-budget-20261025T002809Z`.
+A live check at 00:29:30 UTC confirmed tick 10673, exact API/latest-checkpoint
+equality, V12/V2, the candidate hash, no storage error, and all three timers
+active. The replay process remained unchanged.
+
+The history limit remains a soft guard, not a strict disk quota. External files
+added after a metadata snapshot are not continuously detected, concurrent
+external changes can race a write, and WAL or temporary archive space is
+outside the logical active-pages plus selected-history estimate. The comparison
+covers this checkpoint and eight ticks; it does not prove every runtime path or
+make a biological claim. Deployment evidence and hashes are in
+[`ARCHIVE_BUDGET_DEPLOYMENT_20261025`](reports/ARCHIVE_BUDGET_DEPLOYMENT_20261025.md)
+and its JSON companion. Earlier V18 source-only notes and the 24 October
+retention report remain historical records.

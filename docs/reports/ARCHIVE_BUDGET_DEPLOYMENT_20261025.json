@@ -1,0 +1,99 @@
+{
+  "schema": "curious-archive-budget-deployment-report-v1",
+  "date": "2026-10-25",
+  "deployment": {
+    "status": "candidate_deployed_and_original_runtime_mode_restored",
+    "record": "data/operations/wave9-20261025/deploy-20261025T002809Z/deployment.json",
+    "record_sha256": "b506ba902c632eea19b288078d3e8d29ee8ee48710abded9cfefc4e0740851db",
+    "old_binary": {
+      "path": "/root/curious/bin/releases/curious-observation-7b157af",
+      "source_revision": "7b157aff9e68836144c7ba5c0656b041cd017cf6",
+      "sha256": "9e053b88a4a802b5026c7fd9b715cae8f90c05f855cfee5571dc57dec9562264"
+    },
+    "candidate_binary": {
+      "path": "/root/curious/bin/releases/curious-observation-budget-8dc23de",
+      "source_revision": "8dc23de",
+      "sha256": "35930838981679ab1b937324df6dda73d2b3bcc6c57706d69f2c11d2803959af"
+    },
+    "qualified_symlink": "releases/curious-observation-budget-8dc23de",
+    "runtime": {
+      "state_version": 12,
+      "sqlite_user_version": 2,
+      "candidate_paused_tick": 10670,
+      "candidate_state_sha256": "58132438aa42db1a6bba7711f6f734419321bb136e2ecaa7f7c31f28a94090f3",
+      "resumed_tick": 10671,
+      "ticks_per_second": 0.03,
+      "storage_error": null,
+      "replay_unchanged": true,
+      "retention_monitor_sampler_timers_restored": true,
+      "temporary_dropin_removed": true,
+      "rollback_needed": false
+    },
+    "post_deployment_live_check": {
+      "evidence": "data/operations/wave9-20261025/live-postdeploy-verification.json",
+      "evidence_sha256": "971950c08301e07d5ecbef6fe6a9f59d8ae34a57aa8631cbc77f479dfea2c21c",
+      "checked_at": "2026-10-25T00:29:30.246226+00:00",
+      "tick": 10673,
+      "ticks_after_paused_checkpoint": 3,
+      "api_state_matches_latest_persisted_checkpoint": true,
+      "state_version": 12,
+      "sqlite_user_version": 2,
+      "storage_error": null,
+      "candidate_binary_sha256": "35930838981679ab1b937324df6dda73d2b3bcc6c57706d69f2c11d2803959af",
+      "ticks_per_second": 0.03,
+      "retention_monitor_sampler_timers_active": true,
+      "dropins": "",
+      "replay_pid": "1137"
+    },
+    "backup": {
+      "path": "data/backups/wave9-20261025/coexistence-before-budget-20261025T002809Z",
+      "entries": 740,
+      "file_bytes": 2760680943,
+      "tree_sha256": "9530624092d56359da16946824f2c975787b5df015c8d427bd9efc26c4be8b3d",
+      "sqlite_integrity": "ok",
+      "checkpoint_matches_paused_api_state": true
+    }
+  },
+  "compatibility_comparison": {
+    "result": "passed",
+    "record": "data/operations/wave9-20261025/binary-compare-v2/comparison.json",
+    "record_sha256": "b359f01070f383d396d0c02caeee0abca5a29a2bd0df4d8224e60d4bceb6523d",
+    "states_compared": 9,
+    "ticks_compared": 8,
+    "checks_equal": 54,
+    "live_service_touched": false,
+    "live_database_written": false,
+    "fields": [
+      "full State and RNG",
+      "persisted records",
+      "events",
+      "decisions",
+      "traces",
+      "metrics",
+      "interventions"
+    ],
+    "excluded_wall_clock_fields": ["at_ms", "tick_us"],
+    "failed_first_attempt": {
+      "record": "data/operations/wave9-20261025/binary-compare-reviewed/comparison.json",
+      "record_sha256": "2882bfbed256bd45accd781c233e3da0edf3325eae83d36df0c3721367698e9a",
+      "failure": "SQLite backup reader row-factory TypeError; failed before either engine started"
+    }
+  },
+  "source_validation": {
+    "rust_all_targets_passed": 89,
+    "python_tests_passed": 52,
+    "release_app": "passed",
+    "http_auth_writer_lock_sigkill_checks": "passed"
+  },
+  "scope": {
+    "change": "refresh closed-shard metadata accounting before cached history-budget rejection",
+    "archive_contents_opened_by_fix": false,
+    "checkpoint_format_or_sqlite_schema_changed": false,
+    "biological_source_changed": false,
+    "recorded_full_state_rng_comparison_passed": true,
+    "history_limit_is_strict_disk_quota": false,
+    "external_additions_continuously_detected": false,
+    "concurrent_external_changes_can_race": true,
+    "new_experiment_or_seed_run": false
+  }
+}

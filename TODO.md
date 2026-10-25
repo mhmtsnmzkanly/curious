@@ -1,5 +1,14 @@
 # Sıradaki işler
 
+## 25 October 2026 — live archive-budget correction
+
+The V12 archive-budget backport `curious-observation-budget-8dc23de` is
+deployed; the latest verification is tick 10673 with exact API/persisted
+checkpoint equality and no storage error. The 54-check isolated continuation
+comparison passed; the verified pre-deployment backup remains available. This
+is a soft history guard and has no biology or experiment result. Report:
+[`ARCHIVE_BUDGET_DEPLOYMENT_20261025`](docs/reports/ARCHIVE_BUDGET_DEPLOYMENT_20261025.md).
+
 
 ## 24 October 2026 — Wave 8 habitat vision comparison
 

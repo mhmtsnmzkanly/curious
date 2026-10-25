@@ -1,5 +1,15 @@
 # Curious üzerinde çalışma
 
+## 25 October 2026 — live archive-budget correction
+
+The storage-only accounting backport is deployed on the frozen V12 live source
+as `curious-observation-budget-8dc23de`; schema V2 and the full paused State/RNG
+were preserved. A 54-check old-versus-candidate comparison passed on eight
+isolated continuation ticks. Deployment backup/integrity checks passed, and the
+00:29:30 UTC live check confirmed tick 10673, current API/persisted-checkpoint
+equality, no storage error, 0.03 TPS, and restored timers. The guard is a soft
+history limit, not a disk quota. No biology or experiment changed. See
+[`ARCHIVE_BUDGET_DEPLOYMENT_20261025`](docs/reports/ARCHIVE_BUDGET_DEPLOYMENT_20261025.md).
 
 ## 24 October 2026 — Wave 8 habitat vision comparison
 
