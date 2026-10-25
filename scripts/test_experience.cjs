@@ -117,6 +117,67 @@ const path = require("node:path");
 const rHtml = fs.readFileSync(path.join(__dirname, "../web/replay.html"), "utf8");
 const rJs = fs.readFileSync(path.join(__dirname, "../web/replay.js"), "utf8");
 assert.ok(rHtml.includes('id="auto-director"'));
+assert.ok(rHtml.includes('id="env-telemetry"'));
 assert.ok(rJs.includes("CuriousDocumentary.autoDirector"));
+assert.ok(rJs.includes("CuriousExperience.environment"));
 assert.ok(rJs.includes("Kanıt -> Eylem -> Resolver -> Bellek"));
-console.log("Render refuge & replay wiring checks passed");
+
+// V19 environment and body telemetry presenter tests
+const v19StateWinterNight = {
+  tick: 35,
+  environment: {
+    season_cycle: { period: 40 },
+    day_night: { period: 20, day_ticks: 10 },
+    signals: [{ kind: "Sound", origin: { x: 1, y: 1 } }, { kind: "Sound", origin: { x: 2, y: 2 } }],
+    burrows: [{ pos: { x: 4, y: 4 }, ttl: 12 }],
+  },
+};
+const v19IndividualFresh = {
+  memory: { known_sectors: [{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 1, y: 1 }] },
+  learner: { context_entries: [{ value: 10 }, { value: 20 }] },
+  phase: { Corpse: { remaining: 4, initial_energy: 25 } },
+};
+const envWinter = experience.environment(v19StateWinterNight, v19IndividualFresh);
+assert.equal(envWinter.season, "Kış (Winter)");
+assert.equal(envWinter.dayPhase, "Gece (Night)");
+assert.equal(envWinter.signalCount, 2);
+assert.equal(envWinter.burrowCount, 1);
+assert.equal(envWinter.knownSectorsCount, 3);
+assert.equal(envWinter.contextEntriesCount, 2);
+assert.equal(envWinter.corpseStage, "Taze (Fresh)");
+assert.match(envWinter.summary, /Kış \(Winter\) · Gece \(Night\) · Sinyal: 2 · İn: 1/);
+
+const envAging = experience.environment(
+  { tick: 0, environment: { season_cycle: { period: 40 }, day_night: { period: 20, day_ticks: 10 } } },
+  { phase: { Corpse: { remaining: 2 } } }
+);
+assert.equal(envAging.season, "İlkbahar (Spring)");
+assert.equal(envAging.dayPhase, "Şafak (Dawn)");
+assert.equal(envAging.corpseStage, "Yaşlanan (Aging)");
+
+const envPutrid = experience.environment(
+  { tick: 10, environment: { season_cycle: { period: 40 }, day_night: { period: 20, day_ticks: 10 } } },
+  { phase: { Corpse: { remaining: 1 } } }
+);
+assert.equal(envPutrid.season, "Yaz (Summer)");
+assert.equal(envPutrid.dayPhase, "Alacakaranlık (Dusk)");
+assert.equal(envPutrid.corpseStage, "Çürük (Putrid)");
+
+const envFallback = experience.environment(null, null);
+assert.equal(envFallback.season, "Sabit İklim");
+assert.equal(envFallback.dayPhase, "Sabit Işık");
+assert.equal(envFallback.signalCount, 0);
+assert.equal(envFallback.burrowCount, 0);
+assert.equal(envFallback.corpseStage, null);
+
+const v19RenderedNodes = [];
+const v19Container = {
+  replaceChildren() { v19RenderedNodes.length = 0; },
+  append(p) { v19RenderedNodes.push(p); },
+  ownerDocument: { createElement() { return { textContent: "" }; } },
+};
+experience.render(v19Container, v19IndividualFresh, null, v19StateWinterNight);
+assert.ok(v19RenderedNodes.some(p => p.textContent.includes("Çevre ve V19 Telemetri")));
+assert.ok(v19RenderedNodes.some(p => p.textContent.includes("Kış (Winter) · Gece (Night) · Sinyal: 2 · İn: 1")));
+assert.ok(v19RenderedNodes.some(p => p.textContent.includes("Merak sektörü: 3/16 · Su bağlamı: 2/4 · Ceset evresi: Taze (Fresh)")));
+console.log("Render refuge, V19 telemetry & replay wiring checks passed");

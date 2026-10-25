@@ -60,7 +60,11 @@ function renderSummary() {
   }
   const details=$("details");details.replaceChildren();
   if(e){for(const [k,v] of [["Konum",`${e.pos?.x}, ${e.pos?.y}`],["Tür",names[e.species]||e.species],["Ebeveynler",e.parents?.length?e.parents.map(x=>`#${x}`).join(" & "):"Kurucu"],["Bellek",`${e.memory?.sites?.length||0} kaynak · ${e.memory?.dangers?.length||0} tehlike`]]){const dt=document.createElement("dt"),dd=document.createElement("dd");dt.textContent=k;dd.textContent=esc(v);details.append(dt,dd);}}
-  CuriousExperience.render($("experience"),e,(current?.decisions||[]).find(d=>d.id===selected));
+  CuriousExperience.render($("experience"),e,(current?.decisions||[]).find(d=>d.id===selected),state);
+  const envTelemetryEl=$("env-telemetry");
+  if(envTelemetryEl&&typeof CuriousExperience!=="undefined"&&CuriousExperience.environment){
+    envTelemetryEl.textContent=CuriousExperience.environment(state,e||selected).summary;
+  }
   loadLife(e).catch(setError);
   const decisionBox=$("decisions");decisionBox.replaceChildren();
   const traceList=(current?.decisions||[]).filter(d=>selected===null||d.id===selected);
@@ -88,6 +92,11 @@ function renderLife() {
     } else {
       directorBox.hidden=true;
     }
+  }
+  const envTelemetryEl=$("env-telemetry");
+  if(envTelemetryEl&&typeof CuriousExperience!=="undefined"&&CuriousExperience.environment){
+    const state=current?.state;
+    envTelemetryEl.textContent=CuriousExperience.environment(state,selected).summary;
   }
   const comparison=CuriousDocumentary.encounterComparison(view,lifeAnchor);
   const rule=document.createElement("p");rule.className="documentary-note";

@@ -100,6 +100,54 @@
     }
     return lines;
   }
+  function environment(state, individual) {
+    const env = state?.environment || (state && (state.season_cycle || state.day_night || state.signals || state.burrows) ? state : null);
+    const tick = typeof state?.tick === "number" && Number.isFinite(state.tick) ? state.tick : 0;
+    const entity = typeof individual === "number" && Array.isArray(state?.entities)
+      ? state.entities.find(x => x.id === individual)
+      : individual;
+    let season = "Sabit İklim";
+    if (env?.season_cycle && typeof env.season_cycle.period === "number" && env.season_cycle.period > 0) {
+      const period = env.season_cycle.period;
+      const phase = ((tick % period) + period) % period;
+      const quarter = Math.floor((phase * 4) / period);
+      const seasons = ["İlkbahar (Spring)", "Yaz (Summer)", "Sonbahar (Autumn)", "Kış (Winter)"];
+      season = seasons[quarter] || "Sabit İklim";
+    }
+    let dayPhase = "Sabit Işık";
+    if (env?.day_night && typeof env.day_night.period === "number" && env.day_night.period > 0) {
+      const period = env.day_night.period;
+      const phase = ((tick % period) + period) % period;
+      const dayTicks = env.day_night.day_ticks || 0;
+      if (phase === 0) dayPhase = "Şafak (Dawn)";
+      else if (phase < dayTicks) dayPhase = "Gündüz (Day)";
+      else if (phase === dayTicks) dayPhase = "Alacakaranlık (Dusk)";
+      else dayPhase = "Gece (Night)";
+    }
+    const signalCount = Array.isArray(env?.signals) ? env.signals.length : 0;
+    const burrowCount = Array.isArray(env?.burrows) ? env.burrows.length : 0;
+    const knownSectorsCount = Array.isArray(entity?.memory?.known_sectors) ? entity.memory.known_sectors.length : 0;
+    const contextEntriesCount = Array.isArray(entity?.learner?.context_entries) ? entity.learner.context_entries.length : 0;
+    let corpseStage = null;
+    if (entity?.phase && typeof entity.phase === "object" && entity.phase.Corpse) {
+      const rem = entity.phase.Corpse.remaining ?? 0;
+      corpseStage = rem >= 4 ? "Taze (Fresh)" : rem >= 2 ? "Yaşlanan (Aging)" : "Çürük (Putrid)";
+    }
+    const summary = `${season} · ${dayPhase} · Sinyal: ${signalCount} · İn: ${burrowCount}`;
+    const detail = `Merak sektörü: ${knownSectorsCount}/16 · Su bağlamı: ${contextEntriesCount}/4${corpseStage ? ` · Ceset evresi: ${corpseStage}` : ""}`;
+    return {
+      season,
+      dayPhase,
+      signalCount,
+      burrowCount,
+      knownSectorsCount,
+      contextEntriesCount,
+      corpseStage,
+      summary,
+      detail,
+      lines: [summary, detail],
+    };
+  }
   function describe(individual, trace) {
     if (!individual) return ["Deneyimi görmek için bir birey seç."];
     return ["Yaş ve nesil, deneyim veya öğrenme başarısı değildir. Aşağıdakiler yalnız seçili kaydın verileridir.",
@@ -107,9 +155,12 @@
       ...hunt(individual.hunt_learner, trace?.decision?.reason),
       ...refuge(individual.memory, trace?.decision?.reason)];
   }
-  function render(container, individual, trace) {
+  function render(container, individual, trace, stateArg) {
     container.replaceChildren();
-    for (const line of describe(individual, trace)) {
+    const isStateObj = trace && typeof trace === "object" && !Object.hasOwn(trace, "decision") && (Object.hasOwn(trace, "environment") || Object.hasOwn(trace, "tick") || Object.hasOwn(trace, "entities"));
+    const traceObj = isStateObj ? null : trace;
+    const stateObj = stateArg || (isStateObj ? trace : null);
+    for (const line of describe(individual, traceObj)) {
       const p = container.ownerDocument.createElement("p");
       p.textContent = line;
       container.append(p);
@@ -144,6 +195,18 @@
         }
       }
     }
+    if (stateObj?.environment || individual) {
+      const envInfo = environment(stateObj, individual);
+      const envTitle = container.ownerDocument.createElement("p");
+      envTitle.textContent = "Çevre ve V19 Telemetri";
+      container.append(envTitle);
+      const envSummary = container.ownerDocument.createElement("p");
+      envSummary.textContent = envInfo.summary;
+      container.append(envSummary);
+      const envDetail = container.ownerDocument.createElement("p");
+      envDetail.textContent = envInfo.detail;
+      container.append(envDetail);
+    }
   }
-  return {describe, water, hunt, refuge, context, render};
+  return {describe, water, hunt, refuge, environment, context, render};
 });
