@@ -1,0 +1,896 @@
+{
+  "kind": "exploratory_diagnostic_seen_seeds_no_live_promotion",
+  "source_commits": [
+    "c5ca361",
+    "18081b5",
+    "389f24a"
+  ],
+  "input_sha256": "357870bd9a3d414704ed6befbea050852028f54af304c27cdca482dc31abdad2",
+  "per_seed": {
+    "classification_scope": "diagnostic on previously inspected401..410; not authorization or new preregistered qualification",
+    "legacy_stdout_verdict_not_used": true,
+    "damage_label": "unattributed positive per-tick health loss, not attack damage",
+    "arms": [
+      {
+        "arm": "ControlFlagsOff",
+        "every_seed_no_survival_deficit": true,
+        "seed_labels": [
+          "neutral",
+          "neutral",
+          "neutral",
+          "neutral",
+          "neutral",
+          "neutral",
+          "neutral",
+          "neutral",
+          "neutral",
+          "neutral"
+        ],
+        "aggregate_label": "neutral",
+        "composed_diagnostic_verdict": "control",
+        "seed_label_counts": {
+          "neutral": 10
+        },
+        "survival_deficit_seeds": []
+      },
+      {
+        "arm": "WaterContextOnly",
+        "every_seed_no_survival_deficit": false,
+        "seed_labels": [
+          "strict_improvement",
+          "strict_improvement",
+          "strict_improvement",
+          "survival_deficit",
+          "survival_deficit",
+          "survival_deficit",
+          "survival_deficit",
+          "survival_deficit",
+          "strict_improvement",
+          "strict_improvement"
+        ],
+        "aggregate_label": "survival_deficit",
+        "composed_diagnostic_verdict": "survival_deficit",
+        "seed_label_counts": {
+          "strict_improvement": 5,
+          "survival_deficit": 5
+        },
+        "survival_deficit_seeds": [
+          404,
+          405,
+          406,
+          407,
+          408
+        ]
+      },
+      {
+        "arm": "RefugeFirstIntervalOnly",
+        "every_seed_no_survival_deficit": true,
+        "seed_labels": [
+          "neutral",
+          "neutral",
+          "neutral",
+          "neutral",
+          "neutral",
+          "neutral",
+          "neutral",
+          "neutral",
+          "neutral",
+          "neutral"
+        ],
+        "aggregate_label": "neutral",
+        "composed_diagnostic_verdict": "neutral_no_demonstrated_benefit",
+        "seed_label_counts": {
+          "neutral": 10
+        },
+        "survival_deficit_seeds": []
+      },
+      {
+        "arm": "SpatialCuriosityOnly",
+        "every_seed_no_survival_deficit": false,
+        "seed_labels": [
+          "neutral",
+          "strict_improvement",
+          "strict_improvement",
+          "survival_deficit",
+          "survival_deficit",
+          "survival_deficit",
+          "neutral",
+          "survival_deficit",
+          "neutral",
+          "neutral"
+        ],
+        "aggregate_label": "survival_deficit",
+        "composed_diagnostic_verdict": "survival_deficit",
+        "seed_label_counts": {
+          "neutral": 4,
+          "strict_improvement": 2,
+          "survival_deficit": 4
+        },
+        "survival_deficit_seeds": [
+          404,
+          405,
+          406,
+          408
+        ]
+      },
+      {
+        "arm": "InjuryCapacityPenaltyOnly",
+        "every_seed_no_survival_deficit": false,
+        "seed_labels": [
+          "strict_improvement",
+          "strict_improvement",
+          "strict_improvement",
+          "survival_deficit",
+          "survival_deficit",
+          "survival_deficit",
+          "strict_improvement",
+          "survival_deficit",
+          "survival_deficit",
+          "survival_deficit"
+        ],
+        "aggregate_label": "survival_deficit",
+        "composed_diagnostic_verdict": "survival_deficit",
+        "seed_label_counts": {
+          "strict_improvement": 4,
+          "survival_deficit": 6
+        },
+        "survival_deficit_seeds": [
+          404,
+          405,
+          406,
+          408,
+          409,
+          410
+        ]
+      },
+      {
+        "arm": "JuvenileParentalCareOnly",
+        "every_seed_no_survival_deficit": true,
+        "seed_labels": [
+          "strict_improvement",
+          "neutral",
+          "neutral",
+          "neutral",
+          "neutral",
+          "neutral",
+          "strict_improvement",
+          "neutral",
+          "neutral",
+          "neutral"
+        ],
+        "aggregate_label": "strict_improvement",
+        "composed_diagnostic_verdict": "diagnostic_improvement",
+        "seed_label_counts": {
+          "strict_improvement": 2,
+          "neutral": 8
+        },
+        "survival_deficit_seeds": []
+      },
+      {
+        "arm": "AmbushPredationOnly",
+        "every_seed_no_survival_deficit": false,
+        "seed_labels": [
+          "strict_improvement",
+          "strict_improvement",
+          "survival_deficit",
+          "survival_deficit",
+          "other_trade_off",
+          "survival_deficit",
+          "strict_improvement",
+          "survival_deficit",
+          "survival_deficit",
+          "survival_deficit"
+        ],
+        "aggregate_label": "survival_deficit",
+        "composed_diagnostic_verdict": "survival_deficit",
+        "seed_label_counts": {
+          "strict_improvement": 3,
+          "survival_deficit": 6,
+          "other_trade_off": 1
+        },
+        "survival_deficit_seeds": [
+          403,
+          404,
+          406,
+          408,
+          409,
+          410
+        ]
+      },
+      {
+        "arm": "LocalCoordinationOnly",
+        "every_seed_no_survival_deficit": false,
+        "seed_labels": [
+          "survival_deficit",
+          "strict_improvement",
+          "strict_improvement",
+          "survival_deficit",
+          "survival_deficit",
+          "survival_deficit",
+          "survival_deficit",
+          "survival_deficit",
+          "strict_improvement",
+          "strict_improvement"
+        ],
+        "aggregate_label": "survival_deficit",
+        "composed_diagnostic_verdict": "survival_deficit",
+        "seed_label_counts": {
+          "survival_deficit": 6,
+          "strict_improvement": 4
+        },
+        "survival_deficit_seeds": [
+          401,
+          404,
+          405,
+          406,
+          407,
+          408
+        ]
+      },
+      {
+        "arm": "DayNightCycleOnly",
+        "every_seed_no_survival_deficit": false,
+        "seed_labels": [
+          "strict_improvement",
+          "strict_improvement",
+          "strict_improvement",
+          "survival_deficit",
+          "survival_deficit",
+          "survival_deficit",
+          "survival_deficit",
+          "survival_deficit",
+          "strict_improvement",
+          "strict_improvement"
+        ],
+        "aggregate_label": "survival_deficit",
+        "composed_diagnostic_verdict": "survival_deficit",
+        "seed_label_counts": {
+          "strict_improvement": 5,
+          "survival_deficit": 5
+        },
+        "survival_deficit_seeds": [
+          404,
+          405,
+          406,
+          407,
+          408
+        ]
+      },
+      {
+        "arm": "SeasonAndBurrowsOnly",
+        "every_seed_no_survival_deficit": false,
+        "seed_labels": [
+          "strict_improvement",
+          "strict_improvement",
+          "other_trade_off",
+          "survival_deficit",
+          "survival_deficit",
+          "survival_deficit",
+          "survival_deficit",
+          "survival_deficit",
+          "strict_improvement",
+          "survival_deficit"
+        ],
+        "aggregate_label": "survival_deficit",
+        "composed_diagnostic_verdict": "survival_deficit",
+        "seed_label_counts": {
+          "strict_improvement": 3,
+          "other_trade_off": 1,
+          "survival_deficit": 6
+        },
+        "survival_deficit_seeds": [
+          404,
+          405,
+          406,
+          407,
+          408,
+          410
+        ]
+      },
+      {
+        "arm": "QualifiedCandidateBundle",
+        "every_seed_no_survival_deficit": true,
+        "seed_labels": [
+          "strict_improvement",
+          "neutral",
+          "neutral",
+          "neutral",
+          "neutral",
+          "neutral",
+          "strict_improvement",
+          "neutral",
+          "neutral",
+          "neutral"
+        ],
+        "aggregate_label": "strict_improvement",
+        "composed_diagnostic_verdict": "diagnostic_improvement",
+        "seed_label_counts": {
+          "strict_improvement": 2,
+          "neutral": 8
+        },
+        "survival_deficit_seeds": []
+      },
+      {
+        "arm": "AllV19Features",
+        "every_seed_no_survival_deficit": false,
+        "seed_labels": [
+          "strict_improvement",
+          "survival_deficit",
+          "survival_deficit",
+          "survival_deficit",
+          "survival_deficit",
+          "survival_deficit",
+          "survival_deficit",
+          "survival_deficit",
+          "survival_deficit",
+          "survival_deficit"
+        ],
+        "aggregate_label": "survival_deficit",
+        "composed_diagnostic_verdict": "survival_deficit",
+        "seed_label_counts": {
+          "strict_improvement": 1,
+          "survival_deficit": 9
+        },
+        "survival_deficit_seeds": [
+          402,
+          403,
+          404,
+          405,
+          406,
+          407,
+          408,
+          409,
+          410
+        ]
+      }
+    ]
+  },
+  "engine_bridge": {
+    "v12_rebuilt_source": {
+      "final_alive_by_species": {
+        "Carnivore": 94,
+        "Herbivore": 508
+      },
+      "survived_entity_ticks": 593876,
+      "births_by_species": {
+        "Carnivore": 91,
+        "Herbivore": 5053
+      },
+      "deaths_by_species": {
+        "Carnivore": 80,
+        "Herbivore": 5078
+      },
+      "checkpoint_resume_exact": true,
+      "final_rng": 7437971771218128363,
+      "elapsed_ms_including_diagnostic_io": 45344
+    },
+    "v19_flags_off": {
+      "final_alive_by_species": {
+        "Carnivore": 98,
+        "Herbivore": 482
+      },
+      "survived_entity_ticks": 595736,
+      "births_by_species": {
+        "Carnivore": 87,
+        "Herbivore": 5074
+      },
+      "deaths_by_species": {
+        "Carnivore": 72,
+        "Herbivore": 5125
+      },
+      "checkpoint_resume_exact": true,
+      "final_rng": 13064911527792868393,
+      "elapsed_ms_including_diagnostic_io": 42288
+    },
+    "initial_common_fields": {
+      "tick": true,
+      "rng": true,
+      "bounds": true,
+      "resources": true,
+      "entity_ids_equal": true,
+      "v12_body_and_genome_fields_preserved": true
+    },
+    "additional_v19_body_defaults": {
+      "life.stamina_metabolic_cost": 0,
+      "life.vision_metabolic_cost": 0,
+      "genome.stamina": 0,
+      "genome.vision": 0
+    },
+    "cross_engine_events_differ": true
+  },
+  "four_arm_soak": [
+    {
+      "arm": "ControlFlagsOff",
+      "survived_entity_ticks": 595736,
+      "final_alive": 580,
+      "final_species": {
+        "Herbivore": 482,
+        "Carnivore": 98,
+        "Omnivore": 0
+      },
+      "births": 5161,
+      "deaths": 5197,
+      "births_by_species": {
+        "herbivore": 5074,
+        "carnivore": 87,
+        "omnivore": 0
+      },
+      "deaths_by_species": {
+        "herbivore": 5125,
+        "carnivore": 72,
+        "omnivore": 0
+      },
+      "founders_zero_first_sample": null,
+      "sample_alive": [
+        [
+          12639,
+          616
+        ],
+        [
+          12739,
+          595
+        ],
+        [
+          12839,
+          608
+        ],
+        [
+          12939,
+          606
+        ],
+        [
+          13039,
+          590
+        ],
+        [
+          13139,
+          608
+        ],
+        [
+          13239,
+          608
+        ],
+        [
+          13339,
+          583
+        ],
+        [
+          13439,
+          582
+        ],
+        [
+          13539,
+          587
+        ],
+        [
+          13639,
+          580
+        ]
+      ],
+      "founder_alive_samples": [
+        {
+          "tick": 12639,
+          "founders_alive": 616
+        },
+        {
+          "tick": 12739,
+          "founders_alive": 107
+        },
+        {
+          "tick": 12839,
+          "founders_alive": 66
+        },
+        {
+          "tick": 12939,
+          "founders_alive": 55
+        },
+        {
+          "tick": 13039,
+          "founders_alive": 48
+        },
+        {
+          "tick": 13139,
+          "founders_alive": 41
+        },
+        {
+          "tick": 13239,
+          "founders_alive": 40
+        },
+        {
+          "tick": 13339,
+          "founders_alive": 32
+        },
+        {
+          "tick": 13439,
+          "founders_alive": 28
+        },
+        {
+          "tick": 13539,
+          "founders_alive": 19
+        },
+        {
+          "tick": 13639,
+          "founders_alive": 15
+        }
+      ],
+      "final_founders_alive": 15,
+      "delta_survived_entity_ticks_vs_v19_control": 0,
+      "physical_outcome_interpretation": "control"
+    },
+    {
+      "arm": "JuvenileParentalCareOnly",
+      "survived_entity_ticks": 591932,
+      "final_alive": 575,
+      "final_species": {
+        "Herbivore": 488,
+        "Carnivore": 87,
+        "Omnivore": 0
+      },
+      "births": 5101,
+      "deaths": 5142,
+      "births_by_species": {
+        "herbivore": 5015,
+        "carnivore": 86,
+        "omnivore": 0
+      },
+      "deaths_by_species": {
+        "herbivore": 5060,
+        "carnivore": 82,
+        "omnivore": 0
+      },
+      "founders_zero_first_sample": null,
+      "sample_alive": [
+        [
+          12639,
+          616
+        ],
+        [
+          12739,
+          599
+        ],
+        [
+          12839,
+          577
+        ],
+        [
+          12939,
+          599
+        ],
+        [
+          13039,
+          586
+        ],
+        [
+          13139,
+          601
+        ],
+        [
+          13239,
+          608
+        ],
+        [
+          13339,
+          585
+        ],
+        [
+          13439,
+          571
+        ],
+        [
+          13539,
+          596
+        ],
+        [
+          13639,
+          575
+        ]
+      ],
+      "founder_alive_samples": [
+        {
+          "tick": 12639,
+          "founders_alive": 616
+        },
+        {
+          "tick": 12739,
+          "founders_alive": 104
+        },
+        {
+          "tick": 12839,
+          "founders_alive": 65
+        },
+        {
+          "tick": 12939,
+          "founders_alive": 54
+        },
+        {
+          "tick": 13039,
+          "founders_alive": 46
+        },
+        {
+          "tick": 13139,
+          "founders_alive": 39
+        },
+        {
+          "tick": 13239,
+          "founders_alive": 37
+        },
+        {
+          "tick": 13339,
+          "founders_alive": 29
+        },
+        {
+          "tick": 13439,
+          "founders_alive": 25
+        },
+        {
+          "tick": 13539,
+          "founders_alive": 16
+        },
+        {
+          "tick": 13639,
+          "founders_alive": 12
+        }
+      ],
+      "final_founders_alive": 12,
+      "delta_survived_entity_ticks_vs_v19_control": -3804,
+      "physical_outcome_interpretation": "trade_off_not_pareto_improvement"
+    },
+    {
+      "arm": "RefugeFirstIntervalOnly",
+      "survived_entity_ticks": 593113,
+      "final_alive": 584,
+      "final_species": {
+        "Herbivore": 488,
+        "Carnivore": 96,
+        "Omnivore": 0
+      },
+      "births": 5121,
+      "deaths": 5153,
+      "births_by_species": {
+        "herbivore": 5033,
+        "carnivore": 88,
+        "omnivore": 0
+      },
+      "deaths_by_species": {
+        "herbivore": 5078,
+        "carnivore": 75,
+        "omnivore": 0
+      },
+      "founders_zero_first_sample": null,
+      "sample_alive": [
+        [
+          12639,
+          616
+        ],
+        [
+          12739,
+          595
+        ],
+        [
+          12839,
+          620
+        ],
+        [
+          12939,
+          582
+        ],
+        [
+          13039,
+          586
+        ],
+        [
+          13139,
+          624
+        ],
+        [
+          13239,
+          598
+        ],
+        [
+          13339,
+          589
+        ],
+        [
+          13439,
+          569
+        ],
+        [
+          13539,
+          569
+        ],
+        [
+          13639,
+          584
+        ]
+      ],
+      "founder_alive_samples": [
+        {
+          "tick": 12639,
+          "founders_alive": 616
+        },
+        {
+          "tick": 12739,
+          "founders_alive": 106
+        },
+        {
+          "tick": 12839,
+          "founders_alive": 66
+        },
+        {
+          "tick": 12939,
+          "founders_alive": 55
+        },
+        {
+          "tick": 13039,
+          "founders_alive": 47
+        },
+        {
+          "tick": 13139,
+          "founders_alive": 40
+        },
+        {
+          "tick": 13239,
+          "founders_alive": 39
+        },
+        {
+          "tick": 13339,
+          "founders_alive": 31
+        },
+        {
+          "tick": 13439,
+          "founders_alive": 27
+        },
+        {
+          "tick": 13539,
+          "founders_alive": 18
+        },
+        {
+          "tick": 13639,
+          "founders_alive": 15
+        }
+      ],
+      "final_founders_alive": 15,
+      "delta_survived_entity_ticks_vs_v19_control": -2623,
+      "physical_outcome_interpretation": "trade_off_not_pareto_improvement"
+    },
+    {
+      "arm": "QualifiedCandidateBundle",
+      "survived_entity_ticks": 594308,
+      "final_alive": 593,
+      "final_species": {
+        "Herbivore": 499,
+        "Carnivore": 94,
+        "Omnivore": 0
+      },
+      "births": 5146,
+      "deaths": 5169,
+      "births_by_species": {
+        "herbivore": 5060,
+        "carnivore": 86,
+        "omnivore": 0
+      },
+      "deaths_by_species": {
+        "herbivore": 5094,
+        "carnivore": 75,
+        "omnivore": 0
+      },
+      "founders_zero_first_sample": null,
+      "sample_alive": [
+        [
+          12639,
+          616
+        ],
+        [
+          12739,
+          595
+        ],
+        [
+          12839,
+          570
+        ],
+        [
+          12939,
+          589
+        ],
+        [
+          13039,
+          615
+        ],
+        [
+          13139,
+          590
+        ],
+        [
+          13239,
+          594
+        ],
+        [
+          13339,
+          592
+        ],
+        [
+          13439,
+          618
+        ],
+        [
+          13539,
+          570
+        ],
+        [
+          13639,
+          593
+        ]
+      ],
+      "founder_alive_samples": [
+        {
+          "tick": 12639,
+          "founders_alive": 616
+        },
+        {
+          "tick": 12739,
+          "founders_alive": 106
+        },
+        {
+          "tick": 12839,
+          "founders_alive": 66
+        },
+        {
+          "tick": 12939,
+          "founders_alive": 55
+        },
+        {
+          "tick": 13039,
+          "founders_alive": 48
+        },
+        {
+          "tick": 13139,
+          "founders_alive": 41
+        },
+        {
+          "tick": 13239,
+          "founders_alive": 40
+        },
+        {
+          "tick": 13339,
+          "founders_alive": 32
+        },
+        {
+          "tick": 13439,
+          "founders_alive": 28
+        },
+        {
+          "tick": 13539,
+          "founders_alive": 19
+        },
+        {
+          "tick": 13639,
+          "founders_alive": 15
+        }
+      ],
+      "final_founders_alive": 15,
+      "delta_survived_entity_ticks_vs_v19_control": -1428,
+      "physical_outcome_interpretation": "trade_off_not_pareto_improvement"
+    }
+  ],
+  "checks": {
+    "initial_focused_passed": 3,
+    "initial_fixture_failed": 1,
+    "fixture_recheck_passed": 1,
+    "ignored_soak_explicitly_passed": 1,
+    "bridge_resume_both_passed": true,
+    "v19_bridge_and_soak_control_endpoint_identical": true,
+    "population_balances_validated": true
+  },
+  "artifact_sha256": {
+    "manifest.json": "9608bf27762c04e013573df95f8edd94c7e325376e108e81e984d5d46d91021b",
+    "per-seed.json": "05a209c794ad3e49f5ee3d0c9b0896adf64ce7a833c3d9070ba08492e761e033",
+    "analysis.json": "8fbb0d2ef96384ec77061738254c18eddffae7919f7cf7c9334928a29596e5bf",
+    "bridge-comparison.json": "b21982b5d9020d8b538734c0adf31891f005f3a83825b58ea429f46f667f7117",
+    "soak-four-arms.json": "6f1ac80a74a0d7b2b1b93b66be9f75f29f280d4931a9a8f9ce49468e9a9bf2ba",
+    "soak-comparison.json": "f0d73b2f48072ba032dbcd1f0c4f6794725e6382fbca1f6a6f5e863df13fca57",
+    "focused-tests.log": "ca19c8961f005f6aa470cca6a109dc31c8a5a51788258d51afa9c128144b77f7",
+    "seed-gate-recheck.log": "cd331856fca7c91803f288e30d3d563c0f5a353594abdf4b6fe6c0e902c3b563",
+    "soak-four-arms.log": "d1a897b24de95133ad6a630388a7044bea7095cea69fa9a10107ab6c13066c19"
+  },
+  "live_promotion": false
+}

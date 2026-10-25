@@ -1,5 +1,7 @@
 # Sonraki işler — 25 Ekim 2026
 
+Güncel karar: [kabul tanısı](docs/reports/QUALIFICATION_DIAGNOSTIC_20261025.md) paket için uzun-ufuk Pareto üstünlüğü göstermedi. Canlıya taşıma adımı açık kalır; eski toplu PASS tek başına yeterli değildir.
+
 ## Tamamlanan P2 Çekirdek Motor Entegrasyonları ve Wave 7–12 Doğrulamaları (Mekanizma testi, Pareto Fayda Elemesi ve 1.000-Tick V12 Gölge Soak Doğrulaması geçti)
 
 - **Wave 12 Çok-Nesilli V19 Yetenek Bayrağı Kalıtımı (`resolve_mates`) ve Gerçek Canlı V12 Checkpoint (`Tick 12639`) Üzerinde 1.000-Tick (`Tick 12639 -> 13639`) Gölge Soak Deneyi (`src/systems/interaction.rs`, `tests/behavioral_utility_qualification.rs`):**

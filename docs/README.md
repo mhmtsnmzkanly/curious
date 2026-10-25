@@ -26,6 +26,8 @@ Kategorilere doğrudan git: [K1 Dünya ve çevre](ROADMAP.md#dunya-cevre),
 
 ## Güncel kanıt
 
+- [Seed başına kabul ve V12/V19 köprü tanısı](reports/QUALIFICATION_DIAGNOSTIC_20261025.md) — uzun ufukta paket ödünleşimli; canlı geçiş kabul edilmedi.
+
 - [Wave 12: Çok-nesilli V19 yetenek bayrağı kalıtımı ve gerçek V12 canlı checkpoint üzerinde 1.000-tick (`Tick 12639 -> 13639`) izole gölge soak deneyi](reports/LIVE_V12_SHADOW_1000_TICK_SOAK_20261025.md) — `resolve_mates` içinde V19 yetenek bayraklarının sıfır öğrenilmiş bellek aktarımıyla yeni nesillere devri ve 630 bireyli gerçek V12 dünyasında 1.000 tick (`34+` yeni nesil, `~5.150` doğum) boyunca 4 kolun (`ControlFlagsOff`, `JuvenileParentalCareOnly`, `RefugeFirstIntervalOnly`, `QualifiedCandidateBundle`) karşılaştırmalı soak kanıtı.
 - [Wave 11: Yazılmış V19 özelliklerinin davranışsal fayda (Pareto) elemesi ve gerçek V12 canlı checkpoint üzerinde izole gölge doğrulaması](reports/BEHAVIORAL_UTILITY_AND_SHADOW_QUALIFICATION_20261025.md) — 10 held-out tohum (`401..=410`) × 150 tick üzerinde 9 tekil özelliğin fiziksel sonuç vektörüyle Pareto sınıflandırması (`JuvenileParentalCareOnly` + `RefugeFirstIntervalOnly` canlı aday paketi), gerçek canlı V12 (`history-000870.sqlite.zst`, `tick = 12639`, `630` birey) üzerinde 20-tick V19 gölge devamlılık doğrulaması ve kontrollü canlıya taşıma prosedürü.
 - [Wave 10: P3 ablasyon, K7 V19 telemetri ve 9c7d3f0 kanıt sınırı kapanış raporu](reports/P3_ABLATION_AND_9C7D3F0_CLOSURE_20261025.md) — çoklu-habitat tekil-özellik ablasyon seçiciliği, F8 otonom kış kazısı deterministik tanığı, `SignalTrace <= 64` sınırı ve K7 V19 web telemetrisi.

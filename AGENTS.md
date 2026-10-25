@@ -55,6 +55,8 @@ dağıtım ve karar kanıtları ilgili raporlarda korunur; eski kayıtları silm
 
 ## Öğrenmenin mevcut kanıt sınırı
 
+- En son [kabul tanısı](docs/reports/QUALIFICATION_DIAGNOSTIC_20261025.md): 401..410 tekrarında bakım/paket 2 iyileşme+8 nötr; refuge 10/10 nötr. Gerçek checkpoint’ten 1.000 tick paketi, V19 kontrole göre endpoint’te +13 canlı ama toplamda 1428 daha az birey-tick üretir. Canlı fayda/Pareto kabulü yoktur; önceki raporlardaki toplu PASS ve bütün kurucuların kaybolduğu iddiasını güncel garanti saymayın.
+
 - V17 su artığı varsayılan kapalıdır. `WATER_RESIDUAL_V1` raporunda kayıtlı
   bounded utility kapısı iki karşılaştırıcıya karşı başarısızdır; üç seedde
   mekanizma şahidi olması yarar/üstünlük kabulü değildir.
