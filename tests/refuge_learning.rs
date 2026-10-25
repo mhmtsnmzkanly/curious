@@ -1270,3 +1270,276 @@ fn pending_refuge_closure_survives_checkpoint_and_emits_once_after_restore() {
             .any(|event| matches!(event, SimulationEvent::RefugeEpisodeEnded { .. }))
     );
 }
+
+#[test]
+fn first_interval_threat_damage_remains_exact_when_full_route_later_censors() {
+    // Sub-case 1: Censored via third-party attacker (other_damage) before arriving at refuge
+    {
+        let mut herbivore = EntitySlot::new(
+            1,
+            Position::new(3, 2),
+            EntityPhase::Active,
+            EntityController::AI,
+            Box::new(HerbivoreEntity::default()),
+        );
+        herbivore.base.life_mut().speed = 1;
+        herbivore.base.life_mut().health = 120;
+        herbivore.base.life_mut().energy = 80;
+        herbivore.base.life_mut().stamina = 16;
+        herbivore.memory.refuge_outcomes_enabled = true;
+        herbivore.memory.refuge_generalization_enabled = true;
+
+        let mut threat = EntitySlot::new(
+            2,
+            Position::new(3, 1),
+            EntityPhase::Active,
+            EntityController::AI,
+            Box::new(CarnivoreEntity::default()),
+        );
+        threat.base.life_mut().energy = 60;
+
+        let third_party = EntitySlot::new(
+            3,
+            Position::new(1, 1),
+            EntityPhase::Active,
+            EntityController::Player(0),
+            Box::new(CarnivoreEntity::default()),
+        );
+
+        let mut world = World::with_seed(
+            0,
+            6,
+            0,
+            6,
+            vec![herbivore, threat, third_party],
+            42,
+        );
+        world.logger = curious::logger::Logger::disabled();
+        world.map.set_cell(Position::new(0, 2), Cell::Burrow);
+
+        // --- Tick 1: First resolver interval ---
+        // Herbivore initiates refuge escape towards burrow at (0, 2), pays movement energy,
+        // and receives attributed threat damage from threat (2).
+        let tick1_events = world.tick();
+
+        assert_eq!(world.entities[0].pos, Position::new(2, 2));
+        assert!(tick1_events.iter().any(|e| matches!(
+            e,
+            SimulationEvent::EntityMoved {
+                id: 1,
+                energy_cost,
+                from,
+                to,
+            } if *energy_cost > 0 && *from == Position::new(3, 2) && *to == Position::new(2, 2)
+        )));
+        assert!(tick1_events.iter().any(|e| matches!(
+            e,
+            SimulationEvent::EntityAttacked {
+                attacker: 2,
+                target: 1,
+                damage: 20,
+                killed: false,
+                ..
+            }
+        )));
+        // Ensure third-party entity did not attack in tick 1
+        assert!(!tick1_events.iter().any(|e| matches!(
+            e,
+            SimulationEvent::EntityAttacked { attacker: 3, target: 1, .. }
+        )));
+        // Herbivore survived tick 1
+        assert!(world.entities[0].base.life().is_alive());
+        assert_eq!(world.entities[0].base.life().health, 100);
+
+        // Verify episode ledger after tick 1:
+        let ep = world.entities[0]
+            .memory
+            .refuge_episode
+            .as_ref()
+            .expect("Refuge episode should be active after tick 1");
+        assert_eq!(ep.threat_id, 2);
+        assert_eq!(ep.threat_damage, 20);
+        assert!(ep.movement_energy > 0);
+        let first_interval_move_energy = ep.movement_energy;
+        assert_eq!(ep.other_damage, 0);
+        assert_eq!(ep.unattributed_health_loss, 0);
+        assert_eq!(ep.elapsed_ticks, 1);
+
+        // Full-route tables are empty after tick 1 (not completed or censored yet)
+        assert!(world.entities[0].memory.refuge_outcomes.is_empty());
+        assert!(world.entities[0].memory.refuge_generalized_outcomes.is_empty());
+
+        // --- Tick 2: Before arriving at the refuge, third-party attacker deals other_damage ---
+        // Target is at (0, 2), herbivore is at (2, 2). It moves to (1, 2) in tick 2 (still en route).
+        // Third-party carnivore at (1, 1) attacks herbivore at (1, 2)
+        world.push_command(3, Intent::Attack { target_id: 1 });
+        let tick2_events = world.tick();
+
+        assert_eq!(world.entities[0].pos, Position::new(1, 2));
+        assert!(tick2_events.iter().any(|e| matches!(
+            e,
+            SimulationEvent::EntityAttacked {
+                attacker: 3,
+                target: 1,
+                damage: 20,
+                ..
+            }
+        )));
+
+        // At end of tick 2, herbivore is still en route (pos (1, 2) != burrow (0, 2))
+        let ep2 = world.entities[0]
+            .memory
+            .refuge_episode
+            .as_ref()
+            .expect("Episode should still be active en route");
+        assert_eq!(ep2.threat_damage, 20); // First-interval threat damage remains exact!
+        assert_eq!(ep2.other_damage, 20);  // Third-party damage recorded separately
+        assert_eq!(ep2.unattributed_health_loss, 0); // No conflation
+
+        // --- Tick 3: Arrives at burrow, but the full route must be CENSORED due to other_damage ---
+        let tick3_events = world.tick();
+        assert_eq!(world.entities[0].pos, Position::new(0, 2));
+
+        let end_event = tick3_events
+            .iter()
+            .find_map(|e| match e {
+                SimulationEvent::RefugeEpisodeEnded {
+                    id: 1,
+                    closure,
+                    completed,
+                    safe_arrival,
+                    attribution_known,
+                    threat_damage,
+                    other_damage,
+                    movement_energy,
+                    unattributed_health_loss,
+                    ..
+                } => Some((
+                    *closure,
+                    *completed,
+                    *safe_arrival,
+                    *attribution_known,
+                    *threat_damage,
+                    *other_damage,
+                    *movement_energy,
+                    *unattributed_health_loss,
+                )),
+                _ => None,
+            })
+            .expect("RefugeEpisodeEnded must be emitted on arrival");
+
+        let (
+            closure,
+            completed,
+            safe_arrival,
+            attribution_known,
+            threat_damage,
+            other_damage,
+            movement_energy,
+            unattributed_health_loss,
+        ) = end_event;
+
+        assert_eq!(closure, RefugeClosure::Arrived);
+        assert!(completed);
+        assert!(!safe_arrival, "Arrival with foreign damage is not safe");
+        assert!(!attribution_known, "Foreign damage censors attribution");
+        assert_eq!(threat_damage, 20, "Threat damage from interval 1 must remain exact");
+        assert_eq!(other_damage, 20);
+        assert_eq!(unattributed_health_loss, 0);
+        assert!(movement_energy > first_interval_move_energy);
+
+        // Verification 1: The full-route learning tables MUST be empty (treated as censored)!
+        assert!(
+            world.entities[0].memory.refuge_outcomes.is_empty(),
+            "Full-route exact learning table must NOT record censored route"
+        );
+        assert!(
+            world.entities[0].memory.refuge_generalized_outcomes.is_empty(),
+            "Full-route generalized learning table must NOT record censored route"
+        );
+    }
+
+    // Sub-case 2: Censored via PriorityInterrupted before arriving at refuge
+    {
+        let mut herbivore = EntitySlot::new(
+            1,
+            Position::new(3, 2),
+            EntityPhase::Active,
+            EntityController::AI,
+            Box::new(HerbivoreEntity::default()),
+        );
+        herbivore.base.life_mut().speed = 1;
+        herbivore.base.life_mut().health = 120;
+        herbivore.base.life_mut().energy = 80;
+        herbivore.base.life_mut().stamina = 16;
+        herbivore.memory.refuge_outcomes_enabled = true;
+        herbivore.memory.refuge_generalization_enabled = true;
+
+        let mut threat = EntitySlot::new(
+            2,
+            Position::new(3, 1),
+            EntityPhase::Active,
+            EntityController::AI,
+            Box::new(CarnivoreEntity::default()),
+        );
+        threat.base.life_mut().energy = 60;
+
+        let mut world = World::with_seed(0, 6, 0, 6, vec![herbivore, threat], 43);
+        world.logger = curious::logger::Logger::disabled();
+        world.map.set_cell(Position::new(0, 2), Cell::Burrow);
+
+        // --- Tick 1: First resolver interval ---
+        let tick1_events = world.tick();
+        assert_eq!(world.entities[0].pos, Position::new(2, 2));
+        assert!(tick1_events.iter().any(|e| matches!(
+            e,
+            SimulationEvent::EntityAttacked {
+                attacker: 2,
+                target: 1,
+                damage: 20,
+                killed: false,
+                ..
+            }
+        )));
+        let ep = world.entities[0]
+            .memory
+            .refuge_episode
+            .as_ref()
+            .expect("Refuge episode should be active after tick 1");
+        assert_eq!(ep.threat_id, 2);
+        assert_eq!(ep.threat_damage, 20);
+        assert!(ep.movement_energy > 0);
+        assert_eq!(ep.other_damage, 0);
+        assert_eq!(ep.unattributed_health_loss, 0);
+
+        // --- Tick 2: Priority interrupted before arriving at burrow ---
+        world.push_command(1, Intent::Idle { duration: 1 });
+        let tick2_events = world.tick();
+
+        let end_event = tick2_events
+            .iter()
+            .find_map(|e| match e {
+                SimulationEvent::RefugeEpisodeEnded {
+                    id: 1,
+                    closure,
+                    completed,
+                    threat_damage,
+                    other_damage,
+                    unattributed_health_loss,
+                    ..
+                } => Some((*closure, *completed, *threat_damage, *other_damage, *unattributed_health_loss)),
+                _ => None,
+            })
+            .expect("RefugeEpisodeEnded must be emitted when priority is interrupted");
+
+        assert_eq!(end_event.0, RefugeClosure::PriorityInterrupted);
+        assert!(!end_event.1, "Interrupted route is not completed");
+        assert_eq!(end_event.2, 20, "First-interval threat damage preserved in closure event");
+        assert_eq!(end_event.3, 0);
+        assert_eq!(end_event.4, 0);
+
+        // Tables must be empty
+        assert!(world.entities[0].memory.refuge_outcomes.is_empty());
+        assert!(world.entities[0].memory.refuge_generalized_outcomes.is_empty());
+    }
+}
