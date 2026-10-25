@@ -420,7 +420,9 @@ pub struct FlagOnComparisonResult {
     pub treatment_context_entries_total: usize,
     pub treatment_first_interval_outcomes_total: usize,
     pub treatment_signals_emitted_total: usize,
+    pub treatment_unique_signals_emitted_total: usize,
     pub treatment_burrows_total: usize,
+    pub treatment_newly_excavated_burrows_total: usize,
 }
 
 fn build_flag_comparison_entities(seed: u64) -> Vec<EntitySlot> {
@@ -557,9 +559,16 @@ fn run_flag_on_vs_flag_off_comparison(seed: u64, ticks: usize) -> FlagOnComparis
         slot.memory.refuge_outcomes_enabled = true;
     }
 
+    let initial_static_burrows = [
+        Position::new(-7 + ox, -6 + oy),
+        Position::new(-6 + ox, -7 + oy),
+    ];
+
     // 3. Run both worlds for 80 ticks and sample mechanism metrics
     let mut treatment_signals_emitted_total = 0usize;
+    let mut treatment_unique_signals_emitted_total = 0usize;
     let mut treatment_burrows_total = 0usize;
+    let mut newly_excavated_burrows: std::collections::HashSet<Position> = std::collections::HashSet::new();
     let mut treatment_known_sectors_total = 0usize;
     let mut treatment_context_entries_total = 0usize;
     let mut treatment_first_interval_outcomes_total = 0usize;
@@ -569,7 +578,19 @@ fn run_flag_on_vs_flag_off_comparison(seed: u64, ticks: usize) -> FlagOnComparis
         treatment_world.tick();
 
         treatment_signals_emitted_total += treatment_world.environment.signals.len();
+        treatment_unique_signals_emitted_total += treatment_world
+            .environment
+            .signals
+            .iter()
+            .filter(|s| s.emitted_tick == treatment_world.tick_counter)
+            .count();
+
         treatment_burrows_total = treatment_burrows_total.max(treatment_world.environment.burrows.len());
+        for b in &treatment_world.environment.burrows {
+            if !initial_static_burrows.contains(&b.pos) {
+                newly_excavated_burrows.insert(b.pos);
+            }
+        }
 
         let known_now: usize = treatment_world.entities.iter().map(|s| s.memory.known_sectors.len()).sum();
         treatment_known_sectors_total = treatment_known_sectors_total.max(known_now);
@@ -580,6 +601,19 @@ fn run_flag_on_vs_flag_off_comparison(seed: u64, ticks: usize) -> FlagOnComparis
         let first_interval_now: usize = treatment_world.entities.iter().map(|s| s.memory.first_interval_outcomes.len()).sum();
         treatment_first_interval_outcomes_total = treatment_first_interval_outcomes_total.max(first_interval_now);
     }
+
+    let treatment_newly_excavated_burrows_total = newly_excavated_burrows.len();
+
+    assert!(
+        treatment_newly_excavated_burrows_total > 0,
+        "Seed {}: expected at least one newly excavated burrow outside initial static burrows",
+        seed
+    );
+    assert!(
+        treatment_unique_signals_emitted_total > 0,
+        "Seed {}: expected at least one unique signal emitted during World::tick",
+        seed
+    );
 
     let control_dynamic_snapshot = DynamicWorldSnapshot::capture(&control_world);
     let treatment_dynamic_snapshot = DynamicWorldSnapshot::capture(&treatment_world);
@@ -596,7 +630,9 @@ fn run_flag_on_vs_flag_off_comparison(seed: u64, ticks: usize) -> FlagOnComparis
         treatment_context_entries_total,
         treatment_first_interval_outcomes_total,
         treatment_signals_emitted_total,
+        treatment_unique_signals_emitted_total,
         treatment_burrows_total,
+        treatment_newly_excavated_burrows_total,
     }
 }
 
@@ -780,8 +816,18 @@ fn p3_held_out_seeds_water_context_and_first_interval_refuge_comparison() {
             seed
         );
         assert!(
+            cmp.treatment_unique_signals_emitted_total > 0,
+            "Seed {}: expected at least one unique signal emitted during World::tick",
+            seed
+        );
+        assert!(
             cmp.treatment_burrows_total > 0,
             "Seed {}: Expected winter burrows dug > 0 in treatment world",
+            seed
+        );
+        assert!(
+            cmp.treatment_newly_excavated_burrows_total > 0,
+            "Seed {}: expected at least one newly excavated burrow outside initial static burrows",
             seed
         );
         flag_comparison_results.push(cmp);
@@ -816,8 +862,16 @@ fn p3_held_out_seeds_water_context_and_first_interval_refuge_comparison() {
         "All seeds must emit and observe signals when enabled"
     );
     assert!(
+        flag_comparison_results.iter().all(|r| r.treatment_unique_signals_emitted_total > 0),
+        "All seeds must emit at least one unique signal during World::tick"
+    );
+    assert!(
         flag_comparison_results.iter().all(|r| r.treatment_burrows_total > 0),
         "All seeds must dig winter burrows when enabled"
+    );
+    assert!(
+        flag_comparison_results.iter().all(|r| r.treatment_newly_excavated_burrows_total > 0),
+        "All seeds must excavate at least one new burrow outside initial static burrows"
     );
 
     // Also verify deterministic reproduction & distinct trajectories across seeds
@@ -1123,8 +1177,18 @@ fn p3_held_out_seeds_local_coordination_and_niche_comparison() {
             seed
         );
         assert!(
+            cmp.treatment_unique_signals_emitted_total > 0,
+            "Seed {}: expected at least one unique signal emitted during World::tick",
+            seed
+        );
+        assert!(
             cmp.treatment_burrows_total > 0,
             "Seed {}: Expected winter burrows dug > 0 in treatment world",
+            seed
+        );
+        assert!(
+            cmp.treatment_newly_excavated_burrows_total > 0,
+            "Seed {}: expected at least one newly excavated burrow outside initial static burrows",
             seed
         );
         flag_comparison_results.push(cmp);
@@ -1159,8 +1223,16 @@ fn p3_held_out_seeds_local_coordination_and_niche_comparison() {
         "All seeds must emit and observe signals when enabled"
     );
     assert!(
+        flag_comparison_results.iter().all(|r| r.treatment_unique_signals_emitted_total > 0),
+        "All seeds must emit at least one unique signal during World::tick"
+    );
+    assert!(
         flag_comparison_results.iter().all(|r| r.treatment_burrows_total > 0),
         "All seeds must dig winter burrows when enabled"
+    );
+    assert!(
+        flag_comparison_results.iter().all(|r| r.treatment_newly_excavated_burrows_total > 0),
+        "All seeds must excavate at least one new burrow outside initial static burrows"
     );
 
     // Also verify deterministic reproduction & distinct trajectories across seeds
