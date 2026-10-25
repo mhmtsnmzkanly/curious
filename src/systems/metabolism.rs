@@ -77,6 +77,43 @@ impl MetabolismSystem {
             }
         }
     }
+
+    /// Seasonal cold thermal surcharge helper.
+    ///
+    /// Applies winter BMR surcharge based on the environment's seasonal state and the
+    /// entity's position, taking active burrow shelter into account.
+    pub fn apply_seasonal_thermal_cost(
+        slot: &mut EntitySlot,
+        env: &crate::environment::Environment,
+        tick: usize,
+    ) {
+        if matches!(
+            slot.phase,
+            crate::entity::phase::EntityPhase::Corpse { .. }
+                | crate::entity::phase::EntityPhase::Removed
+        ) {
+            return;
+        }
+        let life = slot.base.life_mut();
+        if !life.is_alive() {
+            return;
+        }
+        let surcharge = env.winter_bmr_surcharge(slot.pos, tick);
+        if surcharge > 0 {
+            life.consume_energy(surcharge as usize);
+        }
+    }
+
+    /// Batch helper to apply seasonal thermal costs across entity slots.
+    pub fn apply_seasonal_thermal_costs(
+        entities: &mut [EntitySlot],
+        env: &crate::environment::Environment,
+        tick: usize,
+    ) {
+        for slot in entities {
+            Self::apply_seasonal_thermal_cost(slot, env, tick);
+        }
+    }
 }
 
 #[cfg(test)]

@@ -1,3 +1,25 @@
+use crate::entity::species::Species;
+
+#[derive(serde::Serialize, serde::Deserialize, Debug, Clone, Copy, PartialEq, Eq)]
+pub enum CorpseStage {
+    Fresh,
+    Aging,
+    Putrid,
+}
+
+impl CorpseStage {
+    pub fn scavenging_toxicity(self, species: Species) -> u16 {
+        match species {
+            Species::Omnivore => 0,
+            Species::Carnivore => match self {
+                CorpseStage::Fresh | CorpseStage::Aging => 0,
+                CorpseStage::Putrid => 4,
+            },
+            Species::Herbivore => 4,
+        }
+    }
+}
+
 #[derive(serde::Serialize, serde::Deserialize, Debug, Clone, Copy, PartialEq, Eq)]
 pub enum EntityPhase {
     /// Aktif, karar alabilir
@@ -32,6 +54,22 @@ impl EntityPhase {
     /// Kaldırılmasına gerek var mı?
     pub fn need_remove(&self) -> bool {
         matches!(self, EntityPhase::Removed)
+    }
+
+    /// Cesedin çürüme aşaması
+    pub fn corpse_stage(&self) -> Option<CorpseStage> {
+        match self {
+            EntityPhase::Corpse { remaining } => {
+                if *remaining > 20 {
+                    Some(CorpseStage::Fresh)
+                } else if *remaining > 8 {
+                    Some(CorpseStage::Aging)
+                } else {
+                    Some(CorpseStage::Putrid)
+                }
+            }
+            _ => None,
+        }
     }
 
     /// World için tick kolaylığı ve otomatik durum güncellemesi

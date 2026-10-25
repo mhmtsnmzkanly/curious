@@ -76,4 +76,9 @@ impl LifeCycleSystem {
             }
         }
     }
+
+    /// Helper to inspect corpse decay stage for a given entity slot.
+    pub fn corpse_stage(slot: &EntitySlot) -> Option<crate::entity::phase::CorpseStage> {
+        slot.phase.corpse_stage()
+    }
 }

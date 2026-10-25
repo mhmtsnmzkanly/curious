@@ -156,6 +156,71 @@ pub fn calculate_direction_sector(from: Position, to: Position) -> u8 {
     }
 }
 
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+pub enum Season {
+    Spring,
+    Summer,
+    Autumn,
+    Winter,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+pub struct SeasonCycle {
+    pub period: usize,
+    pub winter_bmr_surcharge: u16,
+    pub winter_plant_regen_divisor: usize,
+}
+
+impl SeasonCycle {
+    pub fn validate(&self) -> crate::Result<()> {
+        if self.period == 0 || self.period > 1_000_000 {
+            return Err("invalid season cycle period".into());
+        }
+        if self.winter_plant_regen_divisor == 0 {
+            return Err("winter plant regen divisor must be > 0".into());
+        }
+        if self.winter_bmr_surcharge > 100 {
+            return Err("winter bmr surcharge exceeds limit".into());
+        }
+        Ok(())
+    }
+
+    pub fn current_season(&self, tick: usize) -> Season {
+        if self.period == 0 {
+            return Season::Spring;
+        }
+        let phase = tick.rem_euclid(self.period);
+        let quarter = phase * 4 / self.period;
+        match quarter {
+            0 => Season::Spring,
+            1 => Season::Summer,
+            2 => Season::Autumn,
+            _ => Season::Winter,
+        }
+    }
+}
+
+pub const MAX_BURROWS: usize = 32;
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct BurrowSite {
+    pub pos: Position,
+    pub created_tick: usize,
+    pub ttl: usize,
+}
+
+impl BurrowSite {
+    pub fn validate(&self) -> crate::Result<()> {
+        if self.pos.x.unsigned_abs() > 1_000_000 || self.pos.y.unsigned_abs() > 1_000_000 {
+            return Err("invalid burrow position".into());
+        }
+        if self.ttl == 0 || self.ttl > 1_000_000 {
+            return Err("invalid burrow ttl".into());
+        }
+        Ok(())
+    }
+}
+
 fn is_false(v: &bool) -> bool {
     !*v
 }
@@ -169,6 +234,10 @@ pub struct Environment {
     pub signals_enabled: bool,
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub signals: Vec<SignalTrace>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub season_cycle: Option<SeasonCycle>,
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub burrows: Vec<BurrowSite>,
 }
 impl ResourceSite {
     pub fn validate(&self) -> crate::Result<()> {
@@ -220,9 +289,14 @@ impl Environment {
             day_night: None,
             signals_enabled: false,
             signals: Vec::new(),
+            season_cycle: None,
+            burrows: Vec::new(),
         }
     }
     pub fn update(&mut self, map: &mut Map, tick: usize, events: &mut Vec<SimulationEvent>) {
+        // Prune expired burrows
+        self.burrows.retain(|b| tick.saturating_sub(b.created_tick) < b.ttl);
+
         if self.signals_enabled {
             self.signals.retain_mut(|signal| {
                 signal.intensity = signal.intensity.saturating_sub(signal.decay_per_tick);
@@ -245,7 +319,16 @@ impl Environment {
                 (_, None | Some(Cell::Empty)) => 0,
                 _ => continue, // An intervention may replace a cell with a different resource.
             };
-            let amount = site.replenish.min(site.capacity.saturating_sub(current));
+            let mut replenish = site.replenish;
+            if site.kind == ResourceKind::Food {
+                if let Some(cycle) = self.season_cycle {
+                    if cycle.current_season(tick) == Season::Winter && cycle.winter_plant_regen_divisor > 1 {
+                        replenish = (site.replenish / cycle.winter_plant_regen_divisor)
+                            .max(if site.replenish > 0 { 1 } else { 0 });
+                    }
+                }
+            }
+            let amount = replenish.min(site.capacity.saturating_sub(current));
             if amount == 0 {
                 continue;
             }
@@ -320,12 +403,59 @@ impl Environment {
         perceived.sort_by_key(|p| (p.distance, p.direction_sector, p.kind as u8, std::cmp::Reverse(p.local_intensity)));
         perceived
     }
+    pub fn dig_burrow(&mut self, pos: Position, tick: usize, ttl: usize) -> bool {
+        self.burrows.retain(|b| tick.saturating_sub(b.created_tick) < b.ttl);
+        if let Some(existing) = self.burrows.iter_mut().find(|b| b.pos == pos) {
+            existing.created_tick = tick;
+            existing.ttl = ttl;
+            return true;
+        }
+        if self.burrows.len() >= MAX_BURROWS {
+            return false;
+        }
+        self.burrows.push(BurrowSite {
+            pos,
+            created_tick: tick,
+            ttl,
+        });
+        true
+    }
+
+    pub fn has_active_burrow(&self, pos: Position, tick: usize) -> bool {
+        self.burrows
+            .iter()
+            .any(|b| b.pos == pos && tick.saturating_sub(b.created_tick) < b.ttl)
+    }
+
+    pub fn winter_bmr_surcharge(&self, pos: Position, tick: usize) -> u16 {
+        let Some(cycle) = self.season_cycle else {
+            return 0;
+        };
+        if cycle.current_season(tick) != Season::Winter {
+            return 0;
+        }
+        if self.has_active_burrow(pos, tick) {
+            0
+        } else {
+            cycle.winter_bmr_surcharge
+        }
+    }
+
     pub fn validate(&self) -> crate::Result<()> {
         for site in &self.sites {
             site.validate()?;
         }
         if let Some(cycle) = self.day_night {
             cycle.validate()?;
+        }
+        if let Some(cycle) = self.season_cycle {
+            cycle.validate()?;
+        }
+        if self.burrows.len() > MAX_BURROWS {
+            return Err("too many burrows".into());
+        }
+        for burrow in &self.burrows {
+            burrow.validate()?;
         }
         if self.signals.len() > MAX_ENVIRONMENT_SIGNALS {
             return Err("too many environment signals".into());
