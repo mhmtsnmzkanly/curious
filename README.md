@@ -25,27 +25,31 @@ bir özellik ya da uzun yaşam tek başına başarı kanıtı sayılmaz.
   sansürü, tamamlanmış ilk aralığın exact etiketini geçersiz kılmaz.
 - Aylar/yıllar süren soak kullanıcı isteğiyle ertelendi; sonraki özellik için
   engel değildir.
-- Dalga 1–6 motor geliştirmeleri, Wave 7 denetim düzeltmeleri ve Wave 8
-  tam kapanış doğrulamaları tamamlandı: `World::with_seed` varsayılan olarak
-  `Logger::disabled()` kullanır (testlerde dosya sızıntısı önlendi); `Memory::toward`
-  yerel BFS baypas aramasıyla duvara takılmayı çözer. Bağımsız denetimlerde
-  tespit edilen bulgular eksiksiz kapatıldı: su bağlam artığı net fiziksel
-  ölçeğe (`foraging::water_score` ile uyumlu net kalıntı) ve ardışık özdeş kayıt
-  desteğine bağlandı (F1); pusu örtüsü ve +5 ilk vuruş bonusu sıradan etçil ve
-  hepçillerin erişebildiği bitki örtüsü ve duvar bitişiğine genişletildi (F2);
-  checkpoint `V19` ham V18 JSON göç testiyle doğrulandı (F3); kış mevsimi ek BMR
-  maliyeti bağlandı (F4); dinamik in girdileri doğrulanarak kış mevsiminde
-  otonom in kazma eylemi eklendi (F5); ceset enerjisi her tick kademeli çürümeye
-  ve sıfır besin alan bireyler için toksisite muafiyetine bağlandı (F6); bağlam
+- Dalga 1–6 motor geliştirmeleri, Wave 7–8 denetim düzeltmeleri ve Wave 9
+  hizalaması tamamlandı: `World::with_seed` varsayılan olarak `Logger::disabled()`
+  kullanır (testlerde dosya sızıntısı önlendi); `Memory::toward` yerel BFS baypas
+  aramasıyla duvara takılmayı çözer. Bağımsız denetimlerde tespit edilen bulgular
+  eksiksiz kapatıldı: su bağlam artığı doğrudan `foraging::value` formülü ve
+  legacy residual ile birebir aynı ölçekte `(actual - baseline).clamp(-1000, 1000)`
+  hesaplanır, baseline yoksa artık üretilmez ve başarısız su bölümlerinde hedef
+  doğrulaması gözetilir (F1); pusu örtüsü sıradan avcıların erişebildiği bitki örtüsü
+  ve duvar bitişiğine genişletildi (F2); checkpoint `V19` ham V18 JSON göç testiyle
+  doğrulandı (F3); kış mevsimi ek BMR maliyeti bağlandı (F4); statik inler `from_map`
+  ile kaydedilip kış koruması sağlandı, dinamik in girdileri doğrulanarak kış
+  otonom kazısında kapasite doluyken stamina kaybı önlendi (F5); ceset enerjisi
+  ilk tick taze besin paritesini koruyup izleyen 3 tick'te kademeli çürümeye ve
+  sıfır besin alan bireyler için toksisite muafiyetine bağlandı (F6); bağlam
   artığında i64 toplamı ve sınır doğrulaması sağlandı (F7); 5 bağımsız seed
-  üzerinde `Control (Flags Off)` vs `Treatment (Flags On)` gerçek `World::tick`
-  karşılaştırmasıyla nedensel durum ve RNG ayrışması kanıtlandı (F8).
+  üzerinde konfigürasyondan bağımsız dinamik dünya durumu (`DynamicWorldSnapshot`)
+  ve RNG ayrışması ile 5 V19 mekanizmasının tamamı pozitif assert'lerle kanıtlandı (F8).
   Mekanizma ve `World::tick` entegrasyonu doğrulanmış olup, evrensel çok-habitatlı
   ekolojik üstünlük kanıtlanmamıştır / kapsam dışıdır
-  ([Denetim raporu](docs/reports/AUDIT_CA5971B_20261025.md),
+  ([ca5971b denetim](docs/reports/AUDIT_CA5971B_20261025.md),
   [Wave 7 düzeltme ve V19 raporu](docs/reports/AUDIT_CA5971B_REMEDIATION_20261025.md),
   [2002ee4 yeniden denetim](docs/reports/AUDIT_RECHECK_2002EE4_20261025.md),
-  [Wave 8 tam kapanış raporu](docs/reports/AUDIT_RECHECK_REMEDIATION_20261025.md),
+  [Wave 8 tam kapanış](docs/reports/AUDIT_RECHECK_REMEDIATION_20261025.md),
+  [6fa9c49 yeniden denetim](docs/reports/AUDIT_RECHECK_6FA9C49_20261025.md),
+  [Wave 9 kapanış ve hizalama](docs/reports/AUDIT_RECHECK_6FA9C49_REMEDIATION_20261025.md),
   [Tarihsel P2/P3 raporu](docs/reports/P2_P3_EMPIRICAL_AND_K8_AUDIT_20261025.md)).
 
 Sekiz kategori ve yedi A–G yetenek izinin durumu ile öncelikleri:
@@ -107,5 +111,7 @@ Yalnızca Markdown değişiklikleri Rust yeniden derlemesi gerektirmez.
 - [Wave 7: ca5971b entegrasyon denetimi (F1–F8) düzeltme ve V19 doğrulama raporu](docs/reports/AUDIT_CA5971B_REMEDIATION_20261025.md)
 - [2002ee4 düzeltmelerinin bağımsız yeniden denetimi](docs/reports/AUDIT_RECHECK_2002EE4_20261025.md)
 - [Wave 8: 2002ee4 yeniden denetim bulgularının (F1, F2, F5, F6, F8) tam kapanış raporu](docs/reports/AUDIT_RECHECK_REMEDIATION_20261025.md)
+- [6fa9c49 düzeltmelerinin bağımsız yeniden denetimi](docs/reports/AUDIT_RECHECK_6FA9C49_20261025.md)
+- [Wave 9: 6fa9c49 yeniden denetim bulgularının kapatılması ve tam hizalama raporu](docs/reports/AUDIT_RECHECK_6FA9C49_REMEDIATION_20261025.md)
 - [P2/P3 ampirik protokol ve K8 denetimi (Tarihsel dondurulmuş rapor)](docs/reports/P2_P3_EMPIRICAL_AND_K8_AUDIT_20261025.md)
 - [Tüm raporlar](docs/reports/)

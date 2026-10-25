@@ -26,8 +26,8 @@ Kategorilere doğrudan git: [K1 Dünya ve çevre](ROADMAP.md#dunya-cevre),
 
 ## Güncel kanıt
 
+- [Wave 9: 6fa9c49 yeniden denetim bulgularının (P1/F1, P2/F8, F5, F6) tam kapanış ve hizalama raporu](reports/AUDIT_RECHECK_6FA9C49_REMEDIATION_20261025.md) — su bağlam artığının `foraging::value` ölçeğiyle tam hizalanması, konfigürasyondan bağımsız dinamik snapshot ve RNG ayrışması, statik harita inleri metadata kaydı ve ceset çürümesi zamanlamasının tam kapanış kanıtı.
 - [6fa9c49 bağımsız yeniden denetimi](reports/AUDIT_RECHECK_6FA9C49_20261025.md) — F1 ölçek hatası, F8 kanıt sınırı ve diğer kapanışların kontrolü.
-
 - [2002ee4 düzeltmelerinin bağımsız yeniden denetimi](reports/AUDIT_RECHECK_2002EE4_20261025.md) — F3/F4/F7 düzeldi; diğer bulgulardaki kalan kusurlar ve kanıt sınırları.
 - [Wave 8: 2002ee4 yeniden denetim bulgularının (F1, F2, F5, F6, F8) tam kapanış raporu](reports/AUDIT_RECHECK_REMEDIATION_20261025.md) — su bağlam ölçeği, pusu örtüsü, ham V18 JSON göç testi, dinamik in ve ceset çürümesi ile 5-seed World::tick karşılaştırmasının tam kapanış kanıtı.
 - [25 Ekim ca5971b entegrasyon denetimi: sekiz bulgu](reports/AUDIT_CA5971B_20261025.md) — P2/P3 entegrasyon iddialarının sınırlarını ve tespit edilen eksikleri açıklar.
@@ -54,15 +54,18 @@ kimliği sonuç çıktıktan sonra sessizce değiştirilmez.
 P0/P1 saf prototiplerinin ardından, P2 kapsamında temel mekanizmalar (mevsimsel döngü,
 inler, kademeli cesetler, ebeveyn bakımı, sığınak pusu gizlenmesi, yerel sesli alarm,
 su bağlamı, ilk-aralık hasar öğrenmesi ve mekânsal merak) çekirdek motora modüler ve
-varsayılan kapalı (`default-off`) olarak entegre edilmiştir. Wave 7 ve Wave 8 denetimlerinde
+varsayılan kapalı (`default-off`) olarak entegre edilmiştir. Wave 7, Wave 8 ve Wave 9 denetimlerinde
 ([AUDIT_CA5971B_20261025](reports/AUDIT_CA5971B_20261025.md),
-[AUDIT_RECHECK_2002EE4_20261025](reports/AUDIT_RECHECK_2002EE4_20261025.md)) tespit edilen
+[AUDIT_RECHECK_2002EE4_20261025](reports/AUDIT_RECHECK_2002EE4_20261025.md),
+[AUDIT_RECHECK_6FA9C49_20261025](reports/AUDIT_RECHECK_6FA9C49_20261025.md)) tespit edilen
 tüm entegrasyon kusurları giderilmiş; özellikler aktif `World::tick` yürütme yoluna bağlanmış,
-bağlam artığı fiziksel net artık ölçeğine uyarlanmış, pusu örtüsü sıradan avcılara
+bağlam artığı `foraging::value` fiziksel net artık ölçeğine tam uyarlanmış, pusu örtüsü sıradan avcılara
 genişletilmiş, in/ceset fizik kuralları senkronize edilmiş, checkpoint sürümü `V19`'a
-yükseltilmiş ve 5 tohumlu gerçek `World::tick` Control vs Treatment karşılaştırmaları
-doğrulanmıştır ([AUDIT_CA5971B_REMEDIATION_20261025](reports/AUDIT_CA5971B_REMEDIATION_20261025.md),
-[AUDIT_RECHECK_REMEDIATION_20261025](reports/AUDIT_RECHECK_REMEDIATION_20261025.md)).
+yükseltilmiş ve konfigürasyondan bağımsız dinamik durum karşılaştırmasıyla 5'er tohumlu gerçek
+`World::tick` Control vs Treatment karşılaştırmaları doğrulanmıştır
+([AUDIT_CA5971B_REMEDIATION_20261025](reports/AUDIT_CA5971B_REMEDIATION_20261025.md),
+[AUDIT_RECHECK_REMEDIATION_20261025](reports/AUDIT_RECHECK_REMEDIATION_20261025.md),
+[AUDIT_RECHECK_6FA9C49_REMEDIATION_20261025](reports/AUDIT_RECHECK_6FA9C49_REMEDIATION_20261025.md)).
 K7 web replay ve deneyim ekranları (`refuge`, `causalChain`, `autoDirector`) arayüze bağlanmış;
 P3 sabit 5-seed held-out protokolü ve K8 throughput denetimi (`SignalTrace <= 64`, `sites <= 8`,
 `dangers <= 8`, `known_sectors <= 16`, `burrows <= 32`) tamamlanmıştır. Mekanizma entegrasyonu
