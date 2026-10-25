@@ -8,11 +8,11 @@
 <body>
   <header><a class="brand" href="./replay.html">◌ <span>CURIOUS<small>SU LABORATUVARI TEKRARI</small></span></a><span>Yerel kayıt görüntüleyici · salt okunur</span></header>
   <main>
-    <div class="intro"><div><p class="eyebrow">SINIRLI TEKRAR</p><h1>Dört su seçimi geçmişi</h1><p class="muted">Bilgisayarınızdan bir tekrar paketi yükleyin. Dosya bu tarayıcı sekmesinde kalır.</p></div></div>
+    <div class="intro"><div><p class="eyebrow">SINIRLI TEKRAR</p><h1 id="page-title">Su laboratuvarı kayıt incelemesi</h1><p id="replay-caption" class="muted">Bilgisayarınızdan bir tekrar paketi yükleyin. Dosya bu tarayıcı sekmesinde kalır.</p></div></div>
     <section class="panel load-panel"><label for="bundle-file">Tekrar paketi JSON dosyası</label><input id="bundle-file" type="file" accept="application/json,.json"><p id="status" role="status"><code>water-adaptation-replay-v1</code> şemasına sahip bir paket seçin.</p><p id="error" hidden></p></section>
     <section id="viewer" hidden>
       <section class="panel summary"><div><span>Tohum</span><b id="seed">—</b></div><div><span>Kaynak</span><b id="source">—</b></div><div><span>Çatal adımı</span><b id="fork">—</b></div><p id="branch-note"></p></section>
-      <section class="panel controls"><label for="tick">Gerçek kare adımı <output id="tick-label">—</output></label><input id="tick" type="range" min="201" max="400" value="201"><p>Çatal 200. adımda · sonraki kareler kollara özeldir. Kaydırıcı kayıttaki gerçek adımları kullanır.</p></section>
+      <section class="panel controls"><label for="tick">Gerçek kare adımı <output id="tick-label">—</output></label><input id="tick" type="range" min="201" max="400" value="201"><p id="tick-caption">Çatal 200. adımda · sonraki kareler kollara özeldir. Kaydırıcı kayıttaki gerçek adımları kullanır.</p></section>
       <div id="arms" class="arms"></div>
       <section class="panel metrics-panel"><h2>Kollara ait kayıtlı özetler</h2><div id="metrics" class="arms"></div></section>
       <p class="caveat">Tekrar yalnızca kaydedilmiş gözlemleri gösterir; öğrenme yararı kanıtlamaz. Ölçümler yalnızca pakette varsa gösterilir.</p>

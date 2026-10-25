@@ -1,5 +1,7 @@
 # Sonraki işler — 25 Ekim 2026
 
+Su uyum labı V1: [kalibrasyon geçersiz](docs/reports/WATER_ADAPTATION_V1_20261025.md). Sonraki tasarım, su kararından ayrı gıda erişim kilitlenmesini gidermeli; mevcut koşudan öğrenme faydası çıkarılmamalı. Formal seedler çalıştırılmadı.
+
 Güncel karar: [kabul tanısı](docs/reports/QUALIFICATION_DIAGNOSTIC_20261025.md) paket için uzun-ufuk Pareto üstünlüğü göstermedi. Canlıya taşıma adımı açık kalır; eski toplu PASS tek başına yeterli değildir.
 
 ## Tamamlanan P2 Çekirdek Motor Entegrasyonları ve Wave 7–12 Doğrulamaları (Mekanizma testi, Pareto Fayda Elemesi ve 1.000-Tick V12 Gölge Soak Doğrulaması geçti)

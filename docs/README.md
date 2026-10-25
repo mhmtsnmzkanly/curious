@@ -26,6 +26,8 @@ Kategorilere doğrudan git: [K1 Dünya ve çevre](ROADMAP.md#dunya-cevre),
 
 ## Güncel kanıt
 
+- [Su uyum labı V1 kalibrasyonu](reports/WATER_ADAPTATION_V1_20261025.md) — birey fork öncesi öldü; formal çalıştırılmadı, fayda sonucu yok.
+
 - [Seed başına kabul ve V12/V19 köprü tanısı](reports/QUALIFICATION_DIAGNOSTIC_20261025.md) — uzun ufukta paket ödünleşimli; canlı geçiş kabul edilmedi.
 
 - [Wave 12: Çok-nesilli V19 yetenek bayrağı kalıtımı ve gerçek V12 canlı checkpoint üzerinde 1.000-tick (`Tick 12639 -> 13639`) izole gölge soak deneyi](reports/LIVE_V12_SHADOW_1000_TICK_SOAK_20261025.md) — `resolve_mates` içinde V19 yetenek bayraklarının sıfır öğrenilmiş bellek aktarımıyla yeni nesillere devri ve 630 bireyli gerçek V12 dünyasında 1.000 tick (`34+` yeni nesil, `~5.150` doğum) boyunca 4 kolun (`ControlFlagsOff`, `JuvenileParentalCareOnly`, `RefugeFirstIntervalOnly`, `QualifiedCandidateBundle`) karşılaştırmalı soak kanıtı.

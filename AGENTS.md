@@ -55,6 +55,8 @@ dağıtım ve karar kanıtları ilgili raporlarda korunur; eski kayıtları silm
 
 ## Öğrenmenin mevcut kanıt sınırı
 
+- [Su uyum V1](docs/reports/WATER_ADAPTATION_V1_20261025.md) kalibrasyonu seed62199da fork200 öncesi açlık ölümüyle106tickte reddedildi; formal62101..62106 çalıştırılmadı. Frozen tablo saklama hatası düzeltildi;48tick predictionTTL devam eder. Bu çalışma öğrenme yararı kabulü değildir.
+
 - En son [kabul tanısı](docs/reports/QUALIFICATION_DIAGNOSTIC_20261025.md): 401..410 tekrarında bakım/paket 2 iyileşme+8 nötr; refuge 10/10 nötr. Gerçek checkpoint’ten 1.000 tick paketi, V19 kontrole göre endpoint’te +13 canlı ama toplamda 1428 daha az birey-tick üretir. Canlı fayda/Pareto kabulü yoktur; önceki raporlardaki toplu PASS ve bütün kurucuların kaybolduğu iddiasını güncel garanti saymayın.
 
 - V17 su artığı varsayılan kapalıdır. `WATER_RESIDUAL_V1` raporunda kayıtlı

@@ -1,0 +1,57 @@
+{
+  "status": "calibration_invalid_formal_not_run",
+  "source": "17d0e47",
+  "seed": 62199,
+  "formal_seeds_not_run": [
+    62101,
+    62102,
+    62103,
+    62104,
+    62105,
+    62106
+  ],
+  "physical_world_ticks": 106,
+  "analysis_world_ticks": 0,
+  "freeze_regression_test_world_ticks": 60,
+  "metrics": {
+    "observed_ticks": 106,
+    "fresh_two_source_choices": 3,
+    "food_acquired_resolver": 90,
+    "water_acquired_resolver": 30,
+    "movement_energy_resolver": 94,
+    "terminal_health": 0,
+    "terminal_energy": 0,
+    "terminal_water": 0,
+    "death_cause": "Starvation",
+    "comparison_performed": false
+  },
+  "validity": {
+    "all_required_branches_present": false,
+    "common_fork_state_after_censor": false,
+    "focal_alive_at_fork": false,
+    "frozen_tables_stable": false,
+    "post_treatment_body_memory_map_rng_equal_when_learner_removed": false,
+    "prefix_fresh_two_source_choices_at_least_5": false,
+    "trained_context_entries_at_fork_at_least_1": false,
+    "trained_frozen_suffix_choices_at_least_3": false,
+    "trained_online_suffix_choices_at_least_3": false
+  },
+  "manifest_sha256": "ccd1accfdf6bb2b92a08e047b92dcd571ca80fbf1dbab2bccea6c0b51373cd7f",
+  "raw_sha256": "f80b5d4af8cd8f3aeb7a772121a60dccfd4f58ddcc22f9880c8586bb6712b930",
+  "protocol_sha256": "91e055d498a99720ccdb0294f19818b95b30ab84c9f9132c698a81322382e5f1",
+  "binary_sha256": "974815448f5971995081868f49c977a3a6d16b5443a85ef710d375e3b5f6082a",
+  "scientific_result": "not_identifiable_no_learning_benefit_claim",
+  "source_change": "freeze stored context tables while preserving prediction TTL",
+  "live_changed": false,
+  "diagnosis": {
+    "first_zero_energy_tick": 76,
+    "approach_out_of_range_at_or_after_depletion_tick": 30,
+    "approach_out_of_range_after_depletion_tick": 29,
+    "food_amount_at_death": 30,
+    "health_loss_split_by_pre_tick_water": {
+      "water_positive": 44,
+      "water_zero": 76
+    },
+    "no_causal_health_loss_allocation_claim": true
+  }
+}

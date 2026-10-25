@@ -2,10 +2,13 @@
   "use strict";
   const ARMS = ["rule_based", "naive_online", "trained_online", "trained_frozen"];
   const MAX_FILE = 20 * 1024 * 1024;
+  function armNames(bundle) { return bundle.schema === "water-adaptation-prefix-replay-v1" ? ["common_prefix"] : ARMS; }
   function validate(bundle) {
-    if (!bundle || bundle.schema !== "water-adaptation-replay-v1") throw Error("Desteklenmeyen tekrar şeması.");
-    if (!Array.isArray(bundle.arms) || bundle.arms.length !== 4) throw Error("Paket tam olarak dört kol içermeli.");
-    for (const name of ARMS) {
+    if (!bundle || !["water-adaptation-replay-v1", "water-adaptation-prefix-replay-v1"].includes(bundle.schema)) throw Error("Desteklenmeyen tekrar şeması.");
+    const names = armNames(bundle);
+    if (bundle.schema === "water-adaptation-prefix-replay-v1" && bundle.status !== "calibration_invalid") throw Error("Ön ek kaydı calibration_invalid durumunda olmalı.");
+    if (!Array.isArray(bundle.arms) || bundle.arms.length !== names.length) throw Error(`Paket ${names.length} kol içermeli.`);
+    for (const name of names) {
       const arm = bundle.arms.find(x => x && x.name === name);
       if (!arm || !Array.isArray(arm.frames) || arm.frames.length > 401) throw Error(`Eksik veya geçersiz kol: ${name}`);
       if (!arm.frames.every(f => f && Number.isFinite(Number(f.tick)))) throw Error(`${name} kolunda geçersiz kareler var.`);
@@ -40,6 +43,11 @@
     assert.equal(contextRows(project(bundle,"trained_online",201).entities[0]).legacy.length,1);
     assert.equal(project(bundle,"trained_online",200),null);
     assert.throws(()=>validate({...bundle,schema:"other"}),/Desteklenmeyen/);
+    const prefix={schema:"water-adaptation-prefix-replay-v1",status:"calibration_invalid",seed:4,source:"test",fork_tick:200,sites:bundle.sites,arms:[{name:"common_prefix",frames:[{tick:106,state:{entities:[]},decisions:[],events:[]}]}]};
+    assert.equal(validate(prefix),prefix);
+    assert.equal(armNames(prefix)[0],"common_prefix");
+    assert.equal(project(prefix,"common_prefix",106).frame.tick,106);
+    assert.throws(()=>validate({...prefix,status:"complete"}),/calibration_invalid/);
     process.stdout.write("water-lab projection self-test passed\n");
   }
   if (typeof module !== "undefined" && module.exports) module.exports = { ARMS, MAX_FILE, validate, project, contextRows };
@@ -55,7 +63,7 @@
     if (!data) return;
     const tick = position;
     text($("tick-label"), tick);
-    for (const name of ARMS) {
+    for (const name of armNames(data)) {
       const card = $("arm-" + name), view = project(data, name, tick);
       const canvas = card.querySelector("canvas"), ctx = canvas.getContext("2d");
       draw(ctx, canvas, view);
@@ -77,7 +85,7 @@
       }
       const forkRecords = view.arm.frames.flatMap(f => (Array.isArray(f.events) ? f.events : []).filter(event => /fork|dry|source/i.test(String(event.type || event.kind || event.event || ""))).map(event => ({tick:f.tick,event})));
       line(facts, "Kaydedilmiş çatal / kaynak olayları", forkRecords.length ? forkRecords : "kayıtlı olay yok");
-      line(facts, "TTL", "48 adımdan eski kayıtlar tahminde kullanılmaz; dondurulmuş tablolar saklanır, saat işler.");
+      line(facts, "TTL", data.schema === "water-adaptation-prefix-replay-v1" ? "48 adımdan eski kayıtlar tahminde kullanılmaz." : "48 adımdan eski kayıtlar tahminde kullanılmaz; dondurulmuş tablolar saklanır, saat işler.");
     }
   }
   function draw(ctx, canvas, view) {
@@ -105,11 +113,15 @@
     const file=e.target.files && e.target.files[0]; if(!file)return;
     try { if(file.size>MAX_FILE)throw Error("Dosya 20 MiB sınırını aşıyor."); const source=await file.text(); const parsed=validate(JSON.parse(source)); data=parsed;
       text($("seed"),parsed.seed);text($("source"),parsed.source);text($("fork"),parsed.fork_tick);text($("branch-note"),`Kaynak değişiklikleri yalnızca karelerde kaydedilmişse gösterilir; görüntüleyici olay çıkarımı yapmaz. Müdahale: ${parsed.intervention ?? "pakette belirtilmemiş"}`);
-      const root=$("arms");root.replaceChildren(...ARMS.map(makeCard));$("viewer").hidden=false;$("error").hidden=true;$("status").textContent=`${file.name} yüklendi (${(file.size/1024/1024).toFixed(2)} MiB).`;
-      const metricRoot=$("metrics");metricRoot.replaceChildren(...ARMS.map(name=>{const arm=parsed.arms.find(a=>a.name===name),box=document.createElement("section");box.className="metric-card";const h=document.createElement("h3");h.textContent=name.replaceAll("_"," ");box.append(h);const entries=Object.entries(arm.metrics||{});if(!entries.length)line(box,"Metrics","not provided");else entries.forEach(([k,v])=>line(box,k,v));return box;}));
+      const names=armNames(parsed);const prefix=parsed.schema === "water-adaptation-prefix-replay-v1";
+      text($("page-title"),prefix?"Kalibrasyon ön eki · karşılaştırma değil":"Dört su seçimi geçmişi");
+      text($("replay-caption"),prefix?"Yalnızca ortak kalibrasyon öneki gösteriliyor. Kollar çatallanmadı; bu kayıt bir karşılaştırma değildir.":"Çatal sonrası dört kolun kaydedilmiş geçmişi.");
+      text($("tick-caption"),prefix?"Ortak önek · kollar çatallanmadı.":"Çatal 200. adımda · sonraki kareler kollara özeldir. Kaydırıcı kayıttaki gerçek adımları kullanır.");
+      const root=$("arms");root.replaceChildren(...names.map(makeCard));$("viewer").hidden=false;$("error").hidden=true;$("status").textContent=`${file.name} yüklendi (${(file.size/1024/1024).toFixed(2)} MiB).`;
+      const metricRoot=$("metrics");metricRoot.replaceChildren(...names.map(name=>{const arm=parsed.arms.find(a=>a.name===name),box=document.createElement("section");box.className="metric-card";const h=document.createElement("h3");h.textContent=name.replaceAll("_"," ");box.append(h);const entries=Object.entries(arm.metrics||{});if(!entries.length)line(box,"Ölçümler","pakette yok");else entries.forEach(([k,v])=>line(box,k,v));return box;}));
       const tickLists=parsed.arms.map(a=>a.frames.map(f=>Number(f.tick)).filter(t=>Number.isFinite(t)).sort((a,b)=>a-b));
       const commonMin=Math.max(...tickLists.map(xs=>xs[0]??Infinity)),commonMax=Math.min(...tickLists.map(xs=>xs[xs.length-1]??-Infinity));
-      if(!Number.isFinite(commonMin)||commonMin>commonMax)throw Error("Dört kolun ortak kayıtlı adım aralığı yok.");
+      if(!Number.isFinite(commonMin)||commonMin>commonMax)throw Error("Kolların ortak kayıtlı adım aralığı yok.");
       const slider=$("tick");slider.min=String(commonMin);slider.max=String(commonMax);slider.value=String(commonMin);slider.oninput=()=>render(Number(slider.value));render(Number(slider.value));
     } catch(err){$("error").hidden=false;$("error").textContent=err.message;}
   });
