@@ -22,16 +22,16 @@ dağıtım ve karar kanıtları ilgili raporlarda korunur; eski kayıtları silm
 
 ## Kaynak sürümleri ve canlı çalışma
 
-- Geliştirme kaynağı checkpoint V18 / SQLite V2'dir. Yeni refuge genellemesi
-  varsayılan kapalıdır. V18 ile uyumsuz eski ikiliyi V18 checkpoint'e açmayın.
-- Canlı dünya V12'dir; V18 araştırma kaynağı canlıya yükseltilmiş değildir.
+- Geliştirme kaynağı checkpoint V19 / SQLite V2'dir. Yeni deneysel seçenekler
+  varsayılan kapalıdır. V19 ile uyumsuz eski ikiliyi V19 checkpoint'e açmayın.
+- Canlı dünya V12'dir; V19 araştırma kaynağı canlıya yükseltilmiş değildir.
   Canlı servis `curious-coexistence.service`, `127.0.0.1:7882`,
   `/root/curious/data/coexistence` üzerinde çalışır. Nitelikli ikili
   `bin/curious-qualified` şu an `bin/releases/curious-observation-budget-8dc23de`
   dosyasına çözülür; SHA-256
   `35930838981679ab1b937324df6dda73d2b3bcc6c57706d69f2c11d2803959af`.
 - V12 canlı dünyasındaki temel water learning ve mevcut genetik yaşam
-  mekaniği, V17 su-artığı ve V18 refuge deneysel seçeneklerinden ayrıdır.
+  mekaniği, V17 su-artığı ve V19 deneysel seçeneklerinden ayrıdır.
   Birbirinin bayrak/default durumunu varsaymayın; canlı ve geliştirme
   checkpoint'lerini gerçek State/API'den doğrulayın.
 - 25 Ekim 2026 04:03 UTC salt-okunur gözleminde 7882 durumunda tick 11057,
@@ -74,14 +74,16 @@ dağıtım ve karar kanıtları ilgili raporlarda korunur; eski kayıtları silm
   için önkoşul veya mevcut kabul kanıtı değildir. Yeni fiziksel çalışma ancak
   sabit protokol, sınırlı kaynak ve bağımsız denetimle başlar; aynı sonucu
   tekrarlamayın veya sonuçtan sonra eşiği/parametreyi ayarlamayın.
-- P2 çekirdek motor entegrasyonları (`WaterLearner::context_ttl_enabled`,
-  `Memory::{first_interval_refuge_enabled, spatial_curiosity_enabled}`,
-  `Environment::{day_night, signals, season_cycle, burrows}`,
-  `PolicySettings::{injury_capacity_penalty, juvenile_care_enabled, ambush_predation_enabled, local_coordination_enabled}`)
-  `src/` içine varsayılan kapalı (`default-off`) olarak eklenmiş; disabled-path `State+RNG`
-  denkliği ve checkpoint-resume determinizmi tam doğrulanmıştır. Sabit 5-seed held-out protokolü
-  (`P2_P3_EMPIRICAL_AND_K8_AUDIT_20261025.md`) sentetik fikstürlerde mekanizma ayrışmasını ve
-  bellek sınırlarını doğrulamış olup, evrensel çok-habitatlı ekolojik üstünlük iddia edilmemiştir.
+- Dalga 1–6 motor geliştirmeleri ve Wave 7 entegrasyon düzeltmeleri tamamlandı:
+  `ca5971b` bağımsız denetiminde tespit edilen sekiz bulgu (F1–F8) düzeltildi.
+  Öğrenme/merak döngüsü, ebeveyn bakımı, pusu vuruş hasarı, yerel alarm yayılımı,
+  kış termal maliyeti, dinamik in hücre senkronizasyonu ve leş toksisitesi doğrudan
+  aktif `World::tick` yürütme yoluna bağlandı; checkpoint sürümü `V19`'a yükseltildi.
+  Disabled-path `State+RNG` denkliği ve checkpoint-resume determinizmi tam doğrulanmıştır.
+  Epistemik sınır: Mekanizma ve `World::tick` entegrasyonu doğrulanmış olup,
+  evrensel çok-habitatlı ekolojik üstünlük kanıtlanmamıştır / kapsam dışıdır
+  ([AUDIT_CA5971B_20261025](docs/reports/AUDIT_CA5971B_20261025.md),
+  [AUDIT_CA5971B_REMEDIATION_20261025](docs/reports/AUDIT_CA5971B_REMEDIATION_20261025.md)).
 
 Güncel sonuçlar ve tarihçe:
 
@@ -89,7 +91,9 @@ Güncel sonuçlar ve tarihçe:
 - [Refuge fiziksel baseline V1](docs/reports/REFUGE_RISK_BASELINE_V1.md)
 - [İlk çözücü aralığı](docs/reports/REFUGE_FIRST_RESOLUTION_V1.md)
 - [Önceki teknik tamamlama doğrulaması](docs/reports/REFUGE_REPAIR_VALIDATION.md)
-- [P2/P3 ampirik protokol ve K8 denetimi](docs/reports/P2_P3_EMPIRICAL_AND_K8_AUDIT_20261025.md)
+- [ca5971b entegrasyon denetimi (F1–F8 bulguları)](docs/reports/AUDIT_CA5971B_20261025.md)
+- [Wave 7: ca5971b entegrasyon denetimi (F1–F8) düzeltme ve V19 doğrulama raporu](docs/reports/AUDIT_CA5971B_REMEDIATION_20261025.md)
+- [P2/P3 ampirik protokol ve K8 denetimi (Tarihsel dondurulmuş rapor)](docs/reports/P2_P3_EMPIRICAL_AND_K8_AUDIT_20261025.md)
 - [Öğrenme sınırları ve sonraki adımlar](docs/LEARNING_NEXT.md)
 - [Güncel roadmap](docs/ROADMAP.md) · [doküman dizini](docs/README.md)
 

@@ -1,7 +1,17 @@
 # Sonraki işler — 25 Ekim 2026
 
-## Tamamlanan P2 Çekirdek Motor Entegrasyonları ve Doğrulamaları (Mekanizma testi geçti / Doğrulandı)
+## Tamamlanan P2 Çekirdek Motor Entegrasyonları ve Wave 7 Düzeltmeleri (Mekanizma testi geçti / Doğrulandı)
 
+- **Wave 7 Denetim Düzeltmeleri (F1–F8 Bulguları — `ca5971b` Düzeltildi):**
+  - **F1 (Öğrenme ve merak `World::tick` bağlantısı):** `context_ttl_enabled` su bağlam kaydı ve tahmini, `spatial_curiosity_enabled` merak yönelimi ve `first_interval_refuge_enabled` ilk çözücü aralığı per-owner kaydı/seçimi aktif `World::tick` yürütme yoluna bağlandı (`tests/p2_learning_integration.rs`).
+  - **F2 (Ebeveyn bakımı, pusu ve alarm):** `World::tick` artık `InteractionSystem::resolve_attacks_with_policy` çağırarak ebeveyn korumasını (%50 hasar azaltımı, 4 stamina maliyeti) ve pusu ilk vuruş bonusunu (+5 hasar) çözer; `resolve_parental_care` ve `emit_local_alarm` (`SignalKind::Sound`) döngüye bağlandı.
+  - **F3 (Checkpoint V19 yükseltmesi):** `State::capture` artık `version: 19` yazar; `State::restore` `1..=19` arası sürümleri kabul eder, eski V18 okuyucuların yeni alanları sessizce bozması engellendi ve gelecek zaman damgaları reddedilir (`src/simulation/checkpoint.rs`).
+  - **F4 (Kış termal ek maliyeti):** `World::tick` kış mevsiminde `MetabolismSystem::apply_seasonal_thermal_costs` çağırarak sığınaksız canlılara ek BMR maliyetini uygular; indeki canlılar korunur.
+  - **F5 (Dinamik in hücre senkronizasyonu):** `Environment::dig_burrow_on_map` ve `Environment::update` in kayıtlarını haritadaki fiziksel `Cell::Burrow` hücresiyle senkronize eder; TTL dolunca `Cell::Empty` geri yüklenir.
+  - **F6 (Ceset evreleri ve leş toksisitesi):** Eşikler 5-tick ömre uyarlandı (`>= 4 Fresh`, `>= 2 Aging`, `_ Putrid`); `resolve_eats` içine toksisite bağlandı (`Carnivore` çürük leşte 4 hasar alır, `Omnivore` dirençlidir).
+  - **F7 (Bağlam artığı i64 toplamı):** `Learner::validate` ve `record_context_observation` `-1000..=1000` sınırını zorunlu kılar; `predict_context_residual` `i64` toplamı ile debug overflow paniklerini engeller.
+  - **F8 (Epistemik kapsam düzeltmesi):** Sentetik fikstür sonuçları ile `World::tick` yörüngeleri kesin olarak ayrıldı; `tests/k8_throughput_audit.rs` çoklu seed testi bağımsız `World::with_seed` motor örneklemiyle çalışacak şekilde güncellendi.
+  - Raporlar: [ca5971b denetim raporu](docs/reports/AUDIT_CA5971B_20261025.md), [Wave 7 düzeltme ve V19 doğrulama raporu](docs/reports/AUDIT_CA5971B_REMEDIATION_20261025.md).
 - **K3 Bireysel Öğrenme & Bellek Entegrasyonu (`src/entity/learning.rs`, `src/entity/refuge_learning.rs`, `src/entity/memory.rs`, `tests/p2_learning_integration.rs`):**
   - **Bağlam-uyumlu su artığı:** Opt-in `WaterLearner::context_ttl_enabled` (`context_entries`, pencere boyutu `W=4`, `TTL=48` tick).
   - **İlk-aralık sığınak hasarı ayrımı:** Opt-in `Memory::first_interval_refuge_enabled` (`first_interval_outcomes` ile ilk çözücü aralığı kesin hasarını sonraki tam rota sansüründen ayıran per-owner bellek; tam rota hasarı `Unknown` kalır).

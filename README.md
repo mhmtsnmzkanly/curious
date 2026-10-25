@@ -7,12 +7,12 @@ bir özellik ya da uzun yaşam tek başına başarı kanıtı sayılmaz.
 
 ## Güncel durum — 25 Ekim 2026
 
-- V17 su-artığı, av-risk öğrenmesi ve V18 genelleme gibi deneysel seçenekler
-  varsayılan kapalıdır. Bu, temel bellek/su davranışlarının veya canlı V12
-  genetiğinin tümünün kapalı olduğu anlamına gelmez. Canlı 7882 dünyası V12
-  checkpoint üzerinde, yalnızca arşiv bütçesi düzeltmesini içeren
+- V17 su-artığı, av-risk öğrenmesi ve V19 deneysel seçenekleri varsayılan
+  kapalıdır. Bu, temel bellek/su davranışlarının veya canlı V12 genetiğinin
+  tümünün kapalı olduğu anlamına gelmez. Canlı 7882 dünyası V12 checkpoint
+  üzerinde, yalnızca arşiv bütçesi düzeltmesini içeren
   `curious-observation-budget-8dc23de` ikilisiyle çalışır. 7883 replay ikilisi
-  dondurulmuştur; ana V18 dünyası canlıya yükseltilmedi.
+  dondurulmuştur; ana V19 dünyası canlıya yükseltilmedi.
 - Aynı 30 seed, kayıtlı habitat fixture'ında `fixed` ve `both` kollarında
   100.000 tick kapısını geçti. Bu koşullu bir coexistence sonucudur; bütün
   habitatlarda kalıcı denge veya aylar/yıllar dayanıklılığı değildir.
@@ -25,16 +25,20 @@ bir özellik ya da uzun yaşam tek başına başarı kanıtı sayılmaz.
   sansürü, tamamlanmış ilk aralığın exact etiketini geçersiz kılmaz.
 - Aylar/yıllar süren soak kullanıcı isteğiyle ertelendi; sonraki özellik için
   engel değildir.
-- Dalga 1–6 motor iyileştirmeleri ve P2 çekirdek entegrasyonu tamamlandı: `World::with_seed`
-  varsayılan olarak `Logger::disabled()` kullanır (testlerde dosya sızıntısı önlendi);
-  `Memory::toward` yerel BFS baypas (detour) aramasıyla duvara takılmayı çözer; tüm K1–K7
-  izleri ve 7 yeni özellik (bağlam/TTL su kalıntısı, ilk-aralık sığınak hasarı, 4x4 mekânsal
-  merak, mevsimsel iklim/kış uykusu, dinamik in/habitat, kademeli leş çürümesi, ontogenetik
-  yavru bakımı, pusu/takip avcılığı, yerel sosyal alarm koordinasyonu) çekirdek motora
-  `default-off`, `State+RNG` denkliği ve checkpoint-resume korumalı olarak entegre edildi;
-  K7 web replay/experience arayüzü (`autoDirector`, `causalChain`, `refuge`) bağlandı ve
-  K8 throughput/bellek tavan denetimi doğrulandı
-  ([P2/P3 ampirik protokol ve K8 denetimi](docs/reports/P2_P3_EMPIRICAL_AND_K8_AUDIT_20261025.md)).
+- Dalga 1–6 motor geliştirmeleri ve Wave 7 denetim düzeltmeleri tamamlandı:
+  `World::with_seed` varsayılan olarak `Logger::disabled()` kullanır (testlerde
+  dosya sızıntısı önlendi); `Memory::toward` yerel BFS baypas aramasıyla duvara
+  takılmayı çözer. Bağımsız entegrasyon denetiminde tespit edilen sekiz bulgu
+  (F1–F8) giderildi: öğrenme/merak döngüsü, ebeveyn bakımı, pusu vuruş hasarı,
+  yerel alarm yayılımı, kış termal maliyeti, dinamik in/harita hücre senkronizasyonu
+  ve leş çürümesi/toksisitesi doğrudan aktif `World::tick` yürütme yoluna bağlandı;
+  checkpoint sürümü `V19`'a yükseltilerek eski okuyucuda veri kaybı önlendi ve
+  bağlam artığı sınır kontrolüyle debug panic riski giderildi. Mekanizma ve
+  `World::tick` entegrasyonu doğrulanmış olup, evrensel çok-habitatlı ekolojik
+  üstünlük kanıtlanmamıştır / kapsam dışıdır
+  ([Denetim raporu](docs/reports/AUDIT_CA5971B_20261025.md),
+  [Düzeltme ve V19 raporu](docs/reports/AUDIT_CA5971B_REMEDIATION_20261025.md),
+  [Tarihsel P2/P3 raporu](docs/reports/P2_P3_EMPIRICAL_AND_K8_AUDIT_20261025.md)).
 
 Sekiz kategori ve yedi A–G yetenek izinin durumu ile öncelikleri:
 [ROADMAP](docs/ROADMAP.md). Belgelerin girişi:
@@ -91,5 +95,7 @@ Yalnızca Markdown değişiklikleri Rust yeniden derlemesi gerektirmez.
 - [Öğrenme sözleşmesi](docs/LEARNING_NEXT.md)
 - [Arşiv bütçesi düzeltmesinin canlı dağıtım kanıtı](docs/reports/ARCHIVE_BUDGET_DEPLOYMENT_20261025.md)
 - [İlk resolver aralığı sonucu](docs/reports/REFUGE_FIRST_RESOLUTION_V1.md)
-- [P2/P3 ampirik protokol ve K8 denetimi](docs/reports/P2_P3_EMPIRICAL_AND_K8_AUDIT_20261025.md)
+- [ca5971b entegrasyon denetimi (F1–F8 bulguları)](docs/reports/AUDIT_CA5971B_20261025.md)
+- [Wave 7: ca5971b entegrasyon denetimi (F1–F8) düzeltme ve V19 doğrulama raporu](docs/reports/AUDIT_CA5971B_REMEDIATION_20261025.md)
+- [P2/P3 ampirik protokol ve K8 denetimi (Tarihsel dondurulmuş rapor)](docs/reports/P2_P3_EMPIRICAL_AND_K8_AUDIT_20261025.md)
 - [Tüm raporlar](docs/reports/)

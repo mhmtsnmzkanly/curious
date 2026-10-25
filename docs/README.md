@@ -26,8 +26,8 @@ Kategorilere doğrudan git: [K1 Dünya ve çevre](ROADMAP.md#dunya-cevre),
 
 ## Güncel kanıt
 
-- [25 Ekim entegrasyon denetimi: sekiz bulgu](reports/AUDIT_CA5971B_20261025.md) — aşağıdaki P2/P3 entegrasyon iddialarının sınırlarını ve doğrulanan eksikleri açıklar.
-
+- [25 Ekim ca5971b entegrasyon denetimi: sekiz bulgu](reports/AUDIT_CA5971B_20261025.md) — P2/P3 entegrasyon iddialarının sınırlarını ve tespit edilen eksikleri açıklar.
+- [Wave 7: ca5971b entegrasyon denetimi (F1–F8) düzeltme ve V19 doğrulama raporu](reports/AUDIT_CA5971B_REMEDIATION_20261025.md) — sekiz bulgunun düzeltmelerini, `World::tick` entegrasyonlarını, V19 checkpoint yükseltmesini ve epistemik kapsam ayrımını belgeler.
 - [Qualified coexistence ve canlı gözlem](reports/QUALIFIED_OBSERVATION.md)
 - [Canlı V12 arşiv bütçesi backportu](reports/ARCHIVE_BUDGET_DEPLOYMENT_20261025.md)
 - [V17 su artığı sonucu](reports/WATER_RESIDUAL_V1.md)
@@ -35,7 +35,7 @@ Kategorilere doğrudan git: [K1 Dünya ve çevre](ROADMAP.md#dunya-cevre),
 - [İlk resolver aralığı hasar ölçümü](reports/REFUGE_FIRST_RESOLUTION_V1.md)
 - [Tam kaçış hasar baseline'ı](reports/REFUGE_RISK_BASELINE_V1.md)
 - [Sınırlı ecology fixture sonucu](reports/ECOLOGY_FIXTURE_V1.md)
-- [P2/P3 ampirik protokol ve K8 denetimi](reports/P2_P3_EMPIRICAL_AND_K8_AUDIT_20261025.md)
+- [P2/P3 ampirik protokol ve K8 denetimi (Tarihsel dondurulmuş rapor)](reports/P2_P3_EMPIRICAL_AND_K8_AUDIT_20261025.md)
 
 ## Tasarım ve protokoller
 
@@ -50,10 +50,14 @@ kimliği sonuç çıktıktan sonra sessizce değiştirilmez.
 P0/P1 saf prototiplerinin ardından, P2 kapsamında temel mekanizmalar (mevsimsel döngü,
 inler, kademeli cesetler, ebeveyn bakımı, sığınak pusu gizlenmesi, yerel sesli alarm,
 su bağlamı, ilk-aralık hasar öğrenmesi ve mekânsal merak) çekirdek motora modüler ve
-varsayılan kapalı (`default-off`) olarak entegre edilmiştir. K7 web replay ve deneyim
-ekranları (`refuge`, `causalChain`, `autoDirector`) arayüze bağlanmış; P3 sabit 5-seed
-held-out protokolü ve K8 throughput denetimi (`SignalTrace <= 64`, `sites <= 8`,
-`dangers <= 8`, `known_sectors <= 16`, `burrows <= 32`) tamamlanmıştır. Ayrıntılar
+varsayılan kapalı (`default-off`) olarak entegre edilmiştir. Wave 7 denetiminde
+([AUDIT_CA5971B_20261025](reports/AUDIT_CA5971B_20261025.md)) tespit edilen entegrasyon
+kusurları (F1–F8) giderilmiş; özellikler aktif `World::tick` yürütme yoluna bağlanmış ve
+checkpoint sürümü `V19`'a yükseltilmiştir ([AUDIT_CA5971B_REMEDIATION_20261025](reports/AUDIT_CA5971B_REMEDIATION_20261025.md)).
+K7 web replay ve deneyim ekranları (`refuge`, `causalChain`, `autoDirector`) arayüze bağlanmış;
+P3 sabit 5-seed held-out protokolü ve K8 throughput denetimi (`SignalTrace <= 64`, `sites <= 8`,
+`dangers <= 8`, `known_sectors <= 16`, `burrows <= 32`) tamamlanmıştır. Mekanizma entegrasyonu
+doğrulanmış olup ekolojik üstünlük kanıtlanmamıştır / kapsam dışıdır. Ayrıntılar
 [LEARNING_NEXT](LEARNING_NEXT.md), [ROADMAP](ROADMAP.md) ve [TODO](../TODO.md) içindedir.
 
 Protokoller sabitlenmiş ölçüm tasarımlarını, raporlar ise tarihli kanıt ve

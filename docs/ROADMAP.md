@@ -8,16 +8,18 @@ anlamına gelmez. P0–P3 çalışma sırası kategori yapısından ayrıdır.
 
 - **Canlı ve ana kaynak ayrıdır:** 7882'deki dünya V12 checkpoint üzerinde,
   yalnız arşiv bütçesi backportu `curious-observation-budget-8dc23de` ile
-  çalışıyor. V18 ana kaynak canlıya yükseltilmedi. V17 su-artığı, av-risk
-  öğrenmesi ve P2 çekirdek entegrasyonları varsayılan kapalı; bu, temel
+  çalışıyor. V19 ana kaynak canlıya yükseltilmedi. V17 su-artığı, av-risk
+  öğrenmesi ve V19 deneysel seçenekleri varsayılan kapalı; bu, temel
   bellek/su davranışları veya canlı V12 genetiğinin tümünün kapalı olduğu
   anlamına gelmez. 7883 replay ikilisi dondurulmuştur.
-- **P2 çekirdek motor entegrasyonları tamamlandı (default-off):** K3 öğrenme/bellek
-  (su bağlamı TTL, ilk-aralık sığınak hasarı, mekânsal zihin haritası), K1/K2/K5
-  çevre/faz (mevsim çevrimi, inler, kademeli ceset evreleri), K2/K3/K4/K6 politika/etkileşim
-  (ebeveyn bakımı, sığınak pusu avcılığı, yerel alarm yayılımı) modüler ve varsayılan
-  kapalı olarak çekirdeğe entegre edildi; disabled-path State+RNG denkliği ve
-  deterministik checkpoint-resume doğrulandı.
+- **P2 çekirdek motor entegrasyonları ve Wave 7 düzeltmeleri tamamlandı (default-off):**
+  K3 öğrenme/bellek (su bağlamı TTL, ilk-aralık sığınak hasarı, mekânsal merak),
+  K1/K2/K5 çevre/faz (mevsim çevrimi, inler, kademeli ceset evreleri), K2/K3/K4/K6
+  politika/etkileşim (ebeveyn bakımı, sığınak pusu avcılığı, yerel alarm yayılımı)
+  modüler ve varsayılan kapalı olarak çekirdeğe entegre edildi. `ca5971b` bağımsız
+  denetiminde tespit edilen sekiz eksiklik (F1–F8) giderildi: tüm özellikler aktif
+  `World::tick` yürütme yoluna bağlandı, checkpoint sürümü `V19`'a yükseltildi,
+  disabled-path State+RNG denkliği ve deterministik checkpoint-resume doğrulandı.
 - **K7 web replay ve experience UI entegrasyonu tamamlandı:** Sığınak deneyimi
   (`CuriousExperience.refuge`), nedensellik zinciri (`causalChain`: `Kanıt -> Eylem -> Resolver -> Bellek`)
   ve `#auto-director` odak paneli arayüze bağlandı.
@@ -44,7 +46,9 @@ Kanıt: [coexistence](reports/QUALIFIED_OBSERVATION.md),
 [tam kaçış baseline'ı](reports/REFUGE_RISK_BASELINE_V1.md),
 [ilk aralık](reports/REFUGE_FIRST_RESOLUTION_V1.md),
 [canlı depolama backportu](reports/ARCHIVE_BUDGET_DEPLOYMENT_20261025.md),
-[P2/P3 ampirik protokol ve K8 denetimi](reports/P2_P3_EMPIRICAL_AND_K8_AUDIT_20261025.md).
+[ca5971b denetim raporu](reports/AUDIT_CA5971B_20261025.md),
+[Wave 7 düzeltme ve V19 doğrulama](reports/AUDIT_CA5971B_REMEDIATION_20261025.md),
+[P2/P3 ampirik protokol ve K8 denetimi (Tarihsel dondurulmuş rapor)](reports/P2_P3_EMPIRICAL_AND_K8_AUDIT_20261025.md).
 
 ## Sekiz sistem kategorisi
 
@@ -210,10 +214,15 @@ ilgili diğer kategoriye bağlanır; aynı iş için paralel, çatışan plan tu
   kontrolü var. Canlı V12'de arşiv bütçesi backportu çalışıyor; kota soft guard
   olmaya devam eder. G izi depolama, throughput ve işletim ölçümüdür.
   P2 çekirdek motor entegrasyonlarında disabled-path State+RNG denkliği ve
-  deterministik checkpoint-resume doğrulandı. P3/K8 throughput audit'inde
-  kısa yük tick hızları ve sınırlandırılmış bellek yapıları (`SignalTrace <= 64`,
-  `sites <= 8`, `dangers <= 8`, `known_sectors <= 16`, `burrows <= 32`) doğrulandı
-  (`tests/k8_throughput_audit.rs`, `reports/P2_P3_EMPIRICAL_AND_K8_AUDIT_20261025.md`).
+  deterministik checkpoint-resume doğrulandı. `ca5971b` denetimi sonrasında
+  checkpoint sürümü `V19`'a yükseltildi; `State::restore` `1..=19` arası sürümleri
+  kabul eder, eski V18 okuyucuların yeni alanları sessizce düşürmesi engellendi ve
+  gelecek zaman damgalı girdiler reddedilir. Bağlam artığında `i64` toplamı ve
+  `-1000..=1000` sınır kontrolü ile debug panikleri giderildi. P3/K8 throughput
+  denetiminde kısa yük tick hızları ve sınırlandırılmış bellek yapıları
+  (`SignalTrace <= 64`, `sites <= 8`, `dangers <= 8`, `known_sectors <= 16`,
+  `burrows <= 32`) bağımsız `World::with_seed` yörüngeleriyle doğrulandı
+  (`tests/k8_throughput_audit.rs`, `reports/AUDIT_CA5971B_REMEDIATION_20261025.md`).
 - **Açık:** Kısa yük sınırı ölçümleri genel performans/kapasite garantisi
   değildir. Aylar/yıllar soak ertelendi; bugün özellik çalışmasını bloke etmez.
 - **Önerilen:** Farklı donanım ve yük profillerinde sınırlandırılmış tabloların
@@ -281,14 +290,15 @@ olarak motor çekirdeğine entegre edildi:
 - K3 su bağlamı TTL (`context_entries <= 4`), ilk-aralık sığınak hasarı ve mekânsal merak (`known_sectors <= 16`).
 - K1/K2/K5 mevsimsel iklim çevrimi (`SeasonCycle`), kazılan inler (`burrows <= 32`) ve kademeli ceset evreleri (`CorpseStage`).
 - K2/K3/K4/K6 ebeveyn bakımı (`resolve_parental_care`, sıfır bellek aktarımı), sığınak pusu gizlenmesi ve yerel sesli alarm (`emit_local_alarm`).
+- Wave 7 düzeltmesi: `ca5971b` denetim bulguları (F1–F8) giderildi; öğrenme, ebeveyn bakımı, pusu vuruş hasarı, yerel alarm, kış termal maliyeti, dinamik in hücre senkronizasyonu ve leş toksisitesi aktif `World::tick` yürütme yoluna bağlandı; checkpoint sürümü `V19`'a yükseltildi.
 - Disabled-path eski/yeni State+RNG denkliği, deterministik checkpoint-resume, bounded bellek yapıları ve tek-writer kuralı doğrulandı.
 - K7 web deneyim ve replay arayüzü (`CuriousExperience.refuge`, `causalChain`, `autoDirector`) bağlandı.
 
 ### P3 — Ekoloji ve held-out protokolü (Yürütüldü / Denetlendi)
 
 - Sabit 5-seed held-out protokolü (`control`, `learning`, `climate`, `social_care`, `all_features`)
-  ve kısa yük K8 throughput denetimi yürütüldü (`tests/k8_throughput_audit.rs`,
-  `reports/P2_P3_EMPIRICAL_AND_K8_AUDIT_20261025.md`).
+  ve kısa yük K8 throughput denetimi her seed için bağımsız `World::with_seed` yörüngesiyle
+  yürütüldü (`tests/k8_throughput_audit.rs`, `reports/AUDIT_CA5971B_REMEDIATION_20261025.md`).
 - Epistemik dürüstlük: Çekirdek entegrasyonu, State+RNG denkliği, checkpoint determinizmi ve
   sabit protokol tekrarlanabilirliği doğrulanmış; evrensel çok-habitatlı ekolojik üstünlük veya
   uzun süreli soak iddia edilmemiş / ertelenmiştir.

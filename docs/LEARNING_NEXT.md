@@ -1,7 +1,7 @@
 # Bireysel öğrenme: güncel sözleşme ve açık kanıt kapıları
 
-Bu belge V18 geliştirme kaynağındaki öğrenme sınırlarını ve eldeki sonuçları
-özetler. **V18 canlıya dağıtılmış değildir; canlı 7882 dünyası V12'dir.**
+Bu belge V19 geliştirme kaynağındaki öğrenme sınırlarını ve eldeki sonuçları
+özetler. **V19 canlıya dağıtılmış değildir; canlı 7882 dünyası V12'dir.**
 Yaş ödülü, yavruya deneyim aktarımı, genel amaçlı sinir ağı veya kabul edilmiş
 refuge-risk modeli yoktur.
 
@@ -91,62 +91,78 @@ Dolayısıyla her route için beklenen threat damage **Unknown** kalır.
 
 Raporlar: [full-route risk baseline V1](reports/REFUGE_RISK_BASELINE_V1.md),
 [ilk resolver aralığı](reports/REFUGE_FIRST_RESOLUTION_V1.md),
-[önceki teknik onarım doğrulaması](reports/REFUGE_REPAIR_VALIDATION.md) ve
+[önceki teknik onarım doğrulaması](reports/REFUGE_REPAIR_VALIDATION.md),
+[ca5971b denetim raporu](reports/AUDIT_CA5971B_20261025.md),
+[Wave 7 düzeltme ve V19 doğrulama](reports/AUDIT_CA5971B_REMEDIATION_20261025.md) ve
 [frozen refuge protokolü](REFUGE_FIRST_RESOLUTION_PROTOCOL.md).
 
 ## Pure residual ve öğrenme adaylarının durumu
 
 Depoda geliştirilen saf mekanizma prototipleri, root incelemesinin ardından P2 aşamasında
-motor çekirdeğine modüler ve **varsayılan kapalı (`default-off`)** olarak entegre edilmiştir
-(`Mekanizma testi geçti / Doğrulandı`):
+motor çekirdeğine modüler ve **varsayılan kapalı (`default-off`)** olarak entegre edilmiştir.
+Wave 7 denetiminde tespit edilen eksikler ([AUDIT_CA5971B_20261025](reports/AUDIT_CA5971B_20261025.md))
+giderilerek tüm mekanizmalar doğrudan aktif `World::tick` yürütme yoluna bağlanmıştır
+(`Mekanizma ve World::tick entegrasyonu geçti / Doğrulandı`):
 
 1. **Per-owner ilk-aralık sığınak hasarı öğrenmesi (İz B):**
    `Memory::first_interval_refuge_enabled` ile `first_interval_outcomes` tablosu çekirdeğe
-   bağlandı (`tests/refuge_first_interval.rs`, `tests/refuge_learning.rs`). Tamamlanan ilk
-   aralığın exact sonucu sonraki tam-rota sansüründen bağımsız kalır; tam rota için beklenen
-   hasar **Unknown** kalmaya devam eder (genel rota tahmincisi değildir).
+   bağlandı (`tests/refuge_first_interval.rs`, `tests/refuge_learning.rs`). `refuge_outcomes::finish`
+   içinde ilk resolver tick'inde (`elapsed_ticks == 0`) per-owner hasar atfı kaydedilir ve
+   `choose_refuge_for_species` ile aday sıralamasına katılır. Tamamlanan ilk aralığın exact
+   sonucu sonraki tam-rota sansüründen bağımsız kalır; tam rota için beklenen hasar **Unknown**
+   kalmaya devam eder (genel rota tahmincisi değildir).
 2. **Bağlam-uyumlu ve pencere/TTL kısıtlı su artığı (İz A):**
    `WaterLearner::context_ttl_enabled` ile güncel beden bağlamı ve zaman penceresi
    (`context_entries`, `W=4`, `TTL=48`) çekirdeğe bağlandı (`tests/water_context_residual.rs`).
-   Eski deneyimin uyuşmama riskini sınar; genel ekolojik bounded utility ampirik kabulü değildir.
+   `water_outcomes::finish` içinde tamamlanan su bölümleri `record_context_observation` ile
+   kaydedilir, `predict_context_residual` ile karar üretilir. Gözlem değerleri `-1000..=1000`
+   aralığına clamp edilir ve toplam `i64` genişliğinde alınarak debug modunda taşma panikleri
+   engellenir. Genel ekolojik bounded utility ampirik kabulü değildir.
 3. **Mekânsal zihin haritası ve merak güdümlü keşif (Yeni Özellik 1):**
    `Memory::spatial_curiosity_enabled` ile sınırlı 16 sektörlü `4x4` ızgara (`known_sectors <= 16`),
-   `TTL=120` eskime ve merak vektörü (`curiosity_direction`) çekirdeğe bağlandı (`tests/spatial_curiosity.rs`).
+   `TTL=120` eskime ve `IntentCollectionSystem::collect` içinde `Reason::Explore` sırasında
+   çağrılan merak vektörü (`curiosity_direction`) çekirdeğe bağlandı (`tests/spatial_curiosity.rs`).
 4. **Ontogenetik yavru fizyolojisi ve ebeveyn bakımı (Yeni Özellik 2):**
-   `PolicySettings::juvenile_care_enabled`, `InteractionSystem::resolve_parental_care` ve
-   `parent_guards_juvenile` ile fiziksel enerji aktarımı ve hasar engelleme çekirdeğe bağlandı
-   (`tests/juvenile_parental_care.rs`). **Sıfır öğrenilmiş bellek aktarımı kuralı korunmuştur;
-   yavru belleği boş başlar.**
+   `PolicySettings::juvenile_care_enabled`, `InteractionSystem::resolve_attacks_with_policy`
+   (yavruya gelen hasarı %50 azaltır, ebeveyn 4 stamina öder) ve `resolve_parental_care`
+   ile fiziksel enerji aktarımı çekirdeğe bağlandı (`tests/juvenile_parental_care.rs`).
+   **Sıfır öğrenilmiş bellek aktarımı kuralı korunmuştur; yavru belleği boş başlar.**
 5. **Pusu / gizlenme vs. takip avcılığı (Yeni Özellik 3):**
    `PolicySettings::ambush_predation_enabled` ile sığınak örtüsü tabanlı gizlenme
-   (`effective_detectability_radius` düşüşü) ve ilk vuruş stamina bonusu çekirdeğe bağlandı
-   (`tests/ambush_predation.rs`).
+   (`effective_detectability_radius` düşüşü) ve `resolve_attacks_with_policy` içinde ilk vuruş
+   +5 stamina/hasar bonusu çekirdeğe bağlandı (`tests/ambush_predation.rs`).
 6. **Dinamik habitat (Yeni Özellik 4):**
    `Environment::burrows` ile kazılan inler (`BurrowSite` max 32, TTL bozulması, kış termal koruması)
-   kapalı stok-akış muhasebesiyle çekirdeğe bağlandı (`tests/dynamic_habitat.rs`).
+   ve haritadaki fiziksel `Cell::Burrow` hücresi senkronize edildi; TTL bitiminde `Cell::Empty`
+   geri yüklenir (`tests/dynamic_habitat.rs`).
 7. **Mevsimsel iklim ve kış uykusu (Yeni Özellik 5):**
    `Environment::season_cycle` ile deterministik 4 mevsim çevrimi (`SeasonCycle`), kış bitki
-   yenilenme çarpanı ve kış termoregülasyon ek maliyeti çekirdeğe bağlandı (`tests/seasonal_climate.rs`).
+   yenilenme çarpanı ve `World::tick` içinde çağrılan `apply_seasonal_thermal_costs` kış ek
+   BMR maliyeti çekirdeğe bağlandı (`tests/seasonal_climate.rs`).
 8. **Ceset çürümesi ve leşçillik nişi (Yeni Özellik 6):**
-   `EntityPhase::corpse_stage` ile kademeli çürüme evreleri (`CorpseStage`: `Fresh`/`Aging`/`Putrid`),
-   leş kokusu yayılımı ve hepçil bozulma direnci çekirdeğe bağlandı (`tests/corpse_scavenging.rs`).
+   `EntityPhase::corpse_stage` ile 5-tick ömürle uyumlu çürüme evreleri (`>= 4 Fresh`,
+   `>= 2 Aging`, `_ Putrid`) ve `resolve_eats` içinde `scavenging_toxicity` (`Carnivore` 4 hasar,
+   `Omnivore` 0 hasar) çekirdeğe bağlandı (`tests/corpse_scavenging.rs`).
 9. **Yerel alarm yayılımı:**
-   `PolicySettings::local_coordination_enabled` ve `InteractionSystem::emit_local_alarm`
-   (`SignalKind::Sound` yayılımı) çekirdeğe bağlandı (`tests/local_coordination.rs`).
+   `PolicySettings::local_coordination_enabled` ve `World::tick` içinde çağrılan
+   `InteractionSystem::emit_local_alarm` (`SignalKind::Sound` yayılımı) çekirdeğe bağlandı
+   (`tests/local_coordination.rs`).
 
 ### Çekirdek entegrasyon sınırları ve garantileri
 
-P2 entegrasyonu aşağıdaki mimari garantilerle korunmuştur:
+P2 entegrasyonu ve Wave 7 düzeltmeleri aşağıdaki mimari garantilerle korunmuştur:
 - **Disabled-path exact State+RNG denkliği:** Özellik bayrakları kapalıyken simülasyon adımları,
   bellek ve RNG akışı eski motor durumuyla bit düzeyinde eşleşir.
-- **Deterministik checkpoint-resume:** Tüm yeni durum alanları deterministik serileştirme ve
-  resume testlerinden geçmiştir.
+- **V19 Checkpoint serileştirme ve uyumluluk:** Checkpoint sürümü `V19`'a yükseltilmiştir.
+  `State::restore` `1..=19` arası sürümleri kabul eder; eski V18 okuyucuların yeni alanları
+  sessizce düşürmesi engellenmiş, gelecek zaman damgaları reddedilmiştir.
 - **Sert bellek sınırları (Bounded capacity):** `SignalTrace <= 64`, `sites <= 8`, `dangers <= 8`,
   `known_sectors <= 16`, `burrows <= 32`, `context_entries <= 4` sınırları zorunludur.
 - **Sıfır bellek aktarımı:** Ebeveyn bakımı yalnızca fiziksel etkileşimdir; hiçbir öğrenilmiş
   deneyim yavruya kalıtılmaz.
 - **Epistemik sınır:** Tam rota hasarı `Unknown` kalır; mekanizma testleri veya P3 sabit held-out
-  protokolü (`reports/P2_P3_EMPIRICAL_AND_K8_AUDIT_20261025.md`) evrensel ekolojik üstünlük
-  kanıtı değildir. Canlı V12 ortamında bu özellikler varsayılan kapalıdır (`default-off`).
+  protokolü (`reports/P2_P3_EMPIRICAL_AND_K8_AUDIT_20261025.md`, `reports/AUDIT_CA5971B_REMEDIATION_20261025.md`)
+  evrensel ekolojik üstünlük kanıtı değildir. Canlı V12 ortamında bu özellikler varsayılan
+  kapalıdır (`default-off`).
 - **Soak durumu:** Aylar/yıllar süren reliability doğrulaması kullanıcı isteğiyle ertelenmiştir;
   mevcut sağlık gözetimi sürer ve uzun soak feature geliştirme için önkoşul değildir.
