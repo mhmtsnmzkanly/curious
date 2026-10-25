@@ -632,13 +632,15 @@ fn per_seed_gate_rejects_a_hidden_survival_deficit_and_labels_neutral_separately
         mechanism_activations: 0,
     };
     let pooled_treatment = PhysicalOutcomeVector {
-        survived_entity_ticks: one_seed_deficit.survived_entity_ticks + 200,
-        prey_survived_ticks: one_seed_deficit.prey_survived_ticks + 200,
-        final_alive_count: one_seed_deficit.final_alive_count + 16,
-        total_health_end: one_seed_deficit.total_health_end + 1600,
-        total_energy_end: one_seed_deficit.total_energy_end + 1000,
-        total_water_end: one_seed_deficit.total_water_end + 1000,
-        total_damage_taken: one_seed_deficit.total_damage_taken + 80,
+        survived_entity_ticks: one_seed_deficit.survived_entity_ticks
+            + aggregate_gain.survived_entity_ticks,
+        prey_survived_ticks: one_seed_deficit.prey_survived_ticks
+            + aggregate_gain.prey_survived_ticks,
+        final_alive_count: one_seed_deficit.final_alive_count + aggregate_gain.final_alive_count,
+        total_health_end: one_seed_deficit.total_health_end + aggregate_gain.total_health_end,
+        total_energy_end: one_seed_deficit.total_energy_end + aggregate_gain.total_energy_end,
+        total_water_end: one_seed_deficit.total_water_end + aggregate_gain.total_water_end,
+        total_damage_taken: one_seed_deficit.total_damage_taken + aggregate_gain.total_damage_taken,
         mechanism_activations: 0,
     };
     assert_eq!(
