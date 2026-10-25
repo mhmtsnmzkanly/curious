@@ -350,39 +350,188 @@ fn verify_distinct_world_trajectories(runs: &[WorldSeedRunResult]) {
     }
 }
 
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct DynamicEntitySnapshot {
+    pub id: usize,
+    pub pos: Position,
+    pub phase: EntityPhase,
+    pub energy: usize,
+    pub water: usize,
+    pub health: usize,
+    pub stamina: usize,
+    pub generation: usize,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct DynamicWorldSnapshot {
+    pub entities: Vec<DynamicEntitySnapshot>,
+    pub map_resources: Vec<(Position, Cell)>,
+}
+
+impl DynamicWorldSnapshot {
+    pub fn capture(world: &World) -> Self {
+        let mut entities: Vec<DynamicEntitySnapshot> = world
+            .entities
+            .iter()
+            .map(|slot| {
+                let life = slot.base.life();
+                DynamicEntitySnapshot {
+                    id: slot.id,
+                    pos: slot.pos,
+                    phase: slot.phase,
+                    energy: life.energy,
+                    water: life.water,
+                    health: life.health,
+                    stamina: life.stamina,
+                    generation: slot.generation,
+                }
+            })
+            .collect();
+        entities.sort_by_key(|e| e.id);
+
+        let mut map_resources = Vec::new();
+        for y in world.map.min_y..=world.map.max_y {
+            for x in world.map.min_x..=world.map.max_x {
+                let pos = Position::new(x, y);
+                if let Some(cell) = world.map.cell(pos) {
+                    if !matches!(cell, Cell::Empty) {
+                        map_resources.push((pos, cell.clone()));
+                    }
+                }
+            }
+        }
+        map_resources.sort_by_key(|(pos, _)| (pos.y, pos.x));
+
+        Self {
+            entities,
+            map_resources,
+        }
+    }
+}
+
 #[derive(Debug, Clone)]
 pub struct FlagOnComparisonResult {
     pub seed: u64,
-    pub control_state_json: String,
-    pub treatment_state_json: String,
+    pub control_rng_state: u64,
+    pub treatment_rng_state: u64,
+    pub control_dynamic_snapshot: DynamicWorldSnapshot,
+    pub treatment_dynamic_snapshot: DynamicWorldSnapshot,
     pub treatment_known_sectors_total: usize,
     pub treatment_context_entries_total: usize,
     pub treatment_first_interval_outcomes_total: usize,
-    pub treatment_signals_count: usize,
+    pub treatment_signals_emitted_total: usize,
+    pub treatment_burrows_total: usize,
+}
+
+fn build_flag_comparison_entities(seed: u64) -> Vec<EntitySlot> {
+    let ox = (seed % 5) as isize - 2;
+    let oy = (seed % 3) as isize - 1;
+    let mut slots = vec![
+        EntitySlot::new(
+            1,
+            Position::new(-6 + ox, -6 + oy),
+            EntityPhase::Active,
+            EntityController::AI,
+            Box::new(HerbivoreEntity::default()),
+        ),
+        EntitySlot::new(
+            2,
+            Position::new(6 + ox, -6 + oy),
+            EntityPhase::Active,
+            EntityController::AI,
+            Box::new(HerbivoreEntity::default()),
+        ),
+        EntitySlot::new(
+            3,
+            Position::new(-4 + ox, -6 + oy),
+            EntityPhase::Active,
+            EntityController::AI,
+            Box::new(CarnivoreEntity::default()),
+        ),
+        EntitySlot::new(
+            4,
+            Position::new(6 + ox, 6 + oy),
+            EntityPhase::Active,
+            EntityController::AI,
+            Box::new(CarnivoreEntity::default()),
+        ),
+        EntitySlot::new(
+            5,
+            Position::new(ox, oy),
+            EntityPhase::Active,
+            EntityController::AI,
+            Box::new(OmnivoreEntity::default()),
+        ),
+        EntitySlot::new(
+            6,
+            Position::new(2 + ox, -2 + oy),
+            EntityPhase::Active,
+            EntityController::AI,
+            Box::new(OmnivoreEntity::default()),
+        ),
+    ];
+
+    // Configure initial physiological state identically on both Control and Treatment
+    // Entity 2: Herbivore roaming in empty space with high energy and stamina for winter burrow digging
+    slots[1].base.life_mut().energy = 95;
+    slots[1].base.life_mut().stamina = 30;
+
+    // Entity 5: Omnivore with low water to immediately trigger water seeking & residual learning
+    slots[4].base.life_mut().water = 15;
+    slots[4].base.life_mut().energy = 85;
+
+    // Entity 6: Omnivore with moderate water
+    slots[5].base.life_mut().water = 50;
+    slots[5].base.life_mut().energy = 85;
+
+    slots
 }
 
 fn run_flag_on_vs_flag_off_comparison(seed: u64, ticks: usize) -> FlagOnComparisonResult {
-    // 1. Initialize Control (Flags Off) and Treatment (Flags On) with identical seed & map
+    let ox = (seed % 5) as isize - 2;
+    let oy = (seed % 3) as isize - 1;
+
+    // 1. Initialize Control (Flags Off) and Treatment (Flags On) with identical seed, map & entities
     let mut control_world =
-        World::with_seed(-12, 12, -12, 12, build_held_out_seed_entities(seed), seed);
+        World::with_seed(-12, 12, -12, 12, build_flag_comparison_entities(seed), seed);
     let mut treatment_world =
-        World::with_seed(-12, 12, -12, 12, build_held_out_seed_entities(seed), seed);
+        World::with_seed(-12, 12, -12, 12, build_flag_comparison_entities(seed), seed);
 
     for w in [&mut control_world, &mut treatment_world] {
         w.logger = curious::logger::Logger::disabled();
-        // Add resources so drinking, foraging, refuge escape happen
+
+        // 1. Water cells adjacent to Omnivore 5 at (ox, oy)
+        w.map.set_cell(Position::new(ox + 1, oy), Cell::Water { amount: 50 });
+        w.map.set_cell(Position::new(ox, oy + 1), Cell::Water { amount: 50 });
+        w.map.set_cell(Position::new(ox, oy - 1), Cell::Food { amount: 50 });
+
+        // Water cells adjacent to Omnivore 6 at (2 + ox, -2 + oy)
+        w.map.set_cell(Position::new(2 + ox + 1, -2 + oy), Cell::Water { amount: 50 });
+        w.map.set_cell(Position::new(2 + ox, -2 + oy + 1), Cell::Water { amount: 50 });
+        w.map.set_cell(Position::new(2 + ox, -2 + oy - 1), Cell::Food { amount: 50 });
+
+        // 2. Burrows adjacent to Herbivore 1 at (-6 + ox, -6 + oy) for refuge escape & first interval learning
+        w.map.set_cell(Position::new(-7 + ox, -6 + oy), Cell::Burrow);
+        w.map.set_cell(Position::new(-6 + ox, -7 + oy), Cell::Burrow);
+
+        // General background food for ecosystem sustenance
         for x in (-10..=10).step_by(4) {
             for y in (-10..=10).step_by(4) {
-                w.map.set_cell(Position::new(x, y), Cell::Food { amount: 30 });
-                w.map.set_cell(Position::new(x + 1, y), Cell::Water { amount: 30 });
+                if w.map.cell(Position::new(x, y)) == Some(&Cell::Empty) {
+                    w.map.set_cell(Position::new(x, y), Cell::Food { amount: 30 });
+                }
             }
         }
-        // Add burrows for refuge escape & ambush cover
-        w.map.set_cell(Position::new(-2, -2), Cell::Burrow);
-        w.map.set_cell(Position::new(2, 2), Cell::Burrow);
+
+        // Ensure clear empty roaming territory for Herbivore 2 around (6 + ox, -6 + oy)
+        for dx in -2..=2 {
+            for dy in -2..=2 {
+                w.map.set_cell(Position::new(6 + ox + dx, -6 + oy + dy), Cell::Empty);
+            }
+        }
     }
 
-    // 2. Enable V19 features on treatment_world BEFORE running 80 ticks
+    // 2. Enable V19 features exclusively on treatment_world BEFORE running ticks
     treatment_world.policy.water_residual_enabled = true;
     treatment_world.policy.injury_capacity_penalty = true;
     treatment_world.policy.juvenile_care_enabled = true;
@@ -408,42 +557,46 @@ fn run_flag_on_vs_flag_off_comparison(seed: u64, ticks: usize) -> FlagOnComparis
         slot.memory.refuge_outcomes_enabled = true;
     }
 
-    // 3. Run both worlds for 80 ticks
+    // 3. Run both worlds for 80 ticks and sample mechanism metrics
+    let mut treatment_signals_emitted_total = 0usize;
+    let mut treatment_burrows_total = 0usize;
+    let mut treatment_known_sectors_total = 0usize;
+    let mut treatment_context_entries_total = 0usize;
+    let mut treatment_first_interval_outcomes_total = 0usize;
+
     for _ in 0..ticks {
         control_world.tick();
         treatment_world.tick();
+
+        treatment_signals_emitted_total += treatment_world.environment.signals.len();
+        treatment_burrows_total = treatment_burrows_total.max(treatment_world.environment.burrows.len());
+
+        let known_now: usize = treatment_world.entities.iter().map(|s| s.memory.known_sectors.len()).sum();
+        treatment_known_sectors_total = treatment_known_sectors_total.max(known_now);
+
+        let context_now: usize = treatment_world.entities.iter().map(|s| s.learner.context_entries.len()).sum();
+        treatment_context_entries_total = treatment_context_entries_total.max(context_now);
+
+        let first_interval_now: usize = treatment_world.entities.iter().map(|s| s.memory.first_interval_outcomes.len()).sum();
+        treatment_first_interval_outcomes_total = treatment_first_interval_outcomes_total.max(first_interval_now);
     }
 
-    let control_capture = State::capture(&control_world);
-    let treatment_capture = State::capture(&treatment_world);
-    let control_json = serde_json::to_string(&control_capture).unwrap();
-    let treatment_json = serde_json::to_string(&treatment_capture).unwrap();
-
-    // Verify divergence: treatment world MUST diverge from control world on every seed
-    assert_ne!(
-        control_json, treatment_json,
-        "Seed {}: Treatment world failed to diverge from Control world",
-        seed
-    );
-
-    let mut total_known_sectors = 0;
-    let mut total_context_entries = 0;
-    let mut total_first_interval = 0;
-
-    for slot in &treatment_world.entities {
-        total_known_sectors += slot.memory.known_sectors.len();
-        total_context_entries += slot.learner.context_entries.len();
-        total_first_interval += slot.memory.first_interval_outcomes.len();
-    }
+    let control_dynamic_snapshot = DynamicWorldSnapshot::capture(&control_world);
+    let treatment_dynamic_snapshot = DynamicWorldSnapshot::capture(&treatment_world);
+    let control_rng_state = control_world.rng.state();
+    let treatment_rng_state = treatment_world.rng.state();
 
     FlagOnComparisonResult {
         seed,
-        control_state_json: control_json,
-        treatment_state_json: treatment_json,
-        treatment_known_sectors_total: total_known_sectors,
-        treatment_context_entries_total: total_context_entries,
-        treatment_first_interval_outcomes_total: total_first_interval,
-        treatment_signals_count: treatment_world.environment.signals.len(),
+        control_rng_state,
+        treatment_rng_state,
+        control_dynamic_snapshot,
+        treatment_dynamic_snapshot,
+        treatment_known_sectors_total,
+        treatment_context_entries_total,
+        treatment_first_interval_outcomes_total,
+        treatment_signals_emitted_total,
+        treatment_burrows_total,
     }
 }
 
@@ -597,25 +750,74 @@ fn p3_held_out_seeds_water_context_and_first_interval_refuge_comparison() {
     for &seed in &seeds {
         let cmp = run_flag_on_vs_flag_off_comparison(seed, 80);
         assert_ne!(
-            cmp.control_state_json, cmp.treatment_state_json,
-            "Seed {}: Treatment (flags on) must causally diverge from Control (flags off)",
+            cmp.control_dynamic_snapshot, cmp.treatment_dynamic_snapshot,
+            "Seed {}: Treatment dynamic snapshot must causally diverge from Control dynamic snapshot",
+            seed
+        );
+        assert_ne!(
+            cmp.control_rng_state, cmp.treatment_rng_state,
+            "Seed {}: Treatment RNG state must diverge from Control RNG state",
             seed
         );
         assert!(
             cmp.treatment_known_sectors_total > 0,
-            "Seed {}: Expected spatial curiosity sectors to be recorded in treatment world",
+            "Seed {}: Expected spatial curiosity sectors > 0 in treatment world",
+            seed
+        );
+        assert!(
+            cmp.treatment_context_entries_total > 0,
+            "Seed {}: Expected water context entries > 0 in treatment world",
+            seed
+        );
+        assert!(
+            cmp.treatment_first_interval_outcomes_total > 0,
+            "Seed {}: Expected refuge first interval outcomes > 0 in treatment world",
+            seed
+        );
+        assert!(
+            cmp.treatment_signals_emitted_total > 0,
+            "Seed {}: Expected signals emitted > 0 in treatment world",
+            seed
+        );
+        assert!(
+            cmp.treatment_burrows_total > 0,
+            "Seed {}: Expected winter burrows dug > 0 in treatment world",
             seed
         );
         flag_comparison_results.push(cmp);
     }
 
-    let all_diverged = flag_comparison_results
-        .iter()
-        .all(|r| r.control_state_json != r.treatment_state_json);
-    assert!(all_diverged, "All seeds must diverge between control and treatment");
+    assert!(
+        flag_comparison_results
+            .iter()
+            .all(|r| r.control_dynamic_snapshot != r.treatment_dynamic_snapshot),
+        "All seeds must dynamically diverge between control and treatment"
+    );
+    assert!(
+        flag_comparison_results
+            .iter()
+            .all(|r| r.control_rng_state != r.treatment_rng_state),
+        "All seeds must produce divergent RNG trajectories between control and treatment"
+    );
     assert!(
         flag_comparison_results.iter().all(|r| r.treatment_known_sectors_total > 0),
         "All seeds must record spatial curiosity known sectors when enabled"
+    );
+    assert!(
+        flag_comparison_results.iter().all(|r| r.treatment_context_entries_total > 0),
+        "All seeds must record water context entries when enabled"
+    );
+    assert!(
+        flag_comparison_results.iter().all(|r| r.treatment_first_interval_outcomes_total > 0),
+        "All seeds must record first interval refuge outcomes when enabled"
+    );
+    assert!(
+        flag_comparison_results.iter().all(|r| r.treatment_signals_emitted_total > 0),
+        "All seeds must emit and observe signals when enabled"
+    );
+    assert!(
+        flag_comparison_results.iter().all(|r| r.treatment_burrows_total > 0),
+        "All seeds must dig winter burrows when enabled"
     );
 
     // Also verify deterministic reproduction & distinct trajectories across seeds
@@ -891,25 +1093,74 @@ fn p3_held_out_seeds_local_coordination_and_niche_comparison() {
     for &seed in &seeds {
         let cmp = run_flag_on_vs_flag_off_comparison(seed, 80);
         assert_ne!(
-            cmp.control_state_json, cmp.treatment_state_json,
-            "Seed {}: Treatment (flags on) must causally diverge from Control (flags off)",
+            cmp.control_dynamic_snapshot, cmp.treatment_dynamic_snapshot,
+            "Seed {}: Treatment dynamic snapshot must causally diverge from Control dynamic snapshot",
+            seed
+        );
+        assert_ne!(
+            cmp.control_rng_state, cmp.treatment_rng_state,
+            "Seed {}: Treatment RNG state must diverge from Control RNG state",
             seed
         );
         assert!(
             cmp.treatment_known_sectors_total > 0,
-            "Seed {}: Expected spatial curiosity sectors to be recorded in treatment world",
+            "Seed {}: Expected spatial curiosity sectors > 0 in treatment world",
+            seed
+        );
+        assert!(
+            cmp.treatment_context_entries_total > 0,
+            "Seed {}: Expected water context entries > 0 in treatment world",
+            seed
+        );
+        assert!(
+            cmp.treatment_first_interval_outcomes_total > 0,
+            "Seed {}: Expected refuge first interval outcomes > 0 in treatment world",
+            seed
+        );
+        assert!(
+            cmp.treatment_signals_emitted_total > 0,
+            "Seed {}: Expected signals emitted > 0 in treatment world",
+            seed
+        );
+        assert!(
+            cmp.treatment_burrows_total > 0,
+            "Seed {}: Expected winter burrows dug > 0 in treatment world",
             seed
         );
         flag_comparison_results.push(cmp);
     }
 
-    let all_diverged = flag_comparison_results
-        .iter()
-        .all(|r| r.control_state_json != r.treatment_state_json);
-    assert!(all_diverged, "All seeds must diverge between control and treatment");
+    assert!(
+        flag_comparison_results
+            .iter()
+            .all(|r| r.control_dynamic_snapshot != r.treatment_dynamic_snapshot),
+        "All seeds must dynamically diverge between control and treatment"
+    );
+    assert!(
+        flag_comparison_results
+            .iter()
+            .all(|r| r.control_rng_state != r.treatment_rng_state),
+        "All seeds must produce divergent RNG trajectories between control and treatment"
+    );
     assert!(
         flag_comparison_results.iter().all(|r| r.treatment_known_sectors_total > 0),
         "All seeds must record spatial curiosity known sectors when enabled"
+    );
+    assert!(
+        flag_comparison_results.iter().all(|r| r.treatment_context_entries_total > 0),
+        "All seeds must record water context entries when enabled"
+    );
+    assert!(
+        flag_comparison_results.iter().all(|r| r.treatment_first_interval_outcomes_total > 0),
+        "All seeds must record first interval refuge outcomes when enabled"
+    );
+    assert!(
+        flag_comparison_results.iter().all(|r| r.treatment_signals_emitted_total > 0),
+        "All seeds must emit and observe signals when enabled"
+    );
+    assert!(
+        flag_comparison_results.iter().all(|r| r.treatment_burrows_total > 0),
+        "All seeds must dig winter burrows when enabled"
     );
 
     // Also verify deterministic reproduction & distinct trajectories across seeds
