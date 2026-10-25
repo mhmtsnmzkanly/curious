@@ -25,19 +25,27 @@ bir özellik ya da uzun yaşam tek başına başarı kanıtı sayılmaz.
   sansürü, tamamlanmış ilk aralığın exact etiketini geçersiz kılmaz.
 - Aylar/yıllar süren soak kullanıcı isteğiyle ertelendi; sonraki özellik için
   engel değildir.
-- Dalga 1–6 motor geliştirmeleri ve Wave 7 denetim düzeltmeleri tamamlandı:
-  `World::with_seed` varsayılan olarak `Logger::disabled()` kullanır (testlerde
-  dosya sızıntısı önlendi); `Memory::toward` yerel BFS baypas aramasıyla duvara
-  takılmayı çözer. Bağımsız entegrasyon denetiminde tespit edilen sekiz bulgu
-  (F1–F8) giderildi: öğrenme/merak döngüsü, ebeveyn bakımı, pusu vuruş hasarı,
-  yerel alarm yayılımı, kış termal maliyeti, dinamik in/harita hücre senkronizasyonu
-  ve leş çürümesi/toksisitesi doğrudan aktif `World::tick` yürütme yoluna bağlandı;
-  checkpoint sürümü `V19`'a yükseltilerek eski okuyucuda veri kaybı önlendi ve
-  bağlam artığı sınır kontrolüyle debug panic riski giderildi. Mekanizma ve
-  `World::tick` entegrasyonu doğrulanmış olup, evrensel çok-habitatlı ekolojik
-  üstünlük kanıtlanmamıştır / kapsam dışıdır
+- Dalga 1–6 motor geliştirmeleri, Wave 7 denetim düzeltmeleri ve Wave 8
+  tam kapanış doğrulamaları tamamlandı: `World::with_seed` varsayılan olarak
+  `Logger::disabled()` kullanır (testlerde dosya sızıntısı önlendi); `Memory::toward`
+  yerel BFS baypas aramasıyla duvara takılmayı çözer. Bağımsız denetimlerde
+  tespit edilen bulgular eksiksiz kapatıldı: su bağlam artığı net fiziksel
+  ölçeğe (`foraging::water_score` ile uyumlu net kalıntı) ve ardışık özdeş kayıt
+  desteğine bağlandı (F1); pusu örtüsü ve +5 ilk vuruş bonusu sıradan etçil ve
+  hepçillerin erişebildiği bitki örtüsü ve duvar bitişiğine genişletildi (F2);
+  checkpoint `V19` ham V18 JSON göç testiyle doğrulandı (F3); kış mevsimi ek BMR
+  maliyeti bağlandı (F4); dinamik in girdileri doğrulanarak kış mevsiminde
+  otonom in kazma eylemi eklendi (F5); ceset enerjisi her tick kademeli çürümeye
+  ve sıfır besin alan bireyler için toksisite muafiyetine bağlandı (F6); bağlam
+  artığında i64 toplamı ve sınır doğrulaması sağlandı (F7); 5 bağımsız seed
+  üzerinde `Control (Flags Off)` vs `Treatment (Flags On)` gerçek `World::tick`
+  karşılaştırmasıyla nedensel durum ve RNG ayrışması kanıtlandı (F8).
+  Mekanizma ve `World::tick` entegrasyonu doğrulanmış olup, evrensel çok-habitatlı
+  ekolojik üstünlük kanıtlanmamıştır / kapsam dışıdır
   ([Denetim raporu](docs/reports/AUDIT_CA5971B_20261025.md),
-  [Düzeltme ve V19 raporu](docs/reports/AUDIT_CA5971B_REMEDIATION_20261025.md),
+  [Wave 7 düzeltme ve V19 raporu](docs/reports/AUDIT_CA5971B_REMEDIATION_20261025.md),
+  [2002ee4 yeniden denetim](docs/reports/AUDIT_RECHECK_2002EE4_20261025.md),
+  [Wave 8 tam kapanış raporu](docs/reports/AUDIT_RECHECK_REMEDIATION_20261025.md),
   [Tarihsel P2/P3 raporu](docs/reports/P2_P3_EMPIRICAL_AND_K8_AUDIT_20261025.md)).
 
 Sekiz kategori ve yedi A–G yetenek izinin durumu ile öncelikleri:
@@ -97,5 +105,7 @@ Yalnızca Markdown değişiklikleri Rust yeniden derlemesi gerektirmez.
 - [İlk resolver aralığı sonucu](docs/reports/REFUGE_FIRST_RESOLUTION_V1.md)
 - [ca5971b entegrasyon denetimi (F1–F8 bulguları)](docs/reports/AUDIT_CA5971B_20261025.md)
 - [Wave 7: ca5971b entegrasyon denetimi (F1–F8) düzeltme ve V19 doğrulama raporu](docs/reports/AUDIT_CA5971B_REMEDIATION_20261025.md)
+- [2002ee4 düzeltmelerinin bağımsız yeniden denetimi](docs/reports/AUDIT_RECHECK_2002EE4_20261025.md)
+- [Wave 8: 2002ee4 yeniden denetim bulgularının (F1, F2, F5, F6, F8) tam kapanış raporu](docs/reports/AUDIT_RECHECK_REMEDIATION_20261025.md)
 - [P2/P3 ampirik protokol ve K8 denetimi (Tarihsel dondurulmuş rapor)](docs/reports/P2_P3_EMPIRICAL_AND_K8_AUDIT_20261025.md)
 - [Tüm raporlar](docs/reports/)

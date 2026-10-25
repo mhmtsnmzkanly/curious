@@ -93,15 +93,18 @@ Raporlar: [full-route risk baseline V1](reports/REFUGE_RISK_BASELINE_V1.md),
 [ilk resolver aralığı](reports/REFUGE_FIRST_RESOLUTION_V1.md),
 [önceki teknik onarım doğrulaması](reports/REFUGE_REPAIR_VALIDATION.md),
 [ca5971b denetim raporu](reports/AUDIT_CA5971B_20261025.md),
-[Wave 7 düzeltme ve V19 doğrulama](reports/AUDIT_CA5971B_REMEDIATION_20261025.md) ve
+[Wave 7 düzeltme ve V19 doğrulama](reports/AUDIT_CA5971B_REMEDIATION_20261025.md),
+[2002ee4 yeniden denetimi](reports/AUDIT_RECHECK_2002EE4_20261025.md),
+[Wave 8 tam kapanış](reports/AUDIT_RECHECK_REMEDIATION_20261025.md) ve
 [frozen refuge protokolü](REFUGE_FIRST_RESOLUTION_PROTOCOL.md).
 
 ## Pure residual ve öğrenme adaylarının durumu
 
 Depoda geliştirilen saf mekanizma prototipleri, root incelemesinin ardından P2 aşamasında
 motor çekirdeğine modüler ve **varsayılan kapalı (`default-off`)** olarak entegre edilmiştir.
-Wave 7 denetiminde tespit edilen eksikler ([AUDIT_CA5971B_20261025](reports/AUDIT_CA5971B_20261025.md))
-giderilerek tüm mekanizmalar doğrudan aktif `World::tick` yürütme yoluna bağlanmıştır
+Wave 7 ve Wave 8 denetimlerinde tespit edilen tüm eksikler ([AUDIT_CA5971B_20261025](reports/AUDIT_CA5971B_20261025.md),
+[AUDIT_RECHECK_2002EE4_20261025](reports/AUDIT_RECHECK_2002EE4_20261025.md)) giderilerek
+mekanizmalar doğrudan aktif `World::tick` yürütme yoluna tam ölçek uyumu ve eksiksiz fizik kurallarıyla bağlanmıştır
 (`Mekanizma ve World::tick entegrasyonu geçti / Doğrulandı`):
 
 1. **Per-owner ilk-aralık sığınak hasarı öğrenmesi (İz B):**
@@ -114,10 +117,11 @@ giderilerek tüm mekanizmalar doğrudan aktif `World::tick` yürütme yoluna ba�
 2. **Bağlam-uyumlu ve pencere/TTL kısıtlı su artığı (İz A):**
    `WaterLearner::context_ttl_enabled` ile güncel beden bağlamı ve zaman penceresi
    (`context_entries`, `W=4`, `TTL=48`) çekirdeğe bağlandı (`tests/water_context_residual.rs`).
-   `water_outcomes::finish` içinde tamamlanan su bölümleri `record_context_observation` ile
-   kaydedilir, `predict_context_residual` ile karar üretilir. Gözlem değerleri `-1000..=1000`
-   aralığına clamp edilir ve toplam `i64` genişliğinde alınarak debug modunda taşma panikleri
-   engellenir. Genel ekolojik bounded utility ampirik kabulü değildir.
+   Wave 8 düzeltmesiyle: `Learner::episode_physical_residual` kullanılarak bağlam tablosuna yapay
+   bölüm skoru yerine `foraging::water_score` ile birebir aynı net fiziksel artık
+   (`(water - movement_energy - incoming_damage) - choice_baseline`, `[-1000, 1000]`) yazılır.
+   `water_outcomes::finish` içindeki tekrar filtresi kaldırılarak aynı kaynaktaki ardışık özdeş
+   tamamlanmalar da eksiksiz kaydedilir. Genel ekolojik bounded utility ampirik kabulü değildir.
 3. **Mekânsal zihin haritası ve merak güdümlü keşif (Yeni Özellik 1):**
    `Memory::spatial_curiosity_enabled` ile sınırlı 16 sektörlü `4x4` ızgara (`known_sectors <= 16`),
    `TTL=120` eskime ve `IntentCollectionSystem::collect` içinde `Reason::Explore` sırasında
@@ -128,21 +132,23 @@ giderilerek tüm mekanizmalar doğrudan aktif `World::tick` yürütme yoluna ba�
    ile fiziksel enerji aktarımı çekirdeğe bağlandı (`tests/juvenile_parental_care.rs`).
    **Sıfır öğrenilmiş bellek aktarımı kuralı korunmuştur; yavru belleği boş başlar.**
 5. **Pusu / gizlenme vs. takip avcılığı (Yeni Özellik 3):**
-   `PolicySettings::ambush_predation_enabled` ile sığınak örtüsü tabanlı gizlenme
-   (`effective_detectability_radius` düşüşü) ve `resolve_attacks_with_policy` içinde ilk vuruş
-   +5 stamina/hasar bonusu çekirdeğe bağlandı (`tests/ambush_predation.rs`).
+   `PolicySettings::ambush_predation_enabled` ile pusu örtüsü sıradan etçil ve hepçillerin
+   erişebildiği bitki örtüsü (`Cell::Food`) ve duvar/in/bitki bitişiğindeki boş hücrelere
+   genişletildi (`is_in_ambush_cover`); `detectability_radius - 1` gizlilik avantajı ve
+   `resolve_attacks_with_policy` içinde ilk vuruş +5 hasar bonusu çekirdeğe bağlandı (`tests/ambush_predation.rs`).
 6. **Dinamik habitat (Yeni Özellik 4):**
    `Environment::burrows` ile kazılan inler (`BurrowSite` max 32, TTL bozulması, kış termal koruması)
-   ve haritadaki fiziksel `Cell::Burrow` hücresi senkronize edildi; TTL bitiminde `Cell::Empty`
-   geri yüklenir (`tests/dynamic_habitat.rs`).
+   ve haritadaki fiziksel `Cell::Burrow` hücresi senkronize edildi; geçersiz girdiler atomik reddedilir
+   ve kış mevsiminde in bulamayan `can_burrow()` canlılar otonom in kazar (`tests/dynamic_habitat.rs`).
 7. **Mevsimsel iklim ve kış uykusu (Yeni Özellik 5):**
    `Environment::season_cycle` ile deterministik 4 mevsim çevrimi (`SeasonCycle`), kış bitki
    yenilenme çarpanı ve `World::tick` içinde çağrılan `apply_seasonal_thermal_costs` kış ek
    BMR maliyeti çekirdeğe bağlandı (`tests/seasonal_climate.rs`).
 8. **Ceset çürümesi ve leşçillik nişi (Yeni Özellik 6):**
    `EntityPhase::corpse_stage` ile 5-tick ömürle uyumlu çürüme evreleri (`>= 4 Fresh`,
-   `>= 2 Aging`, `_ Putrid`) ve `resolve_eats` içinde `scavenging_toxicity` (`Carnivore` 4 hasar,
-   `Omnivore` 0 hasar) çekirdeğe bağlandı (`tests/corpse_scavenging.rs`).
+   `>= 2 Aging`, `_ Putrid`), her tick kademeli 1 birim ceset enerjisi çürümesi ve
+   `resolve_eats` içinde sıfır enerji tüketen canlıları muaf tutan `scavenging_toxicity`
+   (`Carnivore` 4 hasar, `Omnivore` 0 hasar) çekirdeğe bağlandı (`tests/corpse_scavenging.rs`).
 9. **Yerel alarm yayılımı:**
    `PolicySettings::local_coordination_enabled` ve `World::tick` içinde çağrılan
    `InteractionSystem::emit_local_alarm` (`SignalKind::Sound` yayılımı) çekirdeğe bağlandı
@@ -150,19 +156,18 @@ giderilerek tüm mekanizmalar doğrudan aktif `World::tick` yürütme yoluna ba�
 
 ### Çekirdek entegrasyon sınırları ve garantileri
 
-P2 entegrasyonu ve Wave 7 düzeltmeleri aşağıdaki mimari garantilerle korunmuştur:
+P2 entegrasyonu ve Wave 7–8 düzeltmeleri aşağıdaki mimari garantilerle korunmuştur:
 - **Disabled-path exact State+RNG denkliği:** Özellik bayrakları kapalıyken simülasyon adımları,
   bellek ve RNG akışı eski motor durumuyla bit düzeyinde eşleşir.
 - **V19 Checkpoint serileştirme ve uyumluluk:** Checkpoint sürümü `V19`'a yükseltilmiştir.
-  `State::restore` `1..=19` arası sürümleri kabul eder; eski V18 okuyucuların yeni alanları
-  sessizce düşürmesi engellenmiş, gelecek zaman damgaları reddedilmiştir.
+  `State::restore` `1..=19` arası sürümleri kabul eder; ham V18 JSON metninden göç testiyle
+  eski kayıtların güvenle yükseltildiği kanıtlanmış, gelecek zaman damgaları reddedilmiştir.
 - **Sert bellek sınırları (Bounded capacity):** `SignalTrace <= 64`, `sites <= 8`, `dangers <= 8`,
   `known_sectors <= 16`, `burrows <= 32`, `context_entries <= 4` sınırları zorunludur.
 - **Sıfır bellek aktarımı:** Ebeveyn bakımı yalnızca fiziksel etkileşimdir; hiçbir öğrenilmiş
   deneyim yavruya kalıtılmaz.
 - **Epistemik sınır:** Tam rota hasarı `Unknown` kalır; mekanizma testleri veya P3 sabit held-out
-  protokolü (`reports/P2_P3_EMPIRICAL_AND_K8_AUDIT_20261025.md`, `reports/AUDIT_CA5971B_REMEDIATION_20261025.md`)
-  evrensel ekolojik üstünlük kanıtı değildir. Canlı V12 ortamında bu özellikler varsayılan
-  kapalıdır (`default-off`).
+  protokolü (`reports/AUDIT_RECHECK_REMEDIATION_20261025.md`) evrensel ekolojik üstünlük
+  kanıtı değildir. Canlı V12 ortamında bu özellikler varsayılan kapalıdır (`default-off`).
 - **Soak durumu:** Aylar/yıllar süren reliability doğrulaması kullanıcı isteğiyle ertelenmiştir;
   mevcut sağlık gözetimi sürer ve uzun soak feature geliştirme için önkoşul değildir.

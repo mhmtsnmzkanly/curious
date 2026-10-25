@@ -1,7 +1,15 @@
 # Sonraki işler — 25 Ekim 2026
 
-## Tamamlanan P2 Çekirdek Motor Entegrasyonları ve Wave 7 Düzeltmeleri (Mekanizma testi geçti / Doğrulandı)
+## Tamamlanan P2 Çekirdek Motor Entegrasyonları ve Wave 7–8 Düzeltmeleri (Mekanizma testi geçti / Doğrulandı)
 
+- **Wave 8 Yeniden Denetim Kapanışları (`2002ee4` Bulguları — Tam Kapatıldı):**
+  - **F1 (Su bağlam ölçek uyumu ve ardışık kayıt):** `Learner::episode_physical_residual` ile bölüm skoru yerine `foraging::water_score` ile birebir aynı net fiziksel artık (`(water - movement_energy - incoming_damage) - choice_baseline`, `[-1000, 1000]`) yazılır; `water_outcomes::finish` içindeki `prev_completed` filtresi kaldırılarak aynı kaynaktaki ardışık özdeş tamamlanmalar eksiksiz kaydedilir (`src/entity/learning.rs`, `src/systems/water_outcomes.rs`).
+  - **F2 (Sıradan etçil/hepçil pusu örtüsü):** `is_in_ambush_cover` genişletilerek `can_burrow() == false` türler için bitki örtüsü (`Cell::Food`) üstünde veya duvar/in/bitki bitişiğinde tam stamina ile bekleme pusu örtüsü sayıldı; pusu gizliliği ve +5 ilk vuruş bonusu normal `World::tick` üzerinde doğrulandı (`src/systems/perception.rs`, `src/systems/interaction.rs`).
+  - **F3 (Ham V18 JSON şeması göç testi):** V19 alanlarını içermeyen ham V18 JSON metninden göçü doğrulayan entegrasyon testi eklendi (`tests/persistence.rs`).
+  - **F5 (İn girdi doğrulaması ve otonom kış kazısı):** `dig_burrow` sınır dışı, dolu hücre veya `ttl=0` girdilerini atomik reddeder; kış mevsiminde in bulamayan `can_burrow()` canlılar (`Herbivore`) 2 stamina ile otonom in kazar (`src/environment.rs`, `src/world/mod.rs`).
+  - **F6 (Kademeli ceset çürümesi ve sıfır tüketim koruması):** Ceset enerjisi her tick kademeli olarak 1 birim azalır (`src/systems/life_cycle.rs`); sıfır besin alan bireyler (`amount == 0`) toksisite hasarı almaz (`src/systems/interaction.rs`).
+  - **F8 (5 tohumlu Control vs Treatment World::tick karşılaştırması):** `tests/k8_throughput_audit.rs` içinde `[101..105]` ve `[201..205]` tohumlarında gerçek `World::with_seed` üzerinde `Control` vs `Treatment` kollarının nedensel durum ve RNG ayrışması 80 tick boyunca doğrulandı.
+  - Raporlar: [2002ee4 yeniden denetimi](docs/reports/AUDIT_RECHECK_2002EE4_20261025.md), [Wave 8 tam kapanış raporu](docs/reports/AUDIT_RECHECK_REMEDIATION_20261025.md).
 - **Wave 7 Denetim Düzeltmeleri (F1–F8 Bulguları — `ca5971b` Düzeltildi):**
   - **F1 (Öğrenme ve merak `World::tick` bağlantısı):** `context_ttl_enabled` su bağlam kaydı ve tahmini, `spatial_curiosity_enabled` merak yönelimi ve `first_interval_refuge_enabled` ilk çözücü aralığı per-owner kaydı/seçimi aktif `World::tick` yürütme yoluna bağlandı (`tests/p2_learning_integration.rs`).
   - **F2 (Ebeveyn bakımı, pusu ve alarm):** `World::tick` artık `InteractionSystem::resolve_attacks_with_policy` çağırarak ebeveyn korumasını (%50 hasar azaltımı, 4 stamina maliyeti) ve pusu ilk vuruş bonusunu (+5 hasar) çözer; `resolve_parental_care` ve `emit_local_alarm` (`SignalKind::Sound`) döngüye bağlandı.

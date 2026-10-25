@@ -74,16 +74,24 @@ dağıtım ve karar kanıtları ilgili raporlarda korunur; eski kayıtları silm
   için önkoşul veya mevcut kabul kanıtı değildir. Yeni fiziksel çalışma ancak
   sabit protokol, sınırlı kaynak ve bağımsız denetimle başlar; aynı sonucu
   tekrarlamayın veya sonuçtan sonra eşiği/parametreyi ayarlamayın.
-- Dalga 1–6 motor geliştirmeleri ve Wave 7 entegrasyon düzeltmeleri tamamlandı:
-  `ca5971b` bağımsız denetiminde tespit edilen sekiz bulgu (F1–F8) düzeltildi.
-  Öğrenme/merak döngüsü, ebeveyn bakımı, pusu vuruş hasarı, yerel alarm yayılımı,
-  kış termal maliyeti, dinamik in hücre senkronizasyonu ve leş toksisitesi doğrudan
-  aktif `World::tick` yürütme yoluna bağlandı; checkpoint sürümü `V19`'a yükseltildi.
-  Disabled-path `State+RNG` denkliği ve checkpoint-resume determinizmi tam doğrulanmıştır.
+- Dalga 1–6 motor geliştirmeleri, Wave 7 düzeltmeleri ve Wave 8 tam kapanış
+  doğrulamaları tamamlandı: `ca5971b` ve `2002ee4` bağımsız denetimlerinde tespit
+  edilen bulgular eksiksiz kapatıldı. Su bağlam artığı net fiziksel kalıntı ölçeğine
+  bağlandı ve ardışık özdeş tamamlanma kayıtları korundu (F1); sıradan etçil ve
+  hepçillerin erişebildiği bitki örtüsü ve duvar bitişiği pusu örtüsü olarak kabul
+  edildi (F2); checkpoint `V19` ham V18 JSON metninden göç testiyle doğrulandı (F3);
+  kış termal BMR ek maliyeti bağlandı (F4); dinamik in girdi sınırları doğrulanıp
+  kışın otonom in kazma eylemi eklendi (F5); ceset enerjisi her tick kademeli
+  çürümeye ve sıfır tüketimde toksisite muafiyetine bağlandı (F6); bağlam artığında
+  i64 toplamı ve -1000..=1000 sınır doğrulaması sağlandı (F7); 5 bağımsız seed
+  üzerinde `Control (Flags Off)` vs `Treatment (Flags On)` gerçek `World::tick`
+  karşılaştırmasıyla nedensel durum ve RNG ayrışması kanıtlandı (F8).
   Epistemik sınır: Mekanizma ve `World::tick` entegrasyonu doğrulanmış olup,
   evrensel çok-habitatlı ekolojik üstünlük kanıtlanmamıştır / kapsam dışıdır
   ([AUDIT_CA5971B_20261025](docs/reports/AUDIT_CA5971B_20261025.md),
-  [AUDIT_CA5971B_REMEDIATION_20261025](docs/reports/AUDIT_CA5971B_REMEDIATION_20261025.md)).
+  [AUDIT_CA5971B_REMEDIATION_20261025](docs/reports/AUDIT_CA5971B_REMEDIATION_20261025.md),
+  [AUDIT_RECHECK_2002EE4_20261025](docs/reports/AUDIT_RECHECK_2002EE4_20261025.md),
+  [AUDIT_RECHECK_REMEDIATION_20261025](docs/reports/AUDIT_RECHECK_REMEDIATION_20261025.md)).
 
 Güncel sonuçlar ve tarihçe:
 
@@ -93,6 +101,8 @@ Güncel sonuçlar ve tarihçe:
 - [Önceki teknik tamamlama doğrulaması](docs/reports/REFUGE_REPAIR_VALIDATION.md)
 - [ca5971b entegrasyon denetimi (F1–F8 bulguları)](docs/reports/AUDIT_CA5971B_20261025.md)
 - [Wave 7: ca5971b entegrasyon denetimi (F1–F8) düzeltme ve V19 doğrulama raporu](docs/reports/AUDIT_CA5971B_REMEDIATION_20261025.md)
+- [2002ee4 düzeltmelerinin bağımsız yeniden denetimi](docs/reports/AUDIT_RECHECK_2002EE4_20261025.md)
+- [Wave 8: 2002ee4 yeniden denetim bulgularının (F1, F2, F5, F6, F8) tam kapanış raporu](docs/reports/AUDIT_RECHECK_REMEDIATION_20261025.md)
 - [P2/P3 ampirik protokol ve K8 denetimi (Tarihsel dondurulmuş rapor)](docs/reports/P2_P3_EMPIRICAL_AND_K8_AUDIT_20261025.md)
 - [Öğrenme sınırları ve sonraki adımlar](docs/LEARNING_NEXT.md)
 - [Güncel roadmap](docs/ROADMAP.md) · [doküman dizini](docs/README.md)

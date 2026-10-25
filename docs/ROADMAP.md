@@ -12,21 +12,23 @@ anlamına gelmez. P0–P3 çalışma sırası kategori yapısından ayrıdır.
   öğrenmesi ve V19 deneysel seçenekleri varsayılan kapalı; bu, temel
   bellek/su davranışları veya canlı V12 genetiğinin tümünün kapalı olduğu
   anlamına gelmez. 7883 replay ikilisi dondurulmuştur.
-- **P2 çekirdek motor entegrasyonları ve Wave 7 düzeltmeleri tamamlandı (default-off):**
-  K3 öğrenme/bellek (su bağlamı TTL, ilk-aralık sığınak hasarı, mekânsal merak),
-  K1/K2/K5 çevre/faz (mevsim çevrimi, inler, kademeli ceset evreleri), K2/K3/K4/K6
-  politika/etkileşim (ebeveyn bakımı, sığınak pusu avcılığı, yerel alarm yayılımı)
-  modüler ve varsayılan kapalı olarak çekirdeğe entegre edildi. `ca5971b` bağımsız
-  denetiminde tespit edilen sekiz eksiklik (F1–F8) giderildi: tüm özellikler aktif
-  `World::tick` yürütme yoluna bağlandı, checkpoint sürümü `V19`'a yükseltildi,
-  disabled-path State+RNG denkliği ve deterministik checkpoint-resume doğrulandı.
+- **P2 çekirdek motor entegrasyonları, Wave 7 düzeltmeleri ve Wave 8 kapanışları tamamlandı (default-off):**
+  K3 öğrenme/bellek (su bağlamı net artık ölçeği, ilk-aralık sığınak hasarı, mekânsal merak),
+  K1/K2/K5 çevre/faz (mevsim çevrimi, inler ve otonom kış kazısı, kademeli ceset çürümesi),
+  K2/K3/K4/K6 politika/etkileşim (ebeveyn bakımı, erişilebilir bitki/duvar pusu örtüsü,
+  yerel alarm yayılımı) modüler ve varsayılan kapalı olarak çekirdeğe entegre edildi.
+  `ca5971b` ve `2002ee4` bağımsız denetimlerinde tespit edilen tüm eksiklikler giderildi:
+  tüm özellikler aktif `World::tick` yürütme yoluna bağlandı, su bağlam ölçeği eşitlendi,
+  pusu örtüsü sıradan avcılara genişletildi, dinamik in ve ceset çürümesi fiziksel olarak
+  senkronize edildi, checkpoint sürümü `V19`'a yükseltilerek ham V18 JSON göçü doğrulandı;
+  disabled-path State+RNG denkliği ve deterministik checkpoint-resume korundu.
 - **K7 web replay ve experience UI entegrasyonu tamamlandı:** Sığınak deneyimi
   (`CuriousExperience.refuge`), nedensellik zinciri (`causalChain`: `Kanıt -> Eylem -> Resolver -> Bellek`)
   ve `#auto-director` odak paneli arayüze bağlandı.
-- **P3 held-out ampirik protokolü ve K8 throughput denetimi yürütüldü:** Sabit 5-seed
-  protokolü (`control`, `learning`, `climate`, `social_care`, `all_features`) ve kısa yük
-  throughput denetimi (`SignalTrace <= 64`, `sites <= 8`, `dangers <= 8`, `known_sectors <= 16`,
-  `burrows <= 32`) tamamlandı (`reports/P2_P3_EMPIRICAL_AND_K8_AUDIT_20261025.md`).
+- **P3 held-out ampirik protokolü ve K8 throughput denetimi yürütüldü:** 5 bağımsız seed
+  üzerinde `Control (Flags Off)` vs `Treatment (Flags On)` gerçek `World::tick` karşılaştırması
+  ve kısa yük throughput denetimi (`SignalTrace <= 64`, `sites <= 8`, `dangers <= 8`,
+  `known_sectors <= 16`, `burrows <= 32`) tamamlandı.
 - Kayıtlı habitat fixture'ında aynı 30 seed'in `fixed` ve `both` kolları ayrı
   ayrı 30/30 × 100.000 tick kapısını geçti. Bu yalnız o fixture için sınırlı
   coexistence kabulüdür; tüm habitatlar, şoklar veya kalıcılık için genelleme
@@ -48,6 +50,8 @@ Kanıt: [coexistence](reports/QUALIFIED_OBSERVATION.md),
 [canlı depolama backportu](reports/ARCHIVE_BUDGET_DEPLOYMENT_20261025.md),
 [ca5971b denetim raporu](reports/AUDIT_CA5971B_20261025.md),
 [Wave 7 düzeltme ve V19 doğrulama](reports/AUDIT_CA5971B_REMEDIATION_20261025.md),
+[2002ee4 yeniden denetimi](reports/AUDIT_RECHECK_2002EE4_20261025.md),
+[Wave 8 tam kapanış](reports/AUDIT_RECHECK_REMEDIATION_20261025.md),
 [P2/P3 ampirik protokol ve K8 denetimi (Tarihsel dondurulmuş rapor)](reports/P2_P3_EMPIRICAL_AND_K8_AUDIT_20261025.md).
 
 ## Sekiz sistem kategorisi
@@ -290,15 +294,16 @@ olarak motor çekirdeğine entegre edildi:
 - K3 su bağlamı TTL (`context_entries <= 4`), ilk-aralık sığınak hasarı ve mekânsal merak (`known_sectors <= 16`).
 - K1/K2/K5 mevsimsel iklim çevrimi (`SeasonCycle`), kazılan inler (`burrows <= 32`) ve kademeli ceset evreleri (`CorpseStage`).
 - K2/K3/K4/K6 ebeveyn bakımı (`resolve_parental_care`, sıfır bellek aktarımı), sığınak pusu gizlenmesi ve yerel sesli alarm (`emit_local_alarm`).
-- Wave 7 düzeltmesi: `ca5971b` denetim bulguları (F1–F8) giderildi; öğrenme, ebeveyn bakımı, pusu vuruş hasarı, yerel alarm, kış termal maliyeti, dinamik in hücre senkronizasyonu ve leş toksisitesi aktif `World::tick` yürütme yoluna bağlandı; checkpoint sürümü `V19`'a yükseltildi.
+- Wave 7 ve Wave 8 denetim düzeltmeleri: `ca5971b` ve `2002ee4` denetim bulguları (F1–F8) kapatıldı; su bağlamı net artık ölçeğine eşitlendi, ardışık kayıtlar eklendi, pusu örtüsü sıradan avcılara genişletildi, in girdi kontrolü ve kış otonom in kazımı bağlandı, ceset enerjisi her tick kademeli çürümeye ve sıfır tüketim toksisite korumasına alındı, checkpoint sürümü `V19`'a yükseltildi ve ham V18 JSON şeması göçü doğrulandı.
 - Disabled-path eski/yeni State+RNG denkliği, deterministik checkpoint-resume, bounded bellek yapıları ve tek-writer kuralı doğrulandı.
 - K7 web deneyim ve replay arayüzü (`CuriousExperience.refuge`, `causalChain`, `autoDirector`) bağlandı.
 
 ### P3 — Ekoloji ve held-out protokolü (Yürütüldü / Denetlendi)
 
 - Sabit 5-seed held-out protokolü (`control`, `learning`, `climate`, `social_care`, `all_features`)
-  ve kısa yük K8 throughput denetimi her seed için bağımsız `World::with_seed` yörüngesiyle
-  yürütüldü (`tests/k8_throughput_audit.rs`, `reports/AUDIT_CA5971B_REMEDIATION_20261025.md`).
+  ve kısa yük K8 throughput denetimi her seed için bağımsız `World::with_seed` üzerinde
+  `Control (Flags Off)` vs `Treatment (Flags On)` 80 tick yörüngeleriyle yürütüldü
+  (`tests/k8_throughput_audit.rs`, `reports/AUDIT_RECHECK_REMEDIATION_20261025.md`).
 - Epistemik dürüstlük: Çekirdek entegrasyonu, State+RNG denkliği, checkpoint determinizmi ve
   sabit protokol tekrarlanabilirliği doğrulanmış; evrensel çok-habitatlı ekolojik üstünlük veya
   uzun süreli soak iddia edilmemiş / ertelenmiştir.
