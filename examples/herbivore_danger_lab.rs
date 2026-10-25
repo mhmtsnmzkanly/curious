@@ -111,6 +111,7 @@ fn make_world(seed: u64, refuge_outcomes_enabled: bool) -> World {
                 schedule: None,
             },
         ],
+        ..Default::default()
     };
     world.observation.full_for = vec![SUBJECT_ID];
     world

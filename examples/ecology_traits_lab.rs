@@ -91,6 +91,7 @@ fn mechanism_check(out: &mut impl Write) -> curious::Result<()> {
     world.map = Map::new(-2, 2, -2, 2);
     world.environment = Environment {
         sites: vec![site(p0, Some(schedule)), site(p1, Some(schedule))],
+        ..Default::default()
     };
     world.map.set_cell(p0, Cell::Food { amount: 0 });
     world.map.set_cell(p1, Cell::Food { amount: 0 });
@@ -98,6 +99,7 @@ fn mechanism_check(out: &mut impl Write) -> curious::Result<()> {
     closed_control.map = Map::new(-2, 2, -2, 2);
     closed_control.environment = Environment {
         sites: vec![site(p0, None), site(p1, None)],
+        ..Default::default()
     };
     closed_control.map.set_cell(p0, Cell::Food { amount: 0 });
     closed_control.map.set_cell(p1, Cell::Food { amount: 0 });

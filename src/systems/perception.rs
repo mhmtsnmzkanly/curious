@@ -20,7 +20,12 @@ impl PerceptionSystem {
         current: &EntitySlot,
         index: &super::spatial::SpatialIndex,
     ) -> Perception {
-        let radius = current.base.life().vision_range;
+        let base_vision = current.base.life().vision_range;
+        let radius = if let Some(cycle) = world.environment.day_night {
+            cycle.effective_vision_range(world.tick_counter, base_vision)
+        } else {
+            base_vision
+        };
         let nearby = index.nearby(current.pos, radius);
         let blocked: std::collections::HashSet<_> = nearby
             .iter()
@@ -147,6 +152,11 @@ impl PerceptionSystem {
                 distance += 1;
             }
             view.add_direction(dir, distance);
+        }
+        if world.environment.signals_enabled {
+            view.signals = world
+                .environment
+                .perceive_signals_at(current.pos, world.tick_counter);
         }
         view
     }

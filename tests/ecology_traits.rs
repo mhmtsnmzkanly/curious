@@ -33,6 +33,7 @@ fn resource_schedule_staggers_sites_without_using_or_changing_rng() {
     world.map = Map::new(-2, 2, -2, 2);
     world.environment = Environment {
         sites: vec![site(a, Some(schedule)), site(b, Some(schedule))],
+        ..Default::default()
     };
     world.map.set_cell(a, Cell::Food { amount: 0 });
     world.map.set_cell(b, Cell::Food { amount: 0 });
@@ -75,6 +76,7 @@ fn resource_schedule_survives_checkpoint_and_invalid_parameters_are_rejected() {
     };
     world.environment = Environment {
         sites: vec![site(p, Some(schedule))],
+        ..Default::default()
     };
     world.map.set_cell(p, Cell::Food { amount: 3 });
     for _ in 0..17 {
@@ -125,6 +127,7 @@ fn closed_v13_migration_discards_new_opt_in_fields_without_changing_future_state
     baseline.map = Map::new(0, 2, 0, 2);
     baseline.environment = Environment {
         sites: vec![site(Position::new(2, 2), None)],
+        ..Default::default()
     };
     let mut serialized = serde_json::to_value(State::capture(&baseline)).unwrap();
     serialized["version"] = 13.into();

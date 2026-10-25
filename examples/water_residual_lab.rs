@@ -209,6 +209,7 @@ fn make_world(seed: u64) -> World {
             site(p(0, 4), ResourceKind::Food, 20, 2, 2),
             site(p(4, 4), ResourceKind::Food, 20, 2, 2),
         ],
+        ..Default::default()
     };
     world.observation.full_for = vec![FOCAL_ID, COMPETITOR_ID];
     world.policy.water_residual_enabled = true;

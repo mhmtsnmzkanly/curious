@@ -112,6 +112,7 @@ fn make_world(seed: u64) -> World {
                 schedule: None,
             },
         ],
+        ..Default::default()
     };
     world.observation.full_for = vec![SUBJECT_ID];
     world

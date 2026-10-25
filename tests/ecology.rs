@@ -195,7 +195,7 @@ fn depleted_sites_regrow_on_schedule_and_respect_capacity() {
     use curious::environment::{Environment, ResourceKind, ResourceSite};
     let pos = Position::new(0, 0);
     let mut map = Map::new(-1, 1, -1, 1);
-    let env = Environment {
+    let mut env = Environment {
         sites: vec![ResourceSite {
             pos,
             kind: ResourceKind::Food,
@@ -204,6 +204,7 @@ fn depleted_sites_regrow_on_schedule_and_respect_capacity() {
             interval: 2,
             schedule: None,
         }],
+        ..Default::default()
     };
     let mut events = Vec::new();
     env.update(&mut map, 1, &mut events);

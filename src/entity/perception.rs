@@ -1,5 +1,6 @@
 use crate::{
     entity::species::Species,
+    environment::PerceivedSignal,
     map::movement::{Direction, Steps},
 };
 use std::{
@@ -65,6 +66,8 @@ pub struct Perception {
     pub entities: Vec<PerceivedEntity>,
     /// Gidilebilicek mesafe, u8 değeri hangi yöne kaç adımı gidebiliceği simgeler
     pub directions: HashMap<Direction, u8>,
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub signals: Vec<PerceivedSignal>,
 }
 
 impl Perception {
@@ -77,6 +80,7 @@ impl Perception {
             waters: Vec::new(),
             entities: Vec::new(),
             directions: HashMap::new(),
+            signals: Vec::new(),
         }
     }
     /// Algılanan yiyeceğe adım ekle

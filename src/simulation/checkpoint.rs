@@ -116,6 +116,7 @@ impl State {
         }
         if self.version >= 15 {
             self.genetics.validate()?;
+            self.environment.validate()?;
             let [min_x, max_x, min_y, max_y] = self.bounds;
             let mut sites = std::collections::HashSet::new();
             for site in &self.environment.sites {

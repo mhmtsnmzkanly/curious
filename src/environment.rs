@@ -62,9 +62,113 @@ impl ResourceSchedule {
 fn default_geographic_phase_step() -> usize {
     1
 }
+
+pub const MAX_ENVIRONMENT_SIGNALS: usize = 64;
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
+pub enum SignalKind {
+    Footstep,
+    Scent,
+    Sound,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct SignalTrace {
+    pub origin: Position,
+    pub kind: SignalKind,
+    pub intensity: u16,
+    pub radius: u8,
+    pub decay_per_tick: u16,
+    pub emitted_tick: usize,
+}
+
+impl SignalTrace {
+    pub fn validate(&self) -> crate::Result<()> {
+        if self.origin.x.unsigned_abs() > 1_000_000
+            || self.origin.y.unsigned_abs() > 1_000_000
+            || self.intensity == 0
+            || self.radius == 0
+            || self.radius > 64
+            || self.decay_per_tick == 0
+        {
+            return Err("invalid signal trace".into());
+        }
+        Ok(())
+    }
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
+pub struct PerceivedSignal {
+    pub kind: SignalKind,
+    pub direction_sector: u8,
+    pub distance: u8,
+    pub local_intensity: u16,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+pub struct DayNightCycle {
+    pub period: usize,
+    pub day_ticks: usize,
+    pub night_vision_penalty: usize,
+}
+
+impl DayNightCycle {
+    pub fn validate(&self) -> crate::Result<()> {
+        if self.period == 0
+            || self.period > 1_000_000
+            || self.day_ticks > self.period
+            || self.night_vision_penalty > 32
+        {
+            return Err("invalid day-night cycle".into());
+        }
+        Ok(())
+    }
+
+    pub fn is_day(&self, tick: usize) -> bool {
+        if self.period == 0 {
+            return true;
+        }
+        tick.rem_euclid(self.period) < self.day_ticks
+    }
+
+    pub fn effective_vision_range(&self, tick: usize, base_vision: usize) -> usize {
+        if self.is_day(tick) {
+            base_vision
+        } else {
+            base_vision.saturating_sub(self.night_vision_penalty).max(1)
+        }
+    }
+}
+
+pub fn calculate_direction_sector(from: Position, to: Position) -> u8 {
+    let dx = to.x - from.x;
+    let dy = to.y - from.y;
+    match (dx.signum(), dy.signum()) {
+        (0, -1) => 0,
+        (1, -1) => 1,
+        (1, 0) => 2,
+        (1, 1) => 3,
+        (0, 1) => 4,
+        (-1, 1) => 5,
+        (-1, 0) => 6,
+        (-1, -1) => 7,
+        _ => 0,
+    }
+}
+
+fn is_false(v: &bool) -> bool {
+    !*v
+}
+
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct Environment {
     pub sites: Vec<ResourceSite>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub day_night: Option<DayNightCycle>,
+    #[serde(default, skip_serializing_if = "is_false")]
+    pub signals_enabled: bool,
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub signals: Vec<SignalTrace>,
 }
 impl ResourceSite {
     pub fn validate(&self) -> crate::Result<()> {
@@ -111,9 +215,20 @@ impl Environment {
                 }
             }
         }
-        Self { sites }
+        Self {
+            sites,
+            day_night: None,
+            signals_enabled: false,
+            signals: Vec::new(),
+        }
     }
-    pub fn update(&self, map: &mut Map, tick: usize, events: &mut Vec<SimulationEvent>) {
+    pub fn update(&mut self, map: &mut Map, tick: usize, events: &mut Vec<SimulationEvent>) {
+        if self.signals_enabled {
+            self.signals.retain_mut(|signal| {
+                signal.intensity = signal.intensity.saturating_sub(signal.decay_per_tick);
+                signal.intensity > 0
+            });
+        }
         for site in &self.sites {
             if site.interval == 0 || tick % site.interval != 0 {
                 continue;
@@ -149,6 +264,76 @@ impl Environment {
                 amount,
             });
         }
+    }
+    pub fn emit_signal(&mut self, trace: SignalTrace) {
+        if !self.signals_enabled || trace.intensity == 0 || trace.radius == 0 {
+            return;
+        }
+        if trace.validate().is_err() {
+            return;
+        }
+        if self.signals.len() >= MAX_ENVIRONMENT_SIGNALS {
+            if let Some((idx, _)) = self
+                .signals
+                .iter()
+                .enumerate()
+                .min_by_key(|(_, s)| (s.emitted_tick, s.intensity, s.origin.y, s.origin.x))
+            {
+                self.signals.remove(idx);
+            }
+        }
+        self.signals.push(trace);
+    }
+    pub fn perceive_signals_at(
+        &self,
+        listener_pos: Position,
+        current_tick: usize,
+    ) -> Vec<PerceivedSignal> {
+        if !self.signals_enabled {
+            return Vec::new();
+        }
+        let mut perceived = Vec::new();
+        for signal in &self.signals {
+            if signal.emitted_tick > current_tick {
+                continue;
+            }
+            let dx = (signal.origin.x - listener_pos.x).unsigned_abs();
+            let dy = (signal.origin.y - listener_pos.y).unsigned_abs();
+            let chebyshev_dist = dx.max(dy);
+            if chebyshev_dist > signal.radius as usize {
+                continue;
+            }
+            let distance = chebyshev_dist as u8;
+            let attenuation = (distance as u16).saturating_mul(signal.decay_per_tick);
+            let local_intensity = signal.intensity.saturating_sub(attenuation);
+            if local_intensity == 0 {
+                continue;
+            }
+            let direction_sector = calculate_direction_sector(listener_pos, signal.origin);
+            perceived.push(PerceivedSignal {
+                kind: signal.kind,
+                direction_sector,
+                distance,
+                local_intensity,
+            });
+        }
+        perceived.sort_by_key(|p| (p.distance, p.direction_sector, p.kind as u8, std::cmp::Reverse(p.local_intensity)));
+        perceived
+    }
+    pub fn validate(&self) -> crate::Result<()> {
+        for site in &self.sites {
+            site.validate()?;
+        }
+        if let Some(cycle) = self.day_night {
+            cycle.validate()?;
+        }
+        if self.signals.len() > MAX_ENVIRONMENT_SIGNALS {
+            return Err("too many environment signals".into());
+        }
+        for signal in &self.signals {
+            signal.validate()?;
+        }
+        Ok(())
     }
     pub fn set_site(&mut self, site: ResourceSite) {
         self.sites.retain(|s| s.pos != site.pos);

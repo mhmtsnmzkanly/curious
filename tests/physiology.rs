@@ -307,6 +307,7 @@ fn energy_and_resource_stock_flow_accounting_closes_exactly() {
                 schedule: None,
             },
         ],
+        ..Default::default()
     };
 
     // Entity 1: Carnivore (hunter & scavenger)
