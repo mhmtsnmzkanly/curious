@@ -1,101 +1,142 @@
-# Kullanıcının onayladığı sıra ve gerçek durum
+# Curious yol haritası
 
-Her aşamada deney, test, not, commit, derleme temizliği ve önemli sonuçlarda
-Notify uygulanır. Bir özelliğin ilk sürümü, bütün projenin tamamlandığı anlamına
-gelmez. Hızlandırılmış tick gerçek gün/hafta gözleminin yerine geçmez.
+**Durum tarihi: 25 Ekim 2026.** Yol haritası ölçülmüş durumla önerilen işleri
+ayırır. Mekanizma testi biyolojik fayda; tek fixture kabulü bütün habitatlarda
+denge; hızlandırılmış tick gerçek zamanlı dayanıklılık kanıtı değildir.
 
-1. [ ] Etçil yavru ve avcı soyunun devamı: enerji sorunu düzeldi, yavru olgunlaşıp üreyebiliyor; kalıcı avcı soyu açık.
-2. [x] Av seçimi, tahmini maliyet, bırakma ve dinlenme için ilk kurallı politika.
-3. [ ] Karma ekosistem: küçük/geniş/yoğun/sığınaklı karşılaştırmalar yapıldı; kalıcı birlikte yaşam sağlanmadı.
-4. [x] Hareket, duvar, sığınak, diyet, paylaşım ve çakışma sözleşmeleri.
-5. [x] Sınırlı bireysel kaynak/tehlike hafızası ve unutma.
-6. [x] Su seçimi için sonuçtan öğrenme ve öğrenmeyen bireyle kontrollü deney.
-7. [x] İlk hareket özelliğinde bedelli kalıtım, mutasyon ve nesil dağılımı ölçümü.
-8. [x] Birey, karar, geçmiş, hafıza ve soy bilgisi için ilk görsel gözlem ekranı.
-9. [ ] Gerçek gün/hafta dayanıklılığı: 10.000 tam kayıtlı tick geçti; gerçek süreli gözlem sürüyor.
-10. [x] 10–1.000 kurucu ve farklı haritalarda ölçüm; algı indeksiyle hızlandırma.
-11. [x] Ayrı izleyici gözetimi, yedekli dağıtım ve gerçek süreli bildirimler.
+## Mevcut durum
 
-## Süren işler
+- **Kaynak ve canlı sistemler ayrıdır.** V17 su-artığı, av-risk öğrenmesi ve
+  V18 genelleme gibi yeni deneysel seçenekler varsayılan kapalıdır; bu, temel
+  bellek/su davranışlarının veya canlı V12 genetiğinin tümünün kapalı olduğu
+  anlamına gelmez. 7882'deki canlı dünya V12 checkpoint üzerinde,
+  yalnız arşiv bütçesi düzeltmesini içeren
+  `curious-observation-budget-8dc23de` backportuyla çalışır. Bu dağıtım canlı
+  dünyayı V18'e yükseltmedi. 7883 replay ikilisi dondurulmuştur.
+- **Coexistence:** Aynı 30 seed, kayıtlı fixture'da `fixed` ve `both`
+  kollarında ayrı ayrı 30/30 × 100.000 tick kapısını geçti. Bu yalnız kayıtlı
+  koşula bağlı kabul; bütün habitatlarda, her şokta veya kalıcı olarak
+  coexistence iddiası değildir.
+- **Su öğrenmesi:** V17 artığı varsayılan kapalı. Ön kayıtlı bounded utility
+  sonucu **FALSE**; genelleştirilmiş fayda veya dağıtım kabulü yoktur.
+- **Görüş/vision:** Habitat karşılaştırması karışık betimleyici sonuç verdi;
+  tutarlı avantaj göstermedi.
+- **Sığınak hasarı:** Tam kaçış için beklenen hasar `Unknown`. İlk resolver
+  aralığı çıkarımı 623 exact gözlem (617 sıfır, altı × 20 hasar, dört birey)
+  buldu; bir learner kabul edilmedi. Sonraki tam-rota sansürü tamamlanmış ilk
+  aralığın exact etiketini geçersiz kılmaz.
+- **İzleyici:** Birey/karar/geçmiş için ilk salt-okunur belgesel arayüzü var;
+  bütün biliş veya fayda kanıtı değildir.
+- **Uzun soak:** Aylar/yıllar süren gözlem kullanıcı isteğiyle ertelendi; yeni
+  özellik geliştirmeyi bloke etmez.
 
-### 24 Ekim — wave-2 final sonucu
+Bağlı kanıtlar: [coexistence kabulü](reports/QUALIFIED_OBSERVATION.md),
+[su sonucu](reports/WATER_RESIDUAL_V1.md),
+[habitat-vision sonucu](reports/VISION_HABITAT_V1.md),
+[tam kaçış baseline'ı](reports/REFUGE_RISK_BASELINE_V1.md),
+[ilk-aralık ölçümü](reports/REFUGE_FIRST_RESOLUTION_V1.md) ve
+[canlı depolama backportu](reports/ARCHIVE_BUDGET_DEPLOYMENT_20261025.md).
 
-V17 calibration 52099 1.400 tickte 8/8 opportunity gate geçti; prefixte 20,
-trained-online suffixte 35 fresh choices vardı. Formal 52001–52008 toplam
-11.200 tick ve 164.554.619 byte raw ile tamamlandı; tüm 32 focal branch 500 tick
-yaşadı. Root 32 physical vector'ı ve üç matched full-state/perception/body/RNG
-greedy-score/resolver witness'ı doğruladı (52002/247, 52003/415, 52006/241).
+## Öncelik sırası
 
-Preregistered bounded utility **FALSE**. Online − rules: acquired water −9,
-movement energy +32, terminal energy +4, terminal water −9, health/survival 0.
-Online − frozen: acquired water +5, movement energy −13, terminal energy −3,
-terminal water +5, health/survival 0. Rule karşısında 8/8 tradeoff; frozen'a
-karşı bir dominance, iki tradeoff ve beş identical. V17 default-off; genel
-yarar, qualification, deployment, retune ya da yeni batch yoktur. Dokuz seed
-rolü seen. [Rapor](reports/WATER_RESIDUAL_V1.md) / [JSON](reports/WATER_RESIDUAL_V1.json).
+Bağımlı işler bu sırayla ilerler; A/G gibi bağımsız ölçüm işleri kendi izinde
+paralel hazırlanabilir.
 
-B 13 synthetic schema check; C 9 measurement check/13 physical World tick geçti.
-B/C production entegrasyonu veya fitness kabulü değildir. C body energy unknown
-bırakır ve kimlik/event koleksiyonları büyüyebilir. Seed123 engineering çiftinde
-2×1.400 tick ve 1.400 matched frame vardır; formal evidence değildir. Root
-combined checks: 211 Rust, 140 Python, release probe/app passed. Bu formal lab
-process/pending wake yok; coexistence/replay services aktif kaldı, değiştirilmedi.
-Root üç inactive target cleanup 967.6 MiB logical; kayıtlı experiment artifacts
-korundu. Yeni A hipotezi context-stale residual/current-baseline redundancy'yi
-yeni preregistration ile ele alabilir; immediate retune yoktur. B/C integration
-ayrı root kararıdır.
+### P0 — destek ve mekanizma
 
-### 23 Ekim — paralel capability planı
+1. İlk-aralık hasarı için per-owner öğrenme sözleşmesini tanımla. Hedef yalnız
+   seçilmiş tehdidin bir sonraki tam resolver aralığındaki doğrulanmış hasarıdır;
+   tam kaçış hasarı veya seçilmemiş yol riski değildir. Bu ufukta atıfsız,
+   eksik ya da sansürlü sonuç `Unknown` kalır; sonradan sansürlenmiş tam kaçış,
+   zaten tamamlanmış ilk aralığı geriye dönük bilinmeyen yapmaz. 623 satırlı
+   mevcut çıkarım model değildir;
+   model eğitimi veya yeni lab bu yol haritası notuyla yetkilendirilmez.
+2. Su artığı için güncel miktar/rota/beden tabanı ile eski bireysel artığın
+   bağlam uyumunu sınayacak hipotezi tasarla. Mevcut bounded utility başarısız
+   olduğundan retune ve yeni seed çalışması ayrı preregistration gerektirir.
 
-Altı capability izi A–F ile bounded performans/storage izi G'nin kapsamı ve
-kanıt kapıları [PARALLEL_CAPABILITY_PLAN.md](PARALLEL_CAPABILITY_PLAN.md) içinde.
-Root A/B/C izole teslimlerini inceledi; A su residual learner'ı V17 source
-integration adayı olarak tamamlandı. Varsayılan kapalıdır; açıkken mevcut
-`foraging::value` tabanına bireyin kendi resolver doğrulamalı su/movement/time
-artığı eklenir. Choice-time baseline episode boyunca tutulur; exact bounded
-sum/count kullanılır. V1–V16 göçü policy/table/baseline'ı kapalı/boş yapar,
-SQLite V2 değişmez, yavru öğrenilmiş residual almaz. Default-off RNG goldens,
-resolver+resume, census/frozen/migration ve sınır testleri geçti.
+### P1 — fiziksel ve muhasebe testleri
 
-Root final doğrulaması: Rust 191 passed / 0 failed (39 summaries), Python 132/0,
-incremental release build exit 0, HTTP/control/auth/SIGKILL-resume script exit 0,
-scoped Rust format check geçti. Bu mekanizma/entegrasyon kontrolüdür; ekolojik
-yarar kabulü değildir. A'nın formal online-vs-frozen/naive/rule experiment,
-seed seçimi ve preregistration açık; hiçbir formal batch, deployment veya yeni
-world başlatılmadı. B compatibility calibration/schema tasarımı ve C fixture
-resource accounting/runtime audit açık. Ortak source/checkpoint değişiklikleri
-root'un seri review'undan geçer. Formal çalışma için protocol/seed audit gerekir.
-Aylar/yıllar reliability soak'u kapsam dışıdır.
-- Asıl açık biyolojik konu: avcı nesillerinin kalıcı olması. Sığınaklı seed
-  12345'te 20. nesle ulaştı, 907'den sonra avcı kalmadı. Başarı diye etiketlenmez.
-  Sıradaki teşhis bu soyda çift bulma, rezerv ve ölüm zamanlarını ayırmak.
-- Gerçek süreli 9. aşama otomatik örnekleniyor. 1/7/30 gerçek gün ve yeterli
-  örnek birikince Notify raporu gönderilecek; henüz gün/hafta geçti denemez.
-- Öğrenme tek karar alanında; evrim tek özellikte. Genel öğrenme, kalıtsal yeni
-  yeteneklerin kendiliğinden oluşması ve açık uçlu karmaşıklık henüz yok.
+3. Resolver testleri: seçilen tehdidin ilk-aralık hasarı, diğer saldırgan,
+   açıklanamayan sağlık kaybı, eksik atıf, ölüm/kesinti ve güvenilir sıfır
+   birbirinden ayrılır. Gerçek ödenen enerji ve olay tanıkları karşılaştırılır.
+4. Sürdürülebilir ecology fixture'ı: kaynak başlangıç/yenilenme/tüketim,
+   tür başına akış, beden enerji bütçesi, kurucu/F1/F2 ve kendi yavrusunu
+   üretmiş soy ayrı denetlenir. Mevcut 3 × 500 tick fixture sonucu sınırlıdır;
+   basal enerji ve trait bedelleri henüz tam doğrulanmış sayılmaz.
 
-Ayrıntılı sonuçlar: [toplu rapor](reports/ROADMAP_RESULTS.md), aşama raporları
-`reports/ROADMAP_01.md`–`ROADMAP_11.md`, son habitat deneyi `reports/REFUGE.md`.
+### P2 — varsayılan kapalı entegrasyon
 
-Av–avcı için onaylanan yeni11 aşamalı çalışma `COEXISTENCE_PLAN.md` içindedir.
-V8 teşhisi ve V9 düzeltmeleri uygulandı. Kalibrasyon/duyarlılık/uzun testler ve
-koşullu ayrı dünya için çalıştırıcı hazırlandı; biyolojik kabul kapıları henüz
-geçilmiş değildir. Ayrıntı `reports/COEXISTENCE_IMPLEMENTATION.md`.
+5. Yalnız P0/P1 root incelemesinden sonra learning/action kodunu entegre et.
+   Her bireyin verisi ayrı kalır; global fallback veya yavruya öğrenilmiş bellek
+   aktarımı yoktur. Feature flag, update/freeze kontrolü ve sınırlar açıktır.
+6. Checkpoint migration, eski SQLite okuma, resume, writer lock ve hata
+   davranışını doğrula. Kapalı özellikte başlangıçtan itibaren tam State+RNG
+   eşitliği ve eski kontrol akışı korunmalıdır. Canlı V12 ayrı sahipliktedir;
+   yeni ana dal ikilisiyle kendiliğinden yükseltilmez.
 
-## 20 Ekim 2026 — karma kabul
+### P3 — ecology, trait ve davranış kabulü
 
-32ddfb2 rezerv/buluşma koşulu, sabitlenen yeni30seedde fixed ve both için
-ayrı30/30×100000 adım ve son bölüm üreyen yavru soyu kapısını geçti.
-Duyarlılık ve şok/öğrenme/mutasyon kapıları da tamamlandı. Bu, 1 ve3 için
-sınanmış koşulda güçlü süreklilik kanıtıdır; sonsuz denge veya genel evrim
-iddiası değildir. Gerçek gün/hafta9 hâlâ açık. Ayrı dünya ve işletim kanıtları
-[QUALIFIED_OBSERVATION](reports/QUALIFIED_OBSERVATION.md) raporunda tutulur.
+7. Fizik ve entegrasyon kapılarından sonra sabitlenmiş fixture/seedlerle habitat,
+   kaynak baskısı, bedelli trait ve öğrenme karşılaştırmaları yap. Her deneyin
+   kendi protokolü, fiziksel çıktıları, held-out rolleri ve doğal yok oluş
+   kuralı olur. Seed seçimi, eşik veya feature tuning formal sonuçtan sonra
+   değiştirilmez.
 
-## 23 Ekim 2026 — ekoloji takvimi ve bedelli fizik adayları
+## Yedi yetenek ve sistem izi
 
-İsteğe bağlı coğrafi kaynak takvimi ile kalıtsal görüş/dayanıklılık allelleri
-uygulama ve mekanizma test aşamasında. Yeni fizik maliyeti enerjiyle ödenir;
-varsayılan opt-in kapalıdır. Sabit karşılaştırma tasarımı
-[ECOLOGY_TRAITS_PROTOCOL](ECOLOGY_TRAITS_PROTOCOL.md) içinde önkayıtlıdır;
-henüz calibration veya held-out fitness değerlendirmesi çalıştırılmadı.
-Kayıtlı çalışma temiz kaynak commiti ve incelemesinden sonra yürütülür.
+| İz | Sınırlandırılmış mevcut durum | Önerilen sonraki iş |
+|---|---|---|
+| **A — Güncel bağlamlı su artığı** | V17'de mevcut ve varsayılan kapalı. Formal utility **FALSE**; kabul veya canlı dağıtım iddiası yok. | Bağlam eskimesi ve taban skorla artık etkileşimini tanımla; önce saf/deterministik test, sonra ayrı preregistration. |
+| **B — Per-owner ilk-aralık hasar öğrenmesi** | 623 exact ilk-aralık kaydı; altı pozitif hasar dört bireyde. Tam kaçış `Unknown`; model yok. | P0'da per-owner hedef/sansür sözleşmesi. Yalnız hedef ufkunda Unknown update etmez; sonraki rota sansürü exact ilk-aralığı silmez. P1'den önce training veya World yok. |
+| **C — Kaynak, habitat ve bedelli trait fixture'ı** | Üç 500-tick formal seed kayıtlı fixture viability kapısını geçti. Bu genel habitat/fitness kabulü değil; bazı kaynak ve beden enerji muhasebesi açık. | Kaynak akışı ve istenen/ödenen enerji denetimini tamamla; habitat ve trait sorularını ayrı faktörlere böl. |
+| **D — Sonlu birleştirilebilir eylem ve yerel koordinasyon** | Mevcut niyetler/eylemler resolver'dan geçiyor; genişletilebilir katalog ve sosyal koordinasyon kabul edilmedi. | Sonlu primitifler, izinli bileşimler ve yalnız görünür komşu/iletişim olaylarına dayalı yerel koordinasyon tanımla. |
+| **E — Sonlu allel varyasyonu ve seçilim** | Bedelli allel/mutasyon mekanizmaları opt-in olarak var. Fitness/kalıcılık avantajı kabul edilmedi; öğrenilmiş bellek kalıtılmaz. | C'nin maliyet/soy muhasebesinden sonra allel frekansı, ödenen bedel ve üreyen yavru-soyu için ayrı held-out test. |
+| **F — Bireysel deneyim belgesel arayüzü** | Salt-okunur birey/karar/geçmiş görünümü var; tüm deneyim veya nedensellik iddiası yok. | Görülen/hatırlanan kanıt → seçilen eylem → resolver maliyeti/sonucu → gözlenen öğrenme güncellemesini göster; eksikler `Unknown`. |
+| **G — Bounded kapasite, depolama ve işletim** | Shard, checkpoint/arşiv ve retention mevcut. Canlı V12 storage backportu cached arşiv sayımını düzeltir; kota hâlâ soft guard. | Sabit kısa yüklerde actor/tick, RSS, SQLite/HTTP ve disk büyümesini ölç; sınırlarda güvenli pause/retention davranışını doğrula. Aylar/yıllar soak bu izin kabul kapısı değildir. |
+
+## Ortak modül ve kabul kapıları
+
+- **Beden:** sağlık, enerji, dayanıklılık ve fiziksel bedel. Yeni trait maliyeti
+  istek ile gerçekten ödeneni ayıran resolver/metabolizma olayında görünür.
+- **Algı:** yalnız karar anında görülen durum. Sonraki dünya bilgisi veya gizli
+  fizyoloji feature olamaz.
+- **Bellek:** bireye ait, sınırlı ve checkpoint'lenmiş. Yavruya öğrenilmiş tablo
+  aktarılmaz; bireyler arası update izolasyonu test edilir.
+- **Öğrenme:** yalnız resolver doğrulamalı kendi sonuçlarından ve tanımlı hedef
+  ufkunda. Atıfsız, ufku içinde kesilmiş veya bilinmeyen sonuç başarı ya da sıfır
+  hasar sayılmaz. Daha sonraki rota sansürü tamamlanmış kısa ufuk etiketini silmez.
+  Frozen model parametreleri değişmez; online keşif sürebileceğinden frozen ve
+  online kolların tüm sonuçları eşit olma şartı yoktur.
+- **Resolver:** eylemi/çakışmayı doğrular, bedeli uygular ve kaynak olayı üretir.
+  Model dünya durumuna doğrudan yazmaz.
+- **Saklama ve kontrol:** yeni alanlar sürümlü migration alır; default-off
+  migration, checkpoint resume, tek yazıcı, eski okuma ve hata/pause sınırları
+  denetlenir.
+- **State+RNG:** disabled-path eski/yeni karşılaştırması aynı fixture'da tam
+  durum ve RNG eşitliği; checkpoint-resume ise deterministik devam göstermelidir.
+  Şema göçünde yalnız açıkça belgelenmiş sürüm/yeni alan farkları ayrı
+  doğrulanabilir; biyolojik durum veya RNG farkı normalizasyonla gizlenmez.
+  Frozen parametre değişmezliği ayrıca sınanır, ancak online keşif sürebilir.
+  Her değişiklik için root incelemesi ve bağımsız audit gerekir.
+
+## Özgün 11 aşamanın kısa durumu
+
+| # | Aşama | 25 Ekim durumu |
+|---:|---|---|
+| 1 | Avcı yavrusu ve soyunun devamı | Üreme/olgunlaşma mekanizması ve sınırlı coexistence kapısı var; bütün koşullarda kalıcılık kanıtlanmadı. |
+| 2 | Av seçimi, maliyet, bırakma ve dinlenme | İlk kurallı politika mevcut; risk öğrenmesi fayda göstermedi. |
+| 3 | Karma ekosistem | Kayıtlı fixture'da bounded coexistence kabulü var; genel habitat sonucu yok. |
+| 4 | Hareket, duvar, sığınak, diyet, paylaşım ve çakışma | İlk resolver sözleşmeleri mevcut ve testli. |
+| 5 | Sınırlı bireysel kaynak/tehlike belleği | İlk bounded bellek ve unutma mekanizmaları mevcut; güvenli aktarım genellemesi kanıtlanmadı. |
+| 6 | Sonuçtan su öğrenmesi ve kontrol kolu | Mekanizma/formal ölçüm var; V17 bounded utility FALSE. |
+| 7 | Bedelli kalıtsal hareket/trait ve mutasyon | İlk allel/bedel ölçümü var; seçilim avantajı kabul edilmedi. |
+| 8 | Birey, karar, geçmiş, bellek ve soy arayüzü | İlk salt-okunur belgesel ekran mevcut; bilişin tam kaydı değildir. |
+| 9 | Gerçek gün/hafta dayanıklılığı | Sınırlı kayıtlı tick testleri var; uzun gerçek-zamanlı soak kullanıcı isteğiyle ertelendi. |
+| 10 | Kurucu ve harita ölçek ölçümü | 10–1.000 kurucu ve farklı haritalar için ilk ölçüm araçları mevcut. |
+| 11 | İzleme, yedekli dağıtım ve bildirim | Ayrı işletim/monitoring mevcut; uzun soak ve genel kapasite garantisi değildir. |
+
+Yeni seed, lab, model eğitimi, live deployment veya ortak çekirdek entegrasyonu
+bu yol haritasıyla otomatik olarak yetkilendirilmez; ayrı root review ve
+protokol gerekir. Belgelerin güncel giriş noktaları [docs/README](README.md)
+içindedir.

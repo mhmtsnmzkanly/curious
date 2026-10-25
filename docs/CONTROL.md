@@ -1,5 +1,12 @@
 # V18 — varsayılan kapalı sığınak genellemesi
 
+> **Sürüm kapsamı — 25 Ekim 2026:** Bu dosya geliştirme kaynağındaki V18 /
+> SQLite V2 kontrol ve checkpoint sözleşmesini anlatır; V18'in canlıya
+> dağıtıldığını göstermez. Canlı 7882 dünyası V12'dir ve yalnızca
+> depolama-muhasebesi backport'u `curious-observation-budget-8dc23de`
+> (SHA-256 `35930838981679ab1b937324df6dda73d2b3bcc6c57706d69f2c11d2803959af`)
+> ile çalışır. Ayrıntı: [V12 archive-budget deployment report](reports/ARCHIVE_BUDGET_DEPLOYMENT_20261025.md).
+
 Yeni checkpoint V18 kullanır; SQLite şeması V2 değişmez. V1–V17 göçünde
 `Memory.refuge_generalization_enabled=false`, güncelleme seçeneği `true` ve yeni
 genelleştirilmiş sonuç tablosu/aktif anahtarı boş başlar. V17 su artığı alanları

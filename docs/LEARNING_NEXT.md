@@ -1,135 +1,128 @@
-# Bireysel öğrenmenin sonraki adımı
+# Bireysel öğrenme: güncel sözleşme ve açık kanıt kapıları
 
-## Mevcut sınır
+Bu belge V18 geliştirme kaynağındaki öğrenme sınırlarını ve eldeki sonuçları
+özetler. **V18 canlıya dağıtılmış değildir; canlı 7882 dünyası V12'dir.**
+Yaş ödülü, yavruya deneyim aktarımı, genel amaçlı sinir ağı veya kabul edilmiş
+refuge-risk modeli yoktur.
 
-`entity/learning.rs` görünür su kaynaklarını konuma göre puanlayan, en çok
-32 kayıtlı bir bandit içerir. Yalnız kurallı karar SeekWater olduğunda ve en az
-iki su kaynağı göründüğünde devreye girer. V9 araştırma sürümünde sonuç aynı tickte içilen su, enerji
-kaybı ve yaralanmadan hesaplanır. Yaş bonusu veya yavruya anı aktarımı yoktur.
+## Değişmeyen fiziksel sözleşme
 
-Bu yapı genel bir durum–eylem öğrenmesi değildir. V9'da uzak kaynağa doğru giderken
-henüz su içilmemesini başarısızlık sayabilmesi, aynı tickteki başka yaralanmaları
-seçime bağlayabilmesi ve konum bilgisini yeni bir bölgeye taşıyamaması açık
-sınırlardır. Sonraki tasarımda bunlar sessizce doğru kabul edilmemelidir.
+- Öğrenme bireyin kendi gözlem ve kendi kimlikli çözücü deneyimine dayanır.
+  Gizli beden, gelecekteki RNG, başka bireyin deneyimi veya henüz görünmeyen
+  sonuç girdi yapılamaz. Bireyin belleği yavruya kopyalanmaz.
+- Öğrenici yalnız mevcut kurallı kararın izin verdiği adayları sıralayabilir;
+  fiziksel hareket, saldırı, kaynak tüketimi ve yaşam sonuçları World ve
+  resolver tarafından belirlenir. Her ölçüm maliyeti ayrı fiziksel birimde
+  raporlar; tek ödül artışı fayda kanıtı sayılmaz.
+- Yalnız resolver ile tamamlandığı ve aynı bireye güvenilir biçimde
+  ilişkilendirildiği bilinen hedef güncellenebilir. Tam kaçış sözleşmesinde
+  ölüm, kesinti veya eksik atıf bölümü sansürler. Ayrı ilk-aralık sözleşmesinde
+  tamamlanmış fiziksel aralık, sonraki kaçış sansüründen etkilenmez; seçilen
+  tehdidin bilinen hasarı diğer saldırganın hasarından ayrı tutulur. Eksik
+  gözlem sıfır hasarlı başarıya dönüştürülmez; bilinmeyen risk “güvenli” demek
+  değildir.
+- Varsayılan kapalı yol, mevcut politika seçimini ve RNG tüketimini aynen
+  korumalıdır. Yeni checkpoint/State göçü, kapalı yol ve State/RNG devamı
+  ayrı test edilir. Online ve frozen dalların tüm State/RNG alanlarının eşit
+  olması beklenmez: frozen yalnız öğrenilmiş weights/counters güncellemelerini
+  dondurur, normal exploration sürebilir. Tam State/RNG eşitliği yalnız
+  default-off kaynak uyumu ve checkpoint-resume sözleşmesinde aranır.
+  Bireysel tablolar bounded olmalı; sınır aşımında güncelleme atomik
+  reddedilmelidir.
+- Yaş için öğrenme ödülü veya tercih bonusu yoktur. Yaş ve hayatta kalma
+  seçilimi analizde deneyim etkisinden ayrılır.
 
-## Önce öğrenmeyi ölç
+## V17 ve av öğrenmesi: sonuçlar sınırlı
 
-`examples/learning_trial.rs` sabit ortam deneyine ek olarak 400 denemeden sonra
-rakibin yarıştığı su kaynağını değiştirir. Aynı fiziksel çözümleyici kullanılır.
-Öğrenme açık/kapalı, sekiz seed; değişim öncesi ve sonrası ilk/son 100 denemede
-alınan su raporlanır. Bu kontrollü laboratuvarda bedenler ve kaynaklar her denemede
-açıkça sıfırlanır; yaşayan ekosistem veya yaşlı hayvan başarısı diye sunulmaz.
+### Su artığı — V17, default-off
 
-Sabit politika değişen çevrede zaten iyi olabileceğinden yalnız onu yenmek şart
-koşulmaz. Eski tercihin sürmesi, toparlanma süresi ve kalan keşif maliyeti birlikte
-incelenir. Negatif sonuç motorun değişmesini gerektiren bulgudur, eşik gevşetme
-nedeni değildir. Sekiz eğitim seedinden sonra ayrı seedlerde değerlendirilir.
+V12 canlı dünyasındaki temel su öğrenmesi ve mevcut genetik yaşam mekaniği,
+V17 su artığı gibi ayrı deneysel seçeneklerle karıştırılmaz. Su artığı eski su
+puanına aynı bireyin kendi resolver-artığını ekleyebilir;
+öğrenme/karar seçenekleri varsayılan kapalıdır. `WATER_RESIDUAL_V1` raporunda
+mekanizma fırsatı sekiz seedin üçünde görüldü, fakat kayıtlı bounded-utility
+kapısı geçilmedi. Karşılaştırıcılarla fiziksel tradeoff'lar karışıktır; kabul
+edilmiş net yarar yoktur. Özelliği live'da açmayın veya sonuçtan sonra eşik
+ayarlamayın.
 
-## İlk genişletme: av tercihi
+### Av deneyimi/risk — V13/V14, default-off
 
-Büyük hazır model indirmek yerine yerel, sınırlı tablolardan başlanır. Motorun
-fiziksel yetki sınırı korunur: öğrenici sadece uygun adayları sıralar; hareket,
-saldırı, harcanabilir enerji ve diğer gerçek kurallar çözümleyicide doğrulanır.
-Öğrenici dünya nesnesine, RNG'nin geleceğine, avın görünmeyen bedenine erişemez.
+V13 deneyim tablosu ve V14 risk alanı bounded mekanizma olarak mevcuttur;
+checkpoint/migration ve resolver attribution sözleşmesine tabidir. Hunt Lab
+V3'te riskli kollar savunma takibindeki yaralanmaları azaltmadı. Deneyim/risk
+durumu, fiziksel veya ekolojik üstünlük kabulü değildir; risk seçimini kapalı
+tutun. Tekil mekanizma tanıkları politika yararı ya da gerçek hayvan öğrenmesi
+iddiası olmaz.
 
-İlk sürüm yeni üst düzey amaçlar öğrenmez. Var olan avlanma kararı içindeki
-aday tercihini öğrenir. Kurallı politika kapatılabilir karşılaştırma olarak kalır.
-Sonradan avı bırakma ve başka davranışa geçiş ayrı değişiklikler olarak ölçülür.
+Raporlar: [su artığı V1](reports/WATER_RESIDUAL_V1.md) ve
+[hunt lab V3](reports/HUNT_LAB_V3.md).
 
-Bağlamda kendi enerji/dayanıklılık oranının üç bandı, görünür avın mesafesinin
-üç bandı ve algıda varsa yaralanma bilgisi kullanılır. Kimlik veya tam koordinata
-bağlı puan yerine durum sınıfı kullanılır. Bilinmeyen sağlık ayrı sınıftır;
-canlı göremediği bilgiyi öğrenici için üretmeyiz. Tablo ve günlük üst sınırları
-kodda doğrulanır. Kesin tablo boyutu bağlam kodlamasıyla birlikte test edilir.
+## Refuge: beklenen hasar hâlâ Unknown
 
-## Sonuç ve zaman sınırı
+V16 bireysel exact-key refuge sonuç belleği, V18 ise opt-in temsil edilmiş
+bağlam seçeneği sunar. Her ikisi de default-off ve yalnız geliştirme
+kaynağındadır. Önemli kapsam farkı:
 
-Bir saldırı başarısı tek başına pozitif ödül değildir. Takip başlangıcı, hedef,
-başlangıç rezervleri ve ödenen maliyetler sınırlı bir bölümde izlenir. Bölüm;
-beslenme, hedef kaybı, vazgeçme veya en çok 20 tick sonunda kapanır. Süre sınırı
-ilk deney parametresidir, ekolojik gerçek diye sunulmaz. Hedef ölümü veya
-leşten beslenmenin kredisi yalnız kimliği doğrulanmış olaylarla ilişkilendirilir;
-başkasının öldürdüğü avı kendisinin başarısı saymayız.
+- **Opt-in V18 refuge learner** geçerli alternatifleri bellekte en çok 8
+  adayla sınırlar.
+- **Mevcut ordinary default-off davranış** tüm geçerli, boş olmayan ve
+  işgal edilmemiş sığınak yollarını dikkate alır; bu yola V18'in 8 aday
+  sınırını taşımayın.
+- Saf residual prototype kendi başına en çok 8 endpoint satırı tutar. Bu ayrı
+  prototype sınırıdır; engine veya ordinary policy'ye entegre değildir.
 
-Başlangıç ödül hipotezi: gerçekten edinilen besin eksi hareket/saldırı maliyeti
-ve yaralanma. Aynı maliyet hem net rezerv farkından hem olaylardan iki kez
-çıkarılmaz. Açlık, iyileşme, üreme ve dış saldırı etkileri muhasebede ayrılır;
-ayıramadığımız sonuç belirsiz diye kaydedilir. Ağırlıklar eğitim seedleriyle
-seçilir ve değerlendirmeden önce sabitlenir. Toplam ödül tek başarı metriği değildir.
+25 Ekim tarihli yeni tek-run engineering ölçümü aynı fixture ve seed 123 ile
+1,000 tick tamamladı: 623 attempt, 67 owner, 182 attributable arrival ve 441
+censor. Tamamlanan 182 arrival'ın threat damage değeri sıfırdı; **altı pozitif
+threat-damage attempt'in altısı da sansürlüydü.** Bu başarıya koşullu support,
+expected damage kalibrasyonu sağlamaz. Beş owner-ID fold'undaki zero MAE bu
+seçilmiş sıfır hedeflerinin sonucu ve bilgilendirici doğruluk metriği değildir.
+Hareket enerjisi ve arrival süresi nominal hesapla 182/182 eşleşti; bu yalnız
+koşullu effort aritmetiğini doğrular.
 
-## Kanıt ve dağıtım sırası
+İlk resolver aralığının ayrı extraction'ında 623 başlatılmış bölümün 617'si
+sıfır, altısı 20 hasar olarak gözlendi; altı pozitif satır dört owner'a aitti.
+Bu **ilk-aralık gözlenen hedefidir**; tam kaçış beklenen hasarı, seçilmeyen
+yolun karşıolgusu veya route predictor değildir. Full-route outcome raporunda
+182 arrival sıfır hasarlıydı; altı pozitif bölüm daha sonra sansürlendi.
+Bu sonraki kapanış sansürü, ilk aralığı eksiksiz gözlenen altı pozitif hedefi
+silmez; eksik bir ilk aralık Exact değildir ve Unknown kalır.
+Dolayısıyla her route için beklenen threat damage **Unknown** kalır.
 
-1. Aynı algı/beden, farklı deneyim: farklı tercih gözlenmeli; yaş eşit tutulmalı.
-2. Aynı birey, değişmiş çevre: kötüleşen eski tercih güncellenmeli.
-3. Öğrenme kapalı/açık ve eğitimli politikanın güncellemesi kapalı karşılaştırma:
-   bedelsiz rastgelelik ile öğrenme faydası ayrılmalı.
-4. Gerçek ölçütler: av başına enerji maliyeti, edinilen besin, yaralanma,
-   başarısız takip süresi; sonra yaşam ve üreme. Sadece ödül artışı yeterli değil.
-5. Checkpointten devam aynı durumu/RNG'yi vermeli; yavrunun tablosu boş başlamalı.
-6. Eşit işlem bütçesiyle eğitimde kullanılmamış seedler ve farklı kaynak düzeni.
-7. Ayrı karma dünya doğrulaması; mevcut frozen araştırmayı veya canlı dünyayı
-   yerinde değiştirme. Başarısız öğrenici varsayılan olarak açılmaz.
+Raporlar: [full-route risk baseline V1](reports/REFUGE_RISK_BASELINE_V1.md),
+[ilk resolver aralığı](reports/REFUGE_FIRST_RESOLUTION_V1.md),
+[önceki teknik onarım doğrulaması](reports/REFUGE_REPAIR_VALIDATION.md) ve
+[frozen refuge protokolü](REFUGE_FIRST_RESOLUTION_PROTOCOL.md).
 
-Gözlem ekranında öğrenilmiş tercih, deneyim sayısı, son bölümün maliyet/sonucu
-ve eski karar yerine neden bu adayın seçildiği gösterilir. Kullanıcı bir yaşlı
-bireyin deneyiminin işe yaradığını karar geçmişinden görebilmelidir. Yaş ile
-hayatta kalan bireylerin seçilim etkisi ayrı değerlendirilir.
+## Pure residual adayının durumu
 
-V10 geliştirmede su denemesi en çok 20 adım biriktirir; hareket enerjisi
-çözümleyici olayından gelir. Kesilen denemeler yanlış başarısızlık olarak
-puanlanmaz. Ayrıntı `CONTROL.md` V10 bölümündedir.
+[`REFUGE_RESIDUAL_CANDIDATE`](REFUGE_RESIDUAL_CANDIDATE.md) dokümanındaki saf
+mekanizma helper'ı default-off ve unintegrated kalır: World kararına, resolver'a,
+learner belleğine, checkpoint'e veya RNG'ye bağlanmamıştır. Üç fiziksel
+bileşeni ayrı tutmayı, kişinin kendi tamamlanmış deneyiminden residual
+güncellemeyi ve Unknown/Provisional durumunu sınar. Bu testler transfer
+güvenilirliğini ya da route seçimi yararını göstermez.
 
-Bu dosyanın av öğrenmesi kısmı uygulama sözleşmesi taslağıdır. Genel av öğrenmesi henüz uygulanmadı;
-uzun denge taraması yalnız mevcut su öğrenmesi ve hareket mutasyonunu içerir.
+İlk gerçek entegrasyon önkoşulu her aday yol için güncel gözlemlerden üretilmiş,
+kalibrasyon durumu açık ve fiziksel olarak savunulabilir bir damage baseline'dır.
+Mevcut tek-run ölçümü bu önkoşulu karşılamadı. Species attack miktarı beklenen
+hasar değildir; ilk interval hedefi de tam rota baseline'ı değildir. Herhangi
+bir yeni fiziksel ölçüm, doğal tamamlanan outcome desteğini elde etmek için ayrı
+review edilmiş, tek amaçlı ve sınırlı protokol ister. Mevcut run'ı tekrar
+etmeyin, sonucu gördükten sonra fixture/threshold ayarlamayın.
 
-## Uygulama — 21 Ekim
+Bu önkoşul ancak root review ve yeni protokolle karşılanırsa şu sıra izlenir:
 
-İlk av seçimi adayı entity/hunt_learning.rs içinde varsayılan kapalı olarak
-uygulandı; resolver muhasebesi systems/hunt_outcomes.rs içinde ayrıdır.
-CheckpointV13,108bağlam,20tick sınır, frozenupdates ve kimlikli av/leş kredisi
-vardır. Mekanizma ve gerçek öldürme/beslenme/kurtarma testleri, öğrenmenin
-ekolojik veya hayatta kalma üstünlüğünü kanıtlamaz. Bunun için yukarıdaki
-karşılaştırmalı av deneyi/ayrı karma doğrulama kapıları hâlâ açık.
+1. Baseline ve sansür/attribution kurallarını pure testlerle sabitleyin.
+2. Dünya, beden, algı, aksiyon veya resolver değişikliğini karıştırmadan
+   bounded, default-off entegrasyon hazırlayın.
+3. Checkpoint schema/migration, owner izolasyonu, yavru belleğinin boş
+   başlaması, kapalı yol exact-output/RNG uyumu ve resolver muhasebesini
+   doğrulayın.
+4. Ayrı frozen World acceptance protokolünde mekanizma ve fiziksel sonuçları
+   denetleyin. Teknik tamamlama utility/safety/fitness kabulü değildir.
 
-Su öğrenmesi dört kollu EXPERIENCE_PROTOCOL.md ile ayrıca ölçülür. Canlı ve
-replay deneyim sunumu artık kayıtlardaki tercihleri/puanlanmış denemeleri ve
-bölümün kesilmesini gösterir. Eski kayıtta bulunmayan av verisi uydurulmaz.
-
-## V17 uygulama adayı — güncel tabana eklenen su kaynağı artığı
-
-`PolicySettings.water_residual_enabled` senaryo ve runtime kontrolünden ayrı
-açılan, varsayılanı kapalı bir seçenek. Açıkken her algılanan su kaynağı için
-mevcut `foraging::value(miktar, rota, beden, water=true)` puanına yalnızca o
-konumun bireysel resolver-artığı ortalaması eklenir; kaynaklar filtrelenmez.
-Keşif oranı, tie-break ve resolver fiziği değişmez. Kapalı dal eski su seçimini
-ve RNG çağrı sırasını korur.
-
-Seçim tabanı yeni bölüm açılırken bir kez kaydedilir ve bölüm sürerken miktar,
-rota ya da yaşam durumu değişse bile yeniden hesaplanmaz. Runtime bayrağını
-kapatmak yalnız sonraki seçimleri etkiler; başlamış aday bölümü kendi tabanıyla
-kapanabilir. `learner.update_enabled=false` bütün su tercih/değer ziyaretlerini
-ve artık sum/count güncellemelerini dondurur.
-
-Artık için fiziksel para birimi `(2 × edinilen su − kendi resolver hareket
-enerjisi − bölüm ticki) × 100 / bölüm ticki` olur. Yalnız aynı bireyin seçilen
-kaynaktaki `EntityDrank` ve `EntityMoved` olayları hesaba girer. Doğrulanmış aynı
-kaynak için kendi `MissingResource` reddi sıfır edinim sayılabilir; karar izindeki
-başlangıç konumundan çözülen mevcut Drink hedefinin bölüm kaynağıyla eşleşmesi
-gerekir. Ölüm, timeout, dış kesinti, yanlış kaynak içimi veya limit taşması
-artık güncellemesini sansürler. Resolver ve eski su ödülü değişmez; maliyet net
-enerji değişiminden yeniden düşülmez.
-
-Tablo en çok 32 konumu, konum başına en çok 1.000.000 örneği saklar. Her
-artığın tam tamsayı toplamı `i64`, sayacı `u32`'tür; sınır kontrolleri toplamı
-taşırmadan atomik reddeder. Seçim anındaki ortalama sıfıra doğru yuvarlanır,
-ancak geçmiş toplama bu yuvarlanmış değer yazılmaz. Checkpoint V17'dir, SQLite
-V2'dir. V1–V16 restore özelliği kapalı ve yeni tablo/baseline/sansür alanları
-boş olacak şekilde normalize eder; eski hedef ve sayaçları korur. V17'yi eski
-motor açamaz. Yavru birey tabloları boş alır.
-
-Odak testleri kapalı seçimde greedy ve exploration RNG altınlarını, aynı gerçek
-resolver ticklerinde checkpoint devamını, kendi aktör/kaynak muhasebesini, yeni
-ve devam eden tabanı, sansür/dondurma/sınır ve V16 göçünü denetler. Bunlar yalnız
-mekanizma ve deterministik devam kanıtıdır; seçim kalitesi ya da ekolojik fayda
-kanıtı değildir. Formal karşılaştırma başlamadı; kök preregistrasyon ve görülmemiş
-seed kapılarını ayrıca tamamlamalıdır.
+Şimdilik hiçbir risk modeli, neural network, route faydası veya production
+entegrasyonu kabul edilmemiştir. Aylar/yıllar süren reliability doğrulaması
+kullanıcı isteğiyle ertelenmiştir; mevcut sağlık gözetimi sürer ve uzun soak
+feature geliştirme için önkoşul değildir.
