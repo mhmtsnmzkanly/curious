@@ -15,12 +15,21 @@ impl MovementSystem {
         map: &Map,
         occupied: &mut HashMap<Position, usize>,
         events: &mut Vec<SimulationEvent>,
+        injury_penalty: bool,
     ) {
         for p in plans {
             if p.path.is_empty() {
                 reject(events, p.id, "Move", None, RejectionReason::NoPath);
             } else {
-                super::locomotion::apply(entities, p.id, &p.path, map, occupied, events);
+                super::locomotion::apply_with_penalty(
+                    entities,
+                    p.id,
+                    &p.path,
+                    map,
+                    occupied,
+                    events,
+                    injury_penalty,
+                );
             }
         }
     }
@@ -30,12 +39,21 @@ impl MovementSystem {
         map: &Map,
         occupied: &mut HashMap<Position, usize>,
         events: &mut Vec<SimulationEvent>,
+        injury_penalty: bool,
     ) {
         for p in plans {
             if p.path.is_empty() {
                 reject(events, p.id, "Flee", None, RejectionReason::NoPath);
             } else {
-                super::locomotion::apply(entities, p.id, &p.path, map, occupied, events);
+                super::locomotion::apply_with_penalty(
+                    entities,
+                    p.id,
+                    &p.path,
+                    map,
+                    occupied,
+                    events,
+                    injury_penalty,
+                );
             }
         }
     }

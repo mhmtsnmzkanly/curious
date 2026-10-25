@@ -20,6 +20,9 @@ pub struct PolicySettings {
     /// Experimental current-foraging baseline plus own-source residual choice.
     #[serde(default, skip_serializing_if = "is_false")]
     pub water_residual_enabled: bool,
+    /// Experimental K2 physical injury capacity model.
+    #[serde(default, skip_serializing_if = "is_false")]
+    pub injury_capacity_penalty: bool,
 }
 
 fn is_false(value: &bool) -> bool {

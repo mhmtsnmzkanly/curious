@@ -21,13 +21,20 @@ impl InteractionSystem {
         plans: &[EatPlan],
         occupied: &mut HashMap<Position, usize>,
         events: &mut Vec<SimulationEvent>,
+        injury_penalty: bool,
     ) {
         use crate::simulation::event::{RejectionReason as R, reject};
         let plans = plans.to_vec();
         for p in plans {
-            let Some(pos) =
-                super::locomotion::apply(entities, p.id, &p.path, map, occupied, events)
-            else {
+            let Some(pos) = super::locomotion::apply_with_penalty(
+                entities,
+                p.id,
+                &p.path,
+                map,
+                occupied,
+                events,
+                injury_penalty,
+            ) else {
                 continue;
             };
             if !Self::adjacent(pos, p.resource_pos) {
@@ -98,13 +105,20 @@ impl InteractionSystem {
         plans: &[DrinkPlan],
         occupied: &mut HashMap<Position, usize>,
         events: &mut Vec<SimulationEvent>,
+        injury_penalty: bool,
     ) {
         use crate::simulation::event::{RejectionReason as R, reject};
         let plans = plans.to_vec();
         for p in plans {
-            let Some(pos) =
-                super::locomotion::apply(entities, p.id, &p.path, map, occupied, events)
-            else {
+            let Some(pos) = super::locomotion::apply_with_penalty(
+                entities,
+                p.id,
+                &p.path,
+                map,
+                occupied,
+                events,
+                injury_penalty,
+            ) else {
                 continue;
             };
             if !Self::adjacent(pos, p.resource_pos) {

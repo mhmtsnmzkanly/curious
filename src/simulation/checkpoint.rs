@@ -194,6 +194,7 @@ impl State {
             }
         }
         if self.version < 18 {
+            self.policy.injury_capacity_penalty = false;
             for individual in &mut self.entities {
                 individual.memory.refuge_generalization_enabled = false;
                 individual.memory.refuge_generalization_update_enabled = true;

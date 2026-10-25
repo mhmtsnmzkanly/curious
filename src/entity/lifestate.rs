@@ -135,6 +135,29 @@ impl LifeState {
         self.health > 0
     }
 
+    /// Returns true if the entity is alive and severely injured (health <= max_health / 2).
+    pub fn is_severely_injured(&self) -> bool {
+        self.is_alive() && self.health <= self.max_health / 2
+    }
+
+    /// Effective movement speed taking into account severe injury when policy is enabled.
+    pub fn effective_speed(&self, injury_penalty_enabled: bool) -> usize {
+        if injury_penalty_enabled && self.is_severely_injured() {
+            (self.speed / 2).max(1)
+        } else {
+            self.speed
+        }
+    }
+
+    /// Effective stamina cost for movement taking into account severe injury when policy is enabled.
+    pub fn effective_move_stamina_cost(&self, steps: usize, injury_penalty_enabled: bool) -> usize {
+        if injury_penalty_enabled && self.is_severely_injured() {
+            steps.saturating_mul(2)
+        } else {
+            steps
+        }
+    }
+
     pub fn is_mature(&self) -> bool {
         self.age >= self.maturity_age
     }
@@ -201,9 +224,15 @@ impl LifeState {
     }
 
     pub fn can_move_for(&self, need: usize) -> bool {
+        self.can_move_for_with_penalty(need, false)
+    }
+
+    pub fn can_move_for_with_penalty(&self, need: usize, injury_penalty_enabled: bool) -> bool {
+        let max_speed = self.effective_speed(injury_penalty_enabled);
+        let stamina_needed = self.effective_move_stamina_cost(need, injury_penalty_enabled);
         self.enough_energy(need.saturating_mul(self.move_energy_cost))
-            && self.enough_moves(need)
-            && self.stamina >= need
+            && self.moves_used.saturating_add(need) <= max_speed
+            && self.stamina >= stamina_needed
     }
 
     /// Yeterli enerji var mı?
@@ -221,9 +250,14 @@ impl LifeState {
 
     /// Bir hareket kullanıldığında çağrılır
     pub fn on_move(&mut self, step: usize) {
+        self.on_move_with_penalty(step, false);
+    }
+
+    pub fn on_move_with_penalty(&mut self, step: usize, injury_penalty_enabled: bool) {
         self.moves_used += step;
         self.consume_energy(step.saturating_mul(self.move_energy_cost));
-        self.exert(step);
+        let stamina_cost = self.effective_move_stamina_cost(step, injury_penalty_enabled);
+        self.exert(stamina_cost);
     }
 
     pub fn exert(&mut self, amount: usize) {

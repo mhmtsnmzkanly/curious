@@ -138,7 +138,16 @@ impl PlanningSystem {
         let mut curr_pos = slot.pos;
         let mut cost = 0;
         let mut path = Vec::new();
+        let max_speed = slot
+            .base
+            .life()
+            .effective_speed(world.policy.injury_capacity_penalty);
+        let penalty_enabled = world.policy.injury_capacity_penalty;
+
         for dir in steps {
+            if cost >= max_speed {
+                break;
+            }
             let next = curr_pos + *dir;
             if !world
                 .map
@@ -152,7 +161,10 @@ impl PlanningSystem {
                                 | crate::entity::phase::EntityPhase::Sleeping { .. }
                         )
                 })
-                || !slot.base.life().can_move_for(cost + 1)
+                || !slot
+                    .base
+                    .life()
+                    .can_move_for_with_penalty(cost + 1, penalty_enabled)
             {
                 break;
             }
@@ -171,7 +183,11 @@ impl PlanningSystem {
         let mut curr_pos = slot.pos;
         let mut cost = 0;
         let mut path = Vec::new();
-        let speed = slot.base.life().speed;
+        let speed = slot
+            .base
+            .life()
+            .effective_speed(world.policy.injury_capacity_penalty);
+        let penalty_enabled = world.policy.injury_capacity_penalty;
 
         for _ in 0..speed {
             let mut best_dir = None;
@@ -202,7 +218,12 @@ impl PlanningSystem {
             }
 
             match best_dir {
-                Some(dir) if slot.base.life().can_move_for(cost + 1) => {
+                Some(dir)
+                    if slot
+                        .base
+                        .life()
+                        .can_move_for_with_penalty(cost + 1, penalty_enabled) =>
+                {
                     curr_pos = curr_pos + dir;
                     path.push(curr_pos);
                     cost += 1;

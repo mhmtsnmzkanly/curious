@@ -140,6 +140,7 @@ impl World {
             &self.map,
             &mut occupied,
             &mut events,
+            self.policy.injury_capacity_penalty,
         );
         crate::systems::interaction::InteractionSystem::resolve_eats(
             &mut self.entities,
@@ -147,6 +148,7 @@ impl World {
             &plans.eats,
             &mut occupied,
             &mut events,
+            self.policy.injury_capacity_penalty,
         );
         crate::systems::interaction::InteractionSystem::resolve_drinks(
             &mut self.entities,
@@ -154,6 +156,7 @@ impl World {
             &plans.drinks,
             &mut occupied,
             &mut events,
+            self.policy.injury_capacity_penalty,
         );
         crate::systems::interaction::InteractionSystem::resolve_mates(
             &mut self.entities,
@@ -177,6 +180,7 @@ impl World {
             &self.map,
             &mut occupied,
             &mut events,
+            self.policy.injury_capacity_penalty,
         );
         crate::systems::life_cycle::LifeCycleSystem::resolve_sleep(
             &mut self.entities,
