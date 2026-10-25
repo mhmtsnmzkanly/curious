@@ -74,10 +74,21 @@ function renderSummary() {
 function addText(parent, tag, value, className="") { const node=document.createElement(tag);node.textContent=String(value??"—");if(className)node.className=className;parent.append(node);return node; }
 function renderLife() {
   const box=$("documentary");box.replaceChildren();
-  if(selected===null){addText(box,"p","Bir birey seçerek kayıtlı yaşam izini aç.");$("older-life").hidden=true;return;}
+  const directorBox=$("auto-director");
+  if(selected===null){if(directorBox)directorBox.hidden=true;addText(box,"p","Bir birey seçerek kayıtlı yaşam izini aç.");$("older-life").hidden=true;return;}
   if(lifeBudgetLimited)addText(box,"p","Bu sayfa okuma bütçesi nedeniyle kısmi. Daha eski kayıtları aynı arşiv parçasında sürdürmek için yeniden deneyin.","documentary-note");
-  if(!lifeRows.length){addText(box,"p","Seçili birey için bu arşiv aralığında karar kaydı bulunamadı.");$("older-life").hidden=!lifeOlderAvailable;return;}
+  if(!lifeRows.length){if(directorBox)directorBox.hidden=true;addText(box,"p","Seçili birey için bu arşiv aralığında karar kaydı bulunamadı.");$("older-life").hidden=!lifeOlderAvailable;return;}
   const view=lifeRows.map(r=>({...r,summary:CuriousDocumentary.displayData(r)}));
+  if(directorBox){
+    const director=CuriousDocumentary.autoDirector(view);
+    if(director){
+      directorBox.hidden=false;
+      directorBox.replaceChildren();
+      addText(directorBox,"strong",`Otonom Yönetmen Odağı: ${director.headline} (${director.category}, tick ${director.focalItem?.tick ?? "—"})`);
+    } else {
+      directorBox.hidden=true;
+    }
+  }
   const comparison=CuriousDocumentary.encounterComparison(view,lifeAnchor);
   const rule=document.createElement("p");rule.className="documentary-note";
   rule.textContent=`Benzer karşılaşma kuralı: kaydedilmiş enerji, dayanıklılık, mesafe ve av sağlığı sınıflarının dördü de aynı olmalı. Yalnız kayıtlı av karşılaşması bilgisi kullanılır; eksik sınıf eşleşmez ve algıdan tahmin edilmez. Benzerlik nedensel üstünlük göstermez. Karşılaştırma şu an taranmış ${view.length} kaydın kapsamındadır.`;box.append(rule);
@@ -96,6 +107,9 @@ function renderLife() {
     addText(card,"p",`Öğrendiği: ${s.learned} ${s.outcome}`);
     addText(card,"p",`Su Q tablosu: ${CuriousDocumentary.waterDelta(previous,row)}`);
     addText(card,"p",s.risk);
+    if(s.causalChain){
+      addText(card,"p",`Kanıt -> Eylem -> Resolver -> Bellek: ${s.causalChain.evidence} → ${s.causalChain.action} → ${s.causalChain.resolverOutcome} → ${s.causalChain.memoryUpdate}`);
+    }
     if(row.trace?.perception?.entities?.length){const seen=row.trace.perception.entities.slice(0,12).map(x=>`#${x.id} ${x.species}, ${x.steps?.length??"?"} adım${x.health==null?", sağlık bilinmiyor":`, sağlık ${x.health}`}`).join("; ");addText(card,"p",`Görülen canlılar: ${seen}${row.trace.perception.entities.length>12?"; …":""}`);}
     box.append(card);
   }

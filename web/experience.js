@@ -109,10 +109,40 @@
   }
   function render(container, individual, trace) {
     container.replaceChildren();
-    for (const line of describe(individual,trace)) {
+    for (const line of describe(individual, trace)) {
       const p = container.ownerDocument.createElement("p");
       p.textContent = line;
       container.append(p);
+    }
+    const data = individual;
+    const refugeData = data?.refuge;
+    const mem = data?.memory;
+    const hasRefuge =
+      Boolean(refugeData && (refugeData.outcomes?.length || refugeData.rows?.length || refugeData.episode || refugeData.refuge_outcomes_enabled || refugeData.enabled)) ||
+      Boolean(mem && (mem.refuge_outcomes?.length || mem.refuge_episode || mem.refuge_outcomes_enabled));
+
+    if (hasRefuge) {
+      const title = container.ownerDocument.createElement("p");
+      title.textContent = "Sığınak deneyimi";
+      container.append(title);
+
+      if (refugeData?.headline) {
+        const headline = container.ownerDocument.createElement("p");
+        headline.textContent = String(refugeData.headline);
+        container.append(headline);
+      }
+      if (refugeData?.Rule || refugeData?.rule) {
+        const rule = container.ownerDocument.createElement("p");
+        rule.textContent = String(refugeData.Rule || refugeData.rule);
+        container.append(rule);
+      }
+      if (Array.isArray(refugeData?.rows)) {
+        for (const row of refugeData.rows) {
+          const rowP = container.ownerDocument.createElement("p");
+          rowP.textContent = String(typeof row === "string" ? row : (row?.text || JSON.stringify(row)));
+          container.append(rowP);
+        }
+      }
     }
   }
   return {describe, water, hunt, refuge, context, render};

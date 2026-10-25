@@ -87,3 +87,36 @@ const nullRefugeText = experience.refuge(null, null).join("\n");
 assert.match(nullRefugeText, /Sığınak seçimini öğrenme: veri yok/);
 assert.match(nullRefugeText, /Bu kayıtta sığınak deneyimi verisi yok/);
 console.log("Refuge presenter: enabled/disabled/outcomes/generalization checks passed");
+
+// Render refuge wiring tests
+const renderedRefugeNodes = [];
+const refugeContainer = {
+  replaceChildren() { renderedRefugeNodes.length = 0; },
+  append(p) { renderedRefugeNodes.push(p); },
+  ownerDocument: { createElement() { return { textContent: "" }; } },
+};
+experience.render(refugeContainer, {
+  memory: {
+    refuge_outcomes_enabled: true,
+    refuge_outcomes: [{ completed: 1, safe_arrivals: 1, threat_damage: 0, movement_energy: 4 }],
+  },
+  refuge: {
+    headline: "Kayıtlı sığınak tecrübesi",
+    Rule: "Yalnızca doğrulanmış varışlar",
+    rows: ["1 güvenli varış"],
+  },
+});
+assert.ok(renderedRefugeNodes.some(p => p.textContent.includes("Sığınak deneyimi")));
+assert.ok(renderedRefugeNodes.some(p => p.textContent.includes("Kayıtlı sığınak tecrübesi")));
+assert.ok(renderedRefugeNodes.some(p => p.textContent.includes("Yalnızca doğrulanmış varışlar")));
+assert.ok(renderedRefugeNodes.some(p => p.textContent.includes("1 güvenli varış")));
+
+// Verify replay.js and replay.html wiring
+const fs = require("node:fs");
+const path = require("node:path");
+const rHtml = fs.readFileSync(path.join(__dirname, "../web/replay.html"), "utf8");
+const rJs = fs.readFileSync(path.join(__dirname, "../web/replay.js"), "utf8");
+assert.ok(rHtml.includes('id="auto-director"'));
+assert.ok(rJs.includes("CuriousDocumentary.autoDirector"));
+assert.ok(rJs.includes("Kanıt -> Eylem -> Resolver -> Bellek"));
+console.log("Render refuge & replay wiring checks passed");

@@ -95,4 +95,14 @@ assert.equal(mixed4.priority, 4);
 assert.equal(mixed4.category, "critical_escape");
 assert.equal(mixed4.focalItem.id, 14);
 
+// Replay HTML & JS wiring assertions
+const fs = require("node:fs");
+const path = require("node:path");
+const replayHtml = fs.readFileSync(path.join(__dirname, "../web/replay.html"), "utf8");
+const replayJs = fs.readFileSync(path.join(__dirname, "../web/replay.js"), "utf8");
+
+assert.ok(replayHtml.includes('id="auto-director"'), "replay.html must declare #auto-director container");
+assert.ok(replayJs.includes("CuriousDocumentary.autoDirector"), "replay.js must call CuriousDocumentary.autoDirector");
+assert.ok(replayJs.includes("Kanıt -> Eylem -> Resolver -> Bellek"), "replay.js must render causalChain format");
+
 console.log("documentary projection checks passed");
