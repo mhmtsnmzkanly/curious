@@ -4,13 +4,14 @@ use serde_json::{Value, json};
 use std::{
     collections::{BTreeMap, BTreeSet},
     env, fs,
-    io::{Read, Write},
+    io::Write,
     path::Path,
     process::{Command, Stdio},
 };
 
 const MAX_INPUT: u64 = 64 * 1024 * 1024;
 const MAX_OUTPUT: usize = 64 * 1024 * 1024;
+type AppResult<T> = Result<T, Box<dyn std::error::Error + Send + Sync>>;
 
 fn main() {
     if let Err(error) = run() {
@@ -19,7 +20,7 @@ fn main() {
     }
 }
 
-fn run() -> Result<(), Box<dyn std::error::Error>> {
+fn run() -> AppResult<()> {
     let args: Vec<_> = env::args().collect();
     if args.len() != 5 {
         return Err(
@@ -193,9 +194,7 @@ fn failure_record(
     json!({"schema":"curious-resolver-order-v1-case","status":"failed","case":{"habitat":habitat,"seed":seed,"target_tick":target_tick,"input_path":input_path,"input_sha256":input_sha256},"prefix_replay_valid":false,"failure":reason})
 }
 
-fn parse_raw_jsonl(
-    text: &str,
-) -> Result<(Value, BTreeMap<usize, Value>, Value), Box<dyn std::error::Error>> {
+fn parse_raw_jsonl(text: &str) -> AppResult<(Value, BTreeMap<usize, Value>, Value)> {
     let mut lines = text.lines().filter(|line| !line.trim().is_empty());
     let header: Value = serde_json::from_str(lines.next().ok_or("missing JSONL header")?)?;
     if header.get("type").and_then(Value::as_str) != Some("header") {
@@ -235,7 +234,7 @@ fn parse_raw_jsonl(
     Ok((header, ticks, summary))
 }
 
-fn sha256_bytes(bytes: &[u8]) -> Result<String, Box<dyn std::error::Error>> {
+fn sha256_bytes(bytes: &[u8]) -> AppResult<String> {
     let mut child = Command::new("sha256sum")
         .stdin(Stdio::piped())
         .stdout(Stdio::piped())
@@ -258,7 +257,7 @@ fn sha256_bytes(bytes: &[u8]) -> Result<String, Box<dyn std::error::Error>> {
         .to_owned())
 }
 
-fn state_roundtrip(state: &State) -> Result<(bool, bool, bool), Box<dyn std::error::Error>> {
+fn state_roundtrip(state: &State) -> AppResult<(bool, bool, bool)> {
     let before = serde_json::to_value(state)?;
     let restored = state.clone().restore()?;
     let state_equal = serde_json::to_value(State::capture(&restored))? == before;
@@ -274,7 +273,7 @@ fn validate_prefix_tick(
     food_cumulative: &mut u64,
     water_cumulative: &mut u64,
     movement_cumulative: &mut u64,
-) -> Result<Value, Box<dyn std::error::Error>> {
+) -> AppResult<Value> {
     let mut actor_events = Vec::new();
     let mut food = 0u64;
     let mut water = 0u64;
@@ -309,10 +308,6 @@ fn validate_prefix_tick(
     *water_cumulative += water;
     *movement_cumulative += movement;
     let actual_events = Value::Array(actor_events);
-    let expected_events = raw
-        .get("actor_resolver_events")
-        .cloned()
-        .unwrap_or(Value::Null);
     let stocks = (resource_stock(world, true), resource_stock(world, false));
     let decisions = &world.last_decisions;
     let focal = decisions
@@ -372,7 +367,7 @@ fn resource_stock(world: &World, food: bool) -> usize {
     total
 }
 
-fn write_atomic_capped(path: &Path, value: &Value) -> Result<(), Box<dyn std::error::Error>> {
+fn write_atomic_capped(path: &Path, value: &Value) -> AppResult<()> {
     let bytes = serde_json::to_vec(value)?;
     if bytes.len() > MAX_OUTPUT {
         return Err("output exceeds 64 MiB cap".into());
