@@ -32,7 +32,7 @@ class ResolverOrderSupervisorTest(unittest.TestCase):
         source.mkdir()
         (source / "docs").mkdir()
         repo = Path(__file__).resolve().parents[1]
-        for rel in (supervisor.PROTOCOL_REL, supervisor.ADDENDUM_REL):
+        for rel in (supervisor.PROTOCOL_REL, supervisor.ADDENDUM_REL, supervisor.RUNNER_REPAIR_REL):
             target = source / rel
             target.parent.mkdir(parents=True, exist_ok=True)
             target.write_bytes((repo / rel).read_bytes())
@@ -80,7 +80,7 @@ result = {
   'case': {'habitat': header['habitat'], 'seed': header['seed'], 'target_tick': tick_text,
            'input_path': str(source.resolve()), 'input_sha256': input_sha},
   'prefix_replay_valid': True,
-  'prefix_replay': {'from_initial_state_through': tick_text-1, 'target_pre_state': {}, 'target_pre_rng': 1,
+  'prefix_replay': {'from_initial_state': True, 'validated_through_tick': tick_text-1, 'target_pre_state': {}, 'target_pre_rng': 1,
       'per_tick_validations': tick_rows},
   'pre_target_roundtrip': {'valid': True, 'state_equal': True, 'rng_equal': True},
   'branch_roundtrip_valid': True,

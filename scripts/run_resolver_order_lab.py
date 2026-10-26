@@ -16,13 +16,15 @@ from pathlib import Path
 from typing import Any
 
 
-RUN_ID = "resolver-order-v1-20261026"
+RUN_ID = "resolver-order-v1-runnerfix-20261026"
 RAW_ROOT = Path("/root/curious/data/experiments/water-meal-priority-v1-runnerfix-20261026")
 RAW_MANIFEST_SHA256 = "db0a490b5f3a62ed9c0f9b8db72b9d5851d1659356d3423dcdec256d9d80134c"
 PROTOCOL_SHA256 = "e8357e8d2d0795ae110579befb416585f50161355f140ff5d80252dc4402f6ff"
 ADDENDUM_SHA256 = "7a271bbc907cb940b4190f1a734896b304f202a92c11282772c3719b4158a65b"
+RUNNER_REPAIR_SHA256 = "dfa985b508e999634793b07741c81aa8b8f2b90e75a1be616c5813c4a57dde76"
 PROTOCOL_REL = Path("docs/RESOLVER_ORDER_V1_PROTOCOL_20261026.md")
 ADDENDUM_REL = Path("docs/RESOLVER_ORDER_V1_REGISTRATION_ADDENDUM_20261026.md")
+RUNNER_REPAIR_REL = Path("docs/RESOLVER_ORDER_V1_RUNNER_REPAIR_20261026.md")
 MAX_PHASE_SECONDS = 180.0
 MAX_CHILD_SECONDS = 45.0
 MAX_BYTES = 64 * 1024 * 1024
@@ -353,7 +355,7 @@ def validate_case_json(path: Path, expected: dict[str, Any]) -> dict[str, Any]:
     validations = prefix.get("per_tick_validations")
     if not isinstance(validations, list) or len(validations) != expected["target_tick"] - 1:
         raise RunFailure("prefix replay does not record every initial-state-to-target-1 tick")
-    if prefix.get("from_initial_state_through") != expected["target_tick"] - 1:
+    if prefix.get("from_initial_state") is not True or prefix.get("validated_through_tick") != expected["target_tick"] - 1:
         raise RunFailure("prefix replay endpoint mismatch")
     if not isinstance(prefix.get("target_pre_state"), dict) or "target_pre_rng" not in prefix:
         raise RunFailure("prefix replay omits reconstructed target-pre State/RNG")
@@ -602,8 +604,10 @@ def main() -> int:
         source = tree_identity(source_root)
         protocol_path = source_root / PROTOCOL_REL
         addendum_path = source_root / ADDENDUM_REL
+        runner_repair_path = source_root / RUNNER_REPAIR_REL
         protocol_sha = assert_hash(protocol_path, PROTOCOL_SHA256, "frozen protocol")
         addendum_sha = assert_hash(addendum_path, ADDENDUM_SHA256, "registration addendum")
+        runner_repair_sha = assert_hash(runner_repair_path, RUNNER_REPAIR_SHA256, "runner repair note")
         binary_sha = sha256_file(binary)
         raw_manifest, selected = validate_raw_inputs(raw_root)
         supervisor_path = Path(__file__).resolve()
@@ -629,6 +633,7 @@ def main() -> int:
             "binary": {"path": str(binary), "sha256": binary_sha},
             "protocol": {"path": str(protocol_path), "sha256": protocol_sha},
             "registration_addendum": {"path": str(addendum_path), "sha256": addendum_sha},
+            "runner_repair_note": {"path": str(runner_repair_path), "sha256": runner_repair_sha},
             "raw_source": {
                 "root": str(raw_root),
                 "manifest_sha256": RAW_MANIFEST_SHA256,
