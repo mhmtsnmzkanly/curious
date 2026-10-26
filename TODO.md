@@ -1,8 +1,8 @@
 # Sıradaki işler
 
-1. **Enerji rezervi kararını tamamla:** [enerji tanısı](docs/reports/ENERGY_AND_PACKAGE_DIAGNOSIS_20261026.md)
-   açığı gösterdi, ancak koruma formülü seçilmedi ve motor değişmedi. Sınanabilir,
-   beden/rota kanıtına dayalı aday ve karşılaştırma ölçütü belirle.
+1. **Yem arama bütçesinin sınırlı kıyasını tamamla:** [sözleşme](docs/FOOD_SEARCH_RESERVE.md)
+   V20 kaynağında varsayılan kapalı uygulandı. [Sabit protokol](docs/FOOD_SEARCH_RESERVE_GUARD_V1_PROTOCOL_20261026.md)
+   kapsamında fiziksel yemek erişimi, sağkalım ve üreme ödünleşimlerini raporla.
 2. **K3 öğrenme hedefini gözden geçir:** [kaynak güvenilirliği taslağı](docs/SOURCE_RELIABILITY_TARGET_20261026.md)
    uygulanmamıştır; yalnızca ayrı protokolün gözden geçirilmesine temel olabilir.
 3. **Ekoloji aktarımındaki tükenmeyi açıkla:** [tarama raporu](docs/reports/ECOLOGY_TRANSFER_V1_20261026.md)

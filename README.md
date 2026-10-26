@@ -7,8 +7,8 @@ sayılmaz.
 
 ## Güncel durum
 
-Geliştirme kaynağı checkpoint V19 / SQLite V2'dir. Canlı dünya V12 checkpoint
-üzerindedir; V19 canlıya yükseltilmemiştir. Nitelikli ikili ve operasyon
+Geliştirme kaynağı checkpoint V20 / SQLite V2'dir. Canlı dünya V12 checkpoint
+üzerindedir; V20 canlıya yükseltilmemiştir. Nitelikli ikili ve operasyon
 durumunun zaman damgalı ayrıntıları [AGENTS.md](AGENTS.md)'de tutulur.
 
 [V2 su uyum ölçümü](docs/reports/WATER_ADAPTATION_V2_20261025.md) üç learner
@@ -23,8 +23,8 @@ alarm koşusunda tüm popülasyon söndü. Genel ekolojik üstünlük kabul edil
 [Çevrimdışı operasyon probu](docs/reports/OPERATIONS_READINESS_20261026.md)
 teknik/storage kontrollerini geçti; promotion kapısı kapalıdır ve ölçüm
 raporundaki [timing düzeltmesi](docs/reports/OPERATIONS_READINESS_TIMING_CORRECTION_20261026.md)
-kabul iddiası oluşturmaz. Enerji rezerv bekçisi
-seçilmedi veya uygulanmadı. Canlı fayda ya da V19 yükseltmesi kabulü yoktur;
+kabul iddiası oluşturmaz. [Yem arama bütçesi](docs/FOOD_SEARCH_RESERVE.md) V20 kaynağında varsayılan
+kapalı uygulandı; faydası ayrı laboratuvar protokolüyle ölçülür. Canlı fayda ya da V19 yükseltmesi kabulü yoktur;
 tam kaçış refuge riski `Unknown` kalır. Kapsam ve kalan sınırlar
 [ROADMAP](docs/ROADMAP.md)'de özetlenir.
 

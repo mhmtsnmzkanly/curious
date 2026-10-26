@@ -1,6 +1,6 @@
 # Bireysel öğrenme: sözleşme ve kanıt sınırları
 
-Bu belge V19 geliştirme kaynağındaki bireysel öğrenme sınırlarını ve güncel
+Bu belge V20 geliştirme kaynağındaki bireysel öğrenme sınırlarını ve güncel
 kanıt durumunu özetler. V19 canlıya dağıtılmamıştır; canlı dünya V12'dir.
 Yaş ödülü, yavruya deneyim aktarımı veya kabul edilmiş refuge-risk modeli yoktur.
 

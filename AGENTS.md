@@ -22,9 +22,9 @@ dağıtım ve karar kanıtları ilgili raporlarda korunur; eski kayıtları silm
 
 ## Kaynak sürümleri ve canlı çalışma
 
-- Geliştirme kaynağı checkpoint V19 / SQLite V2'dir. Yeni deneysel seçenekler
+- Geliştirme kaynağı checkpoint V20 / SQLite V2'dir. Yeni deneysel seçenekler
   varsayılan kapalıdır. V19 ile uyumsuz eski ikiliyi V19 checkpoint'e açmayın.
-- Canlı dünya V12'dir; V19 araştırma kaynağı canlıya yükseltilmiş değildir.
+- Canlı dünya V12'dir; V19/V20 araştırma sürümleri canlıya yükseltilmiş değildir.
   Canlı servis `curious-coexistence.service`, `127.0.0.1:7882`,
   `/root/curious/data/coexistence` üzerinde çalışır. Nitelikli ikili
   `bin/curious-qualified` şu an `bin/releases/curious-observation-budget-8dc23de`
@@ -80,9 +80,11 @@ dağıtım ve karar kanıtları ilgili raporlarda korunur; eski kayıtları silm
   taramasında seyrek kaynaklı dünyalar tüm kollarda söndü; karma habitatta
   etçiller tüm koşullarda kayboldu, alarm koşullarından birinde tüm popülasyon
   söndü. Genel ekolojik kol üstünlüğü kabul edilmedi.
-- [Enerji/paket tanısı](docs/reports/ENERGY_AND_PACKAGE_DIAGNOSIS_20261026.md)
-  enerji rezerv sorusunu açık bırakır: bekçi formülü veya motor değişikliği
-  seçilmedi. Bakım+sığınak paketi davranışsal fayda kabulü değildir.
+- [Enerji/paket tanısını](docs/reports/ENERGY_AND_PACKAGE_DIAGNOSIS_20261026.md) izleyen
+  [yem arama bütçesi](docs/FOOD_SEARCH_RESERVE.md) V20 kaynağına varsayılan kapalı
+  eklendi. Bu bir enerji harcama sınırıdır; dönüş veya yemek garantisi değildir.
+  Kayıtlı lab sonucu ve genel fayda kabulü ayrı değerlendirilir. Bakım+sığınak
+  paketi davranışsal fayda kabulü değildir.
 - [Offline operasyonel smoke](docs/reports/OPERATIONS_READINESS_20261026.md)
   V12→V19 migration, State/RNG ve izole depolama kontrollerini geçti; promotion
   izni vermez. Eski p50/p95 alanları geçersizdir; ayrıntı [düzeltme

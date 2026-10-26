@@ -6,6 +6,7 @@
   güncel kanıt sınırları.
 - [TODO](../TODO.md): kısa, sıralı sonraki işler.
 - [CONTROL](CONTROL.md): HTTP kontrolü ve servis işletimi.
+- [Yem arama bütçesi](FOOD_SEARCH_RESERVE.md): V20 varsayılan kapalı karar sınırı.
 - [LEARNING_NEXT](LEARNING_NEXT.md): bireysel öğrenmenin sözleşmesi ve
   ölçüm sınırları.
 - [VISION](VISION.md): ürün amacı ve tasarım ilkeleri.

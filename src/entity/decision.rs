@@ -29,6 +29,7 @@ pub enum Reason {
     HuntPrey,
     LearnedHunt,
     SearchFood,
+    FoodSearchReserve,
     ApproachMate,
     Mate,
     NoEligibleMate,

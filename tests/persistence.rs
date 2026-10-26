@@ -40,7 +40,7 @@ fn assert_err_contains(state: State, expected: &str) {
 }
 
 #[test]
-fn v19_checkpoint_preserves_all_new_fields_and_rejects_future_versions() {
+fn v20_checkpoint_preserves_all_new_fields_and_rejects_future_versions() {
     let mut world = sample_world();
     world.tick_counter = 100;
     world.policy.juvenile_care_enabled = true;
@@ -109,12 +109,12 @@ fn v19_checkpoint_preserves_all_new_fields_and_rejects_future_versions() {
         });
 
     let captured = State::capture(&world);
-    assert_eq!(captured.version, 19);
+    assert_eq!(captured.version, 20);
 
     // Verify serde_json roundtrip
     let json_str = serde_json::to_string(&captured).expect("serialization succeeds");
     let deserialized: State = serde_json::from_str(&json_str).expect("deserialization succeeds");
-    assert_eq!(deserialized.version, 19);
+    assert_eq!(deserialized.version, 20);
 
     // Verify restore preserves fields losslessly
     let restored = deserialized.restore().expect("restore succeeds");
@@ -149,17 +149,17 @@ fn v19_checkpoint_preserves_all_new_fields_and_rejects_future_versions() {
     assert_eq!(restored_ind.memory.first_interval_outcomes[0].episodes[0], (91, 5));
 
     let recaptured = State::capture(&restored);
-    assert_eq!(recaptured.version, 19);
+    assert_eq!(recaptured.version, 20);
 
     // Rejects version == 0
     let mut bad_version_0 = captured.clone();
     bad_version_0.version = 0;
     assert!(bad_version_0.restore().is_err());
 
-    // Rejects future version == 20
-    let mut bad_version_20 = captured.clone();
-    bad_version_20.version = 20;
-    assert!(bad_version_20.restore().is_err());
+    // Rejects future version == 21
+    let mut bad_version_21 = captured.clone();
+    bad_version_21.version = 21;
+    assert!(bad_version_21.restore().is_err());
 
     // Rejects future environment timestamp (signal emitted_tick > tick)
     let mut future_signal = captured.clone();
@@ -188,7 +188,25 @@ fn v19_checkpoint_preserves_all_new_fields_and_rejects_future_versions() {
 }
 
 #[test]
-fn v18_checkpoint_migrates_cleanly_to_v19_with_v19_features_default_off() {
+fn v19_checkpoint_migrates_food_search_reserve_off_and_v20_resumes_it() {
+    let mut world = sample_world();
+    let mut state = State::capture(&world);
+    state.version = 19;
+    state.policy.food_search_reserve_enabled = true;
+    let migrated = state.restore().expect("V19 checkpoint migrates");
+    assert!(!migrated.policy.food_search_reserve_enabled);
+
+    world.policy.food_search_reserve_enabled = true;
+    let state = State::capture(&world);
+    assert_eq!(state.version, 20);
+    let expected_rng = state.rng;
+    let resumed = state.restore().expect("V20 checkpoint resumes");
+    assert!(resumed.policy.food_search_reserve_enabled);
+    assert_eq!(resumed.rng.state(), expected_rng);
+}
+
+#[test]
+fn v18_checkpoint_migrates_cleanly_to_v20_with_v19_features_default_off() {
     let mut world = sample_world();
     world.tick_counter = 50;
 
@@ -283,13 +301,13 @@ fn v18_checkpoint_migrates_cleanly_to_v19_with_v19_features_default_off() {
     assert!(!migrated_ind.memory.first_interval_refuge_enabled);
     assert!(migrated_ind.memory.first_interval_outcomes.is_empty());
 
-    // Verify subsequent capture produces version 19
+    // Verify subsequent capture produces current version 20.
     let captured_after_restore = State::capture(&restored);
-    assert_eq!(captured_after_restore.version, 19);
+    assert_eq!(captured_after_restore.version, 20);
 }
 
 #[test]
-fn raw_v18_checkpoint_json_without_v19_keys_deserializes_and_migrates_to_v19() {
+fn raw_v18_checkpoint_json_without_v19_keys_deserializes_and_migrates_to_v20() {
     let raw_v18_json = r#"{
         "version": 18,
         "tick": 42,
@@ -428,9 +446,9 @@ fn raw_v18_checkpoint_json_without_v19_keys_deserializes_and_migrates_to_v19() {
     // Advance world with a tick to confirm runtime continuity
     restored.tick();
 
-    // Verify that subsequent capture automatically migrates to version 19
+    // Verify that subsequent capture automatically migrates to current version 20.
     let captured = State::capture(&restored);
-    assert_eq!(captured.version, 19);
+    assert_eq!(captured.version, 20);
 
     // Verify all V19 features are default-off cleanly:
     assert!(!restored.policy.juvenile_care_enabled);

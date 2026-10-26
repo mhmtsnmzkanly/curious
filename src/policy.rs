@@ -17,6 +17,9 @@ pub struct PolicySettings {
     /// Not ecologically qualified: always opt in, including after legacy restore.
     #[serde(default)]
     pub reserve_opportunities: bool,
+    /// Bound discretionary food-search movement by current energy and next-tick body maintenance.
+    #[serde(default, skip_serializing_if = "is_false")]
+    pub food_search_reserve_enabled: bool,
     /// Experimental current-foraging baseline plus own-source residual choice.
     #[serde(default, skip_serializing_if = "is_false")]
     pub water_residual_enabled: bool,
@@ -36,6 +39,50 @@ pub struct PolicySettings {
 
 fn is_false(value: &bool) -> bool {
     !value
+}
+
+/// Bound an already-selected random food-search move by a simple energy budget.
+/// The budget reserves the known next-tick body maintenance and enough energy
+/// for an equal number of movement steps after the current move. It does not
+/// predict a route, resource, or environmental cost.
+pub fn bound_food_search_move(
+    life: &LifeState,
+    decision: Decision,
+    injury_penalty_enabled: bool,
+) -> Decision {
+    if decision.reason != Reason::SearchFood {
+        return decision;
+    }
+    let Intent::Move { steps } = &decision.intent else {
+        return decision;
+    };
+    if steps.0.is_empty() {
+        return decision;
+    }
+
+    let maintenance = crate::rules::biology::BMR_ENERGY_COST
+        .saturating_add(life.vision_metabolic_cost)
+        .saturating_add(life.stamina_metabolic_cost);
+    let movement_budget = life.energy.saturating_sub(maintenance);
+    let round_trip_cap = if life.move_energy_cost == 0 {
+        0
+    } else {
+        movement_budget / life.move_energy_cost / 2
+    };
+    let speed_cap = life
+        .effective_speed(injury_penalty_enabled)
+        .saturating_sub(life.moves_used);
+    let cap = steps.0.len().min(round_trip_cap).min(speed_cap);
+
+    if cap == steps.0.len() {
+        return decision;
+    }
+    if cap == 0 {
+        return Decision::new(Intent::Idle { duration: 1 }, Reason::FoodSearchReserve);
+    }
+    let mut bounded = steps.clone();
+    bounded.0.truncate(cap);
+    Decision::new(Intent::Move { steps: bounded }, Reason::FoodSearchReserve)
 }
 
 /// One immediately executable meal, not an abandoned multi-tick journey.
@@ -102,5 +149,167 @@ pub fn prepare_reserve(
             Reason::PrepareReproduction,
         ),
         None => base,
+    }
+}
+
+#[cfg(test)]
+mod food_search_reserve_tests {
+    use super::*;
+    use crate::{
+        creatures::herbivore::HerbivoreEntity,
+        entity::Entity,
+        map::movement::{Direction, Steps},
+    };
+
+    fn life() -> LifeState {
+        HerbivoreEntity::default().life().clone()
+    }
+
+    fn search(steps: usize) -> Decision {
+        Decision::new(
+            Intent::Move {
+                steps: Steps(vec![Direction::DownRight; steps]),
+            },
+            Reason::SearchFood,
+        )
+    }
+
+    #[test]
+    fn food_search_reserve_caps_move_after_next_known_maintenance() {
+        let mut life = life();
+        life.energy = 5;
+        life.move_energy_cost = 1;
+        // BMR 1 leaves an energy budget of 4; half is reserved for return movement.
+        let decision = bound_food_search_move(&life, search(3), false);
+        assert_eq!(decision.reason, Reason::FoodSearchReserve);
+        let Intent::Move { steps } = decision.intent else {
+            panic!("positive reserve should retain a bounded move");
+        };
+        assert_eq!(steps.len(), 2);
+
+        life.energy = 9;
+        life.move_energy_cost = 2;
+        let decision = bound_food_search_move(&life, search(3), false);
+        let Intent::Move { steps } = decision.intent else {
+            panic!("positive reserve should retain a bounded move");
+        };
+        assert_eq!(steps.len(), 2);
+    }
+
+    #[test]
+    fn food_search_reserve_uses_trait_costs_speed_and_overflow_safe_subtraction() {
+        let mut life = life();
+        life.energy = 8;
+        life.vision_metabolic_cost = 1;
+        life.stamina_metabolic_cost = 1;
+        life.speed = 2;
+        life.moves_used = 1;
+        // Known maintenance is 3, energy permits 2 round-trip steps, speed permits 1.
+        let decision = bound_food_search_move(&life, search(4), false);
+        let Intent::Move { steps } = decision.intent else {
+            panic!("one remaining speed slot should permit one step");
+        };
+        assert_eq!(steps.len(), 1);
+
+        life.energy = 0;
+        let stopped = bound_food_search_move(&life, search(1), false);
+        assert_eq!(stopped.reason, Reason::FoodSearchReserve);
+        assert!(matches!(stopped.intent, Intent::Idle { duration: 1 }));
+    }
+
+    #[test]
+    fn food_search_reserve_obeys_injury_speed_and_preserves_other_reasons() {
+        let mut life = life();
+        life.energy = 20;
+        life.health = life.max_health / 2;
+        life.speed = 4;
+        let injured = bound_food_search_move(&life, search(4), true);
+        let Intent::Move { steps } = injured.intent else {
+            panic!("injury-adjusted speed should retain a move");
+        };
+        assert_eq!(steps.len(), 2);
+
+        let water = Decision::new(
+            Intent::Move {
+                steps: Steps(vec![Direction::Up; 3]),
+            },
+            Reason::SearchWater,
+        );
+        let protected = bound_food_search_move(&life, water, true);
+        assert_eq!(protected.reason, Reason::SearchWater);
+        let Intent::Move { steps } = protected.intent else {
+            panic!("non-food search decision must be preserved");
+        };
+        assert_eq!(steps.len(), 3);
+    }
+
+    #[test]
+    fn food_search_reserve_does_not_change_affordable_move_or_non_move_search() {
+        let mut life = life();
+        life.energy = 80;
+        let unchanged = bound_food_search_move(&life, search(3), false);
+        assert_eq!(unchanged.reason, Reason::SearchFood);
+        let resting = Decision::new(Intent::Idle { duration: 1 }, Reason::SearchFood);
+        let unchanged = bound_food_search_move(&life, resting, false);
+        assert_eq!(unchanged.reason, Reason::SearchFood);
+    }
+
+    #[test]
+    fn food_search_reserve_preserves_urgent_and_non_food_decisions() {
+        let life = life();
+        let protected = [
+            Reason::RecoverStamina,
+            Reason::HuntLowEnergy,
+            Reason::HuntTooCostly,
+            Reason::EscapeThreat,
+            Reason::SeekShelter,
+            Reason::CorneredDefense,
+            Reason::Defend,
+            Reason::SeekWater,
+            Reason::SearchWater,
+            Reason::RecallWater,
+            Reason::LearnedWater,
+            Reason::RecallFood,
+            Reason::RecallMate,
+            Reason::SeekCompanion,
+            Reason::WaitForMate,
+            Reason::PauseMateSearch,
+            Reason::PrepareReproduction,
+            Reason::Mate,
+            Reason::ApproachMate,
+            Reason::SeekFood,
+            Reason::HuntPrey,
+            Reason::LearnedHunt,
+            Reason::NoEligibleMate,
+            Reason::Explore,
+            Reason::Rest,
+            Reason::ExternalCommand,
+            Reason::PlayerWaiting,
+            Reason::CustomPolicy,
+        ];
+        for reason in protected {
+            let decision = Decision::new(
+                Intent::Move {
+                    steps: Steps(vec![Direction::DownRight; 3]),
+                },
+                reason,
+            );
+            let result = bound_food_search_move(&life, decision, false);
+            assert_eq!(result.reason, reason);
+            let Intent::Move { steps } = result.intent else {
+                panic!("protected decision must retain its intent");
+            };
+            assert_eq!(steps.len(), 3);
+        }
+    }
+
+    #[test]
+    fn food_search_reserve_setting_is_default_off_and_omitted_when_false() {
+        let settings = PolicySettings::default();
+        assert!(!settings.food_search_reserve_enabled);
+        let json = serde_json::to_value(settings).unwrap();
+        assert!(json.get("food_search_reserve_enabled").is_none());
+        let decoded: PolicySettings = serde_json::from_value(serde_json::json!({})).unwrap();
+        assert!(!decoded.food_search_reserve_enabled);
     }
 }

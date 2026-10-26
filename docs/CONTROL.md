@@ -1,3 +1,7 @@
+# V20 — varsayılan kapalı yem arama enerji bütçesi
+
+Geliştirme kaynağı checkpoint V20 / SQLite V2 kullanır. `policy.food_search_reserve_enabled` varsayılan kapalıdır; V1–V19 göçünde kapalıya zorlanır ve V21 reddedilir. Canlı 7882 V12 dünyası değiştirilmedi. Bu bayrak için HTTP kontrol eylemi eklenmedi. Davranış, migration ve kanıt sınırı [yem arama sözleşmesinde](FOOD_SEARCH_RESERVE.md) tanımlıdır. Aşağıdaki V18/V17 bölümleri ilgili önceki alanların sözleşmelerini açıklar; bugünkü capture sürümü V20'dir.
+
 # V18 — varsayılan kapalı sığınak genellemesi
 
 > **Sürüm kapsamı — 25 Ekim 2026:** Bu dosya geliştirme kaynağındaki V18 /

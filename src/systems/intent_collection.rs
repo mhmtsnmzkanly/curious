@@ -92,6 +92,18 @@ impl IntentCollectionSystem {
             } else {
                 decision
             };
+            let decision = if world.policy.food_search_reserve_enabled
+                && matches!(slot.controller, EntityController::AI)
+                && !world.command_inputs.contains_key(&slot.id)
+            {
+                crate::policy::bound_food_search_move(
+                    slot.base.life(),
+                    decision,
+                    world.policy.injury_capacity_penalty,
+                )
+            } else {
+                decision
+            };
             let decision = if matches!(slot.controller, EntityController::AI)
                 && !world.command_inputs.contains_key(&slot.id)
             {
@@ -147,5 +159,74 @@ impl IntentCollectionSystem {
         }
         world.last_decisions = traces;
         intents
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::{
+        creatures::herbivore::HerbivoreEntity,
+        entity::{phase::EntityPhase, Entity},
+        map::{cell::Cell, movement::Position},
+        world::{EntitySlot, World},
+    };
+
+    fn world(controller: EntityController) -> World {
+        let mut herb = HerbivoreEntity::default();
+        herb.life_mut().energy = 5;
+        herb.life_mut().speed = 3;
+        let slot = EntitySlot::new(
+            1,
+            Position::new(0, 0),
+            EntityPhase::Active,
+            controller,
+            Box::new(herb),
+        );
+        let mut world = World::with_seed(-5, 5, -5, 5, vec![slot], 7);
+        world.policy.food_search_reserve_enabled = true;
+        for y in world.map.min_y..=world.map.max_y {
+            for x in world.map.min_x..=world.map.max_x {
+                world.map.set_cell(Position::new(x, y), Cell::Empty);
+            }
+        }
+        world
+    }
+
+    #[test]
+    fn food_search_reserve_applies_to_ai_discretionary_search() {
+        let mut world = world(EntityController::AI);
+        let intents = IntentCollectionSystem::collect(&mut world, &mut Vec::new());
+        assert_eq!(
+            world.last_decisions[0].decision.reason,
+            Reason::FoodSearchReserve
+        );
+        let Intent::Move { steps } = &intents[0].1 else {
+            panic!("energy budget permits a bounded search move");
+        };
+        assert_eq!(steps.len(), 2);
+    }
+
+    #[test]
+    fn food_search_reserve_does_not_override_external_commands_or_player_waiting() {
+        let mut commanded = world(EntityController::AI);
+        let command = Intent::Move {
+            steps: crate::map::movement::Steps(vec![crate::map::movement::Direction::Right; 3]),
+        };
+        commanded.push_command(1, command.clone());
+        let intents = IntentCollectionSystem::collect(&mut commanded, &mut Vec::new());
+        assert_eq!(intents[0].1, command);
+        assert_eq!(
+            commanded.last_decisions[0].decision.reason,
+            Reason::ExternalCommand
+        );
+
+        let mut player = world(EntityController::Player(3));
+        let intents = IntentCollectionSystem::collect(&mut player, &mut Vec::new());
+        assert!(matches!(intents[0].1, Intent::Idle { duration: 1 }));
+        assert_eq!(
+            player.last_decisions[0].decision.reason,
+            Reason::PlayerWaiting
+        );
     }
 }

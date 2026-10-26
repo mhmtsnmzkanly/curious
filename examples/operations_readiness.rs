@@ -310,8 +310,8 @@ fn run() -> Result<()> {
     configure_mode(&mut world, mode);
     let flag_setup_us = flag_start.elapsed().as_micros();
     let restored_initial = State::capture(&world);
-    if restored_initial.version != 19 {
-        return Err("V12 input did not migrate to V19 on restore".into());
+    if restored_initial.version != 20 {
+        return Err("V12 input did not migrate to V20 on restore".into());
     }
     if restored_initial.tick != input_state.tick
         || restored_initial.entities.len() != input_state.entities.len()
@@ -341,7 +341,7 @@ fn run() -> Result<()> {
         serde_json::to_value(&initial_recaptured)? == serde_json::to_value(&initial_state)?;
     let initial_restore_recapture_us = initial_roundtrip_start.elapsed().as_micros();
     if !initial_state_roundtrip_exact {
-        return Err("initial migrated V19 State/RNG restore and recapture were not exact".into());
+        return Err("initial migrated V20 State/RNG restore and recapture were not exact".into());
     }
     write_new(&output_dir.join("frame-000000.json"), &initial_bytes)?;
     let storage = storage_smoke(&initial_state, &output_dir.join("storage"))?;
@@ -383,7 +383,7 @@ fn run() -> Result<()> {
         serde_json::to_value(&recaptured)? == serde_json::to_value(&final_state)?;
     let final_restore_recapture_us = roundtrip_start.elapsed().as_micros();
     if !final_state_roundtrip_exact {
-        return Err("final V19 State/RNG restore and recapture were not exact".into());
+        return Err("final V20 State/RNG restore and recapture were not exact".into());
     }
     let output_bytes_before_manifest = directory_bytes(&output_dir)?;
 
@@ -489,7 +489,7 @@ mod tests {
         let mut v12 = v12;
         v12.version = 12;
         let mut world = v12.clone().restore().unwrap();
-        assert_eq!(State::capture(&world).version, 19);
+        assert_eq!(State::capture(&world).version, 20);
         assert_eq!(State::capture(&world).tick, v12.tick);
         assert_eq!(State::capture(&world).entities.len(), v12.entities.len());
         configure_mode(&mut world, Mode::Off);
