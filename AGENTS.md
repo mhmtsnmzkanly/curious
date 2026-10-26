@@ -55,83 +55,35 @@ dağıtım ve karar kanıtları ilgili raporlarda korunur; eski kayıtları silm
 
 ## Öğrenmenin mevcut kanıt sınırı
 
-- [Su uyum V2](docs/reports/WATER_ADAPTATION_V2_20261025.md): gıda-zengin fixture kalibrasyonu62299 geçti; formal62201..62206 tamamlandı.62206 prefix fırsat desteği yetersizdir. Üç learner kolunun fiziksel State/RNG/eylemleri her seedde200 suffix tick boyunca aynı; ek deneyim faydası kabul edilmedi. V1 başarısız kaydı korunur.
+- [Su uyum V2](docs/reports/WATER_ADAPTATION_V2_20261025.md): gıda-zengin
+  fixture geçerlidir; üç learner kolu aynı fiziksel yörüngeyi verdi. Ek
+  deneyim faydası kabul edilmedi. Seed 62206'nın prefix desteği düşük olup
+  öğrenme kabulü için yetersizdir. [V1](docs/reports/WATER_ADAPTATION_V1_20261025.md)
+  başarısız kalibrasyonu korunur.
+- [Nitelik tanısı](docs/reports/QUALIFICATION_DIAGNOSTIC_20261025.md): seed
+  401–410 aynı fixture'da bakım/paket kollarında 2 iyileşme, 8 nötr sonuç
+  verdi; refuge kolu 10/10 nötrdü. V12 başlangıcından 1.000 tick'te paket
+  V19 kapalı kontrole göre endpoint'te 13 daha fazla canlı, fakat toplamda
+  1,428 daha az birey-tick üretti. Canlı fayda/Pareto kabulü yoktur.
+- V17 su artığı ve V13/V14 av-risk seçenekleri default-off'tur; kayıtlı
+  bounded utility / Hunt Lab sonuçları yarar kabulü değildir.
+- Refuge tam-rota beklenen hasarı `Unknown`: full-route raporunda altı
+  pozitif hasarlı bölüm sansürlüydü. İlk resolver aralığındaki tamamlanmış
+  etiketler ayrı hedef ufkudur; route predictor veya kabul edilmiş öğrenici
+  değildir. `REFUGE_RESIDUAL_CANDIDATE` World/karar/checkpoint yoluna
+  bağlanmamış saf prototiptir.
+- Mekanizma testleri, P3 ablasyon ve Wave 7–10 yeniden denetimleri kod yolu ve
+  sınırlı protokolleri kapsar; evrensel ekolojik üstünlük göstermez. Ayrıntı
+  [ROADMAP](docs/ROADMAP.md) ve bağlantılı tarihli raporlardadır.
+- Yeni deney aynı sonucu tekrarlamamalı veya sonuçtan sonra eşiği ayarlamamalı;
+  sabit protokol, sınırlı kaynak ve bağımsız gözden geçirme gerektirir. Uzun
+  gerçek-zamanlı soak ayrı işletim araştırmasıdır, özellik çalışmasının
+  önkoşulu değildir.
 
-- [Su uyum V1](docs/reports/WATER_ADAPTATION_V1_20261025.md) kalibrasyonu seed62199da fork200 öncesi açlık ölümüyle106tickte reddedildi; formal62101..62106 çalıştırılmadı. Frozen tablo saklama hatası düzeltildi;48tick predictionTTL devam eder. Bu çalışma öğrenme yararı kabulü değildir.
+## Güncel sonuçlar
 
-- En son [kabul tanısı](docs/reports/QUALIFICATION_DIAGNOSTIC_20261025.md): 401..410 tekrarında bakım/paket 2 iyileşme+8 nötr; refuge 10/10 nötr. Gerçek checkpoint’ten 1.000 tick paketi, V19 kontrole göre endpoint’te +13 canlı ama toplamda 1428 daha az birey-tick üretir. Canlı fayda/Pareto kabulü yoktur; önceki raporlardaki toplu PASS ve bütün kurucuların kaybolduğu iddiasını güncel garanti saymayın.
-
-- V17 su artığı varsayılan kapalıdır. `WATER_RESIDUAL_V1` raporunda kayıtlı
-  bounded utility kapısı iki karşılaştırıcıya karşı başarısızdır; üç seedde
-  mekanizma şahidi olması yarar/üstünlük kabulü değildir.
-- V13/V14 av deneyimi ve risk alanları ayrı deneysel seçeneklerdir. Hunt Lab V3
-  riskli kol yaralanmaları azaltmadı; risk özelliği kapalı tutulur.
-- V16 exact-key ve V18 genelleştirilmiş refuge belleği kaynakta default-off'tur.
-  25 Ekim tek-run baseline çalışması 623 attempt/67 owner kaydetti: 182
-  attributable arrival'ın tümü sıfır hasarlı, altı pozitif threat-damage
-  attempt ise sansürlüydü. Bu nedenle route beklenen hasarı her yerde Unknown;
-  sıfır MAE başarı veya kalibrasyon değildir. İlk resolver aralığı ayrı raporda
-  617 sıfır ve altı 20 hasar gösterir; full-route beklenen risk değildir.
-- `REFUGE_RESIDUAL_CANDIDATE` yalnız saf, default-off mekanizma prototipidir;
-  World, karar seçimi, checkpoint veya canlıya bağlanmamıştır. Kalibre edilmiş
-  route-damage baseline yoktur. Hiçbir risk öğrenicisi veya route faydası kabul
-  edilmedi. Neural model veya entegrasyon iddiası kullanmayın.
-- Uzun aylar/yıllar soak'u uzun dönem işletim araştırmasıdır; her yeni özellik
-  için önkoşul veya mevcut kabul kanıtı değildir. Yeni fiziksel çalışma ancak
-  sabit protokol, sınırlı kaynak ve bağımsız denetimle başlar; aynı sonucu
-  tekrarlamayın veya sonuçtan sonra eşiği/parametreyi ayarlamayın.
-- Dalga 1–6 motor geliştirmeleri, Wave 7 düzeltmeleri, Wave 8 tam kapanış
-  doğrulamaları, Wave 9 yeniden denetim kapanışları ve Wave 10 kanıt sınırı kapanışı ile
-  P3 ablasyon/K7 telemetrisi tamamlandı: `ca5971b`, `2002ee4`, `6fa9c49` ve `9c7d3f0` bağımsız
-  denetimlerinde tespit edilen bulgular ve dar kanıt sınırları eksiksiz kapatıldı. Su bağlam artığı
-  `foraging::value` ile `(2*water - movement_energy - ticks) * 100 / ticks.max(1)` net fiziksel
-  kalıntı ölçeğine tam hizalandı, baseline yokluğunda yapay artık üretilmedi ve başarısız su
-  bölümlerinde hedef kaynak kontrolü sağlandı (P1/F1); sıradan etçil ve hepçillerin erişebildiği
-  bitki örtüsü ve duvar bitişiği pusu örtüsü olarak kabul edildi (F2); checkpoint `V19` ham V18
-  JSON metninden göç testiyle doğrulandı (F3); kış termal BMR ek maliyeti bağlandı (F4);
-  haritadaki statik inlerin (`Cell::Burrow`) metadata kaydı (`Environment::from_map`), kış koruması,
-  başarısız kazıda stamina koruması ve `World::dig_burrow` / `Environment::dig_burrow_on_map` ile
-  `dig_burrow` API ayrımı sağlandı (F5); ceset enerjisi ilk tick (`remaining == 4`) korunup sonraki
-  3 tick boyunca (`remaining == 1..=3`) her tick 1 azalarak tabana indi, `CorpseStage::Putrid`
-  varyant adlandırması hizalandı ve sıfır tüketimde toksisite muafiyeti korundu (F6); bağlam
-  artığında i64 toplamı ve -1000..=1000 sınır doğrulaması sağlandı (F7); konfigürasyondan bağımsız
-  `DynamicWorldSnapshot`, RNG ayrışması, yeni otonom kazılan inlerin (`treatment_newly_excavated_burrows_total`)
-  başlangıç statik inlerinden kesin ayrımı ve mükerrer sayım olmaksızın benzersiz yayımlanan sinyallerin
-  (`treatment_unique_signals_emitted_total`) pozitif assert'leri kanıtlandı (P2/F8).
-  P3 tekil özellik ablasyon matrisi (`tests/p3_multi_habitat_ablation.rs`) ile 3 habitat
-  × 5 held-out tohum (`301..=305`) × 7 kolda hedef mekanizmaların tam seçiciliği ve
-  izolasyonu doğrulandı; K7 Web Replay & Experience V19 çevre/beden telemetrisi
-  (`#env-telemetry`, `CuriousExperience.environment`) arayüze bağlandı.
-  Epistemik sınır: Mekanizma ve `World::tick` entegrasyonu doğrulanmış olup,
-  evrensel çok-habitatlı ekolojik üstünlük kanıtlanmamıştır / kapsam dışıdır
-  ([AUDIT_CA5971B_20261025](docs/reports/AUDIT_CA5971B_20261025.md),
-  [AUDIT_CA5971B_REMEDIATION_20261025](docs/reports/AUDIT_CA5971B_REMEDIATION_20261025.md),
-  [AUDIT_RECHECK_2002EE4_20261025](docs/reports/AUDIT_RECHECK_2002EE4_20261025.md),
-  [AUDIT_RECHECK_REMEDIATION_20261025](docs/reports/AUDIT_RECHECK_REMEDIATION_20261025.md),
-  [AUDIT_RECHECK_6FA9C49_20261025](docs/reports/AUDIT_RECHECK_6FA9C49_20261025.md),
-  [AUDIT_RECHECK_6FA9C49_REMEDIATION_20261025](docs/reports/AUDIT_RECHECK_6FA9C49_REMEDIATION_20261025.md),
-  [AUDIT_RECHECK_9C7D3F0_20261025](docs/reports/AUDIT_RECHECK_9C7D3F0_20261025.md),
-  [P3_ABLATION_AND_9C7D3F0_CLOSURE_20261025](docs/reports/P3_ABLATION_AND_9C7D3F0_CLOSURE_20261025.md)).
-
-Güncel sonuçlar ve tarihçe:
-
-- [Arşiv-bütçe V12 dağıtım raporu](docs/reports/ARCHIVE_BUDGET_DEPLOYMENT_20261025.md)
-- [Refuge fiziksel baseline V1](docs/reports/REFUGE_RISK_BASELINE_V1.md)
-- [İlk çözücü aralığı](docs/reports/REFUGE_FIRST_RESOLUTION_V1.md)
-- [Önceki teknik tamamlama doğrulaması](docs/reports/REFUGE_REPAIR_VALIDATION.md)
-- [ca5971b entegrasyon denetimi (F1–F8 bulguları)](docs/reports/AUDIT_CA5971B_20261025.md)
-- [Wave 7: ca5971b entegrasyon denetimi (F1–F8) düzeltme ve V19 doğrulama raporu](docs/reports/AUDIT_CA5971B_REMEDIATION_20261025.md)
-- [2002ee4 düzeltmelerinin bağımsız yeniden denetimi](docs/reports/AUDIT_RECHECK_2002EE4_20261025.md)
-- [Wave 8: 2002ee4 yeniden denetim bulgularının (F1, F2, F5, F6, F8) tam kapanış raporu](docs/reports/AUDIT_RECHECK_REMEDIATION_20261025.md)
-- [6fa9c49 düzeltmelerinin bağımsız yeniden denetimi](docs/reports/AUDIT_RECHECK_6FA9C49_20261025.md)
-- [Wave 9: 6fa9c49 yeniden denetim bulgularının (P1/F1, P2/F8, F5, F6) tam kapanış ve hizalama raporu](docs/reports/AUDIT_RECHECK_6FA9C49_REMEDIATION_20261025.md)
-- [9c7d3f0 düzeltmelerinin bağımsız denetimi](docs/reports/AUDIT_RECHECK_9C7D3F0_20261025.md)
-- [Wave 10: P3 ablasyon ve 9c7d3f0 kanıt sınırı kapanış raporu](docs/reports/P3_ABLATION_AND_9C7D3F0_CLOSURE_20261025.md)
-- [Wave 11: Yazılmış V19 özelliklerinin davranışsal fayda (Pareto) elemesi ve gerçek V12 canlı checkpoint üzerinde izole gölge doğrulaması](docs/reports/BEHAVIORAL_UTILITY_AND_SHADOW_QUALIFICATION_20261025.md)
-- [Wave 12: Çok-nesilli V19 yetenek bayrağı kalıtımı ve gerçek V12 canlı checkpoint üzerinde 1.000-tick izole gölge soak deneyi](docs/reports/LIVE_V12_SHADOW_1000_TICK_SOAK_20261025.md)
-- [P2/P3 ampirik protokol ve K8 denetimi (Tarihsel dondurulmuş rapor)](docs/reports/P2_P3_EMPIRICAL_AND_K8_AUDIT_20261025.md)
-- [Öğrenme sınırları ve sonraki adımlar](docs/LEARNING_NEXT.md)
-- [Güncel roadmap](docs/ROADMAP.md) · [doküman dizini](docs/README.md)
+Tarihsel denetim ve soak ayrıntıları [docs/README.md](docs/README.md) üzerinden
+bulunur; bu dosya güncel kuralları ve operasyonel gereklilikleri taşır.
 
 ## Kod, deney ve operasyon çalışma usulü
 

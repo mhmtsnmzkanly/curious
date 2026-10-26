@@ -1,92 +1,19 @@
-# Sonraki işler — 25 Ekim 2026
+# Sıradaki işler
 
-Güncel V2: [Su uyum ölçümü](docs/reports/WATER_ADAPTATION_V2_20261025.md) tamamlandı. Gıda erişimi ayrıldı; online/frozen/naive yörüngeleri eşit. Sonraki tanı, artık sinyalinin güncel foraging skoruna neden ek bilgi katmadığı olmalı; aynı lab otomatik uzatılmamalı.
+1. **Yetkili sınırlı kontrolleri tamamla:** ekoloji aktarım koşusu ve çevrimdışı
+   operasyonel hazırlık probunun sonuçlarını, ham kayıtlarını ve manifestlerini
+   incele; tamamlandığında ilgili rapor bağlantılarını buraya ekle.
+2. **Öğrenme faydasını açıklığa kavuştur:** [V2 su labı](docs/reports/WATER_ADAPTATION_V2_20261025.md)
+   üç learner kolunda ek davranış/fayda göstermedi. Yeni bir çalışma ancak
+   önceden belirlenmiş, farklı bir hipotez ve protokolle önerilsin.
+3. **Dar bakım sonucunu yeniden değerlendir:** [nitelik tanısı](docs/reports/QUALIFICATION_DIAGNOSTIC_20261025.md)
+   kısa fixture'daki bakım sinyalini 1.000-tick gölge ödünleşiminden ayrı tutuyor;
+   canlı fayda veya V19'a geçiş kabul edilmedi.
+4. **Çoklu habitat kalıcılığı için protokol tasarla:** K1/K2/K5/K6 bağımlılıklarını,
+   held-out rolleri, fiziksel metrikleri ve sansür kurallarını önceden sabitle.
+5. **Kaynak güvenilirliği:** [hedef taslağı](docs/SOURCE_RELIABILITY_TARGET_20261026.md)
+   öneri aşamasındadır; uygulama veya kabul iddiası yoktur.
 
-V1’in [geçersiz kalibrasyonu](docs/reports/WATER_ADAPTATION_V1_20261025.md) korunur; gıda erişimi sınırı ayrı V2 fixture’ında ayrıştırıldı. V1’den öğrenme faydası çıkarılmaz.
-
-Güncel karar: [kabul tanısı](docs/reports/QUALIFICATION_DIAGNOSTIC_20261025.md) paket için uzun-ufuk Pareto üstünlüğü göstermedi. Canlıya taşıma adımı açık kalır; eski toplu PASS tek başına yeterli değildir.
-
-## Tamamlanan P2 Çekirdek Motor Entegrasyonları ve Wave 7–12 Doğrulamaları (Mekanizma testi, Pareto Fayda Elemesi ve 1.000-Tick V12 Gölge Soak Doğrulaması geçti)
-
-- **Wave 12 Çok-Nesilli V19 Yetenek Bayrağı Kalıtımı (`resolve_mates`) ve Gerçek Canlı V12 Checkpoint (`Tick 12639`) Üzerinde 1.000-Tick (`Tick 12639 -> 13639`) Gölge Soak Deneyi (`src/systems/interaction.rs`, `tests/behavioral_utility_qualification.rs`):**
-  - **Çok-Nesilli Yetenek Bayrağı Aktarımı (Sıfır Öğrenilmiş Bellek Aktarımıyla):** `InteractionSystem::resolve_mates` içinde yeni doğan yavruya (`child`) ebeveynlerin V19 yetenek bayrakları (`first_interval_refuge_enabled`, `spatial_curiosity_enabled`, `context_ttl_enabled`) `&&` operatörüyle aktarıldı; yavrunun öğrenilmiş bellek tabloları (`first_interval_outcomes`, `known_sectors`, `context_entries`) doğumda kesinlikle boş (`0`) başlar (`test_offspring_v19_capability_flag_propagation_with_zero_memory_inheritance`).
-  - **1.000-Tick (`Tick 12639 -> 13639`) Gerçek Canlı V12 Gölge Soak Sonuçları (`4` Kol, `34+` Yeni Nesil, `~5.150` Doğum):**
-    - `QualifiedCandidateBundle` (`JuvenileCare + RefugeFI`), 1.000 tick sonunda `ControlFlagsOff` baz çizgisine (`482 Herbivore + 98 Carnivore = 580 yaşayan`) kıyasla **`499 Herbivore (+17 otçul) + 94 Carnivore = 593 toplam yaşayan birey (+13 net sağkalım)`** ile en yüksek dönem sonu popülasyonu korudu.
-    - `+200`. tick (`Tick 12839`) itibarıyla yaşayan bireylerdeki tüm `first_interval_outcomes` kayıtlarının `%100`'ü yeni doğan nesiller (`Gen 456..489`, `13639`. tick'te `5,052` aktif kayıt) tarafından sıfırdan öğrenildi.
-    - Serileştirilmiş V19 checkpoint boyutu ilk 100 tick'te `~4.6–4.8 MB` düzeyinde platoya ulaştı ve 1.000 tick boyunca sınırsız büyüme göstermedi (`13639`. tick'te `4,658,798 B`, `State::capture().restore()` OK, release hızı `44.39 ms/tick`).
-  - Rapor: [Wave 12: 1.000-tick canlı V12 gölge soak ve çok-nesilli bayrak kalıtımı raporu](docs/reports/LIVE_V12_SHADOW_1000_TICK_SOAK_20261025.md).
-- **Wave 11 Yazılmış Özelliklerin Davranışsal Fayda (Pareto) Elemesi ve Gerçek Canlı V12 Gölge (Shadow) Doğrulaması (`tests/behavioral_utility_qualification.rs`):**
-  - **9 Tekil Özelliğin Davranışsal Fayda ve Pareto Elemesi (`Seeds 401..=410`, 150 Tick):** Ağırlıksız fiziksel sonuç vektörü (`survived_entity_ticks`, `prey_survived_ticks`, `final_alive_count`, `total_health_end`, `total_energy_end`, `total_water_end`, `total_damage_taken`) üzerinde sıkı sağkalım-kaybı-yok Pareto kapısı uygulandı:
-    - **Canlı Adayları (`PASS`):** `JuvenileParentalCareOnly` (`survived_ticks: 4572 -> 5027` [`+10.0%`], `alive_end: 14 -> 18` [`+28.6%`], `energy_end: 793 -> 1036` [`+30.6%`], `dmg/tick: 2.878 -> 2.645` ile baz çizgisini kesin domine eder) ve `RefugeFirstIntervalOnly` (`43` ilk-aralık kaydı, sıfır sağkalım/vital stok kaybı). Birleşik `QualifiedCandidateBundle` (`JuvenileCare + RefugeFI`), `AllV19Features` koluna kıyasla `+1605` birey-tick sağkalım ve `+729` dönem sonu enerji korumuştur.
-    - **Ödünleşimli / Varsayılan Kapalı Tutulacak Özellikler (`TRADE-OFF / KEEP DEFAULT-OFF`):** `SeasonAndBurrowsOnly` (kış BMR termal ek yükü ve bitki kıtlığı), `InjuryCapacityPenaltyOnly` (yaralı hız/stamina cezası), `WaterContextOnly` (V17 su artığı sapması), `SpatialCuriosityOnly`, `LocalCoordinationOnly`, `AmbushPredationOnly` ve `DayNightCycleOnly` 150-tick ufukta sağkalım/enerji ödünleşimi yarattığı için canlıda `default-off` tutulur.
-  - **Gerçek Canlı V12 Checkpoint (`history-000870.sqlite.zst`, `tick = 12639`, `630` birey) 20-Tick Gölge (Shadow) Doğrulaması:** Canlı `7882` dünyasına dokunulmadan kapalı arşiv shard'ından çıkarılan gerçek V12 durumu `State::restore()` ile V19 motoruna yükseltilerek 20 tick (`12639 -> 12659`) koşturuldu; `QualifiedCandidateBundle` kolu `ControlFlagsOff` koluna kıyasla `+3` ek birey sağkalımı (`530` vs `528` Herbivore, `80` vs `79` Carnivore), `2096` ilk-aralık sığınak kaydı, `~318.8 ms/tick` hız ve `0` şema/doğrulama hatası ile geçti; 5 adımlı kontrollü canlıya taşıma prosedürü (*Controlled Live Promotion Runbook*) belgelendi.
-  - Rapor: [Wave 11 davranışsal fayda ve V12 gölge doğrulama raporu](docs/reports/BEHAVIORAL_UTILITY_AND_SHADOW_QUALIFICATION_20261025.md).
-- **Wave 10 Yeniden Denetim Kapanışları ve P3/K7 Doğrulamaları (`9c7d3f0` Bulguları — Tam Kapatıldı):**
-  - **F8 / Dar Kanıt Sınırları Kapanışı (`tests/k8_throughput_audit.rs`):** Fixture başlangıç statik inleri (`(-7+ox, -6+oy)` ve `(-6+ox, -7+oy)`) filtrelenerek yalnızca `World::tick` esnasında kış mevsiminde otonom kazılan yeni in koordinatları (`treatment_newly_excavated_burrows_total`) sayıldı ve `[101..105]` ile `[201..205]` tohumlarında `> 0` olduğu pozitif assert'lerle kanıtlandı; her tick sonunda yalnızca `signal.emitted_tick == world.tick_counter` olan yeni yayımlanmış sinyaller (`treatment_unique_signals_emitted_total`) sayılarak mükerrer sayım önlendi ve tüm tohumlarda `> 0` olduğu doğrulandı; Rust kaynak kodundaki `CorpseStage::Putrid` varyantı ile belgelerdeki `Rotten` yazımı tam hizalandı.
-  - **P3 Çoklu-Habitat Tekil Özellik Ablasyonu (`tests/p3_multi_habitat_ablation.rs`):** 3 habitat topolojisi (`OpenPlains`, `CorridorMaze`, `SeasonalScarcity`) × 5 bağımsız tohum (`301..=305`) × 7 ablasyon kolu (`ControlFlagsOff`, `WaterContextOnly`, `RefugeFirstIntervalOnly`, `SpatialCuriosityOnly`, `ClimateAndBurrowsOnly`, `SocialAndNicheOnly`, `AllV19Features`) üzerinde 80-tick matris yürütüldü; her tekil kolun yalnızca kendi hedef mekanizmasını tetiklediği, diğer mekanizma sayaçlarının kesin `0` kaldığı ve `AllV19Features` kolunda tüm mekanizmaların birlikte çalıştığı doğrulandı.
-  - **K7 Web Replay & Experience V19 Çevre/Beden Telemetrisi (`web/experience.js`, `web/replay.js`, `web/replay.html`):** `CuriousExperience.environment(state, individual)` ve `#env-telemetry` paneli ile mevsim döngüsü (`Spring/Summer/Autumn/Winter`), gün/gece fazı (`Dawn/Day/Dusk/Night`), aktif sinyal/in sayıları, keşfedilen sektörler, su bağlam kayıtları ve ceset tazelik evresi (`Fresh/Aging/Putrid`) arayüze bağlandı.
-  - Raporlar: [9c7d3f0 denetim raporu](docs/reports/AUDIT_RECHECK_9C7D3F0_20261025.md), [Wave 10 tam kapanış ve ablasyon raporu](docs/reports/P3_ABLATION_AND_9C7D3F0_CLOSURE_20261025.md).
-- **Wave 9 Yeniden Denetim Kapanışları (`6fa9c49` Bulguları — Tam Kapatıldı):**
-  - **P1/F1 (Su bağlam artığı `foraging::value` ölçek uyumu ve hedef eşleşmesi):** `Learner::episode_physical_residual` formülü `foraging::value` ölçeğiyle tam hizalanarak `actual = (2 * water - movement_energy - ticks) * 100 / ticks.max(1)` ve `residual = (actual - choice_baseline).clamp(-1000, 1000)` olarak güncellendi; `choice_baseline == None` durumunda yapay artık üretilmez (`None`); `water_outcomes::finish` içinde `WaterEnd::Failed` yalnızca hedef kaynak türü aranan suyla eşleştiğinde (`missing_resource_target_matches == true`) ve baseline mevcutsa bağlam artığı kaydeder (`src/entity/learning.rs`, `src/systems/water_outcomes.rs`).
-  - **P2/F8 (Konfigürasyondan bağımsız dinamik snapshot, RNG ayrışması ve 5-mekanizma pozitif assertion):** `run_flag_on_vs_flag_off_comparison` testi konfigürasyondan bağımsız dinamik dünya durumunu (`DynamicWorldSnapshot`: pozisyonlar, fazlar, enerji, su, sağlık, stamina, jenerasyon, harita hücreleri) ve RNG durumunu (`control_world.rng.state() != treatment_world.rng.state()`) denetler; `[101..105]` ve `[201..205]` tohum gruplarının her ikisinde de 5 V19 mekanizmasının (`known_sectors`, `context_entries`, `first_interval_outcomes`, `signals_emitted`, `burrows`) treatment kolunda çalıştığı pozitif assert'lerle (`> 0`) kanıtlandı (`tests/k8_throughput_audit.rs`).
-  - **F5 (Statik harita inlerinin metadata kaydı, kış koruması, stamina korunumu ve API ayrımı):** `Environment::from_map` haritada önceden var olan `Cell::Burrow` hücrelerini `MAX_BURROWS` sınırına kadar `ttl: 1_000_000` ile metadata listesine kaydeder ve bu hücrelerdeki canlılara kış termal koruması sağlar (`winter_bmr_surcharge == 0`); otonom kazmada 2 stamina düşüşü yalnızca `dig_burrow_on_map` başarılı (`true`) olduğunda uygulanır (in kapasitesi doluyken stamina harcanmaz); yetkili koordinat, hücre ve TTL doğrulayan `World::dig_burrow` / `Environment::dig_burrow_on_map` ile saf metadata kaydı yapan `Environment::dig_burrow` ayrımı netleştirildi (`src/environment.rs`, `src/world/mod.rs`).
-  - **F6 (Ceset enerjisi çürüme zamanlaması ve sıfır tüketim toksisite muafiyeti):** Ölümün ilk tick'inde (`CorpseStage::Fresh`, `remaining == 4`) ceset enerjisi taze ceset besin paritesi için tam korunur; sonraki 3 tick boyunca (`remaining == 1..=3`: `Aging` ve `Putrid`) her tick 1 azalarak taban değere (`MIN_FOOD_FROM_CORPSE` = 5) iner; sıfır besin tüketen canlıların toksisite muafiyeti korunur (`src/systems/life_cycle.rs`, `src/systems/interaction.rs`).
-  - Raporlar: [6fa9c49 yeniden denetimi](docs/reports/AUDIT_RECHECK_6FA9C49_20261025.md), [Wave 9 tam kapanış ve hizalama raporu](docs/reports/AUDIT_RECHECK_6FA9C49_REMEDIATION_20261025.md).
-- **Wave 8 Yeniden Denetim Kapanışları (`2002ee4` Bulguları — Tam Kapatıldı):**
-  - **F1 (Su bağlam ölçek uyumu ve ardışık kayıt):** `Learner::episode_physical_residual` ile bölüm skoru yerine `foraging::water_score` ile birebir aynı net fiziksel artık (`(water - movement_energy - incoming_damage) - choice_baseline`, `[-1000, 1000]`) yazılır; `water_outcomes::finish` içindeki `prev_completed` filtresi kaldırılarak aynı kaynaktaki ardışık özdeş tamamlanmalar eksiksiz kaydedilir (`src/entity/learning.rs`, `src/systems/water_outcomes.rs`).
-  - **F2 (Sıradan etçil/hepçil pusu örtüsü):** `is_in_ambush_cover` genişletilerek `can_burrow() == false` türler için bitki örtüsü (`Cell::Food`) üstünde veya duvar/in/bitki bitişiğinde tam stamina ile bekleme pusu örtüsü sayıldı; pusu gizliliği ve +5 ilk vuruş bonusu normal `World::tick` üzerinde doğrulandı (`src/systems/perception.rs`, `src/systems/interaction.rs`).
-  - **F3 (Ham V18 JSON şeması göç testi):** V19 alanlarını içermeyen ham V18 JSON metninden göçü doğrulayan entegrasyon testi eklendi (`tests/persistence.rs`).
-  - **F5 (İn girdi doğrulaması ve otonom kış kazısı):** `dig_burrow` sınır dışı, dolu hücre veya `ttl=0` girdilerini atomik reddeder; kış mevsiminde in bulamayan `can_burrow()` canlılar (`Herbivore`) 2 stamina ile otonom in kazar (`src/environment.rs`, `src/world/mod.rs`).
-  - **F6 (Kademeli ceset çürümesi ve sıfır tüketim koruması):** Ceset enerjisi her tick kademeli olarak 1 birim azalır (`src/systems/life_cycle.rs`); sıfır besin alan bireyler (`amount == 0`) toksisite hasarı almaz (`src/systems/interaction.rs`).
-  - **F8 (5 tohumlu Control vs Treatment World::tick karşılaştırması):** `tests/k8_throughput_audit.rs` içinde `[101..105]` ve `[201..205]` tohumlarında gerçek `World::with_seed` üzerinde `Control` vs `Treatment` kollarının nedensel durum ve RNG ayrışması 80 tick boyunca doğrulandı.
-  - Raporlar: [2002ee4 yeniden denetimi](docs/reports/AUDIT_RECHECK_2002EE4_20261025.md), [Wave 8 tam kapanış raporu](docs/reports/AUDIT_RECHECK_REMEDIATION_20261025.md).
-- **Wave 7 Denetim Düzeltmeleri (F1–F8 Bulguları — `ca5971b` Düzeltildi):**
-  - **F1 (Öğrenme ve merak `World::tick` bağlantısı):** `context_ttl_enabled` su bağlam kaydı ve tahmini, `spatial_curiosity_enabled` merak yönelimi ve `first_interval_refuge_enabled` ilk çözücü aralığı per-owner kaydı/seçimi aktif `World::tick` yürütme yoluna bağlandı (`tests/p2_learning_integration.rs`).
-  - **F2 (Ebeveyn bakımı, pusu ve alarm):** `World::tick` artık `InteractionSystem::resolve_attacks_with_policy` çağırarak ebeveyn korumasını (%50 hasar azaltımı, 4 stamina maliyeti) ve pusu ilk vuruş bonusunu (+5 hasar) çözer; `resolve_parental_care` ve `emit_local_alarm` (`SignalKind::Sound`) döngüye bağlandı.
-  - **F3 (Checkpoint V19 yükseltmesi):** `State::capture` artık `version: 19` yazar; `State::restore` `1..=19` arası sürümleri kabul eder, eski V18 okuyucuların yeni alanları sessizce bozması engellendi ve gelecek zaman damgaları reddedilir (`src/simulation/checkpoint.rs`).
-  - **F4 (Kış termal ek maliyeti):** `World::tick` kış mevsiminde `MetabolismSystem::apply_seasonal_thermal_costs` çağırarak sığınaksız canlılara ek BMR maliyetini uygular; indeki canlılar korunur.
-  - **F5 (Dinamik in hücre senkronizasyonu):** `Environment::dig_burrow_on_map` ve `Environment::update` in kayıtlarını haritadaki fiziksel `Cell::Burrow` hücresiyle senkronize eder; TTL dolunca `Cell::Empty` geri yüklenir.
-  - **F6 (Ceset evreleri ve leş toksisitesi):** Eşikler 5-tick ömre uyarlandı (`>= 4 Fresh`, `>= 2 Aging`, `_ Putrid`); `resolve_eats` içine toksisite bağlandı (`Carnivore` çürük leşte 4 hasar alır, `Omnivore` dirençlidir).
-  - **F7 (Bağlam artığı i64 toplamı):** `Learner::validate` ve `record_context_observation` `-1000..=1000` sınırını zorunlu kılar; `predict_context_residual` `i64` toplamı ile debug overflow paniklerini engeller.
-  - **F8 (Epistemik kapsam düzeltmesi):** Sentetik fikstür sonuçları ile `World::tick` yörüngeleri kesin olarak ayrıldı; `tests/k8_throughput_audit.rs` çoklu seed testi bağımsız `World::with_seed` motor örneklemiyle çalışacak şekilde güncellendi.
-  - Raporlar: [ca5971b denetim raporu](docs/reports/AUDIT_CA5971B_20261025.md), [Wave 7 düzeltme ve V19 doğrulama raporu](docs/reports/AUDIT_CA5971B_REMEDIATION_20261025.md).
-- **K3 Bireysel Öğrenme & Bellek Entegrasyonu (`src/entity/learning.rs`, `src/entity/refuge_learning.rs`, `src/entity/memory.rs`, `tests/p2_learning_integration.rs`):**
-  - **Bağlam-uyumlu su artığı:** Opt-in `WaterLearner::context_ttl_enabled` (`context_entries`, pencere boyutu `W=4`, `TTL=48` tick).
-  - **İlk-aralık sığınak hasarı ayrımı:** Opt-in `Memory::first_interval_refuge_enabled` (`first_interval_outcomes` ile ilk çözücü aralığı kesin hasarını sonraki tam rota sansüründen ayıran per-owner bellek; tam rota hasarı `Unknown` kalır).
-  - **Mekânsal zihin haritası ve merak keşfi:** Opt-in `Memory::spatial_curiosity_enabled` (`known_sectors`, `4x4` ızgara, max 16 sektör, `TTL=120`, `curiosity_direction`).
-  - **Doğrulama:** Disabled-path exact State+RNG denkliği ve checkpoint-resume determinizmi doğrulandı.
-- **K1/K2/K5 Çevre, Beden & Ekoloji Entegrasyonu (`src/environment.rs`, `src/entity/phase.rs`, `src/systems/life_cycle.rs`, `src/systems/metabolism.rs`, `tests/p2_environment_integration.rs`):**
-  - **Mevsimsel iklim döngüsü:** Opt-in `Environment::season_cycle` (`SeasonCycle`: Spring, Summer, Autumn, Winter; kış bitki yenilenme kısıtı, kış BMR ek yükü).
-  - **Kazılan inler:** Opt-in `Environment::burrows` (`BurrowSite` max 32, TTL bozunması, kış termal koruması).
-  - **Ceset çürüme evreleri:** Opt-in `EntityPhase::corpse_stage` (`CorpseStage`: `Fresh/Aging/Putrid`, `Omnivore` leş bozulma direnci).
-  - **Doğrulama:** Disabled-path exact State+RNG denkliği ve checkpoint-resume determinizmi doğrulandı.
-- **K2/K3/K4/K6 Fiziksel Etkileşimler, Ebeveyn Bakımı & Pusu Entegrasyonu (`src/policy.rs`, `src/systems/interaction.rs`, `src/systems/perception.rs`, `tests/p2_interactions_integration.rs`):**
-  - **Politika bayrakları:** Opt-in `PolicySettings::{juvenile_care_enabled, ambush_predation_enabled, local_coordination_enabled}`.
-  - **Ebeveyn bakımı:** `InteractionSystem::resolve_parental_care` & `parent_guards_juvenile` (fiziksel enerji aktarımı ve hasar engelleme, sıfır bellek aktarımı kuralı).
-  - **Sığınak pusu avcılığı:** Örtü tabanlı gizlenme (`effective_detectability_radius` düşüşü) ve ilk vuruş stamina bonusu.
-  - **Yerel alarm yayılımı:** `InteractionSystem::emit_local_alarm` (`SignalKind::Sound` yerel uyarı yayılımı).
-  - **Doğrulama:** Disabled-path exact State+RNG denkliği ve checkpoint-resume determinizmi doğrulandı.
-- **K7 Web Replay & Experience UI Entegrasyonu (`web/experience.js`, `web/replay.html`, `web/replay.js`, `web/replay.css`):**
-  - `CuriousExperience.render` artık sığınak deneyimini (`CuriousExperience.refuge`) görüntüler.
-  - `web/replay.html` & `web/replay.js`: `#auto-director` odak paneli (`CuriousDocumentary.autoDirector`) ve kayıt başına nedensellik zinciri (`CuriousDocumentary.causalChain`: `Kanıt -> Eylem -> Resolver -> Bellek`) bağlandı.
-  - `web/replay.css`: `.auto-director` görsel stili eklendi.
-- **P3 & K8 — Sabit Held-Out Protokolü ve Kısa Yük Throughput Denetimi (`tests/k8_throughput_audit.rs`, `docs/reports/P2_P3_EMPIRICAL_AND_K8_AUDIT_20261025.md`):**
-  - Kısa yük tick throughput ve bellek sınırları doğrulandı (`SignalTrace <= 64`, `sites <= 8`, `dangers <= 8`, `known_sectors <= 16`, `burrows <= 32`).
-  - Sabit 5-seed held-out protokolü (`control`, `learning`, `climate`, `social_care`, `all_features`) deterministik olarak yürütüldü ve raporlandı.
-  - Epistemik dürüstlük: Mekanizma entegrasyonu, disabled-path `State+RNG` denkliği, checkpoint-resume ve sabit-seed protokol tekrarlanabilirliği doğrulanmış; evrensel çok-habitatlı ekolojik üstünlük veya uzun gerçek zamanlı soak iddia edilmemiş / kapsam dışı bırakılmıştır.
-
-## Tamamlanan P0/P1 Mekanizma Doğrulamaları ve Saf Aday Prototipleri
-
-- **K1 (Dünya ve çevre):** Deterministik `DayNightCycle` ve `SignalTrace` yayılımı (`tests/environment_signals.rs`); dinamik habitat (`tests/dynamic_habitat.rs`), mevsimsel iklim (`tests/seasonal_climate.rs`), ceset çürümesi (`tests/corpse_scavenging.rs`) saf prototipleri.
-- **K2 (Canlı ve beden):** Ağır yaralanma kapasite kaybı (`tests/injury_physics.rs`); beden enerji ve su bilançosu kapanışı (`tests/physiology.rs`); ontogenetik yavru fizyolojisi ve ebeveyn bakımı saf prototipi (`tests/juvenile_parental_care.rs`).
-- **K3 (Bireysel davranış ve öğrenme):** `Memory::toward` yerel BFS (`tests/memory.rs`); ilk-aralık hasar öğrenici saf prototipi (`tests/refuge_first_interval.rs`, `tests/refuge_learning.rs`); bağlam-uyumlu su artığı saf prototipi (`tests/water_context_residual.rs`); mekânsal zihin haritası (`tests/spatial_curiosity.rs`); pusu/takip avcılığı saf prototipi (`tests/ambush_predation.rs`).
-- **K4 (Grup ve sosyal ilişkiler):** Yerel alarm ve akran koordinasyonu saf prototipi (`tests/local_coordination.rs`).
-- **K5 & K6 (Ekoloji ve evrim):** Çok-nesilli ekoloji denetimi (`tests/ecology_candidate.rs`); allel maliyet ödemesi ve soy seçilimi ayrımı (`tests/genetics.rs`).
-- **K7 (Gözlem arayüzü):** Nedensellik zinciri ve Auto-Director kamera saf prototipi (`web/documentary.js`).
-
-## Sıradaki İşler ve Açık Kapılar (P3 / Canlı Önkoşulları)
-
-- **Çoklu habitat kalıcılığı:** Farklı harita ve kaynak topolojilerinde yeni özelliklerin uzun vadeli ekolojik etkilerini ölçmek için önkayıtlı protokol tasarımı.
-- **Canlı dağıtım:** 7882 canlı dünyası V12 checkpoint üzerinde arşiv bütçesi backportu ile stabil çalışmaya devam eder; canlıya yükseltme veya uzun soak kullanıcı isteğiyle ertelenmiştir ve sonraki özellikler için blokaj oluşturmaz.
-
-Ayrıntı ve tamamlanmış sınırlar: [ROADMAP](docs/ROADMAP.md).
+Bu liste geçmiş çalışma günlüğü değildir. Tamamlanmış işler ve kanıtları
+[ROADMAP](docs/ROADMAP.md) ile tarihli raporlardadır. Canlı dünya V12'dir;
+V19 yükseltmesi yapılmamıştır.

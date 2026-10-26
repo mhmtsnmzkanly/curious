@@ -6,69 +6,34 @@ anlamına gelmez. P0–P3 çalışma sırası kategori yapısından ayrıdır.
 
 ## Sistem durumu
 
-- **Canlı ve ana kaynak ayrıdır:** 7882'deki dünya V12 checkpoint üzerinde,
-  yalnız arşiv bütçesi backportu `curious-observation-budget-8dc23de` ile
-  çalışıyor. V19 ana kaynak canlıya yükseltilmedi. V17 su-artığı, av-risk
-  öğrenmesi ve V19 deneysel seçenekleri varsayılan kapalı; bu, temel
-  bellek/su davranışları veya canlı V12 genetiğinin tümünün kapalı olduğu
-  anlamına gelmez. 7883 replay ikilisi dondurulmuştur.
-- **P2 çekirdek motor entegrasyonları, Wave 7–9 düzeltmeleri ve Wave 10 tam kapanışları tamamlandı (default-off):**
-  K3 öğrenme/bellek (su bağlamı net artık ölçeği `foraging::value` ile hizalandı, ilk-aralık sığınak hasarı, mekânsal merak),
-  K1/K2/K5 çevre/faz (mevsim çevrimi, statik ve kazılan inler, otonom kış kazısı ve stamina koruması, ilk tick korumalı kademeli ceset çürümesi, `CorpseStage::Putrid` varyantı),
-  K2/K3/K4/K6 politika/etkileşim (ebeveyn bakımı, erişilebilir bitki/duvar pusu örtüsü, sıfır tüketim toksisite muafiyeti,
-  yerel alarm yayılımı) modüler ve varsayılan kapalı olarak çekirdeğe entegre edildi.
-  `ca5971b`, `2002ee4`, `6fa9c49` ve `9c7d3f0` bağımsız denetimlerinde tespit edilen tüm eksiklikler ve dar kanıt sınırları giderildi:
-  tüm özellikler aktif `World::tick` yürütme yoluna bağlandı, su bağlam ölçeği eşitlendi,
-  pusu örtüsü sıradan avcılara genişletildi, statik harita inleri ve dinamik kazı metadata ile fiziksel haritaya
-  senkronize edildi, yeni otonom kazılan inler başlangıç statik inlerinden kesin olarak ayrıldı, mükerrer sayım olmaksızın
-  benzersiz yayımlanan sinyaller pozitif doğrulandı, ceset enerjisi çürüme evreleri ve toksisite kuralları doğrulandı, checkpoint sürümü `V19`'a
-  yükseltilerek ham V18 JSON göçü doğrulandı; disabled-path State+RNG denkliği ve deterministik checkpoint-resume korundu.
-- **K7 web replay ve experience UI entegrasyonu tamamlandı:** Sığınak deneyimi
-  (`CuriousExperience.refuge`), nedensellik zinciri (`causalChain`: `Kanıt -> Eylem -> Resolver -> Bellek`),
-  `#auto-director` odak paneli ve V19 çevre/beden telemetrisi (`CuriousExperience.environment`, `#env-telemetry`) arayüze bağlandı.
-- **P3 held-out ampirik protokolü, çoklu-habitat tekil ablasyonu, davranışsal fayda (Pareto) elemesi ve V12 gölge doğrulaması yürütüldü:** 5 bağımsız seed'lik iki ayrı grup
-  (`[101..105]` ve `[201..205]`) üzerinde `DynamicWorldSnapshot` ve RNG ayrışmasıyla Control vs Treatment doğrulanmış; Wave 10 ile 3 farklı habitat
-  (`OpenPlains`, `CorridorMaze`, `SeasonalScarcity`) × 5 tohum (`301..=305`) × 7 kolda tekil-özellik ablasyon matrisi
-  (`tests/p3_multi_habitat_ablation.rs`) ve kısa yük throughput denetimi (`SignalTrace <= 64`, `sites <= 8`, `dangers <= 8`,
-  `known_sectors <= 16`, `burrows <= 32`) tamamlandı. Wave 11 ile (`tests/behavioral_utility_qualification.rs`) 10 bağımsız held-out tohum (`401..=410`) × 150 tick
-  üzerinde 9 tekil özelliğin ağırlıksız fiziksel sonuç vektörü ölçüldü: `JuvenileParentalCareOnly` (`+10.0%` sağkalım adımı, `+28.6%` dönem sonu yaşayan birey)
-  ve `RefugeFirstIntervalOnly` (sıfır sağkalım kaybı, `43` ilk-aralık kaydı) sıkı Pareto kapısını geçerek canlı aday paketi (`QualifiedCandidateBundle`)
-  olarak ayrıldı; diğer 7 ödünleşimli/stresör özellik (`SeasonAndBurrowsOnly`, `InjuryCapacityPenaltyOnly`, `WaterContextOnly`, `SpatialCuriosityOnly`,
-  `LocalCoordinationOnly`, `AmbushPredationOnly`, `DayNightCycleOnly`) `default-off` olarak sınıflandırıldı. Ayrıca gerçek canlı V12 dünyasının kapalı
-  arşiv shard'ı (`history-000870.sqlite.zst`, `tick = 12639`, `630` birey) üzerinde 20-tick ve Wave 12 ile **1.000-tick (`Tick 12639 -> 13639`, `34+` yeni nesil, `~5.150` doğum)**
-  V19 gölge (shadow) devamlılık soak deneyi tamamlandı: `resolve_mates` içinde V19 yetenek bayraklarının sıfır bellek kalıtımıyla yeni nesillere devri doğrulandı ve
-  `QualifiedCandidateBundle` kolu 1.000 tick sonunda `ControlFlagsOff` baz çizgisine (`482 Herbivore + 98 Carnivore = 580`) kıyasla `499 Herbivore (+17) + 94 Carnivore = 593 (+13)`
-  yaşayan birey, `5,052` aktif yeni-nesil ilk-aralık kaydı, sabitlenmiş `~4.66 MB` checkpoint boyutu ve `44.39 ms/tick` release hızıyla geçti.
-- Kayıtlı habitat fixture'ında aynı 30 seed'in `fixed` ve `both` kolları ayrı
-  ayrı 30/30 × 100.000 tick kapısını geçti. Bu yalnız o fixture için sınırlı
-  coexistence kabulüdür; tüm habitatlar, şoklar veya kalıcılık için genelleme
-  değildir.
-- V17 su-artığı için kayıtlı bounded utility **FALSE**; habitat-vizyon sonucu
-  karışık betimleyici kanıt ve tutarlı avantaj yok. Tam kaçış beklenen hasarı
-  `Unknown`. Ayrı ilk-resolver aralığı çıkarımı 623 exact sonuç içerir: 617
-  sıfır, altı × 20 hasar, dört pozitif birey. Sonraki tam-rota sansürü
-  tamamlanmış ilk-aralık etiketini silmez; bu veri kabul edilmiş learner ya da
-  full-route predictor değildir.
-- Aylar/yıllar süren gerçek-zamanlı soak kullanıcı isteğiyle ertelendi; sonraki
-  özelliğin önkoşulu değildir. Evrensel çok-habitatlı ekolojik üstünlük iddia edilmez.
+- Geliştirme kaynağı V19 / SQLite V2; canlı dünya V12 checkpoint'tir. V19
+  canlıya yükseltilmemiştir. Nitelikli binary kimliği ve güncel operasyon
+  kuralları [AGENTS.md](../AGENTS.md)'dedir.
+- Kaynakta mekanizmalar ve deneysel seçenekler bulunur; bunlar tek başına
+  davranışsal veya ekolojik fayda kabulü değildir. Varsayılan durum seçenek
+  bazında değişir: örneğin V17 su artığı default-off'tur; ceset evreleri
+  fiziksel yaşam döngüsünün parçasıdır. Tam özellik listesi yerine kategori
+  bölümlerine bakın.
+- [V2 su uyum labı](reports/WATER_ADAPTATION_V2_20261025.md) üç learner
+  kolunda aynı fiziksel eylem/yörüngeyi buldu; ek öğrenme faydası kabul edilmedi.
+  [Nitelik tanısı](reports/QUALIFICATION_DIAGNOSTIC_20261025.md) önceki 401–410
+  seed tekrarında bakım ve bakım+sığınak için 2 iyileşme, 8 nötr; refuge için
+  10 nötr buldu. Bunlar yeni held-out seedler değildir.
+- V12 arşiv başlangıcından yürütülen 1.000-tick **offline V19 gölge** koşusunda
+  paket, V19 kapalı kontrole göre endpoint'te 13 fazla canlı fakat 1,428 daha
+  az toplam birey-tick verdi. Bu bir canlı V19 yükseltmesi veya kabul edilmiş
+  Pareto/fayda sonucu değildir. V12 canlı sisteminde yükseltme yapılmadı.
+- Refuge tam-rota beklenen tehdit hasarı `Unknown`; tamamlanmış ilk resolver
+  aralığı ayrı hedef ufkudur. Kayıtlı coexistence sonucu yalnız kendi fixture
+  ve protokol kapsamındadır. Uzun gerçek-zamanlı soak ertelenmiştir.
+- Root'un devam eden paralel incelemeleri sonuçlanana kadar yeni paralel
+  çalışmalar beklemededir. Gelecek öneriler ayrı protokol ve review gerektirir.
 
-Kanıt: [coexistence](reports/QUALIFIED_OBSERVATION.md),
-[su-artığı](reports/WATER_RESIDUAL_V1.md),
-[habitat vision](reports/VISION_HABITAT_V1.md),
-[tam kaçış baseline'ı](reports/REFUGE_RISK_BASELINE_V1.md),
-[ilk aralık](reports/REFUGE_FIRST_RESOLUTION_V1.md),
-[canlı depolama backportu](reports/ARCHIVE_BUDGET_DEPLOYMENT_20261025.md),
-[ca5971b denetim raporu](reports/AUDIT_CA5971B_20261025.md),
-[Wave 7 düzeltme ve V19 doğrulama](reports/AUDIT_CA5971B_REMEDIATION_20261025.md),
-[2002ee4 yeniden denetimi](reports/AUDIT_RECHECK_2002EE4_20261025.md),
-[Wave 8 tam kapanış](reports/AUDIT_RECHECK_REMEDIATION_20261025.md),
-[6fa9c49 yeniden denetimi](reports/AUDIT_RECHECK_6FA9C49_20261025.md),
-[Wave 9 tam kapanış ve hizalama](reports/AUDIT_RECHECK_6FA9C49_REMEDIATION_20261025.md),
-[9c7d3f0 denetimi](reports/AUDIT_RECHECK_9C7D3F0_20261025.md),
-[Wave 10 tam kapanış ve ablasyon](reports/P3_ABLATION_AND_9C7D3F0_CLOSURE_20261025.md),
-[Wave 11 davranışsal fayda ve V12 gölge doğrulaması](reports/BEHAVIORAL_UTILITY_AND_SHADOW_QUALIFICATION_20261025.md),
-[Wave 12 1.000-tick V12 gölge soak ve çok-nesilli bayrak kalıtımı](reports/LIVE_V12_SHADOW_1000_TICK_SOAK_20261025.md),
-[P2/P3 ampirik protokol ve K8 denetimi (Tarihsel dondurulmuş rapor)](reports/P2_P3_EMPIRICAL_AND_K8_AUDIT_20261025.md).
+Kanıt ayrıntısı: [öğrenme sözleşmesi](LEARNING_NEXT.md),
+[nitelik tanısı](reports/QUALIFICATION_DIAGNOSTIC_20261025.md),
+[V2 su labı](reports/WATER_ADAPTATION_V2_20261025.md),
+[coexistence gözlemi](reports/QUALIFIED_OBSERVATION.md) ve ilgili tarihli
+[denetim/ölçüm raporları](reports/).
 
 ## Sekiz sistem kategorisi
 
@@ -78,8 +43,9 @@ ilgili diğer kategoriye bağlanır; aynı iş için paralel, çatışan plan tu
 ### <a id='dunya-cevre'></a>K1 — Dünya ve çevre
 
 - **Mevcut:** Harita, arazi/duvarlar, çevre kuralları ve kaynak yenilenme
-  mekanizmaları var. Deterministik gün-gece çevrimi (`DayNightCycle`: 4 fazlı
-  Şafak/Gündüz/Alacakaranlık/Gece) ve sınırlı çevresel iz/sinyal yayılımı
+  mekanizmaları var. Gün/gece çevrimi (`DayNightCycle`) fiziksel olarak gündüz/gece olmak üzere iki
+  görüş durumunu hesaplar; arayüzdeki Şafak/Gündüz/Alacakaranlık/Gece etiketleri
+  dört ayrı fiziksel faz değildir. Sınırlı çevresel iz/sinyal yayılımı
   (`SignalTrace`: `Footstep`, `Scent`, `Sound` yayılım ve sönümlenmesi) opt-in
   olarak uygulandı ve deterministik fizik testleriyle doğrulandı
   (`src/environment.rs`, `src/systems/perception.rs`,
@@ -89,15 +55,16 @@ ilgili diğer kategoriye bağlanır; aynı iş için paralel, çatışan plan tu
   kazılan inler (`Environment::burrows`, `BurrowSite` max 32, TTL bozulması, kış termal koruması)
   ve kademeli ceset çürümesi/leşçillik nişi (`EntityPhase::corpse_stage`, `CorpseStage`:
   `Fresh`/`Aging`/`Putrid`, leş kokusu yayılımı ve hepçil bozulma direnci) çekirdek motora
-  default-off olarak entegre edildi (`src/environment.rs`, `src/entity/lifestate.rs`).
+  uygulandı (`src/environment.rs`, `src/entity/lifestate.rs`). Ceset evreleri
+  temel fiziksel yaşam döngüsüdür; hepsi için ortak bir default-off bayrağı yoktur.
   Wave 8 ve Wave 9 düzeltmeleriyle: haritadaki statik inler (`Cell::Burrow`) `Environment::from_map`
   ile metadata listesine kaydedilerek kış termal koruması sağlandı, otonom kış kazısında stamina
   harcaması kazının başarısına bağlandı ve `World::dig_burrow` / `Environment::dig_burrow_on_map` ile
   doğrudan metadata ekleyen `dig_burrow` ayrıldı; ceset enerjisi ilk tick'te (`remaining == 4`)
   korunup sonraki 3 tick boyunca (`remaining == 1..=3`) her tick 1 azalarak tabana indi.
   Disabled-path State+RNG denkliği ve deterministik checkpoint-resume doğrulandı.
-- **Açık:** P2 çevre dinamikleri varsayılan kapalıdır (`default-off`). Çoklu habitatlarda
-  uzun dönemli ekolojik etkileri ve kalıcılık dinamikleri ampirik olarak test edilmemiştir
+- **Açık:** Mevsim ve kazılmış-in seçeneklerinin opt-in/default durumu cesetlerin
+  temel fiziksel yaşam döngüsünden ayrıdır. Çoklu habitatlarda uzun dönemli ekolojik etkileri ve kalıcılık dinamikleri ampirik olarak test edilmemiştir
   (P3 5-seed held-out protokolü kısa yükle sınırlıdır).
 - **Önerilen:** Çoklu harita topolojilerinde mevsim, in ve ceset dinamiklerinin ekolojik
   etkilerini ölçmek için önkayıtlı P3 deney protokollerini genişlet.
@@ -117,11 +84,11 @@ ilgili diğer kategoriye bağlanır; aynı iş için paralel, çatışan plan tu
   durumunda `effective_speed` yarıya iner ve hareket staminası 2 katına çıkar,
   pasif iyileşmeyle düzelir) uygulandı ve deterministik fizik testleriyle doğrulandı
   (`src/entity/lifestate.rs`, `src/policy.rs`, `tests/injury_physics.rs` — *Uygulandı / Mekanizma testi geçti, varsayılan kapalı*).
-  P2 çekirdek motor entegrasyonuyla: ontogenetik yavru fizyolojisi ve ebeveyn bakımı
-  (`PolicySettings::juvenile_care_enabled`, `InteractionSystem::resolve_parental_care`,
-  `parent_guards_juvenile`: besleme enerji aktarımı, koruma hasar engelleme, sıfır
-  öğrenilmiş bellek aktarımı) çekirdek motora default-off olarak entegre edildi
-  (`src/policy.rs`, `src/systems/interaction.rs`).
+  Yavru fizyolojisi yardımcı kodu vardır; tek başına yavruya özel beden
+  mekaniğinin World akışına entegre edildiğini göstermez. Ayrı default-off
+  ebeveyn bakım seçeneği (`PolicySettings::juvenile_care_enabled`) fiziksel
+  besleme/koruma yollarını `World` akışına bağlar; bellek aktarımı yapmaz
+  (`src/policy.rs`, `src/world/mod.rs`, `src/systems/interaction.rs`).
   Wave 8 ve Wave 9 doğrulamalarıyla: kazma yeteneği olmayan canlılar için bitki örtüsü
   veya duvar/in bitişiğinde bekleme pusu örtüsü olarak kabul edildi ve pusu ilk vuruş
   bonusu (+5) bağlandı; sıfır besin tüketen canlılar (`amount == 0`) leş toksisitesinden
@@ -157,7 +124,8 @@ ilgili diğer kategoriye bağlanır; aynı iş için paralel, çatışan plan tu
   eşleştiğinde (`missing_resource_target_matches == true`) artık kaydı yapılır.
   Tam-rota sığınak hasarı `Unknown` kalmaya devam eder; tamamlanan ilk-aralık sonucu sonraki
   tam-rota sansüründen bağımsızdır.
-- **Açık:** P2 öğrenme ve bellek modelleri varsayılan kapalıdır (`default-off`). Tam-rota
+- **Açık:** Deneysel P2 öğrenme seçenekleri varsayılan kapalıdır (`default-off`); temel
+  kurallı seçim ve bellek bundan ayrı tutulur. Tam-rota
   sığınak hasarı `Unknown` kalır. Bounded utility genel ampirik kabulü henüz yoktur.
 - **Önerilen:** İlk-aralık hasar öğrenmesi ve su bağlamının ampirik karar kalitesini
   farklı habitatlarda sabit P3 protokolleriyle ölç.
@@ -289,10 +257,10 @@ işe ayrılır.
 
 | İz | Birincil kategori | Güncel ölçülmüş durum | Önerilen sonraki iş |
 |---|---|---|---|
-| **A — Güncel bağlamlı su artığı** | K3 | P2 çekirdek motora opt-in (`context_ttl_enabled`, `W=4`, `TTL=48`) entegre edildi (`tests/water_context_residual.rs`); disabled-path State+RNG denkliği korundu. | Farklı su kıtlığı koşullarında karar kalitesi denetimi; varsayılan kapalı kalır. |
+| **A — Güncel bağlamlı su artığı** | K3 | P2 kaynağında opt-in (`context_ttl_enabled`, `W=4`, `TTL=48`); V2 su labında ek öğrenme faydası kabul edilmedi. | Ancak yeni hipotez/protokolle karar kalitesi ölçümü; seçenek default-off kalır. |
 | **B — Per-owner ilk-aralık hasar öğrenmesi** | K3 | P2 çekirdek motora opt-in (`first_interval_refuge_enabled`) entegre edildi (`tests/refuge_first_interval.rs`, `tests/refuge_learning.rs`); ilk aralık tam-rota sansüründen bağımsız; full-route `Unknown`. | Farklı avcı yoğunluklarında ilk-aralık kararlarının analizi; full-route hasar modeli açık. |
-| **C — Kaynak/habitat/bedelli-trait fixture'ı** | K5 | Mevsimler (`SeasonCycle`), inler (`burrows`) ve kademeli ceset evreleri (`CorpseStage`) P2 kapalı stok-akış muhasebesine entegre edildi; P3 5-seed held-out protokolü yürütüldü (`reports/P2_P3_EMPIRICAL_AND_K8_AUDIT_20261025.md`). | Çoklu habitat ve değişken çevre topolojilerinde uzun dönemli popülasyon dengesi denetimleri. |
-| **D — Eylem ve yerel koordinasyon** | K3 eylemler; K4 sosyal koordinasyon | Mekânsal zihin haritası (`known_sectors <= 16`), pusu örtüsü/stamina bonusu ve yerel sesli alarm (`emit_local_alarm`) P2 çekirdeğe entegre edildi; sıfır bellek aktarımıyla ebeveyn bakımı (`resolve_parental_care`) bağlandı. | Avcı-av karşılaşmalarında pusu ve alarm dinamiklerinin grup düzeyinde incelenmesi. |
+| **C — Kaynak/habitat/bedelli-trait fixture'ı** | K5 | Mevsim/in seçenekleri ve temel ceset evreleri stok-akış muhasebesinde yer alır; P3 protokolünün kapsamı sınırlıdır (`reports/P2_P3_EMPIRICAL_AND_K8_AUDIT_20261025.md`). | Çoklu habitat ve değişken çevre topolojilerinde uzun dönemli popülasyon dengesi denetimleri. |
+| **D — Eylem ve yerel koordinasyon** | K3 eylemler; K4 sosyal koordinasyon | Merak, pusu ve alarm seçenekleri P2 kaynağında; `resolve_parental_care` default-off bakım yoludur. Yavru fiziolojisi yardımcıları tek başına entegre juvenile physiology değildir. | Avcı-av karşılaşmalarında pusu ve alarm dinamiklerinin grup düzeyinde incelenmesi. |
 | **E — Sonlu allel varyasyonu/seçilim** | K6 | Allel maliyet ödemesi ve soy seçilimi ayrımı doğrulandı (`tests/genetics.rs`); pusu/takip ve çürüme/leşçillik niş mekanizmaları çekirdeğe bağlandı; bellek kalıtılmaz. | Farklı mevsim ve kaynak dağılımlarında allel dengesi ve soy kalıcılığı ölçümü. |
 | **F — Bireysel deneyim arayüzü** | K7 | Sığınak deneyimi (`CuriousExperience.refuge`), nedensellik zinciri (`causalChain`) ve Auto-Director kamera (`autoDirector`) web arayüzlerine bağlandı (`web/documentary.js`, `web/experience.js`, `web/replay.html`, `web/replay.js`, `web/replay.css`). | Yeni K1–K6 olaylarının ve mevsim/in durumlarının belgesel arayüzüne eklenmesi. |
 | **G — Kapasite/depolama/işletim** | K8 | K8 throughput denetimi ve sınırlı bellek tabloları (`SignalTrace <= 64`, `sites <= 8`, `dangers <= 8`, `known_sectors <= 16`, `burrows <= 32`) doğrulandı (`tests/k8_throughput_audit.rs`). Disabled-path State+RNG ve resume determinizmi korundu. | Farklı donanım ve yük profillerinde checkpoint boyutu ve bellek kullanımının izlenmesi. |
@@ -312,9 +280,9 @@ Bu sıra bağımlılık ve yetkilendirme kapısıdır; K1–K8 sınıflandırmas
    (Yeni Özellik 3, `tests/ambush_predation.rs`) saf prototip mekanizma testlerini geçti.
 3. K1 dinamik habitat (Yeni Özellik 4, `tests/dynamic_habitat.rs`), mevsimsel iklim
    (Yeni Özellik 5, `tests/seasonal_climate.rs`), ceset çürümesi (Yeni Özellik 6,
-   `tests/corpse_scavenging.rs`); K2 yavru fizyolojisi/ebeveyn bakımı (Yeni Özellik 2,
-   `tests/juvenile_parental_care.rs`) ve K4 yerel koordinasyon (`tests/local_coordination.rs`)
-   saf mekanizma prototipleri tamamlandı ve doğrulandı.
+   `tests/corpse_scavenging.rs`); K2 yavru fizyolojisi yardımcıları ve ebeveyn bakımı mekanizması (`tests/juvenile_parental_care.rs`)
+   ile K4 yerel koordinasyon (`tests/local_coordination.rs`) dar mekanizma testlerinden geçti.
+   Yavru yardımcılarının bulunması tek başına World entegrasyonu değildir.
 
 ### P1 — Fizik ve muhasebe baseline'ları (Mekanizma testi geçti)
 
@@ -332,16 +300,18 @@ yol haritası bunları otomatik başlatmaz.
 
 ### P2 — Sınırlı çekirdek entegrasyonu (Mekanizma testi geçti / Doğrulandı)
 
-P0/P1 prototipleri root incelemesinden sonra modüler ve varsayılan kapalı (`default-off`)
-olarak motor çekirdeğine entegre edildi:
+P0/P1 prototiplerinin bir bölümü modüler seçenekler olarak çekirdeğe bağlandı.
+Default durumu özellik bazında değişir; ceset evreleri temel fiziksel yaşam döngüsüdür:
 - K3 su bağlamı TTL (`context_entries <= 4`), ilk-aralık sığınak hasarı ve mekânsal merak (`known_sectors <= 16`).
 - K1/K2/K5 mevsimsel iklim çevrimi (`SeasonCycle`), kazılan inler (`burrows <= 32`) ve kademeli ceset evreleri (`CorpseStage`).
 - K2/K3/K4/K6 ebeveyn bakımı (`resolve_parental_care`, sıfır bellek aktarımı), sığınak pusu gizlenmesi ve yerel sesli alarm (`emit_local_alarm`).
-- Wave 7, Wave 8 ve Wave 9 denetim düzeltmeleri: `ca5971b`, `2002ee4` ve `6fa9c49` denetim bulguları (F1–F8) kapatıldı; su bağlamı `foraging::value` ölçeğine tam eşitlendi, baseline yokluğunda yapay artık üretilmedi ve başarısız bölümlerde hedef kaynak türü aranan suyla eşleştiğinde artık kaydı bağlandı, pusu örtüsü sıradan avcılara genişletildi, haritadaki statik inler metadata listesine kaydedilip kış koruması sağlandı, otonom kazıda stamina korundu, ceset enerjisi çürümesi ilk tick (`remaining == 4`) korunup sonraki 3 tick boyunca kademeli azaltıldı ve sıfır tüketim toksisite muafiyeti sağlandı, checkpoint sürümü `V19`'a yükseltildi ve ham V18 JSON şeması göçü doğrulandı.
+- Bağımsız Wave 7–10 raporları belirli entegrasyon ve ölçüm bulgularını
+  düzeltip yeniden denetledi; bunlar evrensel ekolojik fayda kabulü değildir.
+  Ayrıntı [denetim raporlarında](reports/) yer alır.
 - Disabled-path eski/yeni State+RNG denkliği, deterministik checkpoint-resume, bounded bellek yapıları ve tek-writer kuralı doğrulandı.
 - K7 web deneyim ve replay arayüzü (`CuriousExperience.refuge`, `causalChain`, `autoDirector`) bağlandı.
 
-### P3 — Ekoloji ve held-out protokolü (Yürütüldü / Denetlendi)
+### P3 — Ekoloji ve sınırlı karşılaştırma protokolleri (yürütüldü)
 
 - Sabit 5-seed held-out protokolü (`control`, `learning`, `climate`, `social_care`, `all_features`)
   ve kısa yük K8 throughput denetimi her seed için bağımsız `World::with_seed` üzerinde

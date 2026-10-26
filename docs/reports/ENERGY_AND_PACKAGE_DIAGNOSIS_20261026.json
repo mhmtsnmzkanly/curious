@@ -1,0 +1,695 @@
+{
+  "date": "2026-10-26",
+  "status": "read_only_diagnosis",
+  "energy_lock": {
+    "source": "data/experiments/water-adaptation-v1-calibration-20261025/seed-62199.raw.json",
+    "seed": 62199,
+    "physical_ticks": 106,
+    "initial_energy": 80,
+    "max_energy": 80,
+    "food_site": {
+      "position": [
+        0,
+        -1
+      ],
+      "capacity": 30,
+      "refill": 2,
+      "interval": 2
+    },
+    "milestones": [
+      {
+        "tick": 15,
+        "energy_before": 59,
+        "food_intent": "SeekFood",
+        "movement_energy_cost": 1,
+        "food_gain": 10,
+        "position_after": [
+          0,
+          -2
+        ]
+      },
+      {
+        "tick": 65,
+        "energy": 20,
+        "position": [
+          1,
+          -2
+        ],
+        "observation": "quarter-full low-energy threshold; food-seeking continues"
+      },
+      {
+        "tick": 66,
+        "energy_before": 16,
+        "food_gain": 2,
+        "food_distance": 2
+      },
+      {
+        "tick": 70,
+        "energy": 10,
+        "position": [
+          1,
+          1
+        ],
+        "observation": "food acquired after movement"
+      },
+      {
+        "tick": 74,
+        "energy": 4,
+        "position": [
+          0,
+          -1
+        ],
+        "observation": "at food"
+      },
+      {
+        "tick": 75,
+        "energy_before": 5,
+        "movement_energy_cost": 3,
+        "position_after": [
+          3,
+          2
+        ],
+        "position_before": [
+          0,
+          -1
+        ]
+      },
+      {
+        "tick": 76,
+        "movement_energy_cost": 1,
+        "position_after": [
+          2,
+          1
+        ],
+        "food_approach": "rejected OutOfRange",
+        "energy_at_decision": 1,
+        "position_before": [
+          3,
+          2
+        ],
+        "energy_at_tick_start": 2
+      },
+      {
+        "tick": 77,
+        "energy": 0,
+        "food_approach": "rejected OutOfRange; repeated through tick 105"
+      },
+      {
+        "tick": 106,
+        "death_cause": "Starvation",
+        "health": 0,
+        "water": 0,
+        "food_stock": 30
+      }
+    ],
+    "foraging_inputs": [
+      "visible current amount",
+      "visible path distance",
+      "current energy/water capacity",
+      "move energy cost",
+      "speed-derived travel ticks",
+      "current meal cap"
+    ],
+    "foraging_future_starvation_term": false,
+    "future_resource_knowledge": false,
+    "reserve_guard": {
+      "status": "proposed_for_study_only",
+      "must_use_current_body_and_perception": true,
+      "must_preserve_physical_eligibility_and_paid_costs": true,
+      "engine_change_recommended": false
+    },
+    "earliest_food_seeking_tick": 15,
+    "quarter_full_warning_tick": 65,
+    "resolver_sequence_ticks_65_77": [
+      {
+        "tick": 65,
+        "energy_at_decision": 20,
+        "water_at_decision": 25,
+        "position_at_decision": [
+          1,
+          -2
+        ],
+        "reason": "SearchFood",
+        "intent": "Move",
+        "path_steps": 0,
+        "movement": {
+          "from": [
+            1,
+            -2
+          ],
+          "to": [
+            -2,
+            -2
+          ],
+          "energy_cost": 3
+        },
+        "food_gain": null,
+        "rejection": null
+      },
+      {
+        "tick": 66,
+        "energy_at_decision": 16,
+        "water_at_decision": 24,
+        "position_at_decision": [
+          -2,
+          -2
+        ],
+        "reason": "SeekFood",
+        "intent": "Eat",
+        "path_steps": 2,
+        "movement": {
+          "from": [
+            -2,
+            -2
+          ],
+          "to": [
+            -1,
+            -2
+          ],
+          "energy_cost": 1
+        },
+        "food_gain": 2,
+        "rejection": null
+      },
+      {
+        "tick": 67,
+        "energy_at_decision": 16,
+        "water_at_decision": 23,
+        "position_at_decision": [
+          -1,
+          -2
+        ],
+        "reason": "SearchFood",
+        "intent": "Move",
+        "path_steps": 0,
+        "movement": {
+          "from": [
+            -1,
+            -2
+          ],
+          "to": [
+            1,
+            -2
+          ],
+          "energy_cost": 2
+        },
+        "food_gain": null,
+        "rejection": null
+      },
+      {
+        "tick": 68,
+        "energy_at_decision": 13,
+        "water_at_decision": 22,
+        "position_at_decision": [
+          1,
+          -2
+        ],
+        "reason": "SeekFood",
+        "intent": "Eat",
+        "path_steps": 1,
+        "movement": null,
+        "food_gain": 2,
+        "rejection": null
+      },
+      {
+        "tick": 69,
+        "energy_at_decision": 14,
+        "water_at_decision": 21,
+        "position_at_decision": [
+          1,
+          -2
+        ],
+        "reason": "SearchFood",
+        "intent": "Move",
+        "path_steps": 0,
+        "movement": {
+          "from": [
+            1,
+            -2
+          ],
+          "to": [
+            1,
+            1
+          ],
+          "energy_cost": 3
+        },
+        "food_gain": null,
+        "rejection": null
+      },
+      {
+        "tick": 70,
+        "energy_at_decision": 10,
+        "water_at_decision": 20,
+        "position_at_decision": [
+          1,
+          1
+        ],
+        "reason": "SeekFood",
+        "intent": "Eat",
+        "path_steps": 2,
+        "movement": {
+          "from": [
+            1,
+            1
+          ],
+          "to": [
+            1,
+            0
+          ],
+          "energy_cost": 1
+        },
+        "food_gain": 2,
+        "rejection": null
+      },
+      {
+        "tick": 71,
+        "energy_at_decision": 10,
+        "water_at_decision": 19,
+        "position_at_decision": [
+          1,
+          0
+        ],
+        "reason": "SearchFood",
+        "intent": "Move",
+        "path_steps": 0,
+        "movement": {
+          "from": [
+            1,
+            0
+          ],
+          "to": [
+            1,
+            -3
+          ],
+          "energy_cost": 3
+        },
+        "food_gain": null,
+        "rejection": null
+      },
+      {
+        "tick": 72,
+        "energy_at_decision": 6,
+        "water_at_decision": 18,
+        "position_at_decision": [
+          1,
+          -3
+        ],
+        "reason": "SeekFood",
+        "intent": "Eat",
+        "path_steps": 2,
+        "movement": {
+          "from": [
+            1,
+            -3
+          ],
+          "to": [
+            1,
+            -2
+          ],
+          "energy_cost": 1
+        },
+        "food_gain": 2,
+        "rejection": null
+      },
+      {
+        "tick": 73,
+        "energy_at_decision": 6,
+        "water_at_decision": 17,
+        "position_at_decision": [
+          1,
+          -2
+        ],
+        "reason": "SearchFood",
+        "intent": "Move",
+        "path_steps": 0,
+        "movement": {
+          "from": [
+            1,
+            -2
+          ],
+          "to": [
+            0,
+            -1
+          ],
+          "energy_cost": 1
+        },
+        "food_gain": null,
+        "rejection": null
+      },
+      {
+        "tick": 74,
+        "energy_at_decision": 4,
+        "water_at_decision": 16,
+        "position_at_decision": [
+          0,
+          -1
+        ],
+        "reason": "SeekFood",
+        "intent": "Eat",
+        "path_steps": 0,
+        "movement": null,
+        "food_gain": 2,
+        "rejection": null
+      },
+      {
+        "tick": 75,
+        "energy_at_decision": 5,
+        "water_at_decision": 15,
+        "position_at_decision": [
+          0,
+          -1
+        ],
+        "reason": "SearchFood",
+        "intent": "Move",
+        "path_steps": 0,
+        "movement": {
+          "from": [
+            0,
+            -1
+          ],
+          "to": [
+            3,
+            2
+          ],
+          "energy_cost": 3
+        },
+        "food_gain": null,
+        "rejection": null
+      },
+      {
+        "tick": 76,
+        "energy_at_decision": 1,
+        "water_at_decision": 14,
+        "position_at_decision": [
+          3,
+          2
+        ],
+        "reason": "SeekFood",
+        "intent": "Eat",
+        "path_steps": 3,
+        "movement": {
+          "from": [
+            3,
+            2
+          ],
+          "to": [
+            2,
+            1
+          ],
+          "energy_cost": 1
+        },
+        "food_gain": null,
+        "rejection": {
+          "action": "Approach",
+          "reason": "OutOfRange"
+        }
+      },
+      {
+        "tick": 77,
+        "energy_at_decision": 0,
+        "water_at_decision": 13,
+        "position_at_decision": [
+          2,
+          1
+        ],
+        "reason": "SeekFood",
+        "intent": "Eat",
+        "path_steps": 2,
+        "movement": null,
+        "food_gain": null,
+        "rejection": {
+          "action": "Approach",
+          "reason": "OutOfRange"
+        }
+      }
+    ]
+  },
+  "package_comparison": {
+    "source": "data/experiments/qualification-diagnostic-20261025/soak-four-arms.json",
+    "initial_tick": 12639,
+    "final_tick": 13639,
+    "ticks": 1000,
+    "initial_live": 616,
+    "arms": [
+      {
+        "arm": "ControlFlagsOff",
+        "births": 5161,
+        "deaths": 5197,
+        "final_live": 580,
+        "founder_live": 15,
+        "living_entity_ticks": 595736,
+        "delta_living_entity_ticks": 0
+      },
+      {
+        "arm": "JuvenileParentalCareOnly",
+        "births": 5101,
+        "deaths": 5142,
+        "final_live": 575,
+        "founder_live": 12,
+        "living_entity_ticks": 591932,
+        "delta_living_entity_ticks": -3804
+      },
+      {
+        "arm": "RefugeFirstIntervalOnly",
+        "births": 5121,
+        "deaths": 5153,
+        "final_live": 584,
+        "founder_live": 15,
+        "living_entity_ticks": 593113,
+        "delta_living_entity_ticks": -2623
+      },
+      {
+        "arm": "QualifiedCandidateBundle",
+        "births": 5146,
+        "deaths": 5169,
+        "final_live": 593,
+        "founder_live": 15,
+        "living_entity_ticks": 594308,
+        "delta_living_entity_ticks": -1428
+      }
+    ],
+    "bundle_endpoint_live_delta": 13,
+    "bundle_birth_delta": -15,
+    "bundle_death_delta": -28,
+    "general_pareto_claim": false,
+    "replicate_independence": false,
+    "interval_deltas_vs_control": {
+      "JuvenileParentalCareOnly": [
+        {
+          "tick": 12739,
+          "births_delta_vs_control": 7,
+          "deaths_delta_vs_control": 3,
+          "living_entity_ticks_delta_vs_control": 395,
+          "endpoint_live_delta": 4
+        },
+        {
+          "tick": 12839,
+          "births_delta_vs_control": -23,
+          "deaths_delta_vs_control": 12,
+          "living_entity_ticks_delta_vs_control": -155,
+          "endpoint_live_delta": -31
+        },
+        {
+          "tick": 12939,
+          "births_delta_vs_control": -7,
+          "deaths_delta_vs_control": -31,
+          "living_entity_ticks_delta_vs_control": -3596,
+          "endpoint_live_delta": -7
+        },
+        {
+          "tick": 13039,
+          "births_delta_vs_control": -15,
+          "deaths_delta_vs_control": -18,
+          "living_entity_ticks_delta_vs_control": 1843,
+          "endpoint_live_delta": -4
+        },
+        {
+          "tick": 13139,
+          "births_delta_vs_control": 1,
+          "deaths_delta_vs_control": 4,
+          "living_entity_ticks_delta_vs_control": -1389,
+          "endpoint_live_delta": -7
+        },
+        {
+          "tick": 13239,
+          "births_delta_vs_control": -4,
+          "deaths_delta_vs_control": -11,
+          "living_entity_ticks_delta_vs_control": -33,
+          "endpoint_live_delta": 0
+        },
+        {
+          "tick": 13339,
+          "births_delta_vs_control": 9,
+          "deaths_delta_vs_control": 7,
+          "living_entity_ticks_delta_vs_control": 538,
+          "endpoint_live_delta": 2
+        },
+        {
+          "tick": 13439,
+          "births_delta_vs_control": -27,
+          "deaths_delta_vs_control": -14,
+          "living_entity_ticks_delta_vs_control": -1763,
+          "endpoint_live_delta": -11
+        },
+        {
+          "tick": 13539,
+          "births_delta_vs_control": 7,
+          "deaths_delta_vs_control": -13,
+          "living_entity_ticks_delta_vs_control": -346,
+          "endpoint_live_delta": 9
+        },
+        {
+          "tick": 13639,
+          "births_delta_vs_control": -8,
+          "deaths_delta_vs_control": 6,
+          "living_entity_ticks_delta_vs_control": 702,
+          "endpoint_live_delta": -5
+        }
+      ],
+      "RefugeFirstIntervalOnly": [
+        {
+          "tick": 12739,
+          "births_delta_vs_control": 3,
+          "deaths_delta_vs_control": 3,
+          "living_entity_ticks_delta_vs_control": -288,
+          "endpoint_live_delta": 0
+        },
+        {
+          "tick": 12839,
+          "births_delta_vs_control": 8,
+          "deaths_delta_vs_control": -4,
+          "living_entity_ticks_delta_vs_control": 2002,
+          "endpoint_live_delta": 12
+        },
+        {
+          "tick": 12939,
+          "births_delta_vs_control": -22,
+          "deaths_delta_vs_control": 14,
+          "living_entity_ticks_delta_vs_control": -2064,
+          "endpoint_live_delta": -24
+        },
+        {
+          "tick": 13039,
+          "births_delta_vs_control": 6,
+          "deaths_delta_vs_control": -14,
+          "living_entity_ticks_delta_vs_control": 975,
+          "endpoint_live_delta": -4
+        },
+        {
+          "tick": 13139,
+          "births_delta_vs_control": 16,
+          "deaths_delta_vs_control": -4,
+          "living_entity_ticks_delta_vs_control": -57,
+          "endpoint_live_delta": 16
+        },
+        {
+          "tick": 13239,
+          "births_delta_vs_control": -16,
+          "deaths_delta_vs_control": 10,
+          "living_entity_ticks_delta_vs_control": 61,
+          "endpoint_live_delta": -10
+        },
+        {
+          "tick": 13339,
+          "births_delta_vs_control": 11,
+          "deaths_delta_vs_control": -5,
+          "living_entity_ticks_delta_vs_control": 792,
+          "endpoint_live_delta": 6
+        },
+        {
+          "tick": 13439,
+          "births_delta_vs_control": -28,
+          "deaths_delta_vs_control": -9,
+          "living_entity_ticks_delta_vs_control": -945,
+          "endpoint_live_delta": -13
+        },
+        {
+          "tick": 13539,
+          "births_delta_vs_control": -11,
+          "deaths_delta_vs_control": -6,
+          "living_entity_ticks_delta_vs_control": -1328,
+          "endpoint_live_delta": -18
+        },
+        {
+          "tick": 13639,
+          "births_delta_vs_control": -7,
+          "deaths_delta_vs_control": -29,
+          "living_entity_ticks_delta_vs_control": -1771,
+          "endpoint_live_delta": 4
+        }
+      ],
+      "QualifiedCandidateBundle": [
+        {
+          "tick": 12739,
+          "births_delta_vs_control": 4,
+          "deaths_delta_vs_control": 4,
+          "living_entity_ticks_delta_vs_control": 388,
+          "endpoint_live_delta": 0
+        },
+        {
+          "tick": 12839,
+          "births_delta_vs_control": -19,
+          "deaths_delta_vs_control": 19,
+          "living_entity_ticks_delta_vs_control": 222,
+          "endpoint_live_delta": -38
+        },
+        {
+          "tick": 12939,
+          "births_delta_vs_control": -18,
+          "deaths_delta_vs_control": -39,
+          "living_entity_ticks_delta_vs_control": -2858,
+          "endpoint_live_delta": -17
+        },
+        {
+          "tick": 13039,
+          "births_delta_vs_control": 30,
+          "deaths_delta_vs_control": -12,
+          "living_entity_ticks_delta_vs_control": 2177,
+          "endpoint_live_delta": 25
+        },
+        {
+          "tick": 13139,
+          "births_delta_vs_control": -6,
+          "deaths_delta_vs_control": 37,
+          "living_entity_ticks_delta_vs_control": 1,
+          "endpoint_live_delta": -18
+        },
+        {
+          "tick": 13239,
+          "births_delta_vs_control": -13,
+          "deaths_delta_vs_control": -17,
+          "living_entity_ticks_delta_vs_control": -1868,
+          "endpoint_live_delta": -14
+        },
+        {
+          "tick": 13339,
+          "births_delta_vs_control": 4,
+          "deaths_delta_vs_control": -19,
+          "living_entity_ticks_delta_vs_control": 124,
+          "endpoint_live_delta": 9
+        },
+        {
+          "tick": 13439,
+          "births_delta_vs_control": 13,
+          "deaths_delta_vs_control": -14,
+          "living_entity_ticks_delta_vs_control": 140,
+          "endpoint_live_delta": 36
+        },
+        {
+          "tick": 13539,
+          "births_delta_vs_control": -31,
+          "deaths_delta_vs_control": 22,
+          "living_entity_ticks_delta_vs_control": 401,
+          "endpoint_live_delta": -17
+        },
+        {
+          "tick": 13639,
+          "births_delta_vs_control": 21,
+          "deaths_delta_vs_control": -9,
+          "living_entity_ticks_delta_vs_control": -155,
+          "endpoint_live_delta": 13
+        }
+      ]
+    }
+  }
+}
