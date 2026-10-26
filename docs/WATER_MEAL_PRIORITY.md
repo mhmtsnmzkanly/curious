@@ -18,6 +18,11 @@ Birden fazla uygun öğünde mevcut foraging skoruyla, ardından daha kısa yoll
 
 Karar değişmeden önce açık su denemesi `WaterEnd::Interrupted` ile kesilir. Kesinti su kaynağının başarısızlığı veya ödüllü sıfır maliyet değildir. Aynı tick'in yemek kazanımı/hareketi su sonucuna yazılmaz; resolver gerçek yemeği ve maliyeti normal kurallarla uygular. Normal karar öncesi TTL temizliği hâlâ çalışabilir. Eski su seçiminde kullanılan RNG geri sarılmaz.
 
+Algıdaki uygun öğün rezerve edilmiş değildir. Başka birey aynı kaynağı önce
+tüketirse Eat `MissingResource` ile reddedilebilir. Ayrıca mevcut çözümleyici
+her eylem listesini `tick % liste_uzunluğu` ile döndürür: Drink yerine Eat eklemek
+diğer bireylerin çözülme sırasını ve kaynak paylaşımını da etkileyebilir.
+
 Karar izindeki opsiyonel `water_meal_override`, değiştirilen orijinal Drink kararını ve o andaki algılanmış su/bitki miktarlarını taşır. Gerçek `decision` ise Eat'tir; beden de normal `before` alanındadır. Alan boşken serileştirilmez, eski kayıtlarda yoksa `None` okunur. Bu geçici gözlem kanıtıdır; yavruya veya öğrenilmiş belleğe kopyalanmaz.
 
 Mevcut su öğrenicisi yalnız tek `last_episode` tutar; bir tick içinde eski kesinti üzerine yeni kesinti yazılabilir. Bu alan tam olay geçmişi veya benzersiz kapanış sayacı değildir. Lab yalnız gözlenen geçişleri, açık bölümün ufuk sonunda sansürlü olduğunu ve eksik atfı Unknown olarak raporlar; sentetik su olayı üretmez.
@@ -33,3 +38,9 @@ Enerji üretilmez; kaynak yenilenmesi, dönüş rotası, suya ileride varış ve
 ## 26 Ekim sınırlı ölçüm
 
 [Dört kollu lab raporu](reports/WATER_MEAL_PRIORITY_V1_20261026.md) 72 dünya / 21.600 tick içerir. Tek yemli fixture'da yeni kural tek başına hiç tetiklenmedi; eski yem bütçesine eklenince toplam sağkalım 1482→1579 birey-tick ve içilen su 1050→1210 oldu. İki birey her iki kolda da 300 tick'e ulaştı; yaşam süresi bu ufukta sağdan sansürlüdür. Çayırda toplu kazanç, fakat seed bazında kayıplar; seyrek fixture'da küçük toplam kayıp ve tükenme görüldü. Bu sonuç genel fayda veya canlı kabulü değildir; seçenek varsayılan kapalı kaldı.
+
+[Sonraki salt-okunur tanı](reports/WATER_MEAL_PRIORITY_DIAGNOSIS_20261026.md),
+seçilen öğün ile gerçekleşen beslenmeyi ayırır. Seyrek ortamda yeni kuralın tek
+başına açık olduğu koldaki 47 girişimin 36'sı `MissingResource` ile reddedilmiştir.
+Çayırdaki üç olumsuz tohumun net yaşam süresi kaybı sonraki nesillerin toplamında
+oluşur; bu, hangi grubun kaybettiğinin hesabıdır, kaybın nedensel açıklaması değildir.

@@ -104,6 +104,11 @@ ilgili diğer kategoriye bağlanır; aynı iş için paralel, çatışan plan tu
   ve birlikte etkisini ölçtü. [Sonuç](reports/WATER_MEAL_PRIORITY_V1_20261026.md)
   tek yemli fixture'da birleşime bağlı dar kazanç, diğer habitat/seedlerde
   ödünleşimler gösterdi; genel ekolojik kabul yoktur.
+  [Mevcut kayıtların tanısı](reports/WATER_MEAL_PRIORITY_DIAGNOSIS_20261026.md),
+  seçilen öğün ile gerçek beslenmeyi ve ilk bireylerle sonraki nesillerin
+  yaşam süresini ayırdı. Karar değişikliği çözümleme sırasını da etkileyebiliyor;
+  bunun sonraki nesil kayıplarındaki payı henüz izole edilmedi. K5/K6 ile ortak
+  sonraki iş, aynı durumdan dallanan sınırlı bir deneyin protokolüdür.
 
 - **Mevcut:** Sağlık, enerji, metabolizma ve hareket maliyetleri vardır; temel
   dinlenme ve yeterli enerji/su koşulunda enerji ödeyen pasif iyileşme bulunur.

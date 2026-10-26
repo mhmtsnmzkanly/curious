@@ -1,9 +1,12 @@
 # Sıradaki işler
 
-1. **Habitat/seed ödünleşimlerini açıkla:** [su–öğün kıyası](docs/reports/WATER_MEAL_PRIORITY_V1_20261026.md)
-   tek yemli ortamda eski yem bütçesine ek kazanç gösterdi; yeni kural tek başına
-   orada tetiklenmedi. Çayırda 3/6 seed kaybı ve seyrek ortamda tükenme sürdü.
-   Yeni ayar veya dağıtımdan önce bu etkileşimi ayrı hipotezle incele.
+1. **Kaynak rekabeti ile karar sırasının etkisini izole et:** [su–öğün tanısı](docs/reports/WATER_MEAL_PRIORITY_DIAGNOSIS_20261026.md)
+   çayırdaki olumsuz tohumlarda kaybın sonraki nesillerin toplamında olduğunu,
+   seyrek ortamda yemek girişimlerinin çoğunun reddedildiğini gösterdi. Yemek
+   planına eklenen birey aynı tick'teki kaynak paylaşım sırasını da değiştiriyor.
+   Aynı durumdan dallanan, tüm bireylerin karar/beden/RNG ve kaynak paylaşımını
+   kaydeden küçük bir deney protokolü hazırla; karar kuralı ile çözümleme sırasını
+   ayrı karşılaştır. Bu henüz uygulanmadı; yeni ayar veya dağıtım kabulü yoktur.
 2. **K3 öğrenme hedefini gözden geçir:** [kaynak güvenilirliği taslağı](docs/SOURCE_RELIABILITY_TARGET_20261026.md)
    uygulanmamıştır; yalnızca ayrı protokolün gözden geçirilmesine temel olabilir.
 3. **Ekoloji aktarımındaki tükenmeyi açıkla:** [tarama raporu](docs/reports/ECOLOGY_TRANSFER_V1_20261026.md)

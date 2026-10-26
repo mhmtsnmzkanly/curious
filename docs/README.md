@@ -22,6 +22,9 @@ K1–K8'e doğrudan git: [K1](ROADMAP.md#dunya-cevre),
 
 ## Güncel kanıt
 
+- [Su–öğün gerileme tanısı](reports/WATER_MEAL_PRIORITY_DIAGNOSIS_20261026.md):
+  mevcut 72 koşunun yeniden analizi; gerçekleşen öğün, kaynak paylaşım sırası ve
+  ilk bireyler/sonraki nesillerin yaşam süresi ayrımı. Yeni simülasyon değildir.
 - [Su–öğün önceliği V1](reports/WATER_MEAL_PRIORITY_V1_20261026.md): dört kollu
   V21 kıyası; eski yem bütçesine bağlı dar etki ve habitat/seed ödünleşimleri.
 - [Yem arama bütçesi V1](reports/FOOD_SEARCH_RESERVE_V1_20261026.md): V20 varsayılan kapalı
@@ -66,7 +69,8 @@ değiştirilmez. Canlı operasyon yönergeleri için [CONTROL](CONTROL.md) kulla
 [Su-yem önceliği V1 protokolü](WATER_MEAL_PRIORITY_V1_PROTOCOL_20261026.md)
 62501–62506 tahsisli seedleri için dört kollu factorial tasarımı ve kaynak,
 sağkalım, üreme, learner ve sansürlü episode ölçüm sözleşmesini tanımlar.
-Sonuç raporu henüz yoktur.
+[Sonuç raporu](reports/WATER_MEAL_PRIORITY_V1_20261026.md) ve
+[gerileme tanısı](reports/WATER_MEAL_PRIORITY_DIAGNOSIS_20261026.md) ayrı kanıtlardır.
 
 `data/` deney verileri ve `bin/` derlenmiş ikililer yerel/ignore edilen
 artifaktlardır. Bazı tarihli raporların ham JSONL dosyaları Zstandard arşivinde
