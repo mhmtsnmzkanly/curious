@@ -5,6 +5,7 @@ import json
 from pathlib import Path
 import tempfile
 import unittest
+from unittest.mock import patch
 
 SCRIPT = Path(__file__).with_name("run_water_meal_priority_lab.py")
 spec = importlib.util.spec_from_file_location("water_meal_runner_test", SCRIPT)
@@ -103,6 +104,38 @@ class WaterMealRunnerTests(unittest.TestCase):
             size=runner._finalize_manifest(out,manifest)
             self.assertEqual(size,sum(p.stat().st_size for p in out.rglob("*") if p.is_file()))
             self.assertEqual(json.loads((out/"manifest.json").read_text())["aggregate_output_bytes"],size)
+
+    def test_runner_copies_registration_and_records_incomplete_before_world_launch(self):
+        identity = {"revision":"a" * 40,"clean":True,"file_sha256":{},"content_sha256":"b" * 64}
+        fixtures = runner.scenario_hashes()
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            registration_path = root / "registration.json"
+            binary = root / "candidate"
+            binary.write_bytes(b"prebuilt candidate identity only; never executed")
+            output = root / "output"
+            binary_sha = runner.sha256(binary)
+            registration = {
+                "status":"registered","root_reviewed":True,"source":identity,
+                "scenario_sha256":fixtures,"seed_roles":runner.expected_seed_roles(),"binary_sha256":binary_sha,
+                "ticks_per_world":300,"arms":list(runner.ARMS),"habitats":list(runner.HABITATS),"world_count":72,
+                "phase_seconds":300,"child_seconds":60,"child_address_space_bytes":1024**3,
+                "aggregate_output_bytes":256*1024**2,"max_world_output_bytes":16*1024**2,
+                "max_identities":10000,"max_events_per_tick":20000,"mutation_per_mille":0,
+                "genetics_enabled":True,"candidate_flags":{"food_search_reserve_enabled":"factorial_existing_flag","water_meal_priority_enabled":"approved_candidate"}}
+            registration_path.write_text(json.dumps(registration), encoding="utf-8")
+
+            with patch.object(runner, "source_identity", return_value=identity), \
+                 patch.object(runner, "scan_seed_roles", return_value={"unseen": [], "matches": {}}), \
+                 patch.object(runner.subprocess, "Popen", side_effect=RuntimeError("Popen sentinel; no World launched")) as popen:
+                with self.assertRaisesRegex(RuntimeError, "Popen sentinel; no World launched"):
+                    runner.run(registration_path, output, root / "archive", binary)
+
+            popen.assert_called_once()
+            self.assertEqual(json.loads((output / "registration.json").read_text()), registration)
+            manifest = json.loads((output / "manifest.json").read_text())
+            self.assertEqual(manifest["status"], "incomplete")
+            self.assertIn("Popen sentinel; no World launched", manifest["error"])
 
 
 if __name__ == "__main__":

@@ -9,6 +9,7 @@ import json
 import os
 from pathlib import Path
 import resource
+import shutil
 import statistics
 import subprocess
 import sys
@@ -38,6 +39,7 @@ SOURCE_PATHS = (
     "scripts/run_ecology_traits_lab.py", "scripts/evidence_archive.py",
     "docs/EVIDENCE_ARCHIVES.md", PROTOCOL,
     "docs/WATER_MEAL_PRIORITY_V1_REGISTRATION_TEMPLATE.json", "docs/README.md",
+    "docs/WATER_MEAL_PRIORITY_V1_RUNNER_ADDENDUM_20261026.md",
     "scenarios/meadow.json", "scenarios/ecology-traits-lab.json",
 )
 
