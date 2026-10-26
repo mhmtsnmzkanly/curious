@@ -44,6 +44,14 @@ class WaterMealRunnerTests(unittest.TestCase):
             roles=[{"habitat":"meadow","seed":62501},{"habitat":"sparse_resource","seed":62501}]
             self.assertEqual(runner.scan_seed_roles(Path(temp),roles)["unseen"],[62501])
 
+    def test_verified_archive_index_preserves_and_checks_declared_seed_roles(self):
+        index={"seeds":[3,8],"seed_roles":{"seed":[3],"seeds":[8]}}
+        seeds,roles=runner._verified_index_seed_metadata(index,"example.jsonl.archive.json")
+        self.assertEqual(seeds,[3,8])
+        self.assertEqual(roles,index["seed_roles"])
+        with self.assertRaisesRegex(RuntimeError,"differ from its seed_roles"):
+            runner._verified_index_seed_metadata({"seeds":[3,8],"seed_roles":{"seed":[3]}},"example.jsonl.archive.json")
+
     def test_intervention_validator_requires_original_matched_water_and_actual_meal(self):
         record={"pre_choice":{"energy":1},"perception":{"waters":[{"amount":4,"steps":{"0":["Left","Left"]}}],"foods":[{"amount":3,"is_corpse":False,"corpse_id":None,"steps":{"0":["Up"]}}]},
                 "original_selected_decision":{"reason":"LearnedWater","intent":{"Drink":{"at":{"0":["Left","Left"]}}}},
