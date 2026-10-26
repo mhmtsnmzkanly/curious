@@ -22,6 +22,10 @@ fn main() {
 
 fn run() -> AppResult<()> {
     let args: Vec<_> = env::args().collect();
+    run_args(args)
+}
+
+fn run_args(args: Vec<String>) -> AppResult<()> {
     if args.len() != 5 {
         return Err(
             "usage: resolver_order_lab INPUT_CONTROL.jsonl TARGET_TICK INPUT_SHA256 OUTPUT.json"
@@ -460,6 +464,7 @@ fn write_atomic_capped(path: &Path, value: &Value) -> AppResult<()> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use curious::{map::cell::Cell, map::movement::Position};
 
     #[test]
     fn raw_jsonl_parser_accepts_final_summary_after_ticks() {
@@ -497,5 +502,54 @@ mod tests {
         assert!(integrity_gates_pass(&output));
         output["references"]["c_matches_native_on"] = Value::Bool(false);
         assert!(!integrity_gates_pass(&output));
+    }
+
+    #[test]
+    fn synthetic_cli_case_replays_validates_and_emits_complete_forks() {
+        let mut seed_world = World::with_seed(-2, 2, -2, 2, vec![], 23);
+        for y in seed_world.map.min_y..=seed_world.map.max_y {
+            for x in seed_world.map.min_x..=seed_world.map.max_x {
+                seed_world.map.set_cell(Position::new(x, y), Cell::Empty);
+            }
+        }
+        seed_world.environment.sites.clear();
+        let initial_state = serde_json::to_value(State::capture(&seed_world)).unwrap();
+        let header = json!({
+            "type":"header","ticks":2,"habitat":"synthetic","seed":23,"arm":"control",
+            "candidate_policy":{"water_meal_priority_enabled":false},"initial_state":initial_state
+        });
+        let tick_row = |tick| {
+            json!({
+                "type":"tick","tick":tick,"actor_resolver_events":[],
+                "plant_food_gained_energy":0,"water_gained":0,"movement_energy_paid":0,
+                "plant_food_gained_cumulative":0,"water_gained_cumulative":0,"movement_energy_cumulative":0,
+                "food_stock":0,"water_stock":0,"focal_decision_trace":null,"live_total":0,"founders_alive":0
+            })
+        };
+        let input_contents = format!(
+            "{}\n{}\n{}\n{}\n",
+            serde_json::to_string(&header).unwrap(),
+            serde_json::to_string(&tick_row(1)).unwrap(),
+            serde_json::to_string(&tick_row(2)).unwrap(),
+            serde_json::to_string(&json!({"type":"summary","ticks_completed":2})).unwrap()
+        );
+        let directory = tempfile::tempdir().unwrap();
+        let input = directory.path().join("synthetic-control.jsonl");
+        let output = directory.path().join("synthetic-case.json");
+        fs::write(&input, input_contents.as_bytes()).unwrap();
+        let digest = sha256_bytes(input_contents.as_bytes()).unwrap();
+        run_args(vec![
+            "resolver_order_lab".into(),
+            input.to_string_lossy().into_owned(),
+            "2".into(),
+            digest,
+            output.to_string_lossy().into_owned(),
+        ])
+        .unwrap();
+        let result: Value = serde_json::from_slice(&fs::read(output).unwrap()).unwrap();
+        assert!(integrity_gates_pass(&result));
+        assert_eq!(result["prefix_replay"]["validated_through_tick"], 1);
+        assert_eq!(result["target_validation"]["raw_tick_row"]["tick"], 2);
+        assert_eq!(result["branches"]["A"]["events"], json!([]));
     }
 }
