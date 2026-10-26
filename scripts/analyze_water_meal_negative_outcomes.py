@@ -53,7 +53,8 @@ def first_divergence(left, right, field):
 
 
 def lineage_events(ticks, key):
-    return [(row["tick"], event) for row in ticks for event in row.get(key, [])]
+    return [(row["tick"], event) for row in ticks
+            for event in sorted(row.get(key, []), key=lambda item: json.dumps(item, sort_keys=True, separators=(",", ":")))]
 
 
 def alive_exposure(ticks, stop):
@@ -85,6 +86,13 @@ def first_lineage_mismatch(left, right):
 
 def death_causes(ticks):
     return dict(sorted(Counter(x.get("cause", "Unknown") for _, x in lineage_events(ticks, "death_lineage")).items()))
+
+
+def founder_exposure(header, ticks):
+    founder_ids = {entity["id"] for entity in header["initial_state"]["entities"] if entity.get("generation", 0) == 0}
+    deaths = {event["id"]: tick for tick, event in lineage_events(ticks, "death_lineage")}
+    horizon = len(ticks)
+    return sum(max(0, min(horizon, deaths.get(entity_id, horizon + 1) - 1)) for entity_id in founder_ids)
 
 
 def intervention_outcomes(ticks):
@@ -150,8 +158,8 @@ def summarize(root):
     cases = []
     for habitat, seeds in FOCUS.items():
         for seed in seeds:
-            _, control, csum, _ = all_runs[(habitat, seed, "control")]
-            _, treated, tsum, _ = all_runs[(habitat, seed, "water_meal_only")]
+            ch, control, csum, _ = all_runs[(habitat, seed, "control")]
+            th, treated, tsum, _ = all_runs[(habitat, seed, "water_meal_only")]
             interventions = [(r["tick"], x) for r in treated for x in r.get("water_meal_interventions", [])]
             first_intervention = interventions[0][0] if interventions else None
             focal_divergence = first_divergence(control, treated, "focal_decision_trace")
@@ -193,6 +201,17 @@ def summarize(root):
                         "control": csum.get("living_entity_ticks", 0) - alive_exposure(control, before),
                         "water_meal_only": tsum.get("living_entity_ticks", 0) - alive_exposure(treated, before)},
                 },
+                "generation_exposure_partition": {
+                    "definition": "Founder exposure is exact founder-ID exposure through death_tick-1 (or horizon); descendant exposure is the validated population living-individual-tick total minus founders. This is an accounting partition, not causal mediation or individual descendant matching.",
+                    "control": {"founder_living_individual_ticks": founder_exposure(ch, control),
+                        "descendant_living_individual_ticks": csum["living_entity_ticks"] - founder_exposure(ch, control)},
+                    "water_meal_only": {"founder_living_individual_ticks": founder_exposure(th, treated),
+                        "descendant_living_individual_ticks": tsum["living_entity_ticks"] - founder_exposure(th, treated)},
+                    "delta_water_meal_only_minus_control": {
+                        "founder_living_individual_ticks": founder_exposure(th, treated) - founder_exposure(ch, control),
+                        "descendant_living_individual_ticks": (tsum["living_entity_ticks"] - founder_exposure(th, treated)) -
+                            (csum["living_entity_ticks"] - founder_exposure(ch, control))},
+                },
                 "first_focal_trace_divergence_tick": focal_divergence,
                 "first_resolver_event_list_divergence_tick": event_divergence,
                 "first_birth_lineage_divergence_tick": birth_divergence,
@@ -205,7 +224,7 @@ def summarize(root):
                 "physical_totals": {arm: {k: all_runs[(habitat, seed, arm)][2][k] for k in
                     ("plant_food_gained_energy", "water_gained", "movement_energy_paid", "water_meal_intervention_count")}
                     for arm in ("control", "water_meal_only")},
-                "lineage_signature_note": "Entity IDs are stable only while birth tick, generation, and parent IDs remain equal; post-divergence equal IDs are not presumed same individual.",
+                "lineage_signature_note": "Within-run ID/tick lineage events are retained. After parent identity or birth timing diverges, equal numeric IDs across arms are not presumed to identify the same individual.",
             })
     raw_inputs = [all_runs[key][3] for key in sorted(all_runs)]
     return {"source": str(root), "experiment_source_revision": manifest["source"].get("revision"),
