@@ -170,6 +170,10 @@ fn run() -> AppResult<()> {
     result["prefix_replay_valid"] = Value::Bool(true);
     result["prefix_replay"] = json!({"from_initial_state":true,"validated_through_tick":target_tick-1,"target_pre_state":serde_json::to_value(&pre_state)?,"target_pre_rng":pre_state.rng,"per_tick_validations":prefix_validations});
     result["target_validation"]["raw_tick_row"] = target_row.clone();
+    result["target_validation"]["raw_focal_decision_trace"] = target_row
+        .get("focal_decision_trace")
+        .cloned()
+        .unwrap_or(Value::Null);
     result["pre_target_roundtrip"] =
         json!({"valid":pre_roundtrip.0,"state_equal":pre_roundtrip.1,"rng_equal":pre_roundtrip.2});
     if result.get("status").and_then(Value::as_str) != Some("complete")

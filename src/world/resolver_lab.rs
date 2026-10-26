@@ -385,7 +385,9 @@ fn run_branch(
         "post_state":serde_json::to_value(State::capture(world))?,"post_rng":world.rng.state(),
         "post_actor_bodies":actor_bodies(world),
         "post_last_intents":serde_json::to_value(&world.last_intents)?,
-        "post_last_decisions":serde_json::to_value(&world.last_decisions)?
+        "post_last_decisions":serde_json::to_value(&world.last_decisions)?,
+        "focal_decision_trace":world.last_decisions.iter().find(|trace| trace.id == 1)
+            .map(serde_json::to_value).transpose()?.unwrap_or(Value::Null)
     }))
 }
 
