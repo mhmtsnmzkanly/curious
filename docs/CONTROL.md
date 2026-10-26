@@ -1,6 +1,8 @@
-# V20 — varsayılan kapalı yem arama enerji bütçesi
+# V21 — varsayılan kapalı su öncesi bitki öğünü
 
-Geliştirme kaynağı checkpoint V20 / SQLite V2 kullanır. `policy.food_search_reserve_enabled` varsayılan kapalıdır; V1–V19 göçünde kapalıya zorlanır ve V21 reddedilir. Canlı 7882 V12 dünyası değiştirilmedi. Bu bayrak için HTTP kontrol eylemi eklenmedi. Davranış, migration ve kanıt sınırı [yem arama sözleşmesinde](FOOD_SEARCH_RESERVE.md) tanımlıdır. Aşağıdaki V18/V17 bölümleri ilgili önceki alanların sözleşmelerini açıklar; bugünkü capture sürümü V20'dir.
+Geliştirme checkpoint V21 / SQLite V2 kullanır. `policy.water_meal_priority_enabled` yalnız enerji nedeniyle ödenemeyen ilk su adımı yerine mevcut bitişik bitki öğününü seçebilir; [sözleşme](WATER_MEAL_PRIORITY.md) kesin koşulları ve su denemesi kesintisini tanımlar. Bayrak varsayılan kapalıdır, V1–V20 göçünde kapatılır; V22 reddedilir. Yeni HTTP kontrol eylemi eklenmedi. Canlı 7882 V12 dünyası değiştirilmedi.
+
+Önceki V20 [yem arama bütçesi](FOOD_SEARCH_RESERVE.md) bağımsız bayrak olarak korunur. Aşağıdaki eski sürüm bölümleri kendi alanlarının sözleşmelerini anlatır; güncel capture sürümü V21'dir.
 
 # V18 — varsayılan kapalı sığınak genellemesi
 

@@ -22,9 +22,9 @@ dağıtım ve karar kanıtları ilgili raporlarda korunur; eski kayıtları silm
 
 ## Kaynak sürümleri ve canlı çalışma
 
-- Geliştirme kaynağı checkpoint V20 / SQLite V2'dir. Yeni deneysel seçenekler
-  varsayılan kapalıdır. V19 ile uyumsuz eski ikiliyi V19 checkpoint'e açmayın.
-- Canlı dünya V12'dir; V19/V20 araştırma sürümleri canlıya yükseltilmiş değildir.
+- Geliştirme kaynağı checkpoint V21 / SQLite V2'dir. Yeni deneysel seçenekler
+  varsayılan kapalıdır. V21 checkpoint'i eski V12/V20 ikiliyle açmayın.
+- Canlı dünya V12'dir; V19–V21 araştırma sürümleri canlıya yükseltilmiş değildir.
   Canlı servis `curious-coexistence.service`, `127.0.0.1:7882`,
   `/root/curious/data/coexistence` üzerinde çalışır. Nitelikli ikili
   `bin/curious-qualified` şu an `bin/releases/curious-observation-budget-8dc23de`
@@ -99,6 +99,11 @@ dağıtım ve karar kanıtları ilgili raporlarda korunur; eski kayıtları silm
   sabit protokol, sınırlı kaynak ve bağımsız gözden geçirme gerektirir. Uzun
   gerçek-zamanlı soak ayrı işletim araştırmasıdır, özellik çalışmasının
   önkoşulu değildir.
+
+- [Su öncesi öğün](docs/WATER_MEAL_PRIORITY.md) V21 kaynağında bağımsız varsayılan
+  kapalı seçenektir. Yalnız ödenemeyen ilk su adımı yerine mevcut bitişik bitki
+  öğününü seçer; kesilen su denemesi ödül/başarı sayılmaz. Kayıtlı kıyas ve
+  genel fayda kabulü ayrıdır.
 
 ## Güncel sonuçlar
 

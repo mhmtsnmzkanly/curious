@@ -7,8 +7,8 @@ sayılmaz.
 
 ## Güncel durum
 
-Geliştirme kaynağı checkpoint V20 / SQLite V2'dir. Canlı dünya V12 checkpoint
-üzerindedir; V20 canlıya yükseltilmemiştir. Nitelikli ikili ve operasyon
+Geliştirme kaynağı checkpoint V21 / SQLite V2'dir. Canlı dünya V12 checkpoint
+üzerindedir; V21 canlıya yükseltilmemiştir. Nitelikli ikili ve operasyon
 durumunun zaman damgalı ayrıntıları [AGENTS.md](AGENTS.md)'de tutulur.
 
 [V2 su uyum ölçümü](docs/reports/WATER_ADAPTATION_V2_20261025.md) üç learner
@@ -78,3 +78,5 @@ Yalnızca Markdown değişiklikleri Rust derlemesi gerektirmez.
 - [Kontrol ve işletim](docs/CONTROL.md)
 - [Öğrenme sözleşmesi ve açık kanıt sınırları](docs/LEARNING_NEXT.md)
 - [Sıradaki işler](TODO.md)
+
+[V21 su öncesi öğün kuralı](docs/WATER_MEAL_PRIORITY.md), enerji yüzünden başlayamayan bir su yaklaşımı yerine mevcut bitişik bitki öğününü seçebilen bağımsız, varsayılan kapalı adaydır. Suya ödenebilir ilerleme ve ücretsiz bitişik içme korunur; canlıya dağıtılmadı.

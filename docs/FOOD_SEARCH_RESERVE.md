@@ -1,6 +1,6 @@
 # Yem aramasında enerji bütçesi
 
-**Kapsam:** K2 karar/beden sınırı, K5 beslenme ve K8 checkpoint bağımlılığı. Geliştirme checkpoint'i V20, SQLite şeması V2'dir. Canlı V12'ye dağıtım değildir. `policy.food_search_reserve_enabled` varsayılan kapalıdır; yeni bir senaryoda açıkça seçilebilir. Bu çalışma bir öğrenici veya öğrenilmiş bellek eklemez.
+**Kapsam:** K2 karar/beden sınırı, K5 beslenme ve K8 checkpoint bağımlılığı. Geliştirme checkpoint'i V21, SQLite şeması V2'dir. Canlı V12'ye dağıtım değildir. `policy.food_search_reserve_enabled` varsayılan kapalıdır; yeni bir senaryoda açıkça seçilebilir. Bu çalışma bir öğrenici veya öğrenilmiş bellek eklemez.
 
 ## Davranış sözleşmesi
 
@@ -19,9 +19,9 @@ Bu, gerçek dönüş planı değildir. Başlangıç hücresinde yem/güvenlik, y
 
 ## Checkpoint ve kapalı yol
 
-V20 `PolicySettings` içinde bayrağı korur. V1–V19 göçü bayrağı kapalıya zorlar; V21 ve bilinmeyen ileri sürümler reddedilir. Bayrak kapalıyken JSON anahtarı atlanır ve karar/RNG yoluna ek iş girmez. V19'dan V20'ye capture sürüm metaverisi değişir; eski checkpoint ile byte eşitliği iddia edilmez. State ve RNG devamı mevcut V20 kaynağı içinde doğrulanır. SQLite tabloları değişmez.
+V20 `PolicySettings` içinde bayrağı korur. V1–V19 göçü bayrağı kapalıya zorlar; V22 ve bilinmeyen ileri sürümler reddedilir. Bayrak kapalıyken JSON anahtarı atlanır ve karar/RNG yoluna ek iş girmez. V19'dan V20'ye capture sürüm metaverisi değişir; eski checkpoint ile byte eşitliği iddia edilmez. State ve RNG devamı mevcut V21 kaynağı içinde doğrulanır. SQLite tabloları değişmez.
 
-V20 checkpoint eski V19/V12 ikiliyle açılmamalıdır. Yeni bayrak için HTTP canlı kontrol komutu eklenmedi; açık konfigürasyon senaryo veya izole deney kurucusundadır. Mevcut `examples/operations_readiness.rs` yeni kaynakta V20 kontrol eder; [26 Ekim V19 koşusu](reports/OPERATIONS_READINESS_20261026.md) kendi sabit kaynak/ikilisinin tarihsel sonucudur, V20 runtime kanıtı değildir.
+V20 checkpoint eski V19/V12 ikiliyle açılmamalıdır. Bu bayrak için HTTP canlı kontrol komutu eklenmedi; açık konfigürasyon senaryo veya izole deney kurucusundadır. Mevcut `examples/operations_readiness.rs` yeni kaynakta V21 kontrol eder; [26 Ekim V19 koşusu](reports/OPERATIONS_READINESS_20261026.md) kendi sabit kaynak/ikilisinin tarihsel sonucudur, V20 runtime kanıtı değildir.
 
 ## Doğrulama ve kanıt sınırı
 

@@ -6,7 +6,7 @@ anlamına gelmez. P0–P3 çalışma sırası kategori yapısından ayrıdır.
 
 ## Sistem durumu
 
-- Geliştirme kaynağı V20 / SQLite V2; canlı dünya V12 checkpoint'tir. V20
+- Geliştirme kaynağı V21 / SQLite V2; canlı dünya V12 checkpoint'tir. V21
   canlıya yükseltilmemiştir. Nitelikli binary kimliği ve güncel operasyon
   kuralları [AGENTS.md](../AGENTS.md)'dedir.
 - Kaynakta mekanizmalar ve deneysel seçenekler bulunur; bunlar tek başına
@@ -97,6 +97,11 @@ ilgili diğer kategoriye bağlanır; aynı iş için paralel, çatışan plan tu
   sonraki durumu bireysel algıya sızmaz.
 
 ### <a id='canli-beden'></a>K2 — Canlı ve beden
+
+- [V21 su öncesi bitişik öğün](WATER_MEAL_PRIORITY.md) varsayılan kapalı adaydır;
+  yalnız ödenemeyen ilk su adımı yerine ücretsiz bitki öğününü seçer. Öğrenme
+  atfı kesilir; dört kollu önkayıtlı kıyas, eski yem arama bütçesinden ayrı
+  ve birlikte etkisini ölçer. Mekanizma testi genel ekolojik kabul değildir.
 
 - **Mevcut:** Sağlık, enerji, metabolizma ve hareket maliyetleri vardır; temel
   dinlenme ve yeterli enerji/su koşulunda enerji ödeyen pasif iyileşme bulunur.

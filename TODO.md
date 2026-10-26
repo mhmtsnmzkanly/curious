@@ -1,9 +1,9 @@
 # Sıradaki işler
 
-1. **Yem–su erişim kilitlenmesini açıklığa kavuştur:** [enerji bütçesi raporu](docs/reports/FOOD_SEARCH_RESERVE_V1_20261026.md)
-   tek yemli ortamda 4/6 seedde yem ve sağkalım artışı gösterdi, fakat tüm bireyler
-   yine öldü; diğer habitatlarda kural hiç devreye girmedi. Yeni değişiklikten önce
-   susuzluk/arama öncelikleri ve mevcut rota ödeme sınırını ayrı hipotezle incele.
+1. **Su–yem önceliği kıyasını tamamla:** [V21 sözleşmesi](docs/WATER_MEAL_PRIORITY.md)
+   ödenemeyen su hareketi yerine bitişik öğün seçebilen varsayılan kapalı adaydır.
+   [Dört kollu protokol](docs/WATER_MEAL_PRIORITY_V1_PROTOCOL_20261026.md) kapsamında
+   su/yem kazanımı, sağkalım ve üremeyi birbirinden ayrı raporla.
 2. **K3 öğrenme hedefini gözden geçir:** [kaynak güvenilirliği taslağı](docs/SOURCE_RELIABILITY_TARGET_20261026.md)
    uygulanmamıştır; yalnızca ayrı protokolün gözden geçirilmesine temel olabilir.
 3. **Ekoloji aktarımındaki tükenmeyi açıkla:** [tarama raporu](docs/reports/ECOLOGY_TRANSFER_V1_20261026.md)
