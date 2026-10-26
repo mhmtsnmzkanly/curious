@@ -193,7 +193,7 @@ impl World {
         }
 
         // 2. Hazırlık: Çakışma kontrolü için meşgul olan hücrelerin tespiti
-        let mut occupied: HashMap<Position, usize> = self
+        let occupied: HashMap<Position, usize> = self
             .entities
             .iter()
             .filter(|slot| {
