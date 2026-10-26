@@ -38,6 +38,7 @@ CASES = (
 )
 REQUIRED_NORMALIZATIONS = {"policy.water_meal_priority_enabled only"}
 REQUIRED_REFERENCE_FIELDS = {"events", "rng", "last_intents", "last_decisions", "state"}
+PLAN_KINDS = {"move", "eat", "drink", "mate", "attack", "flee", "sleep"}
 
 
 class RunFailure(RuntimeError):
@@ -166,6 +167,15 @@ def run_dir_bytes(path: Path) -> int:
     return total
 
 
+def verify_input_copies(selected: list[dict[str, Any]], manifest_copy: Path) -> None:
+    for item in selected:
+        copied_input = Path(item["path"])
+        if copied_input.stat().st_size != item["bytes"] or sha256_file(copied_input) != item["sha256"]:
+            raise RunFailure(f"child modified immutable input copy: {copied_input.name}")
+    if sha256_file(manifest_copy) != RAW_MANIFEST_SHA256:
+        raise RunFailure("child modified immutable raw manifest copy")
+
+
 def validate_case_json(path: Path, expected: dict[str, Any]) -> dict[str, Any]:
     if not path.is_file():
         raise RunFailure("child did not write per-case JSON")
@@ -187,6 +197,28 @@ def validate_case_json(path: Path, expected: dict[str, Any]) -> dict[str, Any]:
         raise RunFailure("per-case input SHA-256 mismatch")
     if data.get("status") != "complete":
         raise RunFailure(f"child case status is not complete: {data.get('failure', 'unknown')}")
+    prefix = data.get("prefix_replay", {})
+    validations = prefix.get("per_tick_validations")
+    if not isinstance(validations, list) or len(validations) != expected["target_tick"] - 1:
+        raise RunFailure("prefix replay does not record every initial-state-to-target-1 tick")
+    if prefix.get("from_initial_state_through") != expected["target_tick"] - 1:
+        raise RunFailure("prefix replay endpoint mismatch")
+    if not isinstance(prefix.get("target_pre_state"), dict) or "target_pre_rng" not in prefix:
+        raise RunFailure("prefix replay omits reconstructed target-pre State/RNG")
+    per_tick_fields = {
+        "tick", "actor_resolver_events", "plant_food_gained_energy", "water_gained",
+        "movement_energy_paid", "plant_food_gained_cumulative", "water_gained_cumulative",
+        "movement_energy_cumulative", "food_stock", "water_stock", "focal_decision_trace",
+        "live_total", "founders_alive",
+    }
+    for expected_tick, row in enumerate(validations, 1):
+        if not isinstance(row, dict) or not per_tick_fields <= set(row) or row.get("tick") != expected_tick:
+            raise RunFailure("prefix replay tick validation is incomplete or out of order")
+        if not isinstance(row["actor_resolver_events"], list):
+            raise RunFailure("prefix replay resolver events are malformed")
+        for field in per_tick_fields - {"tick", "actor_resolver_events", "focal_decision_trace"}:
+            if not isinstance(row[field], int):
+                raise RunFailure(f"prefix replay metric is not an integer: {field}")
     for key in ("prefix_replay_valid", "branch_roundtrip_valid"):
         if data.get(key) is not True:
             raise RunFailure(f"required case validity gate failed: {key}")
@@ -217,13 +249,58 @@ def validate_case_json(path: Path, expected: dict[str, Any]) -> dict[str, Any]:
             raise RunFailure(f"branch {name} plan/event records have wrong type")
         if not isinstance(branch["event_totals"], dict) or not isinstance(branch["pre_actor_bodies"], list) or not isinstance(branch["post_actor_bodies"], list):
             raise RunFailure(f"branch {name} physical records have wrong type")
+        if set(branch["plan_orders"]) != PLAN_KINDS or any(not isinstance(v, list) for v in branch["plan_orders"].values()):
+            raise RunFailure(f"branch {name} plan-order map is incomplete or malformed")
     if branches["B"]["pre_state"] != branches["C"]["pre_state"] or branches["B"]["pre_rng"] != branches["C"]["pre_rng"]:
         raise RunFailure("B/C fork State or RNG differs before resolution")
     if not (branches["A"]["pre_actor_bodies"] == branches["B"]["pre_actor_bodies"] == branches["C"]["pre_actor_bodies"]):
         raise RunFailure("fork arms do not share identical pre-resolution physical bodies")
+
+    common = data.get("common_prepared", {})
+    if not isinstance(common.get("state"), dict) or "rng" not in common:
+        raise RunFailure("common preparation omits State/RNG")
+    actor_inputs = common.get("actor_inputs")
+    if not isinstance(actor_inputs, list) or not actor_inputs or any(not isinstance(a, dict) or not {"id", "pos", "phase", "body", "perception", "decision_trace"} <= set(a) for a in actor_inputs):
+        raise RunFailure("common preparation omits full per-actor visible inputs/decision traces")
+    actor_ids = [a["id"] for a in actor_inputs]
+    if any(not isinstance(actor_id, int) for actor_id in actor_ids) or len(set(actor_ids)) != len(actor_ids):
+        raise RunFailure("common preparation actor IDs are invalid or duplicated")
+    if not isinstance(common.get("baseline_intents"), list) or not isinstance(common.get("candidate_intents"), list):
+        raise RunFailure("common preparation omits baseline/candidate intents")
+    if not isinstance(common.get("candidate_overrides"), list):
+        raise RunFailure("common preparation omits candidate override records")
+    baseline_plans = common.get("baseline_plans", {})
+    candidate_plans = common.get("candidate_plans", {})
+    for source, names in ((baseline_plans, {"unrotated", "rotated"}), (candidate_plans, {"unrotated", "fixed_B", "rotated_C"})):
+        if not isinstance(source, dict) or not names <= set(source):
+            raise RunFailure("common preparation omits required unrotated/fixed/rotated plans")
+        for label in names:
+            plan_set = source[label]
+            if not isinstance(plan_set, dict) or set(plan_set) != PLAN_KINDS or any(not isinstance(v, list) for v in plan_set.values()):
+                raise RunFailure(f"common prepared plan set is malformed: {label}")
+    if branches["A"]["plan_orders"] != baseline_plans["rotated"]:
+        raise RunFailure("A branch plans differ from shared natural baseline rotation")
+    if branches["B"]["plan_orders"] != candidate_plans["fixed_B"]:
+        raise RunFailure("B branch does not use registered fixed placement")
+    if branches["C"]["plan_orders"] != candidate_plans["rotated_C"]:
+        raise RunFailure("C branch does not use candidate natural rotation")
+    def plan_content(plan_set: dict[str, Any]) -> dict[str, list[str]]:
+        output = {}
+        for kind, rows in plan_set.items():
+            if any(not isinstance(row, dict) or not isinstance(row.get("id"), int) for row in rows):
+                raise RunFailure(f"plan rows lack actor IDs: {kind}")
+            if kind in {"mate", "attack"} and any(not isinstance(row.get("target_id"), int) for row in rows):
+                raise RunFailure(f"targeted plan rows lack target IDs: {kind}")
+            output[kind] = sorted(json.dumps(row, sort_keys=True, separators=(",", ":")) for row in rows)
+        return output
+    if plan_content(candidate_plans["fixed_B"]) != plan_content(candidate_plans["rotated_C"]):
+        raise RunFailure("B/C candidate plan content differs beyond prescribed ordering")
     def normalized_state(state: Any) -> Any:
-        if not isinstance(state, dict) or not isinstance(state.get("policy"), dict) or "water_meal_priority_enabled" not in state["policy"]:
-            raise RunFailure("reference State lacks the sole registered policy flag")
+        if not isinstance(state, dict) or not isinstance(state.get("policy"), dict):
+            raise RunFailure("reference State lacks the policy object")
+        enabled = state["policy"].get("water_meal_priority_enabled", False)
+        if not isinstance(enabled, bool):
+            raise RunFailure("reference State policy flag is not boolean")
         return {**state, "policy": {k: v for k, v in state["policy"].items() if k != "water_meal_priority_enabled"}}
 
     native_refs = (("native_off", "A", "a_matches_native_off"), ("native_on", "C", "c_matches_native_on"))
@@ -232,6 +309,9 @@ def validate_case_json(path: Path, expected: dict[str, Any]) -> dict[str, Any]:
         branch = branches[branch_name]
         if not isinstance(reference, dict):
             raise RunFailure(f"missing native reference payload: {reference_name}")
+        reference_flag = reference.get("state", {}).get("policy", {}).get("water_meal_priority_enabled", False)
+        if reference_flag is not (reference_name == "native_on"):
+            raise RunFailure(f"native reference has unexpected feature flag: {reference_name}")
         for key in REQUIRED_REFERENCE_FIELDS:
             if key not in reference:
                 raise RunFailure(f"native reference {reference_name} omits {key}")
@@ -292,8 +372,8 @@ def main() -> int:
         "failure": None,
     }
     active_record: dict[str, Any] | None = None
-    atomic_json(manifest_path, run_manifest)
     started = time.monotonic()
+    atomic_json(manifest_path, run_manifest)
 
     def fail(message: str, case_index: int | None = None) -> int:
         if active_record is not None and active_record.get("status") == "running":
@@ -338,8 +418,10 @@ def main() -> int:
             shutil.copyfile(original, copy_path)
             if copy_path.stat().st_size != item["bytes"] or sha256_file(copy_path) != item["sha256"]:
                 raise RunFailure(f"copied raw input failed immutable hash verification: {original.name}")
+            copy_path.chmod(0o400)
             item["original_path"] = item["path"]
             item["path"] = str(copy_path.resolve())
+        raw_manifest_copy.chmod(0o400)
         run_manifest.update({
             "source": {"root": str(source_root), **source},
             "supervisor": {"path": str(supervisor_path), "sha256": sha256_file(supervisor_path), **supervisor_source},
@@ -405,18 +487,22 @@ def main() -> int:
                     if elapsed >= MAX_PHASE_SECONDS:
                         terminate_child(proc)
                         proc.wait()
+                        verify_input_copies(selected, raw_manifest_copy)
                         raise RunFailure("180-second phase wall-clock budget exceeded",)
                     if child_seconds >= MAX_CHILD_SECONDS:
                         terminate_child(proc)
                         proc.wait()
+                        verify_input_copies(selected, raw_manifest_copy)
                         raise RunFailure(f"child exceeded 45-second limit: {case_name}")
                     if run_dir_bytes(output_dir) > MAX_CHILD_ARTIFACT_BYTES:
                         terminate_child(proc)
                         proc.wait()
+                        verify_input_copies(selected, raw_manifest_copy)
                         raise RunFailure(f"aggregate run artifact headroom exceeded: {case_name}")
                     time.sleep(0.05)
-                if proc.returncode != 0:
-                    raise RunFailure(f"child exited with code {proc.returncode}: {case_name}")
+            verify_input_copies(selected, raw_manifest_copy)
+            if proc.returncode != 0:
+                raise RunFailure(f"child exited with code {proc.returncode}: {case_name}")
             if run_dir_bytes(output_dir) > MAX_CHILD_ARTIFACT_BYTES:
                 raise RunFailure(f"aggregate run artifact headroom exceeded: {case_name}")
             result = validate_case_json(out_json, item)
@@ -440,6 +526,8 @@ def main() -> int:
         run_manifest["finished_utc_epoch"] = time.time()
         run_manifest["elapsed_seconds"] = round(time.monotonic() - started, 6)
         for _ in range(3):
+            if time.monotonic() - started >= MAX_PHASE_SECONDS:
+                raise RunFailure("180-second phase wall-clock budget exceeded")
             atomic_json(manifest_path, run_manifest)
             actual_bytes = run_dir_bytes(output_dir)
             if actual_bytes > MAX_BYTES:
@@ -447,6 +535,8 @@ def main() -> int:
             if run_manifest.get("aggregate_output_bytes") == actual_bytes:
                 break
             run_manifest["aggregate_output_bytes"] = actual_bytes
+        if time.monotonic() - started >= MAX_PHASE_SECONDS:
+            raise RunFailure("180-second phase wall-clock budget exceeded")
         return 0
     except Exception as exc:
         return fail(str(exc))
