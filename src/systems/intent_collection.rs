@@ -10,6 +10,22 @@ use crate::{
 pub struct IntentCollectionSystem;
 impl IntentCollectionSystem {
     pub fn collect(world: &mut World, log: &mut Vec<String>) -> Vec<(usize, Intent)> {
+        Self::collect_impl(world, log, None)
+    }
+
+    pub fn collect_with_perceptions(
+        world: &mut World,
+        log: &mut Vec<String>,
+        perceptions: &mut Vec<(usize, crate::entity::perception::Perception)>,
+    ) -> Vec<(usize, Intent)> {
+        Self::collect_impl(world, log, Some(perceptions))
+    }
+
+    fn collect_impl(
+        world: &mut World,
+        log: &mut Vec<String>,
+        mut lab_perceptions: Option<&mut Vec<(usize, crate::entity::perception::Perception)>>,
+    ) -> Vec<(usize, Intent)> {
         let index = super::spatial::SpatialIndex::new(&world.entities);
         let mut intents = Vec::new();
         let mut traces = Vec::new();
@@ -19,6 +35,9 @@ impl IntentCollectionSystem {
                 continue;
             }
             let view = PerceptionSystem::with_index(world, slot, &index);
+            if let Some(perceptions) = lab_perceptions.as_mut() {
+                perceptions.push((slot.id, view.clone()));
+            }
             let rng = world.rng.state();
             let mut learner = slot.learner.clone();
             let mut hunt_learner = slot.hunt_learner.clone();
