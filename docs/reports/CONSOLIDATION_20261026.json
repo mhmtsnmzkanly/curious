@@ -1,0 +1,55 @@
+{
+  "date": "2026-10-26",
+  "scope": "six workstreams via Luna agents, root review and bounded execution",
+  "source_changes": "diagnostic/probe/runner only; no engine behavior change",
+  "tasks": [
+    {
+      "name": "water_signal",
+      "status": "diagnosed",
+      "result": "147 context updates,146zero;0/43 fresh rankchanges"
+    },
+    {
+      "name": "learning_target",
+      "status": "proposed_not_implemented",
+      "result": "observable own service-forecast residual; no validated learning benefit"
+    },
+    {
+      "name": "energy_access",
+      "status": "diagnosed_not_fixed",
+      "result": "food visible but remaining energy cannot pay approach; no chosen reserve formula"
+    },
+    {
+      "name": "care_refuge",
+      "status": "tradeoff_not_accepted",
+      "result": "endpoint+13, cumulative survival-1428entityticks at1000ticks"
+    },
+    {
+      "name": "maintained_docs",
+      "status": "updated",
+      "result": "current vs historical evidence separated"
+    },
+    {
+      "name": "ecology_and_readiness",
+      "status": "bounded_screen_and_smoke_completed",
+      "result": "45worlds27000ticks;121offline operational ticks;no promotion"
+    }
+  ],
+  "promoted": false,
+  "next_priority": "observable paid route reserve planning and sparse/predator failure diagnosis; source reliability target needs pure model review before new protocol",
+  "limits": [
+    "no long uptime claim",
+    "no general ecological superiority",
+    "no accepted new learning signal",
+    "invalid original tick percentiles preserved and excluded"
+  ],
+  "cleanup_bytes": 192705723,
+  "live_check": {
+    "tick": 13644,
+    "alive": 598,
+    "paused": false,
+    "storage_error": null,
+    "coexistence_pid": 119175,
+    "replay_pid": 1137,
+    "restarts": 0
+  }
+}

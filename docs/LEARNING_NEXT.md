@@ -31,6 +31,11 @@ Yaş ödülü, yavruya deneyim aktarımı veya kabul edilmiş refuge-risk modeli
   sayılmaz. Bir formal seed düşük prefix desteği nedeniyle öğrenme kabulüne
   uygun değildir. [V1 başarısız kalibrasyonu](reports/WATER_ADAPTATION_V1_20261025.md)
   korunur.
+- [Su sinyali tanısı](reports/WATER_SIGNAL_DIAGNOSIS_20261026.md) bulduğu
+  çoğunlukla sıfır residual ve değişmeyen seçim sıralaması nedeniyle ayrı,
+  bireysel görünen-hizmet-tahmin hedefi önerir. Bu yalnızca
+  [hedef sözleşmesidir](SOURCE_RELIABILITY_TARGET_20261026.md): uygulanmış kod,
+  onaylı protokol, yeni World deneyi veya kabul edilmiş öğrenme faydası değildir.
 - [Nitelik tanısı](reports/QUALIFICATION_DIAGNOSTIC_20261025.md) daha önce
   görülmüş 401–410 seedlerinde kısa fixture bakım/paket kolları için 2 iyileşme,
   8 nötr; refuge için 10 nötr sonuç verdi. Bu bağımsız held-out kabulü değildir.
@@ -48,4 +53,6 @@ Yaş ödülü, yavruya deneyim aktarımı veya kabul edilmiş refuge-risk modeli
 Yeni öğrenme iddiası ayrı hipotez, önceden sabitlenmiş protokol ve uygun
 karşılaştırma gerektirir. Aynı kimlikle deneyi uzatmak, sonuçtan sonra eşik
 ayarlamak veya politika farkını öğrenme kazancı saymak kabul kanıtı değildir.
-Yeni paralel çalışma root incelemesi sonuçlanana kadar beklemededir.
+Ekoloji aktarımı ve offline operasyon sonuçlarının kapsamı
+[ROADMAP](ROADMAP.md)'de özetlenir; hiçbiri genel öğrenme faydasını veya
+dağıtım uygunluğunu kabul etmez.

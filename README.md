@@ -12,12 +12,24 @@ Geliştirme kaynağı checkpoint V19 / SQLite V2'dir. Canlı dünya V12 checkpoi
 durumunun zaman damgalı ayrıntıları [AGENTS.md](AGENTS.md)'de tutulur.
 
 [V2 su uyum ölçümü](docs/reports/WATER_ADAPTATION_V2_20261025.md) üç learner
-kolunda aynı fiziksel eylem ve yörüngeleri buldu; ek öğrenme faydası kabul
-edilmedi. [Nitelik tanısında](docs/reports/QUALIFICATION_DIAGNOSTIC_20261025.md)
-bakımın kısa fixture sinyali, 1.000-tick V12/V19 gölge koşusundaki 1.428 daha
-az birey-tick ödünleşimini ortadan kaldırmadı. Canlı fayda veya yükseltme kabulü
-yoktur. Tam kaçış refuge riski `Unknown` kalır. Diğer mekanizma ve tarihli
-sonuçların kapsamı [ROADMAP](docs/ROADMAP.md)'de özetlenir.
+kolunda ek öğrenme faydası göstermedi. [Nitelik tanısı](docs/reports/QUALIFICATION_DIAGNOSTIC_20261025.md)
+bakım/bakım+sığınak için kısa fixture sinyali ile 1.000-tick gölge
+ödünleşimini ayırır; paket kabul edilmedi. [Su sinyali tanısı](docs/reports/WATER_SIGNAL_DIAGNOSIS_20261026.md)
+yalnızca uygulanmamış, öneri aşamasındaki yeni K3 hedefini gerekçelendirir.
+[Ekoloji aktarım taraması](docs/reports/ECOLOGY_TRANSFER_V1_20261026.md) üç
+habitatta sınırlı 600-tick karşılaştırmadır: seyrek kaynaklı kohortlar tüm
+kollarda söndü; karma avcı fikstüründe etçiller 15/15 koşuda kayboldu ve bir
+alarm koşusunda tüm popülasyon söndü. Genel ekolojik üstünlük kabul edilmedi.
+[Çevrimdışı operasyon probu](docs/reports/OPERATIONS_READINESS_20261026.md)
+teknik/storage kontrollerini geçti; promotion kapısı kapalıdır ve ölçüm
+raporundaki [timing düzeltmesi](docs/reports/OPERATIONS_READINESS_TIMING_CORRECTION_20261026.md)
+kabul iddiası oluşturmaz. Enerji rezerv bekçisi
+seçilmedi veya uygulanmadı. Canlı fayda ya da V19 yükseltmesi kabulü yoktur;
+tam kaçış refuge riski `Unknown` kalır. Kapsam ve kalan sınırlar
+[ROADMAP](docs/ROADMAP.md)'de özetlenir.
+
+26 Ekim 2026'da tamamlanan paralel incelemelerin ve sınırlı koşuların tek
+özeti: [birleştirilmiş sonuç raporu](docs/reports/CONSOLIDATION_20261026.md).
 
 ## Yerel çalıştırma
 

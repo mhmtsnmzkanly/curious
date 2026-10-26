@@ -20,6 +20,8 @@ K1–K8'e doğrudan git: [K1](ROADMAP.md#dunya-cevre),
 
 ## Güncel kanıt
 
+- [26 Ekim birleşik sonuç özeti](reports/CONSOLIDATION_20261026.md): öğrenme,
+  enerji, bakım paketi, habitat ve operasyon kanıtlarının tek kapsam özeti.
 - [Su uyum V2](reports/WATER_ADAPTATION_V2_20261025.md): fixture çalıştı;
   üç learner kolunda ek öğrenme faydası kabul edilmedi.
 - [Nitelik tanısı](reports/QUALIFICATION_DIAGNOSTIC_20261025.md): bakımın kısa
@@ -33,6 +35,17 @@ K1–K8'e doğrudan git: [K1](ROADMAP.md#dunya-cevre),
   canlıya alınmış, kapsamı belirtilmiş operasyonel düzeltme.
 - [Coexistence gözlemi](reports/QUALIFIED_OBSERVATION.md): yalnız kayıtlı
   fixture ve protokol kapsamındaki sonuç.
+- [Ekoloji transfer V1](reports/ECOLOGY_TRANSFER_V1_20261026.md): üç habitatlı
+  sınırlı karşılaştırma; seyrek kaynakta tükenme ve karma habitatta etçil kaybı,
+  genel fayda kabulü yok.
+- [Operasyonel hazırlık](reports/OPERATIONS_READINESS_20261026.md): offline
+  migration/storage smoke geçti; promotion kapısı kapalı. [Timing düzeltmesi](reports/OPERATIONS_READINESS_TIMING_CORRECTION_20261026.md)
+  eski p50/p95 alanlarını geçersiz sayar.
+- [Su sinyali tanısı](reports/WATER_SIGNAL_DIAGNOSIS_20261026.md) ve
+  [kaynak güvenilirliği hedef taslağı](SOURCE_RELIABILITY_TARGET_20261026.md):
+  tanı ile uygulanmamış K3 önerisi.
+- [Enerji ve paket tanısı](reports/ENERGY_AND_PACKAGE_DIAGNOSIS_20261026.md):
+  enerji rezerv bekçisi formülü seçilmedi; bakım paketi kabul edilmedi.
 
 Diğer tarihli raporlar [reports/](reports/) altında bulunur. Tarihli raporlar
 ölçümün kendi fixture'ını, karşılaştırmasını ve sınırlarını taşır; güncel

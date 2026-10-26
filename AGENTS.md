@@ -72,6 +72,22 @@ dağıtım ve karar kanıtları ilgili raporlarda korunur; eski kayıtları silm
   etiketler ayrı hedef ufkudur; route predictor veya kabul edilmiş öğrenici
   değildir. `REFUGE_RESIDUAL_CANDIDATE` World/karar/checkpoint yoluna
   bağlanmamış saf prototiptir.
+- [Su sinyali tanısı](docs/reports/WATER_SIGNAL_DIAGNOSIS_20261026.md), V2'de
+  mevcut context residual faydası görülmediğini; [kaynak güvenilirliği
+  sözleşmesi](docs/SOURCE_RELIABILITY_TARGET_20261026.md) ise yalnızca önerilmiş
+  K3 hedefini belirtir. Bu hedef uygulanmadı, test edilmedi veya kabul edilmedi.
+- [Ekoloji transfer V1](docs/reports/ECOLOGY_TRANSFER_V1_20261026.md) sınırlı
+  taramasında seyrek kaynaklı dünyalar tüm kollarda söndü; karma habitatta
+  etçiller tüm koşullarda kayboldu, alarm koşullarından birinde tüm popülasyon
+  söndü. Genel ekolojik kol üstünlüğü kabul edilmedi.
+- [Enerji/paket tanısı](docs/reports/ENERGY_AND_PACKAGE_DIAGNOSIS_20261026.md)
+  enerji rezerv sorusunu açık bırakır: bekçi formülü veya motor değişikliği
+  seçilmedi. Bakım+sığınak paketi davranışsal fayda kabulü değildir.
+- [Offline operasyonel smoke](docs/reports/OPERATIONS_READINESS_20261026.md)
+  V12→V19 migration, State/RNG ve izole depolama kontrollerini geçti; promotion
+  izni vermez. Eski p50/p95 alanları geçersizdir; ayrıntı [düzeltme
+  notunda](docs/reports/OPERATIONS_READINESS_TIMING_CORRECTION_20261026.md),
+  orijinal koşu artifaktları ise değiştirilmeden korunur.
 - Mekanizma testleri, P3 ablasyon ve Wave 7–10 yeniden denetimleri kod yolu ve
   sınırlı protokolleri kapsar; evrensel ekolojik üstünlük göstermez. Ayrıntı
   [ROADMAP](docs/ROADMAP.md) ve bağlantılı tarihli raporlardadır.

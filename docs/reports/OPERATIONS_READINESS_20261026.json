@@ -1,0 +1,93 @@
+{
+  "schema": "curious-operations-readiness-report-v1",
+  "date": "2026-10-26",
+  "scope": "one frozen V12 checkpoint; offline control mode, 120 primary +1 storage tick",
+  "source": "bc60fa60ac060b7cc0dfae75f20fe16df5173461",
+  "binary_sha256": "d65a61908996fe6b71ef11471098c2de748e88fa886549cf036b44f5079c7221",
+  "protocol_sha256": "cba410f77ea0a4c0303ed539424232e3fe013efef00a72f064b834f14e28885b",
+  "input_sha256": "357870bd9a3d414704ed6befbea050852028f54af304c27cdca482dc31abdad2",
+  "raw_manifest_sha256": "f5fd12560e7e2e935f3a03ce3d30d969a50cfb7ca012f99b596452c2069a9b9b",
+  "process_time_sha256": "706e9a5d4d086edcdbd0ac3fd02fe79c9bd442e0227e5a904720982b3cd3abdb",
+  "operational_smoke": "passed",
+  "promotion_allowed": false,
+  "timing_percentiles": "invalid: unsorted durations indexed; raw p50/p95 must not be used; samples not retained",
+  "world_tick_mean_ms": 39.05451666666667,
+  "world_tick_max_ms": 48.774,
+  "world_tick_total_seconds": 4.686542,
+  "max_rss_kib": 160820,
+  "max_rss_mib": 157.05078125,
+  "output_bytes": 19938734,
+  "input_state": {
+    "entities": 630,
+    "tick": 12639,
+    "version": 12
+  },
+  "final_state": {
+    "entities": 615,
+    "restore_recapture_state_rng_exact": true,
+    "sha256": "6c00197df22a08f7a262e79daeb80fab34a2360564f9c4011c1c19d3b47b3556",
+    "tick": 12759,
+    "version": 19
+  },
+  "initial_roundtrip": {
+    "entity_count_preserved": true,
+    "migration_tick_preserved": true,
+    "restore_recapture_state_rng_exact": true
+  },
+  "storage_smoke": {
+    "closed_zstd_archive_restored_via_Reader": true,
+    "first_state_tick": 12639,
+    "inventory_at_close": [
+      {
+        "bytes": 187099,
+        "compressed": true,
+        "shard": 0
+      },
+      {
+        "bytes": 5582848,
+        "compressed": false,
+        "shard": 1
+      }
+    ],
+    "latest_state_sha256": "7281a099fc608c30d93686732531a9d450ae488fb46c2a5cd4f076a9b4374dd1",
+    "latest_tick": 12640,
+    "max_history_bytes": 8388608,
+    "max_shard_bytes": 1048576,
+    "records": 2,
+    "reopened_inventory": [
+      {
+        "bytes": 187099,
+        "compressed": true,
+        "shard": 0
+      },
+      {
+        "bytes": 5582848,
+        "compressed": false,
+        "shard": 1
+      }
+    ],
+    "scope": "isolated output directory only; no writer-lock claim",
+    "sqlite_integrity_checks": [
+      {
+        "compressed": true,
+        "integrity_check": "ok",
+        "shard": 0
+      },
+      {
+        "compressed": false,
+        "integrity_check": "ok",
+        "shard": 1
+      }
+    ],
+    "status": "passed",
+    "storage_tick_us": 35828,
+    "tick_count": 1
+  },
+  "limits": [
+    "not a production writer-lock test",
+    "not a retention/budget enforcement stress test",
+    "not long uptime evidence",
+    "no behavioral equivalence between V12 and V19 asserted",
+    "no live pause, configuration, binary or data change"
+  ]
+}

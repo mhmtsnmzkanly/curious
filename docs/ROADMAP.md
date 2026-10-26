@@ -1,6 +1,6 @@
 # Curious yol haritası
 
-**Durum tarihi: 25 Ekim 2026.** Aşağıdaki sekiz kategori güncel durum, açık
+**Durum tarihi: 26 Ekim 2026.** Aşağıdaki sekiz kategori güncel durum, açık
 sınırlar, önerilen çalışma ve kabul ölçütünü ayırır. Öneriler uygulandıkları
 anlamına gelmez. P0–P3 çalışma sırası kategori yapısından ayrıdır.
 
@@ -16,6 +16,9 @@ anlamına gelmez. P0–P3 çalışma sırası kategori yapısından ayrıdır.
   bölümlerine bakın.
 - [V2 su uyum labı](reports/WATER_ADAPTATION_V2_20261025.md) üç learner
   kolunda aynı fiziksel eylem/yörüngeyi buldu; ek öğrenme faydası kabul edilmedi.
+  [Su sinyali tanısı](reports/WATER_SIGNAL_DIAGNOSIS_20261026.md) yeni K3
+  hedefini yalnızca öneri olarak belgeliyor; hedef uygulanmadı ve yeni hedef için
+  kayıtlı bir deney yürütülmedi.
   [Nitelik tanısı](reports/QUALIFICATION_DIAGNOSTIC_20261025.md) önceki 401–410
   seed tekrarında bakım ve bakım+sığınak için 2 iyileşme, 8 nötr; refuge için
   10 nötr buldu. Bunlar yeni held-out seedler değildir.
@@ -26,14 +29,31 @@ anlamına gelmez. P0–P3 çalışma sırası kategori yapısından ayrıdır.
 - Refuge tam-rota beklenen tehdit hasarı `Unknown`; tamamlanmış ilk resolver
   aralığı ayrı hedef ufkudur. Kayıtlı coexistence sonucu yalnız kendi fixture
   ve protokol kapsamındadır. Uzun gerçek-zamanlı soak ertelenmiştir.
-- Root'un devam eden paralel incelemeleri sonuçlanana kadar yeni paralel
-  çalışmalar beklemededir. Gelecek öneriler ayrı protokol ve review gerektirir.
+- [Ekoloji transfer V1](reports/ECOLOGY_TRANSFER_V1_20261026.md) 45 World ve
+  27,000 ana tick tamamladı. Seyrek kaynak habitatında her kolun üç koşusu da
+  söndü; karma avcı habitatında 15 koşunun tümünde etçiller kayboldu, bir alarm
+  koşusunda tüm popülasyon söndü. Çayırdaki kalıcılık özellik üstünlüğü değildir;
+  genel ekolojik fayda kabul edilmedi.
+- [Operasyonel hazırlık probu](reports/OPERATIONS_READINESS_20261026.md) offline
+  V12→V19 migration, State/RNG round-trip ve izole SQLite/shard kontrollerini
+  geçti. Bu smoke deployment kapısını açmaz. Dünya-tick ortalama/maksimum ve
+  toplam süre raporlanabilir; eski p50/p95 hesapları
+  [düzeltme notunda](reports/OPERATIONS_READINESS_TIMING_CORRECTION_20261026.md)
+  açıklanan sıralama hatasıyla geçersizdir.
+- Enerji rezerv bekçisi için formül seçilmedi; aday veya uygulama yoktur.
+  Bakım+sığınak paketi davranışsal fayda olarak kabul edilmedi. Gelecek öneriler
+  ayrı protokol ve review gerektirir.
 
 Kanıt ayrıntısı: [öğrenme sözleşmesi](LEARNING_NEXT.md),
 [nitelik tanısı](reports/QUALIFICATION_DIAGNOSTIC_20261025.md),
 [V2 su labı](reports/WATER_ADAPTATION_V2_20261025.md),
 [coexistence gözlemi](reports/QUALIFIED_OBSERVATION.md) ve ilgili tarihli
 [denetim/ölçüm raporları](reports/).
+
+Yeni kanıt: [ekoloji aktarım taraması](reports/ECOLOGY_TRANSFER_V1_20261026.md),
+[operasyonel hazırlık](reports/OPERATIONS_READINESS_20261026.md),
+[su sinyali tanısı](reports/WATER_SIGNAL_DIAGNOSIS_20261026.md) ve
+[kaynak güvenilirliği hedef taslağı](SOURCE_RELIABILITY_TARGET_20261026.md).
 
 ## Sekiz sistem kategorisi
 
@@ -124,6 +144,10 @@ ilgili diğer kategoriye bağlanır; aynı iş için paralel, çatışan plan tu
   eşleştiğinde (`missing_resource_target_matches == true`) artık kaydı yapılır.
   Tam-rota sığınak hasarı `Unknown` kalmaya devam eder; tamamlanan ilk-aralık sonucu sonraki
   tam-rota sansüründen bağımsızdır.
+- [Su sinyali tanısı](reports/WATER_SIGNAL_DIAGNOSIS_20261026.md) mevcut V2
+  fikstüründe artığın seçim sırasını değiştirmediğini buldu. [Kaynak güvenilirliği
+  hedefi](SOURCE_RELIABILITY_TARGET_20261026.md) yalnızca öneridir: uygulanmış
+  kod, çalıştırılmış protokol veya kabul edilmiş fayda değildir.
 - **Açık:** Deneysel P2 öğrenme seçenekleri varsayılan kapalıdır (`default-off`); temel
   kurallı seçim ve bellek bundan ayrı tutulur. Tam-rota
   sığınak hasarı `Unknown` kalır. Bounded utility genel ampirik kabulü henüz yoktur.
@@ -145,8 +169,8 @@ ilgili diğer kategoriye bağlanır; aynı iş için paralel, çatışan plan tu
   `InteractionSystem::emit_local_alarm`, `SignalKind::Sound`) çekirdek motora
   default-off olarak entegre edildi (`src/policy.rs`, `src/systems/interaction.rs`).
 - **Açık:** Genel sürü zekâsı veya telepatik grup optimizasyonu yoktur; yerel
-  alarm varsayılan kapalıdır (`default-off`). Grup düzeyinde ampirik sağkalım
-  avantajı henüz kanıtlanmamıştır.
+  alarm varsayılan kapalıdır (`default-off`). Ekoloji aktarım taramasında alarm
+  koşullarından birinde tüm popülasyon söndü; grup sağkalım avantajı kanıtlanmadı.
 - **Önerilen:** Yalnız görünür yerel bilgiyle sınırlı yerel uyarı yayılımını
   K5/K6 avcı-av ekoloji protokollerinde test et.
 - **Kabul:** Koordinasyon yalnızca doğrulanmış görünür yerel bilgi kullanır;
@@ -168,6 +192,11 @@ ilgili diğer kategoriye bağlanır; aynı iş için paralel, çatışan plan tu
   stok-akış muhasebesine bağlandı. P3 sabit 5-seed held-out protokolü (`control`,
   `learning`, `climate`, `social_care`, `all_features`) yürütüldü
   (`reports/P2_P3_EMPIRICAL_AND_K8_AUDIT_20261025.md`).
+- 26 Ekim ekoloji aktarım taraması üç habitat, üç seed ve beş kolu kapsadı
+  (`reports/ECOLOGY_TRANSFER_V1_20261026.md`). Seyrek kaynak fikstüründeki tüm
+  koşular söndü; karma habitatta etçiller tüm koşularda kayboldu ve alarm kolunda
+  bir koşuda tüm popülasyon söndü. Çayırdaki kalıcılık genel özellik üstünlüğü
+  göstermedi.
 - **Açık:** Farklı habitatlarda kaynak akışı genellemesi, uzun vadeli popülasyon
   kalıcılığı ve şoklara dayanıklılık henüz test edilmemiştir; P3 protokolü
   yalnızca 5 seed'lik sabit fikstür ölçümüdür ve evrensel ekolojik üstünlük
@@ -188,7 +217,9 @@ ilgili diğer kategoriye bağlanır; aynı iş için paralel, çatışan plan tu
   ve leşçillik niş mekanizmaları ile ebeveyn bakımında sıfır bellek aktarımı
   kuralı korundu.
 - **Açık:** Seçilim avantajı veya niş uzmanlaşması uzun dönemli ampirik olarak
-  kabul edilmedi; P3 sabit held-out deneyi kısa yüklü karşılaştırmadır.
+  kabul edilmedi. Ekoloji aktarımında vision/stamina allelleri tüm kollarda
+  kalıtıldı, yalnızca bir kolda ifade edildi; RNG hizalaması da korunmadı. Bu
+  kol, trait seçilimi veya fitness üstünlüğü kanıtı değildir.
 - **Önerilen:** Allel maliyetleri ve soy devamlılığı ayrımını uzun dönemli
   niş uzmanlaşması testlerine bağla.
 - **Kabul:** Sonlu kalıtım ve mutasyon, bedelin ödenmesi, üreyen yavru-soyu ve
@@ -238,6 +269,10 @@ ilgili diğer kategoriye bağlanır; aynı iş için paralel, çatışan plan tu
   her tick yayımlanan benzersiz sinyaller (`treatment_unique_signals_emitted_total`) pozitif
   assert'lerle kanıtlandı (`reports/AUDIT_RECHECK_6FA9C49_REMEDIATION_20261025.md`,
   `reports/P3_ABLATION_AND_9C7D3F0_CLOSURE_20261025.md`).
+- 26 Ekim çevrimdışı operasyon probu, arşivlenmiş V12 checkpoint'ini V19 State'e
+  çevirdi; State/RNG round-trip, iki SQLite shard bütünlük denetimi ve kapalı
+  zstd arşiv okuması geçti (`reports/OPERATIONS_READINESS_20261026.md`). Bu
+  sınırlı smoke canlı dağıtım, writer-lock veya davranışsal kabul değildir.
 - **Açık:** Kısa yük sınırı ölçümleri genel performans/kapasite garantisi
   değildir. Aylar/yıllar soak ertelendi; bugün özellik çalışmasını bloke etmez.
 - **Önerilen:** Farklı donanım ve yük profillerinde sınırlandırılmış tabloların
@@ -257,13 +292,13 @@ işe ayrılır.
 
 | İz | Birincil kategori | Güncel ölçülmüş durum | Önerilen sonraki iş |
 |---|---|---|---|
-| **A — Güncel bağlamlı su artığı** | K3 | P2 kaynağında opt-in (`context_ttl_enabled`, `W=4`, `TTL=48`); V2 su labında ek öğrenme faydası kabul edilmedi. | Ancak yeni hipotez/protokolle karar kalitesi ölçümü; seçenek default-off kalır. |
+| **A — Güncel bağlamlı su artığı** | K3 | P2 kaynağında opt-in (`context_ttl_enabled`, `W=4`, `TTL=48`); V2 su labında ek öğrenme faydası kabul edilmedi. Kaynak güvenilirliği hedefi öneri aşamasındadır, uygulanmadı. | Ancak ayrı hipotez/protokol ve review ile karar kalitesi ölçümü; seçenek default-off kalır. |
 | **B — Per-owner ilk-aralık hasar öğrenmesi** | K3 | P2 çekirdek motora opt-in (`first_interval_refuge_enabled`) entegre edildi (`tests/refuge_first_interval.rs`, `tests/refuge_learning.rs`); ilk aralık tam-rota sansüründen bağımsız; full-route `Unknown`. | Farklı avcı yoğunluklarında ilk-aralık kararlarının analizi; full-route hasar modeli açık. |
-| **C — Kaynak/habitat/bedelli-trait fixture'ı** | K5 | Mevsim/in seçenekleri ve temel ceset evreleri stok-akış muhasebesinde yer alır; P3 protokolünün kapsamı sınırlıdır (`reports/P2_P3_EMPIRICAL_AND_K8_AUDIT_20261025.md`). | Çoklu habitat ve değişken çevre topolojilerinde uzun dönemli popülasyon dengesi denetimleri. |
+| **C — Kaynak/habitat/bedelli-trait fixture'ı** | K5 | Mevsim/in seçenekleri ve temel ceset evreleri stok-akış muhasebesinde yer alır; 26 Ekim aktarım taraması bazı koşullarda tam tükenme buldu, genelleme kabulü yoktur. | Çoklu habitat ve değişken çevre topolojilerinde uzun dönemli popülasyon dengesi denetimleri. |
 | **D — Eylem ve yerel koordinasyon** | K3 eylemler; K4 sosyal koordinasyon | Merak, pusu ve alarm seçenekleri P2 kaynağında; `resolve_parental_care` default-off bakım yoludur. Yavru fiziolojisi yardımcıları tek başına entegre juvenile physiology değildir. | Avcı-av karşılaşmalarında pusu ve alarm dinamiklerinin grup düzeyinde incelenmesi. |
 | **E — Sonlu allel varyasyonu/seçilim** | K6 | Allel maliyet ödemesi ve soy seçilimi ayrımı doğrulandı (`tests/genetics.rs`); pusu/takip ve çürüme/leşçillik niş mekanizmaları çekirdeğe bağlandı; bellek kalıtılmaz. | Farklı mevsim ve kaynak dağılımlarında allel dengesi ve soy kalıcılığı ölçümü. |
 | **F — Bireysel deneyim arayüzü** | K7 | Sığınak deneyimi (`CuriousExperience.refuge`), nedensellik zinciri (`causalChain`) ve Auto-Director kamera (`autoDirector`) web arayüzlerine bağlandı (`web/documentary.js`, `web/experience.js`, `web/replay.html`, `web/replay.js`, `web/replay.css`). | Yeni K1–K6 olaylarının ve mevsim/in durumlarının belgesel arayüzüne eklenmesi. |
-| **G — Kapasite/depolama/işletim** | K8 | K8 throughput denetimi ve sınırlı bellek tabloları (`SignalTrace <= 64`, `sites <= 8`, `dangers <= 8`, `known_sectors <= 16`, `burrows <= 32`) doğrulandı (`tests/k8_throughput_audit.rs`). Disabled-path State+RNG ve resume determinizmi korundu. | Farklı donanım ve yük profillerinde checkpoint boyutu ve bellek kullanımının izlenmesi. |
+| **G — Kapasite/depolama/işletim** | K8 | K8 throughput denetimi ve sınırlı bellek tabloları doğrulandı; offline storage smoke teknik kontrolleri geçti, fakat p50/p95 özeti hatalı hesaplandığından bu yüzdelikler kullanılamaz. | Farklı donanım ve yük profillerinde checkpoint boyutu ve bellek kullanımının izlenmesi. |
 
 ## P0–P3 yürütme sırası
 
@@ -325,18 +360,29 @@ Default durumu özellik bazında değişir; ceset evreleri temel fiziksel yaşam
   uzun süreli soak iddia edilmemiş / ertelenmiştir.
 - Çoklu habitatlarda uzun vadeli popülasyon kalıcılığı ve şok dinamikleri için önkayıtlı
   protokoller sonraki aşamalar için tasarlanabilir.
+- **Ekoloji transfer V1:** sabit protokolle 45 koşu ve 27,000 ana World tick
+  tamamlandı; sonuçlar ayrı [tarihli rapordadır](reports/ECOLOGY_TRANSFER_V1_20261026.md).
+  Seyrek kaynak koşularında tüm kollar çöktü; karma avcı fixture'ında etçiller
+  hiçbir koşuda dönem sonuna kalmadı. Alarm kolundaki bir koşuda tüm türler
+  söndü. Bu veri evrensel ekolojik üstünlük veya tercih edilen özellik kolu
+  belirlemez.
+- **Operasyonel hazırlık:** 120 ana + 1 storage-smoke World tick tamamlandı.
+  Offline State/RNG ve SQLite/archive kontrolleri geçti; ham ölçümün p50/p95
+  alanları düzeltilmemiş örnek sırasıyla hesaplandığı için geçersizdir. Ayrıntı
+  [operasyonel raporda](reports/OPERATIONS_READINESS_20261026.md); promotion
+  kapalıdır.
 
 ## Özgün 11 aşamanın kısa durumu
 
-| # | Aşama | 25 Ekim durumu |
+| # | Aşama | 26 Ekim durumu |
 |---:|---|---|
 | 1 | Avcı yavrusu ve soyunun devamı | Üreme/olgunlaşma mekanizması ve sınırlı coexistence kapısı var; genel kalıcılık kanıtlanmadı. |
 | 2 | Av seçimi, maliyet, bırakma ve dinlenme | İlk kurallı politika var; risk öğrenmesi fayda göstermedi. |
-| 3 | Karma ekosistem | Kayıtlı fixture'da bounded coexistence kabulü var; genel habitat sonucu yok. |
+| 3 | Karma ekosistem | Eski bounded coexistence gözlemi kendi fixture'ıyla sınırlı; yeni aktarım fikstüründe seyrek kaynakta çöküş ve avcı cohort kaybı görüldü. Genel habitat kabulü yok. |
 | 4 | Hareket, duvar, sığınak, diyet, paylaşım ve çakışma | İlk resolver sözleşmeleri mevcut ve testli. |
 | 5 | Sınırlı bireysel kaynak/tehlike belleği | Bounded bellek/unutma mekanizmaları var; genelleme kabul edilmedi. |
 | 6 | Sonuçtan su öğrenmesi ve kontrol kolu | Mekanizma/formal ölçüm var; V17 bounded utility FALSE. |
-| 7 | Bedelli kalıtsal hareket/trait ve mutasyon | İlk allel/bedel ölçümü var; seçilim avantajı kabul edilmedi. |
+| 7 | Bedelli kalıtsal hareket/trait ve mutasyon | İlk allel/bedel ölçümü var; aktarım taraması trait/fitness üstünlüğünü ayırmıyor; seçilim avantajı kabul edilmedi. |
 | 8 | Birey, karar, geçmiş, bellek ve soy arayüzü | İlk salt-okunur belgesel ekran var; bütün bilişin kaydı değildir. |
 | 9 | Gerçek gün/hafta dayanıklılığı | Sınırlı tick testleri var; uzun gerçek-zamanlı soak kullanıcı isteğiyle ertelendi. |
 | 10 | Kurucu ve harita ölçek ölçümü | 10–1.000 kurucu ve farklı haritalarda ilk ölçüm araçları var. |
