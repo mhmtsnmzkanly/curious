@@ -22,6 +22,8 @@ def read_run(root, habitat, seed, arm, entry):
     ticks = rows[1:-1]
     if len(ticks) != 300 or any(row.get("tick") != i for i, row in enumerate(ticks, 1)):
         raise ValueError(f"unexpected tick sequence: {path}")
+    if rows[-1].get("ticks_completed") != len(ticks):
+        raise ValueError(f"summary completed-tick count mismatch: {path}")
     if (rows[0].get("habitat"), rows[0].get("seed"), rows[0].get("arm")) != (habitat, seed, arm):
         raise ValueError(f"header identity mismatch: {path}")
     summary = rows[-1]
