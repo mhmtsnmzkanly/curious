@@ -12,7 +12,7 @@ from typing import Any
 
 RUN_DIR = Path("/root/curious/data/experiments/resolver-order-v1-runnerfix-20261026")
 RAW_ROOT = Path("/root/curious/data/experiments/water-meal-priority-v1-runnerfix-20261026")
-OUTPUT = Path("/root/curious/data/operations/resolver-order-20261026/analysis.json")
+OUTPUT = Path("/root/curious/data/operations/resolver-order-20261026/analysis-final.json")
 EXPECTED_RAW_MANIFEST = "db0a490b5f3a62ed9c0f9b8db72b9d5851d1659356d3423dcdec256d9d80134c"
 EXPECTED_PROTOCOL = "e8357e8d2d0795ae110579befb416585f50161355f140ff5d80252dc4402f6ff"
 EXPECTED_BINARY = "ff32c4fc7cad6e86ad97872e88f9c849ae282814a121c19b54b0193a27c9462b"
@@ -354,7 +354,10 @@ def branch_report(branch: dict, founders: set[int], input_row: dict | None = Non
         "post_actor_bodies": bodies_post,
         "post_live_total": post_live,
         "post_founders_alive": post_founders,
-        "reference_focal_trace_matches_raw": input_row is None or branch.get("focal_decision_trace") == input_row.get("focal_decision_trace"),
+        "reference_focal_trace_matches_raw": (
+            branch.get("focal_decision_trace") == input_row.get("focal_decision_trace")
+            if input_row is not None else None
+        ),
         "body_deltas_pre_to_post": body_deltas(bodies_pre, bodies_post),
     }
 
@@ -522,11 +525,14 @@ def analyze(run_dir: Path = RUN_DIR, raw_root: Path = RAW_ROOT) -> dict:
             "manifest_path": str(manifest_path),
             "manifest_sha256": sha256_file(manifest_path),
             "protocol_sha256": manifest["protocol"]["sha256"],
-            "source_revision": manifest.get("source", {}).get("revision"),
-            "source_content_sha256": manifest.get("source", {}).get("content_sha256"),
+            "source_commit": manifest.get("source", {}).get("commit"),
+            "tracked_file_count": manifest.get("source", {}).get("tracked_file_count"),
+            "tracked_tree_sha256": manifest.get("source", {}).get("tracked_tree_sha256"),
             "binary_path": manifest["binary"]["path"],
             "binary_sha256": manifest["binary"]["sha256"],
             "raw_source_manifest_sha256": manifest["raw_source"]["manifest_sha256"],
+            "registration_addendum": manifest.get("registration_addendum"),
+            "runner_repair_note": manifest.get("runner_repair_note"),
             "resolved_tick_invocations": manifest["limits"]["resolved_tick_invocations"],
             "shared_prepared_preambles": manifest["limits"]["shared_prepared_preambles"],
         },
