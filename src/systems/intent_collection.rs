@@ -341,7 +341,7 @@ mod tests {
         assert!(override_evidence.visible_water_amount > 0);
         assert!(override_evidence.visible_plant_food_amount > 0);
         assert!(matches!(
-            replaced.reason,
+            override_evidence.replaced_decision.reason,
             Reason::LearnedWater | Reason::SeekWater | Reason::RecallWater
         ));
         assert!(matches!(intents[0].1, Intent::Eat { .. }));
