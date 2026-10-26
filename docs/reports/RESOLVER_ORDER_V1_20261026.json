@@ -1,0 +1,59 @@
+{
+  "schema": "curious.resolver_order_v1.report.v1",
+  "date": "2026-10-26",
+  "status": "completed_descriptive_mechanism_measurement",
+  "acceptance": false,
+  "scope": {
+    "cases": 5,
+    "horizon": "one resolver tick per case",
+    "sample": "selected negative seed cases; not random or population-representative",
+    "arms": {
+      "A": "baseline decisions, natural resolver rotation",
+      "B": "candidate plans; baseline rotated Eat survivors then new Eat actors by ascending ID; baseline Drink survivors; remaining orders as A",
+      "C": "same candidate plan membership as B; natural tick-mod-length rotation across plan types"
+    },
+    "contrast_limits": {
+      "A_vs_B": "candidate plan replacement plus specified placement; not a pure abstract decision effect",
+      "B_vs_C": "joint resolver ordering, including Eat, Drink and other rotated plan lists; not Eat-only"
+    },
+    "units": {
+      "food": "plant food energy",
+      "water": "water amount",
+      "movement": "movement energy paid"
+    },
+    "deaths": 0,
+    "survival_or_lifetime_effect": "unknown",
+    "learning_or_ecology_benefit": "unknown"
+  },
+  "cases": [
+    {"habitat":"meadow","seed":62502,"tick":94,"A":{"food":16,"water":8,"movement":17,"eat_rejections":1,"drink_rejections":4},"B":{"food":22,"water":8,"movement":17,"eat_rejections":1,"drink_rejections":4},"C":{"food":22,"water":12,"movement":18,"eat_rejections":1,"drink_rejections":5}},
+    {"habitat":"meadow","seed":62503,"tick":92,"A":{"food":18,"water":22,"movement":21,"eat_rejections":3,"drink_rejections":2},"B":{"food":24,"water":22,"movement":21,"eat_rejections":3,"drink_rejections":2},"C":{"food":24,"water":12,"movement":19,"eat_rejections":3,"drink_rejections":3}},
+    {"habitat":"meadow","seed":62505,"tick":72,"A":{"food":38,"water":16,"movement":16,"eat_rejections":1,"drink_rejections":3},"B":{"food":46,"water":16,"movement":16,"eat_rejections":1,"drink_rejections":3},"C":{"food":46,"water":16,"movement":15,"eat_rejections":1,"drink_rejections":3}},
+    {"habitat":"sparse_resource","seed":62503,"tick":55,"A":{"food":10,"water":10,"movement":9,"eat_rejections":3,"drink_rejections":0},"B":{"food":10,"water":10,"movement":9,"eat_rejections":4,"drink_rejections":0},"C":{"food":10,"water":10,"movement":9,"eat_rejections":4,"drink_rejections":0}},
+    {"habitat":"sparse_resource","seed":62505,"tick":65,"A":{"food":8,"water":0,"movement":0,"eat_rejections":4,"drink_rejections":0},"B":{"food":8,"water":0,"movement":0,"eat_rejections":5,"drink_rejections":0},"C":{"food":8,"water":0,"movement":0,"eat_rejections":5,"drink_rejections":0}}
+  ],
+  "key_observation": "B and C total food matched in all five cases; meadow seed 62503 water was 22 in B versus 12 in C at equal food total 24.",
+  "run": {
+    "id":"resolver-order-v1-runnerfix-20261026",
+    "manifest_sha256":"e10fae2ea6c4221d0813d183f7a8aae5cadfe10f3d26afee45f738f072df0a11",
+    "source_commit":"93cc4b2445fa44f9f7bd2e16fe418be1bd5d76c6",
+    "source_tree_sha256":"3a01eaf3a481c4b6698a0879628847f1152dd2ecc29825df363c0e3b2f88e6e0",
+    "binary_sha256":"ff32c4fc7cad6e86ad97872e88f9c849ae282814a121c19b54b0193a27c9462b",
+    "protocol_sha256":"e8357e8d2d0795ae110579befb416585f50161355f140ff5d80252dc4402f6ff",
+    "registration_addendum_sha256":"7a271bbc907cb940b4190f1a734896b304f202a92c11282772c3719b4158a65b",
+    "runner_repair_note_sha256":"dfa985b508e999634793b07741c81aa8b8f2b90e75a1be616c5813c4a57dde76",
+    "resolved_tick_invocations":398,
+    "shared_preambles":5,
+    "elapsed_seconds":1.319103,
+    "analysis_sha256":"7a8c361b624278a1e9159a73ac8e1d8bed8886a72b8e79768c2901978baca608"
+  },
+  "preserved_failed_attempt": {
+    "id":"resolver-order-v1-20261026",
+    "status":"failed_infrastructure_schema_mismatch",
+    "manifest_sha256":"9b8c43fcef5e4eb3025375f6cf7e40483d2a52c39c04fb753a2c48192b17fb28",
+    "resolved_tick_invocations":98,
+    "shared_preambles":1,
+    "included_as_result":false
+  },
+  "all_attempt_work": {"resolved_tick_invocations":496,"shared_preambles":6,"independent_cases":5}
+}
