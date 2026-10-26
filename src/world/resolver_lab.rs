@@ -627,6 +627,23 @@ mod tests {
     }
 
     #[test]
+    fn failed_native_off_target_gate_stops_before_shared_preparation_and_forks() {
+        let mut world = World::with_seed(-2, 2, -2, 2, vec![], 19);
+        let result = world
+            .resolver_order_lab_tick_checked(|_| Err("synthetic raw target mismatch".into()))
+            .unwrap()
+            .0;
+        assert_eq!(result["status"], "failed");
+        assert!(result.pointer("references.native_off.state").is_some());
+        assert!(result.pointer("references.native_on").is_none());
+        assert!(result.get("branches").is_none());
+        assert_eq!(
+            world.tick_counter, 0,
+            "failed target gate must precede shared preamble"
+        );
+    }
+
+    #[test]
     fn adjacent_meal_override_round_trips_interrupt_and_resolves_identically_to_native_on() {
         let mut herbivore = HerbivoreEntity::default();
         let life = herbivore.life_mut();
