@@ -19,6 +19,8 @@ pub enum Reason {
     SearchWater,
     RecallWater,
     LearnedWater,
+    /// Switched from an unaffordable first water-approach step to adjacent plant food.
+    EatBeforeWater,
     RecallFood,
     RecallMate,
     SeekCompanion,
@@ -80,6 +82,12 @@ pub struct Outcome {
     pub events: Vec<SimulationEvent>,
 }
 #[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct WaterMealOverride {
+    pub replaced_decision: Decision,
+    pub visible_water_amount: usize,
+    pub visible_plant_food_amount: usize,
+}
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct DecisionTrace {
     pub tick: usize,
     pub id: usize,
@@ -90,6 +98,9 @@ pub struct DecisionTrace {
     pub seen: SeenSummary,
     pub perception: Option<Perception>,
     pub decision: Decision,
+    /// Compact evidence for an immediately actionable plant meal replacing a water decision.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub water_meal_override: Option<WaterMealOverride>,
     pub target: Option<Target>,
     pub outcome: Option<Outcome>,
 }
@@ -140,6 +151,7 @@ impl DecisionTrace {
             seen,
             perception: if full { Some(view) } else { None },
             decision,
+            water_meal_override: None,
             target,
             outcome: None,
         }

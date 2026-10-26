@@ -697,7 +697,7 @@ fn v18_checkpoint_resumes_generalized_table_episode_state_and_rng() {
     memory.refuge_episode = Some(active);
 
     let state = State::capture(&world);
-    assert_eq!(state.version, 20);
+    assert_eq!(state.version, 21);
     let mut restored = serde_json::from_value::<State>(serde_json::to_value(&state).unwrap())
         .unwrap()
         .restore()
@@ -786,7 +786,7 @@ fn v17_migration_preserves_legacy_and_water_while_clearing_new_state() {
     let active = migrated.refuge_episode.as_ref().unwrap();
     assert_eq!(active.learning_mode, RefugeLearningMode::LegacyExact);
     assert!(active.generalized_key.is_none());
-    assert_eq!(State::capture(&restored).version, 20);
+    assert_eq!(State::capture(&restored).version, 21);
 }
 
 #[test]
@@ -794,7 +794,7 @@ fn future_checkpoint_versions_remain_rejected() {
     let (entities, _) = shelter_world();
     let world = World::with_seed(0, 4, 0, 4, entities, 4);
     let mut state = State::capture(&world);
-    state.version = 21;
+    state.version = 22;
     assert!(state.restore().is_err());
 }
 

@@ -877,7 +877,7 @@ fn test_live_v12_shadow_restore_and_20_tick_continuation() {
     let ctrl_avg_tick_us = ctrl_elapsed_us / 20;
 
     let ctrl_captured = State::capture(&control_world);
-    assert_eq!(ctrl_captured.version, 20);
+    assert_eq!(ctrl_captured.version, 21);
     assert_eq!(ctrl_captured.tick, initial_tick + 20);
     let ctrl_json = serde_json::to_string(&ctrl_captured).unwrap();
     let _ = ctrl_captured
@@ -924,7 +924,7 @@ fn test_live_v12_shadow_restore_and_20_tick_continuation() {
     let cand_avg_tick_us = cand_elapsed_us / 20;
 
     let cand_captured = State::capture(&cand_world);
-    assert_eq!(cand_captured.version, 20);
+    assert_eq!(cand_captured.version, 21);
     assert_eq!(cand_captured.tick, initial_tick + 20);
     let cand_json = serde_json::to_string(&cand_captured).unwrap();
     let _ = cand_captured.clone().restore().expect(
