@@ -4,7 +4,7 @@
 
 ## Kapsam ve kimlik
 
-[K8 protokolü](../OPERATIONS_READINESS_PROTOCOL_20261026.md) tek sabit V12 checkpoint kopyasında yürütüldü. Kaynak `bc60fa60ac060b7cc0dfae75f20fe16df5173461`, temiz çalışma ağacı; input SHA-256 `357870bd9a3d414704ed6befbea050852028f54af304c27cdca482dc31abdad2`. İkili SHA-256 `d65a61908996fe6b71ef11471098c2de748e88fa886549cf036b44f5079c7221`. Kaynak/binary/protokol ve komut kimlikleri `data/operations/consolidation-20261026/operations-registration.json` içinde korunur. Makinece okunabilir özet: [JSON](OPERATIONS_READINESS_20261026.json).
+[K8 protokolü](../OPERATIONS_READINESS_PROTOCOL_20261026.md) tek sabit V12 checkpoint kopyasında yürütüldü. Kaynak `bc60fa60ac060b7cc0dfae75f20fe16df5173461`, temiz çalışma ağacı; input SHA-256 `357870bd9a3d414704ed6befbea050852028f54af304c27cdca482dc31abdad2`. İkili SHA-256 `d65a61908996fe6b71ef11471098c2de748e88fa886549cf036b44f5079c7221`. Kaynak/binary/protokol kimlikleri `data/operations/consolidation-20261026/operations-registration.json`, komut ise `operations-exit.json` ve ham `run.json` içinde korunur. Makinece okunabilir özet: [JSON](OPERATIONS_READINESS_20261026.json).
 
 Canlı arşivden daha önce çıkarılmış tick 12639 / 630 slot girdisi salt okunur açıldı; kopya V19'a çevrildi. Yalnız `off` modu koşuldu; bakım ve her iki refuge bayrağı kapalıdır. Diğer modlar için bu raporda çalışma zamanı kanıtı yoktur. 120 ana World tick'i ve ayrı kopyada bir depolama tick'i: toplam **121 fiziksel tick**, ek yeniden başlatma/soak koşusu yoktur.
 
@@ -32,7 +32,7 @@ Probe `percentile()` fonksiyonu örnekleri sıralamadan indekslediği için ham 
 
 Özel `storage/` dizininde iki kayıt yazıldı; shard eşiği 1 MiB, history soft bütçesi 8 MiB idi. İlk kapalı shard 187,099 byte zstd; ikinci açık SQLite shard 5,582,848 byte oldu. Bu eşik yazılan checkpoint'i bölen katı kota değildir. Store yeniden açıldı; son State tam eşleşti. İki shard için `PRAGMA integrity_check=ok`; kapalı zstd shard `archive::Reader` üzerinden açıldı. Son kayıt tick 12640'tır.
 
-Bu iki yazım retention silme, uzun süreli WAL büyümesi, history bütçesi baskısı, reboot veya runtime writer kilidi sınaması değildir. 256 MiB çıktı sınırı fazlar arasında kontrol edilir; önleyici disk kotası değildir. Süreç 1 GiB sanal adres alanı ve 120 s sınırında tamamlandı.
+Bu iki yazım retention silme, uzun süreli WAL büyümesi, history bütçesi baskısı, reboot veya runtime writer kilidi sınaması değildir. 256 MiB çıktı sınırı fazlar arasında kontrol edilir; önleyici disk kotası değildir. Süreç 1 GiB sanal adres alanı sınırıyla, kayıtlı 120 s bütçenin altında 5.23 s içinde tamamlandı; timeout sınırında durdurma davranışı ayrıca sınanmadı.
 
 ## Karar ve korunmuş kanıt
 
