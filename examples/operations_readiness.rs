@@ -251,8 +251,10 @@ fn percentile(values: &[u128], numerator: usize, denominator: usize) -> u128 {
     if values.is_empty() {
         return 0;
     }
+    let mut ordered = values.to_vec();
+    ordered.sort_unstable();
     let rank = (values.len() * numerator).div_ceil(denominator).max(1);
-    values[rank.saturating_sub(1).min(values.len() - 1)]
+    ordered[rank.saturating_sub(1).min(ordered.len() - 1)]
 }
 
 fn now_unix_ms() -> u128 {
@@ -405,7 +407,7 @@ fn run() -> Result<()> {
         "promotion_blocker":"current utility gate not passed; this offline probe is not deployment qualification",
         "ticks":ticks,
         "final_state":{"version":final_state.version,"tick":final_state.tick,"entities":final_state.entities.len(),"sha256":final_hash,"restore_recapture_state_rng_exact":final_state_roundtrip_exact},
-        "timing_us":{"input_restore":restore_us,"flag_setup":flag_setup_us,"initial_state_capture":initial_capture_us,"initial_state_serde":initial_serialize_us,"initial_restore_recapture":initial_restore_recapture_us,"world_tick_total":tick_total_us,"world_tick_mean":tick_total_us as f64/ticks as f64,"world_tick_p50":percentile(&tick_us,50,100),"world_tick_p95":percentile(&tick_us,95,100),"world_tick_max":tick_us.iter().copied().max().unwrap_or(0),"final_state_capture":final_capture_us,"final_state_serde":final_serialize_us,"final_restore_recapture":final_restore_recapture_us},
+        "timing_us":{"input_restore":restore_us,"flag_setup":flag_setup_us,"initial_state_capture":initial_capture_us,"initial_state_serde":initial_serialize_us,"initial_restore_recapture":initial_restore_recapture_us,"world_tick_total":tick_total_us,"world_tick_mean":tick_total_us as f64/ticks as f64,"world_tick_p50":percentile(&tick_us,50,100),"world_tick_p95":percentile(&tick_us,95,100),"world_tick_max":tick_us.iter().copied().max().unwrap_or(0),"world_tick_samples":tick_us,"final_state_capture":final_capture_us,"final_state_serde":final_serialize_us,"final_restore_recapture":final_restore_recapture_us},
         "initial_state":{"migration_tick_preserved":initial_state.tick==input_state.tick,"entity_count_preserved":initial_state.entities.len()==input_state.entities.len(),"restore_recapture_state_rng_exact":initial_state_roundtrip_exact},
         "process":{"executable":executable,"executable_sha256":executable_sha,"repository_head":git_value(&["rev-parse","HEAD"]),"repository_status_porcelain":git_value(&["status","--porcelain"]),"example_source_sha256":code_sha,"rss_measurement":"capture externally with /usr/bin/time -v"},
         "storage_smoke":storage,
@@ -471,6 +473,14 @@ mod tests {
                     && e.memory.refuge_outcomes_enabled == refuge_outcomes
             }));
         }
+    }
+
+    #[test]
+    fn percentile_uses_sorted_order_statistics_without_reordering_source() {
+        let values = [100, 1, 50, 2];
+        assert_eq!(percentile(&values, 50, 100), 2);
+        assert_eq!(percentile(&values, 95, 100), 100);
+        assert_eq!(values, [100, 1, 50, 2]);
     }
 
     #[test]
