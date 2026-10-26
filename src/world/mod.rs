@@ -8,8 +8,21 @@ use crate::{
 };
 use std::collections::HashMap;
 
+#[derive(Clone)]
+struct PreparedTick {
+    events: Vec<crate::simulation::SimulationEvent>,
+    log_lines: Vec<String>,
+    occupied: HashMap<Position, usize>,
+    plans: ActionPlans,
+}
+
 pub mod entity_slot;
 pub use entity_slot::EntitySlot;
+
+#[cfg(feature = "resolver-lab")]
+mod resolver_lab;
+#[cfg(feature = "resolver-lab")]
+pub use resolver_lab::ResolverOrderLabCase;
 
 /// Simülasyon dünyasını yöneten ana yapı.
 /// Bu yapı, simülasyonun merkezi (authoritative simulation core) olarak görev yapar.
@@ -95,6 +108,16 @@ impl World {
 
     /// Bir simülasyon adımı (Tick) gerçekleştirir ve oluşan olayları döner.
     pub fn tick(&mut self) -> Vec<crate::simulation::SimulationEvent> {
+        let mut prepared = self.prepare_tick(None);
+        let mut plans = std::mem::take(&mut prepared.plans);
+        plans.rotate_priority(self.tick_counter);
+        self.resolve_prepared_tick(prepared, plans)
+    }
+
+    fn prepare_tick(
+        &mut self,
+        mut lab_perceptions: Option<&mut Vec<(usize, crate::entity::perception::Perception)>>,
+    ) -> PreparedTick {
         self.tick_counter += 1;
 
         // 1. Temizlik: Silinmiş varlıkları tamamen kaldır
@@ -170,7 +193,7 @@ impl World {
         }
 
         // 2. Hazırlık: Çakışma kontrolü için meşgul olan hücrelerin tespiti
-        let mut occupied: HashMap<Position, usize> = self
+        let occupied: HashMap<Position, usize> = self
             .entities
             .iter()
             .filter(|slot| {
@@ -183,10 +206,15 @@ impl World {
             .collect();
 
         // 3. Niyetleri Topla (Intent Collection System)
-        let intents = crate::systems::intent_collection::IntentCollectionSystem::collect(
-            self,
-            &mut log_lines,
-        );
+        let intents = if let Some(perceptions) = lab_perceptions.as_mut() {
+            crate::systems::intent_collection::IntentCollectionSystem::collect_with_perceptions(
+                self,
+                &mut log_lines,
+                perceptions,
+            )
+        } else {
+            crate::systems::intent_collection::IntentCollectionSystem::collect(self, &mut log_lines)
+        };
 
         self.last_intents = intents.clone();
 
@@ -231,9 +259,27 @@ impl World {
         }
 
         // 4. Planları Oluştur (Planning System)
-        let mut plans =
-            crate::systems::planning::PlanningSystem::plan(self, intents, &mut log_lines);
-        plans.rotate_priority(self.tick_counter);
+        let plans = crate::systems::planning::PlanningSystem::plan(self, intents, &mut log_lines);
+
+        PreparedTick {
+            events,
+            log_lines,
+            occupied,
+            plans,
+        }
+    }
+
+    fn resolve_prepared_tick(
+        &mut self,
+        prepared: PreparedTick,
+        plans: ActionPlans,
+    ) -> Vec<crate::simulation::SimulationEvent> {
+        let PreparedTick {
+            mut events,
+            mut log_lines,
+            mut occupied,
+            ..
+        } = prepared;
 
         // 5. Çözümleme Aşamaları (Resolvers) - Sistemler üzerinden işletilir (Events toplanır)
         crate::systems::movement::MovementSystem::resolve_moves(
@@ -374,7 +420,7 @@ impl World {
 }
 
 /// Planlanan eylemleri barındıran yardımcı yapılar
-#[derive(Default)]
+#[derive(Clone, Default)]
 pub struct ActionPlans {
     pub moves: Vec<MovePlan>,
     pub eats: Vec<EatPlan>,
