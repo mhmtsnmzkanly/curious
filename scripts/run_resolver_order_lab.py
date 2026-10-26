@@ -380,6 +380,10 @@ def validate_case_json(path: Path, expected: dict[str, Any]) -> dict[str, Any]:
     audit = data.get("candidate_b_equals_c_pre_resolution_audit", {})
     if not all(audit.get(k) is True for k in ("equal", "learner_interruptions_equal", "decision_trace_equal", "plan_content_equal")):
         raise RunFailure("B/C pre-resolution audit mismatch")
+    if audit.get("intent_equal") is not True:
+        raise RunFailure("B/C pre-resolution intent equality gate failed")
+    if data.get("target_validation", {}).get("valid") is not True:
+        raise RunFailure("raw target validation gate failed")
     refs = data.get("references", {})
     fields = set(refs.get("compared_fields", []))
     normalizations = set(refs.get("normalizations", []))
