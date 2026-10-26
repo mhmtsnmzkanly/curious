@@ -423,7 +423,14 @@ def validate_block(worlds: dict, habitat: str, seed: int) -> dict:
             raise ValueError("factorial initial State differs beyond registered flags")
         metrics[arm] = _numeric_metrics(run["summary"])
     keys = set.union(*(set(m) for m in metrics.values()))
-    deltas = {arm: {k: metrics[arm][k] - metrics["control"][k] for k in keys if k in metrics[arm] and k in metrics["control"]} for arm in ARMS[1:]}
+    deltas = {
+        arm: {
+            k: metrics[arm].get(k, 0) - metrics["control"].get(k, 0)
+            for k in keys
+            if (k in metrics[arm] and k in metrics["control"]) or "." in k
+        }
+        for arm in ARMS[1:]
+    }
     interaction = {k: deltas["bundle"][k] - deltas["food_reserve_only"][k] - deltas["water_meal_only"][k] for k in keys if all(k in deltas[a] for a in ARMS[1:])}
     return {"habitat":habitat,"seed":seed,"arms":{a:_compact_summary(worlds[a]["summary"]) for a in ARMS},"paired_deltas_vs_control":deltas,"factorial_interaction":interaction}
 
