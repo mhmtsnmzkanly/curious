@@ -102,8 +102,9 @@ dağıtım ve karar kanıtları ilgili raporlarda korunur; eski kayıtları silm
 
 - [Su öncesi öğün](docs/WATER_MEAL_PRIORITY.md) V21 kaynağında bağımsız varsayılan
   kapalı seçenektir. Yalnız ödenemeyen ilk su adımı yerine mevcut bitişik bitki
-  öğününü seçer; kesilen su denemesi ödül/başarı sayılmaz. Kayıtlı kıyas ve
-  genel fayda kabulü ayrıdır.
+  öğününü seçer; kesilen su denemesi ödül/başarı sayılmaz. [72 koşuluk kıyas](docs/reports/WATER_MEAL_PRIORITY_V1_20261026.md), eski yem
+  bütçesine ek dar kazanç ve habitat/seed kayıpları buldu; genel fayda kabulü
+  yoktur ve seçenek kapalı kaldı.
 
 ## Güncel sonuçlar
 

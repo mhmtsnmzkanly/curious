@@ -22,6 +22,8 @@ K1–K8'e doğrudan git: [K1](ROADMAP.md#dunya-cevre),
 
 ## Güncel kanıt
 
+- [Su–öğün önceliği V1](reports/WATER_MEAL_PRIORITY_V1_20261026.md): dört kollu
+  V21 kıyası; eski yem bütçesine bağlı dar etki ve habitat/seed ödünleşimleri.
 - [Yem arama bütçesi V1](reports/FOOD_SEARCH_RESERVE_V1_20261026.md): V20 varsayılan kapalı
   adayın 36 koşuluk kıyası; tek fixture'da dar yarar, diğerlerinde tetiklenme yok.
 - [26 Ekim birleşik sonuç özeti](reports/CONSOLIDATION_20261026.md): öğrenme,

@@ -101,7 +101,9 @@ ilgili diğer kategoriye bağlanır; aynı iş için paralel, çatışan plan tu
 - [V21 su öncesi bitişik öğün](WATER_MEAL_PRIORITY.md) varsayılan kapalı adaydır;
   yalnız ödenemeyen ilk su adımı yerine ücretsiz bitki öğününü seçer. Öğrenme
   atfı kesilir; dört kollu önkayıtlı kıyas, eski yem arama bütçesinden ayrı
-  ve birlikte etkisini ölçer. Mekanizma testi genel ekolojik kabul değildir.
+  ve birlikte etkisini ölçtü. [Sonuç](reports/WATER_MEAL_PRIORITY_V1_20261026.md)
+  tek yemli fixture'da birleşime bağlı dar kazanç, diğer habitat/seedlerde
+  ödünleşimler gösterdi; genel ekolojik kabul yoktur.
 
 - **Mevcut:** Sağlık, enerji, metabolizma ve hareket maliyetleri vardır; temel
   dinlenme ve yeterli enerji/su koşulunda enerji ödeyen pasif iyileşme bulunur.

@@ -29,3 +29,7 @@ V21 açık bayrağı korur; V1–V20 migration bu yeni bayrağı kapatır. V20'd
 Enerji üretilmez; kaynak yenilenmesi, dönüş rotası, suya ileride varış ve hayatta kalma garantisi yoktur. Kural yalnız anlık olarak ödenemeyen su hareketi ile mevcut ücretsiz bitki öğününü karşılaştırır. Nüfus, başka habitatlar, başka türler ve uzun vadeli yarar ayrı ölçülür.
 
 [Sabit dört kollu protokol](WATER_MEAL_PRIORITY_V1_PROTOCOL_20261026.md), önceki yem arama bütçesini yeni kuraldan ayırır. Kod/mekanizma kontrolü, kayıtlı lab sonucu ve canlı kabulü farklı aşamalardır.
+
+## 26 Ekim sınırlı ölçüm
+
+[Dört kollu lab raporu](reports/WATER_MEAL_PRIORITY_V1_20261026.md) 72 dünya / 21.600 tick içerir. Tek yemli fixture'da yeni kural tek başına hiç tetiklenmedi; eski yem bütçesine eklenince toplam sağkalım 1482→1579 birey-tick ve içilen su 1050→1210 oldu. İki birey her iki kolda da 300 tick'e ulaştı; yaşam süresi bu ufukta sağdan sansürlüdür. Çayırda toplu kazanç, fakat seed bazında kayıplar; seyrek fixture'da küçük toplam kayıp ve tükenme görüldü. Bu sonuç genel fayda veya canlı kabulü değildir; seçenek varsayılan kapalı kaldı.

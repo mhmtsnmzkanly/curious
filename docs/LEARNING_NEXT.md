@@ -58,3 +58,5 @@ Ekoloji aktarımı ve offline operasyon sonuçlarının kapsamı
 dağıtım uygunluğunu kabul etmez.
 
 [Yem arama bütçesi](FOOD_SEARCH_RESERVE.md) V20 karar kısıtıdır; öğrenici, deneyim tablosu veya kabul edilmiş kaynak güvenilirliği modeli değildir. Dar lab yararı yeni bireysel öğrenme başarısı sayılmaz.
+
+[V21 su öncesi öğün kuralı](WATER_MEAL_PRIORITY.md), su denemesini yemek çözümlemesinden önce keser; yemek su başarısı/ödülü olarak yazılmaz. Mevcut tek `last_episode` alanı tam kapanış olay geçmişi değildir; lab bu sınırı ve ufuk sansürünü korur. Bu politika değişikliği yeni öğrenme modeli kabulü değildir.

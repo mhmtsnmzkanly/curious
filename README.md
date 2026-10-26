@@ -79,4 +79,4 @@ Yalnızca Markdown değişiklikleri Rust derlemesi gerektirmez.
 - [Öğrenme sözleşmesi ve açık kanıt sınırları](docs/LEARNING_NEXT.md)
 - [Sıradaki işler](TODO.md)
 
-[V21 su öncesi öğün kuralı](docs/WATER_MEAL_PRIORITY.md), enerji yüzünden başlayamayan bir su yaklaşımı yerine mevcut bitişik bitki öğününü seçebilen bağımsız, varsayılan kapalı adaydır. Suya ödenebilir ilerleme ve ücretsiz bitişik içme korunur; canlıya dağıtılmadı.
+[V21 su öncesi öğün kuralı](docs/WATER_MEAL_PRIORITY.md), enerji yüzünden başlayamayan bir su yaklaşımı yerine mevcut bitişik bitki öğününü seçebilen bağımsız, varsayılan kapalı adaydır. Suya ödenebilir ilerleme ve ücretsiz bitişik içme korunur. [Dört kollu kıyas](docs/reports/WATER_MEAL_PRIORITY_V1_20261026.md) dar koşullu kazanç ve seed/habitat kayıpları buldu; canlıya dağıtılmadı.

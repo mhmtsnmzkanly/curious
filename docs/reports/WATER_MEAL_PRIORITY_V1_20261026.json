@@ -1,0 +1,1702 @@
+{
+  "aggregate_results": {
+    "meadow": {
+      "bundle": {
+        "births_by_generation": {
+          "1": 49,
+          "10": 2,
+          "2": 35,
+          "3": 20,
+          "4": 21,
+          "5": 26,
+          "6": 29,
+          "7": 32,
+          "8": 14,
+          "9": 6
+        },
+        "deaths_by_cause": {
+          "Dehydration": 1,
+          "OldAge": 181,
+          "Starvation": 8
+        },
+        "endpoint_alive": 92,
+        "endpoint_alive_by_seed": [
+          15,
+          15,
+          16,
+          15,
+          16,
+          15
+        ],
+        "f1_births": 49,
+        "f2_births": 35,
+        "focal_matched_futile_water_approaches": 105,
+        "focal_underfunded_visible_food_approach_failures": 0,
+        "focal_underfunded_water_approaches": 39,
+        "focal_zero_energy_visible_food_approach_failures": 3,
+        "focal_zero_paid_water_approaches": 66,
+        "living_entity_ticks": 25242,
+        "movement_energy_paid": 17171,
+        "plant_food_gained_energy": 49166,
+        "reserve_intervention_count": 0,
+        "water_gained": 27760,
+        "water_meal_intervention_count": 73,
+        "zero_energy_alive_tick_sum": 150
+      },
+      "control": {
+        "births_by_generation": {
+          "1": 50,
+          "10": 3,
+          "11": 1,
+          "2": 32,
+          "3": 24,
+          "4": 18,
+          "5": 24,
+          "6": 24,
+          "7": 28,
+          "8": 20,
+          "9": 8
+        },
+        "deaths_by_cause": {
+          "Dehydration": 2,
+          "OldAge": 174,
+          "Starvation": 15
+        },
+        "endpoint_alive": 89,
+        "endpoint_alive_by_seed": [
+          17,
+          14,
+          15,
+          16,
+          15,
+          12
+        ],
+        "f1_births": 50,
+        "f2_births": 32,
+        "focal_matched_futile_water_approaches": 113,
+        "focal_underfunded_visible_food_approach_failures": 0,
+        "focal_underfunded_water_approaches": 41,
+        "focal_zero_energy_visible_food_approach_failures": 0,
+        "focal_zero_paid_water_approaches": 72,
+        "living_entity_ticks": 25028,
+        "movement_energy_paid": 16560,
+        "plant_food_gained_energy": 48130,
+        "reserve_intervention_count": 0,
+        "water_gained": 27588,
+        "water_meal_intervention_count": 0,
+        "zero_energy_alive_tick_sum": 338
+      },
+      "food_reserve_only": {
+        "births_by_generation": {
+          "1": 50,
+          "10": 3,
+          "11": 1,
+          "2": 32,
+          "3": 24,
+          "4": 18,
+          "5": 24,
+          "6": 24,
+          "7": 28,
+          "8": 20,
+          "9": 8
+        },
+        "deaths_by_cause": {
+          "Dehydration": 2,
+          "OldAge": 174,
+          "Starvation": 15
+        },
+        "endpoint_alive": 89,
+        "endpoint_alive_by_seed": [
+          17,
+          14,
+          15,
+          16,
+          15,
+          12
+        ],
+        "f1_births": 50,
+        "f2_births": 32,
+        "focal_matched_futile_water_approaches": 113,
+        "focal_underfunded_visible_food_approach_failures": 0,
+        "focal_underfunded_water_approaches": 41,
+        "focal_zero_energy_visible_food_approach_failures": 0,
+        "focal_zero_paid_water_approaches": 72,
+        "living_entity_ticks": 25028,
+        "movement_energy_paid": 16560,
+        "plant_food_gained_energy": 48130,
+        "reserve_intervention_count": 0,
+        "water_gained": 27588,
+        "water_meal_intervention_count": 0,
+        "zero_energy_alive_tick_sum": 338
+      },
+      "water_meal_only": {
+        "births_by_generation": {
+          "1": 49,
+          "10": 2,
+          "2": 35,
+          "3": 20,
+          "4": 21,
+          "5": 26,
+          "6": 29,
+          "7": 32,
+          "8": 14,
+          "9": 6
+        },
+        "deaths_by_cause": {
+          "Dehydration": 1,
+          "OldAge": 181,
+          "Starvation": 8
+        },
+        "endpoint_alive": 92,
+        "endpoint_alive_by_seed": [
+          15,
+          15,
+          16,
+          15,
+          16,
+          15
+        ],
+        "f1_births": 49,
+        "f2_births": 35,
+        "focal_matched_futile_water_approaches": 105,
+        "focal_underfunded_visible_food_approach_failures": 0,
+        "focal_underfunded_water_approaches": 39,
+        "focal_zero_energy_visible_food_approach_failures": 3,
+        "focal_zero_paid_water_approaches": 66,
+        "living_entity_ticks": 25242,
+        "movement_energy_paid": 17171,
+        "plant_food_gained_energy": 49166,
+        "reserve_intervention_count": 0,
+        "water_gained": 27760,
+        "water_meal_intervention_count": 73,
+        "zero_energy_alive_tick_sum": 150
+      }
+    },
+    "sparse_resource": {
+      "bundle": {
+        "births_by_generation": {
+          "1": 16
+        },
+        "deaths_by_cause": {
+          "Dehydration": 14,
+          "OldAge": 30,
+          "Starvation": 20
+        },
+        "endpoint_alive": 0,
+        "endpoint_alive_by_seed": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "f1_births": 16,
+        "f2_births": 0,
+        "focal_matched_futile_water_approaches": 43,
+        "focal_underfunded_visible_food_approach_failures": 1,
+        "focal_underfunded_water_approaches": 4,
+        "focal_zero_energy_visible_food_approach_failures": 31,
+        "focal_zero_paid_water_approaches": 39,
+        "living_entity_ticks": 5865,
+        "movement_energy_paid": 3111,
+        "plant_food_gained_energy": 5182,
+        "reserve_intervention_count": 0,
+        "water_gained": 3336,
+        "water_meal_intervention_count": 47,
+        "zero_energy_alive_tick_sum": 875
+      },
+      "control": {
+        "births_by_generation": {
+          "1": 16
+        },
+        "deaths_by_cause": {
+          "Dehydration": 12,
+          "OldAge": 31,
+          "Starvation": 21
+        },
+        "endpoint_alive": 0,
+        "endpoint_alive_by_seed": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "f1_births": 16,
+        "f2_births": 0,
+        "focal_matched_futile_water_approaches": 52,
+        "focal_underfunded_visible_food_approach_failures": 1,
+        "focal_underfunded_water_approaches": 1,
+        "focal_zero_energy_visible_food_approach_failures": 31,
+        "focal_zero_paid_water_approaches": 51,
+        "living_entity_ticks": 5871,
+        "movement_energy_paid": 3103,
+        "plant_food_gained_energy": 5180,
+        "reserve_intervention_count": 0,
+        "water_gained": 3366,
+        "water_meal_intervention_count": 0,
+        "zero_energy_alive_tick_sum": 896
+      },
+      "food_reserve_only": {
+        "births_by_generation": {
+          "1": 16
+        },
+        "deaths_by_cause": {
+          "Dehydration": 12,
+          "OldAge": 31,
+          "Starvation": 21
+        },
+        "endpoint_alive": 0,
+        "endpoint_alive_by_seed": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "f1_births": 16,
+        "f2_births": 0,
+        "focal_matched_futile_water_approaches": 52,
+        "focal_underfunded_visible_food_approach_failures": 1,
+        "focal_underfunded_water_approaches": 1,
+        "focal_zero_energy_visible_food_approach_failures": 31,
+        "focal_zero_paid_water_approaches": 51,
+        "living_entity_ticks": 5871,
+        "movement_energy_paid": 3103,
+        "plant_food_gained_energy": 5180,
+        "reserve_intervention_count": 0,
+        "water_gained": 3366,
+        "water_meal_intervention_count": 0,
+        "zero_energy_alive_tick_sum": 896
+      },
+      "water_meal_only": {
+        "births_by_generation": {
+          "1": 16
+        },
+        "deaths_by_cause": {
+          "Dehydration": 14,
+          "OldAge": 30,
+          "Starvation": 20
+        },
+        "endpoint_alive": 0,
+        "endpoint_alive_by_seed": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "f1_births": 16,
+        "f2_births": 0,
+        "focal_matched_futile_water_approaches": 43,
+        "focal_underfunded_visible_food_approach_failures": 1,
+        "focal_underfunded_water_approaches": 4,
+        "focal_zero_energy_visible_food_approach_failures": 31,
+        "focal_zero_paid_water_approaches": 39,
+        "living_entity_ticks": 5865,
+        "movement_energy_paid": 3111,
+        "plant_food_gained_energy": 5182,
+        "reserve_intervention_count": 0,
+        "water_gained": 3336,
+        "water_meal_intervention_count": 47,
+        "zero_energy_alive_tick_sum": 875
+      }
+    },
+    "v1_unique_food": {
+      "bundle": {
+        "births_by_generation": {},
+        "deaths_by_cause": {
+          "Dehydration": 1,
+          "Starvation": 3
+        },
+        "endpoint_alive": 2,
+        "endpoint_alive_by_seed": [
+          1,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        "f1_births": 0,
+        "f2_births": 0,
+        "focal_matched_futile_water_approaches": 28,
+        "focal_underfunded_visible_food_approach_failures": 0,
+        "focal_underfunded_water_approaches": 11,
+        "focal_zero_energy_visible_food_approach_failures": 0,
+        "focal_zero_paid_water_approaches": 17,
+        "living_entity_ticks": 1579,
+        "movement_energy_paid": 606,
+        "plant_food_gained_energy": 1672,
+        "reserve_intervention_count": 446,
+        "water_gained": 1210,
+        "water_meal_intervention_count": 10,
+        "zero_energy_alive_tick_sum": 42
+      },
+      "control": {
+        "births_by_generation": {},
+        "deaths_by_cause": {
+          "Dehydration": 2,
+          "Starvation": 4
+        },
+        "endpoint_alive": 0,
+        "endpoint_alive_by_seed": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "f1_births": 0,
+        "f2_births": 0,
+        "focal_matched_futile_water_approaches": 94,
+        "focal_underfunded_visible_food_approach_failures": 0,
+        "focal_underfunded_water_approaches": 0,
+        "focal_zero_energy_visible_food_approach_failures": 74,
+        "focal_zero_paid_water_approaches": 94,
+        "living_entity_ticks": 638,
+        "movement_energy_paid": 591,
+        "plant_food_gained_energy": 578,
+        "reserve_intervention_count": 0,
+        "water_gained": 190,
+        "water_meal_intervention_count": 0,
+        "zero_energy_alive_tick_sum": 177
+      },
+      "food_reserve_only": {
+        "births_by_generation": {},
+        "deaths_by_cause": {
+          "Starvation": 4
+        },
+        "endpoint_alive": 2,
+        "endpoint_alive_by_seed": [
+          1,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        "f1_births": 0,
+        "f2_births": 0,
+        "focal_matched_futile_water_approaches": 92,
+        "focal_underfunded_visible_food_approach_failures": 0,
+        "focal_underfunded_water_approaches": 5,
+        "focal_zero_energy_visible_food_approach_failures": 0,
+        "focal_zero_paid_water_approaches": 87,
+        "living_entity_ticks": 1482,
+        "movement_energy_paid": 595,
+        "plant_food_gained_energy": 1504,
+        "reserve_intervention_count": 385,
+        "water_gained": 1050,
+        "water_meal_intervention_count": 0,
+        "zero_energy_alive_tick_sum": 101
+      },
+      "water_meal_only": {
+        "births_by_generation": {},
+        "deaths_by_cause": {
+          "Dehydration": 2,
+          "Starvation": 4
+        },
+        "endpoint_alive": 0,
+        "endpoint_alive_by_seed": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "f1_births": 0,
+        "f2_births": 0,
+        "focal_matched_futile_water_approaches": 94,
+        "focal_underfunded_visible_food_approach_failures": 0,
+        "focal_underfunded_water_approaches": 0,
+        "focal_zero_energy_visible_food_approach_failures": 74,
+        "focal_zero_paid_water_approaches": 94,
+        "living_entity_ticks": 638,
+        "movement_energy_paid": 591,
+        "plant_food_gained_energy": 578,
+        "reserve_intervention_count": 0,
+        "water_gained": 190,
+        "water_meal_intervention_count": 0,
+        "zero_energy_alive_tick_sum": 177
+      }
+    }
+  },
+  "design": {
+    "arms": [
+      "control",
+      "food_reserve_only",
+      "water_meal_only",
+      "bundle"
+    ],
+    "fixtures": [
+      "v1_unique_food",
+      "meadow",
+      "sparse_resource"
+    ],
+    "interpretation": "The same six seed identities recur in three fixtures: 18 fixture-seed paired blocks, not 18 independent seed identities.",
+    "paired_blocks": 18,
+    "planned_ticks": 21600,
+    "protocol": "docs/WATER_MEAL_PRIORITY_V1_PROTOCOL_20261026.md",
+    "seeds": [
+      62501,
+      62502,
+      62503,
+      62504,
+      62505,
+      62506
+    ],
+    "ticks_per_world": 300,
+    "unique_seed_identities": 6,
+    "worlds": 72
+  },
+  "focal_witness": {
+    "actual_decision": "EatBeforeWater",
+    "id": 1,
+    "later_drink_path": [
+      "Left",
+      "DownLeft"
+    ],
+    "later_resolver_drink_amount": 10,
+    "later_resolver_movement_energy": 1,
+    "learner_after_override": {
+      "episode": null,
+      "last_episode_end": "Interrupted",
+      "reward": null,
+      "water": 0
+    },
+    "movement_energy_cost": 1,
+    "next_resolver_drink_tick": 233,
+    "original_reason": "LearnedWater",
+    "original_water_path": [
+      "Right",
+      "Right",
+      "DownRight"
+    ],
+    "override_tick": 230,
+    "pre_choice_energy": 0,
+    "raw": "v1_unique_food-seed62502-bundle.jsonl",
+    "resolver_plant_energy": 2,
+    "same_tick_water_amount": 0,
+    "visible_plant_food_amount": 2,
+    "visible_plant_food_path": [
+      "Left"
+    ],
+    "visible_water_amount": 12,
+    "water_learner_tables_changed_on_override_tick": false
+  },
+  "metric_notes": {
+    "focal_underfunded_water_approaches": "The runner field counts matched approaches with positive movement paid below the full route movement cost. It can reflect speed, stamina, blocking, or energy constraints and is not an exclusive energy-poverty count; report label: partial water approaches.",
+    "focal_zero_paid_water_approaches": "Matched visible-water approach failures with zero paid movement; still a descriptive diagnostic.",
+    "learner_closures": "Full before/after learner snapshots are focal-only; Learner.last_episode is a single slot. No population-wide unique interruption total is inferred.",
+    "movement_energy_paid": "Resolver-confirmed movement energy cost.",
+    "plant_food_gained_energy": "Gross resolver-confirmed plant-food energy intake; not net energy.",
+    "water_gained": "Resolver-confirmed water units."
+  },
+  "paired_per_seed_deltas": {
+    "contrasts": {
+      "meadow": {
+        "bundle_minus_food_reserve_only": {
+          "endpoint_alive": [
+            -2,
+            1,
+            1,
+            -1,
+            1,
+            3
+          ],
+          "f1_births": [
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0
+          ],
+          "f2_births": [
+            1,
+            0,
+            0,
+            2,
+            0,
+            0
+          ],
+          "focal_matched_futile_water_approaches": [
+            -1,
+            1,
+            0,
+            0,
+            -7,
+            -1
+          ],
+          "focal_underfunded_visible_food_approach_failures": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "focal_underfunded_water_approaches": [
+            -2,
+            0,
+            2,
+            -1,
+            -1,
+            0
+          ],
+          "focal_zero_energy_visible_food_approach_failures": [
+            0,
+            0,
+            0,
+            0,
+            3,
+            0
+          ],
+          "focal_zero_paid_water_approaches": [
+            1,
+            1,
+            -2,
+            1,
+            -6,
+            -1
+          ],
+          "living_entity_ticks": [
+            266,
+            -106,
+            -173,
+            268,
+            -167,
+            126
+          ],
+          "movement_energy_paid": [
+            13,
+            313,
+            -83,
+            135,
+            107,
+            126
+          ],
+          "plant_food_gained_energy": [
+            -104,
+            378,
+            84,
+            38,
+            380,
+            260
+          ],
+          "reserve_intervention_count": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "water_gained": [
+            132,
+            0,
+            -10,
+            78,
+            -18,
+            -10
+          ],
+          "water_meal_intervention_count": [
+            7,
+            15,
+            10,
+            21,
+            9,
+            11
+          ],
+          "zero_energy_alive_tick_sum": [
+            -17,
+            -40,
+            -46,
+            -4,
+            -49,
+            -32
+          ]
+        },
+        "water_meal_only_minus_control": {
+          "endpoint_alive": [
+            -2,
+            1,
+            1,
+            -1,
+            1,
+            3
+          ],
+          "f1_births": [
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0
+          ],
+          "f2_births": [
+            1,
+            0,
+            0,
+            2,
+            0,
+            0
+          ],
+          "focal_matched_futile_water_approaches": [
+            -1,
+            1,
+            0,
+            0,
+            -7,
+            -1
+          ],
+          "focal_underfunded_visible_food_approach_failures": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "focal_underfunded_water_approaches": [
+            -2,
+            0,
+            2,
+            -1,
+            -1,
+            0
+          ],
+          "focal_zero_energy_visible_food_approach_failures": [
+            0,
+            0,
+            0,
+            0,
+            3,
+            0
+          ],
+          "focal_zero_paid_water_approaches": [
+            1,
+            1,
+            -2,
+            1,
+            -6,
+            -1
+          ],
+          "living_entity_ticks": [
+            266,
+            -106,
+            -173,
+            268,
+            -167,
+            126
+          ],
+          "movement_energy_paid": [
+            13,
+            313,
+            -83,
+            135,
+            107,
+            126
+          ],
+          "plant_food_gained_energy": [
+            -104,
+            378,
+            84,
+            38,
+            380,
+            260
+          ],
+          "reserve_intervention_count": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "water_gained": [
+            132,
+            0,
+            -10,
+            78,
+            -18,
+            -10
+          ],
+          "water_meal_intervention_count": [
+            7,
+            15,
+            10,
+            21,
+            9,
+            11
+          ],
+          "zero_energy_alive_tick_sum": [
+            -17,
+            -40,
+            -46,
+            -4,
+            -49,
+            -32
+          ]
+        }
+      },
+      "sparse_resource": {
+        "bundle_minus_food_reserve_only": {
+          "endpoint_alive": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "f1_births": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "f2_births": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "focal_matched_futile_water_approaches": [
+            -8,
+            0,
+            1,
+            0,
+            0,
+            -2
+          ],
+          "focal_underfunded_visible_food_approach_failures": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "focal_underfunded_water_approaches": [
+            1,
+            0,
+            1,
+            0,
+            0,
+            1
+          ],
+          "focal_zero_energy_visible_food_approach_failures": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "focal_zero_paid_water_approaches": [
+            -9,
+            0,
+            0,
+            0,
+            0,
+            -3
+          ],
+          "living_entity_ticks": [
+            0,
+            2,
+            -8,
+            0,
+            -1,
+            1
+          ],
+          "movement_energy_paid": [
+            3,
+            3,
+            0,
+            0,
+            2,
+            0
+          ],
+          "plant_food_gained_energy": [
+            2,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "reserve_intervention_count": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "water_gained": [
+            0,
+            0,
+            -20,
+            0,
+            -10,
+            0
+          ],
+          "water_meal_intervention_count": [
+            13,
+            10,
+            11,
+            4,
+            6,
+            3
+          ],
+          "zero_energy_alive_tick_sum": [
+            0,
+            -3,
+            -6,
+            0,
+            -1,
+            -11
+          ]
+        },
+        "water_meal_only_minus_control": {
+          "endpoint_alive": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "f1_births": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "f2_births": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "focal_matched_futile_water_approaches": [
+            -8,
+            0,
+            1,
+            0,
+            0,
+            -2
+          ],
+          "focal_underfunded_visible_food_approach_failures": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "focal_underfunded_water_approaches": [
+            1,
+            0,
+            1,
+            0,
+            0,
+            1
+          ],
+          "focal_zero_energy_visible_food_approach_failures": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "focal_zero_paid_water_approaches": [
+            -9,
+            0,
+            0,
+            0,
+            0,
+            -3
+          ],
+          "living_entity_ticks": [
+            0,
+            2,
+            -8,
+            0,
+            -1,
+            1
+          ],
+          "movement_energy_paid": [
+            3,
+            3,
+            0,
+            0,
+            2,
+            0
+          ],
+          "plant_food_gained_energy": [
+            2,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "reserve_intervention_count": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "water_gained": [
+            0,
+            0,
+            -20,
+            0,
+            -10,
+            0
+          ],
+          "water_meal_intervention_count": [
+            13,
+            10,
+            11,
+            4,
+            6,
+            3
+          ],
+          "zero_energy_alive_tick_sum": [
+            0,
+            -3,
+            -6,
+            0,
+            -1,
+            -11
+          ]
+        }
+      },
+      "v1_unique_food": {
+        "bundle_minus_food_reserve_only": {
+          "endpoint_alive": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "f1_births": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "f2_births": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "focal_matched_futile_water_approaches": [
+            0,
+            -18,
+            -10,
+            -17,
+            -1,
+            -18
+          ],
+          "focal_underfunded_visible_food_approach_failures": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "focal_underfunded_water_approaches": [
+            0,
+            1,
+            1,
+            2,
+            1,
+            1
+          ],
+          "focal_zero_energy_visible_food_approach_failures": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "focal_zero_paid_water_approaches": [
+            0,
+            -19,
+            -11,
+            -19,
+            -2,
+            -19
+          ],
+          "living_entity_ticks": [
+            0,
+            33,
+            0,
+            31,
+            0,
+            33
+          ],
+          "movement_energy_paid": [
+            0,
+            2,
+            2,
+            4,
+            1,
+            2
+          ],
+          "plant_food_gained_energy": [
+            0,
+            52,
+            12,
+            50,
+            2,
+            52
+          ],
+          "reserve_intervention_count": [
+            0,
+            20,
+            3,
+            18,
+            0,
+            20
+          ],
+          "water_gained": [
+            0,
+            50,
+            10,
+            50,
+            0,
+            50
+          ],
+          "water_meal_intervention_count": [
+            0,
+            2,
+            2,
+            3,
+            1,
+            2
+          ],
+          "zero_energy_alive_tick_sum": [
+            0,
+            -17,
+            -9,
+            -15,
+            -1,
+            -17
+          ]
+        },
+        "water_meal_only_minus_control": {
+          "endpoint_alive": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "f1_births": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "f2_births": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "focal_matched_futile_water_approaches": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "focal_underfunded_visible_food_approach_failures": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "focal_underfunded_water_approaches": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "focal_zero_energy_visible_food_approach_failures": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "focal_zero_paid_water_approaches": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "living_entity_ticks": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "movement_energy_paid": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "plant_food_gained_energy": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "reserve_intervention_count": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "water_gained": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "water_meal_intervention_count": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "zero_energy_alive_tick_sum": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      }
+    },
+    "seed_order": [
+      62501,
+      62502,
+      62503,
+      62504,
+      62505,
+      62506
+    ]
+  },
+  "prior_failed_attempt": {
+    "failure": "NameError: name shutil is not defined at shutil.copy2 before first World launch",
+    "preservation_note": "Original incomplete artifacts remain unchanged; diagnosis is in docs/WATER_MEAL_PRIORITY_V1_RUNNER_ADDENDUM_20261026.md.",
+    "source_revision": "6f033f6",
+    "world_ticks_completed": 0,
+    "worlds_completed": 0
+  },
+  "raw_files": [
+    {
+      "bytes": 1789898,
+      "path": "meadow-seed62501-control.jsonl",
+      "sha256": "64e52b00bc92723798857a210832dc51bc819fe9cc418a8342dbbdd9c99350f6"
+    },
+    {
+      "bytes": 1789977,
+      "path": "meadow-seed62501-food_reserve_only.jsonl",
+      "sha256": "c93b5be9201f920a7c8ac2fae0e025a254a2a74495107b983c063dc46dcd17f1"
+    },
+    {
+      "bytes": 1829885,
+      "path": "meadow-seed62501-water_meal_only.jsonl",
+      "sha256": "4ee5832cec58b0bc7b0d51172acc36ecc7104d8b210fb79ad65dd0850f62907b"
+    },
+    {
+      "bytes": 1829945,
+      "path": "meadow-seed62501-bundle.jsonl",
+      "sha256": "a1d57997c39adcef425aacbe69ca7775a2bab1a4e269cc595438ef4f1efef546"
+    },
+    {
+      "bytes": 1846987,
+      "path": "meadow-seed62502-control.jsonl",
+      "sha256": "a7dbc6ea8c66293f61f5710a73871ac0cf26e389456090488a806e37251557d0"
+    },
+    {
+      "bytes": 1847066,
+      "path": "meadow-seed62502-food_reserve_only.jsonl",
+      "sha256": "a60b1a841318da1371fbeff7b6083c038681581a84f04159de57123778335511"
+    },
+    {
+      "bytes": 1890132,
+      "path": "meadow-seed62502-water_meal_only.jsonl",
+      "sha256": "f675fc86f375f6f8a6de912f1039920c0052ccd91a579e628775a41ccc8a1cbb"
+    },
+    {
+      "bytes": 1890192,
+      "path": "meadow-seed62502-bundle.jsonl",
+      "sha256": "a8b6a46def2c8436fb26e4813420b088af045b0431d4f731d235b5ef1fadd91d"
+    },
+    {
+      "bytes": 1908170,
+      "path": "meadow-seed62503-control.jsonl",
+      "sha256": "56e5c7e4847efeafed8ec58be57027bd4abe8c5b3d4657bd4654ec5b6acdfd31"
+    },
+    {
+      "bytes": 1908249,
+      "path": "meadow-seed62503-food_reserve_only.jsonl",
+      "sha256": "6d27fb58583773c06ec0245fc0e44b7936078b1d4615ddfde55392880679b1ec"
+    },
+    {
+      "bytes": 1899915,
+      "path": "meadow-seed62503-water_meal_only.jsonl",
+      "sha256": "1941fecbdb1d50bd3846ec5be84a2fc49f4cf506c7b655e12cc408dd5db10dc7"
+    },
+    {
+      "bytes": 1899975,
+      "path": "meadow-seed62503-bundle.jsonl",
+      "sha256": "9a752ce02b5f8b4592b5116aad4339a6a4655a57235b515d99f6f28febea28d1"
+    },
+    {
+      "bytes": 1854972,
+      "path": "meadow-seed62504-control.jsonl",
+      "sha256": "eca5d6f420e7a3df7a321aac1756dd45e30a80c583e326b02fa9653097dc6fc8"
+    },
+    {
+      "bytes": 1855051,
+      "path": "meadow-seed62504-food_reserve_only.jsonl",
+      "sha256": "4ce617270f63aea0e450b23376484eab57d7d7f4674f8faa3c41949a9a14a6ee"
+    },
+    {
+      "bytes": 1914250,
+      "path": "meadow-seed62504-water_meal_only.jsonl",
+      "sha256": "7bba96be227e96cc1e1988893e8343e975233574b20de91f210560d6e7d19cf4"
+    },
+    {
+      "bytes": 1914310,
+      "path": "meadow-seed62504-bundle.jsonl",
+      "sha256": "abde81d013f2451fc277fc2fb9f392319558dac6cbc4e649ff10a868430ed2fb"
+    },
+    {
+      "bytes": 1901296,
+      "path": "meadow-seed62505-control.jsonl",
+      "sha256": "251c3327ecb5f75caa3435144c2fc7e0ca74b54f7428823943dcf6b3a7b7db17"
+    },
+    {
+      "bytes": 1901375,
+      "path": "meadow-seed62505-food_reserve_only.jsonl",
+      "sha256": "3ef2927e07ae1cf673bda22d7f2724ed641df3b6f10a4648819bc86d40174e8b"
+    },
+    {
+      "bytes": 1894415,
+      "path": "meadow-seed62505-water_meal_only.jsonl",
+      "sha256": "a8ee5e4595dae9d0a9016b645b3b7a0fe0779abfba6f0f00345245378fd7d2c8"
+    },
+    {
+      "bytes": 1894475,
+      "path": "meadow-seed62505-bundle.jsonl",
+      "sha256": "37e8d63e41176c7b36f1f5a3a6200fc3f67db93730555f8dd822ffd04fea8698"
+    },
+    {
+      "bytes": 1861059,
+      "path": "meadow-seed62506-control.jsonl",
+      "sha256": "55827ab7882be6ada00dc4c4424c82fe3eaf1c182e8534166d57795f16171756"
+    },
+    {
+      "bytes": 1861138,
+      "path": "meadow-seed62506-food_reserve_only.jsonl",
+      "sha256": "66658e6a4f55f34d4c72402442763536c84f88352be518dd77bf17dd2d4bf1ea"
+    },
+    {
+      "bytes": 1899310,
+      "path": "meadow-seed62506-water_meal_only.jsonl",
+      "sha256": "d0b6ac3892d0053875153a4cb42e8feaed1451e0e0f90e35090a25346e037e24"
+    },
+    {
+      "bytes": 1899370,
+      "path": "meadow-seed62506-bundle.jsonl",
+      "sha256": "1fa4a20e75e53ac9d18eac1b90c7fa9a9ed85066f1575b5bcf4aeae3af34924a"
+    },
+    {
+      "bytes": 769241,
+      "path": "sparse_resource-seed62501-control.jsonl",
+      "sha256": "27666f147d7de846ed5b165d3f0c2756ee19f8bbf76f4d31035a2e4a683e6bcf"
+    },
+    {
+      "bytes": 769320,
+      "path": "sparse_resource-seed62501-food_reserve_only.jsonl",
+      "sha256": "c9ef33041b98974358a1c3fcc940cd3c7776e73299b7ac5ef87b852c84d80ed0"
+    },
+    {
+      "bytes": 803289,
+      "path": "sparse_resource-seed62501-water_meal_only.jsonl",
+      "sha256": "d96abaa0eec01107eb3891060a0e2ff9853a19d87ff0bd4761fc99a550fd2dbc"
+    },
+    {
+      "bytes": 803349,
+      "path": "sparse_resource-seed62501-bundle.jsonl",
+      "sha256": "cb5d08cc6b6740f2b629e1a62f013a2a06115a2db0ba2f7b6243fe415ac503f0"
+    },
+    {
+      "bytes": 803153,
+      "path": "sparse_resource-seed62502-control.jsonl",
+      "sha256": "3ca4cfa7f2a1dc1dc371d40ab07e9c039cd16388ed22109d253d7207919101d0"
+    },
+    {
+      "bytes": 803232,
+      "path": "sparse_resource-seed62502-food_reserve_only.jsonl",
+      "sha256": "a979a5b814a07ca726af196463bf2d5754c95083fef0672ce890dc1c55de5654"
+    },
+    {
+      "bytes": 814099,
+      "path": "sparse_resource-seed62502-water_meal_only.jsonl",
+      "sha256": "486512c710476f3806de272a3cda9e4c21e9e0bd895f47358798e51fc8daa78f"
+    },
+    {
+      "bytes": 814159,
+      "path": "sparse_resource-seed62502-bundle.jsonl",
+      "sha256": "48e95186ebf3482abaeff3bb491a510012f24144d7af8026428b9ae9b6ad30ec"
+    },
+    {
+      "bytes": 835784,
+      "path": "sparse_resource-seed62503-control.jsonl",
+      "sha256": "a7c89ea5dc5c923c17bdd677eb02135366ebfc6a2c2319f3170dbf62c6da5e72"
+    },
+    {
+      "bytes": 835863,
+      "path": "sparse_resource-seed62503-food_reserve_only.jsonl",
+      "sha256": "cac3fd417117ee74f2c3f9968c65fde844236cdcaefd5ce01963b1b2c145879e"
+    },
+    {
+      "bytes": 860237,
+      "path": "sparse_resource-seed62503-water_meal_only.jsonl",
+      "sha256": "82412bfe2007171aae25de3e44c66a72cf8535d73891610f8e01d3e64addb0ab"
+    },
+    {
+      "bytes": 860297,
+      "path": "sparse_resource-seed62503-bundle.jsonl",
+      "sha256": "5d9e12d48c974e76133a14e0c5aa8991cb8f4c9f85aeac0d6c8bb80efd5226cf"
+    },
+    {
+      "bytes": 811806,
+      "path": "sparse_resource-seed62504-control.jsonl",
+      "sha256": "b58defa3aa73ba590ef536073208853d262ffda07cf5b1c879588283eddf1868"
+    },
+    {
+      "bytes": 811885,
+      "path": "sparse_resource-seed62504-food_reserve_only.jsonl",
+      "sha256": "2ffd925d5ab2492446654a9cd1be534610d51439bf540f798697e8ad9ef11f4c"
+    },
+    {
+      "bytes": 815978,
+      "path": "sparse_resource-seed62504-water_meal_only.jsonl",
+      "sha256": "e2117888feff257c2558d3d217fbf990bc7b371d59ebdb64f1d127b67cfe6b00"
+    },
+    {
+      "bytes": 816038,
+      "path": "sparse_resource-seed62504-bundle.jsonl",
+      "sha256": "989a2ace75174a7004e898e722b5b0ee388108c68519b157a5684473b6b069a3"
+    },
+    {
+      "bytes": 903910,
+      "path": "sparse_resource-seed62505-control.jsonl",
+      "sha256": "f0e3656771206107cc9ae6ca881f9b53cfeb1a23f946a5dee05ebf3c119e05b4"
+    },
+    {
+      "bytes": 903989,
+      "path": "sparse_resource-seed62505-food_reserve_only.jsonl",
+      "sha256": "b6d7e5fcb29a78d31bdb123d7498991bc6f382e8608e437000635e22156ff23d"
+    },
+    {
+      "bytes": 909741,
+      "path": "sparse_resource-seed62505-water_meal_only.jsonl",
+      "sha256": "923d71a812e5a8f90b5177e27911f81862205a26aaf94db3ed6f72378176ce78"
+    },
+    {
+      "bytes": 909801,
+      "path": "sparse_resource-seed62505-bundle.jsonl",
+      "sha256": "5ee460dafd35d3749e758c895b5a7b69d17b0b07c1f3ef9222460ab5fb57a0ab"
+    },
+    {
+      "bytes": 814661,
+      "path": "sparse_resource-seed62506-control.jsonl",
+      "sha256": "f2dac5d0ca7f16b4d229f7af4bf9a0dd063e23cd153fab64b61b6e9f584dc362"
+    },
+    {
+      "bytes": 814740,
+      "path": "sparse_resource-seed62506-food_reserve_only.jsonl",
+      "sha256": "f72ad016f56305dd74cb187991b299ef46aeb7b6bc660df6c5cb4e99593eb418"
+    },
+    {
+      "bytes": 828529,
+      "path": "sparse_resource-seed62506-water_meal_only.jsonl",
+      "sha256": "a1f7f2bf2f6a094799c91ac344f5afd2a2e612e7472cbca9da82b25416333af8"
+    },
+    {
+      "bytes": 828589,
+      "path": "sparse_resource-seed62506-bundle.jsonl",
+      "sha256": "d112d7893843ef01813b959175671487fda52f8e193f05082574b5a946b4293b"
+    },
+    {
+      "bytes": 712458,
+      "path": "v1_unique_food-seed62501-control.jsonl",
+      "sha256": "7371ba25f8824eccc1d6d5fd84afa46906e1edbc3a25727b2c989ad8f2e77f39"
+    },
+    {
+      "bytes": 1615395,
+      "path": "v1_unique_food-seed62501-food_reserve_only.jsonl",
+      "sha256": "bbc22d0fe028b593ca912a098c105f870b72e280cda50f8db1d7c014a9479931"
+    },
+    {
+      "bytes": 712535,
+      "path": "v1_unique_food-seed62501-water_meal_only.jsonl",
+      "sha256": "2219c76694fac1c910fcb5eab0eb53c9f25d7a86c45ac9e3e9c5616775c46fa1"
+    },
+    {
+      "bytes": 1615453,
+      "path": "v1_unique_food-seed62501-bundle.jsonl",
+      "sha256": "96756018dedcd5415b662f36dc9114b01d0fadc3ac2e29e5fbfb9c7874428360"
+    },
+    {
+      "bytes": 729472,
+      "path": "v1_unique_food-seed62502-control.jsonl",
+      "sha256": "e281e9f81b6bd70ab951a2140cce844a4181ab464a2290ef394ccd13c79db258"
+    },
+    {
+      "bytes": 1397284,
+      "path": "v1_unique_food-seed62502-food_reserve_only.jsonl",
+      "sha256": "f0d5b6648c69d25c0297b69229389741f4b10674cede2129a6d00e4b8de4e6bf"
+    },
+    {
+      "bytes": 729549,
+      "path": "v1_unique_food-seed62502-water_meal_only.jsonl",
+      "sha256": "104ebe0cd7fe850a456f9133557fd95215bcbdf582ac0657683dcae5afb8439e"
+    },
+    {
+      "bytes": 1545268,
+      "path": "v1_unique_food-seed62502-bundle.jsonl",
+      "sha256": "403b5c9e009deda49defb1bfa864e10982b2fddc6d5793d2f9d16183f169d0de"
+    },
+    {
+      "bytes": 735784,
+      "path": "v1_unique_food-seed62503-control.jsonl",
+      "sha256": "3902984426512b09161fc653a4ce372a1868c8b3d3207e41093960ef81498565"
+    },
+    {
+      "bytes": 1615196,
+      "path": "v1_unique_food-seed62503-food_reserve_only.jsonl",
+      "sha256": "a8bea90b9f416b33813667eced568b68539de6468356b02b958ad0ef373fc36c"
+    },
+    {
+      "bytes": 735861,
+      "path": "v1_unique_food-seed62503-water_meal_only.jsonl",
+      "sha256": "3a9948b88ad8e6d77b9ffc562868da6be8b203f6f2da7184dd04e9e36bd44eaa"
+    },
+    {
+      "bytes": 1619477,
+      "path": "v1_unique_food-seed62503-bundle.jsonl",
+      "sha256": "6356c2ec68f91644a3ce389986f72dd2c2872de8d2156a9b8f7fc699fccca0d5"
+    },
+    {
+      "bytes": 729775,
+      "path": "v1_unique_food-seed62504-control.jsonl",
+      "sha256": "122444cc3e0359f1e107f1b7ed49914c84688772e7b92a664019834bdc9d5cba"
+    },
+    {
+      "bytes": 1184216,
+      "path": "v1_unique_food-seed62504-food_reserve_only.jsonl",
+      "sha256": "4bc6fed2821ec65cae7c9ec12790bb29df0b4c771853e14960015e3527d971f5"
+    },
+    {
+      "bytes": 729852,
+      "path": "v1_unique_food-seed62504-water_meal_only.jsonl",
+      "sha256": "dd236cab403cf61ebb3b5e62eab66fa447fec95cbeccf00a0d2ec59c329bbdec"
+    },
+    {
+      "bytes": 1322449,
+      "path": "v1_unique_food-seed62504-bundle.jsonl",
+      "sha256": "19a345488656ad7a42a06e61cb3b83c4dfabd8a638468a28bf50060af05f9e38"
+    },
+    {
+      "bytes": 836372,
+      "path": "v1_unique_food-seed62505-control.jsonl",
+      "sha256": "5a0933f364421ad982a4cc72d7bd99122fecf77d3dfd0357922d42679efd88e1"
+    },
+    {
+      "bytes": 1044619,
+      "path": "v1_unique_food-seed62505-food_reserve_only.jsonl",
+      "sha256": "7b6b33ee5afde1399d1525a9f6f1336e9bb2b4341b731e2f66b2939c6a8de1a7"
+    },
+    {
+      "bytes": 836449,
+      "path": "v1_unique_food-seed62505-water_meal_only.jsonl",
+      "sha256": "d9b2bb857acb7600fba788c259b5fc9b6ce48b9f19c1f039d76f1e0c0dbfbc75"
+    },
+    {
+      "bytes": 1045945,
+      "path": "v1_unique_food-seed62505-bundle.jsonl",
+      "sha256": "ee9bbeca3742a862226ce985d694a0ea5c7805c65d759c3ce24c94ddbc2ede1d"
+    },
+    {
+      "bytes": 755268,
+      "path": "v1_unique_food-seed62506-control.jsonl",
+      "sha256": "e813750d7c64bb68d227c837c3c25da49673dd7757accc90d78cfb2c01f1bd18"
+    },
+    {
+      "bytes": 1393388,
+      "path": "v1_unique_food-seed62506-food_reserve_only.jsonl",
+      "sha256": "06c70fec76f6b6b2568e4b4e7620684315553db21166722b09d6d0b08934e3f7"
+    },
+    {
+      "bytes": 755345,
+      "path": "v1_unique_food-seed62506-water_meal_only.jsonl",
+      "sha256": "ed1589fa026f32b7ffb5a60a8af8b5ec6fdb162b6244ecb7001a6f3dec12e038"
+    },
+    {
+      "bytes": 1541437,
+      "path": "v1_unique_food-seed62506-bundle.jsonl",
+      "sha256": "31194b1d19626c143feb1e84a4a95eaaaac5917ff81938de36529234855d1b47"
+    }
+  ],
+  "run": {
+    "aggregate_output_bytes": 92376296,
+    "binary_sha256": "81d6044ca3f838234643d072e23d07ce4856f70953d91c0642e783883e1f28e0",
+    "elapsed_seconds": 61.404,
+    "manifest_sha256": "db0a490b5f3a62ed9c0f9b8db72b9d5851d1659356d3423dcdec256d9d80134c",
+    "manifest_status": "complete",
+    "paired_summary_sha256": "5980c4659b2a4983377211d26d22e97b3fb7a4f22c10260a050c0fb5216d18e2",
+    "protocol_sha256": "2b602b2dc294b49585dc2235c669af80d598479090774fce9390ee92bd0a6e4b",
+    "raw_directory": "/root/curious/data/experiments/water-meal-priority-v1-runnerfix-20261026",
+    "registration_sha256": "1d968c6020e4ba3d2ffb48dd5c5b3eca860872d6b30595cb311095ceb92f2fc8",
+    "registration_status": "registered",
+    "root_reviewed_registration": true,
+    "run_id": "water-meal-priority-v1-runnerfix-20261026",
+    "runner_addendum_sha256": "7790eb0a42abc8d98f882ca078c0057be3a4ac0ebb4e2f5f069e2cd654be0a58",
+    "runner_fix_id": "water-meal-priority-v1-runner-copy2-fix-20261026",
+    "runner_sha256": "c330ae544678659acf531492c79b9fb9e48039f5481473a969ba46974793507a",
+    "scenario_sha256": {
+      "meadow": "648e4b325c0c94f44930bcba85ed1578ba9be9e3ffd26197f49b631d73fa8e30",
+      "sparse_resource": "ffbc782758d15ee0e4e72033ceb7f98feb20aa235c236833ec07a3e75be86e1f",
+      "v1_unique_food": null
+    },
+    "source_clean_at_run": true,
+    "source_content_sha256": "d55d6b1d4fb27ec1abc87d088a8d7616c1dad96a442c7144e9cc3a4f6a075d5a",
+    "source_revision": "edb76316d7002f0533d4c038b664a796ec293c41"
+  },
+  "schema": "curious-water-meal-priority-v1-report",
+  "status": "complete descriptive factorial screen; no utility or live qualification",
+  "validation": {
+    "all_actor_resolver_event_totals_match": true,
+    "audit_note": "Water-only and bundle intervention rows are duplicated in meadow/sparse where food-reserve never intervened; the 130 unique habitat-seed-tick-actor keys appear as 250 raw rows across both water-policy-on arms.",
+    "checkpoint_restore_valid_worlds": 72,
+    "empty_stderr_files": 72,
+    "interventions_by_habitat_and_arm": {
+      "meadow": {
+        "bundle": 73,
+        "control": 0,
+        "food_reserve_only": 0,
+        "water_meal_only": 73
+      },
+      "sparse_resource": {
+        "bundle": 47,
+        "control": 0,
+        "food_reserve_only": 0,
+        "water_meal_only": 47
+      },
+      "v1_unique_food": {
+        "bundle": 10,
+        "control": 0,
+        "food_reserve_only": 0,
+        "water_meal_only": 0
+      }
+    },
+    "lineage_issue_total": 0,
+    "ordered_300_tick_streams": 72,
+    "raw_files": 72,
+    "raw_sha256_and_size_verified": true,
+    "unknown_generation_birth_total": 0,
+    "validated_water_meal_intervention_records": 250,
+    "water_meal_intervention_unique_habitat_seed_tick_actor_keys": 130
+  },
+  "verification_handoff": {
+    "cleanup_nominal_file_size_bytes": 711962863,
+    "empirical_species": "Herbivore only",
+    "final_run_output_bytes": 92376296,
+    "independent_audit_local": "data/operations/water-meal-20261026/independent-lab-audit.json",
+    "isolated_http_crash_recovery": "passed",
+    "live_after": {
+      "alive": 588,
+      "paused": false,
+      "storage_error": null,
+      "tick": 14927
+    },
+    "live_changed": false,
+    "metric_label_correction": "focal_underfunded_water_approaches is partial paid water movement, not exclusive causal energy failure",
+    "python_final_module_passed": 9,
+    "python_full_passed": 214,
+    "release_build": "passed",
+    "rust_failed": 0,
+    "rust_ignored": 1,
+    "rust_passed": 431
+  }
+}
