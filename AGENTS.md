@@ -105,6 +105,9 @@ dağıtım ve karar kanıtları ilgili raporlarda korunur; eski kayıtları silm
   öğününü seçer; kesilen su denemesi ödül/başarı sayılmaz. [72 koşuluk kıyas](docs/reports/WATER_MEAL_PRIORITY_V1_20261026.md), eski yem
   bütçesine ek dar kazanç ve habitat/seed kayıpları buldu; genel fayda kabulü
   yoktur ve seçenek kapalı kaldı.
+  [Beş vakalık resolver sıra labı](docs/reports/RESOLVER_ORDER_V1_20261026.md)
+  yalnız aynı durumdaki tek-tick sıra etkisini ölçtü. `resolver-lab` Cargo
+  özelliği araştırma içindir; canlıya dağıtım veya yaşam/soy faydası kabulü değildir.
 
 ## Güncel sonuçlar
 

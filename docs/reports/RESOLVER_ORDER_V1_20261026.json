@@ -55,5 +55,5 @@
     "shared_preambles":1,
     "included_as_result":false
   },
-  "all_attempt_work": {"resolved_tick_invocations":496,"shared_preambles":6,"independent_cases":5}
+  "all_attempt_work": {"resolved_tick_invocations":496,"shared_preambles":6,"paired_selected_cases":5}
 }

@@ -1,12 +1,12 @@
 # Sıradaki işler
 
-1. **Kaynak rekabeti ile karar sırasının etkisini izole et:** [su–öğün tanısı](docs/reports/WATER_MEAL_PRIORITY_DIAGNOSIS_20261026.md)
-   çayırdaki olumsuz tohumlarda kaybın sonraki nesillerin toplamında olduğunu,
-   seyrek ortamda yemek girişimlerinin çoğunun reddedildiğini gösterdi. Yemek
-   planına eklenen birey aynı tick'teki kaynak paylaşım sırasını da değiştiriyor.
-   Aynı durumdan dallanan, tüm bireylerin karar/beden/RNG ve kaynak paylaşımını
-   kaydeden küçük bir deney protokolü hazırla; karar kuralı ile çözümleme sırasını
-   ayrı karşılaştır. Bu henüz uygulanmadı; yeni ayar veya dağıtım kabulü yoktur.
+1. **Karar türünden bağımsız çözücü önceliğini tasarla:** [beş vakalık sıra labı](docs/reports/RESOLVER_ORDER_V1_20261026.md)
+   aynı aday planlarında yalnız sıra değişiminin alıcıları ve içilen suyu
+   değiştirebildiğini gösterdi. Mevcut `tick % eylem_listesi_uzunluğu` yerine
+   karar türüne/listenin uzunluğuna bağımlı olmayan, deterministik ve adil bir
+   öncelik sözleşmesini değerlendir. Bu yalnız öneridir; sıralama algoritması
+   değiştirilmedi. Uzun dönem yaşam/soy faydası hâlâ Unknown; mevcut veriyle
+   politika veya canlıya yükseltme kabulü yoktur.
 2. **K3 öğrenme hedefini gözden geçir:** [kaynak güvenilirliği taslağı](docs/SOURCE_RELIABILITY_TARGET_20261026.md)
    uygulanmamıştır; yalnızca ayrı protokolün gözden geçirilmesine temel olabilir.
 3. **Ekoloji aktarımındaki tükenmeyi açıkla:** [tarama raporu](docs/reports/ECOLOGY_TRANSFER_V1_20261026.md)

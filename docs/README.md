@@ -22,6 +22,9 @@ K1–K8'e doğrudan git: [K1](ROADMAP.md#dunya-cevre),
 
 ## Güncel kanıt
 
+- [Resolver sıra labı V1](reports/RESOLVER_ORDER_V1_20261026.md): aynı durumdan
+  üç kol; karar/plan değişikliği ile ortak yemek-su sırasının tek-tick etkileri.
+  İlk başarısız gözetleyici koşusu ayrı korunur; genel yaşam faydası kabulü yoktur.
 - [Su–öğün gerileme tanısı](reports/WATER_MEAL_PRIORITY_DIAGNOSIS_20261026.md):
   mevcut 72 koşunun yeniden analizi; gerçekleşen öğün, kaynak paylaşım sırası ve
   ilk bireyler/sonraki nesillerin yaşam süresi ayrımı. Yeni simülasyon değildir.
@@ -71,6 +74,11 @@ değiştirilmez. Canlı operasyon yönergeleri için [CONTROL](CONTROL.md) kulla
 sağkalım, üreme, learner ve sansürlü episode ölçüm sözleşmesini tanımlar.
 [Sonuç raporu](reports/WATER_MEAL_PRIORITY_V1_20261026.md) ve
 [gerileme tanısı](reports/WATER_MEAL_PRIORITY_DIAGNOSIS_20261026.md) ayrı kanıtlardır.
+
+[Resolver sıra protokolü](RESOLVER_ORDER_V1_PROTOCOL_20261026.md),
+[kayıt açıklaması](RESOLVER_ORDER_V1_REGISTRATION_ADDENDUM_20261026.md) ve
+[gözetleyici düzeltme kaydı](RESOLVER_ORDER_V1_RUNNER_REPAIR_20261026.md),
+beş önceden görülmüş vakadaki tek-tick mekanizma ölçümünün sınırlarını taşır.
 
 `data/` deney verileri ve `bin/` derlenmiş ikililer yerel/ignore edilen
 artifaktlardır. Bazı tarihli raporların ham JSONL dosyaları Zstandard arşivinde

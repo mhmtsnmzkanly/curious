@@ -18,7 +18,9 @@ Her hücrede bitki enerjisi / alınan su / ödenen hareket enerjisi yer alır. �
 
 B ve C aynı aday plan üyeliğini kullanır. B–C farkı yalnız `Eat` sırası değildir: sabit B yerleşimi, C'deki doğal döndürülmüş `Eat`, `Drink` ve diğer plan sıralarıyla karşılaştırılır. Beş vakanın tümünde toplam bitki enerjisi B ve C'de aynı kaldı. Bununla birlikte meadow 62503'te su toplamı B'de 22, C'de 12 oldu; toplam bitki enerjisi her ikisinde 24'tü. meadow 62502 ve 62505 ile sparse_resource 62505'te bazı öğün kazananları da değişti. Bu, ortak sıra düzeninin kısa vadeli tahsisi etkileyebildiğine dair bu vakalara özgü bir mekanizma gözlemidir.
 
-A–B, aday override plan üyeliğinin yanı sıra yeni `Eat` aktörlerini belirli sıraya ekleme müdahalesini de içerir; saf bir karar etkisi olarak yorumlanamaz. sparse_resource vakalarında toplam fiziksel vektörler kollarda aynı kaldı. Reddedilen Eat/Drink sayıları, aktör kazananları, olay listeleri ve beden değişimleri [JSON ekinde](RESOLVER_ORDER_V1_20261026.json) vaka ve kol bazında kayıtlıdır.
+A–B, aday override plan üyeliğinin yanı sıra yeni `Eat` aktörlerini belirli sıraya ekleme müdahalesini de içerir; saf bir karar etkisi olarak yorumlanamaz. sparse_resource vakalarında toplam fiziksel vektörler kollarda aynı kaldı. Toplamlar ve reddedilen Eat/Drink sayıları [kompakt JSON ekinde](RESOLVER_ORDER_V1_20261026.json); aktör kazananları, olay listeleri ve beden değişimleri ise yerel tam analiz ve ham çıktılarda kayıtlıdır.
+
+Somut sıra örneği: meadow 62502'de B kolunda `(-1,1)` hücresindeki 8 enerjiyi aktör 24, C kolunda aktör 19 aldı. sparse_resource 62505'te `(5,-5)` hücresindeki 2 enerjinin alıcısı aktör 3'ten aktör 4'e değişti; toplam alınan besin her iki aday kolda da aynıydı.
 
 ## Koşu ve doğrulama
 
@@ -35,3 +37,19 @@ Tamamlanan koşu kimliği `resolver-order-v1-runnerfix-20261026`; 398 çözücü
 Bu vakalar rastgele/genel bir popülasyon örneği değildir. Müdahale tek tikle sınırlıdır; sağkalım, üreme, yaşam boyu performans, öğrenme veya ekosistem etkisi bilinmiyor. Beş hedef ve bu resolver kesiti dışındaki sıra etkisi **Unknown** kalır. Bu rapor varsayılanı açma veya dağıtım gerekçesi oluşturmaz.
 
 Dondurulmuş koşu ve analiz dosyaları yerel `/root/curious/data/experiments/resolver-order-v1-runnerfix-20261026/` ve `/root/curious/data/operations/resolver-order-20261026/` altındadır; repoya dahil değildir. Tekrar için sabit protokol, runner ve önceden hash'lenmiş girdiler gerekir; bu rapor yeni çalışma başlatma talimatı değildir.
+
+Tam analizi World çalıştırmadan yeniden üretmek için, henüz mevcut olmayan bir çıktı yolu seçin:
+
+```sh
+python3 scripts/analyze_resolver_order_lab.py \
+  --run-dir /root/curious/data/experiments/resolver-order-v1-runnerfix-20261026 \
+  --output /tmp/resolver-order-analysis.json
+```
+
+## Uygulama ve işletim doğrulaması
+
+Kayıtlı lab fazı 1,319103 saniye sürdü; bu süre hazırlık, derleme, regresyon testleri veya ajan kota beklemesini içermez. Çıktı klasörünün gerçek boyutu manifestteki 15.543.890 byte ile eşleşti. Root'un çevrimdışı analiz tekrarı, final analizle birebir aynı SHA-256'yı verdi. Kayıt sonrası ek bir bütünlük denetiminde C kolunun olay/focal-trace ve fiziksel toplamları, eski `water_meal_only` kaydının aynı hedef satırıyla beş vakada da eşleşti; bu yeni fayda ölçütü değildir.
+
+Normal tick hazırlık/çözümleme ayrımı için 436 Rust testi geçti (bir eski uzun-soak testi ignored). Son lab kapısı düzeltmelerinden sonra dört kütüphane testi ve gerçek CLI yolunu kullanan dört örnek testi ayrıca geçti; bu sayılar önceki taramayla örtüşür. Python tam taraması 231 testi, son gözetleyici düzeltmesinin yedi testi ve analiz aracının iki testi geçti; alt kümeler bağımsız ek örnek sayılmaz. İzole HTTP/auth/pause-speed/audit/writer-lock/SIGKILL kurtarma kontrolü başarılıydı. Derleme ve ilk kapı testlerindeki hazırlık hataları kayıtlı deneyden önce düzeltildi; logları yerel operasyon klasöründe korunur.
+
+Yalnız kullanılmadığı doğrulanmış görev target'ı temizlendi: 761.014.745 nominal dosya byte'ı (boşalan disk bloğu ölçümü değildir). Çalıştırılan lab/kontrol ikilileri, iki frozen kaynak arşivi ve bütün başarısız/başarılı ham kayıtlar korundu. 22:32 UTC salt-okunur kontrolde canlı tick 15631'di; coexistence/replay servisleri aynı PID'lerle (119175/1137), `NRestarts=0`, active görüldü. Canlı dağıtım, duraklatma veya hız değişikliği yapılmadı; seçenek varsayılan kapalı kaldı.

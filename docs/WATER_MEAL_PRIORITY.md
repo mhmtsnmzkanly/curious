@@ -44,3 +44,13 @@ seçilen öğün ile gerçekleşen beslenmeyi ayırır. Seyrek ortamda yeni kura
 başına açık olduğu koldaki 47 girişimin 36'sı `MissingResource` ile reddedilmiştir.
 Çayırdaki üç olumsuz tohumun net yaşam süresi kaybı sonraki nesillerin toplamında
 oluşur; bu, hangi grubun kaybettiğinin hesabıdır, kaybın nedensel açıklaması değildir.
+
+[Beş vakalık resolver sıra labı](reports/RESOLVER_ORDER_V1_20261026.md), aynı
+aday planlarında sıra etkisini ayrıca ölçtü. Örneğin çayır seed 62503'te alınan
+bitki enerjisi iki aday kolda da 24 iken içilen su 22'den 12'ye değişti. Yemek
+ve su listeleri birlikte farklı sıralandığından bu yalnız yemek sırasının etkisi
+değildir. Bu ölçüm sonraki tick'leri veya yaşam süresini izlemez.
+
+Probe yalnız `resolver-lab` Cargo özelliğiyle derlenir; normal çalışmada
+etkin değildir. Normal tick ile ortak hazırlık/çözücü kodunu kullanır; V21
+checkpoint veya SQLite şeması ve politika varsayılanı değişmemiştir.

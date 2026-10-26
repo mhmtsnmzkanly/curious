@@ -107,8 +107,12 @@ ilgili diğer kategoriye bağlanır; aynı iş için paralel, çatışan plan tu
   [Mevcut kayıtların tanısı](reports/WATER_MEAL_PRIORITY_DIAGNOSIS_20261026.md),
   seçilen öğün ile gerçek beslenmeyi ve ilk bireylerle sonraki nesillerin
   yaşam süresini ayırdı. Karar değişikliği çözümleme sırasını da etkileyebiliyor;
-  bunun sonraki nesil kayıplarındaki payı henüz izole edilmedi. K5/K6 ile ortak
-  sonraki iş, aynı durumdan dallanan sınırlı bir deneyin protokolüdür.
+  bunun sonraki nesil kayıplarındaki payı henüz izole edilmedi.
+  [Aynı durumdan üç kollu sıra labı](reports/RESOLVER_ORDER_V1_20261026.md)
+  beş vakada tamamlandı: aynı aday planlarının ortak yemek/su sırası, alıcıları
+  ve bazı vakalarda su/hareket toplamlarını değiştirdi. Bu tek-tick kanıtıdır;
+  yaşam/soy aracılığı Unknown kalır. K5/K8 ile ortak öneri, karar türünden
+  bağımsız deterministik öncelik sözleşmesidir; uygulanmış değildir.
 
 - **Mevcut:** Sağlık, enerji, metabolizma ve hareket maliyetleri vardır; temel
   dinlenme ve yeterli enerji/su koşulunda enerji ödeyen pasif iyileşme bulunur.
