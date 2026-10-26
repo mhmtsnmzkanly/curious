@@ -1,3 +1,5 @@
+#![recursion_limit = "256"]
+
 //! Paired water–meal priority factorial screen. One registered World per invocation.
 //! See docs/WATER_MEAL_PRIORITY_V1_PROTOCOL_20261026.md.
 use curious::{
