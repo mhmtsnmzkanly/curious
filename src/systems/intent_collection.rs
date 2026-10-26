@@ -23,6 +23,7 @@ impl IntentCollectionSystem {
             let mut learner = slot.learner.clone();
             let mut hunt_learner = slot.hunt_learner.clone();
             let mut memory = slot.memory.clone();
+            let mut water_meal_override = None;
             memory.observe(slot.pos, &view, world.tick_counter, slot.base.species());
             let mut decision = if let Some(intent) = world.command_inputs.get(&slot.id) {
                 Decision::new(intent.clone(), Reason::ExternalCommand)
@@ -104,7 +105,7 @@ impl IntentCollectionSystem {
             } else {
                 decision
             };
-            let decision = if matches!(slot.controller, EntityController::AI)
+            let mut decision = if matches!(slot.controller, EntityController::AI)
                 && !world.command_inputs.contains_key(&slot.id)
             {
                 learner.choose_with_residual_and_context(
@@ -121,6 +122,52 @@ impl IntentCollectionSystem {
                 learner.interrupt(crate::entity::learning::WaterEnd::Interrupted);
                 decision
             };
+            if world.policy.water_meal_priority_enabled
+                && matches!(slot.controller, EntityController::AI)
+                && !world.command_inputs.contains_key(&slot.id)
+            {
+                if let Some(meal) = crate::policy::prefer_adjacent_meal_before_unpayable_water(
+                    slot.base.species(),
+                    slot.base.life(),
+                    &view,
+                    decision.clone(),
+                    world.policy.injury_capacity_penalty,
+                ) {
+                    // Close at decision time so this tick's Eat cannot be attributed as
+                    // water evidence by the post-resolver outcome pass.
+                    learner.interrupt(crate::entity::learning::WaterEnd::Interrupted);
+                    let replaced_decision = decision.clone();
+                    let visible_water_amount = match &replaced_decision.intent {
+                        Intent::Drink { at } => view
+                            .waters
+                            .iter()
+                            .find(|water| water.amount > 0 && water.steps == *at)
+                            .map(|water| water.amount)
+                            .unwrap_or(0),
+                        _ => 0,
+                    };
+                    let visible_plant_food_amount = match &meal.intent {
+                        Intent::Eat {
+                            at,
+                            corpse_id: None,
+                        } => view
+                            .foods
+                            .iter()
+                            .find(|food| {
+                                !food.is_corpse && food.corpse_id.is_none() && food.steps == *at
+                            })
+                            .map(|food| food.amount)
+                            .unwrap_or(0),
+                        _ => 0,
+                    };
+                    water_meal_override = Some(crate::entity::decision::WaterMealOverride {
+                        replaced_decision,
+                        visible_water_amount,
+                        visible_plant_food_amount,
+                    });
+                    decision = meal;
+                }
+            }
             let decision = hunt_learner.choose(
                 slot.base.species(),
                 slot.base.life(),
@@ -142,7 +189,7 @@ impl IntentCollectionSystem {
                 slot.id, decision.reason, decision.intent
             ));
             intents.push((slot.id, decision.intent.clone()));
-            traces.push(DecisionTrace::new(
+            let mut trace = DecisionTrace::new(
                 world.tick_counter,
                 slot.id,
                 slot.base.species(),
@@ -152,7 +199,9 @@ impl IntentCollectionSystem {
                 view,
                 decision,
                 full,
-            ));
+            );
+            trace.water_meal_override = water_meal_override;
+            traces.push(trace);
             world.entities[slot_index].memory = memory;
             world.entities[slot_index].learner = learner;
             world.entities[slot_index].hunt_learner = hunt_learner;
@@ -167,7 +216,11 @@ mod tests {
     use super::*;
     use crate::{
         creatures::herbivore::HerbivoreEntity,
-        entity::{phase::EntityPhase, Entity},
+        entity::{
+            Entity,
+            learning::{WaterEnd, WaterEpisode},
+            phase::EntityPhase,
+        },
         map::{cell::Cell, movement::Position},
         world::{EntitySlot, World},
     };
@@ -228,5 +281,183 @@ mod tests {
             player.last_decisions[0].decision.reason,
             Reason::PlayerWaiting
         );
+    }
+
+    fn thirsty_world(with_episode: bool) -> World {
+        let mut world = world(EntityController::AI);
+        world.policy.food_search_reserve_enabled = false;
+        world.policy.water_meal_priority_enabled = true;
+        let slot = &mut world.entities[0];
+        slot.base.life_mut().energy = 0;
+        slot.base.life_mut().water = 0;
+        world
+            .map
+            .set_cell(Position::new(0, 1), Cell::Food { amount: 3 });
+        world
+            .map
+            .set_cell(Position::new(3, 0), Cell::Water { amount: 5 });
+        world
+            .map
+            .set_cell(Position::new(-3, 0), Cell::Water { amount: 5 });
+        if with_episode {
+            world.entities[0]
+                .learner
+                .values
+                .push(crate::entity::learning::Value {
+                    pos: Position::new(4, 0),
+                    value: 12,
+                    visits: 3,
+                });
+            world.entities[0].learner.episode = Some(WaterEpisode {
+                target: Position::new(3, 0),
+                ticks: 2,
+                movement_energy: 2,
+                incoming_damage: 0,
+                choice_baseline: Some(10),
+                outcome_overflowed: false,
+                candidate_censored: false,
+            });
+        }
+        world
+    }
+
+    #[test]
+    fn unaffordable_water_continuation_closes_before_adjacent_plant_eat() {
+        let mut world = thirsty_world(true);
+        let original_values = serde_json::to_value(&world.entities[0].learner.values).unwrap();
+        let intents = IntentCollectionSystem::collect(&mut world, &mut Vec::new());
+        assert_eq!(
+            world.last_decisions[0].decision.reason,
+            Reason::EatBeforeWater
+        );
+        let override_evidence = world.last_decisions[0]
+            .water_meal_override
+            .as_ref()
+            .unwrap();
+        assert!(matches!(
+            &override_evidence.replaced_decision.intent,
+            Intent::Drink { .. }
+        ));
+        assert!(override_evidence.visible_water_amount > 0);
+        assert!(override_evidence.visible_plant_food_amount > 0);
+        assert!(matches!(
+            override_evidence.replaced_decision.reason,
+            Reason::LearnedWater | Reason::SeekWater | Reason::RecallWater
+        ));
+        assert!(matches!(intents[0].1, Intent::Eat { .. }));
+        assert!(world.entities[0].learner.episode.is_none());
+        let closed = world.entities[0].learner.last_episode.as_ref().unwrap();
+        assert_eq!(closed.end, WaterEnd::Interrupted);
+        assert_eq!(closed.reward, None);
+        assert_eq!(
+            serde_json::to_value(&world.entities[0].learner.values).unwrap(),
+            original_values
+        );
+
+        let mut occupied = std::collections::HashMap::from([(Position::new(0, 0), 1)]);
+        let mut events = Vec::new();
+        crate::systems::interaction::InteractionSystem::resolve_eats(
+            &mut world.entities,
+            &mut world.map,
+            &[crate::world::EatPlan {
+                path: Vec::new(),
+                id: 1,
+                new_pos: Position::new(0, 0),
+                cost: 0,
+                resource_pos: Position::new(0, 1),
+                corpse_id: None,
+            }],
+            &mut occupied,
+            &mut events,
+            false,
+        );
+        assert_eq!(world.entities[0].base.life().energy, 3);
+        assert!(events.iter().any(|event| matches!(
+            event,
+            crate::simulation::SimulationEvent::EntityAte {
+                id: 1,
+                amount: 3,
+                ..
+            }
+        )));
+
+        // Post-resolver accounting must ignore this tick because no water episode is open.
+        crate::systems::water_outcomes::finish(
+            &mut world.entities,
+            &world.last_decisions,
+            &intents,
+            &events,
+        );
+        assert_eq!(
+            world.entities[0].learner.last_episode.as_ref().unwrap().end,
+            WaterEnd::Interrupted
+        );
+        assert_eq!(
+            serde_json::to_value(&world.entities[0].learner.values).unwrap(),
+            original_values
+        );
+    }
+
+    #[test]
+    fn fresh_unpayable_water_selection_can_switch_without_rng_or_movement_charge() {
+        let mut with_policy = thirsty_world(false);
+        let mut without_policy = thirsty_world(false);
+        without_policy.policy.water_meal_priority_enabled = false;
+        let mut on_intents = IntentCollectionSystem::collect(&mut with_policy, &mut Vec::new());
+        let off_intents = IntentCollectionSystem::collect(&mut without_policy, &mut Vec::new());
+        assert_eq!(with_policy.rng.state(), without_policy.rng.state());
+        assert_eq!(with_policy.entities[0].base.life().energy, 0);
+        assert_eq!(without_policy.entities[0].base.life().energy, 0);
+        assert_eq!(
+            with_policy.last_decisions[0].decision.reason,
+            Reason::EatBeforeWater
+        );
+        assert!(matches!(on_intents.remove(0).1, Intent::Eat { .. }));
+        assert!(matches!(off_intents[0].1, Intent::Drink { .. }));
+        assert!(with_policy.entities[0].learner.episode.is_none());
+        assert!(without_policy.entities[0].learner.episode.is_some());
+    }
+
+    #[test]
+    fn paid_first_step_and_adjacent_water_are_never_overridden() {
+        let mut partial = thirsty_world(false);
+        partial.entities[0].base.life_mut().energy = 1;
+        let intents = IntentCollectionSystem::collect(&mut partial, &mut Vec::new());
+        assert_ne!(
+            partial.last_decisions[0].decision.reason,
+            Reason::EatBeforeWater
+        );
+        assert!(matches!(intents[0].1, Intent::Drink { .. }));
+
+        let mut adjacent = thirsty_world(false);
+        adjacent
+            .map
+            .set_cell(Position::new(1, 0), Cell::Water { amount: 5 });
+        let intents = IntentCollectionSystem::collect(&mut adjacent, &mut Vec::new());
+        assert_ne!(
+            adjacent.last_decisions[0].decision.reason,
+            Reason::EatBeforeWater
+        );
+        assert!(matches!(intents[0].1, Intent::Drink { .. }));
+    }
+
+    #[test]
+    fn external_command_and_player_are_not_overridden() {
+        let mut commanded = thirsty_world(false);
+        let command = Intent::Drink {
+            at: crate::map::movement::Steps(vec![crate::map::movement::Direction::Right; 3]),
+        };
+        commanded.push_command(1, command.clone());
+        let intents = IntentCollectionSystem::collect(&mut commanded, &mut Vec::new());
+        assert_eq!(intents[0].1, command);
+        assert_eq!(
+            commanded.last_decisions[0].decision.reason,
+            Reason::ExternalCommand
+        );
+
+        let mut player = thirsty_world(false);
+        player.entities[0].controller = EntityController::Player(3);
+        let intents = IntentCollectionSystem::collect(&mut player, &mut Vec::new());
+        assert!(matches!(intents[0].1, Intent::Idle { duration: 1 }));
     }
 }

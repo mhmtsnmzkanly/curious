@@ -722,7 +722,7 @@ fn malformed_candidate_checkpoint_state_and_future_versions_are_rejected() {
     state.entities[0].learner.episode = Some(candidate_attempt(pos, 104_001).episode.unwrap());
     assert!(state.restore().is_err());
     let mut state = State::capture(&water_world());
-    state.version = 21;
+    state.version = 22;
     assert!(state.restore().is_err());
 }
 

@@ -20,6 +20,9 @@ pub struct PolicySettings {
     /// Bound discretionary food-search movement by current energy and next-tick body maintenance.
     #[serde(default, skip_serializing_if = "is_false")]
     pub food_search_reserve_enabled: bool,
+    /// Prefer an immediately executable plant meal when a water approach cannot pay its first step.
+    #[serde(default, skip_serializing_if = "is_false")]
+    pub water_meal_priority_enabled: bool,
     /// Experimental current-foraging baseline plus own-source residual choice.
     #[serde(default, skip_serializing_if = "is_false")]
     pub water_residual_enabled: bool,
@@ -35,6 +38,68 @@ pub struct PolicySettings {
     /// Experimental K4 local social alarm call and coordination.
     #[serde(default, skip_serializing_if = "is_false")]
     pub local_coordination_enabled: bool,
+}
+
+/// Switch a narrow, energy-blocked water approach to an already actionable plant meal.
+/// `life.energy` is already post-metabolism for this decision. All candidates come from
+/// current perception; the resolver still owns movement and eating.
+pub fn prefer_adjacent_meal_before_unpayable_water(
+    species: Species,
+    life: &LifeState,
+    view: &Perception,
+    decision: Decision,
+    injury_penalty_enabled: bool,
+) -> Option<Decision> {
+    if !matches!(
+        decision.reason,
+        Reason::SeekWater | Reason::LearnedWater | Reason::RecallWater
+    ) {
+        return None;
+    }
+    let Intent::Drink { at } = &decision.intent else {
+        return None;
+    };
+    view.waters
+        .iter()
+        .any(|w| w.amount > 0 && w.steps == *at)
+        .then_some(())?;
+    let approach_len = at.len().saturating_sub(1);
+    if approach_len == 0
+        || life.move_energy_cost == 0
+        || life.energy >= life.move_energy_cost
+        || life.moves_used >= life.effective_speed(injury_penalty_enabled)
+        || life.stamina < life.effective_move_stamina_cost(1, injury_penalty_enabled)
+    {
+        return None;
+    }
+    let food = view
+        .foods
+        .iter()
+        .filter(|food| {
+            !food.is_corpse
+                && food.corpse_id.is_none()
+                && species.eats_plants()
+                && food.amount > 0
+                && food.steps.len() <= 1
+                && food
+                    .amount
+                    .min(life.max_meal)
+                    .min(life.max_energy.saturating_sub(life.energy))
+                    > 0
+        })
+        .max_by_key(|food| {
+            (
+                crate::entity::foraging::value(food.amount, food.steps.len(), life, false),
+                std::cmp::Reverse(food.steps.len()),
+            )
+        })?;
+    Some(Decision::new(
+        Intent::Eat {
+            at: food.steps.clone(),
+            corpse_id: food.corpse_id,
+        },
+        Reason::EatBeforeWater,
+    ))
 }
 
 fn is_false(value: &bool) -> bool {
@@ -311,5 +376,212 @@ mod food_search_reserve_tests {
         assert!(json.get("food_search_reserve_enabled").is_none());
         let decoded: PolicySettings = serde_json::from_value(serde_json::json!({})).unwrap();
         assert!(!decoded.food_search_reserve_enabled);
+    }
+
+    #[test]
+    fn water_meal_priority_is_default_off_and_omitted_when_false() {
+        let settings = PolicySettings::default();
+        assert!(!settings.water_meal_priority_enabled);
+        let json = serde_json::to_value(settings).unwrap();
+        assert!(json.get("water_meal_priority_enabled").is_none());
+        let decoded: PolicySettings = serde_json::from_value(serde_json::json!({})).unwrap();
+        assert!(!decoded.water_meal_priority_enabled);
+    }
+
+    #[test]
+    fn water_meal_priority_requires_unpayable_first_step_and_executable_plant_meal() {
+        use crate::entity::perception::{PerceivedFood, PerceivedWater};
+
+        let mut life = life();
+        life.energy = 0;
+        life.water = 0;
+        let drink = Decision::new(
+            Intent::Drink {
+                at: Steps(vec![Direction::Right; 3]),
+            },
+            Reason::LearnedWater,
+        );
+        let mut view = Perception::empty();
+        view.waters.push(PerceivedWater {
+            amount: 2,
+            steps: Steps(vec![Direction::Right; 3]),
+        });
+        view.foods.push(PerceivedFood {
+            corpse_id: None,
+            amount: 3,
+            is_corpse: false,
+            steps: Steps(vec![Direction::Up]),
+        });
+        let switched = prefer_adjacent_meal_before_unpayable_water(
+            Species::Herbivore,
+            &life,
+            &view,
+            drink.clone(),
+            false,
+        )
+        .unwrap();
+        assert_eq!(switched.reason, Reason::EatBeforeWater);
+        assert!(matches!(switched.intent, Intent::Eat { .. }));
+
+        // One payable movement step is useful progress on a longer multi-tick route.
+        life.energy = life.move_energy_cost;
+        assert!(
+            prefer_adjacent_meal_before_unpayable_water(
+                Species::Herbivore,
+                &life,
+                &view,
+                drink.clone(),
+                false,
+            )
+            .is_none()
+        );
+        life.energy = 0;
+
+        // An already adjacent drink has no approach movement to fund.
+        let adjacent_drink = Decision::new(
+            Intent::Drink {
+                at: Steps(vec![Direction::Right]),
+            },
+            Reason::SeekWater,
+        );
+        view.waters[0].steps = Steps(vec![Direction::Right]);
+        assert!(
+            prefer_adjacent_meal_before_unpayable_water(
+                Species::Herbivore,
+                &life,
+                &view,
+                adjacent_drink,
+                false,
+            )
+            .is_none()
+        );
+    }
+
+    #[test]
+    fn water_meal_priority_rejects_invalid_food_and_nonlearner_drink_reasons() {
+        use crate::entity::perception::{PerceivedFood, PerceivedWater};
+        let mut life = life();
+        life.energy = 0;
+        let drink = Decision::new(
+            Intent::Drink {
+                at: Steps(vec![Direction::Right; 2]),
+            },
+            Reason::LearnedWater,
+        );
+        let mut view = Perception::empty();
+        view.waters.push(PerceivedWater {
+            amount: 1,
+            steps: Steps(vec![Direction::Right; 2]),
+        });
+        for food in [
+            PerceivedFood {
+                corpse_id: Some(9),
+                amount: 5,
+                is_corpse: true,
+                steps: Steps(vec![Direction::Up]),
+            },
+            PerceivedFood {
+                corpse_id: None,
+                amount: 5,
+                is_corpse: false,
+                steps: Steps(vec![Direction::Up; 2]),
+            },
+            PerceivedFood {
+                corpse_id: None,
+                amount: 0,
+                is_corpse: false,
+                steps: Steps(vec![Direction::Up]),
+            },
+        ] {
+            view.foods = vec![food];
+            assert!(
+                prefer_adjacent_meal_before_unpayable_water(
+                    Species::Herbivore,
+                    &life,
+                    &view,
+                    drink.clone(),
+                    false,
+                )
+                .is_none()
+            );
+        }
+        view.foods.push(PerceivedFood {
+            corpse_id: None,
+            amount: 5,
+            is_corpse: false,
+            steps: Steps(vec![Direction::Up]),
+        });
+        for reason in [Reason::CustomPolicy, Reason::EscapeThreat, Reason::SeekFood] {
+            let protected = Decision::new(drink.intent.clone(), reason);
+            assert!(
+                prefer_adjacent_meal_before_unpayable_water(
+                    Species::Herbivore,
+                    &life,
+                    &view,
+                    protected,
+                    false,
+                )
+                .is_none()
+            );
+        }
+        assert!(
+            prefer_adjacent_meal_before_unpayable_water(
+                Species::Carnivore,
+                &life,
+                &view,
+                drink.clone(),
+                false,
+            )
+            .is_none()
+        );
+
+        let mut no_movement = life.clone();
+        no_movement.move_energy_cost = 0;
+        assert!(
+            prefer_adjacent_meal_before_unpayable_water(
+                Species::Herbivore,
+                &no_movement,
+                &view,
+                Decision::new(drink.intent.clone(), Reason::LearnedWater),
+                false,
+            )
+            .is_none()
+        );
+        let mut no_meal_capacity = life.clone();
+        no_meal_capacity.max_energy = 0;
+        assert!(
+            prefer_adjacent_meal_before_unpayable_water(
+                Species::Herbivore,
+                &no_meal_capacity,
+                &view,
+                Decision::new(drink.intent.clone(), Reason::LearnedWater),
+                false,
+            )
+            .is_none()
+        );
+        let mut no_stamina = life.clone();
+        no_stamina.stamina = 0;
+        assert!(
+            prefer_adjacent_meal_before_unpayable_water(
+                Species::Herbivore,
+                &no_stamina,
+                &view,
+                Decision::new(drink.intent.clone(), Reason::LearnedWater),
+                false,
+            )
+            .is_none()
+        );
+        let mut no_speed_left = life.clone();
+        no_speed_left.moves_used = no_speed_left.speed;
+        assert!(
+            prefer_adjacent_meal_before_unpayable_water(
+                Species::Herbivore,
+                &no_speed_left,
+                &view,
+                Decision::new(drink.intent.clone(), Reason::LearnedWater),
+                false,
+            )
+            .is_none()
+        );
     }
 }
