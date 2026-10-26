@@ -1,11 +1,11 @@
 # Yem–su önceliği V1 çalıştırıcı düzeltme eki
 
-**Kimlik:** `water-meal-priority-v1-runner-copy2-fix-20261026`  
+**Kimlik:** `water-meal-priority-v1-runner-copy2-fix-20261026`
 **Durum:** Çalıştırıcı hatası tanımlandı ve düzeltildi; bu ek belge World çalıştırmaz, sonuç bildirmez veya protokolü değiştirmez.
 
 ## Önceki kayıt
 
-İlk kayıtlı çalıştırıcı denemesi, `6f033f6` kaynak revizyonunda `shutil.copy2` çağrısında `NameError: name 'shutil' is not defined` hatasıyla durdu. Hata registration dosyasını yeni çıktı dizinine kopyalarken, ilk World süreci başlatılmadan meydana geldi. Bu denemede **0 World ve 0 World tick'i** tamamlandı; biyolojik ölçüm veya deney sonucu yoktur. İlk denemenin kayıt, manifest ve stderr dosyaları başarısız/eksik kanıt olarak korunur.
+İlk kayıtlı çalıştırıcı denemesi, `6f033f6` kaynak revizyonunda `shutil.copy2` çağrısında `NameError: name 'shutil' is not defined` hatasıyla durdu. Hata registration dosyasını yeni çıktı dizinine kopyalarken, ilk World süreci başlatılmadan meydana geldi. Bu denemede **0 World ve 0 World tick'i** tamamlandı; biyolojik ölçüm veya deney sonucu yoktur. İlk registration ve stderr ile `data/operations/water-meal-20261026/attempt-1-failure.json` başarısız girişim kanıtı olarak korunur. Çıktı dizini boştur: bu ilk hatada deney manifesti henüz oluşmamıştır.
 
 ## Düzeltme ve sınır
 
