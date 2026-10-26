@@ -64,7 +64,7 @@ fn run() -> AppResult<()> {
         .ok_or("header missing seed")?;
     if header.get("arm").and_then(Value::as_str) != Some("control")
         || header
-            .pointer("candidate_policy.water_meal_priority_enabled")
+            .pointer("/candidate_policy/water_meal_priority_enabled")
             .and_then(Value::as_bool)
             != Some(false)
     {
@@ -176,28 +176,7 @@ fn run() -> AppResult<()> {
         .unwrap_or(Value::Null);
     result["pre_target_roundtrip"] =
         json!({"valid":pre_roundtrip.0,"state_equal":pre_roundtrip.1,"rng_equal":pre_roundtrip.2});
-    if result.get("status").and_then(Value::as_str) != Some("complete")
-        || result
-            .pointer("target_validation.valid")
-            .and_then(Value::as_bool)
-            != Some(true)
-        || result
-            .pointer("references.a_matches_native_off")
-            .and_then(Value::as_bool)
-            != Some(true)
-        || result
-            .pointer("references.c_matches_native_on")
-            .and_then(Value::as_bool)
-            != Some(true)
-        || result
-            .get("branch_roundtrip_valid")
-            .and_then(Value::as_bool)
-            != Some(true)
-        || result
-            .pointer("candidate_b_equals_c_pre_resolution_audit.equal")
-            .and_then(Value::as_bool)
-            != Some(true)
-    {
+    if !integrity_gates_pass(&result) {
         result["status"] = Value::String("failed".into());
         result["failure"] = Value::String("one or more lab integrity gates failed".into());
         write_atomic_capped(output_path, &result)?;
@@ -205,6 +184,30 @@ fn run() -> AppResult<()> {
     }
     write_atomic_capped(output_path, &result)?;
     Ok(())
+}
+
+fn integrity_gates_pass(result: &Value) -> bool {
+    result.get("status").and_then(Value::as_str) == Some("complete")
+        && result
+            .pointer("/target_validation/valid")
+            .and_then(Value::as_bool)
+            == Some(true)
+        && result
+            .pointer("/references/a_matches_native_off")
+            .and_then(Value::as_bool)
+            == Some(true)
+        && result
+            .pointer("/references/c_matches_native_on")
+            .and_then(Value::as_bool)
+            == Some(true)
+        && result
+            .get("branch_roundtrip_valid")
+            .and_then(Value::as_bool)
+            == Some(true)
+        && result
+            .pointer("/candidate_b_equals_c_pre_resolution_audit/equal")
+            .and_then(Value::as_bool)
+            == Some(true)
 }
 
 fn failure_record(
@@ -480,5 +483,19 @@ mod tests {
             "{\"type\":\"tick\",\"tick\":2}\n",
         );
         assert!(parse_raw_jsonl(text).is_err());
+    }
+
+    #[test]
+    fn integrity_gate_reads_actual_nested_json_fields() {
+        let mut output = json!({
+            "status":"complete",
+            "target_validation":{"valid":true},
+            "references":{"a_matches_native_off":true,"c_matches_native_on":true},
+            "branch_roundtrip_valid":true,
+            "candidate_b_equals_c_pre_resolution_audit":{"equal":true}
+        });
+        assert!(integrity_gates_pass(&output));
+        output["references"]["c_matches_native_on"] = Value::Bool(false);
+        assert!(!integrity_gates_pass(&output));
     }
 }

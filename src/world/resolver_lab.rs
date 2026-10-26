@@ -634,8 +634,8 @@ mod tests {
             .unwrap()
             .0;
         assert_eq!(result["status"], "failed");
-        assert!(result.pointer("references.native_off.state").is_some());
-        assert!(result.pointer("references.native_on").is_none());
+        assert!(result.pointer("/references/native_off/state").is_some());
+        assert!(result.pointer("/references/native_on").is_none());
         assert!(result.get("branches").is_none());
         assert_eq!(
             world.tick_counter, 0,
