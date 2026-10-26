@@ -60,6 +60,11 @@ Protokoller ölçüm tasarımını, raporlar tarihli sonucu ve sınırlarını t
 Protokol, seed manifesti, hash veya başarısız ham sonuç geriye dönük
 değiştirilmez. Canlı operasyon yönergeleri için [CONTROL](CONTROL.md) kullanılır.
 
+[Su-yem önceliği V1 protokolü](WATER_MEAL_PRIORITY_V1_PROTOCOL_20261026.md)
+62501–62506 tahsisli seedleri için dört kollu factorial tasarımı ve kaynak,
+sağkalım, üreme, learner ve sansürlü episode ölçüm sözleşmesini tanımlar.
+Sonuç raporu henüz yoktur.
+
 `data/` deney verileri ve `bin/` derlenmiş ikililer yerel/ignore edilen
 artifaktlardır. Bazı tarihli raporların ham JSONL dosyaları Zstandard arşivinde
 saklanır; ham dosya gerektiğinde [EVIDENCE_ARCHIVES](EVIDENCE_ARCHIVES.md)

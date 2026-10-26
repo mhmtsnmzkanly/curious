@@ -1,0 +1,111 @@
+{
+  "status": "draft",
+  "root_reviewed": false,
+  "source": null,
+  "scenario_sha256": {
+    "v1_unique_food": null,
+    "meadow": null,
+    "sparse_resource": null
+  },
+  "seed_roles": [
+    {
+      "habitat": "v1_unique_food",
+      "seed": 62501
+    },
+    {
+      "habitat": "v1_unique_food",
+      "seed": 62502
+    },
+    {
+      "habitat": "v1_unique_food",
+      "seed": 62503
+    },
+    {
+      "habitat": "v1_unique_food",
+      "seed": 62504
+    },
+    {
+      "habitat": "v1_unique_food",
+      "seed": 62505
+    },
+    {
+      "habitat": "v1_unique_food",
+      "seed": 62506
+    },
+    {
+      "habitat": "meadow",
+      "seed": 62501
+    },
+    {
+      "habitat": "meadow",
+      "seed": 62502
+    },
+    {
+      "habitat": "meadow",
+      "seed": 62503
+    },
+    {
+      "habitat": "meadow",
+      "seed": 62504
+    },
+    {
+      "habitat": "meadow",
+      "seed": 62505
+    },
+    {
+      "habitat": "meadow",
+      "seed": 62506
+    },
+    {
+      "habitat": "sparse_resource",
+      "seed": 62501
+    },
+    {
+      "habitat": "sparse_resource",
+      "seed": 62502
+    },
+    {
+      "habitat": "sparse_resource",
+      "seed": 62503
+    },
+    {
+      "habitat": "sparse_resource",
+      "seed": 62504
+    },
+    {
+      "habitat": "sparse_resource",
+      "seed": 62505
+    },
+    {
+      "habitat": "sparse_resource",
+      "seed": 62506
+    }
+  ],
+  "binary_sha256": null,
+  "ticks_per_world": 300,
+  "arms": [
+    "control",
+    "food_reserve_only",
+    "water_meal_only",
+    "bundle"
+  ],
+  "world_count": 72,
+  "phase_seconds": 300,
+  "child_seconds": 60,
+  "child_address_space_bytes": 1073741824,
+  "aggregate_output_bytes": 268435456,
+  "max_world_output_bytes": 16777216,
+  "max_identities": 10000,
+  "max_events_per_tick": 20000,
+  "mutation_per_mille": 0,
+  "genetics_enabled": true,
+  "candidate_flags": {
+    "food_search_reserve_enabled": "factorial_existing_flag",
+    "water_meal_priority_enabled": "approved_candidate"
+  },
+  "habitats": [
+    "v1_unique_food",
+    "meadow",
+    "sparse_resource"
+  ]
+}
