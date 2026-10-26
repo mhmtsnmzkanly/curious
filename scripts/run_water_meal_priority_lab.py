@@ -70,6 +70,24 @@ def expected_seed_roles() -> list[dict]:
     return [{"habitat": habitat, "seed": seed} for habitat, (_, seeds) in HABITATS.items() for seed in seeds]
 
 
+def _verified_index_seed_metadata(index: dict, index_path: str) -> tuple[list[int], dict[str, list[int]]]:
+    seeds = index.get("seeds")
+    roles = index.get("seed_roles")
+    if not isinstance(seeds, list) or any(not isinstance(seed, int) or isinstance(seed, bool) for seed in seeds):
+        raise RuntimeError(f"invalid declared seeds in compressed JSONL index: {index_path}")
+    if seeds != sorted(set(seeds)):
+        raise RuntimeError(f"compressed JSONL index seeds are not unique and sorted: {index_path}")
+    if not isinstance(roles, dict) or any(not isinstance(role, str) or not isinstance(values, list) for role, values in roles.items()):
+        raise RuntimeError(f"invalid declared seed_roles in compressed JSONL index: {index_path}")
+    for role, values in roles.items():
+        if (not role or not values or any(not isinstance(seed, int) or isinstance(seed, bool) for seed in values)
+                or values != sorted(set(values))):
+            raise RuntimeError(f"invalid seed role values in compressed JSONL index: {index_path}")
+    if sorted({seed for values in roles.values() for seed in values}) != seeds:
+        raise RuntimeError(f"compressed JSONL index seeds differ from its seed_roles map: {index_path}")
+    return seeds, roles
+
+
 def validate_registration(registration: dict, identity: dict, fixtures: dict, binary_sha: str) -> None:
     if registration.get("status") != "registered" or registration.get("root_reviewed") is not True:
         raise ValueError("registration must be status=registered and root_reviewed=true")
@@ -120,14 +138,12 @@ def scan_seed_roles(archive: Path, roles: list[dict]) -> dict:
             raise RuntimeError(f"compressed JSONL index identity/status mismatch: {index_rel}")
         if index.get("archive_size") != path.stat().st_size or index.get("archive_sha256") != sha256(path):
             raise RuntimeError(f"compressed JSONL hash/size differs from index: {rel}")
-        declared = sorted(set(index.get("seeds", [])))
-        if any(not isinstance(seed, int) for seed in declared):
-            raise RuntimeError(f"invalid declared seeds in index: {index_rel}")
+        declared, seed_roles = _verified_index_seed_metadata(index, index_rel)
         for seed in set(declared).intersection(seeds):
             if index_rel not in matches[str(seed)]:
                 matches[str(seed)].append(index_rel)
         compressed_bytes += path.stat().st_size
-        indexes.append({"path":archive_rel,"index":index_rel,"sha256":index["archive_sha256"],"size":index["archive_size"],"seeds":declared})
+        indexes.append({"path":archive_rel,"index":index_rel,"sha256":index["archive_sha256"],"size":index["archive_size"],"seeds":declared,"seed_roles":seed_roles})
     audit.update(matches=matches, unseen=[s for s in seeds if not matches[str(s)]],
                  scanned_compressed_jsonl_files=len(compressed), scanned_compressed_jsonl_bytes=compressed_bytes,
                  verified_compressed_jsonl_indexes=indexes, max_line_bytes=SEED_SCAN_MAX_LINE_BYTES,
