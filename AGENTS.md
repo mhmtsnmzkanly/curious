@@ -83,7 +83,9 @@ dağıtım ve karar kanıtları ilgili raporlarda korunur; eski kayıtları silm
 - [Enerji/paket tanısını](docs/reports/ENERGY_AND_PACKAGE_DIAGNOSIS_20261026.md) izleyen
   [yem arama bütçesi](docs/FOOD_SEARCH_RESERVE.md) V20 kaynağına varsayılan kapalı
   eklendi. Bu bir enerji harcama sınırıdır; dönüş veya yemek garantisi değildir.
-  Kayıtlı lab sonucu ve genel fayda kabulü ayrı değerlendirilir. Bakım+sığınak
+  [36 koşuluk lab](docs/reports/FOOD_SEARCH_RESERVE_V1_20261026.md) tek yemli
+  fixture'da 4/6 seedde dar yarar buldu; tüm bireyler yine öldü ve diğer iki
+  fixture'da kural tetiklenmedi. Genel fayda kabulü yoktur. Bakım+sığınak
   paketi davranışsal fayda kabulü değildir.
 - [Offline operasyonel smoke](docs/reports/OPERATIONS_READINESS_20261026.md)
   V12→V19 migration, State/RNG ve izole depolama kontrollerini geçti; promotion

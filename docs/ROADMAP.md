@@ -6,7 +6,7 @@ anlamına gelmez. P0–P3 çalışma sırası kategori yapısından ayrıdır.
 
 ## Sistem durumu
 
-- Geliştirme kaynağı V20 / SQLite V2; canlı dünya V12 checkpoint'tir. V19
+- Geliştirme kaynağı V20 / SQLite V2; canlı dünya V12 checkpoint'tir. V20
   canlıya yükseltilmemiştir. Nitelikli binary kimliği ve güncel operasyon
   kuralları [AGENTS.md](../AGENTS.md)'dedir.
 - Kaynakta mekanizmalar ve deneysel seçenekler bulunur; bunlar tek başına
@@ -41,8 +41,10 @@ anlamına gelmez. P0–P3 çalışma sırası kategori yapısından ayrıdır.
   [düzeltme notunda](reports/OPERATIONS_READINESS_TIMING_CORRECTION_20261026.md)
   açıklanan sıralama hatasıyla geçersizdir.
 - [Yem arama bütçesi](FOOD_SEARCH_RESERVE.md) V20 kaynağında varsayılan kapalı
-  uygulandı; yalnız SearchFood hareketinin harcamasını sınırlar. Kayıtlı lab
-  ve genel fayda kabulü ayrı değerlendirilir.
+  uygulandı; yalnız SearchFood hareketinin harcamasını sınırlar. [36 koşuluk lab](reports/FOOD_SEARCH_RESERVE_V1_20261026.md), tek yemli
+  ortamda 4/6 seedde yem ve sağkalım artışı; 2/6 nötr sonuç verdi. Bütün tek
+  yemli bireyler yine öldü, diğer iki fixture'da seçenek hiç tetiklenmedi.
+  Genel ekolojik fayda veya canlı kabulü yoktur.
   Bakım+sığınak paketi davranışsal fayda olarak kabul edilmedi. Gelecek öneriler
   ayrı protokol ve review gerektirir.
 
@@ -115,6 +117,9 @@ ilgili diğer kategoriye bağlanır; aynı iş için paralel, çatışan plan tu
   veya duvar/in bitişiğinde bekleme pusu örtüsü olarak kabul edildi ve pusu ilk vuruş
   bonusu (+5) bağlandı; sıfır besin tüketen canlılar (`amount == 0`) leş toksisitesinden
   muaf tutuldu.
+- [Yem arama bütçesi](FOOD_SEARCH_RESERVE.md) V20'de varsayılan kapalı karar
+  kısıtı olarak uygulandı; mekanizma testi geçti. [Dar lab sonucu](reports/FOOD_SEARCH_RESERVE_V1_20261026.md)
+  kalıcı yaşam veya habitat genellemesi değildir.
 - **Açık:** Ebeveyn bakımı ve yaralanma cezası varsayılan kapalıdır (`default-off`).
   Popülasyon düzeyinde uzun vadeli üreme ve sağkalım ödünleşimleri açık ampirik
   önkayıtlı deney bekler.

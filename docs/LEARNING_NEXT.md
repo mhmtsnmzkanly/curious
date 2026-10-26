@@ -1,7 +1,7 @@
 # Bireysel öğrenme: sözleşme ve kanıt sınırları
 
 Bu belge V20 geliştirme kaynağındaki bireysel öğrenme sınırlarını ve güncel
-kanıt durumunu özetler. V19 canlıya dağıtılmamıştır; canlı dünya V12'dir.
+kanıt durumunu özetler. V20 canlıya dağıtılmamıştır; canlı dünya V12'dir.
 Yaş ödülü, yavruya deneyim aktarımı veya kabul edilmiş refuge-risk modeli yoktur.
 
 ## Fiziksel ve epistemik sözleşme
@@ -56,3 +56,5 @@ ayarlamak veya politika farkını öğrenme kazancı saymak kabul kanıtı deği
 Ekoloji aktarımı ve offline operasyon sonuçlarının kapsamı
 [ROADMAP](ROADMAP.md)'de özetlenir; hiçbiri genel öğrenme faydasını veya
 dağıtım uygunluğunu kabul etmez.
+
+[Yem arama bütçesi](FOOD_SEARCH_RESERVE.md) V20 karar kısıtıdır; öğrenici, deneyim tablosu veya kabul edilmiş kaynak güvenilirliği modeli değildir. Dar lab yararı yeni bireysel öğrenme başarısı sayılmaz.

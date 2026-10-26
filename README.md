@@ -24,11 +24,12 @@ alarm koşusunda tüm popülasyon söndü. Genel ekolojik üstünlük kabul edil
 teknik/storage kontrollerini geçti; promotion kapısı kapalıdır ve ölçüm
 raporundaki [timing düzeltmesi](docs/reports/OPERATIONS_READINESS_TIMING_CORRECTION_20261026.md)
 kabul iddiası oluşturmaz. [Yem arama bütçesi](docs/FOOD_SEARCH_RESERVE.md) V20 kaynağında varsayılan
-kapalı uygulandı; faydası ayrı laboratuvar protokolüyle ölçülür. Canlı fayda ya da V19 yükseltmesi kabulü yoktur;
+kapalı uygulandı; [36 koşuluk lab](docs/reports/FOOD_SEARCH_RESERVE_V1_20261026.md) tek yemli ortamda
+dar yarar buldu; kalıcı yaşam veya habitat genellemesi göstermedi. Canlı fayda ya da V19/V20 yükseltmesi kabulü yoktur;
 tam kaçış refuge riski `Unknown` kalır. Kapsam ve kalan sınırlar
 [ROADMAP](docs/ROADMAP.md)'de özetlenir.
 
-26 Ekim 2026'da tamamlanan paralel incelemelerin ve sınırlı koşuların tek
+26 Ekim 2026'daki önceki paralel inceleme turunun
 özeti: [birleştirilmiş sonuç raporu](docs/reports/CONSOLIDATION_20261026.md).
 
 ## Yerel çalıştırma

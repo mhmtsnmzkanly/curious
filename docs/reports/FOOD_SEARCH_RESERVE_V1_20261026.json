@@ -1,0 +1,3625 @@
+{
+  "archive_index_coverage": {
+    "audit_artifact_path": "data/operations/food-reserve-20261026/archive-seed-index-audit.json",
+    "audit_artifact_sha256": "c3110b37e27c2805c028affeba34ad3aaa210b84f9279a638785c5d676d6027c",
+    "compressed_jsonl_bytes_hashed": 194639942,
+    "coverage_note": "Index paths and per-index hashes/sizes remain in the local experiment manifest; report JSON intentionally avoids duplicating this inventory.",
+    "registered_seeds_found_in_indexes": [],
+    "status": "verified",
+    "verified_jsonl_zstd_indexes": 34
+  },
+  "fixtures": [
+    {
+      "aggregates": {
+        "f1_births": {
+          "baseline": {
+            "median": 0.0,
+            "n": 6,
+            "range": [
+              0,
+              0
+            ],
+            "total": 0
+          },
+          "candidate": {
+            "median": 0.0,
+            "n": 6,
+            "range": [
+              0,
+              0
+            ],
+            "total": 0
+          },
+          "candidate_minus_baseline": {
+            "median": 0.0,
+            "n": 6,
+            "range": [
+              0,
+              0
+            ],
+            "values_by_seed": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          }
+        },
+        "f1_breeder_count": {
+          "baseline": {
+            "median": 0.0,
+            "n": 6,
+            "range": [
+              0,
+              0
+            ],
+            "total": 0
+          },
+          "candidate": {
+            "median": 0.0,
+            "n": 6,
+            "range": [
+              0,
+              0
+            ],
+            "total": 0
+          },
+          "candidate_minus_baseline": {
+            "median": 0.0,
+            "n": 6,
+            "range": [
+              0,
+              0
+            ],
+            "values_by_seed": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          }
+        },
+        "f2_births": {
+          "baseline": {
+            "median": 0.0,
+            "n": 6,
+            "range": [
+              0,
+              0
+            ],
+            "total": 0
+          },
+          "candidate": {
+            "median": 0.0,
+            "n": 6,
+            "range": [
+              0,
+              0
+            ],
+            "total": 0
+          },
+          "candidate_minus_baseline": {
+            "median": 0.0,
+            "n": 6,
+            "range": [
+              0,
+              0
+            ],
+            "values_by_seed": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          }
+        },
+        "f2_breeder_count": {
+          "baseline": {
+            "median": 0.0,
+            "n": 6,
+            "range": [
+              0,
+              0
+            ],
+            "total": 0
+          },
+          "candidate": {
+            "median": 0.0,
+            "n": 6,
+            "range": [
+              0,
+              0
+            ],
+            "total": 0
+          },
+          "candidate_minus_baseline": {
+            "median": 0.0,
+            "n": 6,
+            "range": [
+              0,
+              0
+            ],
+            "values_by_seed": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          }
+        },
+        "living_descendant_breeder_count": {
+          "baseline": {
+            "median": 0.0,
+            "n": 6,
+            "range": [
+              0,
+              0
+            ],
+            "total": 0
+          },
+          "candidate": {
+            "median": 0.0,
+            "n": 6,
+            "range": [
+              0,
+              0
+            ],
+            "total": 0
+          },
+          "candidate_minus_baseline": {
+            "median": 0.0,
+            "n": 6,
+            "range": [
+              0,
+              0
+            ],
+            "values_by_seed": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          }
+        },
+        "living_entity_ticks": {
+          "baseline": {
+            "median": 103.5,
+            "n": 6,
+            "range": [
+              92,
+              122
+            ],
+            "total": 624
+          },
+          "candidate": {
+            "median": 128.0,
+            "n": 6,
+            "range": [
+              92,
+              198
+            ],
+            "total": 812
+          },
+          "candidate_minus_baseline": {
+            "median": 24.5,
+            "n": 6,
+            "range": [
+              0,
+              93
+            ],
+            "values_by_seed": [
+              0,
+              0,
+              25,
+              93,
+              46,
+              24
+            ]
+          }
+        },
+        "movement_energy_paid": {
+          "baseline": {
+            "median": 97.5,
+            "n": 6,
+            "range": [
+              94,
+              108
+            ],
+            "total": 594
+          },
+          "candidate": {
+            "median": 98.5,
+            "n": 6,
+            "range": [
+              95,
+              103
+            ],
+            "total": 592
+          },
+          "candidate_minus_baseline": {
+            "median": 1.0,
+            "n": 6,
+            "range": [
+              -8,
+              3
+            ],
+            "values_by_seed": [
+              0,
+              -8,
+              1,
+              1,
+              1,
+              3
+            ]
+          }
+        },
+        "plant_food_gained_energy": {
+          "baseline": {
+            "median": 94.0,
+            "n": 6,
+            "range": [
+              80,
+              108
+            ],
+            "total": 566
+          },
+          "candidate": {
+            "median": 128.0,
+            "n": 6,
+            "range": [
+              80,
+              192
+            ],
+            "total": 794
+          },
+          "candidate_minus_baseline": {
+            "median": 34.0,
+            "n": 6,
+            "range": [
+              0,
+              102
+            ],
+            "values_by_seed": [
+              0,
+              0,
+              34,
+              102,
+              58,
+              34
+            ]
+          }
+        },
+        "zero_energy_alive_tick_sum": {
+          "baseline": {
+            "median": 30.0,
+            "n": 6,
+            "range": [
+              27,
+              32
+            ],
+            "total": 178
+          },
+          "candidate": {
+            "median": 22.0,
+            "n": 6,
+            "range": [
+              19,
+              30
+            ],
+            "total": 136
+          },
+          "candidate_minus_baseline": {
+            "median": -8.0,
+            "n": 6,
+            "range": [
+              -11,
+              0
+            ],
+            "values_by_seed": [
+              0,
+              -8,
+              -8,
+              -8,
+              -11,
+              -7
+            ]
+          }
+        }
+      },
+      "fixture_definition": {
+        "description": "Code-defined V1 unique-food geometry/body; scenario_sha256 is null because this fixture is built in the probe.",
+        "path": "examples/food_search_reserve_lab.rs",
+        "sha256": "9cd5171f31325b1618593fd3326d38c7da74d0cb5518cc6ce39e545f0eff9ad1"
+      },
+      "founders_per_world": 1,
+      "pairs": [
+        {
+          "baseline": {
+            "births_by_generation": {},
+            "births_by_species": {},
+            "death_causes": {
+              "Dehydration": 1
+            },
+            "deaths_by_generation": {
+              "0": 1
+            },
+            "deaths_by_species": {
+              "Herbivore": 1
+            },
+            "f1_births": 0,
+            "f1_breeder_count": 0,
+            "f2_births": 0,
+            "f2_breeder_count": 0,
+            "final_alive": {},
+            "first_zero_energy_tick": 63,
+            "focal_approach_out_of_range_count": 33,
+            "focal_death_cause": "Dehydration",
+            "focal_death_tick": 93,
+            "focal_first_zero_energy_tick": 63,
+            "focal_ticks_from_first_zero_to_death": 30,
+            "focal_underfunded_visible_food_approach_failures": 0,
+            "focal_zero_energy_visible_food_approach_failures": 17,
+            "founders_alive": 0,
+            "living_descendant_breeder_count": 0,
+            "living_entity_ticks": 92,
+            "living_f1_breeder_count": 0,
+            "living_f2_breeder_count": 0,
+            "movement_energy_paid": 97,
+            "plant_food_gained_energy": 80,
+            "plant_food_to_movement_energy_ratio": 0.8247422680412371,
+            "reserve_intervention_count": 0,
+            "zero_energy_alive_tick_sum": 30
+          },
+          "candidate": {
+            "births_by_generation": {},
+            "births_by_species": {},
+            "death_causes": {
+              "Dehydration": 1
+            },
+            "deaths_by_generation": {
+              "0": 1
+            },
+            "deaths_by_species": {
+              "Herbivore": 1
+            },
+            "f1_births": 0,
+            "f1_breeder_count": 0,
+            "f2_births": 0,
+            "f2_breeder_count": 0,
+            "final_alive": {},
+            "first_zero_energy_tick": 63,
+            "focal_approach_out_of_range_count": 33,
+            "focal_death_cause": "Dehydration",
+            "focal_death_tick": 93,
+            "focal_first_zero_energy_tick": 63,
+            "focal_ticks_from_first_zero_to_death": 30,
+            "focal_underfunded_visible_food_approach_failures": 0,
+            "focal_zero_energy_visible_food_approach_failures": 17,
+            "founders_alive": 0,
+            "living_descendant_breeder_count": 0,
+            "living_entity_ticks": 92,
+            "living_f1_breeder_count": 0,
+            "living_f2_breeder_count": 0,
+            "movement_energy_paid": 97,
+            "plant_food_gained_energy": 80,
+            "plant_food_to_movement_energy_ratio": 0.8247422680412371,
+            "reserve_intervention_count": 1,
+            "zero_energy_alive_tick_sum": 30
+          },
+          "candidate_minus_baseline": {
+            "f1_births": 0,
+            "f1_breeder_count": 0,
+            "f2_births": 0,
+            "f2_breeder_count": 0,
+            "first_zero_energy_tick": 0,
+            "focal_approach_out_of_range_count": 0,
+            "focal_death_tick": 0,
+            "focal_first_zero_energy_tick": 0,
+            "focal_ticks_from_first_zero_to_death": 0,
+            "focal_underfunded_visible_food_approach_failures": 0,
+            "focal_zero_energy_visible_food_approach_failures": 0,
+            "founders_alive": 0,
+            "living_descendant_breeder_count": 0,
+            "living_entity_ticks": 0,
+            "living_f1_breeder_count": 0,
+            "living_f2_breeder_count": 0,
+            "movement_energy_paid": 0,
+            "plant_food_gained_energy": 0,
+            "plant_food_to_movement_energy_ratio": 0.0,
+            "reserve_intervention_count": 1,
+            "zero_energy_alive_tick_sum": 0
+          },
+          "seed": 62401
+        },
+        {
+          "baseline": {
+            "births_by_generation": {},
+            "births_by_species": {},
+            "death_causes": {
+              "Dehydration": 1
+            },
+            "deaths_by_generation": {
+              "0": 1
+            },
+            "deaths_by_species": {
+              "Herbivore": 1
+            },
+            "f1_births": 0,
+            "f1_breeder_count": 0,
+            "f2_births": 0,
+            "f2_breeder_count": 0,
+            "final_alive": {},
+            "first_zero_energy_tick": 65,
+            "focal_approach_out_of_range_count": 19,
+            "focal_death_cause": "Dehydration",
+            "focal_death_tick": 99,
+            "focal_first_zero_energy_tick": 65,
+            "focal_ticks_from_first_zero_to_death": 34,
+            "focal_underfunded_visible_food_approach_failures": 0,
+            "focal_zero_energy_visible_food_approach_failures": 0,
+            "founders_alive": 0,
+            "living_descendant_breeder_count": 0,
+            "living_entity_ticks": 98,
+            "living_f1_breeder_count": 0,
+            "living_f2_breeder_count": 0,
+            "movement_energy_paid": 108,
+            "plant_food_gained_energy": 100,
+            "plant_food_to_movement_energy_ratio": 0.9259259259259259,
+            "reserve_intervention_count": 0,
+            "zero_energy_alive_tick_sum": 27
+          },
+          "candidate": {
+            "births_by_generation": {},
+            "births_by_species": {},
+            "death_causes": {
+              "Dehydration": 1
+            },
+            "deaths_by_generation": {
+              "0": 1
+            },
+            "deaths_by_species": {
+              "Herbivore": 1
+            },
+            "f1_births": 0,
+            "f1_breeder_count": 0,
+            "f2_births": 0,
+            "f2_breeder_count": 0,
+            "final_alive": {},
+            "first_zero_energy_tick": 80,
+            "focal_approach_out_of_range_count": 19,
+            "focal_death_cause": "Dehydration",
+            "focal_death_tick": 99,
+            "focal_first_zero_energy_tick": 66,
+            "focal_ticks_from_first_zero_to_death": 33,
+            "focal_underfunded_visible_food_approach_failures": 0,
+            "focal_zero_energy_visible_food_approach_failures": 0,
+            "founders_alive": 0,
+            "living_descendant_breeder_count": 0,
+            "living_entity_ticks": 98,
+            "living_f1_breeder_count": 0,
+            "living_f2_breeder_count": 0,
+            "movement_energy_paid": 100,
+            "plant_food_gained_energy": 100,
+            "plant_food_to_movement_energy_ratio": 1.0,
+            "reserve_intervention_count": 9,
+            "zero_energy_alive_tick_sum": 19
+          },
+          "candidate_minus_baseline": {
+            "f1_births": 0,
+            "f1_breeder_count": 0,
+            "f2_births": 0,
+            "f2_breeder_count": 0,
+            "first_zero_energy_tick": 15,
+            "focal_approach_out_of_range_count": 0,
+            "focal_death_tick": 0,
+            "focal_first_zero_energy_tick": 1,
+            "focal_ticks_from_first_zero_to_death": -1,
+            "focal_underfunded_visible_food_approach_failures": 0,
+            "focal_zero_energy_visible_food_approach_failures": 0,
+            "founders_alive": 0,
+            "living_descendant_breeder_count": 0,
+            "living_entity_ticks": 0,
+            "living_f1_breeder_count": 0,
+            "living_f2_breeder_count": 0,
+            "movement_energy_paid": -8,
+            "plant_food_gained_energy": 0,
+            "plant_food_to_movement_energy_ratio": 0.07407407407407407,
+            "reserve_intervention_count": 9,
+            "zero_energy_alive_tick_sum": -8
+          },
+          "seed": 62402
+        },
+        {
+          "baseline": {
+            "births_by_generation": {},
+            "births_by_species": {},
+            "death_causes": {
+              "Dehydration": 1
+            },
+            "deaths_by_generation": {
+              "0": 1
+            },
+            "deaths_by_species": {
+              "Herbivore": 1
+            },
+            "f1_births": 0,
+            "f1_breeder_count": 0,
+            "f2_births": 0,
+            "f2_breeder_count": 0,
+            "final_alive": {},
+            "first_zero_energy_tick": 73,
+            "focal_approach_out_of_range_count": 30,
+            "focal_death_cause": "Dehydration",
+            "focal_death_tick": 104,
+            "focal_first_zero_energy_tick": 73,
+            "focal_ticks_from_first_zero_to_death": 31,
+            "focal_underfunded_visible_food_approach_failures": 0,
+            "focal_zero_energy_visible_food_approach_failures": 14,
+            "founders_alive": 0,
+            "living_descendant_breeder_count": 0,
+            "living_entity_ticks": 103,
+            "living_f1_breeder_count": 0,
+            "living_f2_breeder_count": 0,
+            "movement_energy_paid": 98,
+            "plant_food_gained_energy": 92,
+            "plant_food_to_movement_energy_ratio": 0.9387755102040817,
+            "reserve_intervention_count": 0,
+            "zero_energy_alive_tick_sum": 30
+          },
+          "candidate": {
+            "births_by_generation": {},
+            "births_by_species": {},
+            "death_causes": {
+              "Starvation": 1
+            },
+            "deaths_by_generation": {
+              "0": 1
+            },
+            "deaths_by_species": {
+              "Herbivore": 1
+            },
+            "f1_births": 0,
+            "f1_breeder_count": 0,
+            "f2_births": 0,
+            "f2_breeder_count": 0,
+            "final_alive": {},
+            "first_zero_energy_tick": 89,
+            "focal_approach_out_of_range_count": 22,
+            "focal_death_cause": "Starvation",
+            "focal_death_tick": 129,
+            "focal_first_zero_energy_tick": 89,
+            "focal_ticks_from_first_zero_to_death": 40,
+            "focal_underfunded_visible_food_approach_failures": 0,
+            "focal_zero_energy_visible_food_approach_failures": 0,
+            "founders_alive": 0,
+            "living_descendant_breeder_count": 0,
+            "living_entity_ticks": 128,
+            "living_f1_breeder_count": 0,
+            "living_f2_breeder_count": 0,
+            "movement_energy_paid": 99,
+            "plant_food_gained_energy": 126,
+            "plant_food_to_movement_energy_ratio": 1.2727272727272727,
+            "reserve_intervention_count": 16,
+            "zero_energy_alive_tick_sum": 22
+          },
+          "candidate_minus_baseline": {
+            "f1_births": 0,
+            "f1_breeder_count": 0,
+            "f2_births": 0,
+            "f2_breeder_count": 0,
+            "first_zero_energy_tick": 16,
+            "focal_approach_out_of_range_count": -8,
+            "focal_death_tick": 25,
+            "focal_first_zero_energy_tick": 16,
+            "focal_ticks_from_first_zero_to_death": 9,
+            "focal_underfunded_visible_food_approach_failures": 0,
+            "focal_zero_energy_visible_food_approach_failures": -14,
+            "founders_alive": 0,
+            "living_descendant_breeder_count": 0,
+            "living_entity_ticks": 25,
+            "living_f1_breeder_count": 0,
+            "living_f2_breeder_count": 0,
+            "movement_energy_paid": 1,
+            "plant_food_gained_energy": 34,
+            "plant_food_to_movement_energy_ratio": 0.33395176252319103,
+            "reserve_intervention_count": 16,
+            "zero_energy_alive_tick_sum": -8
+          },
+          "seed": 62403
+        },
+        {
+          "baseline": {
+            "births_by_generation": {},
+            "births_by_species": {},
+            "death_causes": {
+              "Starvation": 1
+            },
+            "deaths_by_generation": {
+              "0": 1
+            },
+            "deaths_by_species": {
+              "Herbivore": 1
+            },
+            "f1_births": 0,
+            "f1_breeder_count": 0,
+            "f2_births": 0,
+            "f2_breeder_count": 0,
+            "final_alive": {},
+            "first_zero_energy_tick": 75,
+            "focal_approach_out_of_range_count": 31,
+            "focal_death_cause": "Starvation",
+            "focal_death_tick": 106,
+            "focal_first_zero_energy_tick": 75,
+            "focal_ticks_from_first_zero_to_death": 31,
+            "focal_underfunded_visible_food_approach_failures": 0,
+            "focal_zero_energy_visible_food_approach_failures": 12,
+            "founders_alive": 0,
+            "living_descendant_breeder_count": 0,
+            "living_entity_ticks": 105,
+            "living_f1_breeder_count": 0,
+            "living_f2_breeder_count": 0,
+            "movement_energy_paid": 94,
+            "plant_food_gained_energy": 90,
+            "plant_food_to_movement_energy_ratio": 0.9574468085106383,
+            "reserve_intervention_count": 0,
+            "zero_energy_alive_tick_sum": 30
+          },
+          "candidate": {
+            "births_by_generation": {},
+            "births_by_species": {},
+            "death_causes": {
+              "Starvation": 1
+            },
+            "deaths_by_generation": {
+              "0": 1
+            },
+            "deaths_by_species": {
+              "Herbivore": 1
+            },
+            "f1_births": 0,
+            "f1_breeder_count": 0,
+            "f2_births": 0,
+            "f2_breeder_count": 0,
+            "final_alive": {},
+            "first_zero_energy_tick": 89,
+            "focal_approach_out_of_range_count": 23,
+            "focal_death_cause": "Starvation",
+            "focal_death_tick": 199,
+            "focal_first_zero_energy_tick": 89,
+            "focal_ticks_from_first_zero_to_death": 110,
+            "focal_underfunded_visible_food_approach_failures": 0,
+            "focal_zero_energy_visible_food_approach_failures": 0,
+            "founders_alive": 0,
+            "living_descendant_breeder_count": 0,
+            "living_entity_ticks": 198,
+            "living_f1_breeder_count": 0,
+            "living_f2_breeder_count": 0,
+            "movement_energy_paid": 95,
+            "plant_food_gained_energy": 192,
+            "plant_food_to_movement_energy_ratio": 2.0210526315789474,
+            "reserve_intervention_count": 44,
+            "zero_energy_alive_tick_sum": 22
+          },
+          "candidate_minus_baseline": {
+            "f1_births": 0,
+            "f1_breeder_count": 0,
+            "f2_births": 0,
+            "f2_breeder_count": 0,
+            "first_zero_energy_tick": 14,
+            "focal_approach_out_of_range_count": -8,
+            "focal_death_tick": 93,
+            "focal_first_zero_energy_tick": 14,
+            "focal_ticks_from_first_zero_to_death": 79,
+            "focal_underfunded_visible_food_approach_failures": 0,
+            "focal_zero_energy_visible_food_approach_failures": -12,
+            "founders_alive": 0,
+            "living_descendant_breeder_count": 0,
+            "living_entity_ticks": 93,
+            "living_f1_breeder_count": 0,
+            "living_f2_breeder_count": 0,
+            "movement_energy_paid": 1,
+            "plant_food_gained_energy": 102,
+            "plant_food_to_movement_energy_ratio": 1.063605823068309,
+            "reserve_intervention_count": 44,
+            "zero_energy_alive_tick_sum": -8
+          },
+          "seed": 62404
+        },
+        {
+          "baseline": {
+            "births_by_generation": {},
+            "births_by_species": {},
+            "death_causes": {
+              "Starvation": 1
+            },
+            "deaths_by_generation": {
+              "0": 1
+            },
+            "deaths_by_species": {
+              "Herbivore": 1
+            },
+            "f1_births": 0,
+            "f1_breeder_count": 0,
+            "f2_births": 0,
+            "f2_breeder_count": 0,
+            "final_alive": {},
+            "first_zero_energy_tick": 91,
+            "focal_approach_out_of_range_count": 32,
+            "focal_death_cause": "Starvation",
+            "focal_death_tick": 123,
+            "focal_first_zero_energy_tick": 91,
+            "focal_ticks_from_first_zero_to_death": 32,
+            "focal_underfunded_visible_food_approach_failures": 0,
+            "focal_zero_energy_visible_food_approach_failures": 18,
+            "founders_alive": 0,
+            "living_descendant_breeder_count": 0,
+            "living_entity_ticks": 122,
+            "living_f1_breeder_count": 0,
+            "living_f2_breeder_count": 0,
+            "movement_energy_paid": 97,
+            "plant_food_gained_energy": 108,
+            "plant_food_to_movement_energy_ratio": 1.1134020618556701,
+            "reserve_intervention_count": 0,
+            "zero_energy_alive_tick_sum": 32
+          },
+          "candidate": {
+            "births_by_generation": {},
+            "births_by_species": {},
+            "death_causes": {
+              "Starvation": 1
+            },
+            "deaths_by_generation": {
+              "0": 1
+            },
+            "deaths_by_species": {
+              "Herbivore": 1
+            },
+            "f1_births": 0,
+            "f1_breeder_count": 0,
+            "f2_births": 0,
+            "f2_breeder_count": 0,
+            "final_alive": {},
+            "first_zero_energy_tick": 120,
+            "focal_approach_out_of_range_count": 21,
+            "focal_death_cause": "Starvation",
+            "focal_death_tick": 169,
+            "focal_first_zero_energy_tick": 110,
+            "focal_ticks_from_first_zero_to_death": 59,
+            "focal_underfunded_visible_food_approach_failures": 0,
+            "focal_zero_energy_visible_food_approach_failures": 0,
+            "founders_alive": 0,
+            "living_descendant_breeder_count": 0,
+            "living_entity_ticks": 168,
+            "living_f1_breeder_count": 0,
+            "living_f2_breeder_count": 0,
+            "movement_energy_paid": 98,
+            "plant_food_gained_energy": 166,
+            "plant_food_to_movement_energy_ratio": 1.6938775510204083,
+            "reserve_intervention_count": 25,
+            "zero_energy_alive_tick_sum": 21
+          },
+          "candidate_minus_baseline": {
+            "f1_births": 0,
+            "f1_breeder_count": 0,
+            "f2_births": 0,
+            "f2_breeder_count": 0,
+            "first_zero_energy_tick": 29,
+            "focal_approach_out_of_range_count": -11,
+            "focal_death_tick": 46,
+            "focal_first_zero_energy_tick": 19,
+            "focal_ticks_from_first_zero_to_death": 27,
+            "focal_underfunded_visible_food_approach_failures": 0,
+            "focal_zero_energy_visible_food_approach_failures": -18,
+            "founders_alive": 0,
+            "living_descendant_breeder_count": 0,
+            "living_entity_ticks": 46,
+            "living_f1_breeder_count": 0,
+            "living_f2_breeder_count": 0,
+            "movement_energy_paid": 1,
+            "plant_food_gained_energy": 58,
+            "plant_food_to_movement_energy_ratio": 0.5804754891647381,
+            "reserve_intervention_count": 25,
+            "zero_energy_alive_tick_sum": -11
+          },
+          "seed": 62405
+        },
+        {
+          "baseline": {
+            "births_by_generation": {},
+            "births_by_species": {},
+            "death_causes": {
+              "Starvation": 1
+            },
+            "deaths_by_generation": {
+              "0": 1
+            },
+            "deaths_by_species": {
+              "Herbivore": 1
+            },
+            "f1_births": 0,
+            "f1_breeder_count": 0,
+            "f2_births": 0,
+            "f2_breeder_count": 0,
+            "final_alive": {},
+            "first_zero_energy_tick": 76,
+            "focal_approach_out_of_range_count": 29,
+            "focal_death_cause": "Starvation",
+            "focal_death_tick": 105,
+            "focal_first_zero_energy_tick": 76,
+            "focal_ticks_from_first_zero_to_death": 29,
+            "focal_underfunded_visible_food_approach_failures": 0,
+            "focal_zero_energy_visible_food_approach_failures": 14,
+            "founders_alive": 0,
+            "living_descendant_breeder_count": 0,
+            "living_entity_ticks": 104,
+            "living_f1_breeder_count": 0,
+            "living_f2_breeder_count": 0,
+            "movement_energy_paid": 100,
+            "plant_food_gained_energy": 96,
+            "plant_food_to_movement_energy_ratio": 0.96,
+            "reserve_intervention_count": 0,
+            "zero_energy_alive_tick_sum": 29
+          },
+          "candidate": {
+            "births_by_generation": {},
+            "births_by_species": {},
+            "death_causes": {
+              "Starvation": 1
+            },
+            "deaths_by_generation": {
+              "0": 1
+            },
+            "deaths_by_species": {
+              "Herbivore": 1
+            },
+            "f1_births": 0,
+            "f1_breeder_count": 0,
+            "f2_births": 0,
+            "f2_breeder_count": 0,
+            "final_alive": {},
+            "first_zero_energy_tick": 89,
+            "focal_approach_out_of_range_count": 20,
+            "focal_death_cause": "Starvation",
+            "focal_death_tick": 129,
+            "focal_first_zero_energy_tick": 89,
+            "focal_ticks_from_first_zero_to_death": 40,
+            "focal_underfunded_visible_food_approach_failures": 0,
+            "focal_zero_energy_visible_food_approach_failures": 0,
+            "founders_alive": 0,
+            "living_descendant_breeder_count": 0,
+            "living_entity_ticks": 128,
+            "living_f1_breeder_count": 0,
+            "living_f2_breeder_count": 0,
+            "movement_energy_paid": 103,
+            "plant_food_gained_energy": 130,
+            "plant_food_to_movement_energy_ratio": 1.2621359223300972,
+            "reserve_intervention_count": 16,
+            "zero_energy_alive_tick_sum": 22
+          },
+          "candidate_minus_baseline": {
+            "f1_births": 0,
+            "f1_breeder_count": 0,
+            "f2_births": 0,
+            "f2_breeder_count": 0,
+            "first_zero_energy_tick": 13,
+            "focal_approach_out_of_range_count": -9,
+            "focal_death_tick": 24,
+            "focal_first_zero_energy_tick": 13,
+            "focal_ticks_from_first_zero_to_death": 11,
+            "focal_underfunded_visible_food_approach_failures": 0,
+            "focal_zero_energy_visible_food_approach_failures": -14,
+            "founders_alive": 0,
+            "living_descendant_breeder_count": 0,
+            "living_entity_ticks": 24,
+            "living_f1_breeder_count": 0,
+            "living_f2_breeder_count": 0,
+            "movement_energy_paid": 3,
+            "plant_food_gained_energy": 34,
+            "plant_food_to_movement_energy_ratio": 0.30213592233009723,
+            "reserve_intervention_count": 16,
+            "zero_energy_alive_tick_sum": -7
+          },
+          "seed": 62406
+        }
+      ],
+      "role": "v1_unique_food",
+      "scenario": null,
+      "scenario_sha256": null,
+      "ticks_per_world": 300
+    },
+    {
+      "aggregates": {
+        "f1_births": {
+          "baseline": {
+            "median": 7.5,
+            "n": 6,
+            "range": [
+              7,
+              10
+            ],
+            "total": 48
+          },
+          "candidate": {
+            "median": 7.5,
+            "n": 6,
+            "range": [
+              7,
+              10
+            ],
+            "total": 48
+          },
+          "candidate_minus_baseline": {
+            "median": 0.0,
+            "n": 6,
+            "range": [
+              0,
+              0
+            ],
+            "values_by_seed": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          }
+        },
+        "f1_breeder_count": {
+          "baseline": {
+            "median": 7.0,
+            "n": 6,
+            "range": [
+              6,
+              9
+            ],
+            "total": 43
+          },
+          "candidate": {
+            "median": 7.0,
+            "n": 6,
+            "range": [
+              6,
+              9
+            ],
+            "total": 43
+          },
+          "candidate_minus_baseline": {
+            "median": 0.0,
+            "n": 6,
+            "range": [
+              0,
+              0
+            ],
+            "values_by_seed": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          }
+        },
+        "f2_births": {
+          "baseline": {
+            "median": 6.0,
+            "n": 6,
+            "range": [
+              4,
+              7
+            ],
+            "total": 35
+          },
+          "candidate": {
+            "median": 6.0,
+            "n": 6,
+            "range": [
+              4,
+              7
+            ],
+            "total": 35
+          },
+          "candidate_minus_baseline": {
+            "median": 0.0,
+            "n": 6,
+            "range": [
+              0,
+              0
+            ],
+            "values_by_seed": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          }
+        },
+        "f2_breeder_count": {
+          "baseline": {
+            "median": 5.0,
+            "n": 6,
+            "range": [
+              3,
+              6
+            ],
+            "total": 28
+          },
+          "candidate": {
+            "median": 5.0,
+            "n": 6,
+            "range": [
+              3,
+              6
+            ],
+            "total": 28
+          },
+          "candidate_minus_baseline": {
+            "median": 0.0,
+            "n": 6,
+            "range": [
+              0,
+              0
+            ],
+            "values_by_seed": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          }
+        },
+        "living_descendant_breeder_count": {
+          "baseline": {
+            "median": 10.0,
+            "n": 6,
+            "range": [
+              7,
+              12
+            ],
+            "total": 59
+          },
+          "candidate": {
+            "median": 10.0,
+            "n": 6,
+            "range": [
+              7,
+              12
+            ],
+            "total": 59
+          },
+          "candidate_minus_baseline": {
+            "median": 0.0,
+            "n": 6,
+            "range": [
+              0,
+              0
+            ],
+            "values_by_seed": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          }
+        },
+        "living_entity_ticks": {
+          "baseline": {
+            "median": 4134.5,
+            "n": 6,
+            "range": [
+              3450,
+              4304
+            ],
+            "total": 24287
+          },
+          "candidate": {
+            "median": 4134.5,
+            "n": 6,
+            "range": [
+              3450,
+              4304
+            ],
+            "total": 24287
+          },
+          "candidate_minus_baseline": {
+            "median": 0.0,
+            "n": 6,
+            "range": [
+              0,
+              0
+            ],
+            "values_by_seed": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          }
+        },
+        "movement_energy_paid": {
+          "baseline": {
+            "median": 2754.0,
+            "n": 6,
+            "range": [
+              2366,
+              3012
+            ],
+            "total": 16435
+          },
+          "candidate": {
+            "median": 2754.0,
+            "n": 6,
+            "range": [
+              2366,
+              3012
+            ],
+            "total": 16435
+          },
+          "candidate_minus_baseline": {
+            "median": 0.0,
+            "n": 6,
+            "range": [
+              0,
+              0
+            ],
+            "values_by_seed": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          }
+        },
+        "plant_food_gained_energy": {
+          "baseline": {
+            "median": 8101.0,
+            "n": 6,
+            "range": [
+              7578,
+              8346
+            ],
+            "total": 48274
+          },
+          "candidate": {
+            "median": 8101.0,
+            "n": 6,
+            "range": [
+              7578,
+              8346
+            ],
+            "total": 48274
+          },
+          "candidate_minus_baseline": {
+            "median": 0.0,
+            "n": 6,
+            "range": [
+              0,
+              0
+            ],
+            "values_by_seed": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          }
+        },
+        "zero_energy_alive_tick_sum": {
+          "baseline": {
+            "median": 24.0,
+            "n": 6,
+            "range": [
+              1,
+              63
+            ],
+            "total": 184
+          },
+          "candidate": {
+            "median": 24.0,
+            "n": 6,
+            "range": [
+              1,
+              63
+            ],
+            "total": 184
+          },
+          "candidate_minus_baseline": {
+            "median": 0.0,
+            "n": 6,
+            "range": [
+              0,
+              0
+            ],
+            "values_by_seed": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          }
+        }
+      },
+      "fixture_definition": {
+        "description": "Read-only scenario file with registered genetics/policy configuration overrides.",
+        "path": "scenarios/meadow.json",
+        "sha256": "648e4b325c0c94f44930bcba85ed1578ba9be9e3ffd26197f49b631d73fa8e30"
+      },
+      "founders_per_world": 8,
+      "pairs": [
+        {
+          "baseline": {
+            "births_by_generation": {
+              "1": 7,
+              "2": 7,
+              "3": 5,
+              "4": 6,
+              "5": 5,
+              "6": 5,
+              "7": 2,
+              "8": 1
+            },
+            "births_by_species": {
+              "Herbivore": 38
+            },
+            "death_causes": {
+              "Dehydration": 1,
+              "OldAge": 31,
+              "Starvation": 2
+            },
+            "deaths_by_generation": {
+              "0": 8,
+              "1": 7,
+              "2": 7,
+              "3": 5,
+              "4": 5,
+              "5": 2
+            },
+            "deaths_by_species": {
+              "Herbivore": 34
+            },
+            "f1_births": 7,
+            "f1_breeder_count": 7,
+            "f2_births": 7,
+            "f2_breeder_count": 6,
+            "final_alive": {
+              "Herbivore": 12
+            },
+            "first_zero_energy_tick": 95,
+            "focal_approach_out_of_range_count": 32,
+            "focal_death_cause": "OldAge",
+            "focal_death_tick": 106,
+            "focal_first_zero_energy_tick": null,
+            "focal_ticks_from_first_zero_to_death": null,
+            "focal_underfunded_visible_food_approach_failures": 0,
+            "focal_zero_energy_visible_food_approach_failures": 0,
+            "founders_alive": 0,
+            "living_descendant_breeder_count": 7,
+            "living_entity_ticks": 4304,
+            "living_f1_breeder_count": 0,
+            "living_f2_breeder_count": 0,
+            "movement_energy_paid": 2686,
+            "plant_food_gained_energy": 7968,
+            "plant_food_to_movement_energy_ratio": 2.9664929262844377,
+            "reserve_intervention_count": 0,
+            "zero_energy_alive_tick_sum": 63
+          },
+          "candidate": {
+            "births_by_generation": {
+              "1": 7,
+              "2": 7,
+              "3": 5,
+              "4": 6,
+              "5": 5,
+              "6": 5,
+              "7": 2,
+              "8": 1
+            },
+            "births_by_species": {
+              "Herbivore": 38
+            },
+            "death_causes": {
+              "Dehydration": 1,
+              "OldAge": 31,
+              "Starvation": 2
+            },
+            "deaths_by_generation": {
+              "0": 8,
+              "1": 7,
+              "2": 7,
+              "3": 5,
+              "4": 5,
+              "5": 2
+            },
+            "deaths_by_species": {
+              "Herbivore": 34
+            },
+            "f1_births": 7,
+            "f1_breeder_count": 7,
+            "f2_births": 7,
+            "f2_breeder_count": 6,
+            "final_alive": {
+              "Herbivore": 12
+            },
+            "first_zero_energy_tick": 95,
+            "focal_approach_out_of_range_count": 32,
+            "focal_death_cause": "OldAge",
+            "focal_death_tick": 106,
+            "focal_first_zero_energy_tick": null,
+            "focal_ticks_from_first_zero_to_death": null,
+            "focal_underfunded_visible_food_approach_failures": 0,
+            "focal_zero_energy_visible_food_approach_failures": 0,
+            "founders_alive": 0,
+            "living_descendant_breeder_count": 7,
+            "living_entity_ticks": 4304,
+            "living_f1_breeder_count": 0,
+            "living_f2_breeder_count": 0,
+            "movement_energy_paid": 2686,
+            "plant_food_gained_energy": 7968,
+            "plant_food_to_movement_energy_ratio": 2.9664929262844377,
+            "reserve_intervention_count": 0,
+            "zero_energy_alive_tick_sum": 63
+          },
+          "candidate_minus_baseline": {
+            "f1_births": 0,
+            "f1_breeder_count": 0,
+            "f2_births": 0,
+            "f2_breeder_count": 0,
+            "first_zero_energy_tick": 0,
+            "focal_approach_out_of_range_count": 0,
+            "focal_death_tick": 0,
+            "focal_underfunded_visible_food_approach_failures": 0,
+            "focal_zero_energy_visible_food_approach_failures": 0,
+            "founders_alive": 0,
+            "living_descendant_breeder_count": 0,
+            "living_entity_ticks": 0,
+            "living_f1_breeder_count": 0,
+            "living_f2_breeder_count": 0,
+            "movement_energy_paid": 0,
+            "plant_food_gained_energy": 0,
+            "plant_food_to_movement_energy_ratio": 0.0,
+            "reserve_intervention_count": 0,
+            "zero_energy_alive_tick_sum": 0
+          },
+          "seed": 62401
+        },
+        {
+          "baseline": {
+            "births_by_generation": {
+              "1": 9,
+              "2": 5,
+              "3": 3,
+              "4": 1,
+              "5": 4,
+              "6": 4,
+              "7": 4,
+              "8": 2,
+              "9": 1
+            },
+            "births_by_species": {
+              "Herbivore": 33
+            },
+            "death_causes": {
+              "OldAge": 27
+            },
+            "deaths_by_generation": {
+              "0": 8,
+              "1": 9,
+              "2": 5,
+              "3": 3,
+              "4": 1,
+              "5": 1
+            },
+            "deaths_by_species": {
+              "Herbivore": 27
+            },
+            "f1_births": 9,
+            "f1_breeder_count": 6,
+            "f2_births": 5,
+            "f2_breeder_count": 3,
+            "final_alive": {
+              "Herbivore": 14
+            },
+            "first_zero_energy_tick": 113,
+            "focal_approach_out_of_range_count": 29,
+            "focal_death_cause": "OldAge",
+            "focal_death_tick": 106,
+            "focal_first_zero_energy_tick": null,
+            "focal_ticks_from_first_zero_to_death": null,
+            "focal_underfunded_visible_food_approach_failures": 0,
+            "focal_zero_energy_visible_food_approach_failures": 0,
+            "founders_alive": 0,
+            "living_descendant_breeder_count": 9,
+            "living_entity_ticks": 3450,
+            "living_f1_breeder_count": 0,
+            "living_f2_breeder_count": 0,
+            "movement_energy_paid": 2366,
+            "plant_food_gained_energy": 7578,
+            "plant_food_to_movement_energy_ratio": 3.202874049027895,
+            "reserve_intervention_count": 0,
+            "zero_energy_alive_tick_sum": 15
+          },
+          "candidate": {
+            "births_by_generation": {
+              "1": 9,
+              "2": 5,
+              "3": 3,
+              "4": 1,
+              "5": 4,
+              "6": 4,
+              "7": 4,
+              "8": 2,
+              "9": 1
+            },
+            "births_by_species": {
+              "Herbivore": 33
+            },
+            "death_causes": {
+              "OldAge": 27
+            },
+            "deaths_by_generation": {
+              "0": 8,
+              "1": 9,
+              "2": 5,
+              "3": 3,
+              "4": 1,
+              "5": 1
+            },
+            "deaths_by_species": {
+              "Herbivore": 27
+            },
+            "f1_births": 9,
+            "f1_breeder_count": 6,
+            "f2_births": 5,
+            "f2_breeder_count": 3,
+            "final_alive": {
+              "Herbivore": 14
+            },
+            "first_zero_energy_tick": 113,
+            "focal_approach_out_of_range_count": 29,
+            "focal_death_cause": "OldAge",
+            "focal_death_tick": 106,
+            "focal_first_zero_energy_tick": null,
+            "focal_ticks_from_first_zero_to_death": null,
+            "focal_underfunded_visible_food_approach_failures": 0,
+            "focal_zero_energy_visible_food_approach_failures": 0,
+            "founders_alive": 0,
+            "living_descendant_breeder_count": 9,
+            "living_entity_ticks": 3450,
+            "living_f1_breeder_count": 0,
+            "living_f2_breeder_count": 0,
+            "movement_energy_paid": 2366,
+            "plant_food_gained_energy": 7578,
+            "plant_food_to_movement_energy_ratio": 3.202874049027895,
+            "reserve_intervention_count": 0,
+            "zero_energy_alive_tick_sum": 15
+          },
+          "candidate_minus_baseline": {
+            "f1_births": 0,
+            "f1_breeder_count": 0,
+            "f2_births": 0,
+            "f2_breeder_count": 0,
+            "first_zero_energy_tick": 0,
+            "focal_approach_out_of_range_count": 0,
+            "focal_death_tick": 0,
+            "focal_underfunded_visible_food_approach_failures": 0,
+            "focal_zero_energy_visible_food_approach_failures": 0,
+            "founders_alive": 0,
+            "living_descendant_breeder_count": 0,
+            "living_entity_ticks": 0,
+            "living_f1_breeder_count": 0,
+            "living_f2_breeder_count": 0,
+            "movement_energy_paid": 0,
+            "plant_food_gained_energy": 0,
+            "plant_food_to_movement_energy_ratio": 0.0,
+            "reserve_intervention_count": 0,
+            "zero_energy_alive_tick_sum": 0
+          },
+          "seed": 62402
+        },
+        {
+          "baseline": {
+            "births_by_generation": {
+              "1": 7,
+              "2": 5,
+              "3": 3,
+              "4": 4,
+              "5": 5,
+              "6": 4,
+              "7": 5,
+              "8": 3,
+              "9": 2
+            },
+            "births_by_species": {
+              "Herbivore": 38
+            },
+            "death_causes": {
+              "Dehydration": 2,
+              "OldAge": 29,
+              "Starvation": 2
+            },
+            "deaths_by_generation": {
+              "0": 8,
+              "1": 7,
+              "2": 5,
+              "3": 3,
+              "4": 4,
+              "5": 4,
+              "6": 2
+            },
+            "deaths_by_species": {
+              "Herbivore": 33
+            },
+            "f1_births": 7,
+            "f1_breeder_count": 7,
+            "f2_births": 5,
+            "f2_breeder_count": 5,
+            "final_alive": {
+              "Herbivore": 13
+            },
+            "first_zero_energy_tick": 83,
+            "focal_approach_out_of_range_count": 22,
+            "focal_death_cause": "OldAge",
+            "focal_death_tick": 106,
+            "focal_first_zero_energy_tick": null,
+            "focal_ticks_from_first_zero_to_death": null,
+            "focal_underfunded_visible_food_approach_failures": 0,
+            "focal_zero_energy_visible_food_approach_failures": 0,
+            "founders_alive": 0,
+            "living_descendant_breeder_count": 9,
+            "living_entity_ticks": 4212,
+            "living_f1_breeder_count": 0,
+            "living_f2_breeder_count": 0,
+            "movement_energy_paid": 2735,
+            "plant_food_gained_energy": 7830,
+            "plant_food_to_movement_energy_ratio": 2.862888482632541,
+            "reserve_intervention_count": 0,
+            "zero_energy_alive_tick_sum": 57
+          },
+          "candidate": {
+            "births_by_generation": {
+              "1": 7,
+              "2": 5,
+              "3": 3,
+              "4": 4,
+              "5": 5,
+              "6": 4,
+              "7": 5,
+              "8": 3,
+              "9": 2
+            },
+            "births_by_species": {
+              "Herbivore": 38
+            },
+            "death_causes": {
+              "Dehydration": 2,
+              "OldAge": 29,
+              "Starvation": 2
+            },
+            "deaths_by_generation": {
+              "0": 8,
+              "1": 7,
+              "2": 5,
+              "3": 3,
+              "4": 4,
+              "5": 4,
+              "6": 2
+            },
+            "deaths_by_species": {
+              "Herbivore": 33
+            },
+            "f1_births": 7,
+            "f1_breeder_count": 7,
+            "f2_births": 5,
+            "f2_breeder_count": 5,
+            "final_alive": {
+              "Herbivore": 13
+            },
+            "first_zero_energy_tick": 83,
+            "focal_approach_out_of_range_count": 22,
+            "focal_death_cause": "OldAge",
+            "focal_death_tick": 106,
+            "focal_first_zero_energy_tick": null,
+            "focal_ticks_from_first_zero_to_death": null,
+            "focal_underfunded_visible_food_approach_failures": 0,
+            "focal_zero_energy_visible_food_approach_failures": 0,
+            "founders_alive": 0,
+            "living_descendant_breeder_count": 9,
+            "living_entity_ticks": 4212,
+            "living_f1_breeder_count": 0,
+            "living_f2_breeder_count": 0,
+            "movement_energy_paid": 2735,
+            "plant_food_gained_energy": 7830,
+            "plant_food_to_movement_energy_ratio": 2.862888482632541,
+            "reserve_intervention_count": 0,
+            "zero_energy_alive_tick_sum": 57
+          },
+          "candidate_minus_baseline": {
+            "f1_births": 0,
+            "f1_breeder_count": 0,
+            "f2_births": 0,
+            "f2_breeder_count": 0,
+            "first_zero_energy_tick": 0,
+            "focal_approach_out_of_range_count": 0,
+            "focal_death_tick": 0,
+            "focal_underfunded_visible_food_approach_failures": 0,
+            "focal_zero_energy_visible_food_approach_failures": 0,
+            "founders_alive": 0,
+            "living_descendant_breeder_count": 0,
+            "living_entity_ticks": 0,
+            "living_f1_breeder_count": 0,
+            "living_f2_breeder_count": 0,
+            "movement_energy_paid": 0,
+            "plant_food_gained_energy": 0,
+            "plant_food_to_movement_energy_ratio": 0.0,
+            "reserve_intervention_count": 0,
+            "zero_energy_alive_tick_sum": 0
+          },
+          "seed": 62403
+        },
+        {
+          "baseline": {
+            "births_by_generation": {
+              "1": 10,
+              "2": 7,
+              "3": 4,
+              "4": 5,
+              "5": 5,
+              "6": 4,
+              "7": 3,
+              "8": 1
+            },
+            "births_by_species": {
+              "Herbivore": 39
+            },
+            "death_causes": {
+              "Dehydration": 1,
+              "OldAge": 28,
+              "Starvation": 1
+            },
+            "deaths_by_generation": {
+              "0": 8,
+              "1": 10,
+              "2": 7,
+              "3": 3,
+              "4": 2
+            },
+            "deaths_by_species": {
+              "Herbivore": 30
+            },
+            "f1_births": 10,
+            "f1_breeder_count": 9,
+            "f2_births": 7,
+            "f2_breeder_count": 5,
+            "final_alive": {
+              "Herbivore": 17
+            },
+            "first_zero_energy_tick": 104,
+            "focal_approach_out_of_range_count": 21,
+            "focal_death_cause": "OldAge",
+            "focal_death_tick": 106,
+            "focal_first_zero_energy_tick": null,
+            "focal_ticks_from_first_zero_to_death": null,
+            "focal_underfunded_visible_food_approach_failures": 0,
+            "focal_zero_energy_visible_food_approach_failures": 0,
+            "founders_alive": 0,
+            "living_descendant_breeder_count": 12,
+            "living_entity_ticks": 4068,
+            "living_f1_breeder_count": 0,
+            "living_f2_breeder_count": 0,
+            "movement_energy_paid": 2773,
+            "plant_food_gained_energy": 8234,
+            "plant_food_to_movement_energy_ratio": 2.9693472773169853,
+            "reserve_intervention_count": 0,
+            "zero_energy_alive_tick_sum": 32
+          },
+          "candidate": {
+            "births_by_generation": {
+              "1": 10,
+              "2": 7,
+              "3": 4,
+              "4": 5,
+              "5": 5,
+              "6": 4,
+              "7": 3,
+              "8": 1
+            },
+            "births_by_species": {
+              "Herbivore": 39
+            },
+            "death_causes": {
+              "Dehydration": 1,
+              "OldAge": 28,
+              "Starvation": 1
+            },
+            "deaths_by_generation": {
+              "0": 8,
+              "1": 10,
+              "2": 7,
+              "3": 3,
+              "4": 2
+            },
+            "deaths_by_species": {
+              "Herbivore": 30
+            },
+            "f1_births": 10,
+            "f1_breeder_count": 9,
+            "f2_births": 7,
+            "f2_breeder_count": 5,
+            "final_alive": {
+              "Herbivore": 17
+            },
+            "first_zero_energy_tick": 104,
+            "focal_approach_out_of_range_count": 21,
+            "focal_death_cause": "OldAge",
+            "focal_death_tick": 106,
+            "focal_first_zero_energy_tick": null,
+            "focal_ticks_from_first_zero_to_death": null,
+            "focal_underfunded_visible_food_approach_failures": 0,
+            "focal_zero_energy_visible_food_approach_failures": 0,
+            "founders_alive": 0,
+            "living_descendant_breeder_count": 12,
+            "living_entity_ticks": 4068,
+            "living_f1_breeder_count": 0,
+            "living_f2_breeder_count": 0,
+            "movement_energy_paid": 2773,
+            "plant_food_gained_energy": 8234,
+            "plant_food_to_movement_energy_ratio": 2.9693472773169853,
+            "reserve_intervention_count": 0,
+            "zero_energy_alive_tick_sum": 32
+          },
+          "candidate_minus_baseline": {
+            "f1_births": 0,
+            "f1_breeder_count": 0,
+            "f2_births": 0,
+            "f2_breeder_count": 0,
+            "first_zero_energy_tick": 0,
+            "focal_approach_out_of_range_count": 0,
+            "focal_death_tick": 0,
+            "focal_underfunded_visible_food_approach_failures": 0,
+            "focal_zero_energy_visible_food_approach_failures": 0,
+            "founders_alive": 0,
+            "living_descendant_breeder_count": 0,
+            "living_entity_ticks": 0,
+            "living_f1_breeder_count": 0,
+            "living_f2_breeder_count": 0,
+            "movement_energy_paid": 0,
+            "plant_food_gained_energy": 0,
+            "plant_food_to_movement_energy_ratio": 0.0,
+            "reserve_intervention_count": 0,
+            "zero_energy_alive_tick_sum": 0
+          },
+          "seed": 62404
+        },
+        {
+          "baseline": {
+            "births_by_generation": {
+              "1": 8,
+              "10": 2,
+              "11": 1,
+              "2": 4,
+              "3": 2,
+              "4": 2,
+              "5": 3,
+              "6": 6,
+              "7": 4,
+              "8": 4,
+              "9": 2
+            },
+            "births_by_species": {
+              "Herbivore": 38
+            },
+            "death_causes": {
+              "OldAge": 30
+            },
+            "deaths_by_generation": {
+              "0": 8,
+              "1": 8,
+              "2": 4,
+              "3": 2,
+              "4": 2,
+              "5": 3,
+              "6": 2,
+              "7": 1
+            },
+            "deaths_by_species": {
+              "Herbivore": 30
+            },
+            "f1_births": 8,
+            "f1_breeder_count": 7,
+            "f2_births": 4,
+            "f2_breeder_count": 4,
+            "final_alive": {
+              "Herbivore": 16
+            },
+            "first_zero_energy_tick": 285,
+            "focal_approach_out_of_range_count": 31,
+            "focal_death_cause": "OldAge",
+            "focal_death_tick": 106,
+            "focal_first_zero_energy_tick": null,
+            "focal_ticks_from_first_zero_to_death": null,
+            "focal_underfunded_visible_food_approach_failures": 0,
+            "focal_zero_energy_visible_food_approach_failures": 0,
+            "founders_alive": 0,
+            "living_descendant_breeder_count": 11,
+            "living_entity_ticks": 4052,
+            "living_f1_breeder_count": 0,
+            "living_f2_breeder_count": 0,
+            "movement_energy_paid": 2863,
+            "plant_food_gained_energy": 8318,
+            "plant_food_to_movement_energy_ratio": 2.905344044708348,
+            "reserve_intervention_count": 0,
+            "zero_energy_alive_tick_sum": 1
+          },
+          "candidate": {
+            "births_by_generation": {
+              "1": 8,
+              "10": 2,
+              "11": 1,
+              "2": 4,
+              "3": 2,
+              "4": 2,
+              "5": 3,
+              "6": 6,
+              "7": 4,
+              "8": 4,
+              "9": 2
+            },
+            "births_by_species": {
+              "Herbivore": 38
+            },
+            "death_causes": {
+              "OldAge": 30
+            },
+            "deaths_by_generation": {
+              "0": 8,
+              "1": 8,
+              "2": 4,
+              "3": 2,
+              "4": 2,
+              "5": 3,
+              "6": 2,
+              "7": 1
+            },
+            "deaths_by_species": {
+              "Herbivore": 30
+            },
+            "f1_births": 8,
+            "f1_breeder_count": 7,
+            "f2_births": 4,
+            "f2_breeder_count": 4,
+            "final_alive": {
+              "Herbivore": 16
+            },
+            "first_zero_energy_tick": 285,
+            "focal_approach_out_of_range_count": 31,
+            "focal_death_cause": "OldAge",
+            "focal_death_tick": 106,
+            "focal_first_zero_energy_tick": null,
+            "focal_ticks_from_first_zero_to_death": null,
+            "focal_underfunded_visible_food_approach_failures": 0,
+            "focal_zero_energy_visible_food_approach_failures": 0,
+            "founders_alive": 0,
+            "living_descendant_breeder_count": 11,
+            "living_entity_ticks": 4052,
+            "living_f1_breeder_count": 0,
+            "living_f2_breeder_count": 0,
+            "movement_energy_paid": 2863,
+            "plant_food_gained_energy": 8318,
+            "plant_food_to_movement_energy_ratio": 2.905344044708348,
+            "reserve_intervention_count": 0,
+            "zero_energy_alive_tick_sum": 1
+          },
+          "candidate_minus_baseline": {
+            "f1_births": 0,
+            "f1_breeder_count": 0,
+            "f2_births": 0,
+            "f2_breeder_count": 0,
+            "first_zero_energy_tick": 0,
+            "focal_approach_out_of_range_count": 0,
+            "focal_death_tick": 0,
+            "focal_underfunded_visible_food_approach_failures": 0,
+            "focal_zero_energy_visible_food_approach_failures": 0,
+            "founders_alive": 0,
+            "living_descendant_breeder_count": 0,
+            "living_entity_ticks": 0,
+            "living_f1_breeder_count": 0,
+            "living_f2_breeder_count": 0,
+            "movement_energy_paid": 0,
+            "plant_food_gained_energy": 0,
+            "plant_food_to_movement_energy_ratio": 0.0,
+            "reserve_intervention_count": 0,
+            "zero_energy_alive_tick_sum": 0
+          },
+          "seed": 62405
+        },
+        {
+          "baseline": {
+            "births_by_generation": {
+              "1": 7,
+              "2": 7,
+              "3": 4,
+              "4": 5,
+              "5": 5,
+              "6": 5,
+              "7": 3,
+              "8": 3
+            },
+            "births_by_species": {
+              "Herbivore": 39
+            },
+            "death_causes": {
+              "Dehydration": 1,
+              "OldAge": 31
+            },
+            "deaths_by_generation": {
+              "0": 8,
+              "1": 7,
+              "2": 7,
+              "3": 4,
+              "4": 4,
+              "5": 2
+            },
+            "deaths_by_species": {
+              "Herbivore": 32
+            },
+            "f1_births": 7,
+            "f1_breeder_count": 7,
+            "f2_births": 7,
+            "f2_breeder_count": 5,
+            "final_alive": {
+              "Herbivore": 15
+            },
+            "first_zero_energy_tick": 102,
+            "focal_approach_out_of_range_count": 33,
+            "focal_death_cause": "OldAge",
+            "focal_death_tick": 106,
+            "focal_first_zero_energy_tick": null,
+            "focal_ticks_from_first_zero_to_death": null,
+            "focal_underfunded_visible_food_approach_failures": 0,
+            "focal_zero_energy_visible_food_approach_failures": 0,
+            "founders_alive": 0,
+            "living_descendant_breeder_count": 11,
+            "living_entity_ticks": 4201,
+            "living_f1_breeder_count": 0,
+            "living_f2_breeder_count": 0,
+            "movement_energy_paid": 3012,
+            "plant_food_gained_energy": 8346,
+            "plant_food_to_movement_energy_ratio": 2.770916334661355,
+            "reserve_intervention_count": 0,
+            "zero_energy_alive_tick_sum": 16
+          },
+          "candidate": {
+            "births_by_generation": {
+              "1": 7,
+              "2": 7,
+              "3": 4,
+              "4": 5,
+              "5": 5,
+              "6": 5,
+              "7": 3,
+              "8": 3
+            },
+            "births_by_species": {
+              "Herbivore": 39
+            },
+            "death_causes": {
+              "Dehydration": 1,
+              "OldAge": 31
+            },
+            "deaths_by_generation": {
+              "0": 8,
+              "1": 7,
+              "2": 7,
+              "3": 4,
+              "4": 4,
+              "5": 2
+            },
+            "deaths_by_species": {
+              "Herbivore": 32
+            },
+            "f1_births": 7,
+            "f1_breeder_count": 7,
+            "f2_births": 7,
+            "f2_breeder_count": 5,
+            "final_alive": {
+              "Herbivore": 15
+            },
+            "first_zero_energy_tick": 102,
+            "focal_approach_out_of_range_count": 33,
+            "focal_death_cause": "OldAge",
+            "focal_death_tick": 106,
+            "focal_first_zero_energy_tick": null,
+            "focal_ticks_from_first_zero_to_death": null,
+            "focal_underfunded_visible_food_approach_failures": 0,
+            "focal_zero_energy_visible_food_approach_failures": 0,
+            "founders_alive": 0,
+            "living_descendant_breeder_count": 11,
+            "living_entity_ticks": 4201,
+            "living_f1_breeder_count": 0,
+            "living_f2_breeder_count": 0,
+            "movement_energy_paid": 3012,
+            "plant_food_gained_energy": 8346,
+            "plant_food_to_movement_energy_ratio": 2.770916334661355,
+            "reserve_intervention_count": 0,
+            "zero_energy_alive_tick_sum": 16
+          },
+          "candidate_minus_baseline": {
+            "f1_births": 0,
+            "f1_breeder_count": 0,
+            "f2_births": 0,
+            "f2_breeder_count": 0,
+            "first_zero_energy_tick": 0,
+            "focal_approach_out_of_range_count": 0,
+            "focal_death_tick": 0,
+            "focal_underfunded_visible_food_approach_failures": 0,
+            "focal_zero_energy_visible_food_approach_failures": 0,
+            "founders_alive": 0,
+            "living_descendant_breeder_count": 0,
+            "living_entity_ticks": 0,
+            "living_f1_breeder_count": 0,
+            "living_f2_breeder_count": 0,
+            "movement_energy_paid": 0,
+            "plant_food_gained_energy": 0,
+            "plant_food_to_movement_energy_ratio": 0.0,
+            "reserve_intervention_count": 0,
+            "zero_energy_alive_tick_sum": 0
+          },
+          "seed": 62406
+        }
+      ],
+      "role": "meadow",
+      "scenario": "scenarios/meadow.json",
+      "scenario_sha256": "648e4b325c0c94f44930bcba85ed1578ba9be9e3ffd26197f49b631d73fa8e30",
+      "ticks_per_world": 300
+    },
+    {
+      "aggregates": {
+        "f1_births": {
+          "baseline": {
+            "median": 3.0,
+            "n": 6,
+            "range": [
+              2,
+              3
+            ],
+            "total": 17
+          },
+          "candidate": {
+            "median": 3.0,
+            "n": 6,
+            "range": [
+              2,
+              3
+            ],
+            "total": 17
+          },
+          "candidate_minus_baseline": {
+            "median": 0.0,
+            "n": 6,
+            "range": [
+              0,
+              0
+            ],
+            "values_by_seed": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          }
+        },
+        "f1_breeder_count": {
+          "baseline": {
+            "median": 0.0,
+            "n": 6,
+            "range": [
+              0,
+              0
+            ],
+            "total": 0
+          },
+          "candidate": {
+            "median": 0.0,
+            "n": 6,
+            "range": [
+              0,
+              0
+            ],
+            "total": 0
+          },
+          "candidate_minus_baseline": {
+            "median": 0.0,
+            "n": 6,
+            "range": [
+              0,
+              0
+            ],
+            "values_by_seed": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          }
+        },
+        "f2_births": {
+          "baseline": {
+            "median": 0.0,
+            "n": 6,
+            "range": [
+              0,
+              0
+            ],
+            "total": 0
+          },
+          "candidate": {
+            "median": 0.0,
+            "n": 6,
+            "range": [
+              0,
+              0
+            ],
+            "total": 0
+          },
+          "candidate_minus_baseline": {
+            "median": 0.0,
+            "n": 6,
+            "range": [
+              0,
+              0
+            ],
+            "values_by_seed": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          }
+        },
+        "f2_breeder_count": {
+          "baseline": {
+            "median": 0.0,
+            "n": 6,
+            "range": [
+              0,
+              0
+            ],
+            "total": 0
+          },
+          "candidate": {
+            "median": 0.0,
+            "n": 6,
+            "range": [
+              0,
+              0
+            ],
+            "total": 0
+          },
+          "candidate_minus_baseline": {
+            "median": 0.0,
+            "n": 6,
+            "range": [
+              0,
+              0
+            ],
+            "values_by_seed": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          }
+        },
+        "living_descendant_breeder_count": {
+          "baseline": {
+            "median": 0.0,
+            "n": 6,
+            "range": [
+              0,
+              0
+            ],
+            "total": 0
+          },
+          "candidate": {
+            "median": 0.0,
+            "n": 6,
+            "range": [
+              0,
+              0
+            ],
+            "total": 0
+          },
+          "candidate_minus_baseline": {
+            "median": 0.0,
+            "n": 6,
+            "range": [
+              0,
+              0
+            ],
+            "values_by_seed": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          }
+        },
+        "living_entity_ticks": {
+          "baseline": {
+            "median": 977.5,
+            "n": 6,
+            "range": [
+              951,
+              1051
+            ],
+            "total": 5959
+          },
+          "candidate": {
+            "median": 977.5,
+            "n": 6,
+            "range": [
+              951,
+              1051
+            ],
+            "total": 5959
+          },
+          "candidate_minus_baseline": {
+            "median": 0.0,
+            "n": 6,
+            "range": [
+              0,
+              0
+            ],
+            "values_by_seed": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          }
+        },
+        "movement_energy_paid": {
+          "baseline": {
+            "median": 495.5,
+            "n": 6,
+            "range": [
+              472,
+              539
+            ],
+            "total": 2988
+          },
+          "candidate": {
+            "median": 495.5,
+            "n": 6,
+            "range": [
+              472,
+              539
+            ],
+            "total": 2988
+          },
+          "candidate_minus_baseline": {
+            "median": 0.0,
+            "n": 6,
+            "range": [
+              0,
+              0
+            ],
+            "values_by_seed": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          }
+        },
+        "plant_food_gained_energy": {
+          "baseline": {
+            "median": 815.0,
+            "n": 6,
+            "range": [
+              788,
+              866
+            ],
+            "total": 4908
+          },
+          "candidate": {
+            "median": 815.0,
+            "n": 6,
+            "range": [
+              788,
+              866
+            ],
+            "total": 4908
+          },
+          "candidate_minus_baseline": {
+            "median": 0.0,
+            "n": 6,
+            "range": [
+              0,
+              0
+            ],
+            "values_by_seed": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          }
+        },
+        "zero_energy_alive_tick_sum": {
+          "baseline": {
+            "median": 149.5,
+            "n": 6,
+            "range": [
+              105,
+              187
+            ],
+            "total": 914
+          },
+          "candidate": {
+            "median": 149.5,
+            "n": 6,
+            "range": [
+              105,
+              187
+            ],
+            "total": 914
+          },
+          "candidate_minus_baseline": {
+            "median": 0.0,
+            "n": 6,
+            "range": [
+              0,
+              0
+            ],
+            "values_by_seed": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          }
+        }
+      },
+      "fixture_definition": {
+        "description": "Read-only scenario file with registered genetics/policy configuration overrides.",
+        "path": "scenarios/ecology-traits-lab.json",
+        "sha256": "ffbc782758d15ee0e4e72033ceb7f98feb20aa235c236833ec07a3e75be86e1f"
+      },
+      "founders_per_world": 8,
+      "pairs": [
+        {
+          "baseline": {
+            "births_by_generation": {
+              "1": 3
+            },
+            "births_by_species": {
+              "Herbivore": 3
+            },
+            "death_causes": {
+              "Dehydration": 2,
+              "OldAge": 5,
+              "Starvation": 4
+            },
+            "deaths_by_generation": {
+              "0": 8,
+              "1": 3
+            },
+            "deaths_by_species": {
+              "Herbivore": 11
+            },
+            "f1_births": 3,
+            "f1_breeder_count": 0,
+            "f2_births": 0,
+            "f2_breeder_count": 0,
+            "final_alive": {},
+            "first_zero_energy_tick": 53,
+            "focal_approach_out_of_range_count": 20,
+            "focal_death_cause": "Dehydration",
+            "focal_death_tick": 104,
+            "focal_first_zero_energy_tick": 76,
+            "focal_ticks_from_first_zero_to_death": 28,
+            "focal_underfunded_visible_food_approach_failures": 0,
+            "focal_zero_energy_visible_food_approach_failures": 0,
+            "founders_alive": 0,
+            "living_descendant_breeder_count": 0,
+            "living_entity_ticks": 1051,
+            "living_f1_breeder_count": 0,
+            "living_f2_breeder_count": 0,
+            "movement_energy_paid": 539,
+            "plant_food_gained_energy": 866,
+            "plant_food_to_movement_energy_ratio": 1.6066790352504638,
+            "reserve_intervention_count": 0,
+            "zero_energy_alive_tick_sum": 153
+          },
+          "candidate": {
+            "births_by_generation": {
+              "1": 3
+            },
+            "births_by_species": {
+              "Herbivore": 3
+            },
+            "death_causes": {
+              "Dehydration": 2,
+              "OldAge": 5,
+              "Starvation": 4
+            },
+            "deaths_by_generation": {
+              "0": 8,
+              "1": 3
+            },
+            "deaths_by_species": {
+              "Herbivore": 11
+            },
+            "f1_births": 3,
+            "f1_breeder_count": 0,
+            "f2_births": 0,
+            "f2_breeder_count": 0,
+            "final_alive": {},
+            "first_zero_energy_tick": 53,
+            "focal_approach_out_of_range_count": 20,
+            "focal_death_cause": "Dehydration",
+            "focal_death_tick": 104,
+            "focal_first_zero_energy_tick": 76,
+            "focal_ticks_from_first_zero_to_death": 28,
+            "focal_underfunded_visible_food_approach_failures": 0,
+            "focal_zero_energy_visible_food_approach_failures": 0,
+            "founders_alive": 0,
+            "living_descendant_breeder_count": 0,
+            "living_entity_ticks": 1051,
+            "living_f1_breeder_count": 0,
+            "living_f2_breeder_count": 0,
+            "movement_energy_paid": 539,
+            "plant_food_gained_energy": 866,
+            "plant_food_to_movement_energy_ratio": 1.6066790352504638,
+            "reserve_intervention_count": 0,
+            "zero_energy_alive_tick_sum": 153
+          },
+          "candidate_minus_baseline": {
+            "f1_births": 0,
+            "f1_breeder_count": 0,
+            "f2_births": 0,
+            "f2_breeder_count": 0,
+            "first_zero_energy_tick": 0,
+            "focal_approach_out_of_range_count": 0,
+            "focal_death_tick": 0,
+            "focal_first_zero_energy_tick": 0,
+            "focal_ticks_from_first_zero_to_death": 0,
+            "focal_underfunded_visible_food_approach_failures": 0,
+            "focal_zero_energy_visible_food_approach_failures": 0,
+            "founders_alive": 0,
+            "living_descendant_breeder_count": 0,
+            "living_entity_ticks": 0,
+            "living_f1_breeder_count": 0,
+            "living_f2_breeder_count": 0,
+            "movement_energy_paid": 0,
+            "plant_food_gained_energy": 0,
+            "plant_food_to_movement_energy_ratio": 0.0,
+            "reserve_intervention_count": 0,
+            "zero_energy_alive_tick_sum": 0
+          },
+          "seed": 62401
+        },
+        {
+          "baseline": {
+            "births_by_generation": {
+              "1": 3
+            },
+            "births_by_species": {
+              "Herbivore": 3
+            },
+            "death_causes": {
+              "Dehydration": 2,
+              "OldAge": 5,
+              "Starvation": 4
+            },
+            "deaths_by_generation": {
+              "0": 8,
+              "1": 3
+            },
+            "deaths_by_species": {
+              "Herbivore": 11
+            },
+            "f1_births": 3,
+            "f1_breeder_count": 0,
+            "f2_births": 0,
+            "f2_breeder_count": 0,
+            "final_alive": {},
+            "first_zero_energy_tick": 53,
+            "focal_approach_out_of_range_count": 24,
+            "focal_death_cause": "OldAge",
+            "focal_death_tick": 106,
+            "focal_first_zero_energy_tick": 82,
+            "focal_ticks_from_first_zero_to_death": 24,
+            "focal_underfunded_visible_food_approach_failures": 1,
+            "focal_zero_energy_visible_food_approach_failures": 12,
+            "founders_alive": 0,
+            "living_descendant_breeder_count": 0,
+            "living_entity_ticks": 951,
+            "living_f1_breeder_count": 0,
+            "living_f2_breeder_count": 0,
+            "movement_energy_paid": 494,
+            "plant_food_gained_energy": 816,
+            "plant_food_to_movement_energy_ratio": 1.6518218623481782,
+            "reserve_intervention_count": 0,
+            "zero_energy_alive_tick_sum": 142
+          },
+          "candidate": {
+            "births_by_generation": {
+              "1": 3
+            },
+            "births_by_species": {
+              "Herbivore": 3
+            },
+            "death_causes": {
+              "Dehydration": 2,
+              "OldAge": 5,
+              "Starvation": 4
+            },
+            "deaths_by_generation": {
+              "0": 8,
+              "1": 3
+            },
+            "deaths_by_species": {
+              "Herbivore": 11
+            },
+            "f1_births": 3,
+            "f1_breeder_count": 0,
+            "f2_births": 0,
+            "f2_breeder_count": 0,
+            "final_alive": {},
+            "first_zero_energy_tick": 53,
+            "focal_approach_out_of_range_count": 24,
+            "focal_death_cause": "OldAge",
+            "focal_death_tick": 106,
+            "focal_first_zero_energy_tick": 82,
+            "focal_ticks_from_first_zero_to_death": 24,
+            "focal_underfunded_visible_food_approach_failures": 1,
+            "focal_zero_energy_visible_food_approach_failures": 12,
+            "founders_alive": 0,
+            "living_descendant_breeder_count": 0,
+            "living_entity_ticks": 951,
+            "living_f1_breeder_count": 0,
+            "living_f2_breeder_count": 0,
+            "movement_energy_paid": 494,
+            "plant_food_gained_energy": 816,
+            "plant_food_to_movement_energy_ratio": 1.6518218623481782,
+            "reserve_intervention_count": 0,
+            "zero_energy_alive_tick_sum": 142
+          },
+          "candidate_minus_baseline": {
+            "f1_births": 0,
+            "f1_breeder_count": 0,
+            "f2_births": 0,
+            "f2_breeder_count": 0,
+            "first_zero_energy_tick": 0,
+            "focal_approach_out_of_range_count": 0,
+            "focal_death_tick": 0,
+            "focal_first_zero_energy_tick": 0,
+            "focal_ticks_from_first_zero_to_death": 0,
+            "focal_underfunded_visible_food_approach_failures": 0,
+            "focal_zero_energy_visible_food_approach_failures": 0,
+            "founders_alive": 0,
+            "living_descendant_breeder_count": 0,
+            "living_entity_ticks": 0,
+            "living_f1_breeder_count": 0,
+            "living_f2_breeder_count": 0,
+            "movement_energy_paid": 0,
+            "plant_food_gained_energy": 0,
+            "plant_food_to_movement_energy_ratio": 0.0,
+            "reserve_intervention_count": 0,
+            "zero_energy_alive_tick_sum": 0
+          },
+          "seed": 62402
+        },
+        {
+          "baseline": {
+            "births_by_generation": {
+              "1": 2
+            },
+            "births_by_species": {
+              "Herbivore": 2
+            },
+            "death_causes": {
+              "OldAge": 7,
+              "Starvation": 3
+            },
+            "deaths_by_generation": {
+              "0": 8,
+              "1": 2
+            },
+            "deaths_by_species": {
+              "Herbivore": 10
+            },
+            "f1_births": 2,
+            "f1_breeder_count": 0,
+            "f2_births": 0,
+            "f2_breeder_count": 0,
+            "final_alive": {},
+            "first_zero_energy_tick": 65,
+            "focal_approach_out_of_range_count": 0,
+            "focal_death_cause": "OldAge",
+            "focal_death_tick": 106,
+            "focal_first_zero_energy_tick": null,
+            "focal_ticks_from_first_zero_to_death": null,
+            "focal_underfunded_visible_food_approach_failures": 0,
+            "focal_zero_energy_visible_food_approach_failures": 0,
+            "founders_alive": 0,
+            "living_descendant_breeder_count": 0,
+            "living_entity_ticks": 971,
+            "living_f1_breeder_count": 0,
+            "living_f2_breeder_count": 0,
+            "movement_energy_paid": 472,
+            "plant_food_gained_energy": 792,
+            "plant_food_to_movement_energy_ratio": 1.6779661016949152,
+            "reserve_intervention_count": 0,
+            "zero_energy_alive_tick_sum": 105
+          },
+          "candidate": {
+            "births_by_generation": {
+              "1": 2
+            },
+            "births_by_species": {
+              "Herbivore": 2
+            },
+            "death_causes": {
+              "OldAge": 7,
+              "Starvation": 3
+            },
+            "deaths_by_generation": {
+              "0": 8,
+              "1": 2
+            },
+            "deaths_by_species": {
+              "Herbivore": 10
+            },
+            "f1_births": 2,
+            "f1_breeder_count": 0,
+            "f2_births": 0,
+            "f2_breeder_count": 0,
+            "final_alive": {},
+            "first_zero_energy_tick": 65,
+            "focal_approach_out_of_range_count": 0,
+            "focal_death_cause": "OldAge",
+            "focal_death_tick": 106,
+            "focal_first_zero_energy_tick": null,
+            "focal_ticks_from_first_zero_to_death": null,
+            "focal_underfunded_visible_food_approach_failures": 0,
+            "focal_zero_energy_visible_food_approach_failures": 0,
+            "founders_alive": 0,
+            "living_descendant_breeder_count": 0,
+            "living_entity_ticks": 971,
+            "living_f1_breeder_count": 0,
+            "living_f2_breeder_count": 0,
+            "movement_energy_paid": 472,
+            "plant_food_gained_energy": 792,
+            "plant_food_to_movement_energy_ratio": 1.6779661016949152,
+            "reserve_intervention_count": 0,
+            "zero_energy_alive_tick_sum": 105
+          },
+          "candidate_minus_baseline": {
+            "f1_births": 0,
+            "f1_breeder_count": 0,
+            "f2_births": 0,
+            "f2_breeder_count": 0,
+            "first_zero_energy_tick": 0,
+            "focal_approach_out_of_range_count": 0,
+            "focal_death_tick": 0,
+            "focal_underfunded_visible_food_approach_failures": 0,
+            "focal_zero_energy_visible_food_approach_failures": 0,
+            "founders_alive": 0,
+            "living_descendant_breeder_count": 0,
+            "living_entity_ticks": 0,
+            "living_f1_breeder_count": 0,
+            "living_f2_breeder_count": 0,
+            "movement_energy_paid": 0,
+            "plant_food_gained_energy": 0,
+            "plant_food_to_movement_energy_ratio": 0.0,
+            "reserve_intervention_count": 0,
+            "zero_energy_alive_tick_sum": 0
+          },
+          "seed": 62403
+        },
+        {
+          "baseline": {
+            "births_by_generation": {
+              "1": 3
+            },
+            "births_by_species": {
+              "Herbivore": 3
+            },
+            "death_causes": {
+              "Dehydration": 4,
+              "OldAge": 3,
+              "Starvation": 4
+            },
+            "deaths_by_generation": {
+              "0": 8,
+              "1": 3
+            },
+            "deaths_by_species": {
+              "Herbivore": 11
+            },
+            "f1_births": 3,
+            "f1_breeder_count": 0,
+            "f2_births": 0,
+            "f2_breeder_count": 0,
+            "final_alive": {},
+            "first_zero_energy_tick": 49,
+            "focal_approach_out_of_range_count": 23,
+            "focal_death_cause": "Starvation",
+            "focal_death_tick": 86,
+            "focal_first_zero_energy_tick": 57,
+            "focal_ticks_from_first_zero_to_death": 29,
+            "focal_underfunded_visible_food_approach_failures": 0,
+            "focal_zero_energy_visible_food_approach_failures": 0,
+            "founders_alive": 0,
+            "living_descendant_breeder_count": 0,
+            "living_entity_ticks": 984,
+            "living_f1_breeder_count": 0,
+            "living_f2_breeder_count": 0,
+            "movement_energy_paid": 498,
+            "plant_food_gained_energy": 788,
+            "plant_food_to_movement_energy_ratio": 1.5823293172690762,
+            "reserve_intervention_count": 0,
+            "zero_energy_alive_tick_sum": 187
+          },
+          "candidate": {
+            "births_by_generation": {
+              "1": 3
+            },
+            "births_by_species": {
+              "Herbivore": 3
+            },
+            "death_causes": {
+              "Dehydration": 4,
+              "OldAge": 3,
+              "Starvation": 4
+            },
+            "deaths_by_generation": {
+              "0": 8,
+              "1": 3
+            },
+            "deaths_by_species": {
+              "Herbivore": 11
+            },
+            "f1_births": 3,
+            "f1_breeder_count": 0,
+            "f2_births": 0,
+            "f2_breeder_count": 0,
+            "final_alive": {},
+            "first_zero_energy_tick": 49,
+            "focal_approach_out_of_range_count": 23,
+            "focal_death_cause": "Starvation",
+            "focal_death_tick": 86,
+            "focal_first_zero_energy_tick": 57,
+            "focal_ticks_from_first_zero_to_death": 29,
+            "focal_underfunded_visible_food_approach_failures": 0,
+            "focal_zero_energy_visible_food_approach_failures": 0,
+            "founders_alive": 0,
+            "living_descendant_breeder_count": 0,
+            "living_entity_ticks": 984,
+            "living_f1_breeder_count": 0,
+            "living_f2_breeder_count": 0,
+            "movement_energy_paid": 498,
+            "plant_food_gained_energy": 788,
+            "plant_food_to_movement_energy_ratio": 1.5823293172690762,
+            "reserve_intervention_count": 0,
+            "zero_energy_alive_tick_sum": 187
+          },
+          "candidate_minus_baseline": {
+            "f1_births": 0,
+            "f1_breeder_count": 0,
+            "f2_births": 0,
+            "f2_breeder_count": 0,
+            "first_zero_energy_tick": 0,
+            "focal_approach_out_of_range_count": 0,
+            "focal_death_tick": 0,
+            "focal_first_zero_energy_tick": 0,
+            "focal_ticks_from_first_zero_to_death": 0,
+            "focal_underfunded_visible_food_approach_failures": 0,
+            "focal_zero_energy_visible_food_approach_failures": 0,
+            "founders_alive": 0,
+            "living_descendant_breeder_count": 0,
+            "living_entity_ticks": 0,
+            "living_f1_breeder_count": 0,
+            "living_f2_breeder_count": 0,
+            "movement_energy_paid": 0,
+            "plant_food_gained_energy": 0,
+            "plant_food_to_movement_energy_ratio": 0.0,
+            "reserve_intervention_count": 0,
+            "zero_energy_alive_tick_sum": 0
+          },
+          "seed": 62404
+        },
+        {
+          "baseline": {
+            "births_by_generation": {
+              "1": 3
+            },
+            "births_by_species": {
+              "Herbivore": 3
+            },
+            "death_causes": {
+              "OldAge": 6,
+              "Starvation": 5
+            },
+            "deaths_by_generation": {
+              "0": 8,
+              "1": 3
+            },
+            "deaths_by_species": {
+              "Herbivore": 11
+            },
+            "f1_births": 3,
+            "f1_breeder_count": 0,
+            "f2_births": 0,
+            "f2_breeder_count": 0,
+            "final_alive": {},
+            "first_zero_energy_tick": 53,
+            "focal_approach_out_of_range_count": 0,
+            "focal_death_cause": "OldAge",
+            "focal_death_tick": 106,
+            "focal_first_zero_energy_tick": null,
+            "focal_ticks_from_first_zero_to_death": null,
+            "focal_underfunded_visible_food_approach_failures": 0,
+            "focal_zero_energy_visible_food_approach_failures": 0,
+            "founders_alive": 0,
+            "living_descendant_breeder_count": 0,
+            "living_entity_ticks": 1046,
+            "living_f1_breeder_count": 0,
+            "living_f2_breeder_count": 0,
+            "movement_energy_paid": 488,
+            "plant_food_gained_energy": 832,
+            "plant_food_to_movement_energy_ratio": 1.7049180327868851,
+            "reserve_intervention_count": 0,
+            "zero_energy_alive_tick_sum": 181
+          },
+          "candidate": {
+            "births_by_generation": {
+              "1": 3
+            },
+            "births_by_species": {
+              "Herbivore": 3
+            },
+            "death_causes": {
+              "OldAge": 6,
+              "Starvation": 5
+            },
+            "deaths_by_generation": {
+              "0": 8,
+              "1": 3
+            },
+            "deaths_by_species": {
+              "Herbivore": 11
+            },
+            "f1_births": 3,
+            "f1_breeder_count": 0,
+            "f2_births": 0,
+            "f2_breeder_count": 0,
+            "final_alive": {},
+            "first_zero_energy_tick": 53,
+            "focal_approach_out_of_range_count": 0,
+            "focal_death_cause": "OldAge",
+            "focal_death_tick": 106,
+            "focal_first_zero_energy_tick": null,
+            "focal_ticks_from_first_zero_to_death": null,
+            "focal_underfunded_visible_food_approach_failures": 0,
+            "focal_zero_energy_visible_food_approach_failures": 0,
+            "founders_alive": 0,
+            "living_descendant_breeder_count": 0,
+            "living_entity_ticks": 1046,
+            "living_f1_breeder_count": 0,
+            "living_f2_breeder_count": 0,
+            "movement_energy_paid": 488,
+            "plant_food_gained_energy": 832,
+            "plant_food_to_movement_energy_ratio": 1.7049180327868851,
+            "reserve_intervention_count": 0,
+            "zero_energy_alive_tick_sum": 181
+          },
+          "candidate_minus_baseline": {
+            "f1_births": 0,
+            "f1_breeder_count": 0,
+            "f2_births": 0,
+            "f2_breeder_count": 0,
+            "first_zero_energy_tick": 0,
+            "focal_approach_out_of_range_count": 0,
+            "focal_death_tick": 0,
+            "focal_underfunded_visible_food_approach_failures": 0,
+            "focal_zero_energy_visible_food_approach_failures": 0,
+            "founders_alive": 0,
+            "living_descendant_breeder_count": 0,
+            "living_entity_ticks": 0,
+            "living_f1_breeder_count": 0,
+            "living_f2_breeder_count": 0,
+            "movement_energy_paid": 0,
+            "plant_food_gained_energy": 0,
+            "plant_food_to_movement_energy_ratio": 0.0,
+            "reserve_intervention_count": 0,
+            "zero_energy_alive_tick_sum": 0
+          },
+          "seed": 62405
+        },
+        {
+          "baseline": {
+            "births_by_generation": {
+              "1": 3
+            },
+            "births_by_species": {
+              "Herbivore": 3
+            },
+            "death_causes": {
+              "Dehydration": 3,
+              "OldAge": 4,
+              "Starvation": 4
+            },
+            "deaths_by_generation": {
+              "0": 8,
+              "1": 3
+            },
+            "deaths_by_species": {
+              "Herbivore": 11
+            },
+            "f1_births": 3,
+            "f1_breeder_count": 0,
+            "f2_births": 0,
+            "f2_breeder_count": 0,
+            "final_alive": {},
+            "first_zero_energy_tick": 52,
+            "focal_approach_out_of_range_count": 27,
+            "focal_death_cause": "Dehydration",
+            "focal_death_tick": 77,
+            "focal_first_zero_energy_tick": 52,
+            "focal_ticks_from_first_zero_to_death": 25,
+            "focal_underfunded_visible_food_approach_failures": 0,
+            "focal_zero_energy_visible_food_approach_failures": 0,
+            "founders_alive": 0,
+            "living_descendant_breeder_count": 0,
+            "living_entity_ticks": 956,
+            "living_f1_breeder_count": 0,
+            "living_f2_breeder_count": 0,
+            "movement_energy_paid": 497,
+            "plant_food_gained_energy": 814,
+            "plant_food_to_movement_energy_ratio": 1.6378269617706238,
+            "reserve_intervention_count": 0,
+            "zero_energy_alive_tick_sum": 146
+          },
+          "candidate": {
+            "births_by_generation": {
+              "1": 3
+            },
+            "births_by_species": {
+              "Herbivore": 3
+            },
+            "death_causes": {
+              "Dehydration": 3,
+              "OldAge": 4,
+              "Starvation": 4
+            },
+            "deaths_by_generation": {
+              "0": 8,
+              "1": 3
+            },
+            "deaths_by_species": {
+              "Herbivore": 11
+            },
+            "f1_births": 3,
+            "f1_breeder_count": 0,
+            "f2_births": 0,
+            "f2_breeder_count": 0,
+            "final_alive": {},
+            "first_zero_energy_tick": 52,
+            "focal_approach_out_of_range_count": 27,
+            "focal_death_cause": "Dehydration",
+            "focal_death_tick": 77,
+            "focal_first_zero_energy_tick": 52,
+            "focal_ticks_from_first_zero_to_death": 25,
+            "focal_underfunded_visible_food_approach_failures": 0,
+            "focal_zero_energy_visible_food_approach_failures": 0,
+            "founders_alive": 0,
+            "living_descendant_breeder_count": 0,
+            "living_entity_ticks": 956,
+            "living_f1_breeder_count": 0,
+            "living_f2_breeder_count": 0,
+            "movement_energy_paid": 497,
+            "plant_food_gained_energy": 814,
+            "plant_food_to_movement_energy_ratio": 1.6378269617706238,
+            "reserve_intervention_count": 0,
+            "zero_energy_alive_tick_sum": 146
+          },
+          "candidate_minus_baseline": {
+            "f1_births": 0,
+            "f1_breeder_count": 0,
+            "f2_births": 0,
+            "f2_breeder_count": 0,
+            "first_zero_energy_tick": 0,
+            "focal_approach_out_of_range_count": 0,
+            "focal_death_tick": 0,
+            "focal_first_zero_energy_tick": 0,
+            "focal_ticks_from_first_zero_to_death": 0,
+            "focal_underfunded_visible_food_approach_failures": 0,
+            "focal_zero_energy_visible_food_approach_failures": 0,
+            "founders_alive": 0,
+            "living_descendant_breeder_count": 0,
+            "living_entity_ticks": 0,
+            "living_f1_breeder_count": 0,
+            "living_f2_breeder_count": 0,
+            "movement_energy_paid": 0,
+            "plant_food_gained_energy": 0,
+            "plant_food_to_movement_energy_ratio": 0.0,
+            "reserve_intervention_count": 0,
+            "zero_energy_alive_tick_sum": 0
+          },
+          "seed": 62406
+        }
+      ],
+      "role": "sparse_resource",
+      "scenario": "scenarios/ecology-traits-lab.json",
+      "scenario_sha256": "ffbc782758d15ee0e4e72033ceb7f98feb20aa235c236833ec07a3e75be86e1f",
+      "ticks_per_world": 300
+    }
+  ],
+  "interpretation_limits": [
+    "Only six paired seeds per fixture and a 300-tick horizon.",
+    "All V1 focal individuals died by tick 199; the candidate did not prevent eventual death.",
+    "The candidate flag was enabled only in the candidate arm; the feature remains default-off in the project.",
+    "The V1 zero-energy visible-food counters are budget-deficit diagnostics, not exclusive causal attribution.",
+    "No reserve interventions or physical differences occurred in meadow or sparse-resource; sparse populations still went extinct.",
+    "Plant food energy is gross intake, not net energy; metabolism, water depletion, and action costs remain separate.",
+    "No utility composite, general ecology qualification, or live acceptance is supported."
+  ],
+  "raw_files": [
+    {
+      "arm": "baseline",
+      "bytes": 500475,
+      "habitat": "v1_unique_food",
+      "path": "data/experiments/food-search-reserve-v1-20261026/v1_unique_food-seed62401-baseline.jsonl",
+      "seed": 62401,
+      "sha256": "1f6fbb6079deb68464f3d211e3b16c5db4126fb3e8b280f74cc132848f5cf79d"
+    },
+    {
+      "arm": "candidate",
+      "bytes": 500866,
+      "habitat": "v1_unique_food",
+      "path": "data/experiments/food-search-reserve-v1-20261026/v1_unique_food-seed62401-candidate.jsonl",
+      "seed": 62401,
+      "sha256": "0021e9eefc7367744a1a234d0fd9725efe159990b3721fe3134f8404029d16ee"
+    },
+    {
+      "arm": "baseline",
+      "bytes": 518410,
+      "habitat": "v1_unique_food",
+      "path": "data/experiments/food-search-reserve-v1-20261026/v1_unique_food-seed62402-baseline.jsonl",
+      "seed": 62402,
+      "sha256": "6cbf4e2e4d6aa299fc6adc2f753aabff3a5a35f1a97bfd7c37fd8b9b2647d62d"
+    },
+    {
+      "arm": "candidate",
+      "bytes": 518832,
+      "habitat": "v1_unique_food",
+      "path": "data/experiments/food-search-reserve-v1-20261026/v1_unique_food-seed62402-candidate.jsonl",
+      "seed": 62402,
+      "sha256": "f0658f773b86fcb9da12206d3b4b8ca64110667de02d28e3a5cb0bf4ff52754b"
+    },
+    {
+      "arm": "baseline",
+      "bytes": 522130,
+      "habitat": "v1_unique_food",
+      "path": "data/experiments/food-search-reserve-v1-20261026/v1_unique_food-seed62403-baseline.jsonl",
+      "seed": 62403,
+      "sha256": "4bfda1a07f2adacd349503e305c101c066bc7263a2018f0f60669613bf1c1308"
+    },
+    {
+      "arm": "candidate",
+      "bytes": 619908,
+      "habitat": "v1_unique_food",
+      "path": "data/experiments/food-search-reserve-v1-20261026/v1_unique_food-seed62403-candidate.jsonl",
+      "seed": 62403,
+      "sha256": "05301b888cd047ebca97596ba0f31693aad6cabe97c258eb4f620f3fd7c8cbe1"
+    },
+    {
+      "arm": "baseline",
+      "bytes": 529126,
+      "habitat": "v1_unique_food",
+      "path": "data/experiments/food-search-reserve-v1-20261026/v1_unique_food-seed62404-baseline.jsonl",
+      "seed": 62404,
+      "sha256": "912871aead3ca409c36239e4c01867bf1c0385e1693d618f056856500fdd9363"
+    },
+    {
+      "arm": "candidate",
+      "bytes": 855200,
+      "habitat": "v1_unique_food",
+      "path": "data/experiments/food-search-reserve-v1-20261026/v1_unique_food-seed62404-candidate.jsonl",
+      "seed": 62404,
+      "sha256": "2aec5c2a1e48c4f30bd63861b7859aafafe2ff3cfc1dcf38aa2746b1e837e39e"
+    },
+    {
+      "arm": "baseline",
+      "bytes": 584059,
+      "habitat": "v1_unique_food",
+      "path": "data/experiments/food-search-reserve-v1-20261026/v1_unique_food-seed62405-baseline.jsonl",
+      "seed": 62405,
+      "sha256": "2c74f7e356a0af6ea797dbed35166fcd710cdde209e0f378aaae7bfd6a868519"
+    },
+    {
+      "arm": "candidate",
+      "bytes": 744737,
+      "habitat": "v1_unique_food",
+      "path": "data/experiments/food-search-reserve-v1-20261026/v1_unique_food-seed62405-candidate.jsonl",
+      "seed": 62405,
+      "sha256": "141ec341852fd3f5d8412871d77fccac9accdc367bd3f20cb5dd4a39c1cf7d98"
+    },
+    {
+      "arm": "baseline",
+      "bytes": 539616,
+      "habitat": "v1_unique_food",
+      "path": "data/experiments/food-search-reserve-v1-20261026/v1_unique_food-seed62406-baseline.jsonl",
+      "seed": 62406,
+      "sha256": "1582ba245686ce2149e558f264c2b7f6ee2b178ec91b27d40ba4c5fc1b3bc054"
+    },
+    {
+      "arm": "candidate",
+      "bytes": 619492,
+      "habitat": "v1_unique_food",
+      "path": "data/experiments/food-search-reserve-v1-20261026/v1_unique_food-seed62406-candidate.jsonl",
+      "seed": 62406,
+      "sha256": "d8dbd52dee48856e79cfe342fe3344cdff33c8ba7acad5fd63cf999a92a2c3f2"
+    },
+    {
+      "arm": "baseline",
+      "bytes": 958032,
+      "habitat": "meadow",
+      "path": "data/experiments/food-search-reserve-v1-20261026/meadow-seed62401-baseline.jsonl",
+      "seed": 62401,
+      "sha256": "cb71152bd1cd0ec0844f183bacbeef7b699d0652706f9325eddf59654ab29327"
+    },
+    {
+      "arm": "candidate",
+      "bytes": 958102,
+      "habitat": "meadow",
+      "path": "data/experiments/food-search-reserve-v1-20261026/meadow-seed62401-candidate.jsonl",
+      "seed": 62401,
+      "sha256": "08b8ca6d79f8e167f9b6031e3d2e31e95d0ac1b3aee823d1338d8ca1c666fcd6"
+    },
+    {
+      "arm": "baseline",
+      "bytes": 952907,
+      "habitat": "meadow",
+      "path": "data/experiments/food-search-reserve-v1-20261026/meadow-seed62402-baseline.jsonl",
+      "seed": 62402,
+      "sha256": "9bad2e669a69a8decd9d0707127907d55c4f448136b1ede429470c94b0e92bf5"
+    },
+    {
+      "arm": "candidate",
+      "bytes": 952977,
+      "habitat": "meadow",
+      "path": "data/experiments/food-search-reserve-v1-20261026/meadow-seed62402-candidate.jsonl",
+      "seed": 62402,
+      "sha256": "8dc4453293c8354465fd6b6a8c8d6e2bbfafd0a025bd57e78ca8977f56c5ebc5"
+    },
+    {
+      "arm": "baseline",
+      "bytes": 957599,
+      "habitat": "meadow",
+      "path": "data/experiments/food-search-reserve-v1-20261026/meadow-seed62403-baseline.jsonl",
+      "seed": 62403,
+      "sha256": "4bb1e549c5413289b574f229fb816ba8867b068d5b634d9aea1128ffc8b4da76"
+    },
+    {
+      "arm": "candidate",
+      "bytes": 957669,
+      "habitat": "meadow",
+      "path": "data/experiments/food-search-reserve-v1-20261026/meadow-seed62403-candidate.jsonl",
+      "seed": 62403,
+      "sha256": "2fc5822b6d46662b95491015b666e2c19e5e584432048b4ca9501e146c4c660b"
+    },
+    {
+      "arm": "baseline",
+      "bytes": 985647,
+      "habitat": "meadow",
+      "path": "data/experiments/food-search-reserve-v1-20261026/meadow-seed62404-baseline.jsonl",
+      "seed": 62404,
+      "sha256": "d5b6c2cea6fa09c6973fc610f6d14f5ae04dc87ae862d6ba92c43bc297a696b5"
+    },
+    {
+      "arm": "candidate",
+      "bytes": 985717,
+      "habitat": "meadow",
+      "path": "data/experiments/food-search-reserve-v1-20261026/meadow-seed62404-candidate.jsonl",
+      "seed": 62404,
+      "sha256": "002e4e7309eb2230909700a3bd64bafacfd6615deb11e8ce19c58ea9605e5b05"
+    },
+    {
+      "arm": "baseline",
+      "bytes": 981312,
+      "habitat": "meadow",
+      "path": "data/experiments/food-search-reserve-v1-20261026/meadow-seed62405-baseline.jsonl",
+      "seed": 62405,
+      "sha256": "452e65301b7daa107cb9ea1da04293cb28e5e0d358a46ab57068f8115eaa6602"
+    },
+    {
+      "arm": "candidate",
+      "bytes": 981382,
+      "habitat": "meadow",
+      "path": "data/experiments/food-search-reserve-v1-20261026/meadow-seed62405-candidate.jsonl",
+      "seed": 62405,
+      "sha256": "d339552988826958f0a074d76e20772574708651881f8dc590a6e35276c78bb1"
+    },
+    {
+      "arm": "baseline",
+      "bytes": 966200,
+      "habitat": "meadow",
+      "path": "data/experiments/food-search-reserve-v1-20261026/meadow-seed62406-baseline.jsonl",
+      "seed": 62406,
+      "sha256": "753f154d543a72b141b1f48d889ff666f6b44a992d621125d91177263f3791a5"
+    },
+    {
+      "arm": "candidate",
+      "bytes": 966270,
+      "habitat": "meadow",
+      "path": "data/experiments/food-search-reserve-v1-20261026/meadow-seed62406-candidate.jsonl",
+      "seed": 62406,
+      "sha256": "67b80f8e89184369035889be13c71489aa1b61e871120d5ef24c2339a066a650"
+    },
+    {
+      "arm": "baseline",
+      "bytes": 525942,
+      "habitat": "sparse_resource",
+      "path": "data/experiments/food-search-reserve-v1-20261026/sparse_resource-seed62401-baseline.jsonl",
+      "seed": 62401,
+      "sha256": "ccf01e351261ef9b9cf730f1265f24918cac2a5a7d54d40edd07ae0e21d5f402"
+    },
+    {
+      "arm": "candidate",
+      "bytes": 526012,
+      "habitat": "sparse_resource",
+      "path": "data/experiments/food-search-reserve-v1-20261026/sparse_resource-seed62401-candidate.jsonl",
+      "seed": 62401,
+      "sha256": "7d2785a04b1798aed5dd37a6fbc67ca5f3fe51e8909a5d694bc10e87b63bf6cd"
+    },
+    {
+      "arm": "baseline",
+      "bytes": 584189,
+      "habitat": "sparse_resource",
+      "path": "data/experiments/food-search-reserve-v1-20261026/sparse_resource-seed62402-baseline.jsonl",
+      "seed": 62402,
+      "sha256": "967e9ef6d4137895c834543259d1256f1a0b8e1d88edf4daecd88c44f426ac77"
+    },
+    {
+      "arm": "candidate",
+      "bytes": 584259,
+      "habitat": "sparse_resource",
+      "path": "data/experiments/food-search-reserve-v1-20261026/sparse_resource-seed62402-candidate.jsonl",
+      "seed": 62402,
+      "sha256": "8f44f14487f7769c350b403558bde556af1ae57740ed6d6f2dc9c5a6409f5cd7"
+    },
+    {
+      "arm": "baseline",
+      "bytes": 584917,
+      "habitat": "sparse_resource",
+      "path": "data/experiments/food-search-reserve-v1-20261026/sparse_resource-seed62403-baseline.jsonl",
+      "seed": 62403,
+      "sha256": "f76385815770aec7cfb19cb517c90342793a7d380c543828c397d60ade4e4744"
+    },
+    {
+      "arm": "candidate",
+      "bytes": 584987,
+      "habitat": "sparse_resource",
+      "path": "data/experiments/food-search-reserve-v1-20261026/sparse_resource-seed62403-candidate.jsonl",
+      "seed": 62403,
+      "sha256": "589c6211e14e35779ee7acd2ddd22b7933444b5d522e3a3aca101ba3e154e926"
+    },
+    {
+      "arm": "baseline",
+      "bytes": 506602,
+      "habitat": "sparse_resource",
+      "path": "data/experiments/food-search-reserve-v1-20261026/sparse_resource-seed62404-baseline.jsonl",
+      "seed": 62404,
+      "sha256": "f4c86beb9c28c4e664698316d441571e2612ce59b4f1b54b76b9d0fcc977cc02"
+    },
+    {
+      "arm": "candidate",
+      "bytes": 506672,
+      "habitat": "sparse_resource",
+      "path": "data/experiments/food-search-reserve-v1-20261026/sparse_resource-seed62404-candidate.jsonl",
+      "seed": 62404,
+      "sha256": "1095bb14185b7100ef871ddbb975d52434a39eeea3797b2a59abc80267e0a3ef"
+    },
+    {
+      "arm": "baseline",
+      "bytes": 539460,
+      "habitat": "sparse_resource",
+      "path": "data/experiments/food-search-reserve-v1-20261026/sparse_resource-seed62405-baseline.jsonl",
+      "seed": 62405,
+      "sha256": "6f09b1c0be6d27bd6a5e17eb86174016bb9179f173926a40c9991e3c90e795e7"
+    },
+    {
+      "arm": "candidate",
+      "bytes": 539530,
+      "habitat": "sparse_resource",
+      "path": "data/experiments/food-search-reserve-v1-20261026/sparse_resource-seed62405-candidate.jsonl",
+      "seed": 62405,
+      "sha256": "6cca0c2894f2a5e540497e151b687de79dce0afd8bd52159e3e3b198adb8b3e7"
+    },
+    {
+      "arm": "baseline",
+      "bytes": 477176,
+      "habitat": "sparse_resource",
+      "path": "data/experiments/food-search-reserve-v1-20261026/sparse_resource-seed62406-baseline.jsonl",
+      "seed": 62406,
+      "sha256": "a99625f8431658792dfbd30005c29f10568c591991a5fb82a8e20478415718f1"
+    },
+    {
+      "arm": "candidate",
+      "bytes": 477246,
+      "habitat": "sparse_resource",
+      "path": "data/experiments/food-search-reserve-v1-20261026/sparse_resource-seed62406-candidate.jsonl",
+      "seed": 62406,
+      "sha256": "e84d8ea2a85c369c7174eed8fc64c14f7555819f1dff46e870f6add16eeba354"
+    }
+  ],
+  "run": {
+    "actual_minus_manifest_recorded_bytes": 2176393,
+    "actual_run_directory_bytes_after_final_manifest_rewrite": 29704573,
+    "binary_sha256": "99c301444e46e89571cd6ebe230d2d31e9e2d313d111bf5d591ce954f21b8656",
+    "elapsed_seconds": 50.056,
+    "identity": "food-search-reserve-v1-20261026",
+    "manifest_path": "data/experiments/food-search-reserve-v1-20261026/manifest.json",
+    "manifest_recorded_aggregate_output_bytes_before_final_rewrite": 27528180,
+    "manifest_sha256": "67b64212cee0136f0b966faf108bf8d6b3a680351b8ffc507bd5d895d663e33c",
+    "phase_limit_seconds": 300,
+    "protocol_path": "docs/FOOD_SEARCH_RESERVE_GUARD_V1_PROTOCOL_20261026.md",
+    "protocol_sha256": "fb4db4bde28f9af5e1b47ec1e58940e80d50604b123c5100298014237948c61c",
+    "raw_jsonl_bytes": 25093657,
+    "registration_path": "data/experiments/food-search-reserve-v1-20261026/registration.json",
+    "registration_sha256": "1a47beb34b764bcaacb230677027d1cc997c2cc2aaa92169635334452c07b3ca",
+    "source_clean_at_launch": true,
+    "source_content_sha256": "6a79ab79f6cae4486a7cf16e646041c79d09b343e9b80f59dab8e21fe0b5034b",
+    "source_revision": "786ad0455743fe5a23ae8126271a92cbbef71383"
+  },
+  "schema": "curious-food-search-reserve-v1-report",
+  "scope": {
+    "arms": [
+      "baseline",
+      "candidate"
+    ],
+    "fixtures": [
+      "original V1 unique-food stress geometry/body",
+      "read-only meadow scenario with registered configuration overrides",
+      "read-only sparse-resource ecology-traits-lab scenario with registered configuration overrides"
+    ],
+    "no_rescue_or_poststart_intervention": true,
+    "primary_outcome": "living individual-ticks",
+    "question": "Does an energy cap on discretionary SearchFood movement reduce the unique-food access failure mode without only delaying starvation?",
+    "seed_roles": [
+      62401,
+      62402,
+      62403,
+      62404,
+      62405,
+      62406
+    ],
+    "ticks_per_world": 300,
+    "world_count": 36,
+    "world_ticks": 10800
+  },
+  "seed_inventory": {
+    "compressed_rule": "verify every *.jsonl.zst archive SHA-256/size against its verified sibling archive index and include the index's declared seed roles",
+    "matches": {
+      "62401": [],
+      "62402": [],
+      "62403": [],
+      "62404": [],
+      "62405": [],
+      "62406": []
+    },
+    "matching_rule": "declared seed fields, seed CSV columns, CLI --seed arguments, or seed-number filenames",
+    "max_line_bytes": 67108864,
+    "root": "/root/curious/data/experiments",
+    "scanned_compressed_jsonl_bytes": 194639942,
+    "scanned_compressed_jsonl_files": 34,
+    "scanned_text_files": 1496,
+    "unseen": [
+      62401,
+      62402,
+      62403,
+      62404,
+      62405,
+      62406
+    ]
+  },
+  "status": "complete_descriptive_screen_no_utility_or_live_acceptance",
+  "v1_temporal_witnesses": [
+    {
+      "candidate_minus_baseline_living_entity_ticks": 0,
+      "candidate_minus_baseline_plant_food_energy": 0,
+      "first_candidate_only_meal_vs_baseline": null,
+      "first_intervention_tick": 61,
+      "first_plant_meal_after_first_intervention": null,
+      "plant_meal_count": 22,
+      "seed": 62401
+    },
+    {
+      "candidate_minus_baseline_living_entity_ticks": 0,
+      "candidate_minus_baseline_plant_food_energy": 0,
+      "first_candidate_only_meal_vs_baseline": null,
+      "first_intervention_tick": 61,
+      "first_plant_meal_after_first_intervention": {
+        "amount": 2,
+        "pos": {
+          "x": 0,
+          "y": -1
+        },
+        "tick": 62
+      },
+      "plant_meal_count": 32,
+      "seed": 62402
+    },
+    {
+      "candidate_minus_baseline_living_entity_ticks": 25,
+      "candidate_minus_baseline_plant_food_energy": 34,
+      "first_candidate_only_meal_vs_baseline": {
+        "amount": 2,
+        "tick": 76
+      },
+      "first_intervention_tick": 73,
+      "first_plant_meal_after_first_intervention": {
+        "amount": 2,
+        "pos": {
+          "x": 0,
+          "y": -1
+        },
+        "tick": 74
+      },
+      "plant_meal_count": 44,
+      "seed": 62403
+    },
+    {
+      "candidate_minus_baseline_living_entity_ticks": 93,
+      "candidate_minus_baseline_plant_food_energy": 102,
+      "first_candidate_only_meal_vs_baseline": {
+        "amount": 2,
+        "baseline_outcome": "Approach/OutOfRange",
+        "baseline_tick_action": "Eat Down,Down",
+        "tick": 78
+      },
+      "first_intervention_tick": 71,
+      "first_plant_meal_after_first_intervention": {
+        "amount": 2,
+        "pos": {
+          "x": 0,
+          "y": -1
+        },
+        "tick": 73
+      },
+      "plant_meal_count": 75,
+      "seed": 62404
+    },
+    {
+      "candidate_minus_baseline_living_entity_ticks": 46,
+      "candidate_minus_baseline_plant_food_energy": 58,
+      "first_candidate_only_meal_vs_baseline": {
+        "amount": 2,
+        "tick": 92
+      },
+      "first_intervention_tick": 91,
+      "first_plant_meal_after_first_intervention": {
+        "amount": 2,
+        "pos": {
+          "x": 0,
+          "y": -1
+        },
+        "tick": 92
+      },
+      "plant_meal_count": 57,
+      "seed": 62405
+    },
+    {
+      "candidate_minus_baseline_living_entity_ticks": 24,
+      "candidate_minus_baseline_plant_food_energy": 34,
+      "first_candidate_only_meal_vs_baseline": {
+        "amount": 2,
+        "tick": 76
+      },
+      "first_intervention_tick": 73,
+      "first_plant_meal_after_first_intervention": {
+        "amount": 2,
+        "pos": {
+          "x": 0,
+          "y": -1
+        },
+        "tick": 74
+      },
+      "plant_meal_count": 43,
+      "seed": 62406
+    }
+  ],
+  "validation": {
+    "birth_records": 484,
+    "candidate_reserve_interventions": {
+      "meadow": 0,
+      "sparse_resource": 0,
+      "v1_unique_food": 111
+    },
+    "checkpoint_restore_valid_worlds": 36,
+    "death_records": 514,
+    "empty_stderr_files": 36,
+    "initial_state_pairs_equal_after_normalizing_candidate_flag": 18,
+    "lineage_issues": 0,
+    "mating_records": 484,
+    "meadow_tick_rows_exactly_equal_between_arms": 6,
+    "ordered_tick_rows": {
+      "ticks_each": 300,
+      "worlds": 36
+    },
+    "population_balance_worlds": 36,
+    "raw_files": 36,
+    "raw_sha256_and_byte_count_match_manifest": true,
+    "sparse_tick_rows_exactly_equal_between_arms": 6,
+    "unknown_generation_births": 0
+  },
+  "verification_handoff": {
+    "additional_physical_test_passed": 1,
+    "cleaned_target": "/tmp/curious-food-reserve-20261026",
+    "empirical_species": "Herbivore only",
+    "independent_audit_local": "data/operations/food-reserve-20261026/independent-lab-audit.json",
+    "isolated_http_crash_recovery": "passed",
+    "live_changed": false,
+    "live_snapshot": {
+      "alive": 577,
+      "paused": false,
+      "storage_error": null,
+      "tick": 14255
+    },
+    "python_discovery_passed": 207,
+    "python_final_runner_recheck_passed": 6,
+    "release_build": "passed",
+    "removed_file_size_sum_bytes": 705508752,
+    "rust_all_targets_failed": 0,
+    "rust_all_targets_ignored": 1,
+    "rust_all_targets_passed": 421
+  }
+}

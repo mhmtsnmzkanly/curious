@@ -1,8 +1,9 @@
 # Sıradaki işler
 
-1. **Yem arama bütçesinin sınırlı kıyasını tamamla:** [sözleşme](docs/FOOD_SEARCH_RESERVE.md)
-   V20 kaynağında varsayılan kapalı uygulandı. [Sabit protokol](docs/FOOD_SEARCH_RESERVE_GUARD_V1_PROTOCOL_20261026.md)
-   kapsamında fiziksel yemek erişimi, sağkalım ve üreme ödünleşimlerini raporla.
+1. **Yem–su erişim kilitlenmesini açıklığa kavuştur:** [enerji bütçesi raporu](docs/reports/FOOD_SEARCH_RESERVE_V1_20261026.md)
+   tek yemli ortamda 4/6 seedde yem ve sağkalım artışı gösterdi, fakat tüm bireyler
+   yine öldü; diğer habitatlarda kural hiç devreye girmedi. Yeni değişiklikten önce
+   susuzluk/arama öncelikleri ve mevcut rota ödeme sınırını ayrı hipotezle incele.
 2. **K3 öğrenme hedefini gözden geçir:** [kaynak güvenilirliği taslağı](docs/SOURCE_RELIABILITY_TARGET_20261026.md)
    uygulanmamıştır; yalnızca ayrı protokolün gözden geçirilmesine temel olabilir.
 3. **Ekoloji aktarımındaki tükenmeyi açıkla:** [tarama raporu](docs/reports/ECOLOGY_TRANSFER_V1_20261026.md)

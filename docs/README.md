@@ -21,6 +21,8 @@ K1–K8'e doğrudan git: [K1](ROADMAP.md#dunya-cevre),
 
 ## Güncel kanıt
 
+- [Yem arama bütçesi V1](reports/FOOD_SEARCH_RESERVE_V1_20261026.md): V20 varsayılan kapalı
+  adayın 36 koşuluk kıyası; tek fixture'da dar yarar, diğerlerinde tetiklenme yok.
 - [26 Ekim birleşik sonuç özeti](reports/CONSOLIDATION_20261026.md): öğrenme,
   enerji, bakım paketi, habitat ve operasyon kanıtlarının tek kapsam özeti.
 - [Su uyum V2](reports/WATER_ADAPTATION_V2_20261025.md): fixture çalıştı;

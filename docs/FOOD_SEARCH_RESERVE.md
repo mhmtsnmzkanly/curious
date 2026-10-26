@@ -26,3 +26,7 @@ V20 checkpoint eski V19/V12 ikiliyle açılmamalıdır. Yeni bayrak için HTTP c
 ## Doğrulama ve kanıt sınırı
 
 [Sabit lab protokolü](FOOD_SEARCH_RESERVE_GUARD_V1_PROTOCOL_20261026.md) üç fixture'da 6 seed ve iki kolu, 300 tick ufkunu tanımlar. Mekanizma testi, açıklanabilir koşulda daha kısa aramayı izleyen gerçek ücretli hareket ve öğünü sınar. Genel ekolojik veya canlı fayda kabulü bundan ayrıdır. Güncel sonuç tarihli rapora ve [TODO](../TODO.md)'ya kaydedilir; bu sözleşme tek başına ampirik fayda iddiası taşımaz.
+
+## 26 Ekim sınırlı lab sonucu
+
+[36 koşuluk rapor](reports/FOOD_SEARCH_RESERVE_V1_20261026.md): tek yemli fixture'da toplam sağkalım 624→812 birey-tick ve yem kazanımı 566→794 oldu; altı seedin dördü iyileşti, ikisi nötr kaldı. Hareket enerjisi 594→592; fakat bu fixture'daki 12 bireyin tamamı 300 tick dolmadan öldü. Çayır ve seyrek kaynak fixture'larında kural hiç tetiklenmedi; bu iki ortamdaki nötrlük yarar veya güvenli genelleme kanıtı değildir. Seçenek varsayılan kapalı kalır; canlıya taşınmadı.
