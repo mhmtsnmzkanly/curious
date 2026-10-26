@@ -77,9 +77,11 @@ class WaterMealRunnerTests(unittest.TestCase):
                 "initial":{"policy":{"food_search_reserve_enabled":food,"water_meal_priority_enabled":water}},
                 "rows":[{"reserve_interventions":[],"water_meal_interventions":[]}],
                 "summary":{"living_entity_ticks":values[arm],
-                    "focal_ticks_from_first_zero_to_death":None if arm=="water_meal_only" else 4}}
+                    "focal_ticks_from_first_zero_to_death":None if arm=="water_meal_only" else 4,
+                    "births_by_generation":{"3":1} if arm=="bundle" else {}}}
         block=runner.validate_block(worlds,"meadow",62501)
         self.assertEqual(block["factorial_interaction"]["living_entity_ticks"],1)
+        self.assertEqual(block["paired_deltas_vs_control"]["bundle"]["births_by_generation.3"],1)
         self.assertNotIn("focal_ticks_from_first_zero_to_death",block["factorial_interaction"])
         aggregate=runner._paired_aggregate([block])
         self.assertEqual(aggregate["living_entity_ticks"]["interaction"]["n_supported_pairs"],1)
