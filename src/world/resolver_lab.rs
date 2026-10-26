@@ -173,7 +173,7 @@ impl World {
                 "baseline_intents":serde_json::to_value(&common_intents)?,
                 "baseline_plans":{"unrotated":plans_value(&base_unrotated),"rotated":plans_value(&base_rotated)},
                 "candidate_intents":serde_json::to_value(&candidate_intents)?,
-                "candidate_plans":{"unrotated":plans_value(&candidate_unrotated),"fixed_B":plans_value(&candidate_fixed),"rotated_C":plans_value(&candidate_rotated)},
+                "candidate_plans":{"unrotated":plans_value(&candidate_unrotated),"fixed_B":plans_value(&candidate_fixed_audit),"rotated_C":plans_value(&candidate_rotated_audit)},
                 "candidate_overrides":overrides
             },
             "branches":{"A":a,"B":b,"C":c}
@@ -255,7 +255,7 @@ fn derive_candidate(
             continue;
         };
         let Some(meal) = crate::policy::prefer_adjacent_meal_before_unpayable_water(
-            trace.species,
+            trace.species.clone(),
             &trace.before,
             view,
             trace.decision.clone(),
