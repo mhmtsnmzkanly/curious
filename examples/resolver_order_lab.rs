@@ -143,7 +143,22 @@ fn run() -> AppResult<()> {
         return Err("reconstructed target State/RNG restore round-trip mismatch".into());
     }
 
-    let mut result = match world.resolver_order_lab_tick() {
+    let target_row = row_by_tick
+        .get(&target_tick)
+        .ok_or("raw target tick missing")?;
+    let mut target_food_cumulative = food_cumulative;
+    let mut target_water_cumulative = water_cumulative;
+    let mut target_movement_cumulative = movement_cumulative;
+    let mut result = match world.resolver_order_lab_tick_checked(|native_off| {
+        validate_native_off_target(
+            native_off,
+            target_row,
+            &founder_ids,
+            &mut target_food_cumulative,
+            &mut target_water_cumulative,
+            &mut target_movement_cumulative,
+        )
+    }) {
         Ok(case) => case.0,
         Err(error) => {
             let failed = json!({"schema":"curious-resolver-order-v1-case","status":"failed","case":{"habitat":habitat,"seed":seed,"target_tick":target_tick,"input_path":input_path,"input_sha256":input_sha256},"prefix_replay_valid":true,"failure":error.to_string()});
@@ -154,9 +169,14 @@ fn run() -> AppResult<()> {
     result["case"] = json!({"habitat":habitat,"seed":seed,"target_tick":target_tick,"input_path":input_path,"input_sha256":input_sha256});
     result["prefix_replay_valid"] = Value::Bool(true);
     result["prefix_replay"] = json!({"from_initial_state":true,"validated_through_tick":target_tick-1,"target_pre_state":serde_json::to_value(&pre_state)?,"target_pre_rng":pre_state.rng,"per_tick_validations":prefix_validations});
+    result["target_validation"]["raw_tick_row"] = target_row.clone();
     result["pre_target_roundtrip"] =
         json!({"valid":pre_roundtrip.0,"state_equal":pre_roundtrip.1,"rng_equal":pre_roundtrip.2});
     if result.get("status").and_then(Value::as_str) != Some("complete")
+        || result
+            .pointer("target_validation.valid")
+            .and_then(Value::as_bool)
+            != Some(true)
         || result
             .pointer("references.a_matches_native_off")
             .and_then(Value::as_bool)
@@ -263,6 +283,52 @@ fn state_roundtrip(state: &State) -> AppResult<(bool, bool, bool)> {
     let state_equal = serde_json::to_value(State::capture(&restored))? == before;
     let rng_equal = restored.rng.state() == state.rng;
     Ok((state_equal && rng_equal, state_equal, rng_equal))
+}
+
+fn validate_native_off_target(
+    reference: &Value,
+    raw: &Value,
+    founders: &BTreeSet<usize>,
+    food_cumulative: &mut u64,
+    water_cumulative: &mut u64,
+    movement_cumulative: &mut u64,
+) -> curious::Result<Value> {
+    let state: State = serde_json::from_value(
+        reference
+            .get("state")
+            .cloned()
+            .ok_or("native-off reference lacks State")?,
+    )?;
+    let mut world = state.restore()?;
+    world.last_decisions = serde_json::from_value(
+        reference
+            .get("last_decisions")
+            .cloned()
+            .ok_or("native-off reference lacks decision traces")?,
+    )?;
+    world.last_intents = serde_json::from_value(
+        reference
+            .get("last_intents")
+            .cloned()
+            .ok_or("native-off reference lacks intents")?,
+    )?;
+    let events: Vec<curious::simulation::SimulationEvent> = serde_json::from_value(
+        reference
+            .get("events")
+            .cloned()
+            .ok_or("native-off reference lacks events")?,
+    )?;
+    let mut projection = validate_prefix_tick(
+        &world,
+        &events,
+        raw,
+        founders,
+        food_cumulative,
+        water_cumulative,
+        movement_cumulative,
+    )?;
+    projection["valid"] = Value::Bool(true);
+    Ok(projection)
 }
 
 fn validate_prefix_tick(
