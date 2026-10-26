@@ -176,6 +176,158 @@ def verify_input_copies(selected: list[dict[str, Any]], manifest_copy: Path) -> 
         raise RunFailure("child modified immutable raw manifest copy")
 
 
+def read_raw_case(path: Path) -> tuple[dict[str, Any], dict[int, dict[str, Any]]]:
+    rows: dict[int, dict[str, Any]] = {}
+    with path.open("r", encoding="utf-8") as f:
+        header = json.loads(next(f))
+        for line in f:
+            row = json.loads(line)
+            if row.get("type") == "tick":
+                tick = row.get("tick")
+                if not isinstance(tick, int) or tick in rows:
+                    raise RunFailure("raw input has invalid or duplicate tick row")
+                rows[tick] = row
+    return header, rows
+
+
+def normalize_actor_resolver_event(record: Any) -> tuple[str, dict[str, Any]] | None:
+    if not isinstance(record, dict):
+        raise RunFailure("resolver event is not an object")
+    wrapped = "event" in record
+    event = record["event"] if wrapped else record
+    if not isinstance(event, dict) or len(event) != 1:
+        raise RunFailure("resolver event has invalid variant shape")
+    event_name, payload = next(iter(event.items()))
+    if event_name not in {"EntityAte", "EntityDrank", "EntityMoved", "ActionRejected"}:
+        return None
+    if not isinstance(payload, dict):
+        raise RunFailure("resolver event payload is not an object")
+    actor_id = record.get("id") if wrapped else payload.get("id")
+    normalized = {"id": actor_id, "event": event}
+    return event_name, normalized
+
+
+def state_resource_stocks(state: dict[str, Any]) -> tuple[int, int]:
+    resources = state.get("resources")
+    if not isinstance(resources, list):
+        raise RunFailure("post-State has no serialized resource map")
+    food = water = 0
+    for entry in resources:
+        if not isinstance(entry, list) or len(entry) != 2 or not isinstance(entry[1], dict):
+            raise RunFailure("post-State resource entry has unexpected shape")
+        cell = entry[1]
+        if len(cell) != 1:
+            raise RunFailure("post-State resource cell has unexpected variants")
+        if "Food" in cell:
+            food += int(cell["Food"]["amount"])
+        elif "Water" in cell:
+            water += int(cell["Water"]["amount"])
+    return food, water
+
+
+def state_alive_counts(state: dict[str, Any], founder_ids: set[int]) -> tuple[int, int]:
+    entities = state.get("entities")
+    if not isinstance(entities, list):
+        raise RunFailure("post-State has no entity list")
+    alive = []
+    for entity in entities:
+        if not isinstance(entity, dict) or not isinstance(entity.get("life"), dict):
+            raise RunFailure("post-State individual has unexpected shape")
+        phase = entity.get("phase")
+        active = phase == "Active" or isinstance(phase, dict) and "Sleeping" in phase
+        if active and entity["life"].get("death_cause") is None:
+            alive.append(entity)
+    return len(alive), sum(entity.get("id") in founder_ids for entity in alive)
+
+
+def compare_a_to_raw(data: dict[str, Any], expected: dict[str, Any]) -> None:
+    header, raw_rows = read_raw_case(Path(expected["path"]))
+    target_tick = expected["target_tick"]
+    target = raw_rows.get(target_tick)
+    previous = raw_rows.get(target_tick - 1)
+    if target is None or previous is None:
+        raise RunFailure("immutable input lacks target or preceding raw tick")
+    validations = data["prefix_replay"]["per_tick_validations"]
+    raw_prefix_ticks = [raw_rows.get(t) for t in range(1, target_tick)]
+    if any(row is None for row in raw_prefix_ticks):
+        raise RunFailure("immutable raw input has a missing prefix tick")
+    for validation, raw_row in zip(validations, raw_prefix_ticks):
+        for field in (
+            "tick", "actor_resolver_events", "plant_food_gained_energy", "water_gained",
+            "movement_energy_paid", "plant_food_gained_cumulative", "water_gained_cumulative",
+            "movement_energy_cumulative", "food_stock", "water_stock", "focal_decision_trace",
+            "live_total", "founders_alive",
+        ):
+            if validation[field] != raw_row.get(field):
+                raise RunFailure(f"prefix replay differs from immutable raw row at tick {raw_row['tick']}: {field}")
+
+    branch = data["branches"]["A"]
+    resolver_names = {"EntityAte", "EntityDrank", "EntityMoved", "ActionRejected"}
+    filtered = []
+    food = water = movement = 0
+    for record in branch["events"]:
+        normalized = normalize_actor_resolver_event(record)
+        if normalized is None:
+            continue
+        name, event_record = normalized
+        if name not in resolver_names:
+            continue
+        filtered.append(event_record)
+        payload = event_record["event"][name]
+        if name == "EntityAte" and payload.get("corpse_id") is None:
+            food += int(payload["amount"])
+        elif name == "EntityDrank":
+            water += int(payload["amount"])
+        elif name == "EntityMoved":
+            movement += int(payload["energy_cost"])
+    raw_events = []
+    for event in target.get("actor_resolver_events", []):
+        normalized = normalize_actor_resolver_event(event)
+        if normalized is None:
+            raise RunFailure("immutable raw actor event includes a non-resolver event")
+        raw_events.append(normalized[1])
+    if filtered != raw_events:
+        raise RunFailure("A actor resolver event subset differs from immutable raw target row")
+    physical = {
+        "plant_food_gained_energy": food,
+        "water_gained": water,
+        "movement_energy_paid": movement,
+    }
+    for raw_field, amount in physical.items():
+        if target.get(raw_field) != amount:
+            raise RunFailure(f"A physical target metric differs from immutable raw row: {raw_field}")
+    event_totals = branch["event_totals"]
+    for branch_field, amount in (("plant_food_energy", food), ("water", water), ("movement_energy", movement)):
+        if event_totals.get(branch_field) != amount:
+            raise RunFailure(f"A event total does not reconcile to events: {branch_field}")
+
+    post_state = branch["post_state"]
+    if post_state.get("tick") != target_tick:
+        raise RunFailure("A post-State tick differs from immutable raw target tick")
+    food_stock, water_stock = state_resource_stocks(post_state)
+    if food_stock != target.get("food_stock") or water_stock != target.get("water_stock"):
+        raise RunFailure("A post-State resource stocks differ from immutable raw target row")
+    founder_ids = {
+        entity["id"] for entity in header["initial_state"].get("entities", [])
+        if entity.get("generation", 0) == 0 and entity.get("life", {}).get("death_cause") is None
+    }
+    live_count, founder_count = state_alive_counts(post_state, founder_ids)
+    if live_count != target.get("live_total") or founder_count != target.get("founders_alive"):
+        raise RunFailure("A post-State live/founder counts differ from immutable raw target row")
+    raw_focal = target.get("focal_decision_trace")
+    if branch.get("focal_decision_trace") != raw_focal:
+        raise RunFailure("A focal DecisionTrace differs from immutable raw target row")
+    cumulative_pairs = (
+        ("plant_food_gained_cumulative", "plant_food_gained_energy", food),
+        ("water_gained_cumulative", "water_gained", water),
+        ("movement_energy_cumulative", "movement_energy_paid", movement),
+    )
+    for cumulative_field, _current_field, amount in cumulative_pairs:
+        expected_cumulative = previous.get(cumulative_field, 0) + amount
+        if target.get(cumulative_field) != expected_cumulative:
+            raise RunFailure(f"target cumulative total does not extend validated prefix: {cumulative_field}")
+
+
 def validate_case_json(path: Path, expected: dict[str, Any]) -> dict[str, Any]:
     if not path.is_file():
         raise RunFailure("child did not write per-case JSON")
@@ -278,6 +430,13 @@ def validate_case_json(path: Path, expected: dict[str, Any]) -> dict[str, Any]:
             plan_set = source[label]
             if not isinstance(plan_set, dict) or set(plan_set) != PLAN_KINDS or any(not isinstance(v, list) for v in plan_set.values()):
                 raise RunFailure(f"common prepared plan set is malformed: {label}")
+    def naturally_rotated(plan_set: dict[str, Any]) -> dict[str, Any]:
+        return {kind: rows[expected["target_tick"] % len(rows):] + rows[:expected["target_tick"] % len(rows)] if rows else []
+                for kind, rows in plan_set.items()}
+    if baseline_plans["rotated"] != naturally_rotated(baseline_plans["unrotated"]):
+        raise RunFailure("A plans do not follow the registered natural tick rotation")
+    if candidate_plans["rotated_C"] != naturally_rotated(candidate_plans["unrotated"]):
+        raise RunFailure("C plans do not follow the registered natural tick rotation")
     if branches["A"]["plan_orders"] != baseline_plans["rotated"]:
         raise RunFailure("A branch plans differ from shared natural baseline rotation")
     if branches["B"]["plan_orders"] != candidate_plans["fixed_B"]:
@@ -293,8 +452,45 @@ def validate_case_json(path: Path, expected: dict[str, Any]) -> dict[str, Any]:
                 raise RunFailure(f"targeted plan rows lack target IDs: {kind}")
             output[kind] = sorted(json.dumps(row, sort_keys=True, separators=(",", ":")) for row in rows)
         return output
+    if plan_content(baseline_plans["unrotated"]) != plan_content(baseline_plans["rotated"]):
+        raise RunFailure("baseline rotation changed plan content")
+    if plan_content(candidate_plans["unrotated"]) != plan_content(candidate_plans["rotated_C"]):
+        raise RunFailure("candidate natural rotation changed plan content")
     if plan_content(candidate_plans["fixed_B"]) != plan_content(candidate_plans["rotated_C"]):
         raise RunFailure("B/C candidate plan content differs beyond prescribed ordering")
+    def ordered_unique_ids(rows: list[dict[str, Any]], kind: str) -> list[int]:
+        ids = [row["id"] for row in rows]
+        if len(set(ids)) != len(ids):
+            raise RunFailure(f"duplicate actor in {kind} plan order")
+        return ids
+
+    baseline_eat_ids = ordered_unique_ids(baseline_plans["rotated"]["eat"], "baseline Eat")
+    baseline_eat_by_id = {row["id"]: row for row in baseline_plans["rotated"]["eat"]}
+    candidate_eat_rows = candidate_plans["rotated_C"]["eat"]
+    candidate_eat_ids = ordered_unique_ids(candidate_eat_rows, "candidate Eat")
+    candidate_eat_by_id = {row["id"]: row for row in candidate_eat_rows}
+    eat_survivors = [actor_id for actor_id in baseline_eat_ids if actor_id in candidate_eat_by_id]
+    new_eaters = sorted(set(candidate_eat_ids) - set(baseline_eat_ids))
+    if any(candidate_eat_by_id[i] != baseline_eat_by_id[i] for i in eat_survivors):
+        raise RunFailure("candidate changed an existing baseline Eat plan")
+    expected_fixed_eat = [baseline_eat_by_id[i] for i in eat_survivors] + [candidate_eat_by_id[i] for i in new_eaters]
+    if candidate_plans["fixed_B"]["eat"] != expected_fixed_eat:
+        raise RunFailure("B Eat order does not preserve A survivors then append new actors by ascending ID")
+
+    baseline_drink_ids = ordered_unique_ids(baseline_plans["rotated"]["drink"], "baseline Drink")
+    baseline_drink_by_id = {row["id"]: row for row in baseline_plans["rotated"]["drink"]}
+    candidate_drink_rows = candidate_plans["rotated_C"]["drink"]
+    ordered_unique_ids(candidate_drink_rows, "candidate Drink")
+    candidate_drink_by_id = {row["id"]: row for row in candidate_drink_rows}
+    drink_survivors = [i for i in baseline_drink_ids if i in candidate_drink_by_id]
+    if any(candidate_drink_by_id[i] != baseline_drink_by_id[i] for i in drink_survivors):
+        raise RunFailure("candidate changed a surviving baseline Drink plan")
+    expected_fixed_drink = [baseline_drink_by_id[i] for i in drink_survivors]
+    if candidate_plans["fixed_B"]["drink"] != expected_fixed_drink:
+        raise RunFailure("B Drink order does not preserve A rotated surviving actors")
+    for kind in PLAN_KINDS - {"eat", "drink"}:
+        if candidate_plans["fixed_B"][kind] != baseline_plans["rotated"][kind]:
+            raise RunFailure(f"B changed non-Eat/Drink plan order: {kind}")
     def normalized_state(state: Any) -> Any:
         if not isinstance(state, dict) or not isinstance(state.get("policy"), dict):
             raise RunFailure("reference State lacks the policy object")
@@ -332,6 +528,7 @@ def validate_case_json(path: Path, expected: dict[str, Any]) -> dict[str, Any]:
                 equal = equal and reference[key] == branch_values[key]
         if not equal or refs.get(flag_name) is not True:
             raise RunFailure(f"full native reference equality failed: {reference_name}")
+    compare_a_to_raw(data, expected)
     return data
 
 
