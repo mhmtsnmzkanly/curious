@@ -90,7 +90,8 @@ result = {
       'baseline_plans': {'unrotated': plan_map(), 'rotated': plan_map()},
       'candidate_plans': {'unrotated': plan_map(), 'fixed_B': plan_map(), 'rotated_C': plan_map()}},
   'candidate_b_equals_c_pre_resolution_audit': {'equal': True, 'learner_interruptions_equal': True,
-      'decision_trace_equal': True, 'plan_content_equal': True},
+      'decision_trace_equal': True, 'plan_content_equal': True, 'intent_equal': True},
+  'target_validation': {'valid': True},
   'references': {'a_matches_native_off': True, 'c_matches_native_on': True,
       'compared_fields': ['events','rng','last_intents','last_decisions','state'],
       'normalizations': ['policy.water_meal_priority_enabled only'],
@@ -127,6 +128,8 @@ if os.environ.get('FAKE_BAD_B_ORDER'):
   result['branches']['C']['plan_orders']['eat'] = c_rows
 if os.environ.get('FAKE_MUTATE_INPUT'):
   source.write_bytes(source.read_bytes() + b'changed')
+if os.environ.get('FAKE_TARGET_VALIDATION_FAIL'):
+  result['target_validation']['valid'] = False
 output.write_text(json.dumps(result), encoding='utf-8')
 """, encoding="utf-8")
         binary.chmod(0o755)
@@ -206,6 +209,12 @@ output.write_text(json.dumps(result), encoding='utf-8')
             manifest = self._run_expected_failure(temp, {"FAKE_BAD_B_ORDER": "1"})
             self.assertEqual(len(manifest["cases"]), 1)
             self.assertIn("B Eat order does not preserve A survivors", manifest["failure"]["message"])
+
+    def test_false_target_validation_flag_stops_run(self):
+        with tempfile.TemporaryDirectory() as temp:
+            manifest = self._run_expected_failure(temp, {"FAKE_TARGET_VALIDATION_FAIL": "1"})
+            self.assertEqual(len(manifest["cases"]), 1)
+            self.assertIn("raw target validation gate failed", manifest["failure"]["message"])
 
 
 if __name__ == "__main__":
