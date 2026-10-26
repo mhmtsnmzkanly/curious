@@ -1,0 +1,2395 @@
+{
+  "analysis": "descriptive offline parsing; no simulation and no causal identification from aggregate association",
+  "binary_sha256": "81d6044ca3f838234643d072e23d07ce4856f70953d91c0642e783883e1f28e0",
+  "denominators": {
+    "meadow": {
+      "bundle": {
+        "death_causes": {
+          "Dehydration": 1,
+          "OldAge": 181,
+          "Starvation": 8
+        },
+        "endpoint_alive_worlds": 6,
+        "intervention_resolver_outcomes": {
+          "accepted": 69,
+          "accepted_meal_energy": 526,
+          "attempts": 73,
+          "rejected_MissingResource": 4
+        },
+        "interventions": 73,
+        "living_entity_ticks": 25242,
+        "movement_energy": 17171,
+        "per_seed": [
+          {
+            "endpoint_alive": 15,
+            "living_entity_ticks": 4200,
+            "movement_energy": 2667,
+            "plant_food_energy": 8036,
+            "seed": 62501,
+            "water": 4636
+          },
+          {
+            "endpoint_alive": 15,
+            "living_entity_ticks": 4271,
+            "movement_energy": 2893,
+            "plant_food_energy": 8008,
+            "seed": 62502,
+            "water": 4644
+          },
+          {
+            "endpoint_alive": 16,
+            "living_entity_ticks": 4137,
+            "movement_energy": 2947,
+            "plant_food_energy": 8360,
+            "seed": 62503,
+            "water": 4618
+          },
+          {
+            "endpoint_alive": 15,
+            "living_entity_ticks": 4232,
+            "movement_energy": 2852,
+            "plant_food_energy": 8188,
+            "seed": 62504,
+            "water": 4630
+          },
+          {
+            "endpoint_alive": 16,
+            "living_entity_ticks": 4139,
+            "movement_energy": 2929,
+            "plant_food_energy": 8342,
+            "seed": 62505,
+            "water": 4608
+          },
+          {
+            "endpoint_alive": 15,
+            "living_entity_ticks": 4263,
+            "movement_energy": 2883,
+            "plant_food_energy": 8232,
+            "seed": 62506,
+            "water": 4624
+          }
+        ],
+        "plant_food_energy": 49166,
+        "ticks_each": 300,
+        "water": 27760,
+        "worlds": 6
+      },
+      "control": {
+        "death_causes": {
+          "Dehydration": 2,
+          "OldAge": 174,
+          "Starvation": 15
+        },
+        "endpoint_alive_worlds": 6,
+        "intervention_resolver_outcomes": {
+          "accepted": 0,
+          "accepted_meal_energy": 0,
+          "attempts": 0
+        },
+        "interventions": 0,
+        "living_entity_ticks": 25028,
+        "movement_energy": 16560,
+        "per_seed": [
+          {
+            "endpoint_alive": 17,
+            "living_entity_ticks": 3934,
+            "movement_energy": 2654,
+            "plant_food_energy": 8140,
+            "seed": 62501,
+            "water": 4504
+          },
+          {
+            "endpoint_alive": 14,
+            "living_entity_ticks": 4377,
+            "movement_energy": 2580,
+            "plant_food_energy": 7630,
+            "seed": 62502,
+            "water": 4644
+          },
+          {
+            "endpoint_alive": 15,
+            "living_entity_ticks": 4310,
+            "movement_energy": 3030,
+            "plant_food_energy": 8276,
+            "seed": 62503,
+            "water": 4628
+          },
+          {
+            "endpoint_alive": 16,
+            "living_entity_ticks": 3964,
+            "movement_energy": 2717,
+            "plant_food_energy": 8150,
+            "seed": 62504,
+            "water": 4552
+          },
+          {
+            "endpoint_alive": 15,
+            "living_entity_ticks": 4306,
+            "movement_energy": 2822,
+            "plant_food_energy": 7962,
+            "seed": 62505,
+            "water": 4626
+          },
+          {
+            "endpoint_alive": 12,
+            "living_entity_ticks": 4137,
+            "movement_energy": 2757,
+            "plant_food_energy": 7972,
+            "seed": 62506,
+            "water": 4634
+          }
+        ],
+        "plant_food_energy": 48130,
+        "ticks_each": 300,
+        "water": 27588,
+        "worlds": 6
+      },
+      "food_reserve_only": {
+        "death_causes": {
+          "Dehydration": 2,
+          "OldAge": 174,
+          "Starvation": 15
+        },
+        "endpoint_alive_worlds": 6,
+        "intervention_resolver_outcomes": {
+          "accepted": 0,
+          "accepted_meal_energy": 0,
+          "attempts": 0
+        },
+        "interventions": 0,
+        "living_entity_ticks": 25028,
+        "movement_energy": 16560,
+        "per_seed": [
+          {
+            "endpoint_alive": 17,
+            "living_entity_ticks": 3934,
+            "movement_energy": 2654,
+            "plant_food_energy": 8140,
+            "seed": 62501,
+            "water": 4504
+          },
+          {
+            "endpoint_alive": 14,
+            "living_entity_ticks": 4377,
+            "movement_energy": 2580,
+            "plant_food_energy": 7630,
+            "seed": 62502,
+            "water": 4644
+          },
+          {
+            "endpoint_alive": 15,
+            "living_entity_ticks": 4310,
+            "movement_energy": 3030,
+            "plant_food_energy": 8276,
+            "seed": 62503,
+            "water": 4628
+          },
+          {
+            "endpoint_alive": 16,
+            "living_entity_ticks": 3964,
+            "movement_energy": 2717,
+            "plant_food_energy": 8150,
+            "seed": 62504,
+            "water": 4552
+          },
+          {
+            "endpoint_alive": 15,
+            "living_entity_ticks": 4306,
+            "movement_energy": 2822,
+            "plant_food_energy": 7962,
+            "seed": 62505,
+            "water": 4626
+          },
+          {
+            "endpoint_alive": 12,
+            "living_entity_ticks": 4137,
+            "movement_energy": 2757,
+            "plant_food_energy": 7972,
+            "seed": 62506,
+            "water": 4634
+          }
+        ],
+        "plant_food_energy": 48130,
+        "ticks_each": 300,
+        "water": 27588,
+        "worlds": 6
+      },
+      "water_meal_only": {
+        "death_causes": {
+          "Dehydration": 1,
+          "OldAge": 181,
+          "Starvation": 8
+        },
+        "endpoint_alive_worlds": 6,
+        "intervention_resolver_outcomes": {
+          "accepted": 69,
+          "accepted_meal_energy": 526,
+          "attempts": 73,
+          "rejected_MissingResource": 4
+        },
+        "interventions": 73,
+        "living_entity_ticks": 25242,
+        "movement_energy": 17171,
+        "per_seed": [
+          {
+            "endpoint_alive": 15,
+            "living_entity_ticks": 4200,
+            "movement_energy": 2667,
+            "plant_food_energy": 8036,
+            "seed": 62501,
+            "water": 4636
+          },
+          {
+            "endpoint_alive": 15,
+            "living_entity_ticks": 4271,
+            "movement_energy": 2893,
+            "plant_food_energy": 8008,
+            "seed": 62502,
+            "water": 4644
+          },
+          {
+            "endpoint_alive": 16,
+            "living_entity_ticks": 4137,
+            "movement_energy": 2947,
+            "plant_food_energy": 8360,
+            "seed": 62503,
+            "water": 4618
+          },
+          {
+            "endpoint_alive": 15,
+            "living_entity_ticks": 4232,
+            "movement_energy": 2852,
+            "plant_food_energy": 8188,
+            "seed": 62504,
+            "water": 4630
+          },
+          {
+            "endpoint_alive": 16,
+            "living_entity_ticks": 4139,
+            "movement_energy": 2929,
+            "plant_food_energy": 8342,
+            "seed": 62505,
+            "water": 4608
+          },
+          {
+            "endpoint_alive": 15,
+            "living_entity_ticks": 4263,
+            "movement_energy": 2883,
+            "plant_food_energy": 8232,
+            "seed": 62506,
+            "water": 4624
+          }
+        ],
+        "plant_food_energy": 49166,
+        "ticks_each": 300,
+        "water": 27760,
+        "worlds": 6
+      }
+    },
+    "sparse_resource": {
+      "bundle": {
+        "death_causes": {
+          "Dehydration": 14,
+          "OldAge": 30,
+          "Starvation": 20
+        },
+        "endpoint_alive_worlds": 0,
+        "intervention_resolver_outcomes": {
+          "accepted": 11,
+          "accepted_meal_energy": 22,
+          "attempts": 47,
+          "rejected_MissingResource": 36
+        },
+        "interventions": 47,
+        "living_entity_ticks": 5865,
+        "movement_energy": 3111,
+        "per_seed": [
+          {
+            "endpoint_alive": 0,
+            "living_entity_ticks": 929,
+            "movement_energy": 519,
+            "plant_food_energy": 846,
+            "seed": 62501,
+            "water": 490
+          },
+          {
+            "endpoint_alive": 0,
+            "living_entity_ticks": 948,
+            "movement_energy": 482,
+            "plant_food_energy": 820,
+            "seed": 62502,
+            "water": 540
+          },
+          {
+            "endpoint_alive": 0,
+            "living_entity_ticks": 964,
+            "movement_energy": 554,
+            "plant_food_energy": 856,
+            "seed": 62503,
+            "water": 550
+          },
+          {
+            "endpoint_alive": 0,
+            "living_entity_ticks": 1004,
+            "movement_energy": 544,
+            "plant_food_energy": 866,
+            "seed": 62504,
+            "water": 560
+          },
+          {
+            "endpoint_alive": 0,
+            "living_entity_ticks": 1001,
+            "movement_energy": 473,
+            "plant_food_energy": 870,
+            "seed": 62505,
+            "water": 638
+          },
+          {
+            "endpoint_alive": 0,
+            "living_entity_ticks": 1019,
+            "movement_energy": 539,
+            "plant_food_energy": 924,
+            "seed": 62506,
+            "water": 558
+          }
+        ],
+        "plant_food_energy": 5182,
+        "ticks_each": 300,
+        "water": 3336,
+        "worlds": 6
+      },
+      "control": {
+        "death_causes": {
+          "Dehydration": 12,
+          "OldAge": 31,
+          "Starvation": 21
+        },
+        "endpoint_alive_worlds": 0,
+        "intervention_resolver_outcomes": {
+          "accepted": 0,
+          "accepted_meal_energy": 0,
+          "attempts": 0
+        },
+        "interventions": 0,
+        "living_entity_ticks": 5871,
+        "movement_energy": 3103,
+        "per_seed": [
+          {
+            "endpoint_alive": 0,
+            "living_entity_ticks": 929,
+            "movement_energy": 516,
+            "plant_food_energy": 844,
+            "seed": 62501,
+            "water": 490
+          },
+          {
+            "endpoint_alive": 0,
+            "living_entity_ticks": 946,
+            "movement_energy": 479,
+            "plant_food_energy": 820,
+            "seed": 62502,
+            "water": 540
+          },
+          {
+            "endpoint_alive": 0,
+            "living_entity_ticks": 972,
+            "movement_energy": 554,
+            "plant_food_energy": 856,
+            "seed": 62503,
+            "water": 570
+          },
+          {
+            "endpoint_alive": 0,
+            "living_entity_ticks": 1004,
+            "movement_energy": 544,
+            "plant_food_energy": 866,
+            "seed": 62504,
+            "water": 560
+          },
+          {
+            "endpoint_alive": 0,
+            "living_entity_ticks": 1002,
+            "movement_energy": 471,
+            "plant_food_energy": 870,
+            "seed": 62505,
+            "water": 648
+          },
+          {
+            "endpoint_alive": 0,
+            "living_entity_ticks": 1018,
+            "movement_energy": 539,
+            "plant_food_energy": 924,
+            "seed": 62506,
+            "water": 558
+          }
+        ],
+        "plant_food_energy": 5180,
+        "ticks_each": 300,
+        "water": 3366,
+        "worlds": 6
+      },
+      "food_reserve_only": {
+        "death_causes": {
+          "Dehydration": 12,
+          "OldAge": 31,
+          "Starvation": 21
+        },
+        "endpoint_alive_worlds": 0,
+        "intervention_resolver_outcomes": {
+          "accepted": 0,
+          "accepted_meal_energy": 0,
+          "attempts": 0
+        },
+        "interventions": 0,
+        "living_entity_ticks": 5871,
+        "movement_energy": 3103,
+        "per_seed": [
+          {
+            "endpoint_alive": 0,
+            "living_entity_ticks": 929,
+            "movement_energy": 516,
+            "plant_food_energy": 844,
+            "seed": 62501,
+            "water": 490
+          },
+          {
+            "endpoint_alive": 0,
+            "living_entity_ticks": 946,
+            "movement_energy": 479,
+            "plant_food_energy": 820,
+            "seed": 62502,
+            "water": 540
+          },
+          {
+            "endpoint_alive": 0,
+            "living_entity_ticks": 972,
+            "movement_energy": 554,
+            "plant_food_energy": 856,
+            "seed": 62503,
+            "water": 570
+          },
+          {
+            "endpoint_alive": 0,
+            "living_entity_ticks": 1004,
+            "movement_energy": 544,
+            "plant_food_energy": 866,
+            "seed": 62504,
+            "water": 560
+          },
+          {
+            "endpoint_alive": 0,
+            "living_entity_ticks": 1002,
+            "movement_energy": 471,
+            "plant_food_energy": 870,
+            "seed": 62505,
+            "water": 648
+          },
+          {
+            "endpoint_alive": 0,
+            "living_entity_ticks": 1018,
+            "movement_energy": 539,
+            "plant_food_energy": 924,
+            "seed": 62506,
+            "water": 558
+          }
+        ],
+        "plant_food_energy": 5180,
+        "ticks_each": 300,
+        "water": 3366,
+        "worlds": 6
+      },
+      "water_meal_only": {
+        "death_causes": {
+          "Dehydration": 14,
+          "OldAge": 30,
+          "Starvation": 20
+        },
+        "endpoint_alive_worlds": 0,
+        "intervention_resolver_outcomes": {
+          "accepted": 11,
+          "accepted_meal_energy": 22,
+          "attempts": 47,
+          "rejected_MissingResource": 36
+        },
+        "interventions": 47,
+        "living_entity_ticks": 5865,
+        "movement_energy": 3111,
+        "per_seed": [
+          {
+            "endpoint_alive": 0,
+            "living_entity_ticks": 929,
+            "movement_energy": 519,
+            "plant_food_energy": 846,
+            "seed": 62501,
+            "water": 490
+          },
+          {
+            "endpoint_alive": 0,
+            "living_entity_ticks": 948,
+            "movement_energy": 482,
+            "plant_food_energy": 820,
+            "seed": 62502,
+            "water": 540
+          },
+          {
+            "endpoint_alive": 0,
+            "living_entity_ticks": 964,
+            "movement_energy": 554,
+            "plant_food_energy": 856,
+            "seed": 62503,
+            "water": 550
+          },
+          {
+            "endpoint_alive": 0,
+            "living_entity_ticks": 1004,
+            "movement_energy": 544,
+            "plant_food_energy": 866,
+            "seed": 62504,
+            "water": 560
+          },
+          {
+            "endpoint_alive": 0,
+            "living_entity_ticks": 1001,
+            "movement_energy": 473,
+            "plant_food_energy": 870,
+            "seed": 62505,
+            "water": 638
+          },
+          {
+            "endpoint_alive": 0,
+            "living_entity_ticks": 1019,
+            "movement_energy": 539,
+            "plant_food_energy": 924,
+            "seed": 62506,
+            "water": 558
+          }
+        ],
+        "plant_food_energy": 5182,
+        "ticks_each": 300,
+        "water": 3336,
+        "worlds": 6
+      }
+    },
+    "v1_unique_food": {
+      "bundle": {
+        "death_causes": {
+          "Dehydration": 1,
+          "Starvation": 3
+        },
+        "endpoint_alive_worlds": 2,
+        "intervention_resolver_outcomes": {
+          "accepted": 10,
+          "accepted_meal_energy": 20,
+          "attempts": 10
+        },
+        "interventions": 10,
+        "living_entity_ticks": 1579,
+        "movement_energy": 606,
+        "per_seed": [
+          {
+            "endpoint_alive": 1,
+            "living_entity_ticks": 300,
+            "movement_energy": 99,
+            "plant_food_energy": 320,
+            "seed": 62501,
+            "water": 250
+          },
+          {
+            "endpoint_alive": 0,
+            "living_entity_ticks": 281,
+            "movement_energy": 103,
+            "plant_food_energy": 300,
+            "seed": 62502,
+            "water": 220
+          },
+          {
+            "endpoint_alive": 1,
+            "living_entity_ticks": 300,
+            "movement_energy": 102,
+            "plant_food_energy": 320,
+            "seed": 62503,
+            "water": 240
+          },
+          {
+            "endpoint_alive": 0,
+            "living_entity_ticks": 239,
+            "movement_energy": 107,
+            "plant_food_energy": 260,
+            "seed": 62504,
+            "water": 180
+          },
+          {
+            "endpoint_alive": 0,
+            "living_entity_ticks": 178,
+            "movement_energy": 95,
+            "plant_food_energy": 174,
+            "seed": 62505,
+            "water": 100
+          },
+          {
+            "endpoint_alive": 0,
+            "living_entity_ticks": 281,
+            "movement_energy": 100,
+            "plant_food_energy": 298,
+            "seed": 62506,
+            "water": 220
+          }
+        ],
+        "plant_food_energy": 1672,
+        "ticks_each": 300,
+        "water": 1210,
+        "worlds": 6
+      },
+      "control": {
+        "death_causes": {
+          "Dehydration": 2,
+          "Starvation": 4
+        },
+        "endpoint_alive_worlds": 0,
+        "intervention_resolver_outcomes": {
+          "accepted": 0,
+          "accepted_meal_energy": 0,
+          "attempts": 0
+        },
+        "interventions": 0,
+        "living_entity_ticks": 638,
+        "movement_energy": 591,
+        "per_seed": [
+          {
+            "endpoint_alive": 0,
+            "living_entity_ticks": 94,
+            "movement_energy": 101,
+            "plant_food_energy": 86,
+            "seed": 62501,
+            "water": 20
+          },
+          {
+            "endpoint_alive": 0,
+            "living_entity_ticks": 98,
+            "movement_energy": 101,
+            "plant_food_energy": 92,
+            "seed": 62502,
+            "water": 20
+          },
+          {
+            "endpoint_alive": 0,
+            "living_entity_ticks": 102,
+            "movement_energy": 98,
+            "plant_food_energy": 90,
+            "seed": 62503,
+            "water": 30
+          },
+          {
+            "endpoint_alive": 0,
+            "living_entity_ticks": 106,
+            "movement_energy": 101,
+            "plant_food_energy": 100,
+            "seed": 62504,
+            "water": 30
+          },
+          {
+            "endpoint_alive": 0,
+            "living_entity_ticks": 132,
+            "movement_energy": 93,
+            "plant_food_energy": 114,
+            "seed": 62505,
+            "water": 60
+          },
+          {
+            "endpoint_alive": 0,
+            "living_entity_ticks": 106,
+            "movement_energy": 97,
+            "plant_food_energy": 96,
+            "seed": 62506,
+            "water": 30
+          }
+        ],
+        "plant_food_energy": 578,
+        "ticks_each": 300,
+        "water": 190,
+        "worlds": 6
+      },
+      "food_reserve_only": {
+        "death_causes": {
+          "Starvation": 4
+        },
+        "endpoint_alive_worlds": 2,
+        "intervention_resolver_outcomes": {
+          "accepted": 0,
+          "accepted_meal_energy": 0,
+          "attempts": 0
+        },
+        "interventions": 0,
+        "living_entity_ticks": 1482,
+        "movement_energy": 595,
+        "per_seed": [
+          {
+            "endpoint_alive": 1,
+            "living_entity_ticks": 300,
+            "movement_energy": 99,
+            "plant_food_energy": 320,
+            "seed": 62501,
+            "water": 250
+          },
+          {
+            "endpoint_alive": 0,
+            "living_entity_ticks": 248,
+            "movement_energy": 101,
+            "plant_food_energy": 248,
+            "seed": 62502,
+            "water": 170
+          },
+          {
+            "endpoint_alive": 1,
+            "living_entity_ticks": 300,
+            "movement_energy": 100,
+            "plant_food_energy": 308,
+            "seed": 62503,
+            "water": 230
+          },
+          {
+            "endpoint_alive": 0,
+            "living_entity_ticks": 208,
+            "movement_energy": 103,
+            "plant_food_energy": 210,
+            "seed": 62504,
+            "water": 130
+          },
+          {
+            "endpoint_alive": 0,
+            "living_entity_ticks": 178,
+            "movement_energy": 94,
+            "plant_food_energy": 172,
+            "seed": 62505,
+            "water": 100
+          },
+          {
+            "endpoint_alive": 0,
+            "living_entity_ticks": 248,
+            "movement_energy": 98,
+            "plant_food_energy": 246,
+            "seed": 62506,
+            "water": 170
+          }
+        ],
+        "plant_food_energy": 1504,
+        "ticks_each": 300,
+        "water": 1050,
+        "worlds": 6
+      },
+      "water_meal_only": {
+        "death_causes": {
+          "Dehydration": 2,
+          "Starvation": 4
+        },
+        "endpoint_alive_worlds": 0,
+        "intervention_resolver_outcomes": {
+          "accepted": 0,
+          "accepted_meal_energy": 0,
+          "attempts": 0
+        },
+        "interventions": 0,
+        "living_entity_ticks": 638,
+        "movement_energy": 591,
+        "per_seed": [
+          {
+            "endpoint_alive": 0,
+            "living_entity_ticks": 94,
+            "movement_energy": 101,
+            "plant_food_energy": 86,
+            "seed": 62501,
+            "water": 20
+          },
+          {
+            "endpoint_alive": 0,
+            "living_entity_ticks": 98,
+            "movement_energy": 101,
+            "plant_food_energy": 92,
+            "seed": 62502,
+            "water": 20
+          },
+          {
+            "endpoint_alive": 0,
+            "living_entity_ticks": 102,
+            "movement_energy": 98,
+            "plant_food_energy": 90,
+            "seed": 62503,
+            "water": 30
+          },
+          {
+            "endpoint_alive": 0,
+            "living_entity_ticks": 106,
+            "movement_energy": 101,
+            "plant_food_energy": 100,
+            "seed": 62504,
+            "water": 30
+          },
+          {
+            "endpoint_alive": 0,
+            "living_entity_ticks": 132,
+            "movement_energy": 93,
+            "plant_food_energy": 114,
+            "seed": 62505,
+            "water": 60
+          },
+          {
+            "endpoint_alive": 0,
+            "living_entity_ticks": 106,
+            "movement_energy": 97,
+            "plant_food_energy": 96,
+            "seed": 62506,
+            "water": 30
+          }
+        ],
+        "plant_food_energy": 578,
+        "ticks_each": 300,
+        "water": 190,
+        "worlds": 6
+      }
+    }
+  },
+  "experiment_source_content_sha256": "d55d6b1d4fb27ec1abc87d088a8d7616c1dad96a442c7144e9cc3a4f6a075d5a",
+  "experiment_source_revision": "edb76316d7002f0533d4c038b664a796ec293c41",
+  "focused_negative_seed_pairs": [
+    {
+      "all_actor_food_resolution_at_intervention_tick": {
+        "control": {
+          "plant_meal_energy_by_actor": {
+            "13": 8,
+            "24": 8
+          },
+          "rejected_eat_counts_by_reason": {
+            "MissingResource": 1
+          }
+        },
+        "water_meal_only": {
+          "plant_meal_energy_by_actor": {
+            "7": 6,
+            "13": 8,
+            "19": 8
+          },
+          "rejected_eat_counts_by_reason": {
+            "MissingResource": 1
+          }
+        }
+      },
+      "comparison": "water_meal_only - control",
+      "control_focal_death": {
+        "cause": "OldAge",
+        "tick": 106
+      },
+      "death_causes": {
+        "control": {
+          "Dehydration": 1,
+          "OldAge": 32,
+          "Starvation": 2
+        },
+        "water_meal_only": {
+          "OldAge": 30,
+          "Starvation": 3
+        }
+      },
+      "direct_actor_resolution": {
+        "accepted_plant_meal_energy": 6,
+        "events": [
+          {
+            "event": {
+              "EntityAte": {
+                "amount": 6,
+                "corpse_id": null,
+                "id": 7,
+                "pos": {
+                  "x": -3,
+                  "y": 3
+                }
+              }
+            },
+            "id": 7
+          }
+        ],
+        "rejected_eat": false
+      },
+      "endpoint_alive": {
+        "control": {
+          "Herbivore": 14
+        },
+        "water_meal_only": {
+          "Herbivore": 15
+        }
+      },
+      "first_birth_lineage_divergence_tick": 96,
+      "first_birth_lineage_mismatch": {
+        "control": {
+          "event": {
+            "generation": 3,
+            "id": 25,
+            "parent_generations": [
+              1,
+              2
+            ],
+            "parent_ids": [
+              17,
+              22
+            ],
+            "species": "Herbivore"
+          },
+          "tick": 96
+        },
+        "water_meal_only": {
+          "event": {
+            "generation": 3,
+            "id": 25,
+            "parent_generations": [
+              1,
+              2
+            ],
+            "parent_ids": [
+              17,
+              22
+            ],
+            "species": "Herbivore"
+          },
+          "tick": 102
+        }
+      },
+      "first_death_lineage_divergence_tick": 108,
+      "first_death_lineage_mismatch": {
+        "control": {
+          "event": {
+            "cause": "Starvation",
+            "generation": 1,
+            "id": 10,
+            "species": "Herbivore"
+          },
+          "tick": 108
+        },
+        "water_meal_only": {
+          "event": {
+            "cause": "Starvation",
+            "generation": 1,
+            "id": 10,
+            "species": "Herbivore"
+          },
+          "tick": 123
+        }
+      },
+      "first_focal_trace_divergence_tick": 94,
+      "first_intervention": {
+        "actual_decision": {
+          "intent": {
+            "Eat": {
+              "at": [
+                "DownRight"
+              ],
+              "corpse_id": null
+            }
+          },
+          "reason": "EatBeforeWater"
+        },
+        "actual_selected_food": {
+          "corpse_id": null,
+          "steps": [
+            "DownRight"
+          ]
+        },
+        "actual_selected_food_amount": 6,
+        "effective_speed": 3,
+        "id": 7,
+        "movement_energy_cost": 1,
+        "moves_used": 0,
+        "original_reason": "LearnedWater",
+        "original_selected_decision": {
+          "intent": {
+            "Drink": {
+              "at": [
+                "UpRight",
+                "UpRight"
+              ]
+            }
+          },
+          "reason": "LearnedWater"
+        },
+        "original_selected_water_path": [
+          "UpRight",
+          "UpRight"
+        ],
+        "original_water_amount": 4,
+        "perception": null,
+        "pre_choice": {
+          "age": 94,
+          "death_cause": null,
+          "energy": 0,
+          "exertion": 0,
+          "health": 113,
+          "maturity_age": 20,
+          "max_age": 105,
+          "max_energy": 80,
+          "max_health": 120,
+          "max_meal": 10,
+          "max_stamina": 16,
+          "max_water": 60,
+          "move_energy_cost": 1,
+          "moves_used": 0,
+          "reproduction_cooldown": 3,
+          "reproduction_interval": 25,
+          "reproduction_reserve_per_mille": 500,
+          "speed": 3,
+          "stamina": 14,
+          "stamina_metabolic_cost": 0,
+          "vision_metabolic_cost": 0,
+          "vision_range": 6,
+          "water": 0
+        },
+        "remaining_moves": 3,
+        "species": "Herbivore",
+        "stamina": 14,
+        "tick": 94
+      },
+      "first_intervention_actor": 7,
+      "first_intervention_tick": 94,
+      "first_resolver_event_list_divergence_tick": 94,
+      "generation_exposure_partition": {
+        "control": {
+          "descendant_living_individual_ticks": 3537,
+          "founder_living_individual_ticks": 840
+        },
+        "definition": "Founder exposure is exact founder-ID exposure through death_tick-1 (or horizon); descendant exposure is the validated population living-individual-tick total minus founders. This is an accounting partition, not causal mediation or individual descendant matching.",
+        "delta_water_meal_only_minus_control": {
+          "descendant_living_individual_ticks": -106,
+          "founder_living_individual_ticks": 0
+        },
+        "water_meal_only": {
+          "descendant_living_individual_ticks": 3431,
+          "founder_living_individual_ticks": 840
+        }
+      },
+      "habitat": "meadow",
+      "lineage_signature_note": "Within-run ID/tick lineage events are retained. After parent identity or birth timing diverges, equal numeric IDs across arms are not presumed to identify the same individual.",
+      "living_tick_delta": -106,
+      "physical_totals": {
+        "control": {
+          "movement_energy_paid": 2580,
+          "plant_food_gained_energy": 7630,
+          "water_gained": 4644,
+          "water_meal_intervention_count": 0
+        },
+        "water_meal_only": {
+          "movement_energy_paid": 2893,
+          "plant_food_gained_energy": 8008,
+          "water_gained": 4644,
+          "water_meal_intervention_count": 15
+        }
+      },
+      "population_survival_exposure": {
+        "living_individual_ticks_before_intervention": {
+          "control": 1423,
+          "water_meal_only": 1423
+        },
+        "living_individual_ticks_from_intervention_through_horizon": {
+          "control": 2954,
+          "water_meal_only": 2848
+        }
+      },
+      "seed": 62502,
+      "treated_focal_death": {
+        "cause": "OldAge",
+        "tick": 106
+      }
+    },
+    {
+      "all_actor_food_resolution_at_intervention_tick": {
+        "control": {
+          "plant_meal_energy_by_actor": {
+            "2": 8,
+            "18": 10
+          },
+          "rejected_eat_counts_by_reason": {
+            "MissingResource": 3
+          }
+        },
+        "water_meal_only": {
+          "plant_meal_energy_by_actor": {
+            "2": 8,
+            "11": 6,
+            "18": 10
+          },
+          "rejected_eat_counts_by_reason": {
+            "MissingResource": 3
+          }
+        }
+      },
+      "comparison": "water_meal_only - control",
+      "control_focal_death": {
+        "cause": "OldAge",
+        "tick": 106
+      },
+      "death_causes": {
+        "control": {
+          "OldAge": 29,
+          "Starvation": 3
+        },
+        "water_meal_only": {
+          "OldAge": 30,
+          "Starvation": 1
+        }
+      },
+      "direct_actor_resolution": {
+        "accepted_plant_meal_energy": 6,
+        "events": [
+          {
+            "event": {
+              "EntityAte": {
+                "amount": 6,
+                "corpse_id": null,
+                "id": 11,
+                "pos": {
+                  "x": 1,
+                  "y": -1
+                }
+              }
+            },
+            "id": 11
+          }
+        ],
+        "rejected_eat": false
+      },
+      "endpoint_alive": {
+        "control": {
+          "Herbivore": 15
+        },
+        "water_meal_only": {
+          "Herbivore": 16
+        }
+      },
+      "first_birth_lineage_divergence_tick": 120,
+      "first_birth_lineage_mismatch": {
+        "control": {
+          "event": {
+            "generation": 3,
+            "id": 24,
+            "parent_generations": [
+              1,
+              2
+            ],
+            "parent_ids": [
+              10,
+              13
+            ],
+            "species": "Herbivore"
+          },
+          "tick": 120
+        },
+        "water_meal_only": {
+          "event": {
+            "generation": 4,
+            "id": 24,
+            "parent_generations": [
+              2,
+              3
+            ],
+            "parent_ids": [
+              14,
+              23
+            ],
+            "species": "Herbivore"
+          },
+          "tick": 120
+        }
+      },
+      "first_death_lineage_divergence_tick": 105,
+      "first_death_lineage_mismatch": {
+        "control": {
+          "event": {
+            "cause": "Starvation",
+            "generation": 1,
+            "id": 11,
+            "species": "Herbivore"
+          },
+          "tick": 105
+        },
+        "water_meal_only": {
+          "event": {
+            "cause": "OldAge",
+            "generation": 0,
+            "id": 1,
+            "species": "Herbivore"
+          },
+          "tick": 106
+        }
+      },
+      "first_focal_trace_divergence_tick": 93,
+      "first_intervention": {
+        "actual_decision": {
+          "intent": {
+            "Eat": {
+              "at": [
+                "Right"
+              ],
+              "corpse_id": null
+            }
+          },
+          "reason": "EatBeforeWater"
+        },
+        "actual_selected_food": {
+          "corpse_id": null,
+          "steps": [
+            "Right"
+          ]
+        },
+        "actual_selected_food_amount": 6,
+        "effective_speed": 3,
+        "id": 11,
+        "movement_energy_cost": 1,
+        "moves_used": 0,
+        "original_reason": "LearnedWater",
+        "original_selected_decision": {
+          "intent": {
+            "Drink": {
+              "at": [
+                "DownLeft",
+                "DownLeft",
+                "Down",
+                "DownRight",
+                "UpRight"
+              ]
+            }
+          },
+          "reason": "LearnedWater"
+        },
+        "original_selected_water_path": [
+          "DownLeft",
+          "DownLeft",
+          "Down",
+          "DownRight",
+          "UpRight"
+        ],
+        "original_water_amount": 12,
+        "perception": null,
+        "pre_choice": {
+          "age": 70,
+          "death_cause": null,
+          "energy": 0,
+          "exertion": 0,
+          "health": 61,
+          "maturity_age": 20,
+          "max_age": 105,
+          "max_energy": 80,
+          "max_health": 120,
+          "max_meal": 10,
+          "max_stamina": 16,
+          "max_water": 60,
+          "move_energy_cost": 1,
+          "moves_used": 0,
+          "reproduction_cooldown": 0,
+          "reproduction_interval": 25,
+          "reproduction_reserve_per_mille": 500,
+          "speed": 3,
+          "stamina": 16,
+          "stamina_metabolic_cost": 0,
+          "vision_metabolic_cost": 0,
+          "vision_range": 6,
+          "water": 0
+        },
+        "remaining_moves": 3,
+        "species": "Herbivore",
+        "stamina": 16,
+        "tick": 92
+      },
+      "first_intervention_actor": 11,
+      "first_intervention_tick": 92,
+      "first_resolver_event_list_divergence_tick": 92,
+      "generation_exposure_partition": {
+        "control": {
+          "descendant_living_individual_ticks": 3470,
+          "founder_living_individual_ticks": 840
+        },
+        "definition": "Founder exposure is exact founder-ID exposure through death_tick-1 (or horizon); descendant exposure is the validated population living-individual-tick total minus founders. This is an accounting partition, not causal mediation or individual descendant matching.",
+        "delta_water_meal_only_minus_control": {
+          "descendant_living_individual_ticks": -173,
+          "founder_living_individual_ticks": 0
+        },
+        "water_meal_only": {
+          "descendant_living_individual_ticks": 3297,
+          "founder_living_individual_ticks": 840
+        }
+      },
+      "habitat": "meadow",
+      "lineage_signature_note": "Within-run ID/tick lineage events are retained. After parent identity or birth timing diverges, equal numeric IDs across arms are not presumed to identify the same individual.",
+      "living_tick_delta": -173,
+      "physical_totals": {
+        "control": {
+          "movement_energy_paid": 3030,
+          "plant_food_gained_energy": 8276,
+          "water_gained": 4628,
+          "water_meal_intervention_count": 0
+        },
+        "water_meal_only": {
+          "movement_energy_paid": 2947,
+          "plant_food_gained_energy": 8360,
+          "water_gained": 4618,
+          "water_meal_intervention_count": 10
+        }
+      },
+      "population_survival_exposure": {
+        "living_individual_ticks_before_intervention": {
+          "control": 1358,
+          "water_meal_only": 1358
+        },
+        "living_individual_ticks_from_intervention_through_horizon": {
+          "control": 2952,
+          "water_meal_only": 2779
+        }
+      },
+      "seed": 62503,
+      "treated_focal_death": {
+        "cause": "OldAge",
+        "tick": 106
+      }
+    },
+    {
+      "all_actor_food_resolution_at_intervention_tick": {
+        "control": {
+          "plant_meal_energy_by_actor": {
+            "1": 10,
+            "2": 8,
+            "14": 10,
+            "18": 10
+          },
+          "rejected_eat_counts_by_reason": {
+            "MissingResource": 1
+          }
+        },
+        "water_meal_only": {
+          "plant_meal_energy_by_actor": {
+            "3": 8,
+            "4": 8,
+            "12": 10,
+            "14": 10,
+            "18": 10
+          },
+          "rejected_eat_counts_by_reason": {
+            "MissingResource": 1
+          }
+        }
+      },
+      "comparison": "water_meal_only - control",
+      "control_focal_death": {
+        "cause": "OldAge",
+        "tick": 106
+      },
+      "death_causes": {
+        "control": {
+          "Dehydration": 1,
+          "OldAge": 28,
+          "Starvation": 3
+        },
+        "water_meal_only": {
+          "OldAge": 30
+        }
+      },
+      "direct_actor_resolution": {
+        "accepted_plant_meal_energy": 8,
+        "events": [
+          {
+            "event": {
+              "EntityAte": {
+                "amount": 8,
+                "corpse_id": null,
+                "id": 3,
+                "pos": {
+                  "x": -3,
+                  "y": 1
+                }
+              }
+            },
+            "id": 3
+          }
+        ],
+        "rejected_eat": false
+      },
+      "endpoint_alive": {
+        "control": {
+          "Herbivore": 15
+        },
+        "water_meal_only": {
+          "Herbivore": 16
+        }
+      },
+      "first_birth_lineage_divergence_tick": 74,
+      "first_birth_lineage_mismatch": {
+        "control": {
+          "event": {
+            "generation": 1,
+            "id": 21,
+            "parent_generations": [
+              0,
+              0
+            ],
+            "parent_ids": [
+              2,
+              7
+            ],
+            "species": "Herbivore"
+          },
+          "tick": 74
+        },
+        "water_meal_only": {
+          "event": {
+            "generation": 1,
+            "id": 21,
+            "parent_generations": [
+              0,
+              0
+            ],
+            "parent_ids": [
+              7,
+              2
+            ],
+            "species": "Herbivore"
+          },
+          "tick": 75
+        }
+      },
+      "first_death_lineage_divergence_tick": 92,
+      "first_death_lineage_mismatch": {
+        "control": {
+          "event": {
+            "cause": "Dehydration",
+            "generation": 0,
+            "id": 3,
+            "species": "Herbivore"
+          },
+          "tick": 92
+        },
+        "water_meal_only": {
+          "event": {
+            "cause": "OldAge",
+            "generation": 0,
+            "id": 1,
+            "species": "Herbivore"
+          },
+          "tick": 106
+        }
+      },
+      "first_focal_trace_divergence_tick": 72,
+      "first_intervention": {
+        "actual_decision": {
+          "intent": {
+            "Eat": {
+              "at": [
+                "Up"
+              ],
+              "corpse_id": null
+            }
+          },
+          "reason": "EatBeforeWater"
+        },
+        "actual_selected_food": {
+          "corpse_id": null,
+          "steps": [
+            "Up"
+          ]
+        },
+        "actual_selected_food_amount": 8,
+        "effective_speed": 3,
+        "id": 3,
+        "movement_energy_cost": 1,
+        "moves_used": 0,
+        "original_reason": "LearnedWater",
+        "original_selected_decision": {
+          "intent": {
+            "Drink": {
+              "at": [
+                "DownRight",
+                "UpRight",
+                "Right"
+              ]
+            }
+          },
+          "reason": "LearnedWater"
+        },
+        "original_selected_water_path": [
+          "DownRight",
+          "UpRight",
+          "Right"
+        ],
+        "original_water_amount": 4,
+        "perception": null,
+        "pre_choice": {
+          "age": 72,
+          "death_cause": null,
+          "energy": 0,
+          "exertion": 0,
+          "health": 100,
+          "maturity_age": 20,
+          "max_age": 105,
+          "max_energy": 80,
+          "max_health": 120,
+          "max_meal": 10,
+          "max_stamina": 16,
+          "max_water": 60,
+          "move_energy_cost": 1,
+          "moves_used": 0,
+          "reproduction_cooldown": 0,
+          "reproduction_interval": 25,
+          "reproduction_reserve_per_mille": 500,
+          "speed": 3,
+          "stamina": 16,
+          "stamina_metabolic_cost": 0,
+          "vision_metabolic_cost": 0,
+          "vision_range": 6,
+          "water": 0
+        },
+        "remaining_moves": 3,
+        "species": "Herbivore",
+        "stamina": 16,
+        "tick": 72
+      },
+      "first_intervention_actor": 3,
+      "first_intervention_tick": 72,
+      "first_resolver_event_list_divergence_tick": 72,
+      "generation_exposure_partition": {
+        "control": {
+          "descendant_living_individual_ticks": 3480,
+          "founder_living_individual_ticks": 826
+        },
+        "definition": "Founder exposure is exact founder-ID exposure through death_tick-1 (or horizon); descendant exposure is the validated population living-individual-tick total minus founders. This is an accounting partition, not causal mediation or individual descendant matching.",
+        "delta_water_meal_only_minus_control": {
+          "descendant_living_individual_ticks": -181,
+          "founder_living_individual_ticks": 14
+        },
+        "water_meal_only": {
+          "descendant_living_individual_ticks": 3299,
+          "founder_living_individual_ticks": 840
+        }
+      },
+      "habitat": "meadow",
+      "lineage_signature_note": "Within-run ID/tick lineage events are retained. After parent identity or birth timing diverges, equal numeric IDs across arms are not presumed to identify the same individual.",
+      "living_tick_delta": -167,
+      "physical_totals": {
+        "control": {
+          "movement_energy_paid": 2822,
+          "plant_food_gained_energy": 7962,
+          "water_gained": 4626,
+          "water_meal_intervention_count": 0
+        },
+        "water_meal_only": {
+          "movement_energy_paid": 2929,
+          "plant_food_gained_energy": 8342,
+          "water_gained": 4608,
+          "water_meal_intervention_count": 9
+        }
+      },
+      "population_survival_exposure": {
+        "living_individual_ticks_before_intervention": {
+          "control": 923,
+          "water_meal_only": 923
+        },
+        "living_individual_ticks_from_intervention_through_horizon": {
+          "control": 3383,
+          "water_meal_only": 3216
+        }
+      },
+      "seed": 62505,
+      "treated_focal_death": {
+        "cause": "OldAge",
+        "tick": 106
+      }
+    },
+    {
+      "all_actor_food_resolution_at_intervention_tick": {
+        "control": {
+          "plant_meal_energy_by_actor": {
+            "3": 2,
+            "4": 2,
+            "7": 2,
+            "9": 4
+          },
+          "rejected_eat_counts_by_reason": {
+            "MissingResource": 3
+          }
+        },
+        "water_meal_only": {
+          "plant_meal_energy_by_actor": {
+            "3": 2,
+            "4": 2,
+            "7": 2,
+            "9": 4
+          },
+          "rejected_eat_counts_by_reason": {
+            "MissingResource": 4
+          }
+        }
+      },
+      "comparison": "water_meal_only - control",
+      "control_focal_death": {
+        "cause": "OldAge",
+        "tick": 106
+      },
+      "death_causes": {
+        "control": {
+          "Dehydration": 2,
+          "OldAge": 4,
+          "Starvation": 5
+        },
+        "water_meal_only": {
+          "OldAge": 4,
+          "Starvation": 7
+        }
+      },
+      "direct_actor_resolution": {
+        "accepted_plant_meal_energy": 0,
+        "events": [
+          {
+            "event": {
+              "ActionRejected": {
+                "action": "Eat",
+                "id": 5,
+                "reason": "MissingResource",
+                "target": null
+              }
+            },
+            "id": 5
+          }
+        ],
+        "rejected_eat": true
+      },
+      "endpoint_alive": {
+        "control": {},
+        "water_meal_only": {}
+      },
+      "first_birth_lineage_divergence_tick": null,
+      "first_birth_lineage_mismatch": null,
+      "first_death_lineage_divergence_tick": 71,
+      "first_death_lineage_mismatch": {
+        "control": {
+          "event": {
+            "cause": "Starvation",
+            "generation": 1,
+            "id": 11,
+            "species": "Herbivore"
+          },
+          "tick": 74
+        },
+        "water_meal_only": {
+          "event": {
+            "cause": "Starvation",
+            "generation": 1,
+            "id": 10,
+            "species": "Herbivore"
+          },
+          "tick": 71
+        }
+      },
+      "first_focal_trace_divergence_tick": 56,
+      "first_intervention": {
+        "actual_decision": {
+          "intent": {
+            "Eat": {
+              "at": [
+                "Up"
+              ],
+              "corpse_id": null
+            }
+          },
+          "reason": "EatBeforeWater"
+        },
+        "actual_selected_food": {
+          "corpse_id": null,
+          "steps": [
+            "Up"
+          ]
+        },
+        "actual_selected_food_amount": 2,
+        "effective_speed": 3,
+        "id": 5,
+        "movement_energy_cost": 1,
+        "moves_used": 0,
+        "original_reason": "LearnedWater",
+        "original_selected_decision": {
+          "intent": {
+            "Drink": {
+              "at": [
+                "DownLeft",
+                "Left",
+                "Left",
+                "UpLeft",
+                "UpLeft"
+              ]
+            }
+          },
+          "reason": "LearnedWater"
+        },
+        "original_selected_water_path": [
+          "DownLeft",
+          "Left",
+          "Left",
+          "UpLeft",
+          "UpLeft"
+        ],
+        "original_water_amount": 24,
+        "perception": null,
+        "pre_choice": {
+          "age": 55,
+          "death_cause": null,
+          "energy": 0,
+          "exertion": 0,
+          "health": 109,
+          "maturity_age": 20,
+          "max_age": 105,
+          "max_energy": 80,
+          "max_health": 120,
+          "max_meal": 10,
+          "max_stamina": 16,
+          "max_water": 60,
+          "move_energy_cost": 1,
+          "moves_used": 0,
+          "reproduction_cooldown": 0,
+          "reproduction_interval": 25,
+          "reproduction_reserve_per_mille": 500,
+          "speed": 3,
+          "stamina": 16,
+          "stamina_metabolic_cost": 0,
+          "vision_metabolic_cost": 0,
+          "vision_range": 6,
+          "water": 0
+        },
+        "remaining_moves": 3,
+        "species": "Herbivore",
+        "stamina": 16,
+        "tick": 55
+      },
+      "first_intervention_actor": 5,
+      "first_intervention_tick": 55,
+      "first_resolver_event_list_divergence_tick": 55,
+      "generation_exposure_partition": {
+        "control": {
+          "descendant_living_individual_ticks": 218,
+          "founder_living_individual_ticks": 754
+        },
+        "definition": "Founder exposure is exact founder-ID exposure through death_tick-1 (or horizon); descendant exposure is the validated population living-individual-tick total minus founders. This is an accounting partition, not causal mediation or individual descendant matching.",
+        "delta_water_meal_only_minus_control": {
+          "descendant_living_individual_ticks": -7,
+          "founder_living_individual_ticks": -1
+        },
+        "water_meal_only": {
+          "descendant_living_individual_ticks": 211,
+          "founder_living_individual_ticks": 753
+        }
+      },
+      "habitat": "sparse_resource",
+      "lineage_signature_note": "Within-run ID/tick lineage events are retained. After parent identity or birth timing diverges, equal numeric IDs across arms are not presumed to identify the same individual.",
+      "living_tick_delta": -8,
+      "physical_totals": {
+        "control": {
+          "movement_energy_paid": 554,
+          "plant_food_gained_energy": 856,
+          "water_gained": 570,
+          "water_meal_intervention_count": 0
+        },
+        "water_meal_only": {
+          "movement_energy_paid": 554,
+          "plant_food_gained_energy": 856,
+          "water_gained": 550,
+          "water_meal_intervention_count": 11
+        }
+      },
+      "population_survival_exposure": {
+        "living_individual_ticks_before_intervention": {
+          "control": 537,
+          "water_meal_only": 537
+        },
+        "living_individual_ticks_from_intervention_through_horizon": {
+          "control": 435,
+          "water_meal_only": 427
+        }
+      },
+      "seed": 62503,
+      "treated_focal_death": {
+        "cause": "OldAge",
+        "tick": 106
+      }
+    },
+    {
+      "all_actor_food_resolution_at_intervention_tick": {
+        "control": {
+          "plant_meal_energy_by_actor": {
+            "3": 2,
+            "5": 2,
+            "7": 2,
+            "9": 2
+          },
+          "rejected_eat_counts_by_reason": {
+            "MissingResource": 4
+          }
+        },
+        "water_meal_only": {
+          "plant_meal_energy_by_actor": {
+            "4": 2,
+            "5": 2,
+            "7": 2,
+            "9": 2
+          },
+          "rejected_eat_counts_by_reason": {
+            "MissingResource": 5
+          }
+        }
+      },
+      "comparison": "water_meal_only - control",
+      "control_focal_death": {
+        "cause": "OldAge",
+        "tick": 106
+      },
+      "death_causes": {
+        "control": {
+          "Dehydration": 1,
+          "OldAge": 8,
+          "Starvation": 1
+        },
+        "water_meal_only": {
+          "Dehydration": 3,
+          "OldAge": 7
+        }
+      },
+      "direct_actor_resolution": {
+        "accepted_plant_meal_energy": 2,
+        "events": [
+          {
+            "event": {
+              "EntityAte": {
+                "amount": 2,
+                "corpse_id": null,
+                "id": 4,
+                "pos": {
+                  "x": 5,
+                  "y": -5
+                }
+              }
+            },
+            "id": 4
+          }
+        ],
+        "rejected_eat": false
+      },
+      "endpoint_alive": {
+        "control": {},
+        "water_meal_only": {}
+      },
+      "first_birth_lineage_divergence_tick": null,
+      "first_birth_lineage_mismatch": null,
+      "first_death_lineage_divergence_tick": 85,
+      "first_death_lineage_mismatch": {
+        "control": {
+          "event": {
+            "cause": "Starvation",
+            "generation": 0,
+            "id": 4,
+            "species": "Herbivore"
+          },
+          "tick": 85
+        },
+        "water_meal_only": {
+          "event": {
+            "cause": "Dehydration",
+            "generation": 0,
+            "id": 4,
+            "species": "Herbivore"
+          },
+          "tick": 85
+        }
+      },
+      "first_focal_trace_divergence_tick": 67,
+      "first_intervention": {
+        "actual_decision": {
+          "intent": {
+            "Eat": {
+              "at": [
+                "Up"
+              ],
+              "corpse_id": null
+            }
+          },
+          "reason": "EatBeforeWater"
+        },
+        "actual_selected_food": {
+          "corpse_id": null,
+          "steps": [
+            "Up"
+          ]
+        },
+        "actual_selected_food_amount": 2,
+        "effective_speed": 3,
+        "id": 4,
+        "movement_energy_cost": 1,
+        "moves_used": 0,
+        "original_reason": "LearnedWater",
+        "original_selected_decision": {
+          "intent": {
+            "Drink": {
+              "at": [
+                "Down",
+                "Down",
+                "Down",
+                "Down"
+              ]
+            }
+          },
+          "reason": "LearnedWater"
+        },
+        "original_selected_water_path": [
+          "Down",
+          "Down",
+          "Down",
+          "Down"
+        ],
+        "original_water_amount": 30,
+        "perception": null,
+        "pre_choice": {
+          "age": 65,
+          "death_cause": null,
+          "energy": 0,
+          "exertion": 0,
+          "health": 97,
+          "maturity_age": 20,
+          "max_age": 105,
+          "max_energy": 80,
+          "max_health": 120,
+          "max_meal": 10,
+          "max_stamina": 16,
+          "max_water": 60,
+          "move_energy_cost": 1,
+          "moves_used": 0,
+          "reproduction_cooldown": 0,
+          "reproduction_interval": 25,
+          "reproduction_reserve_per_mille": 500,
+          "speed": 3,
+          "stamina": 16,
+          "stamina_metabolic_cost": 0,
+          "vision_metabolic_cost": 0,
+          "vision_range": 6,
+          "water": 0
+        },
+        "remaining_moves": 3,
+        "species": "Herbivore",
+        "stamina": 16,
+        "tick": 65
+      },
+      "first_intervention_actor": 4,
+      "first_intervention_tick": 65,
+      "first_resolver_event_list_divergence_tick": 65,
+      "generation_exposure_partition": {
+        "control": {
+          "descendant_living_individual_ticks": 212,
+          "founder_living_individual_ticks": 790
+        },
+        "definition": "Founder exposure is exact founder-ID exposure through death_tick-1 (or horizon); descendant exposure is the validated population living-individual-tick total minus founders. This is an accounting partition, not causal mediation or individual descendant matching.",
+        "delta_water_meal_only_minus_control": {
+          "descendant_living_individual_ticks": 0,
+          "founder_living_individual_ticks": -1
+        },
+        "water_meal_only": {
+          "descendant_living_individual_ticks": 212,
+          "founder_living_individual_ticks": 789
+        }
+      },
+      "habitat": "sparse_resource",
+      "lineage_signature_note": "Within-run ID/tick lineage events are retained. After parent identity or birth timing diverges, equal numeric IDs across arms are not presumed to identify the same individual.",
+      "living_tick_delta": -1,
+      "physical_totals": {
+        "control": {
+          "movement_energy_paid": 471,
+          "plant_food_gained_energy": 870,
+          "water_gained": 648,
+          "water_meal_intervention_count": 0
+        },
+        "water_meal_only": {
+          "movement_energy_paid": 473,
+          "plant_food_gained_energy": 870,
+          "water_gained": 638,
+          "water_meal_intervention_count": 6
+        }
+      },
+      "population_survival_exposure": {
+        "living_individual_ticks_before_intervention": {
+          "control": 602,
+          "water_meal_only": 602
+        },
+        "living_individual_ticks_from_intervention_through_horizon": {
+          "control": 400,
+          "water_meal_only": 399
+        }
+      },
+      "seed": 62505,
+      "treated_focal_death": {
+        "cause": "OldAge",
+        "tick": 106
+      }
+    }
+  ],
+  "protocol_sha256": "2b602b2dc294b49585dc2235c669af80d598479090774fce9390ee92bd0a6e4b",
+  "raw_inputs": [
+    {
+      "bytes": 1829945,
+      "file": "meadow-seed62501-bundle.jsonl",
+      "sha256": "a1d57997c39adcef425aacbe69ca7775a2bab1a4e269cc595438ef4f1efef546"
+    },
+    {
+      "bytes": 1789898,
+      "file": "meadow-seed62501-control.jsonl",
+      "sha256": "64e52b00bc92723798857a210832dc51bc819fe9cc418a8342dbbdd9c99350f6"
+    },
+    {
+      "bytes": 1789977,
+      "file": "meadow-seed62501-food_reserve_only.jsonl",
+      "sha256": "c93b5be9201f920a7c8ac2fae0e025a254a2a74495107b983c063dc46dcd17f1"
+    },
+    {
+      "bytes": 1829885,
+      "file": "meadow-seed62501-water_meal_only.jsonl",
+      "sha256": "4ee5832cec58b0bc7b0d51172acc36ecc7104d8b210fb79ad65dd0850f62907b"
+    },
+    {
+      "bytes": 1890192,
+      "file": "meadow-seed62502-bundle.jsonl",
+      "sha256": "a8b6a46def2c8436fb26e4813420b088af045b0431d4f731d235b5ef1fadd91d"
+    },
+    {
+      "bytes": 1846987,
+      "file": "meadow-seed62502-control.jsonl",
+      "sha256": "a7dbc6ea8c66293f61f5710a73871ac0cf26e389456090488a806e37251557d0"
+    },
+    {
+      "bytes": 1847066,
+      "file": "meadow-seed62502-food_reserve_only.jsonl",
+      "sha256": "a60b1a841318da1371fbeff7b6083c038681581a84f04159de57123778335511"
+    },
+    {
+      "bytes": 1890132,
+      "file": "meadow-seed62502-water_meal_only.jsonl",
+      "sha256": "f675fc86f375f6f8a6de912f1039920c0052ccd91a579e628775a41ccc8a1cbb"
+    },
+    {
+      "bytes": 1899975,
+      "file": "meadow-seed62503-bundle.jsonl",
+      "sha256": "9a752ce02b5f8b4592b5116aad4339a6a4655a57235b515d99f6f28febea28d1"
+    },
+    {
+      "bytes": 1908170,
+      "file": "meadow-seed62503-control.jsonl",
+      "sha256": "56e5c7e4847efeafed8ec58be57027bd4abe8c5b3d4657bd4654ec5b6acdfd31"
+    },
+    {
+      "bytes": 1908249,
+      "file": "meadow-seed62503-food_reserve_only.jsonl",
+      "sha256": "6d27fb58583773c06ec0245fc0e44b7936078b1d4615ddfde55392880679b1ec"
+    },
+    {
+      "bytes": 1899915,
+      "file": "meadow-seed62503-water_meal_only.jsonl",
+      "sha256": "1941fecbdb1d50bd3846ec5be84a2fc49f4cf506c7b655e12cc408dd5db10dc7"
+    },
+    {
+      "bytes": 1914310,
+      "file": "meadow-seed62504-bundle.jsonl",
+      "sha256": "abde81d013f2451fc277fc2fb9f392319558dac6cbc4e649ff10a868430ed2fb"
+    },
+    {
+      "bytes": 1854972,
+      "file": "meadow-seed62504-control.jsonl",
+      "sha256": "eca5d6f420e7a3df7a321aac1756dd45e30a80c583e326b02fa9653097dc6fc8"
+    },
+    {
+      "bytes": 1855051,
+      "file": "meadow-seed62504-food_reserve_only.jsonl",
+      "sha256": "4ce617270f63aea0e450b23376484eab57d7d7f4674f8faa3c41949a9a14a6ee"
+    },
+    {
+      "bytes": 1914250,
+      "file": "meadow-seed62504-water_meal_only.jsonl",
+      "sha256": "7bba96be227e96cc1e1988893e8343e975233574b20de91f210560d6e7d19cf4"
+    },
+    {
+      "bytes": 1894475,
+      "file": "meadow-seed62505-bundle.jsonl",
+      "sha256": "37e8d63e41176c7b36f1f5a3a6200fc3f67db93730555f8dd822ffd04fea8698"
+    },
+    {
+      "bytes": 1901296,
+      "file": "meadow-seed62505-control.jsonl",
+      "sha256": "251c3327ecb5f75caa3435144c2fc7e0ca74b54f7428823943dcf6b3a7b7db17"
+    },
+    {
+      "bytes": 1901375,
+      "file": "meadow-seed62505-food_reserve_only.jsonl",
+      "sha256": "3ef2927e07ae1cf673bda22d7f2724ed641df3b6f10a4648819bc86d40174e8b"
+    },
+    {
+      "bytes": 1894415,
+      "file": "meadow-seed62505-water_meal_only.jsonl",
+      "sha256": "a8ee5e4595dae9d0a9016b645b3b7a0fe0779abfba6f0f00345245378fd7d2c8"
+    },
+    {
+      "bytes": 1899370,
+      "file": "meadow-seed62506-bundle.jsonl",
+      "sha256": "1fa4a20e75e53ac9d18eac1b90c7fa9a9ed85066f1575b5bcf4aeae3af34924a"
+    },
+    {
+      "bytes": 1861059,
+      "file": "meadow-seed62506-control.jsonl",
+      "sha256": "55827ab7882be6ada00dc4c4424c82fe3eaf1c182e8534166d57795f16171756"
+    },
+    {
+      "bytes": 1861138,
+      "file": "meadow-seed62506-food_reserve_only.jsonl",
+      "sha256": "66658e6a4f55f34d4c72402442763536c84f88352be518dd77bf17dd2d4bf1ea"
+    },
+    {
+      "bytes": 1899310,
+      "file": "meadow-seed62506-water_meal_only.jsonl",
+      "sha256": "d0b6ac3892d0053875153a4cb42e8feaed1451e0e0f90e35090a25346e037e24"
+    },
+    {
+      "bytes": 803349,
+      "file": "sparse_resource-seed62501-bundle.jsonl",
+      "sha256": "cb5d08cc6b6740f2b629e1a62f013a2a06115a2db0ba2f7b6243fe415ac503f0"
+    },
+    {
+      "bytes": 769241,
+      "file": "sparse_resource-seed62501-control.jsonl",
+      "sha256": "27666f147d7de846ed5b165d3f0c2756ee19f8bbf76f4d31035a2e4a683e6bcf"
+    },
+    {
+      "bytes": 769320,
+      "file": "sparse_resource-seed62501-food_reserve_only.jsonl",
+      "sha256": "c9ef33041b98974358a1c3fcc940cd3c7776e73299b7ac5ef87b852c84d80ed0"
+    },
+    {
+      "bytes": 803289,
+      "file": "sparse_resource-seed62501-water_meal_only.jsonl",
+      "sha256": "d96abaa0eec01107eb3891060a0e2ff9853a19d87ff0bd4761fc99a550fd2dbc"
+    },
+    {
+      "bytes": 814159,
+      "file": "sparse_resource-seed62502-bundle.jsonl",
+      "sha256": "48e95186ebf3482abaeff3bb491a510012f24144d7af8026428b9ae9b6ad30ec"
+    },
+    {
+      "bytes": 803153,
+      "file": "sparse_resource-seed62502-control.jsonl",
+      "sha256": "3ca4cfa7f2a1dc1dc371d40ab07e9c039cd16388ed22109d253d7207919101d0"
+    },
+    {
+      "bytes": 803232,
+      "file": "sparse_resource-seed62502-food_reserve_only.jsonl",
+      "sha256": "a979a5b814a07ca726af196463bf2d5754c95083fef0672ce890dc1c55de5654"
+    },
+    {
+      "bytes": 814099,
+      "file": "sparse_resource-seed62502-water_meal_only.jsonl",
+      "sha256": "486512c710476f3806de272a3cda9e4c21e9e0bd895f47358798e51fc8daa78f"
+    },
+    {
+      "bytes": 860297,
+      "file": "sparse_resource-seed62503-bundle.jsonl",
+      "sha256": "5d9e12d48c974e76133a14e0c5aa8991cb8f4c9f85aeac0d6c8bb80efd5226cf"
+    },
+    {
+      "bytes": 835784,
+      "file": "sparse_resource-seed62503-control.jsonl",
+      "sha256": "a7c89ea5dc5c923c17bdd677eb02135366ebfc6a2c2319f3170dbf62c6da5e72"
+    },
+    {
+      "bytes": 835863,
+      "file": "sparse_resource-seed62503-food_reserve_only.jsonl",
+      "sha256": "cac3fd417117ee74f2c3f9968c65fde844236cdcaefd5ce01963b1b2c145879e"
+    },
+    {
+      "bytes": 860237,
+      "file": "sparse_resource-seed62503-water_meal_only.jsonl",
+      "sha256": "82412bfe2007171aae25de3e44c66a72cf8535d73891610f8e01d3e64addb0ab"
+    },
+    {
+      "bytes": 816038,
+      "file": "sparse_resource-seed62504-bundle.jsonl",
+      "sha256": "989a2ace75174a7004e898e722b5b0ee388108c68519b157a5684473b6b069a3"
+    },
+    {
+      "bytes": 811806,
+      "file": "sparse_resource-seed62504-control.jsonl",
+      "sha256": "b58defa3aa73ba590ef536073208853d262ffda07cf5b1c879588283eddf1868"
+    },
+    {
+      "bytes": 811885,
+      "file": "sparse_resource-seed62504-food_reserve_only.jsonl",
+      "sha256": "2ffd925d5ab2492446654a9cd1be534610d51439bf540f798697e8ad9ef11f4c"
+    },
+    {
+      "bytes": 815978,
+      "file": "sparse_resource-seed62504-water_meal_only.jsonl",
+      "sha256": "e2117888feff257c2558d3d217fbf990bc7b371d59ebdb64f1d127b67cfe6b00"
+    },
+    {
+      "bytes": 909801,
+      "file": "sparse_resource-seed62505-bundle.jsonl",
+      "sha256": "5ee460dafd35d3749e758c895b5a7b69d17b0b07c1f3ef9222460ab5fb57a0ab"
+    },
+    {
+      "bytes": 903910,
+      "file": "sparse_resource-seed62505-control.jsonl",
+      "sha256": "f0e3656771206107cc9ae6ca881f9b53cfeb1a23f946a5dee05ebf3c119e05b4"
+    },
+    {
+      "bytes": 903989,
+      "file": "sparse_resource-seed62505-food_reserve_only.jsonl",
+      "sha256": "b6d7e5fcb29a78d31bdb123d7498991bc6f382e8608e437000635e22156ff23d"
+    },
+    {
+      "bytes": 909741,
+      "file": "sparse_resource-seed62505-water_meal_only.jsonl",
+      "sha256": "923d71a812e5a8f90b5177e27911f81862205a26aaf94db3ed6f72378176ce78"
+    },
+    {
+      "bytes": 828589,
+      "file": "sparse_resource-seed62506-bundle.jsonl",
+      "sha256": "d112d7893843ef01813b959175671487fda52f8e193f05082574b5a946b4293b"
+    },
+    {
+      "bytes": 814661,
+      "file": "sparse_resource-seed62506-control.jsonl",
+      "sha256": "f2dac5d0ca7f16b4d229f7af4bf9a0dd063e23cd153fab64b61b6e9f584dc362"
+    },
+    {
+      "bytes": 814740,
+      "file": "sparse_resource-seed62506-food_reserve_only.jsonl",
+      "sha256": "f72ad016f56305dd74cb187991b299ef46aeb7b6bc660df6c5cb4e99593eb418"
+    },
+    {
+      "bytes": 828529,
+      "file": "sparse_resource-seed62506-water_meal_only.jsonl",
+      "sha256": "a1f7f2bf2f6a094799c91ac344f5afd2a2e612e7472cbca9da82b25416333af8"
+    },
+    {
+      "bytes": 1615453,
+      "file": "v1_unique_food-seed62501-bundle.jsonl",
+      "sha256": "96756018dedcd5415b662f36dc9114b01d0fadc3ac2e29e5fbfb9c7874428360"
+    },
+    {
+      "bytes": 712458,
+      "file": "v1_unique_food-seed62501-control.jsonl",
+      "sha256": "7371ba25f8824eccc1d6d5fd84afa46906e1edbc3a25727b2c989ad8f2e77f39"
+    },
+    {
+      "bytes": 1615395,
+      "file": "v1_unique_food-seed62501-food_reserve_only.jsonl",
+      "sha256": "bbc22d0fe028b593ca912a098c105f870b72e280cda50f8db1d7c014a9479931"
+    },
+    {
+      "bytes": 712535,
+      "file": "v1_unique_food-seed62501-water_meal_only.jsonl",
+      "sha256": "2219c76694fac1c910fcb5eab0eb53c9f25d7a86c45ac9e3e9c5616775c46fa1"
+    },
+    {
+      "bytes": 1545268,
+      "file": "v1_unique_food-seed62502-bundle.jsonl",
+      "sha256": "403b5c9e009deda49defb1bfa864e10982b2fddc6d5793d2f9d16183f169d0de"
+    },
+    {
+      "bytes": 729472,
+      "file": "v1_unique_food-seed62502-control.jsonl",
+      "sha256": "e281e9f81b6bd70ab951a2140cce844a4181ab464a2290ef394ccd13c79db258"
+    },
+    {
+      "bytes": 1397284,
+      "file": "v1_unique_food-seed62502-food_reserve_only.jsonl",
+      "sha256": "f0d5b6648c69d25c0297b69229389741f4b10674cede2129a6d00e4b8de4e6bf"
+    },
+    {
+      "bytes": 729549,
+      "file": "v1_unique_food-seed62502-water_meal_only.jsonl",
+      "sha256": "104ebe0cd7fe850a456f9133557fd95215bcbdf582ac0657683dcae5afb8439e"
+    },
+    {
+      "bytes": 1619477,
+      "file": "v1_unique_food-seed62503-bundle.jsonl",
+      "sha256": "6356c2ec68f91644a3ce389986f72dd2c2872de8d2156a9b8f7fc699fccca0d5"
+    },
+    {
+      "bytes": 735784,
+      "file": "v1_unique_food-seed62503-control.jsonl",
+      "sha256": "3902984426512b09161fc653a4ce372a1868c8b3d3207e41093960ef81498565"
+    },
+    {
+      "bytes": 1615196,
+      "file": "v1_unique_food-seed62503-food_reserve_only.jsonl",
+      "sha256": "a8bea90b9f416b33813667eced568b68539de6468356b02b958ad0ef373fc36c"
+    },
+    {
+      "bytes": 735861,
+      "file": "v1_unique_food-seed62503-water_meal_only.jsonl",
+      "sha256": "3a9948b88ad8e6d77b9ffc562868da6be8b203f6f2da7184dd04e9e36bd44eaa"
+    },
+    {
+      "bytes": 1322449,
+      "file": "v1_unique_food-seed62504-bundle.jsonl",
+      "sha256": "19a345488656ad7a42a06e61cb3b83c4dfabd8a638468a28bf50060af05f9e38"
+    },
+    {
+      "bytes": 729775,
+      "file": "v1_unique_food-seed62504-control.jsonl",
+      "sha256": "122444cc3e0359f1e107f1b7ed49914c84688772e7b92a664019834bdc9d5cba"
+    },
+    {
+      "bytes": 1184216,
+      "file": "v1_unique_food-seed62504-food_reserve_only.jsonl",
+      "sha256": "4bc6fed2821ec65cae7c9ec12790bb29df0b4c771853e14960015e3527d971f5"
+    },
+    {
+      "bytes": 729852,
+      "file": "v1_unique_food-seed62504-water_meal_only.jsonl",
+      "sha256": "dd236cab403cf61ebb3b5e62eab66fa447fec95cbeccf00a0d2ec59c329bbdec"
+    },
+    {
+      "bytes": 1045945,
+      "file": "v1_unique_food-seed62505-bundle.jsonl",
+      "sha256": "ee9bbeca3742a862226ce985d694a0ea5c7805c65d759c3ce24c94ddbc2ede1d"
+    },
+    {
+      "bytes": 836372,
+      "file": "v1_unique_food-seed62505-control.jsonl",
+      "sha256": "5a0933f364421ad982a4cc72d7bd99122fecf77d3dfd0357922d42679efd88e1"
+    },
+    {
+      "bytes": 1044619,
+      "file": "v1_unique_food-seed62505-food_reserve_only.jsonl",
+      "sha256": "7b6b33ee5afde1399d1525a9f6f1336e9bb2b4341b731e2f66b2939c6a8de1a7"
+    },
+    {
+      "bytes": 836449,
+      "file": "v1_unique_food-seed62505-water_meal_only.jsonl",
+      "sha256": "d9b2bb857acb7600fba788c259b5fc9b6ce48b9f19c1f039d76f1e0c0dbfbc75"
+    },
+    {
+      "bytes": 1541437,
+      "file": "v1_unique_food-seed62506-bundle.jsonl",
+      "sha256": "31194b1d19626c143feb1e84a4a95eaaaac5917ff81938de36529234855d1b47"
+    },
+    {
+      "bytes": 755268,
+      "file": "v1_unique_food-seed62506-control.jsonl",
+      "sha256": "e813750d7c64bb68d227c837c3c25da49673dd7757accc90d78cfb2c01f1bd18"
+    },
+    {
+      "bytes": 1393388,
+      "file": "v1_unique_food-seed62506-food_reserve_only.jsonl",
+      "sha256": "06c70fec76f6b6b2568e4b4e7620684315553db21166722b09d6d0b08934e3f7"
+    },
+    {
+      "bytes": 755345,
+      "file": "v1_unique_food-seed62506-water_meal_only.jsonl",
+      "sha256": "ed1589fa026f32b7ffb5a60a8af8b5ec6fdb162b6244ecb7001a6f3dec12e038"
+    }
+  ],
+  "source": "/root/curious/data/experiments/water-meal-priority-v1-runnerfix-20261026",
+  "ticks_per_world": 300,
+  "world_count": 72
+}
