@@ -31,11 +31,13 @@ CHILD_ADDRESS_SPACE = 1024 * 1024 * 1024
 OUTPUT_CAP = 1024 * 1024 * 1024
 MAX_IDENTITIES = 10_000
 MAX_EVENTS_PER_TICK = 20_000
+SEED_SCAN_MAX_LINE_BYTES = 64 * 1024 * 1024
 SOURCE_PATHS = (
     "Cargo.toml", "Cargo.lock", "examples/ecology_transfer_lab.rs",
     "scripts/run_ecology_transfer_lab.py", "scripts/run_ecology_traits_lab.py",
     "scripts/test_ecology_transfer_lab.py",
     "docs/ECOLOGY_TRANSFER_V1_PROTOCOL_20261026.md",
+    "docs/ECOLOGY_TRANSFER_V1_SCAN_ADDENDUM_20261026.md",
     "scenarios/meadow.json", "scenarios/ecology-traits-lab.json", "scenarios/mixed-refuge.json",
 )
 
@@ -106,7 +108,7 @@ def scan_seed_roles(archive: Path, roles: list[dict]) -> dict:
     mod = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(mod)
     seeds = [r["seed"] for r in roles]
-    audit = mod.audit_seeds(archive, seeds)
+    audit = mod.audit_seeds(archive, seeds, max_line_bytes=SEED_SCAN_MAX_LINE_BYTES)
     if audit.get("unseen") != seeds:
         raise ValueError(f"one or more registered seeds already occur in experiment inventory: {audit.get('matches')}")
     return audit

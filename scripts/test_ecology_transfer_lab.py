@@ -31,6 +31,7 @@ class TransferRunnerTests(unittest.TestCase):
         self.assertEqual(len(runner.expected_seed_roles()) * len(runner.ARMS), 45)
         self.assertEqual(runner.TICKS * 45, 27000)
         self.assertEqual(runner.HABITATS["sparse_resource"][0], "scenarios/ecology-traits-lab.json")
+        self.assertIn("docs/ECOLOGY_TRANSFER_V1_SCAN_ADDENDUM_20261026.md", runner.SOURCE_PATHS)
 
     def test_registration_accepts_only_clean_exact_scope(self):
         identity = {"revision": "abc", "clean": True, "file_sha256": {}, "content_sha256": "def"}
@@ -62,6 +63,19 @@ class TransferRunnerTests(unittest.TestCase):
             (archive / "old.json").unlink()
             audit = runner.scan_seed_roles(archive, roles)
             self.assertEqual(audit["unseen"], [62301])
+
+    def test_seed_scan_explicitly_accepts_lines_over_helper_default(self):
+        self.assertEqual(runner.SEED_SCAN_MAX_LINE_BYTES, 64 * 1024 * 1024)
+        with tempfile.TemporaryDirectory() as temp:
+            archive = Path(temp)
+            record = archive / "large-calibration.json"
+            record.write_bytes(
+                b'{"seed":62301,"padding":"'
+                + b"x" * (16 * 1024 * 1024 + 128)
+                + b'"}\n'
+            )
+            with self.assertRaisesRegex(ValueError, "already occur"):
+                runner.scan_seed_roles(archive, [{"habitat": "meadow", "seed": 62301}])
 
     def test_raw_validator_requires_all_ticks_and_endpoint_summary(self):
         with tempfile.TemporaryDirectory() as temp:
