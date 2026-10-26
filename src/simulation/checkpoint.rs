@@ -74,7 +74,7 @@ impl State {
         commands.sort_by_key(|(id, _)| *id);
         Self {
             policy: world.policy.clone(),
-            version: 20,
+            version: 21,
             genetics: world.genetics.clone(),
             observation: world.observation.clone(),
             environment: world.environment.clone(),
@@ -111,7 +111,7 @@ impl State {
         }
     }
     pub fn restore(mut self) -> Result<World> {
-        if !(1..=20).contains(&self.version) {
+        if !(1..=21).contains(&self.version) {
             return Err("unsupported checkpoint version".into());
         }
         if self.version >= 15 {
@@ -237,6 +237,9 @@ impl State {
         }
         if self.version < 20 {
             self.policy.food_search_reserve_enabled = false;
+        }
+        if self.version < 21 {
+            self.policy.water_meal_priority_enabled = false;
         }
         for individual in &self.entities {
             if self.version >= 15 {

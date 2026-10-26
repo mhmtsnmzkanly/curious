@@ -40,12 +40,13 @@ fn assert_err_contains(state: State, expected: &str) {
 }
 
 #[test]
-fn v20_checkpoint_preserves_all_new_fields_and_rejects_future_versions() {
+fn v21_checkpoint_preserves_all_new_fields_and_rejects_future_versions() {
     let mut world = sample_world();
     world.tick_counter = 100;
     world.policy.juvenile_care_enabled = true;
     world.policy.ambush_predation_enabled = true;
     world.policy.local_coordination_enabled = true;
+    world.policy.water_meal_priority_enabled = true;
 
     world.environment.signals_enabled = true;
     world.environment.signals.push(SignalTrace {
@@ -109,12 +110,12 @@ fn v20_checkpoint_preserves_all_new_fields_and_rejects_future_versions() {
         });
 
     let captured = State::capture(&world);
-    assert_eq!(captured.version, 20);
+    assert_eq!(captured.version, 21);
 
     // Verify serde_json roundtrip
     let json_str = serde_json::to_string(&captured).expect("serialization succeeds");
     let deserialized: State = serde_json::from_str(&json_str).expect("deserialization succeeds");
-    assert_eq!(deserialized.version, 20);
+    assert_eq!(deserialized.version, 21);
 
     // Verify restore preserves fields losslessly
     let restored = deserialized.restore().expect("restore succeeds");
@@ -122,6 +123,7 @@ fn v20_checkpoint_preserves_all_new_fields_and_rejects_future_versions() {
     assert!(restored.policy.juvenile_care_enabled);
     assert!(restored.policy.ambush_predation_enabled);
     assert!(restored.policy.local_coordination_enabled);
+    assert!(restored.policy.water_meal_priority_enabled);
 
     assert!(restored.environment.signals_enabled);
     assert_eq!(restored.environment.signals.len(), 1);
@@ -146,20 +148,23 @@ fn v20_checkpoint_preserves_all_new_fields_and_rejects_future_versions() {
     assert_eq!(restored_ind.memory.known_sectors[0].last_visited_tick, 92);
     assert!(restored_ind.memory.first_interval_refuge_enabled);
     assert_eq!(restored_ind.memory.first_interval_outcomes.len(), 1);
-    assert_eq!(restored_ind.memory.first_interval_outcomes[0].episodes[0], (91, 5));
+    assert_eq!(
+        restored_ind.memory.first_interval_outcomes[0].episodes[0],
+        (91, 5)
+    );
 
     let recaptured = State::capture(&restored);
-    assert_eq!(recaptured.version, 20);
+    assert_eq!(recaptured.version, 21);
 
     // Rejects version == 0
     let mut bad_version_0 = captured.clone();
     bad_version_0.version = 0;
     assert!(bad_version_0.restore().is_err());
 
-    // Rejects future version == 21
-    let mut bad_version_21 = captured.clone();
-    bad_version_21.version = 21;
-    assert!(bad_version_21.restore().is_err());
+    // Rejects future version == 22
+    let mut bad_version_22 = captured.clone();
+    bad_version_22.version = 22;
+    assert!(bad_version_22.restore().is_err());
 
     // Rejects future environment timestamp (signal emitted_tick > tick)
     let mut future_signal = captured.clone();
@@ -183,30 +188,56 @@ fn v20_checkpoint_preserves_all_new_fields_and_rejects_future_versions() {
 
     // Rejects future memory timestamp (first interval outcome episode tick > tick)
     let mut future_first_interval = captured.clone();
-    future_first_interval.entities[0].memory.first_interval_outcomes[0].episodes[0].0 = 101;
-    assert_err_contains(future_first_interval, "future V19 learning or memory timestamp");
+    future_first_interval.entities[0]
+        .memory
+        .first_interval_outcomes[0]
+        .episodes[0]
+        .0 = 101;
+    assert_err_contains(
+        future_first_interval,
+        "future V19 learning or memory timestamp",
+    );
 }
 
 #[test]
-fn v19_checkpoint_migrates_food_search_reserve_off_and_v20_resumes_it() {
+fn v19_checkpoint_migrates_experimental_flags_off_and_v21_resumes_them() {
     let mut world = sample_world();
     let mut state = State::capture(&world);
     state.version = 19;
     state.policy.food_search_reserve_enabled = true;
     let migrated = state.restore().expect("V19 checkpoint migrates");
     assert!(!migrated.policy.food_search_reserve_enabled);
+    assert!(!migrated.policy.water_meal_priority_enabled);
 
     world.policy.food_search_reserve_enabled = true;
+    world.policy.water_meal_priority_enabled = true;
     let state = State::capture(&world);
-    assert_eq!(state.version, 20);
+    assert_eq!(state.version, 21);
     let expected_rng = state.rng;
-    let resumed = state.restore().expect("V20 checkpoint resumes");
+    let resumed = state.restore().expect("V21 checkpoint resumes");
     assert!(resumed.policy.food_search_reserve_enabled);
+    assert!(resumed.policy.water_meal_priority_enabled);
     assert_eq!(resumed.rng.state(), expected_rng);
 }
 
 #[test]
-fn v18_checkpoint_migrates_cleanly_to_v20_with_v19_features_default_off() {
+fn v20_checkpoint_migrates_water_meal_priority_off() {
+    let mut world = sample_world();
+    let mut state = State::capture(&world);
+    state.version = 20;
+    state.policy.water_meal_priority_enabled = true;
+    let restored = state.restore().expect("V20 checkpoint migrates");
+    assert!(!restored.policy.water_meal_priority_enabled);
+    assert!(!restored.policy.food_search_reserve_enabled);
+
+    world.policy.water_meal_priority_enabled = true;
+    let state = State::capture(&world);
+    assert!(state.policy.water_meal_priority_enabled);
+    assert!(state.restore().unwrap().policy.water_meal_priority_enabled);
+}
+
+#[test]
+fn v18_checkpoint_migrates_cleanly_to_v21_with_later_features_default_off() {
     let mut world = sample_world();
     world.tick_counter = 50;
 
@@ -301,13 +332,13 @@ fn v18_checkpoint_migrates_cleanly_to_v20_with_v19_features_default_off() {
     assert!(!migrated_ind.memory.first_interval_refuge_enabled);
     assert!(migrated_ind.memory.first_interval_outcomes.is_empty());
 
-    // Verify subsequent capture produces current version 20.
+    // Verify subsequent capture produces current version 21.
     let captured_after_restore = State::capture(&restored);
-    assert_eq!(captured_after_restore.version, 20);
+    assert_eq!(captured_after_restore.version, 21);
 }
 
 #[test]
-fn raw_v18_checkpoint_json_without_v19_keys_deserializes_and_migrates_to_v20() {
+fn raw_v18_checkpoint_json_without_later_keys_deserializes_and_migrates_to_v21() {
     let raw_v18_json = r#"{
         "version": 18,
         "tick": 42,
@@ -441,14 +472,16 @@ fn raw_v18_checkpoint_json_without_v19_keys_deserializes_and_migrates_to_v20() {
         .expect("Raw V18 JSON without V19 keys must deserialize cleanly into State");
     assert_eq!(state.version, 18);
 
-    let mut restored = state.restore().expect("Raw V18 state must restore cleanly into World");
+    let mut restored = state
+        .restore()
+        .expect("Raw V18 state must restore cleanly into World");
 
     // Advance world with a tick to confirm runtime continuity
     restored.tick();
 
-    // Verify that subsequent capture automatically migrates to current version 20.
+    // Verify that subsequent capture automatically migrates to current version 21.
     let captured = State::capture(&restored);
-    assert_eq!(captured.version, 20);
+    assert_eq!(captured.version, 21);
 
     // Verify all V19 features are default-off cleanly:
     assert!(!restored.policy.juvenile_care_enabled);
