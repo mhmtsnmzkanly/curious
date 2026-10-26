@@ -6,7 +6,6 @@ use crate::{
         intent::Intent,
         learning::WaterEnd,
     },
-    map::movement::Position,
     simulation::{SimulationEvent, checkpoint::State},
     systems::planning::PlanningSystem,
 };
@@ -334,15 +333,6 @@ fn apply_candidate_interruptions(world: &mut World, ids: &[usize]) {
             slot.learner.interrupt(WaterEnd::Interrupted);
         }
     }
-}
-
-fn learner_value(world: &World, id: usize) -> Value {
-    world
-        .entities
-        .iter()
-        .find(|e| e.id == id)
-        .and_then(|e| serde_json::to_value(&e.learner).ok())
-        .unwrap_or(Value::Null)
 }
 
 fn run_branch(
