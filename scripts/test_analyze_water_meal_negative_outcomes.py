@@ -23,7 +23,7 @@ class WaterMealNegativeAnalysisTests(unittest.TestCase):
                  for i in range(1, 301)]
         if tick_order == "swap":
             ticks[0], ticks[1] = ticks[1], ticks[0]
-        summary = {"type": "summary", "living_entity_ticks": 2, "plant_food_gained_energy": 0,
+        summary = {"type": "summary", "living_entity_ticks": 1, "ticks_completed": 300, "plant_food_gained_energy": 0,
                    "water_gained": 0, "movement_energy_paid": 0, "water_meal_intervention_count": 0,
                    "final_alive": {"Herbivore": 0}, "focal_death_tick": None, "focal_death_cause": None}
         if mismatch_summary:
@@ -83,6 +83,14 @@ class WaterMealNegativeAnalysisTests(unittest.TestCase):
         ticks = [{"tick": 20, "birth_lineage": [{"id": 2}, {"id": 1}]}]
         self.assertEqual(analysis.lineage_events(ticks, "birth_lineage"),
                          [(20, {"id": 1}), (20, {"id": 2})])
+
+    def test_founder_exposure_stops_before_death_tick_and_censors_at_horizon(self):
+        header = {"initial_state": {"entities": [
+            {"id": 1, "generation": 0}, {"id": 2, "generation": 0}]}}
+        ticks = [{"tick": i, "death_lineage": ([{"id": 1, "generation": 0,
+                 "cause": "Starvation", "species": "Herbivore"}] if i == 2 else [])}
+                 for i in range(1, 301)]
+        self.assertEqual(analysis.founder_exposure(header, ticks), 301)
 
 
 if __name__ == "__main__":
