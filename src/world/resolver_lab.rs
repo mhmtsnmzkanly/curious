@@ -21,6 +21,20 @@ impl World {
     /// This is only compiled when the `resolver-lab` feature is enabled.
     #[doc(hidden)]
     pub fn resolver_order_lab_tick(&mut self) -> crate::Result<ResolverOrderLabCase> {
+        self.resolver_order_lab_tick_checked(|_| {
+            Ok(json!({"valid":true,"validation":"not_supplied"}))
+        })
+    }
+
+    /// Validate the already-computed native-off target tick before preparing A/B/C.
+    #[doc(hidden)]
+    pub fn resolver_order_lab_tick_checked<F>(
+        &mut self,
+        validate_native_off: F,
+    ) -> crate::Result<ResolverOrderLabCase>
+    where
+        F: FnOnce(&Value) -> crate::Result<Value>,
+    {
         if self.policy.water_meal_priority_enabled {
             return Err("resolver lab requires a water-meal-off pre-tick state".into());
         }
@@ -37,6 +51,18 @@ impl World {
         // context. The policy flag is the only input changed for the native-on reference.
         let native_off =
             run_reference(&pre_state, &pre_decisions, &pre_intents, &pre_trace, false)?;
+        let target_validation = match validate_native_off(&native_off) {
+            Ok(value) => value,
+            Err(error) => {
+                return Ok(ResolverOrderLabCase(json!({
+                    "schema":"curious-resolver-order-v1-case",
+                    "status":"failed",
+                    "integrity_failures":["native-off reference did not match raw target tick"],
+                    "target_validation":{"valid":false,"error":error.to_string()},
+                    "references":{"native_off":native_off}
+                })));
+            }
+        };
         let native_on = run_reference(&pre_state, &pre_decisions, &pre_intents, &pre_trace, true)?;
 
         let mut perceptions = Vec::new();
@@ -158,6 +184,7 @@ impl World {
             "pre_target_roundtrip":{"valid":pre_target_roundtrip,"state_equal":pre_target_roundtrip,"rng_equal":pre_target_roundtrip,
                 "state":serde_json::to_value(&pre_state)?,"rng":pre_state.rng},
             "branch_roundtrip_valid":all_branch_roundtrips_valid,
+            "target_validation":target_validation,
             "candidate_b_equals_c_pre_resolution_audit":candidate_pre_audit,
             "references":{
                 "a_matches_native_off":a_matches_native_off,
