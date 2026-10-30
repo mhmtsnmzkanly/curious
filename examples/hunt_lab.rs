@@ -495,6 +495,7 @@ mod attribution_tests {
                     movement_energy: 1,
                     attack_energy: 0,
                     incoming_damage: 0,
+                    prey_defense_damage: 0,
                     food: 0,
                     own_kill: false,
                     ambiguous: false,

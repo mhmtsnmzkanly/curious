@@ -9,10 +9,13 @@ use super::{
 };
 use crate::random::Random;
 use serde::{Deserialize, Serialize};
+use std::cmp::Ordering;
 
 pub const MAX_HUNT_TICKS: u8 = 20;
 pub const MAX_HUNT_VALUES: usize = 108; // 3 energy * 3 stamina * 3 distance * 4 visible health
 const MAX_ACCOUNT: usize = 1_000_000;
+const MAX_RISK_EXPOSURES: u32 = MAX_ACCOUNT as u32;
+const MAX_RISK_DAMAGE: u64 = MAX_ACCOUNT as u64 * MAX_ACCOUNT as u64;
 
 /// No identity, coordinates, age or hidden target physiology in the learned key.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
@@ -29,6 +32,14 @@ pub struct HuntValue {
     pub value: i32,
     pub visits: u32,
 }
+/// Bounded empirical injury history, deliberately separate from food/cost value.
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct HuntRiskValue {
+    pub context: HuntContext,
+    pub exposures: u32,
+    pub injuries: u32,
+    pub damage: u64,
+}
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct HuntEpisode {
     pub target: usize,
@@ -40,6 +51,9 @@ pub struct HuntEpisode {
     pub attack_energy: usize,
     /// Recorded context only: external injury has uncertain causal attribution.
     pub incoming_damage: usize,
+    /// Damage attributed by the resolver to this episode's exact visible target.
+    #[serde(default)]
+    pub prey_defense_damage: usize,
     pub food: usize,
     pub own_kill: bool,
     pub ambiguous: bool,
@@ -64,7 +78,16 @@ pub struct HuntResult {
 pub struct HuntLearner {
     pub enabled: bool,
     pub update_enabled: bool,
+    /// Conservative injury choice rule is experimental and off by default.
+    #[serde(default)]
+    pub risk_enabled: bool,
     pub values: Vec<HuntValue>,
+    /// Missing on V13 saves; migration keeps risk disabled and evidence unknown.
+    #[serde(default)]
+    pub risk_values: Vec<HuntRiskValue>,
+    /// Lab audit only: the last greedy choice explored a context with unknown risk.
+    #[serde(skip)]
+    pub last_choice_explored_unknown: bool,
     pub episode: Option<HuntEpisode>,
     pub last_episode: Option<HuntResult>,
     /// Transient audit: at most two endings in one world tick; drained into events.
@@ -76,7 +99,10 @@ impl Default for HuntLearner {
         Self {
             enabled: false,
             update_enabled: true,
+            risk_enabled: false,
             values: vec![],
+            risk_values: vec![],
+            last_choice_explored_unknown: false,
             episode: None,
             last_episode: None,
             pending_results: Vec::new(),
@@ -126,6 +152,25 @@ impl Default for HuntLedger {
 fn band(value: usize, maximum: usize) -> u8 {
     ((value.saturating_mul(3) / maximum.max(1)).min(2)) as u8
 }
+fn compare_rate(a_num: u64, a_den: u64, b_num: u64, b_den: u64) -> Ordering {
+    (a_num * b_den).cmp(&(b_num * a_den))
+}
+fn compare_risk(a: &HuntRiskValue, b: &HuntRiskValue) -> Ordering {
+    compare_rate(
+        u64::from(a.injuries),
+        u64::from(a.exposures),
+        u64::from(b.injuries),
+        u64::from(b.exposures),
+    )
+    .then_with(|| {
+        compare_rate(
+            a.damage,
+            u64::from(a.exposures),
+            b.damage,
+            u64::from(b.exposures),
+        )
+    })
+}
 impl HuntContext {
     pub fn from_seen(life: &LifeState, prey: &PerceivedEntity, damage: usize) -> Self {
         Self {
@@ -149,6 +194,43 @@ impl HuntContext {
     }
 }
 impl HuntLearner {
+    fn risk_for(&self, context: HuntContext) -> Option<&HuntRiskValue> {
+        self.risk_values
+            .iter()
+            .find(|value| value.context == context && value.exposures > 0)
+    }
+    fn observe_risk(&mut self, attempt: &HuntEpisode) {
+        if !self.enabled
+            || !self.risk_enabled
+            || !self.update_enabled
+            || attempt.attack_energy == 0
+            || attempt.ambiguous
+            || attempt.incoming_damage != attempt.prey_defense_damage
+        {
+            return;
+        }
+        if let Some(value) = self
+            .risk_values
+            .iter_mut()
+            .find(|value| value.context == attempt.context)
+        {
+            if value.exposures >= MAX_RISK_EXPOSURES {
+                return;
+            }
+            value.exposures += 1;
+            value.injuries = value
+                .injuries
+                .saturating_add(u32::from(attempt.prey_defense_damage > 0));
+            value.damage += attempt.prey_defense_damage.min(MAX_ACCOUNT) as u64;
+        } else if self.risk_values.len() < MAX_HUNT_VALUES {
+            self.risk_values.push(HuntRiskValue {
+                context: attempt.context,
+                exposures: 1,
+                injuries: u32::from(attempt.prey_defense_damage > 0),
+                damage: attempt.prey_defense_damage.min(MAX_ACCOUNT) as u64,
+            });
+        }
+    }
     pub fn choose(
         &mut self,
         species: Species,
@@ -160,6 +242,7 @@ impl HuntLearner {
         if !self.enabled {
             return base;
         }
+        self.last_choice_explored_unknown = false;
         // A kill is not food. Permit only the existing food policy to collect the
         // identified corpse; learner never creates an Eat action or overrides needs.
         if let Some(e) = &self.episode {
@@ -214,40 +297,84 @@ impl HuntLearner {
             }
             return base;
         }
+        let risk_known = self.risk_enabled
+            && candidates.iter().any(|candidate| {
+                let context = HuntContext::from_seen(life, candidate, profile.damage);
+                self.risk_values
+                    .iter()
+                    .any(|value| value.context == context && value.exposures > 0)
+            });
+        let ranked: Vec<usize> = candidates
+            .iter()
+            .enumerate()
+            .filter_map(|(index, candidate)| {
+                let context = HuntContext::from_seen(life, candidate, profile.damage);
+                let observed = self
+                    .risk_values
+                    .iter()
+                    .any(|value| value.context == context && value.exposures > 0);
+                (!risk_known || observed).then_some(index)
+            })
+            .collect();
         let index = if candidates.len() > 1 && rng.range(0, 99) < 10 {
             rng.range(0, candidates.len() as isize - 1) as usize
         } else {
-            (0..candidates.len())
-                .max_by_key(|i| {
-                    let c = HuntContext::from_seen(life, candidates[*i], profile.damage);
-                    let q = self
+            ranked
+                .iter()
+                .copied()
+                .max_by(|left, right| {
+                    let a = candidates[*left];
+                    let b = candidates[*right];
+                    if risk_known {
+                        let ca = HuntContext::from_seen(life, a, profile.damage);
+                        let cb = HuntContext::from_seen(life, b, profile.damage);
+                        let risk_order = self
+                            .risk_for(ca)
+                            .zip(self.risk_for(cb))
+                            .map(|(ra, rb)| compare_risk(ra, rb).reverse())
+                            .unwrap_or(Ordering::Equal);
+                        if risk_order != Ordering::Equal {
+                            return risk_order;
+                        }
+                    }
+                    let ca = HuntContext::from_seen(life, a, profile.damage);
+                    let cb = HuntContext::from_seen(life, b, profile.damage);
+                    let qa = self
                         .values
                         .iter()
-                        .find(|v| v.context == c)
+                        .find(|v| v.context == ca)
                         .map_or(0, |v| v.value);
-                    // V2: equal learned scores retain the rule policy's
-                    // estimated-cost ordering. Nearest-first here silently
-                    // changed naive behavior before any experience existed.
-                    let prey = candidates[*i];
-                    let hits = prey
-                        .health
-                        .unwrap_or(prey.power)
-                        .div_ceil(profile.damage.max(1));
-                    let estimated_cost = prey
-                        .steps
-                        .len()
-                        .saturating_sub(1)
-                        .saturating_mul(life.move_energy_cost)
-                        .saturating_add(hits.saturating_mul(profile.energy_cost + 1));
-                    (
-                        q,
-                        std::cmp::Reverse(estimated_cost),
-                        std::cmp::Reverse(prey.steps.len()),
-                        std::cmp::Reverse(prey.id),
-                    )
+                    let qb = self
+                        .values
+                        .iter()
+                        .find(|v| v.context == cb)
+                        .map_or(0, |v| v.value);
+                    let action_cost = |prey: &PerceivedEntity| {
+                        let hits = prey
+                            .health
+                            .unwrap_or(prey.power)
+                            .div_ceil(profile.damage.max(1));
+                        prey.steps
+                            .len()
+                            .saturating_sub(1)
+                            .saturating_mul(life.move_energy_cost)
+                            .saturating_add(hits.saturating_mul(profile.energy_cost + 1))
+                    };
+                    qa.cmp(&qb)
+                        .then_with(|| action_cost(b).cmp(&action_cost(a)))
+                        .then_with(|| b.steps.len().cmp(&a.steps.len()))
+                        .then_with(|| b.id.cmp(&a.id))
                 })
                 .unwrap()
         };
+        self.last_choice_explored_unknown = risk_known
+            && self
+                .risk_for(HuntContext::from_seen(
+                    life,
+                    candidates[index],
+                    profile.damage,
+                ))
+                .is_none();
         let p = candidates[index];
         if self.episode.as_ref().is_some_and(|e| e.target == p.id) {
             // Same selected target: retain initial context, elapsed ticks and
@@ -266,6 +393,7 @@ impl HuntLearner {
             movement_energy: 0,
             attack_energy: 0,
             incoming_damage: 0,
+            prey_defense_damage: 0,
             food: 0,
             own_kill: false,
             ambiguous: false,
@@ -349,7 +477,18 @@ impl HuntLearner {
         self.complete(attempt, HuntEnd::Interrupted, reward);
     }
     pub fn interrupt(&mut self, end: HuntEnd) {
+        self.interrupt_with_risk_observation(end, true);
+    }
+    /// Close an externally imposed trial boundary without treating the
+    /// unfinished pursuit as a completed risk exposure.
+    pub fn interrupt_censored(&mut self, end: HuntEnd) {
+        self.interrupt_with_risk_observation(end, false);
+    }
+    fn interrupt_with_risk_observation(&mut self, end: HuntEnd, observe: bool) {
         if let Some(attempt) = self.episode.take() {
+            if observe {
+                self.observe_risk(&attempt);
+            }
             self.record_result(HuntResult {
                 attempt,
                 end,
@@ -377,6 +516,10 @@ impl HuntLearner {
         e.incoming_damage = e
             .incoming_damage
             .saturating_add(ledger.incoming_damage)
+            .min(MAX_ACCOUNT);
+        e.prey_defense_damage = e
+            .prey_defense_damage
+            .saturating_add(ledger.prey_defense_damage)
             .min(MAX_ACCOUNT);
         // Injury is observable context, but its causal cost is not established.
         let damage_attribution_matches = ledger
@@ -428,6 +571,7 @@ impl HuntLearner {
         self.complete(attempt, end, reward);
     }
     fn complete(&mut self, attempt: HuntEpisode, end: HuntEnd, reward: Option<i32>) {
+        self.observe_risk(&attempt);
         let updated = self.update_enabled && reward.is_some();
         if let Some(q) = reward.filter(|_| self.update_enabled) {
             if let Some(v) = self
@@ -477,6 +621,7 @@ impl HuntLearner {
                     e.movement_energy,
                     e.attack_energy,
                     e.incoming_damage,
+                    e.prey_defense_damage,
                     e.food,
                 ]
                 .iter()
@@ -491,6 +636,20 @@ impl HuntLearner {
                     || self.values[..i]
                         .iter()
                         .any(|other| other.context == v.context)
+            })
+            || self.risk_values.len() > MAX_HUNT_VALUES
+            || self.risk_values.iter().enumerate().any(|(i, value)| {
+                !value.context.valid()
+                    || value.exposures == 0
+                    || value.exposures > MAX_RISK_EXPOSURES
+                    || value.injuries > value.exposures
+                    || value.damage < u64::from(value.injuries)
+                    || (value.injuries == 0) != (value.damage == 0)
+                    || value.damage > u64::from(value.exposures) * MAX_ACCOUNT as u64
+                    || value.damage > MAX_RISK_DAMAGE
+                    || self.risk_values[..i]
+                        .iter()
+                        .any(|other| other.context == value.context)
             })
             || self
                 .episode
